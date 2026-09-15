@@ -53,13 +53,13 @@ def area_coverage(hotels, pf, np_):
     """The order's named areas: the property's OWN stated street first, then its pin. Reporting only."""
     from scripts.pettripfinder import columbia_sc_geography_001 as GEO
     areas = OrderedDict((a, []) for a in (
-        "Virginia Beach Oceanfront", "Virginia Beach Town Center", "Pembroke / Newtown Road", "Virginia Beach Central & Bayside",
-        "Norfolk Downtown / Waterside", "Ghent / ODU", "ORF Airport", "Military Circle / Military Highway", "Norfolk Ocean View",
-        "Chesapeake Greenbrier", "Chesapeake Battlefield Blvd North", "Chesapeake Great Bridge / Battlefield South",
-        "Chesapeake Western Branch", "Portsmouth", "Hampton Coliseum / Convention Center", "Hampton Roads Center / Mercury Blvd",
-        "Hampton Downtown / Mercury Blvd East", "Newport News City Center", "Oyster Point",
-        "Newport News (Midtown / Hilton Village)", "PHF Airport", "Denbigh / Jefferson Ave I-64", "Suffolk", "Smithfield",
-        "Yorktown US-17"))
+        "The Vista / Convention Center", "Main Street / State House", "University of South Carolina",
+        "Five Points / Devine Street", "Downtown Columbia", "Prisma Health Richland", "I-20 / North Main", "North Columbia",
+        "Forest Drive / I-77 (Fort Jackson gate)", "Garners Ferry / Fort Jackson Blvd", "Two Notch / I-77 exit 17",
+        "Dentsville / Decker Blvd", "Clemson Road / I-20 exit 80", "Killian Road / I-77 exit 22",
+        "Bush River Road / I-20 / I-26", "Greystone / Riverbanks", "St. Andrews Road", "Harbison Blvd / I-26",
+        "Piney Grove Road / I-26", "Irmo", "Knox Abbott / Cayce", "I-26 / US-1 (exit 111)", "West Columbia / Cayce",
+        "CAE Airport / Airport Blvd (exit 113)", "Lexington Sunset Blvd", "Blythewood", "Chapin", "Elgin"))
     unplaced = []
     for h in hotels:
         state = ("PUBLISHED_PET_FRIENDLY" if h["identity_key"] in pf
@@ -77,9 +77,10 @@ def area_coverage(hotels, pf, np_):
                             ("identities", rows)])
     return OrderedDict([
         ("what_it_is", "Coverage for the order's named areas. Reporting only; membership and corridor come from the "
-                       "postal partition. The ORF airport shares 23502 / 23518 with Military Circle; Battlefield Boulevard "
-                       "North shares 23320 with Greenbrier; the Coliseum shares 23666 with the Convention Center and Hampton "
-                       "Roads Center; City Center shares 23606 with Oyster Point."),
+                       "postal partition. The Vista, Main Street, USC and Five Points share the downtown corridor; Forest Drive "
+                       "and Garners Ferry share Fort Jackson; Bush River, Greystone and St. Andrews share 29210; Harbison and "
+                       "Piney Grove share 29212. The Killian Road hotels on Roberts Branch Parkway are mailed 29203 and report "
+                       "under north Columbia."),
         ("areas", OrderedDict((a, summary(rows)) for a, rows in areas.items())),
         ("unplaced", summary(unplaced)),
     ])
@@ -117,7 +118,7 @@ def build():
     review = names("IDENTITY_REVIEW_REQUIRED", lambda r: not reason(r).startswith("GEOGRAPHY_HOLD")
                    and r["canonical_name"] not in founder)
     access = Counter("OWN_SITE" for i in items if i["final_state"] == "ACCESS_BLOCKED")
-    future = names("OUTSIDE_MARKET", lambda r: "FUTURE_SUBMARKET" in reason(r))
+    future = []
     military = names("OUTSIDE_MARKET", lambda r: "MILITARY_GOVERNMENT_NONPUBLIC" in reason(r))
     non_hotel = [r for r in non_admitted if r["classification"] == "NON_LODGING"]
 
@@ -170,12 +171,11 @@ def build():
             ("rebrand_unresolved", names("SAME_IDENTITY_REBRAND_SUCCESSOR")),
             ("same_campus_unproved", names("SAME_CAMPUS_DISTINCT_ENTITY")),
             ("note", "Not census identities and never published: brand-flag map rows the brand's own inventory does "
-                     "not list at that address (Days Inn Chambers Street and Oceanfront, Econo Lodge 2113 Atlantic, Rodeway Inn "
-                     "Little Creek, Super 8 Ocean View and Oceanfront, Travelodge Suffolk and Oceanfront), same-name pairs on "
-                     "corner buildings (19 Atlantic Hotel, Breeze Inn & Suites) and across cities (Budget Lodge x3), Oceanfront "
-                     "vacation-ownership resorts whose only website is a timeshare agent (Barclay Towers, Beach Quarters, "
-                     "Boardwalk Resort, Four Sails, Turtle Cay, Ocean Key, Ocean Sands, The Atrium, Ocean Holiday), a name-only "
-                     "tie (Ocean Resort) and name-only map / competitor rows.")])),
+                     "not list at that address (Days Inn 7300 Garners Ferry Road, Quality Inn & Suites 2210 Bush River Road, "
+                     "Suburban Extended Stay 150 Stoneridge Drive, Red Roof Inn Columbia East 7580 Two Notch Road), map rows "
+                     "duplicating a read hotel under a bare label (Sheraton Columbia Downtown, Sleep Inn 2208 Airport Blvd), "
+                     "Flutter Wing, the Wyndham Garden / Hawthorn dual-brand building at 1539 Horseshoe Drive, name-only map "
+                     "motels and competitor leads that alias census rows.")])),
         ("ROUTING_HOLDS", OrderedDict([("count", states.get("AWAITING_OFFICIAL_URL", 0)),
                                        ("identities", by_state.get("AWAITING_OFFICIAL_URL", []))])),
         ("ACCESS_BLOCKED", OrderedDict([("count", states.get("ACCESS_BLOCKED", 0)),
@@ -188,26 +188,25 @@ def build():
         ("PAID_HOLDS", OrderedDict([
             ("count", 0),
             ("note", "No cohort is routed to a paid lane: PAID PROVIDER BUDGET was $0 and no paid lane was used or "
-                     "reserved. The access-blocked cohort (Motel 6 / Studio 6, the Choice properties behind the 403 wall, "
-                     "Sea View Hotel, Ocean Cove Motel, The Belvedere, American Inn, Bowers Hill Inn, stayAPT Suites) is held "
-                     "ACCESS_BLOCKED for a re-probe, not a paid lane.")])),
+                     "reserved. No census identity is ACCESS_BLOCKED on this run: every brand surface and independent site "
+                     "that named a census identity served either the plain client or the attended browser.")])),
         ("FOUNDER_HOLDS", OrderedDict([
             ("count", len(founder)), ("identities", founder),
-            ("note", "None. Timeshare-resort and geography holds are evidence work for the registration order, not "
+            ("note", "None. The geography hold and the dual-brand holds are evidence / registration-order work, not "
                      "founder rulings.")])),
         ("CLOSED_OR_RETIRED", OrderedDict([
             ("count", len(wyn.get("retired_routes") or [])),
             ("wyndham_retired_routes", wyn.get("retired_routes")),
-            ("note", "Wyndham routes in Hampton Roads cities that redirect to the brand's city search (retired or "
+            ("note", "Wyndham routes in Columbia-area cities that redirect to the brand's city search (retired or "
                      "rebranded). Routes, not census identities.")])),
         ("MILITARY_NONPUBLIC", OrderedDict([
             ("count", len(military)), ("identities", military),
-            ("rule", "Installation-only postal codes and named military lodging programmes (Navy Gateway Inns & Suites, Navy "
-                     "Lodge, IHG Army Hotels, Air Force Inns / Langley's Bayview) are refused unless ordinary public booking is "
-                     "proved; commercial hotels serving military travellers outside the fence are ordinary census rows.")])),
+            ("rule", "Fort Jackson's installation postal code (29207) and named military lodging programmes (IHG Army Hotels, "
+                     "the IHG Palmetto Fort Jackson Hotel, transient quarters) are refused unless ordinary public booking is "
+                     "proved; the commercial hotels outside the gates (Garners Ferry Road, Forest Drive, Two Notch Road, "
+                     "Clemson Road) are ordinary census rows.")])),
         ("OUTSIDE", OrderedDict([("count", len(names("OUTSIDE_MARKET"))),
-                                 ("future_market_williamsburg_va", len(future)),
-                                 ("future_market_identities", future)])),
+                                 ("future_market", "none preserved by this order")])),
         ("NON_HOTEL", OrderedDict([("count", len(non_hotel)),
                                    ("by_kind", OrderedDict(sorted(Counter(nh_class(r) for r in non_hotel).items()))),
                                    ("identities", sorted(r["canonical_name"] for r in non_hotel))])),
@@ -247,19 +246,20 @@ def build():
 
     doc = OrderedDict([
         ("schema", "ptf-market-source-ready-accounting/1.0"), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
-        ("display_market", "Hampton Roads, Virginia"),
+        ("display_market", "Columbia, South Carolina"),
         ("state", "SOURCE_READY -- SHADOW_UNTIL_REGISTERED"),
-        ("release_queue", "Current verified live (production): Charleston (25 markets / 1677 profiles / 1942 routes, deploy "
-                          "6aa8625938b7e0e0d66e6912), reached on the Charleston branch. This branch's lineage (6825851b) carries "
+        ("release_queue", "Production has moved on other branches since this branch was cut: the operator's launch record "
+                          "at the time of this run names Outer Banks as live (26 markets / 1703 profiles / 1972 routes, deploy "
+                          "6aa8992493a75f80cd0e3887). This branch's lineage (6825851b) carries "
                           "the Atlanta-live index (23 / 1500 / 1744, deploy 6aa7f125), which is what the shadow package's "
-                          "parent_live_state records. Hampton Roads waits for its turn in the serialized release lane."),
+                          "parent_live_state records. Columbia waits for its turn in the serialized release lane."),
         ("timings", TIMINGS),
         ("accounting", OrderedDict([
             ("TOTAL_DISCOVERED", census["total_candidates"]),
             ("total_discovered_note",
              "Distinct candidate identities in the identity graph after merging every lane. Not counted: %d unnamed map "
              "elements, %d retired Wyndham routes, and the Hilton / IHG / Choice national-navigation codes outside "
-             "the 231xx / 233xx-237xx postal prefixes." % (
+             "the 290xx-292xx postal prefixes." % (
                  sum(1 for e in osm["elements"] if not (e.get("tags") or {}).get("name")),
                  len(wyn.get("retired_routes") or []))),
             ("classification_counts", census["classification_counts"]),
@@ -276,15 +276,14 @@ def build():
         ("city_coverage", cities),
         ("market_balance_check", OrderedDict([
             ("core_cities", OrderedDict((k, cities.get(k, {}).get("census", 0)) for k in (
-                "Virginia Beach", "Norfolk", "Chesapeake", "Portsmouth", "Hampton", "Newport News"))),
+                "Columbia", "West Columbia", "Lexington", "Blythewood", "Chapin", "Elgin"))),
             ("finding",
-             "Virginia Beach carries the most identities because the Oceanfront resort strip is the region's largest lodging "
-             "cluster, and every core city was reached by at least two independent lanes (map extract + brand inventories; "
-             "Chesapeake and Newport News also by their bureaus, Virginia Beach by its bureau CRM). Portsmouth's small count "
-             "is real inventory (Olde Towne's Renaissance, the Quality Inn Olde Town, a Red Roof and map-only motels), not a "
-             "failed lane: the OSM extract, Marriott, Choice and Red Roof all placed Portsmouth rows. Norfolk's and "
-             "Hampton's bureaus refused this client (Hampton 403) or publish no listing API (Norfolk WordPress), so their "
-             "independents rest on the map and brand lanes -- recorded as a lane gap, not an imbalance."),
+             "Columbia proper carries most identities because nine of the thirteen corridors are named for Columbia "
+             "(the Harbison corridor includes Irmo's 29063; West Columbia / Cayce and the CAE airport keep their own mailing "
+             "towns). Every CORE corridor was reached by at least two independent lanes (map extract, brand inventories and "
+             "the Columbia CVB roster). Chapin returned no lodging identity from any lane (an empty fringe corridor, not a "
+             "failed lane). The Fort Jackson gate corridors are brand-heavy (Garners Ferry Road and Two Notch Road); "
+             "downtown carries the independents (Hotel Trundle, The Lantern, Chesnut Cottage)."),
         ])),
         ("corridor_coverage", coverage),
         ("corridor_pages_meeting_threshold", sum(1 for c in coverage if c["corridor_page_publishes"])),
@@ -305,11 +304,10 @@ def build():
         ])),
         ("competitor_gap_challenge", gaps["counts"]),
         ("owned_evidence", OrderedDict([
-            ("OWNED_IDENTITIES", "0 -- no committed census or authority holds a 233xx-237xx Hampton Roads identity (Outer "
-                                 "Banks NC and Richmond VA are separate markets; none of their identities is in this region)."),
-            ("OWNED_ROUTES", "53 -- 52 ORF / PHF-coded Marriott routes and 1 Magnuson route from the committed national harvest "
-                             "dayton_oh_brand_directory_harvest_001 (read at zero requests); every in-market Marriott route was "
-                             "re-read on Marriott's own page (2 are Elizabeth City / Nags Head NC, outside)."),
+            ("OWNED_IDENTITIES", "0 -- no committed census or authority holds a 290xx-292xx Columbia identity."),
+            ("OWNED_ROUTES", "30 -- CAE-coded Marriott routes in the committed national harvest "
+                             "dayton_oh_brand_directory_harvest_001 (read at zero requests); every one was re-read on Marriott's "
+                             "own page (6 are Santee, Orangeburg, Sumter and Camden, outside)."),
             ("OWNED_VALID_POLICY_EVIDENCE", "0 -- every policy record here is a new first-party capture of this order."),
         ])),
         ("package", OrderedDict([
@@ -330,15 +328,14 @@ def build():
         ("factory_code_changed", "NO -- every changed path is a columbia_sc_* helper, the market's discovery config, or a "
                                  "document under the market's own proposed / staging / report paths"),
         ("shared_factory_notes_recorded_not_repaired", [
-            "The shared first-party reader does not read IHG's 'No, pets are not allowed at Holiday Inn Virginia Beach - Norfolk.' "
-            "or '... at Crowne Plaza Virginia Beach Town Center.' as a refusal (it reads the same sentence for other IHG "
-            "hotels), nor The Sitio's 'We love pets; however, we are not a pet friendly hotel.'; those rows are held with the "
-            "exact wording.",
-            "Hilton's 'Service animals only' petsInfo (Hilton Virginia Beach Oceanfront, DoubleTree Oceanfront South, Spark "
-            "Oceanfront, Hilton Norfolk The Main, The Landing at Hampton Marina, both Hilton Vacation Club resorts) is a "
-            "service-animal carve-out, not a refusal, and is held SERVICE_ANIMAL_ONLY.",
-            "Visit Norfolk and Visit Hampton publish no listing service this client could read (WordPress / 403), and the "
-            "attended browser refused navigation to several independent Oceanfront domains; recorded as lane gaps.",
+            "The shared first-party reader does not read Hotel Trundle's 'While we love pets, we kindly ask that you leave your "
+            "furry friends at home.' as a refusal, reads Motel 6's 'Pets welcome throughout your stay' as an amenity label, and "
+            "reads Days Inn & Suites Columbia Airport's 'Maximum 2 pets up to 100 lbs allowed ...' as a service-animal "
+            "statement; those rows are held with the exact wording.",
+            "Hilton's 'Service animals only' petsInfo (Hilton Columbia Center, DoubleTree Columbia) is a service-animal "
+            "carve-out, not a refusal, and is held SERVICE_ANIMAL_ONLY.",
+            "InTown Suites' property pages state no postal code, so their refusals cannot bind by the page's own street "
+            "identity (ADDRESS_NOT_ON_DOCUMENT).",
         ]),
         ("broad_regression_run", "NO"),
         ("final_production_candidate_created", "NO -- FAST composes the release index in memory only"),
@@ -347,22 +344,24 @@ def build():
         ("shared_state_touched", "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the "
                                  "generated globals, release contracts, identity_resolutions.json and the market registry are unchanged"),
         ("next_order", [
-            "When Hampton Roads reaches the front of the serialized release lane, read CURRENT VERIFIED LIVE and merge that "
+            "When Columbia reaches the front of the serialized release lane, read CURRENT VERIFIED LIVE and merge that "
             "live parent into worker/ptf-columbia-sc-market-001; the Atlanta binding of this shadow package is then invalid "
             "(FAST rule N fails it by design).",
             "Copy markets/proposed/columbia-sc.json -> markets/columbia-sc.json, identity_census_proposed/columbia-sc.json "
             "-> identity_census/columbia-sc.json and the staged launch_package documents (hotel_policy_facts_columbia-sc.json, "
-            "columbia_sc_final_partition_007.json, the authority shard) into their registered paths; repoint the helpers' paths.",
-            "No same-campus resolution is required by this census (no co-location or directional hold was raised); recheck "
-            "after any new read.",
+            "columbia_sc_final_partition_007.json, the authority shard) into their registered paths; repoint the helpers' "
+            "paths; re-stage the census copy after ANY census edit.",
+            "Record the same-campus resolution for the two pet-friendly Hilton hotels at 400 Gervais Street (Homewood Suites "
+            "caecahw / Tru caeruru) in identity_resolutions.json, releasing both CO_LOCATION_RULING_REQUIRED holds; the "
+            "Wyndham Garden / Hawthorn pair at 1539 Horseshoe Drive needs a first-party proof of two bookable hotels first.",
             "market_registration_cli --write, build_global_authority --write then --check, the release contract, "
             "registration_release_lane register + seal --work-order (a NEW package id), FAST.",
             "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare "
             "the founder packet; deploy only on founder authorization.",
-            "Before sealing: re-probe Choice beyond the 403 wall (va904, va384, va358, va761, va050), Motel 6 / Studio 6, the "
-            "refused Oceanfront independents (Sea View, Ocean Cove, Belvedere) and the TLS-failing Chesapeake motels; read IHG "
-            "Garner Hotel VB North (orfaa) and Sonesta Simply Suites Hampton; settle the Oceanfront timeshare resorts' public "
-            "hotel operation; resolve the Red Roof geography holds (rri826, rri567) with an address-bearing first-party document.",
+            "Before sealing: re-read IHG caedt (Holiday Inn Express Downtown / The Vista) for a corrected postal code, IHG "
+            "caers (Staybridge) for an FAQ answer and Marriott caenr (StudioRes) for a Pet Policy row; find address-bearing "
+            "InTown and Motel 6 documents; settle Flutter Wing's lodging category; route the map-only Knights Inn and "
+            "Travelers Inn.",
         ]),
     ])
     return doc

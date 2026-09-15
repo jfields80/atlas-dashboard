@@ -1,0 +1,1661 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-COLUMBIA-SC-PARALLEL-SOURCE-READY-001",
+ "market_id": "columbia-sc",
+ "display_market": "Columbia, South Carolina",
+ "state": "SOURCE_READY -- SHADOW_UNTIL_REGISTERED",
+ "release_queue": "Production has moved on other branches since this branch was cut: the operator's launch record at the time of this run names Outer Banks as live (26 markets / 1703 profiles / 1972 routes, deploy 6aa8992493a75f80cd0e3887). This branch's lineage (6825851b) carries the Atlanta-live index (23 / 1500 / 1744, deploy 6aa7f125), which is what the shadow package's parent_live_state records. Columbia waits for its turn in the serialized release lane.",
+ "timings": {
+  "COLUMBIA_START_TIMESTAMP": "2026-09-15T00:18:26Z (recorded by the first command of the run)",
+  "precheck_and_template_read": "00:18Z-00:25Z (worktree, branch, HEAD 6825851b, tree clean; the Hampton Roads VA shadow chain @87249b80 read and cloned by name; its browser capture JS extracted from its transcript by a read-only helper agent; the 2026-09-10 South Carolina Geofabrik extract copied from the Charleston worktree)",
+  "geography": "00:27:25Z (13 corridors: 10 CORE / 1 CORRIDOR / 2 FRINGE, 24 admitted ZIPs; West Columbia's PO-box ZIP 29171 added at 00:52Z for 25 after Marriott's own page printed it)",
+  "census_lanes": "OSM lane 207.3 s (South Carolina extract, 157 elements); brand inventory about 24 min detached (Marriott SC sitemap page, 10 Hilton city pages + 42 sub-pages, 16 family sitemap probes); Experience Columbia SC listing service (plain client, 116 lodging listings) at 00:31Z",
+  "routing": "Wyndham property service 10.6 s (34 routes: 19 read, 15 retired); static lane 31.0 s (40 targets); policy-page lane 5.0 s (10 sites, 49 pages)",
+  "browser_evidence": "00:33Z-00:52Z attended same-origin reads: IHG 13, Marriott 30, Hilton 33, Choice 26 (no 403 wall), Hyatt 2, Best Western 8, Red Roof 2, Extended Stay America 4, Motel 6 / Studio 6 4, stayAPT 1, Historic Stays of Columbia 1 (JavaScript refused on the domain; page text read); every committed brand payload's canonical-JSON sha256 verified against the page's",
+  "identity": "00:45Z-00:58Z (census passes; municipality safety; Fort Jackson military rule; rental-apartment, campground and non-hotel rulings; competitor gap challenge)",
+  "policy_adjudication": "00:50Z-00:58Z (candidate quotes tested against the shared first-party reader; independent quotes proved verbatim with house number and ZIP on the same document)",
+  "reconciliation": "00:58Z-00:59Z (clean set 64 / 42, staged authority, final partition 125 identities, 0 contract issues; inputs committed at fe2d1b6a)",
+  "shadow_package_and_fast": "00:59Z dry-run seal (digest only, not written); 01:00:48Z-01:02:53Z at fe2d1b6a, pkg dcc24295, FAST 15/15, determinism BYTE_IDENTICAL, first-party gate 106/106",
+  "independent_reproduction": "01:04:10Z-01:04:37Z (clean git worktree at fe2d1b6a with a COPY of the document store: geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference; the eol-unattributed discovery config checks out CRLF but the rebuilt file equals the committed blob byte for byte; separate-process digest-only seal = the same digest)",
+  "ZERO_TO_SOURCE_READY": "44 min 27 s (00:18:26Z -> 01:02:53Z, the FAST-passed sealed shadow package; reproduction confirmed at 01:04:37Z, 46 min 11 s)",
+  "peak_memory": "not measured on this run"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 206,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 19 unnamed map elements, 15 retired Wyndham routes, and the Hilton / IHG / Choice national-navigation codes outside the 290xx-292xx postal prefixes.",
+  "classification_counts": {
+   "IDENTITY_REVIEW_REQUIRED": 12,
+   "NAME_ONLY_UNRESOLVED": 23,
+   "NON_LODGING": 10,
+   "OUTSIDE_MARKET": 33,
+   "SAME_CAMPUS_DISTINCT_ENTITY": 3,
+   "TRUE_HOTEL_IDENTITY": 125
+  },
+  "PROPOSED_CENSUS": 125,
+  "VALID_PET_FRIENDLY": 64,
+  "VALID_VERIFIED_NO_PETS": 42,
+  "RESOLVED": 106,
+  "UNRESOLVED": 19,
+  "partition_counts_by_state": {
+   "AWAITING_OFFICIAL_URL": 2,
+   "AWAITING_POLICY_OBSERVATION": 17,
+   "PUBLISHED_PET_FRIENDLY": 64,
+   "VERIFIED_NO_PETS": 42
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "every_census_identity_key_unique": true
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 37,
+   "identity_review_required": [
+    "Days Inn",
+    "Executive Inn",
+    "Flutter Wing",
+    "Microtel Inn by Wyndham Columbia",
+    "Quality Inn & Suites",
+    "Red Roof Inn Columbia East",
+    "Sheraton Columbia Downtown Hotel",
+    "Sleep Inn",
+    "Suburban Extended Stay Hotel",
+    "Super 8 Motel Columbia",
+    "WoodSpring Suites"
+   ],
+   "name_only_unresolved": [
+    "Amaryllis Inn",
+    "American Inn",
+    "Best Western Plus Northeast Columbia",
+    "Coronet",
+    "Days Inn Riverbanks Zoo Columbia",
+    "Econo Lodge Inn & Suites Fort Jackson area",
+    "Economy Inn",
+    "Embassy Suites Greystone Columbia",
+    "Extended Stay America",
+    "Extended Stay America Columbia - Harbison",
+    "Extended Stay America Suites Irmo",
+    "Glass Manor",
+    "Graduate by Hilton Columbia SC",
+    "Inn at USC",
+    "Knights Inn",
+    "La Quinta Inn Maingate Fort Jackson Columbia",
+    "Lexington Inn & Suites",
+    "Motel 6 Columbia SC - Fort Jackson Area",
+    "Palmetto Inn",
+    "Park View Inn",
+    "Quality Inn & Suites",
+    "Wingate",
+    "Wingate by Wyndham Lexington"
+   ],
+   "rebrand_unresolved": [],
+   "same_campus_unproved": [
+    "Hawthorn Extended Stay by Wyndham Columbia / Ft. Jackson",
+    "Wyndham Garden Columbia/Ft. Jackson",
+    "Wyndham Garden Hotel Columbia"
+   ],
+   "note": "Not census identities and never published: brand-flag map rows the brand's own inventory does not list at that address (Days Inn 7300 Garners Ferry Road, Quality Inn & Suites 2210 Bush River Road, Suburban Extended Stay 150 Stoneridge Drive, Red Roof Inn Columbia East 7580 Two Notch Road), map rows duplicating a read hotel under a bare label (Sheraton Columbia Downtown, Sleep Inn 2208 Airport Blvd), Flutter Wing, the Wyndham Garden / Hawthorn dual-brand building at 1539 Horseshoe Drive, name-only map motels and competitor leads that alias census rows."
+  },
+  "ROUTING_HOLDS": {
+   "count": 2,
+   "identities": [
+    "Knights Inn Columbia Airport/Cayce",
+    "Travelers Inn"
+   ]
+  },
+  "ACCESS_BLOCKED": {
+   "count": 0,
+   "by_cause": {},
+   "identities": []
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 17,
+   "identities": [
+    "Baymont by Wyndham Columbia Northwest",
+    "Days Inn & Suites by Wyndham Columbia Airport",
+    "DoubleTree by Hilton Hotel Columbia, South Carolina",
+    "Extended Stay America - Columbia - Ft. Jackson",
+    "Extended Stay America - Columbia - Greystone",
+    "Extended Stay America - Columbia - Northwest/Harbison",
+    "Extended Stay America - Columbia - West - Interstate-126",
+    "Hilton Columbia Center",
+    "Homewood Suites by Hilton Columbia Downtown",
+    "Hotel Trundle",
+    "InTown Suites Columbia Northwest",
+    "InTown Suites Columbia West",
+    "InTown Suites Extended Stay Columbia SC - Two Notch",
+    "Motel 6 Columbia East SC",
+    "Staybridge Suites Columbia",
+    "StudioRes by Marriott Columbia Harbison",
+    "Tru by Hilton Columbia Downtown"
+   ],
+   "rejected_reads_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 4,
+    "CO_LOCATION_RULING_REQUIRED": 2,
+    "POLICY_NOT_FOUND": 2,
+    "QUOTE_NOT_OPERATIVE": 1,
+    "SERVICE_ANIMAL_ONLY": 3
+   }
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 1,
+   "identities": [
+    "Holiday Inn Express & Suites Columbia Downtown – The Vista"
+   ]
+  },
+  "PAID_HOLDS": {
+   "count": 0,
+   "note": "No cohort is routed to a paid lane: PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved. No census identity is ACCESS_BLOCKED on this run: every brand surface and independent site that named a census identity served either the plain client or the attended browser."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 0,
+   "identities": [],
+   "note": "None. The geography hold and the dual-brand holds are evidence / registration-order work, not founder rulings."
+  },
+  "CLOSED_OR_RETIRED": {
+   "count": 15,
+   "wyndham_retired_routes": [
+    "https://www.wyndhamhotels.com/days-inn/blythewood-south-carolina/days-inn-north-columbia-ft-jackson/overview",
+    "https://www.wyndhamhotels.com/days-inn/columbia-south-carolina/days-inn-and-suites-se-columbia-ft-jackson/overview",
+    "https://www.wyndhamhotels.com/days-inn/columbia-south-carolina/days-inn-columbia-central/overview",
+    "https://www.wyndhamhotels.com/days-inn/columbia-south-carolina/days-inn-columbia-fort-jackson/overview",
+    "https://www.wyndhamhotels.com/days-inn/lexington-south-carolina/days-inn-lexington-sc/overview",
+    "https://www.wyndhamhotels.com/hawthorn-extended-stay/columbia-south-carolina/hawthorn-suites-by-wyndham-columbia/overview",
+    "https://www.wyndhamhotels.com/laquinta/columbia-south-carolina/la-quinta-columbia-ne-fort-jackson/overview",
+    "https://www.wyndhamhotels.com/microtel/columbia-south-carolina/microtel-inn-and-suites-columbia-harbison-area/overview",
+    "https://www.wyndhamhotels.com/microtel/columbia-south-carolina/microtel-inn-columbia-two-notch-rd-area/overview",
+    "https://www.wyndhamhotels.com/ramada/columbia-south-carolina/ramada-columbia-fort-jackson-area-sc/overview",
+    "https://www.wyndhamhotels.com/super-8/columbia-south-carolina/super-8-columbia-ft-jackson-sc/overview",
+    "https://www.wyndhamhotels.com/super-8/west-columbia-south-carolina/super-8-west-columbia-airport/overview",
+    "https://www.wyndhamhotels.com/travelodge/columbia-south-carolina/travelodge-columbia-west/overview",
+    "https://www.wyndhamhotels.com/wingate/columbia-south-carolina/wingate-by-wyndham-columbia-ft-jackson/overview",
+    "https://www.wyndhamhotels.com/wingate/lexington-south-carolina/wingate-by-wyndham-columbia-lexington/overview"
+   ],
+   "note": "Wyndham routes in Columbia-area cities that redirect to the brand's city search (retired or rebranded). Routes, not census identities."
+  },
+  "MILITARY_NONPUBLIC": {
+   "count": 3,
+   "identities": [
+    "Holiday Inn Express Fort Jackson Inn",
+    "IHG Army Hotels",
+    "IHG Palmetto Fort Jackson Hotel"
+   ],
+   "rule": "Fort Jackson's installation postal code (29207) and named military lodging programmes (IHG Army Hotels, the IHG Palmetto Fort Jackson Hotel, transient quarters) are refused unless ordinary public booking is proved; the commercial hotels outside the gates (Garners Ferry Road, Forest Drive, Two Notch Road, Clemson Road) are ordinary census rows."
+  },
+  "OUTSIDE": {
+   "count": 33,
+   "future_market": "none preserved by this order"
+  },
+  "NON_HOTEL": {
+   "count": 10,
+   "by_kind": {
+    "APARTMENT_OR_RENTAL_UNITS": 2,
+    "BUREAU_CAMPGROUND_OR_STATE_PARK": 4,
+    "BUREAU_VACATION_RENTAL_CONDO_OR_BEACH_HOUSE": 1,
+    "MAP_APARTMENT_CONDO_OR_CHALET_UNIT": 3
+   },
+   "identities": [
+    "Barnyard RV Park",
+    "Campanion at The Palms",
+    "Companion at The Plams",
+    "Edmund RV Park",
+    "Heartwood Furnished Homes",
+    "Historic Stays of Columbia",
+    "Magnolia Campground",
+    "The 1425 Inn",
+    "The Hub at Columbia",
+    "Wood Smoke Family Campground"
+   ]
+  }
+ },
+ "city_coverage": {
+  "Columbia": {
+   "census": 97,
+   "pet_friendly": 47,
+   "verified_no_pets": 34,
+   "unresolved": 16
+  },
+  "Lexington": {
+   "census": 7,
+   "pet_friendly": 3,
+   "verified_no_pets": 4,
+   "unresolved": 0
+  },
+  "West Columbia": {
+   "census": 16,
+   "pet_friendly": 11,
+   "verified_no_pets": 2,
+   "unresolved": 3
+  },
+  "Blythewood": {
+   "census": 4,
+   "pet_friendly": 2,
+   "verified_no_pets": 2,
+   "unresolved": 0
+  },
+  "Elgin": {
+   "census": 1,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 0
+  }
+ },
+ "market_balance_check": {
+  "core_cities": {
+   "Columbia": 97,
+   "West Columbia": 16,
+   "Lexington": 7,
+   "Blythewood": 4,
+   "Chapin": 0,
+   "Elgin": 1
+  },
+  "finding": "Columbia proper carries most identities because nine of the thirteen corridors are named for Columbia (the Harbison corridor includes Irmo's 29063; West Columbia / Cayce and the CAE airport keep their own mailing towns). Every CORE corridor was reached by at least two independent lanes (map extract, brand inventories and the Columbia CVB roster). Chapin returned no lodging identity from any lane (an empty fringe corridor, not a failed lane). The Fort Jackson gate corridors are brand-heavy (Garners Ferry Road and Two Notch Road); downtown carries the independents (Hotel Trundle, The Lantern, Chesnut Cottage)."
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "columbia-sc__downtown-vista-usc",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29201",
+    "29208",
+    "29205"
+   ],
+   "census": 23,
+   "pet_friendly": 10,
+   "verified_no_pets": 8,
+   "unresolved": 5,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "columbia-sc__north-columbia-medical",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29203",
+    "29204"
+   ],
+   "census": 7,
+   "pet_friendly": 6,
+   "verified_no_pets": 1,
+   "unresolved": 0,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "columbia-sc__fort-jackson-forest-acres",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29206",
+    "29209"
+   ],
+   "census": 16,
+   "pet_friendly": 8,
+   "verified_no_pets": 7,
+   "unresolved": 1,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "columbia-sc__northeast-two-notch",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29223"
+   ],
+   "census": 14,
+   "pet_friendly": 6,
+   "verified_no_pets": 6,
+   "unresolved": 2,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "columbia-sc__sandhills-clemson-road",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29229"
+   ],
+   "census": 2,
+   "pet_friendly": 1,
+   "verified_no_pets": 1,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "columbia-sc__st-andrews-bush-river",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29210"
+   ],
+   "census": 17,
+   "pet_friendly": 6,
+   "verified_no_pets": 6,
+   "unresolved": 5,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "columbia-sc__harbison-irmo",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29212",
+    "29063",
+    "29002",
+    "29221"
+   ],
+   "census": 18,
+   "pet_friendly": 10,
+   "verified_no_pets": 5,
+   "unresolved": 3,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "columbia-sc__west-columbia-cayce",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29169",
+    "29033"
+   ],
+   "census": 10,
+   "pet_friendly": 8,
+   "verified_no_pets": 1,
+   "unresolved": 1,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "columbia-sc__cae-airport",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29170",
+    "29172",
+    "29171"
+   ],
+   "census": 6,
+   "pet_friendly": 3,
+   "verified_no_pets": 1,
+   "unresolved": 2,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "columbia-sc__lexington",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29072",
+    "29073",
+    "29071"
+   ],
+   "census": 7,
+   "pet_friendly": 3,
+   "verified_no_pets": 4,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "columbia-sc__blythewood",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "29016"
+   ],
+   "census": 4,
+   "pet_friendly": 2,
+   "verified_no_pets": 2,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "columbia-sc__chapin",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "29036"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "columbia-sc__elgin",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "29045"
+   ],
+   "census": 1,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  }
+ ],
+ "corridor_pages_meeting_threshold": 7,
+ "area_coverage": {
+  "what_it_is": "Coverage for the order's named areas. Reporting only; membership and corridor come from the postal partition. The Vista, Main Street, USC and Five Points share the downtown corridor; Forest Drive and Garners Ferry share Fort Jackson; Bush River, Greystone and St. Andrews share 29210; Harbison and Piney Grove share 29212. The Killian Road hotels on Roberts Branch Parkway are mailed 29203 and report under north Columbia.",
+  "areas": {
+   "The Vista / Convention Center": {
+    "census": 4,
+    "pet_friendly": 0,
+    "verified_no_pets": 2,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Columbia Downtown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "501 Taylor Street"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Columbia Downtown",
+      "state": "UNRESOLVED",
+      "street": "400 Gervais Street"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Columbia Downtown/The Vista",
+      "state": "VERIFIED_NO_PETS",
+      "street": "511 Lady Street"
+     },
+     {
+      "canonical_name": "Tru by Hilton Columbia Downtown",
+      "state": "UNRESOLVED",
+      "street": "400 Gervais Street"
+     }
+    ]
+   },
+   "Main Street / State House": {
+    "census": 13,
+    "pet_friendly": 8,
+    "verified_no_pets": 3,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Aloft by Marriott Columbia Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "823 Lady Street"
+     },
+     {
+      "canonical_name": "Cambria Hotel Columbia Downtown the Vista",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1000 Lady Street"
+     },
+     {
+      "canonical_name": "Hampton Inn Columbia-Downtown Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "822 Gervais Street"
+     },
+     {
+      "canonical_name": "Hilton Columbia Center",
+      "state": "UNRESOLVED",
+      "street": "924 Senate Street"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Columbia Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1200 Pickens Street"
+     },
+     {
+      "canonical_name": "Holiday Inn Columbia - Downtown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1233 Washington Street"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Columbia Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1210 Pickens Street"
+     },
+     {
+      "canonical_name": "Hotel Trundle",
+      "state": "UNRESOLVED",
+      "street": "1224 Taylor Street"
+     },
+     {
+      "canonical_name": "Hyatt Place Columbia/Downtown/The Vista",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "819 Gervais Street"
+     },
+     {
+      "canonical_name": "Marriott Columbia",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1200 Hampton Street"
+     },
+     {
+      "canonical_name": "Moxy Columbia Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1200 Main Street"
+     },
+     {
+      "canonical_name": "Sheraton Columbia Downtown Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1400 Main Street"
+     },
+     {
+      "canonical_name": "The Lantern Hotel Columbia",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1001 Senate Street"
+     }
+    ]
+   },
+   "University of South Carolina": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Courtyard by Marriott Columbia Downtown at USC",
+      "state": "VERIFIED_NO_PETS",
+      "street": "630 Assembly Street"
+     },
+     {
+      "canonical_name": "Graduate by Hilton Columbia, S.C.",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1619 Pendleton, St."
+     }
+    ]
+   },
+   "Five Points / Devine Street": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Downtown Columbia": {
+    "census": 4,
+    "pet_friendly": 1,
+    "verified_no_pets": 2,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Chesnut Cottage Bed & Breakfast",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1718 Hampton Street"
+     },
+     {
+      "canonical_name": "Gallus Stadium Park Inn, an Ascend Collection Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "621 South Assembly Street"
+     },
+     {
+      "canonical_name": "Rodeway Inn & Suites Fort Jackson",
+      "state": "VERIFIED_NO_PETS",
+      "street": "494 Beltline Blvd."
+     },
+     {
+      "canonical_name": "Staybridge Suites Columbia",
+      "state": "UNRESOLVED",
+      "street": "1913 Huger Street"
+     }
+    ]
+   },
+   "Prisma Health Richland": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "I-20 / North Main": {
+    "census": 1,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Super 8 by Wyndham Columbia",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5719 Fairfield Rd"
+     }
+    ]
+   },
+   "North Columbia": {
+    "census": 6,
+    "pet_friendly": 5,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Courtyard by Marriott Columbia Northeast/Fort Jackson Area",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "111 Gateway Corporate Boulevard"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Columbia NE Fort Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "133 Plumbers Road"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Columbia Killian Road",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1310 Robert’s Branch Pkwy"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Columbia/Northeast",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "8910 Farrow Road"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Columbia Killian Road",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1270 Roberts Branch Parkway"
+     },
+     {
+      "canonical_name": "SpringHill Suites Columbia North",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1340 Roberts Branch Pkwy"
+     }
+    ]
+   },
+   "Forest Drive / I-77 (Fort Jackson gate)": {
+    "census": 2,
+    "pet_friendly": 0,
+    "verified_no_pets": 1,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Extended Stay America - Columbia - Ft. Jackson",
+      "state": "UNRESOLVED",
+      "street": "5430 Forest Dr."
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Columbia SC / Ft. Jackson",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5321 Forest Drive"
+     }
+    ]
+   },
+   "Garners Ferry / Fort Jackson Blvd": {
+    "census": 14,
+    "pet_friendly": 8,
+    "verified_no_pets": 6,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Baymont by Wyndham Columbia Fort Jackson",
+      "state": "VERIFIED_NO_PETS",
+      "street": "240 East Exchange Blvd"
+     },
+     {
+      "canonical_name": "Candlewood Suites Columbia-Ft. Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "921 Atlas Road"
+     },
+     {
+      "canonical_name": "Comfort Inn & Suites Ft.Jackson Maingate",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7337 Garner's Ferry Rd."
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Columbia, SC",
+      "state": "VERIFIED_NO_PETS",
+      "street": "220 East Exchange Boulevard"
+     },
+     {
+      "canonical_name": "Econo Lodge Columbia Fort Jackson",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4488 Fort Jackson Blvd"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Columbia/Southeast-Ft. Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "201 East Exchange Boulevard"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Columbia-Fort Jackson",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7329 Garners Ferry Road"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Columbia Southeast Fort Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7340 Garners Ferry Road"
+     },
+     {
+      "canonical_name": "La Quinta Inn by Wyndham Columbia SE / Fort Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7333 Garners Ferry Road"
+     },
+     {
+      "canonical_name": "Microtel Inn & Suites by Wyndham Columbia/At Fort Jackson",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7504 Garners Ferry Rd."
+     },
+     {
+      "canonical_name": "Quality Inn & Suites Ft. Jackson Maingate",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7251 Garners Ferry Road"
+     },
+     {
+      "canonical_name": "Sleep Inn Near Ft. Jackson",
+      "state": "VERIFIED_NO_PETS",
+      "street": "200 East Exchange Boulevard"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Columbia near Fort Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "170 E Exchange Blvd"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Columbia Southeast/Fort Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "250 East Exchange Blvd."
+     }
+    ]
+   },
+   "Two Notch / I-77 exit 17": {
+    "census": 14,
+    "pet_friendly": 6,
+    "verified_no_pets": 6,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Comfort Suites Columbia Northeast - Fort Jackson",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1540 Daulton Drive"
+     },
+     {
+      "canonical_name": "Delta Hotels Columbia Northeast",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8105 Two Notch Road"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Columbia Northeast",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "120 Blarney Drive"
+     },
+     {
+      "canonical_name": "Hampton Inn Columbia Northeast-Fort Jackson Area",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1551 Barbara Drive"
+     },
+     {
+      "canonical_name": "Holiday Inn & Suites Columbia NE - Ft Jackson Area",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7525 Two Notch Rd"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Columbia NE - Fort Jackson",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8300 Two Notch Road"
+     },
+     {
+      "canonical_name": "InTown Suites Extended Stay Columbia SC - Two Notch",
+      "state": "UNRESOLVED",
+      "street": "8310 Two Notch Road"
+     },
+     {
+      "canonical_name": "La Quinta Inn by Wyndham Columbia NE / Fort Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1538 Horseshoe Dr"
+     },
+     {
+      "canonical_name": "Microtel Inn & Suites by Wyndham Columbia/Fort Jackson N",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1520 Barbara Dr"
+     },
+     {
+      "canonical_name": "Motel 6 Columbia East SC",
+      "state": "UNRESOLVED",
+      "street": "7541 Nates Road"
+     },
+     {
+      "canonical_name": "Quality Inn Fort Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "8104 Two Notch Road"
+     },
+     {
+      "canonical_name": "Red Roof Inn Columbia East - Ft Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7431 Nates Rd"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Columbia Northeast/Fort Jackson Area",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2320 LeGrand Road"
+     },
+     {
+      "canonical_name": "Wingate by Wyndham Columbia/Fort Jackson",
+      "state": "VERIFIED_NO_PETS",
+      "street": "31 Berkshire Dr."
+     }
+    ]
+   },
+   "Dentsville / Decker Blvd": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Clemson Road / I-20 exit 80": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Hampton Inn Columbia I-20-Clemson Road",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1021 Clemson Frontage Road"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Columbia-I-20 @ Clemson Rd",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1011 Clemson Frontage Rd"
+     }
+    ]
+   },
+   "Killian Road / I-77 exit 22": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Bush River Road / I-20 / I-26": {
+    "census": 12,
+    "pet_friendly": 3,
+    "verified_no_pets": 6,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Baymont by Wyndham Columbia Northwest",
+      "state": "UNRESOLVED",
+      "street": "347 Zimalcrest Drive"
+     },
+     {
+      "canonical_name": "Best Western Executive Inn & Suites",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1720 Bush River Road"
+     },
+     {
+      "canonical_name": "Comfort Inn Columbia West",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "911 Bush River Road"
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Columbia at Harbison, SC",
+      "state": "VERIFIED_NO_PETS",
+      "street": "414 Piney Grove Road"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Columbia",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1144 Bush River Road"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Hotel Columbia, South Carolina",
+      "state": "UNRESOLVED",
+      "street": "2100 Bush River Road"
+     },
+     {
+      "canonical_name": "InTown Suites Columbia West",
+      "state": "UNRESOLVED",
+      "street": "1633 Broad River Road"
+     },
+     {
+      "canonical_name": "Ramada Limited Columbia",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1315 Garner Lane"
+     },
+     {
+      "canonical_name": "Rodeway Inn Harbison Area",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "499 Piney Grove Rd."
+     },
+     {
+      "canonical_name": "Sleep Inn Columbia",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1901 Rockland Rd."
+     },
+     {
+      "canonical_name": "Suburban Studios Columbia - Harbison",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "499 Piney Grove Rd., Building B"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Harbison/Parkridge Hospital",
+      "state": "VERIFIED_NO_PETS",
+      "street": "411 Piney Grove Rd"
+     }
+    ]
+   },
+   "Greystone / Riverbanks": {
+    "census": 5,
+    "pet_friendly": 3,
+    "verified_no_pets": 0,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Extended Stay America - Columbia - Greystone",
+      "state": "UNRESOLVED",
+      "street": "180 Stoneridge Dr."
+     },
+     {
+      "canonical_name": "Extended Stay America - Columbia - West - Interstate-126",
+      "state": "UNRESOLVED",
+      "street": "450 Gracern Rd."
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Columbia",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "230 Greystone Boulevard"
+     },
+     {
+      "canonical_name": "LivSmart Studios by Hilton Columbia Greystone",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "175 Stoneridge Drive"
+     },
+     {
+      "canonical_name": "Tru by Hilton Columbia Greystone",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "185 Stoneridge Drive"
+     }
+    ]
+   },
+   "St. Andrews Road": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Harbison Blvd / I-26": {
+    "census": 14,
+    "pet_friendly": 6,
+    "verified_no_pets": 5,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Aloft by Marriott Columbia Harbison",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "217 Lanneau Court"
+     },
+     {
+      "canonical_name": "Comfort Suites Columbia at Harbison",
+      "state": "VERIFIED_NO_PETS",
+      "street": "750 Saturn Pkwy, at Harbison Blvd -- Exit 103"
+     },
+     {
+      "canonical_name": "Extended Stay America - Columbia - Northwest/Harbison",
+      "state": "UNRESOLVED",
+      "street": "1170 Kinley Road"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Columbia Harbison",
+      "state": "VERIFIED_NO_PETS",
+      "street": "320 Columbiana Drive"
+     },
+     {
+      "canonical_name": "Hampton Inn Columbia I-26/Harbison Blvd.",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "101 Woodcross Drive"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Columbia/Harbison",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "434 Columbiana Drive"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Columbia-I-26 @ Harbison Blvd",
+      "state": "VERIFIED_NO_PETS",
+      "street": "211 Lanneau Court"
+     },
+     {
+      "canonical_name": "Hyatt Place Columbia/Harbison",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1130 Kinley Road"
+     },
+     {
+      "canonical_name": "InTown Suites Columbia Northwest",
+      "state": "UNRESOLVED",
+      "street": "330 Columbiana Drive"
+     },
+     {
+      "canonical_name": "MainStay Suites Columbia Harbison",
+      "state": "VERIFIED_NO_PETS",
+      "street": "350 Columbiana Dr, Building B"
+     },
+     {
+      "canonical_name": "Quality Inn & Suites Columbia Harbison",
+      "state": "VERIFIED_NO_PETS",
+      "street": "350 Columbiana Dr, Building A"
+     },
+     {
+      "canonical_name": "StudioRes by Marriott Columbia Harbison",
+      "state": "UNRESOLVED",
+      "street": "225 Columbiana Circle"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Columbia Northwest/Harbison",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "438 Columbiana Drive"
+     },
+     {
+      "canonical_name": "Tru by Hilton Harbison Columbia",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "271 Columbiana Drive"
+     }
+    ]
+   },
+   "Piney Grove Road / I-26": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Irmo": {
+    "census": 4,
+    "pet_friendly": 4,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Home2 Suites by Hilton Columbia Harbison",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "550 Columbiana Drive"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Columbia Northwest/Harbison",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "944 Lake Murray Boulevard"
+     },
+     {
+      "canonical_name": "stayAPT Suites Columbia-Irmo/Harbison",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "851 Columbiana Drive"
+     },
+     {
+      "canonical_name": "WoodSpring Suites Columbia - Irmo",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "941 Columbiana Drive"
+     }
+    ]
+   },
+   "Knox Abbott / Cayce": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "I-26 / US-1 (exit 111)": {
+    "census": 5,
+    "pet_friendly": 5,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Clarion Inn Columbia Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "500 Chris Drive"
+     },
+     {
+      "canonical_name": "Hampton Inn Columbia-I-26 Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1094 Chris Dr."
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Columbia Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "110 McSwain Drive"
+     },
+     {
+      "canonical_name": "Quality Inn Columbia Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2516 Augusta Rd, Building A"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Columbia West/Lexington",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "122 Mathias Road"
+     }
+    ]
+   },
+   "West Columbia / Cayce": {
+    "census": 5,
+    "pet_friendly": 3,
+    "verified_no_pets": 1,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Columbia Airport, SC",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2245 Airport Blvd"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Columbia Cayce",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1125 Fort Congaree Trail"
+     },
+     {
+      "canonical_name": "Econo Lodge Inn & Suites Cayce I-26 Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1935 Airport Blvd."
+     },
+     {
+      "canonical_name": "Knights Inn Columbia Airport/Cayce",
+      "state": "UNRESOLVED",
+      "street": "1987 Airport Boulevard"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Columbia West/Lexington",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2915 Sunset Blvd"
+     }
+    ]
+   },
+   "CAE Airport / Airport Blvd (exit 113)": {
+    "census": 6,
+    "pet_friendly": 3,
+    "verified_no_pets": 1,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Days Inn & Suites by Wyndham Columbia Airport",
+      "state": "UNRESOLVED",
+      "street": "110 Branch Road"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites West Columbia Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2325 Airport Blvd, West Columbia, SC 29171"
+     },
+     {
+      "canonical_name": "Quality Inn West Columbia - Cayce",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3020 Charleston Highway"
+     },
+     {
+      "canonical_name": "Red Roof Inn Columbia, SC Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2204 Airport Blvd"
+     },
+     {
+      "canonical_name": "Sleep Inn Columbia Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2208-A Airport Blvd."
+     },
+     {
+      "canonical_name": "Travelers Inn",
+      "state": "UNRESOLVED",
+      "street": "2200 Airport Boulevard"
+     }
+    ]
+   },
+   "Lexington Sunset Blvd": {
+    "census": 7,
+    "pet_friendly": 3,
+    "verified_no_pets": 4,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Best Western Plus Lexington Inn",
+      "state": "VERIFIED_NO_PETS",
+      "street": "601 Columbia Avenue"
+     },
+     {
+      "canonical_name": "Days Inn By Wyndham Lexington/Columbia",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1015 South Lake Drive"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Columbia Lexington",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "131 Innkeeper Drive"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Lexington Columbia",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4751 Sunset Boulevard"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Lexington",
+      "state": "VERIFIED_NO_PETS",
+      "street": "325 West Main Street"
+     },
+     {
+      "canonical_name": "Independent (SPHC) Lexington Expo Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "108 Saluda Pointe Court"
+     },
+     {
+      "canonical_name": "Quality Inn & Suites Lexington",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "328 W. Main St., US Hwy. 1 & 378"
+     }
+    ]
+   },
+   "Blythewood": {
+    "census": 4,
+    "pet_friendly": 2,
+    "verified_no_pets": 2,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Comfort Inn Blythewood - North Columbia",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "436 McNulty Street"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Blythewood North Columbia",
+      "state": "VERIFIED_NO_PETS",
+      "street": "114 Blythewood Rd"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Blythewood",
+      "state": "VERIFIED_NO_PETS",
+      "street": "120 Creech Road"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Blythewood",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "92 Creech Rd"
+     }
+    ]
+   },
+   "Chapin": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Elgin": {
+    "census": 1,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "WoodSpring Suites Columbia Fort Jackson",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "931 Spears Creek Court"
+     }
+    ]
+   }
+  },
+  "unplaced": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "identities": []
+  }
+ },
+ "lane_yields": {
+  "osm_elements": 157,
+  "brand_inventory_leads": 283,
+  "brand_family_dispositions": {
+   "MARRIOTT_STATE_SITEMAP": "STATE_SITEMAP_ANSWERED_THIS_CLIENT",
+   "WYNDHAM": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "SONESTA": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "DRURY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "WOODSPRING": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "INTOWN": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "LOEWS": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "CHOICE": "SITEMAP_UNREACHABLE__TimeoutError",
+   "IHG": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "BEST_WESTERN": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RED_ROOF": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "MOTEL6": "SITEMAP_UNREACHABLE__TimeoutError",
+   "EXTENDED_STAY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "HYATT": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RADISSON": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "OMNI": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "FOUR_SEASONS": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403"
+  },
+  "city_bureau_rosters": {
+   "coverage": "EVERY_LISTING_IN_EACH_READ_BUREAU_LODGING_CATEGORY",
+   "listings": 116,
+   "by_bureau": {
+    "Experience Columbia SC": 116
+   },
+   "by_category": {
+    "Bed & Breakfast": 2,
+    "Boating/Kayaking/Canoeing": 1,
+    "Camping": 8,
+    "Full Service": 8,
+    "Hotels-Limited Service": 1,
+    "Limited Service": 65,
+    "Preferred Hotels": 27,
+    "Unconventional Meeting Space (Non-Hotel)": 2,
+    "Vacation Rentals": 2
+   }
+  },
+  "census_lane_observations": {
+   "OSM_OVERPASS": 138,
+   "BRAND_INVENTORY_OWNED": 30,
+   "BRAND_INVENTORY_CITY_PAGE": 33,
+   "BRAND_INVENTORY_STATE_SITEMAP": 2,
+   "BRAND_INVENTORY_SITEMAP": 19,
+   "DESTINATION_ORGANIZATION": 116,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 17,
+   "PROPERTY_PAGE": 124
+  },
+  "first_party_reads": {
+   "pages_read": 118,
+   "by_brand": {
+    "BEST_WESTERN": 2,
+    "CHOICE": 26,
+    "HILTON": 26,
+    "HYATT": 2,
+    "IHG": 12,
+    "INDEPENDENT": 2,
+    "MARRIOTT": 24,
+    "RED_ROOF": 2,
+    "STAYAPT": 1,
+    "WOODSPRING": 2,
+    "WYNDHAM": 19
+   },
+   "identity_confirmed": 118,
+   "in_market": 117,
+   "outside_market": 1,
+   "in_market_pets_allowed_true": 68,
+   "in_market_pets_allowed_false": 46,
+   "in_market_first_party_conflicts": 0
+  },
+  "wyndham_property_service": {
+   "routes": 34,
+   "read": 19,
+   "retired": 15,
+   "errors": 0
+  },
+  "clean_set": {
+   "reads_evaluated": 118,
+   "clean_pet_friendly": 64,
+   "clean_verified_no_pets": 42,
+   "resolved_census_identities": 106,
+   "unresolved_census_identities": 19,
+   "census_count": 125,
+   "rejected": 12,
+   "rejected_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 4,
+    "CO_LOCATION_RULING_REQUIRED": 2,
+    "POLICY_NOT_FOUND": 2,
+    "QUOTE_NOT_OPERATIVE": 1,
+    "SERVICE_ANIMAL_ONLY": 3
+   },
+   "pf_by_brand": {
+    "CHOICE": 13,
+    "HILTON": 22,
+    "HYATT": 2,
+    "IHG": 1,
+    "INDEPENDENT": 2,
+    "MARRIOTT": 15,
+    "RED_ROOF": 2,
+    "STAYAPT": 1,
+    "WOODSPRING": 2,
+    "WYNDHAM": 4
+   },
+   "pf_by_corridor": {
+    "columbia-sc__blythewood": 2,
+    "columbia-sc__cae-airport": 3,
+    "columbia-sc__downtown-vista-usc": 10,
+    "columbia-sc__elgin": 1,
+    "columbia-sc__fort-jackson-forest-acres": 8,
+    "columbia-sc__harbison-irmo": 10,
+    "columbia-sc__lexington": 3,
+    "columbia-sc__north-columbia-medical": 6,
+    "columbia-sc__northeast-two-notch": 6,
+    "columbia-sc__sandhills-clemson-road": 1,
+    "columbia-sc__st-andrews-bush-river": 6,
+    "columbia-sc__west-columbia-cayce": 8
+   }
+  }
+ },
+ "competitor_gap_challenge": {
+  "competitor_rows_observed": 17,
+  "also_seen_by_a_first_party_lane": 6,
+  "competitor_only": 11,
+  "competitor_only_by_class": {
+   "IDENTITY_REVIEW_REQUIRED": 2,
+   "NAME_ONLY_UNRESOLVED": 9
+  },
+  "matched_by_class": {
+   "SAME_CAMPUS_DISTINCT_ENTITY": 1,
+   "TRUE_HOTEL_IDENTITY": 5
+  }
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "0 -- no committed census or authority holds a 290xx-292xx Columbia identity.",
+  "OWNED_ROUTES": "30 -- CAE-coded Marriott routes in the committed national harvest dayton_oh_brand_directory_harvest_001 (read at zero requests); every one was re-read on Marriott's own page (6 are Santee, Orangeburg, Sumter and Camden, outside).",
+  "OWNED_VALID_POLICY_EVIDENCE": "0 -- every policy record here is a new first-party capture of this order."
+ },
+ "package": {
+  "SHADOW_PACKAGE_CREATED": "YES",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "package_id": "pkg-columbia-sc-dcc242956732dee0",
+  "PACKAGE_DIGEST": "sha256:dcc242956732dee00448fb8597ca2e64d7e552f58097de5dae3758a6d471a8f9",
+  "created_from_source_sha": "fe2d1b6afc0c0c75a77485ac5fb85984cfe37697",
+  "package_path": "launch_packages/pettripfinder/markets/staging/columbia-sc/shadow_packages/columbia-sc/pkg-columbia-sc-dcc242956732dee0.json",
+  "BUILD_INPUT_KEY": {
+   "staged_input_digest": "sha256:11be936ba5a5cd6fabadfafe7ef34f94b1c9844580c672fa516d047db6493229",
+   "changed_market_bundle_sha256": "b1e02e9c51a79e5babc63ef9e0799632d9441e6b521a416b600c94a55b52ce05",
+   "contract_sha256": "sha256:4b09956d92e833dbe55017b9f59a61adcfba191ddfa47751365f11ca0002efe6",
+   "dependency_input_digests": {
+    "market": "sha256:a79dddefc1e396f2a1d23dba287b06d33e0f38f395716f801ba7bed18135a6e0",
+    "census": "sha256:3011b78c87b3f99c5decaecafe1f14509010d46f64f5046e77d29701d69788cc",
+    "policy_package": "sha256:bfbc145208604799c0f2fbf9778395b41a831eb75607646a5ee9fca522ec4575",
+    "exclusions": "sha256:b991db1752940974b4808d89135890bf4272e6b462e11094c215d6d0ebfdab50",
+    "routing": "sha256:a3dec8c12cf0112cafe339ce755e48d9d0bb0e55015f4ff51e7b4883a03d4fca",
+    "seed": "sha256:4d77dea8e75c73765e622e7417d9755f11c6935b289a731e6cd1ccc2b338621e",
+    "partition": "sha256:da08b31636a7ab4dd467a65e937944dabac855e8b2a07c9aa11c0c9ebc08f10f"
+   }
+  },
+  "INTENDED_DELTA": {
+   "market_id": "columbia-sc",
+   "add_property_ids": [
+    "aloft by marriott columbia downtown",
+    "aloft by marriott columbia harbison",
+    "cambria hotel columbia downtown the vista",
+    "candlewood suites columbia ft jackson",
+    "chesnut cottage bed and breakfast",
+    "clarion inn columbia airport",
+    "comfort inn and suites ft jackson maingate",
+    "comfort inn blythewood north columbia",
+    "comfort inn columbia west",
+    "courtyard by marriott columbia cayce",
+    "courtyard by marriott columbia northeast fort jackson area",
+    "days inn by wyndham columbia ne fort jackson",
+    "econo lodge inn and suites cayce i 26 airport",
+    "fairfield by marriott inn and suites columbia lexington",
+    "fairfield by marriott inn and suites columbia northeast",
+    "fairfield by marriott inn and suites west columbia airport",
+    "graduate by hilton columbia s c",
+    "hampton inn and suites columbia killian road",
+    "hampton inn and suites columbia southeast ft jackson",
+    "hampton inn and suites lexington columbia",
+    "hampton inn columbia downtown historic district",
+    "hampton inn columbia i 20 clemson road",
+    "hampton inn columbia i 26 airport",
+    "hampton inn columbia i 26 harbison blvd",
+    "hampton inn columbia northeast fort jackson area",
+    "hilton garden inn columbia airport",
+    "hilton garden inn columbia downtown",
+    "hilton garden inn columbia harbison",
+    "hilton garden inn columbia northeast",
+    "home2 suites by hilton blythewood",
+    "home2 suites by hilton columbia downtown",
+    "home2 suites by hilton columbia harbison",
+    "home2 suites by hilton columbia killian road",
+    "home2 suites by hilton columbia southeast fort jackson",
+    "homewood suites by hilton columbia",
+    "hyatt place columbia downtown the vista",
+    "hyatt place columbia harbison",
+    "la quinta inn by wyndham columbia ne fort jackson",
+    "la quinta inn by wyndham columbia se fort jackson",
+    "livsmart studios by hilton columbia greystone",
+    "moxy columbia downtown",
+    "quality inn and suites ft jackson maingate",
+    "quality inn and suites lexington",
+    "quality inn columbia airport",
+    "quality inn fort jackson",
+    "red roof inn columbia east ft jackson",
+    "red roof inn columbia sc airport",
+    "residence inn by marriott columbia northeast fort jackson area",
+    "residence inn by marriott columbia northwest harbison",
+    "residence inn by marriott columbia west lexington",
+    "rodeway inn harbison area",
+    "sleep inn columbia airport",
+    "springhill suites by marriott columbia near fort jackson",
+    "stayapt suites columbia irmo harbison",
+    "suburban studios columbia harbison",
+    "super 8 by wyndham columbia",
+    "the lantern hotel columbia",
+    "towneplace suites by marriott columbia northwest harbison",
+    "towneplace suites by marriott columbia southeast fort jackson",
+    "towneplace suites by marriott columbia west lexington",
+    "tru by hilton columbia greystone",
+    "tru by hilton harbison columbia",
+    "woodspring suites columbia fort jackson",
+    "woodspring suites columbia irmo"
+   ],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/columbia-sc/",
+    "/pet-friendly-hotels/columbia-sc/aloft-by-marriott-columbia-downtown/",
+    "/pet-friendly-hotels/columbia-sc/aloft-by-marriott-columbia-harbison/",
+    "/pet-friendly-hotels/columbia-sc/cambria-hotel-columbia-downtown-the-vista/",
+    "/pet-friendly-hotels/columbia-sc/candlewood-suites-columbia-ft-jackson/",
+    "/pet-friendly-hotels/columbia-sc/chesnut-cottage-bed-breakfast/",
+    "/pet-friendly-hotels/columbia-sc/clarion-inn-columbia-airport/",
+    "/pet-friendly-hotels/columbia-sc/comfort-inn-blythewood-north-columbia/",
+    "/pet-friendly-hotels/columbia-sc/comfort-inn-columbia-west/",
+    "/pet-friendly-hotels/columbia-sc/comfort-inn-suites-ft-jackson-maingate/",
+    "/pet-friendly-hotels/columbia-sc/courtyard-by-marriott-columbia-cayce/",
+    "/pet-friendly-hotels/columbia-sc/courtyard-by-marriott-columbia-northeast-fort-jackson-area/",
+    "/pet-friendly-hotels/columbia-sc/days-inn-by-wyndham-columbia-ne-fort-jackson/",
+    "/pet-friendly-hotels/columbia-sc/downtown-vista-usc/",
+    "/pet-friendly-hotels/columbia-sc/econo-lodge-inn-suites-cayce-i-26-airport/",
+    "/pet-friendly-hotels/columbia-sc/fairfield-by-marriott-inn-suites-columbia-lexington/",
+    "/pet-friendly-hotels/columbia-sc/fairfield-by-marriott-inn-suites-columbia-northeast/",
+    "/pet-friendly-hotels/columbia-sc/fairfield-by-marriott-inn-suites-west-columbia-airport/",
+    "/pet-friendly-hotels/columbia-sc/fort-jackson-forest-acres/",
+    "/pet-friendly-hotels/columbia-sc/graduate-by-hilton-columbia-s-c/",
+    "/pet-friendly-hotels/columbia-sc/hampton-inn-columbia-downtown-historic-district/",
+    "/pet-friendly-hotels/columbia-sc/hampton-inn-columbia-i-20-clemson-road/",
+    "/pet-friendly-hotels/columbia-sc/hampton-inn-columbia-i-26-airport/",
+    "/pet-friendly-hotels/columbia-sc/hampton-inn-columbia-i-26-harbison-blvd/",
+    "/pet-friendly-hotels/columbia-sc/hampton-inn-columbia-northeast-fort-jackson-area/",
+    "/pet-friendly-hotels/columbia-sc/hampton-inn-suites-columbia-killian-road/",
+    "/pet-friendly-hotels/columbia-sc/hampton-inn-suites-columbia-southeast-ft-jackson/",
+    "/pet-friendly-hotels/columbia-sc/hampton-inn-suites-lexington-columbia/",
+    "/pet-friendly-hotels/columbia-sc/harbison-irmo/",
+    "/pet-friendly-hotels/columbia-sc/hilton-garden-inn-columbia-airport/",
+    "/pet-friendly-hotels/columbia-sc/hilton-garden-inn-columbia-downtown/",
+    "/pet-friendly-hotels/columbia-sc/hilton-garden-inn-columbia-harbison/",
+    "/pet-friendly-hotels/columbia-sc/hilton-garden-inn-columbia-northeast/",
+    "/pet-friendly-hotels/columbia-sc/home2-suites-by-hilton-blythewood/",
+    "/pet-friendly-hotels/columbia-sc/home2-suites-by-hilton-columbia-downtown/",
+    "/pet-friendly-hotels/columbia-sc/home2-suites-by-hilton-columbia-harbison/",
+    "/pet-friendly-hotels/columbia-sc/home2-suites-by-hilton-columbia-killian-road/",
+    "/pet-friendly-hotels/columbia-sc/home2-suites-by-hilton-columbia-southeast-fort-jackson/",
+    "/pet-friendly-hotels/columbia-sc/homewood-suites-by-hilton-columbia/",
+    "/pet-friendly-hotels/columbia-sc/hyatt-place-columbia-downtown-the-vista/",
+    "/pet-friendly-hotels/columbia-sc/hyatt-place-columbia-harbison/",
+    "/pet-friendly-hotels/columbia-sc/la-quinta-inn-by-wyndham-columbia-ne-fort-jackson/",
+    "/pet-friendly-hotels/columbia-sc/la-quinta-inn-by-wyndham-columbia-se-fort-jackson/",
+    "/pet-friendly-hotels/columbia-sc/livsmart-studios-by-hilton-columbia-greystone/",
+    "/pet-friendly-hotels/columbia-sc/moxy-columbia-downtown/",
+    "/pet-friendly-hotels/columbia-sc/north-columbia-medical/",
+    "/pet-friendly-hotels/columbia-sc/northeast-two-notch/",
+    "/pet-friendly-hotels/columbia-sc/quality-inn-columbia-airport/",
+    "/pet-friendly-hotels/columbia-sc/quality-inn-fort-jackson/",
+    "/pet-friendly-hotels/columbia-sc/quality-inn-suites-ft-jackson-maingate/",
+    "/pet-friendly-hotels/columbia-sc/quality-inn-suites-lexington/",
+    "/pet-friendly-hotels/columbia-sc/red-roof-inn-columbia-east-ft-jackson/",
+    "/pet-friendly-hotels/columbia-sc/red-roof-inn-columbia-sc-airport/",
+    "/pet-friendly-hotels/columbia-sc/residence-inn-by-marriott-columbia-northeast-fort-jackson-area/",
+    "/pet-friendly-hotels/columbia-sc/residence-inn-by-marriott-columbia-northwest-harbison/",
+    "/pet-friendly-hotels/columbia-sc/residence-inn-by-marriott-columbia-west-lexington/",
+    "/pet-friendly-hotels/columbia-sc/rodeway-inn-harbison-area/",
+    "/pet-friendly-hotels/columbia-sc/sleep-inn-columbia-airport/",
+    "/pet-friendly-hotels/columbia-sc/springhill-suites-by-marriott-columbia-near-fort-jackson/",
+    "/pet-friendly-hotels/columbia-sc/st-andrews-bush-river/",
+    "/pet-friendly-hotels/columbia-sc/stayapt-suites-columbia-irmo-harbison/",
+    "/pet-friendly-hotels/columbia-sc/suburban-studios-columbia-harbison/",
+    "/pet-friendly-hotels/columbia-sc/super-8-by-wyndham-columbia/",
+    "/pet-friendly-hotels/columbia-sc/the-lantern-hotel-columbia/",
+    "/pet-friendly-hotels/columbia-sc/towneplace-suites-by-marriott-columbia-northwest-harbison/",
+    "/pet-friendly-hotels/columbia-sc/towneplace-suites-by-marriott-columbia-southeast-fort-jackson/",
+    "/pet-friendly-hotels/columbia-sc/towneplace-suites-by-marriott-columbia-west-lexington/",
+    "/pet-friendly-hotels/columbia-sc/tru-by-hilton-columbia-greystone/",
+    "/pet-friendly-hotels/columbia-sc/tru-by-hilton-harbison-columbia/",
+    "/pet-friendly-hotels/columbia-sc/west-columbia-cayce/",
+    "/pet-friendly-hotels/columbia-sc/woodspring-suites-columbia-fort-jackson/",
+    "/pet-friendly-hotels/columbia-sc/woodspring-suites-columbia-irmo/"
+   ],
+   "change_routes": [],
+   "remove_routes": [],
+   "expected_profile_delta": 64,
+   "expected_verified_no_pets_delta": 42,
+   "expected_market_count_delta": 1,
+   "expected_participation_delta": [
+    {
+     "market_id": "columbia-sc",
+     "from": false,
+     "to": true
+    }
+   ],
+   "joining_market_profiles": 64,
+   "joining_market_verified_no_pets": 42,
+   "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
+  },
+  "VALIDATION_RECEIPT": {
+   "path": "launch_packages/pettripfinder/markets/staging/columbia-sc/shadow_receipts/columbia-sc/pkg-columbia-sc-dcc242956732dee0-69f8bb7ce3af6e5b.json",
+   "digest": "sha256:69f8bb7ce3af6e5b7a1af5479b9285243e392d8a421223768424b3662db4987b",
+   "eligible": "YES",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown": [],
+   "failed": [],
+   "determinism": "BYTE_IDENTICAL"
+  },
+  "COVERAGE_SCORECARD": {
+   "census_count": 125,
+   "published_pet_friendly": 64,
+   "verified_no_pets": 42,
+   "out_of_category": 0,
+   "unresolved": 19,
+   "public_routes": 76,
+   "evidence_references": 106,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 0,
+   "counts_by_partition_state": {
+    "AWAITING_OFFICIAL_URL": 2,
+    "AWAITING_POLICY_OBSERVATION": 17,
+    "PUBLISHED_PET_FRIENDLY": 64,
+    "VERIFIED_NO_PETS": 42
+   }
+  },
+  "parent_binding": "parent_live_state names the live release this branch lineage carries (Atlanta, deploy 6aa7f125...; production has since moved to Charleston on another branch). That is what this package was validated against. Once any later market is live, FAST rule N fails this package BY DESIGN; the registration order -- when Columbia reaches the front of the release queue -- re-seals the same committed inputs against that parent as a NEW package id. Nothing here is a production candidate, and no whole-site build was assembled."
+ },
+ "factory_code_changed": "NO -- every changed path is a columbia_sc_* helper, the market's discovery config, or a document under the market's own proposed / staging / report paths",
+ "shared_factory_notes_recorded_not_repaired": [
+  "The shared first-party reader does not read Hotel Trundle's 'While we love pets, we kindly ask that you leave your furry friends at home.' as a refusal, reads Motel 6's 'Pets welcome throughout your stay' as an amenity label, and reads Days Inn & Suites Columbia Airport's 'Maximum 2 pets up to 100 lbs allowed ...' as a service-animal statement; those rows are held with the exact wording.",
+  "Hilton's 'Service animals only' petsInfo (Hilton Columbia Center, DoubleTree Columbia) is a service-animal carve-out, not a refusal, and is held SERVICE_ANIMAL_ONLY.",
+  "InTown Suites' property pages state no postal code, so their refusals cannot bind by the page's own street identity (ADDRESS_NOT_ON_DOCUMENT)."
+ ],
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO -- FAST composes the release index in memory only",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts, identity_resolutions.json and the market registry are unchanged",
+ "next_order": [
+  "When Columbia reaches the front of the serialized release lane, read CURRENT VERIFIED LIVE and merge that live parent into worker/ptf-columbia-sc-market-001; the Atlanta binding of this shadow package is then invalid (FAST rule N fails it by design).",
+  "Copy markets/proposed/columbia-sc.json -> markets/columbia-sc.json, identity_census_proposed/columbia-sc.json -> identity_census/columbia-sc.json and the staged launch_package documents (hotel_policy_facts_columbia-sc.json, columbia_sc_final_partition_007.json, the authority shard) into their registered paths; repoint the helpers' paths; re-stage the census copy after ANY census edit.",
+  "Record the same-campus resolution for the two pet-friendly Hilton hotels at 400 Gervais Street (Homewood Suites caecahw / Tru caeruru) in identity_resolutions.json, releasing both CO_LOCATION_RULING_REQUIRED holds; the Wyndham Garden / Hawthorn pair at 1539 Horseshoe Drive needs a first-party proof of two bookable hotels first.",
+  "market_registration_cli --write, build_global_authority --write then --check, the release contract, registration_release_lane register + seal --work-order (a NEW package id), FAST.",
+  "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder packet; deploy only on founder authorization.",
+  "Before sealing: re-read IHG caedt (Holiday Inn Express Downtown / The Vista) for a corrected postal code, IHG caers (Staybridge) for an FAQ answer and Marriott caenr (StudioRes) for a Pet Policy row; find address-bearing InTown and Motel 6 documents; settle Flutter Wing's lodging category; route the map-only Knights Inn and Travelers Inn."
+ ]
+}
