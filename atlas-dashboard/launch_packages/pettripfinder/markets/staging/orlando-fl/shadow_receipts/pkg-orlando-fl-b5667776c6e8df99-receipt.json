@@ -1,0 +1,113 @@
+{
+ "schema": "ptf-orlando-fl-shadow-receipt/1.0",
+ "market_id": "orlando-fl",
+ "work_order": "PTF-ORLANDO-FL-PARALLEL-SOURCE-READY-001",
+ "package": "launch_packages/pettripfinder/markets/staging/orlando-fl/shadow_packages/pkg-orlando-fl-b5667776c6e8df99.json",
+ "package_digest_sha256": "b5667776c6e8df99a6e2ac1989ccb7660dbf524e2dd7ba3963ab05741c9f88c8",
+ "package_file_sha256": "58540da421f5ad0c195e6e492849c96bd9c7176d9fcbce7153460677afce69af",
+ "lifecycle": "SHADOW_UNTIL_REGISTERED",
+ "fast": {
+  "applicable": 15,
+  "passed": 15,
+  "unknown": 0,
+  "failed": 0,
+  "checks": [
+   {
+    "n": 1,
+    "status": "PASS",
+    "name": "census.validate (FL-only)",
+    "detail": "545 rows"
+   },
+   {
+    "n": 2,
+    "status": "PASS",
+    "name": "partition.validate",
+    "detail": ""
+   },
+   {
+    "n": 3,
+    "status": "PASS",
+    "name": "partition.reconcile == census identity keys",
+    "detail": "published 87 / no-pets 2 / unresolved 456"
+   },
+   {
+    "n": 4,
+    "status": "PASS",
+    "name": "identity_key.key_collisions empty",
+    "detail": ""
+   },
+   {
+    "n": 5,
+    "status": "PASS",
+    "name": "identity_routing.validate_authority (shadow shard)",
+    "detail": ""
+   },
+   {
+    "n": 6,
+    "status": "PASS",
+    "name": "hotel_exclusions.validate (shadow shard)",
+    "detail": ""
+   },
+   {
+    "n": 7,
+    "status": "PASS",
+    "name": "markets.contract.parse_market (staged config)",
+    "detail": "23 corridors"
+   },
+   {
+    "n": 8,
+    "status": "PASS",
+    "name": "zero non-FL / OUTSIDE rows in census",
+    "detail": ""
+   },
+   {
+    "n": 9,
+    "status": "PASS",
+    "name": "corridor assignment complete; explicit ids == census; nothing navigable",
+    "detail": "page-eligible corridors (PF >= 5): 8 / 23"
+   },
+   {
+    "n": 10,
+    "status": "PASS",
+    "name": "orlando-fl absent from LIVE registry and sharded_market_ids()",
+    "detail": ""
+   },
+   {
+    "n": 11,
+    "status": "PASS",
+    "name": "zero drift in LIVE generated global artifacts",
+    "detail": ""
+   },
+   {
+    "n": 12,
+    "status": "PASS",
+    "name": "byte-reproducible rebuild in an independent process",
+    "detail": "9 outputs byte-identical in an independent process"
+   },
+   {
+    "n": 13,
+    "status": "PASS",
+    "name": "git status touches only orlando-owned paths",
+    "detail": ""
+   },
+   {
+    "n": 14,
+    "status": "PASS",
+    "name": "evidence integrity: every terminal row backed by a re-hashed durable first-party page",
+    "detail": "117 evidence rows over 145 stored pages re-hashed"
+   },
+   {
+    "n": 15,
+    "status": "PASS",
+    "name": "lodging safety: no unit/timeshare/vacation rental admitted; accounting reconciles",
+    "detail": "0 timeshare / vacation-rental / resort-residence / unit identities admitted"
+   }
+  ],
+  "reproduction": {
+   "run_a": "independent process, no resolve cache, temp out-root, from the working tree (FAST check 12): 9/9 outputs byte-identical",
+   "run_b": "clean detached git worktree at commit 9fecd09a (core.autocrlf checkout), fresh process: 9/9 outputs byte-identical",
+   "byte_identical": true,
+   "nondeterministic_files": []
+  }
+ }
+}
