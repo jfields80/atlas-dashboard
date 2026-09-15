@@ -68,7 +68,7 @@ def family(name, brand=""):
 def main():
     census = json.load(open(os.path.join(PKG, "identity_census_proposed", "orlando-fl.json"), encoding="utf-8"))
     part = json.load(open(os.path.join(PKG, "markets", "staging", "orlando-fl", "launch_package",
-                                       "orlando_fl_v2_final_partition_001.json"), encoding="utf-8"))
+                                       "orlando_fl_final_partition_v2_001.json"), encoding="utf-8"))
     clean = L("orlando_fl_v2_clean_authority_001.json")
     fc = L("orlando_fl_v2_firecrawl_pass_001.json", {}) or {}
     disc = L("orlando_fl_v2_firecrawl_discovery_001.json", {}) or {}
