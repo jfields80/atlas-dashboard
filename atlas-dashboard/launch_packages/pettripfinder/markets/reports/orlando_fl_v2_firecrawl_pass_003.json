@@ -1,0 +1,95 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-ORLANDO-FL-HARDENED-V2-SOURCE-READY-001",
+ "market_id": "orlando-fl",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "orlando_fl_v2_firecrawl_003",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "STANDING DOCTRINE for a small cohort in this shape (PTF-INDIANAPOLIS-FIRECRAWL-RECOVERY-021, 36 rows / 17 credits; PTF-CINCINNATI-HARDENED-REVALIDATION-001, 7-credit cap)",
+  "cap_attempts": 2,
+  "credit_floor": 400,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 0,
+  "static_to_attended": 0,
+  "firecrawl_candidates": 0,
+  "share_static_to_attended": 0.0,
+  "share_firecrawl_candidates": 0.0,
+  "threshold": 0.2,
+  "warning": false,
+  "message": ""
+ },
+ "planned_rows": 1,
+ "attempted_rows": 1,
+ "stopped_by": "",
+ "credits": {
+  "before": 562,
+  "after": 561,
+  "delta": 1,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {},
+  "unbound": [
+   {
+    "identity_key": "choice-route::fla64",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 1,
+  "results": 1
+ },
+ "class_counts": {
+  "FIRECRAWL_FAILED": 1
+ },
+ "outcome_counts": {
+  "UNEXPECTED_PAGE": 1
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "choice-route::fla64",
+   "canonical_name": "choice-route::fla64",
+   "family": "CHOICE",
+   "cohort": "CLOSURE_ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/florida/davenport/comfort-inn-hotels/fla64",
+   "final_url": "https://www.choicehotels.com/florida/davenport/comfort-inn-hotels",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-15T21:20:37.154781+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/florida/davenport/comfort-inn-hotels/fla64"
+    },
+    "envelope_sha256": "36595a0ad64e7e9a66c0406df96a5e35554a999c2ae45fe455fe4fbdfbafb5e4"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\orlando_fl_v2_firecrawl_003\\choice-route-fla64\\attempt-01",
+   "ladder_reason": "CLOSURE_002_CORRIDOR_CRITICAL_FOUR_CORNERS_ROUTE_FROM_DISCOVERY_SEARCH",
+   "firecrawl_measured_by": "PTF-CHOICE-FIRECRAWL-ROUTE-TABLE",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  }
+ ]
+}

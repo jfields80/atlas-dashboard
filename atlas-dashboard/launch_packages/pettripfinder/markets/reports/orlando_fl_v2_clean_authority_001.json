@@ -8,20 +8,20 @@
  "what_is_excluded": "Everything that is not an operative first-party statement of acceptance or refusal, bound to an ADMITTED census identity by the street identity the page itself states. A read that joins no census row, joins a withheld row, states no policy, or states only a fee / weight / count / amenity chip / service-animal sentence is reported in `rejected` with its class and publishes nothing.",
  "one_identity_classified_once": "The join is on street identity, so two brands at one address cannot both settle it: the census already withheld those buildings as a founder ruling, and a second read of an already-settled identity is reported DUPLICATE_READ_FOR_ONE_IDENTITY.",
  "counts": {
-  "reads_evaluated": 350,
-  "clean_pet_friendly": 168,
-  "clean_verified_no_pets": 121,
-  "resolved_census_identities": 289,
-  "unresolved_census_identities": 293,
-  "census_count": 582,
-  "rejected": 61,
+  "reads_evaluated": 386,
+  "clean_pet_friendly": 201,
+  "clean_verified_no_pets": 122,
+  "resolved_census_identities": 323,
+  "unresolved_census_identities": 260,
+  "census_count": 583,
+  "rejected": 63,
   "rejected_by_class": {
-   "AMENITY_CHIP_ONLY": 3,
+   "AMENITY_CHIP_ONLY": 2,
    "CENSUS_ROW_NOT_ADMITTED": 6,
    "CO_LOCATION_RULING_REQUIRED": 10,
    "DUPLICATE_READ_FOR_ONE_IDENTITY": 17,
-   "FEE_ONLY": 1,
-   "IDENTITY_HOLD": 4,
+   "FEE_ONLY": 2,
+   "IDENTITY_HOLD": 6,
    "NEGATION_HOLD_UNREADABLE_REFUSAL": 5,
    "OUTSIDE_MARKET_READ": 9,
    "POLICY_NOT_FOUND": 2,
@@ -32,36 +32,37 @@
    "BEST_WESTERN": 1,
    "CHOICE": 17,
    "DISNEY": 3,
+   "DRURY": 2,
    "EXTENDED_STAY": 19,
-   "HILTON": 40,
-   "HYATT": 6,
+   "HILTON": 55,
+   "HYATT": 8,
    "IHG": 15,
-   "INDEPENDENT": 13,
-   "LOEWS": 3,
-   "MARRIOTT": 24,
-   "SONESTA": 3,
+   "INDEPENDENT": 17,
+   "LOEWS": 4,
+   "MARRIOTT": 32,
+   "SONESTA": 4,
    "WYNDHAM": 24
   },
   "pf_by_corridor": {
    "orlando-fl__altamonte-springs-longwood": 8,
-   "orlando-fl__apopka": 1,
+   "orlando-fl__apopka": 2,
    "orlando-fl__celebration-west-192": 8,
    "orlando-fl__clermont": 6,
-   "orlando-fl__downtown-orlando": 5,
-   "orlando-fl__east-orlando-ucf": 7,
-   "orlando-fl__flamingo-crossings-winter-garden": 5,
+   "orlando-fl__downtown-orlando": 7,
+   "orlando-fl__east-orlando-ucf": 10,
+   "orlando-fl__flamingo-crossings-winter-garden": 6,
    "orlando-fl__four-corners-davenport": 2,
-   "orlando-fl__international-drive-universal": 42,
+   "orlando-fl__international-drive-universal": 50,
    "orlando-fl__kissimmee-east": 2,
    "orlando-fl__kissimmee-us192-maingate": 7,
-   "orlando-fl__lake-buena-vista": 9,
+   "orlando-fl__lake-buena-vista": 12,
    "orlando-fl__lake-mary-sanford": 13,
-   "orlando-fl__mco-airport": 16,
+   "orlando-fl__mco-airport": 21,
    "orlando-fl__north-orlando-lee-road": 5,
-   "orlando-fl__seaworld-idrive-south": 15,
+   "orlando-fl__seaworld-idrive-south": 22,
    "orlando-fl__south-orlando": 11,
-   "orlando-fl__walt-disney-world": 4,
-   "orlando-fl__winter-park-maitland": 2
+   "orlando-fl__walt-disney-world": 5,
+   "orlando-fl__winter-park-maitland": 4
   }
  },
  "clean_pet_friendly": [
@@ -1644,6 +1645,158 @@
      "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "DRURY",
+   "source_url": "https://www.druryhotels.com/locations/orlando-fl/drury-inn-and-suites-near-universal-orlando-resort",
+   "final_url": "https://www.druryhotels.com/locations/orlando-fl/drury-inn-and-suites-near-universal-orlando-resort",
+   "document_sha256": "822b464ced8d4b7c93e33e988e5604203ee95006dd74189dcffc725a873efa5d",
+   "document_bytes": 286707,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Drury Inn & Suites near Universal Orlando Resort",
+    "address_on_page": "7301 W Sand Lake Rd",
+    "postal_code": "32819",
+    "locality": "",
+    "region": "FL",
+    "phone_on_page": "407.354.1101",
+    "property_code_on_page": "",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_PAGE",
+   "property_code": "",
+   "identity_key": "drury inn and suites near universal orlando resort",
+   "canonical_name": "Drury Inn & Suites near Universal Orlando Resort",
+   "corridor": "orlando-fl__international-drive-universal",
+   "surface": "the property's own page, Pet Policy block",
+   "operative_quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 80,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "weight_basis": "combined",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "weight_basis"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "DRURY",
+   "source_url": "https://www.druryhotels.com/locations/orlando-fl/drury-plaza-hotel-orlando",
+   "final_url": "https://www.druryhotels.com/locations/orlando-fl/drury-plaza-hotel-orlando",
+   "document_sha256": "b223a35568bcd1e371b725d9eb432b405edcae93739b8fdb62feec1331c4dc4a",
+   "document_bytes": 405715,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Drury Plaza Hotel Orlando - Disney Springs Area",
+    "address_on_page": "2000 Hotel Plaza Blvd",
+    "postal_code": "32830",
+    "locality": "",
+    "region": "FL",
+    "phone_on_page": "4075606111",
+    "property_code_on_page": "",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_PAGE",
+   "property_code": "",
+   "identity_key": "drury plaza hotel orlando disney springs area",
+   "canonical_name": "Drury Plaza Hotel Orlando - Disney Springs Area",
+   "corridor": "orlando-fl__walt-disney-world",
+   "surface": "the property's own page, Pet Policy block",
+   "operative_quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 80,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "weight_basis": "combined",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy Dogs and cats accepted. Limit of two pets per room with a combined weight of 80 pounds.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "weight_basis"
      ]
     }
    ]
@@ -3613,6 +3766,65 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orlnshx-hampton-suites-orlando-at-seaworld/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orlnshx-hampton-suites-orlando-at-seaworld/hotel-info/",
+   "document_sha256": "6466a76b4e63ccdb0185c348f8423a92bd6a30960d9f64368bab06168b8c3b77",
+   "document_bytes": 540,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Orlando at SeaWorld",
+    "address_on_page": "7003 Sea Harbor Drive",
+    "postal_code": "32821",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-778-5900",
+    "property_code_on_page": "orlnshx",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlnshx",
+   "identity_key": "hampton inn and suites orlando at seaworld",
+   "canonical_name": "Hampton Inn & Suites Orlando at SeaWorld",
+   "corridor": "orlando-fl__seaworld-idrive-south",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/mcosmhx-hampton-suites-orlando-downtown-south-medical-center/hotel-info/",
    "final_url": "https://www.hilton.com/en/hotels/mcosmhx-hampton-suites-orlando-downtown-south-medical-center/hotel-info/",
    "document_sha256": "31bf8ab7c610f454aa6f39c31751d6137a5cdf626ff721da42619b8fd14dec8e",
@@ -3643,6 +3855,46 @@
    "evidence": [
     {
      "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: small",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/mcouchx-hampton-suites-orlando-east-ucf-area/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/mcouchx-hampton-suites-orlando-east-ucf-area/hotel-info/",
+   "document_sha256": "0f7239582369b6fe68122b36f8ad0003e783f94c9a7882522d236276db4488d7",
+   "document_bytes": 552,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Orlando/East UCF Area",
+    "address_on_page": "3450 Quadrangle Boulevard",
+    "postal_code": "32817",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-282-0029",
+    "property_code_on_page": "mcouchx",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcouchx",
+   "identity_key": "hampton inn and suites orlando east ucf area",
+   "canonical_name": "Hampton Inn & Suites Orlando/East UCF Area",
+   "corridor": "orlando-fl__east-orlando-ucf",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: large",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: large",
      "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
      "field_refs": [
       "pets_allowed"
@@ -4058,6 +4310,94 @@
   },
   {
    "lane": "ATTENDED_BROWSER",
+   "brand": "LOEWS",
+   "source_url": "https://www.universalorlando.com/web/en/us/places-to-stay/hard-rock-hotel",
+   "final_url": "https://www.universalorlando.com/web/en/us/places-to-stay/hard-rock-hotel",
+   "document_sha256": "e81dded17f58f2fd3705d381dfd4bfb8234a7adbc83d98718b9843a7ab01514d",
+   "document_bytes": 839,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hard Rock Hotel at Universal Orlando",
+    "address_on_page": "5800 Universal Blvd",
+    "postal_code": "32819",
+    "locality": "",
+    "region": "FL",
+    "phone_on_page": "",
+    "property_code_on_page": "",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "ADDRESS_ON_THE_OPERATOR_PROPERTY_PAGE_PLUS_POLICY_ON_THE_OPERATOR_HOTEL_PAGE",
+   "property_code": "",
+   "identity_key": "hard rock hotel at universal orlando",
+   "canonical_name": "Hard Rock Hotel at Universal Orlando",
+   "corridor": "orlando-fl__international-drive-universal",
+   "surface": "the property's own page, the bounded policy container the shared reader located",
+   "operative_quote": "Pet Policy Pets are permitted for a $150††† fee in a pet-friendly room category (if you book a non-pet room, you’ll be re-assigned one upon arrival) with no more than two pets in any one guest room.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy Pets are permitted for a $150††† fee in a pet-friendly room category (if you book a non-pet room, you’ll be re-assigned one upon arrival) with no more than two pets in any one guest room.",
+     "location": "the property's own page, the bounded policy container the shared reader located",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy Pets are permitted for a $150††† fee in a pet-friendly room category (if you book a non-pet room, you’ll be re-assigned one upon arrival) with no more than two pets in any one guest room.",
+     "location": "the property's own page, the bounded policy container the shared reader located",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/sfbakgi-hilton-garden-inn-apopka-city-center/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/sfbakgi-hilton-garden-inn-apopka-city-center/hotel-info/",
+   "document_sha256": "f2b2af60b14122a9ed16f5cdecf4ec091ec86c63fdd420b612144d55116656d8",
+   "document_bytes": 531,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Apopka City Center",
+    "address_on_page": "580 E. Main Street",
+    "postal_code": "32703",
+    "locality": "Apopka",
+    "region": "FL",
+    "phone_on_page": "+1 407-703-4493",
+    "property_code_on_page": "sfbakgi",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "sfbakgi",
+   "identity_key": "hilton garden inn apopka city center",
+   "canonical_name": "Hilton Garden Inn Apopka City Center",
+   "corridor": "orlando-fl__apopka",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/mcobvgi-hilton-garden-inn-lake-buena-vista-orlando/hotel-info/",
    "final_url": "https://www.hilton.com/en/hotels/mcobvgi-hilton-garden-inn-lake-buena-vista-orlando/hotel-info/",
@@ -4148,6 +4488,233 @@
    "evidence": [
     {
      "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: medium",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orlahgi-hilton-garden-inn-orlando-airport/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orlahgi-hilton-garden-inn-orlando-airport/hotel-info/",
+   "document_sha256": "36cf0d0216bc666a8c038761642bfdfa6b100ea5220187ec2871107fa21aab62",
+   "document_bytes": 541,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Orlando Airport",
+    "address_on_page": "7300 Augusta National Drive",
+    "postal_code": "32822",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-240-3725",
+    "property_code_on_page": "orlahgi",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlahgi",
+   "identity_key": "hilton garden inn orlando airport",
+   "canonical_name": "Hilton Garden Inn Orlando Airport",
+   "corridor": "orlando-fl__mco-airport",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n), $125(5+n)2pets Max,dog/cat",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n), $125(5+n)2pets Max,dog/cat",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n), $125(5+n)2pets Max,dog/cat",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orlsegi-hilton-garden-inn-orlando-at-seaworld/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orlsegi-hilton-garden-inn-orlando-at-seaworld/hotel-info/",
+   "document_sha256": "925c9380a04b60b3c66f3ae6fedfb163039e070c38c50a3ddfc2d1babf854259",
+   "document_bytes": 493,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Orlando at SeaWorld",
+    "address_on_page": "6850 Westwood Boulevard",
+    "postal_code": "32821",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-354-1500",
+    "property_code_on_page": "orlsegi",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlsegi",
+   "identity_key": "hilton garden inn orlando at seaworld",
+   "canonical_name": "Hilton Garden Inn Orlando at SeaWorld",
+   "corridor": "orlando-fl__seaworld-idrive-south",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orlucgi-hilton-garden-inn-orlando-east-ucf-area/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orlucgi-hilton-garden-inn-orlando-east-ucf-area/hotel-info/",
+   "document_sha256": "85550f444b6638468e28b1b8eace180e167daf454c80568c1fb338d843e09bcc",
+   "document_bytes": 609,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Orlando East/UCF Area",
+    "address_on_page": "1959 N. Alafaya Trail",
+    "postal_code": "32826",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-992-5000",
+    "property_code_on_page": "orlucgi",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlucgi",
+   "identity_key": "hilton garden inn orlando east ucf area",
+   "canonical_name": "Hilton Garden Inn Orlando East/UCF Area",
+   "corridor": "orlando-fl__east-orlando-ucf",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75 plus tax(1-4nts), $125 plus tax(5+nts) 2 pets Max, dog/cat only.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75 plus tax(1-4nts), $125 plus tax(5+nts) 2 pets Max, dog/cat only.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75 plus tax(1-4nts), $125 plus tax(5+nts) 2 pets Max, dog/cat only.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75 plus tax(1-4nts), $125 plus tax(5+nts) 2 pets Max, dog/cat only.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orlihgi-hilton-garden-inn-orlando-international-drive-north/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orlihgi-hilton-garden-inn-orlando-international-drive-north/hotel-info/",
+   "document_sha256": "25122e376da3eb5af4abd133e5459538217510bd13c2be1195d77c3b00445ef3",
+   "document_bytes": 583,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Orlando International Drive North",
+    "address_on_page": "5877 American Way",
+    "postal_code": "32819",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-363-9332",
+    "property_code_on_page": "orlihgi",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlihgi",
+   "identity_key": "hilton garden inn orlando international drive north",
+   "canonical_name": "Hilton Garden Inn Orlando International Drive North",
+   "corridor": "orlando-fl__international-drive-universal",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: large",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: large",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/mcowpgi-hilton-garden-inn-winter-park/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/mcowpgi-hilton-garden-inn-winter-park/hotel-info/",
+   "document_sha256": "c3e6e65830c16adaa93993a1d126bbc54c9c9ff6b80d9b4dd9cc64d239228c7b",
+   "document_bytes": 519,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Winter Park",
+    "address_on_page": "1275 Lee Road",
+    "postal_code": "32789",
+    "locality": "Winter Park",
+    "region": "FL",
+    "phone_on_page": "+1 407-755-3733",
+    "property_code_on_page": "mcowpgi",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcowpgi",
+   "identity_key": "hilton garden inn winter park",
+   "canonical_name": "Hilton Garden Inn Winter Park",
+   "corridor": "orlando-fl__winter-park-maitland",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $125.00. Pet policy: medium",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $125.00. Pet policy: medium",
      "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
      "field_refs": [
       "pets_allowed"
@@ -4843,6 +5410,54 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orlapht-home2-suites-orlando-airport/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orlapht-home2-suites-orlando-airport/hotel-info/",
+   "document_sha256": "c479b4fd80a7ecc44a642c6e7fd36d3ec531a9e0da85d9e96231cec269123afc",
+   "document_bytes": 533,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Orlando Airport",
+    "address_on_page": "5445 Hazeltine National Drive",
+    "postal_code": "32812",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-852-0844",
+    "property_code_on_page": "orlapht",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlapht",
+   "identity_key": "home2 suites by hilton orlando airport",
+   "canonical_name": "Home2 Suites by Hilton Orlando Airport",
+   "corridor": "orlando-fl__mco-airport",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75 1-4 nights/$125 5+nights, 2 pets max",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/mcoflht-home2-suites-orlando/hotel-info/",
    "final_url": "https://www.hilton.com/en/hotels/mcoflht-home2-suites-orlando/hotel-info/",
    "document_sha256": "1c3f11bcf4c26e64f1b6164311942837f12a56b8135c2f3272ac359b8499b876",
@@ -4963,6 +5578,46 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orlusht-home2-suites-orlando-near-universal/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orlusht-home2-suites-orlando-near-universal/hotel-info/",
+   "document_sha256": "0ca4421430bec7c296c77b194a0c29c2fdecc2017bbace3a581b0e61f2f16d6d",
+   "document_bytes": 530,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Orlando Near Universal",
+    "address_on_page": "5910 American Way",
+    "postal_code": "32819",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-519-3151",
+    "property_code_on_page": "orlusht",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlusht",
+   "identity_key": "home2 suites by hilton orlando near universal",
+   "canonical_name": "Home2 Suites by Hilton Orlando Near Universal",
+   "corridor": "orlando-fl__international-drive-universal",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/mcopoht-home2-suites-orlando-south-davenport/hotel-info/",
    "final_url": "https://www.hilton.com/en/hotels/mcopoht-home2-suites-orlando-south-davenport/hotel-info/",
    "document_sha256": "6ebf1ec6a9dd0c10bfc7a88070c162a7fc6d53c4a769b5f33ed5b7754e4075c0",
@@ -5003,6 +5658,46 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orljoht-home2-suites-orlando-south-park/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orljoht-home2-suites-orlando-south-park/hotel-info/",
+   "document_sha256": "9b7a631fd846b92cd63bc6419005bc39c1784071fc7e3c4ae713db3f58673072",
+   "document_bytes": 541,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Orlando South Park",
+    "address_on_page": "2800 Destination Parkway",
+    "postal_code": "32819",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-355-9222",
+    "property_code_on_page": "orljoht",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orljoht",
+   "identity_key": "home2 suites by hilton orlando south park",
+   "canonical_name": "Home2 Suites by Hilton Orlando South Park",
+   "corridor": "orlando-fl__international-drive-universal",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: medium",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: medium",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/mcohtht-home2-suites-sanford-orlando-north/hotel-info/",
    "final_url": "https://www.hilton.com/en/hotels/mcohtht-home2-suites-sanford-orlando-north/hotel-info/",
    "document_sha256": "372cac80d6ec72e2e9e28d937246b5bae4f90642691fed51c714e54f6cd0a354",
@@ -5033,6 +5728,46 @@
    "evidence": [
     {
      "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: medium",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/mcownht-home2-suites-winter-garden/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/mcownht-home2-suites-winter-garden/hotel-info/",
+   "document_sha256": "d7a0b7243818166bdc948af9b72ad4c7154ce4c42c8f3bf9509999507300741a",
+   "document_bytes": 526,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Winter Garden",
+    "address_on_page": "12341 West Colonial Drive",
+    "postal_code": "34787",
+    "locality": "Winter Garden",
+    "region": "FL",
+    "phone_on_page": "+1 407-347-8305",
+    "property_code_on_page": "mcownht",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcownht",
+   "identity_key": "home2 suites by hilton winter garden",
+   "canonical_name": "Home2 Suites by Hilton Winter Garden",
+   "corridor": "orlando-fl__flamingo-crossings-winter-garden",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00",
      "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
      "field_refs": [
       "pets_allowed"
@@ -5310,6 +6045,65 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orlwwhw-homewood-suites-orlando-theme-parks/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orlwwhw-homewood-suites-orlando-theme-parks/hotel-info/",
+   "document_sha256": "765d1e5459508b86a3cb37ef358663b160ca021ccb6b6e4f0beafb0691b67dde",
+   "document_bytes": 556,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Homewood Suites by Hilton Orlando Theme Parks",
+    "address_on_page": "6940 Westwood Blvd",
+    "postal_code": "32821",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-778-5888",
+    "property_code_on_page": "orlwwhw",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlwwhw",
+   "identity_key": "homewood suites by hilton orlando theme parks",
+   "canonical_name": "Homewood Suites by Hilton Orlando Theme Parks",
+   "corridor": "orlando-fl__seaworld-idrive-south",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$125(5+n) 2 pets Max ,dog/cat only.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$125(5+n) 2 pets Max ,dog/cat only.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$125(5+n) 2 pets Max ,dog/cat only.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$125(5+n) 2 pets Max ,dog/cat only.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/mcoafhw-homewood-suites-orlando-ucf-area/hotel-info/",
    "final_url": "https://www.hilton.com/en/hotels/mcoafhw-homewood-suites-orlando-ucf-area/hotel-info/",
    "document_sha256": "590ecd7a00ea18847d429ee6abd494648c5c6c9b9daba409b30c3d20434ff30d",
@@ -5430,6 +6224,88 @@
    ]
   },
   {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/mcost-hotel-landy-orlando-universal-blvd-a-tribute-portfolio-hotel/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/mcost-hotel-landy-orlando-universal-blvd-a-tribute-portfolio-hotel/overview/",
+   "document_sha256": "1cba18f472abc8944e8dc640f54f16ce2053b7f92e33e11ae66058a1c9fdbd1f",
+   "document_bytes": 786,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hotel Landy Orlando Universal Blvd., a Tribute Portfolio™ Hotel",
+    "address_on_page": "7800 Universal Boulevard",
+    "postal_code": "32819",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-355-0550",
+    "property_code_on_page": "mcost",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcost",
+   "identity_key": "hotel landy orlando universal blvd a tribute portfolio hotel",
+   "canonical_name": "Hotel Landy Orlando Universal Blvd., a Tribute Portfolio Hotel",
+   "corridor": "orlando-fl__international-drive-universal",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: Pets Welcome. | Non-refundable pet fee per stay for up to 2 pets, up to 7 days. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "weight_limit": 100.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: Pets Welcome. | Non-refundable pet fee per stay for up to 2 pets, up to 7 days. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Non-refundable pet fee per stay for up to 2 pets, up to 7 days. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Non-refundable pet fee per stay for up to 2 pets, up to 7 days. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Non-refundable pet fee per stay for up to 2 pets, up to 7 days. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Non-refundable pet fee per stay for up to 2 pets, up to 7 days. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Non-refundable pet fee per stay for up to 2 pets, up to 7 days. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
    "lane": "DIRECT_STATIC_FETCH",
    "brand": "WYNDHAM",
    "source_url": "https://www.wyndhamhotels.com/hojo/kissimmee-florida/howard-johnson-orlando-lake-buena-vista-south/overview",
@@ -5499,6 +6375,46 @@
      "location": "the client-rendered .pet-policy-desc element on the property's own page",
      "field_refs": [
       "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HYATT",
+   "source_url": "https://www.hyatt.com/hyatt-house/en-US/orlxa-hyatt-house-orlando-airport",
+   "final_url": "https://www.hyatt.com/hyatt-house/en-US/orlxa-hyatt-house-orlando-airport",
+   "document_sha256": "3ceaf3300b3ba4a7b94223f9baed89c71f7c2f76c66f30f0e2ef32e144499ee1",
+   "document_bytes": 754,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hyatt House Orlando Airport",
+    "address_on_page": "5472 Gateway Village Cir",
+    "postal_code": "32812",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407 858 0801",
+    "property_code_on_page": "orlxa",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlxa",
+   "identity_key": "hyatt house orlando airport",
+   "canonical_name": "Hyatt House Orlando Airport",
+   "corridor": "orlando-fl__mco-airport",
+   "surface": "the property page's own pet module",
+   "operative_quote": "We Are Pet Friendly | There's no reason to leave your furry friends at home: We're happy to have them at our pet-friendly  | Pet Fees | 1–6 nights | $100 | STAY | 7–30 nights + additional cleaning fee | $200 | STAY | Weight Limits | Individual pet weight limit | Pounds | Maximum number of pets is 2.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "We Are Pet Friendly | There's no reason to leave your furry friends at home: We're happy to have them at our pet-friendly  | Pet Fees | 1–6 nights | $100 | STAY | 7–30 nights + additional cleaning fee | $200 | STAY | Weight Limits | Individual pet weight limit | Pounds | Maximum number of pets is 2.",
+     "location": "the property page's own pet module",
+     "field_refs": [
+      "pets_allowed"
      ]
     }
    ]
@@ -5656,6 +6572,46 @@
    "evidence": [
     {
      "quote": "Pets Are Welcome | At Hyatt Place Orlando / I-Drive / Convention Center, we are pleased to welcome your four legged com | Pet Fees | 1-6 nights | $100 | STAY | 7–30 nights + additional cleaning fee | $200 | STAY | Weight Limits | Individual pet weight limit | Pounds",
+     "location": "the property page's own pet module",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HYATT",
+   "source_url": "https://www.hyatt.com/en-us/hotel/florida/hyatt-place-orlando-lake-buena-vista/orlzb",
+   "final_url": "https://www.hyatt.com/hyatt-place/en-US/orlzb-hyatt-place-orlando-lake-buena-vista",
+   "document_sha256": "af20f052833b3020db0eee00425e0bd07f19629fe743f7f2f09649f1bbee48a5",
+   "document_bytes": 809,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hyatt Place Orlando/Lake Buena Vista",
+    "address_on_page": "8688 Palm Parkway",
+    "postal_code": "32836",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407 778 5500",
+    "property_code_on_page": "orlzb",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlzb",
+   "identity_key": "hyatt place orlando lake buena vista",
+   "canonical_name": "Hyatt Place Orlando/Lake Buena Vista",
+   "corridor": "orlando-fl__lake-buena-vista",
+   "surface": "the property page's own pet module",
+   "operative_quote": "Pets Are Welcome | Here at Hyatt Place Orlando/Lake Buena Vista, we're happy to welcome your traveling canine companion | Pet Fees | 1–6 nights | $75 | STAY | 7–30 nights | $75 | STAY | $100 | Cleaning Fee | Weight Limits | Individual pet weight limit | Pounds | Combined pets weight limit | Pounds | Maximum number of pets is 2.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets Are Welcome | Here at Hyatt Place Orlando/Lake Buena Vista, we're happy to welcome your traveling canine companion | Pet Fees | 1–6 nights | $75 | STAY | 7–30 nights | $75 | STAY | $100 | Cleaning Fee | Weight Limits | Individual pet weight limit | Pounds | Combined pets weight limit | Pounds | Maximum number of pets is 2.",
      "location": "the property page's own pet module",
      "field_refs": [
       "pets_allowed"
@@ -6669,6 +7625,55 @@
   },
   {
    "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.lakenonawavehotel.com/faq",
+   "final_url": "https://www.lakenonawavehotel.com/faq",
+   "document_sha256": "1af8fd6c1cca830a11c669cacad9cd5758512936ec81b23081997d6fb1839b77",
+   "document_bytes": 111898,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Lake Nona Wave Hotel",
+    "address_on_page": "6100 Wave Hotel Dr",
+    "postal_code": "32827",
+    "locality": "",
+    "region": "FL",
+    "phone_on_page": "305-789-2766",
+    "property_code_on_page": "",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_PAGE",
+   "property_code": "",
+   "identity_key": "lake nona wave hotel",
+   "canonical_name": "Lake Nona Wave Hotel",
+   "corridor": "orlando-fl__mco-airport",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Is The Hotel Pet Friendly. We welcome pets under 40 lbs.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 40,
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Is The Hotel Pet Friendly. We welcome pets under 40 lbs.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Is The Hotel Pet Friendly. We welcome pets under 40 lbs.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
    "brand": "LOEWS",
    "source_url": "https://www.loewshotels.com/portofino-bay-hotel",
    "final_url": "https://www.loewshotels.com/portofino-bay-hotel",
@@ -6904,6 +7909,65 @@
      "location": "the property's own website (the page whose sha256 is recorded)",
      "field_refs": [
       "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://parkplazahotel.com/service/policies/",
+   "final_url": "https://parkplazahotel.com/service/policies/",
+   "document_sha256": "da3e049f260d55856c6ada2ce389ed35bda8b92558ee4fdad79adf3198e5d7fd",
+   "document_bytes": 182372,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Park Plaza Hotel",
+    "address_on_page": "307 S Park Ave",
+    "postal_code": "32789",
+    "locality": "",
+    "region": "FL",
+    "phone_on_page": "",
+    "property_code_on_page": "",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_PAGE",
+   "property_code": "",
+   "identity_key": "park plaza hotel",
+   "canonical_name": "Park Plaza Hotel",
+   "corridor": "orlando-fl__winter-park-maitland",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Dogs up to 25 pounds allowed with a non-refundable pet fee.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 25,
+    "species_allowed": [
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Dogs up to 25 pounds allowed with a non-refundable pet fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Dogs up to 25 pounds allowed with a non-refundable pet fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Dogs up to 25 pounds allowed with a non-refundable pet fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
      ]
     }
    ]
@@ -7350,6 +8414,99 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/mcosr-renaissance-orlando-at-seaworld/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/mcosr-renaissance-orlando-at-seaworld/overview/",
+   "document_sha256": "09aba20068ab2b02248860fe7f23b459f3ce82160432d9c7d389197bc0db985d",
+   "document_bytes": 710,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Renaissance Orlando at SeaWorld®",
+    "address_on_page": "6677 Sea Harbor Drive",
+    "postal_code": "32821",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-351-5555",
+    "property_code_on_page": "mcosr",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcosr",
+   "identity_key": "renaissance orlando at seaworld",
+   "canonical_name": "Renaissance Orlando at SeaWorld",
+   "corridor": "orlando-fl__seaworld-idrive-south",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: Pets Welcome. | Max of 2 pets per room, Dogs or Cats only. $150 non-refundable pet fee per stay. | Non-Refundable Pet Fee Per Night: $150.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "weight_limit": 40.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_night",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: Pets Welcome. | Max of 2 pets per room, Dogs or Cats only. $150 non-refundable pet fee per stay. | Non-Refundable Pet Fee Per Night: $150.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Max of 2 pets per room, Dogs or Cats only. $150 non-refundable pet fee per stay. | Non-Refundable Pet Fee Per Night: $150.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Max of 2 pets per room, Dogs or Cats only. $150 non-refundable pet fee per stay. | Non-Refundable Pet Fee Per Night: $150.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Max of 2 pets per room, Dogs or Cats only. $150 non-refundable pet fee per stay. | Non-Refundable Pet Fee Per Night: $150.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Max of 2 pets per room, Dogs or Cats only. $150 non-refundable pet fee per stay. | Non-Refundable Pet Fee Per Night: $150.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Max of 2 pets per room, Dogs or Cats only. $150 non-refundable pet fee per stay. | Non-Refundable Pet Fee Per Night: $150.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome. | Max of 2 pets per room, Dogs or Cats only. $150 non-refundable pet fee per stay. | Non-Refundable Pet Fee Per Night: $150.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/mcoar-residence-inn-orlando-airport/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/mcoar-residence-inn-orlando-airport/overview/",
    "document_sha256": "be2414d1a57245d342cbf21fafeff57995b48c9846c84fe765d528c8280a17e1",
@@ -7528,6 +8685,88 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/mcosw-residence-inn-orlando-at-seaworld/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/mcosw-residence-inn-orlando-at-seaworld/overview/",
+   "document_sha256": "198ef3b90cdd84ffd864c927253173e4f3b1f4badb0408f49d4dd3821016e902",
+   "document_bytes": 701,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Orlando at SeaWorld",
+    "address_on_page": "11000 Westwood Boulevard",
+    "postal_code": "32821",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-313-3600",
+    "property_code_on_page": "mcosw",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcosw",
+   "identity_key": "residence inn by marriott orlando at seaworld",
+   "canonical_name": "Residence Inn by Marriott Orlando at SeaWorld",
+   "corridor": "orlando-fl__seaworld-idrive-south",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: Pets Welcome | Pet fee is $150/stay nonrefundable cleaning fee excluding service animals. | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: Pets Welcome | Pet fee is $150/stay nonrefundable cleaning fee excluding service animals. | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | Pet fee is $150/stay nonrefundable cleaning fee excluding service animals. | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | Pet fee is $150/stay nonrefundable cleaning fee excluding service animals. | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | Pet fee is $150/stay nonrefundable cleaning fee excluding service animals. | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | Pet fee is $150/stay nonrefundable cleaning fee excluding service animals. | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | Pet fee is $150/stay nonrefundable cleaning fee excluding service animals. | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/mcocv-residence-inn-orlando-convention-center/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/mcocv-residence-inn-orlando-convention-center/overview/",
    "document_sha256": "2b347acbc6aa45316e392082b98dbed331acb3bf58525c364ece886e13baed06",
@@ -7603,6 +8842,63 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/mcozd-residence-inn-orlando-downtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/mcozd-residence-inn-orlando-downtown/overview/",
+   "document_sha256": "85457e413349ffedade42ee20f3aa5e5a2a73c88cb40a5cd97a833eda301e334",
+   "document_bytes": 697,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Orlando Downtown",
+    "address_on_page": "680 North Orange Avenue",
+    "postal_code": "32801",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-482-1500",
+    "property_code_on_page": "mcozd",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcozd",
+   "identity_key": "residence inn by marriott orlando downtown",
+   "canonical_name": "Residence Inn by Marriott Orlando Downtown",
+   "corridor": "orlando-fl__downtown-orlando",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: Pets Welcome | 2 pets 35 lb max welcome with non-refundable fee of USD 150.00 plus tax per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 35.0,
+    "pet_count_limit": 2,
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 35 lb max welcome with non-refundable fee of USD 150.00 plus tax per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 35 lb max welcome with non-refundable fee of USD 150.00 plus tax per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 35 lb max welcome with non-refundable fee of USD 150.00 plus tax per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
      ]
     }
    ]
@@ -8352,6 +9648,54 @@
   {
    "lane": "DIRECT_STATIC_FETCH",
    "brand": "SONESTA",
+   "source_url": "https://www.sonesta.com/sonesta-es-suites/fl/orlando/sonesta-es-suites-orlando-lake-buena-vista",
+   "final_url": "https://www.sonesta.com/sonesta-es-suites/fl/orlando/sonesta-es-suites-orlando-lake-buena-vista",
+   "document_sha256": "01076d392d84e12d93f69e0a5c886441171d6b390e1a53a0de4624bce4af1704",
+   "document_bytes": 1236083,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Sonesta ES Suites Orlando – Lake Buena Vista",
+    "address_on_page": "8751 Suiteside Drive",
+    "postal_code": "32836",
+    "locality": "",
+    "region": "FL",
+    "phone_on_page": "(407) 238-0777",
+    "property_code_on_page": "",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_PAGE",
+   "property_code": "",
+   "identity_key": "sonesta es suites orlando lake buena vista",
+   "canonical_name": "Sonesta ES Suites Orlando – Lake Buena Vista",
+   "corridor": "orlando-fl__lake-buena-vista",
+   "surface": "the property's own page, the bounded policy container the shared reader located",
+   "operative_quote": "Sonesta ES Suites Orlando – Lake Buena Vista is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Sonesta ES Suites Orlando – Lake Buena Vista is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite.",
+     "location": "the property's own page, the bounded policy container the shared reader located",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Sonesta ES Suites Orlando – Lake Buena Vista is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite.",
+     "location": "the property's own page, the bounded policy container the shared reader located",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "SONESTA",
    "source_url": "https://www.sonesta.com/sonesta-essential/fl/orlando/sonesta-essential-orlando",
    "final_url": "https://www.sonesta.com/sonesta-essential/fl/orlando/sonesta-essential-orlando",
    "document_sha256": "0b7d7d0dd2661869f851d2771b90b13aacacc5bd1b7d1dc675479ff3d437ce02",
@@ -8438,6 +9782,46 @@
    "evidence": [
     {
      "quote": "Pets allowed: Yes. Non-refundable fee: $50.00. Pet policy: large",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/mcouvpe-spark-orlando-universal-blvd/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/mcouvpe-spark-orlando-universal-blvd/hotel-info/",
+   "document_sha256": "2ac3f328195a5c41966dfa7029b91cc81a30368590f8b9c6105874fcc8783580",
+   "document_bytes": 511,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Spark by Hilton Orlando Universal Blvd",
+    "address_on_page": "7701 Universal Blvd",
+    "postal_code": "32819",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-313-4200",
+    "property_code_on_page": "mcouvpe",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcouvpe",
+   "identity_key": "spark by hilton orlando universal blvd",
+   "canonical_name": "Spark by Hilton Orlando Universal Blvd",
+   "corridor": "orlando-fl__international-drive-universal",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00",
      "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
      "field_refs": [
       "pets_allowed"
@@ -8682,6 +10066,63 @@
   {
    "lane": "DIRECT_STATIC_FETCH",
    "brand": "INDEPENDENT",
+   "source_url": "https://staydh.com/rooms",
+   "final_url": "https://staydh.com/rooms",
+   "document_sha256": "77a052965d37e08ca1799855690dfbeb44838023fa3ef6b8e010cd06f5bdf4be",
+   "document_bytes": 51424,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "The Delaney Hotel",
+    "address_on_page": "1315 S Orange Ave",
+    "postal_code": "32806",
+    "locality": "",
+    "region": "FL",
+    "phone_on_page": "407-849-0805",
+    "property_code_on_page": "",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_PAGE",
+   "property_code": "",
+   "identity_key": "the delaney hotel",
+   "canonical_name": "The Delaney Hotel",
+   "corridor": "orlando-fl__downtown-orlando",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Pets Welcome: One pet 40 pounds or less is allowed with $50/night non-refundable fee.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 40,
+    "pet_count_limit": 1,
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets Welcome: One pet 40 pounds or less is allowed with $50/night non-refundable fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome: One pet 40 pounds or less is allowed with $50/night non-refundable fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome: One pet 40 pounds or less is allowed with $50/night non-refundable fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
    "source_url": "https://www.thefloridahotelorlando.com/",
    "final_url": "https://www.thefloridahotelorlando.com/",
    "document_sha256": "aeabce9581cca53c6e6a86981d873de74482e9f03e7c9c8d16a76c05294bb41c",
@@ -8797,6 +10238,88 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/mcota-towneplace-suites-orlando-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/mcota-towneplace-suites-orlando-airport/overview/",
+   "document_sha256": "e99a0f5d07f2e6760ad66148a318ee951b8784b112e9d7cfddd5186c173cddb4",
+   "document_bytes": 642,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Orlando Airport",
+    "address_on_page": "5530 Butler National Drive",
+    "postal_code": "32812",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-652-5210",
+    "property_code_on_page": "mcota",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcota",
+   "identity_key": "towneplace suites by marriott orlando airport",
+   "canonical_name": "TownePlace Suites by Marriott Orlando Airport",
+   "corridor": "orlando-fl__mco-airport",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: Pets Welcome | $150 per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 1,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: Pets Welcome | $150 per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | $150 per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | $150 per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | $150 per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | $150 per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | $150 per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/mcosg-towneplace-suites-orlando-altamonte-springs-maitland/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/mcosg-towneplace-suites-orlando-altamonte-springs-maitland/overview/",
    "document_sha256": "56da76c6714aca7c9a2adcfb6bc399701191070d515d076bd729106208214f44",
@@ -8869,6 +10392,253 @@
     },
     {
      "quote": "Pet Policy: Pets Welcome | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/mcoyw-towneplace-suites-orlando-at-seaworld/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/mcoyw-towneplace-suites-orlando-at-seaworld/overview/",
+   "document_sha256": "c2dbd87c9598a050cb4e8e157f38d3755d96a5b881fa2983d5a011078b0f5468",
+   "document_bytes": 721,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Orlando at SeaWorld®",
+    "address_on_page": "10731 International Drive",
+    "postal_code": "32821",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-996-3400",
+    "property_code_on_page": "mcoyw",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcoyw",
+   "identity_key": "towneplace suites by marriott orlando at seaworld",
+   "canonical_name": "TownePlace Suites by Marriott Orlando at SeaWorld",
+   "corridor": "orlando-fl__seaworld-idrive-south",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: Pets Welcome | 2 pets 25 pounds max per room with USD 150 non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "weight_limit": 25.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "fee_scope": "per_room",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 25 pounds max per room with USD 150 non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 25 pounds max per room with USD 150 non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 25 pounds max per room with USD 150 non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 25 pounds max per room with USD 150 non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 25 pounds max per room with USD 150 non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 25 pounds max per room with USD 150 non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/mcots-towneplace-suites-orlando-east-ucf-area/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/mcots-towneplace-suites-orlando-east-ucf-area/overview/",
+   "document_sha256": "f8141ee518f64cb9c4139cfe29eb85ea7014d47576aa6799e705cd7a1bd870fa",
+   "document_bytes": 723,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Orlando East/UCF Area",
+    "address_on_page": "11801 High Tech Avenue",
+    "postal_code": "32817",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-243-6100",
+    "property_code_on_page": "mcots",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcots",
+   "identity_key": "towneplace suites by marriott orlando east ucf area",
+   "canonical_name": "TownePlace Suites by Marriott Orlando East/UCF Area",
+   "corridor": "orlando-fl__east-orlando-ucf",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: Pets Welcome | 2 pets per room allowed with USD $150 non-refundable fee per stay, plus 6.5% tax | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "weight_limit": 35.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets per room allowed with USD $150 non-refundable fee per stay, plus 6.5% tax | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets per room allowed with USD $150 non-refundable fee per stay, plus 6.5% tax | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets per room allowed with USD $150 non-refundable fee per stay, plus 6.5% tax | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets per room allowed with USD $150 non-refundable fee per stay, plus 6.5% tax | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets per room allowed with USD $150 non-refundable fee per stay, plus 6.5% tax | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets per room allowed with USD $150 non-refundable fee per stay, plus 6.5% tax | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/mcote-towneplace-suites-orlando-near-universal/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/mcote-towneplace-suites-orlando-near-universal/overview/",
+   "document_sha256": "6295b14ae081980b89ea77e8a20eccf7df417b4f1828bd6fded922f1e6597863",
+   "document_bytes": 701,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Orlando Near Universal",
+    "address_on_page": "5433 Altamira Drive",
+    "postal_code": "32819",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 689-208-1555",
+    "property_code_on_page": "mcote",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcote",
+   "identity_key": "towneplace suites by marriott orlando near universal",
+   "canonical_name": "TownePlace Suites by Marriott Orlando Near Universal",
+   "corridor": "orlando-fl__international-drive-universal",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: Pets Welcome | 2 pets 75lbs max per pet per room with Non Refundable fee. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 75lbs max per pet per room with Non Refundable fee. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 75lbs max per pet per room with Non Refundable fee. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 75lbs max per pet per room with Non Refundable fee. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 75lbs max per pet per room with Non Refundable fee. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 75lbs max per pet per room with Non Refundable fee. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: Pets Welcome | 2 pets 75lbs max per pet per room with Non Refundable fee. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "fee_refundable"
@@ -9110,6 +10880,65 @@
    ]
   },
   {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orlccru-tru-orlando-convention-center-area/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orlccru-tru-orlando-convention-center-area/hotel-info/",
+   "document_sha256": "60ee51ca50e9ac92d16079b111b5cc2ad317ce88bf76fb96c3636426d4708629",
+   "document_bytes": 546,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Orlando Convention Center Area",
+    "address_on_page": "6461 Westwood Boulevard",
+    "postal_code": "32821",
+    "locality": "Orlando",
+    "region": "FL",
+    "phone_on_page": "+1 407-351-4091",
+    "property_code_on_page": "orlccru",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlccru",
+   "identity_key": "tru by hilton orlando convention center area",
+   "canonical_name": "Tru by Hilton Orlando Convention Center Area",
+   "corridor": "orlando-fl__seaworld-idrive-south",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$100(5+n) 2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$100(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$100(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Yes. Non-refundable fee: $75.00. Pet policy: $75(1-4n),$100(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
    "lane": "DIRECT_STATIC_FETCH",
    "brand": "INDEPENDENT",
    "source_url": "https://www.vacationvillageresorts.com/vacation_village_parkway/faq.html",
@@ -9246,6 +11075,81 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.westgateresorts.com/hotels/florida/orlando/westgate-blue-tree-resort/",
+   "final_url": "https://www.westgateresorts.com/hotels/florida/orlando/westgate-blue-tree-resort/",
+   "document_sha256": "61fa9013e197a4676de26512eabc7a19047f9272abb54ad45d69c44952af4d33",
+   "document_bytes": 288675,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Westgate Blue Tree at Lake Buena Vista",
+    "address_on_page": "12007 Cypress Run Road",
+    "postal_code": "32836",
+    "locality": "",
+    "region": "FL",
+    "phone_on_page": "",
+    "property_code_on_page": "",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_PAGE",
+   "property_code": "",
+   "identity_key": "westgate blue tree at lake buena vista",
+   "canonical_name": "Westgate Blue Tree at Lake Buena Vista",
+   "corridor": "orlando-fl__lake-buena-vista",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "At Westgate Blue Tree Resort we are a pet-friendly hotel. Up to 2 dogs are allowed per unit and the combined weight of both pets must not exceed 60 pounds.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 60,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "weight_basis": "combined",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "At Westgate Blue Tree Resort we are a pet-friendly hotel. Up to 2 dogs are allowed per unit and the combined weight of both pets must not exceed 60 pounds.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "At Westgate Blue Tree Resort we are a pet-friendly hotel. Up to 2 dogs are allowed per unit and the combined weight of both pets must not exceed 60 pounds.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "At Westgate Blue Tree Resort we are a pet-friendly hotel. Up to 2 dogs are allowed per unit and the combined weight of both pets must not exceed 60 pounds.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "At Westgate Blue Tree Resort we are a pet-friendly hotel. Up to 2 dogs are allowed per unit and the combined weight of both pets must not exceed 60 pounds.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "At Westgate Blue Tree Resort we are a pet-friendly hotel. Up to 2 dogs are allowed per unit and the combined weight of both pets must not exceed 60 pounds.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_basis"
      ]
     }
    ]
@@ -14173,6 +16077,46 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/mcows-springhill-suites-winter-park/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/mcows-springhill-suites-winter-park/overview/",
+   "document_sha256": "799bc4394aaf385d6c6ad1ccf4fa5010f8d9a8c440eb0a114c951ac58ca75938",
+   "document_bytes": 508,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "SpringHill Suites by Marriott Winter Park",
+    "address_on_page": "1127 North Orlando Avenue",
+    "postal_code": "32789",
+    "locality": "Winter Park",
+    "region": "FL",
+    "phone_on_page": "+1 407-960-4624",
+    "property_code_on_page": "mcows",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "mcows",
+   "identity_key": "springhill suites by marriott winter park",
+   "canonical_name": "SpringHill Suites by Marriott Winter Park",
+   "corridor": "orlando-fl__winter-park-maitland",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/mcofm-springhill-suites-orlando-at-flamingo-crossings-town-center-western-entrance/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/mcofm-springhill-suites-orlando-at-flamingo-crossings-town-center-western-entrance/overview/",
    "document_sha256": "4d1184765b0c67e961da93ca64bff7254edca8392ef07b1352a8e4f11e7abc59",
@@ -15103,6 +17047,56 @@
    "quote": ""
   },
   {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orlbcwa-waldorf-astoria-orlando/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orlbcwa-waldorf-astoria-orlando/resort/",
+   "document_sha256": "7ed338dcd2090e9d393cfa8cdc2d23aededa44556b9b33212fff351b05e64348",
+   "document_bytes": 392,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Waldorf Astoria Orlando - An Official Walt Disney World® Hotel",
+    "address_on_page": "",
+    "postal_code": "",
+    "locality": "",
+    "region": "",
+    "phone_on_page": "Phone:, +1-800-WALDORF",
+    "property_code_on_page": "orlbcwa",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orlbcwa",
+   "classification": "IDENTITY_HOLD",
+   "why": "the read published no street identity of its own, so nothing can bind it to a building; a name alone proposes an identity and never decides one",
+   "quote": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orldwhh-hilton-orlando-lake-buena-vista/hotel-info/",
+   "final_url": "https://www.hilton.com/en/hotels/orldwhh-hilton-orlando-lake-buena-vista/amenities/",
+   "document_sha256": "322f7ab08751411518955a53369ac67a0fd677eb0a52d481f9e5b71854e25194",
+   "document_bytes": 403,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Hilton Orlando Lake Buena Vista - Disney Springs® Area",
+    "address_on_page": "",
+    "postal_code": "",
+    "locality": "",
+    "region": "",
+    "phone_on_page": "Phone:, +1-800-HILTONS",
+    "property_code_on_page": "orldwhh",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
+   "property_code": "orldwhh",
+   "classification": "IDENTITY_HOLD",
+   "why": "the read published no street identity of its own, so nothing can bind it to a building; a name alone proposes an identity and never decides one",
+   "quote": ""
+  },
+  {
    "lane": "DIRECT_STATIC_FETCH",
    "brand": "WYNDHAM",
    "source_url": "https://www.wyndhamhotels.com/baymont/orlando-florida/baymont-orlando-international-dr-universal-blvd/overview",
@@ -15251,31 +17245,6 @@
    "classification": "AMENITY_CHIP_ONLY",
    "why": "the first-party binding gate's reader does not read this quote as operative: an amenity label states no policy: 'Pets Are Welcome'",
    "quote": "Pets Are Welcome"
-  },
-  {
-   "lane": "ATTENDED_BROWSER",
-   "brand": "HYATT",
-   "source_url": "https://www.hyatt.com/en-us/hotel/florida/hyatt-place-orlando-lake-buena-vista/orlzb",
-   "final_url": "https://www.hyatt.com/hyatt-place/en-US/orlzb-hyatt-place-orlando-lake-buena-vista",
-   "document_sha256": "68fd6adb0ee2bc4abd7a30735445c1751dac8426053433c48f38ab727b67967d",
-   "document_bytes": 528,
-   "captured_at": "2026-09-15",
-   "identity_signals": {
-    "name_on_page": "Hyatt Place Orlando/Lake Buena Vista",
-    "address_on_page": "8688 Palm Parkway",
-    "postal_code": "32836",
-    "locality": "Orlando",
-    "region": "FL",
-    "phone_on_page": "+1 407 778 5500",
-    "property_code_on_page": "orlzb",
-    "lat": null,
-    "lng": null
-   },
-   "identity_binding_method": "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE",
-   "property_code": "orlzb",
-   "classification": "AMENITY_CHIP_ONLY",
-   "why": "the first-party binding gate's reader does not read this quote as operative: an amenity label states no policy: \"Pets Are Welcome | Here at Hyatt Place Orlando/Lake Buena Vista, we're happy to welcome your traveling canine companion\"",
-   "quote": "Pets Are Welcome | Here at Hyatt Place Orlando/Lake Buena Vista, we're happy to welcome your traveling canine companion"
   },
   {
    "lane": "ATTENDED_BROWSER",
@@ -15551,6 +17520,31 @@
    "classification": "NEGATION_HOLD_UNREADABLE_REFUSAL",
    "why": "the page states a refusal in plain words ('do not allow pets') that the shared gate's reader does not read as operative (QUOTE_CONTRADICTS_CLAIM); held, never reworded and never published as verified-no-pets",
    "quote": "Are pets allowed? To maintain a comfortable environment for all guests, we do not allow pets."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "OMNI",
+   "source_url": "https://www.omnihotels.com/hotels/orlando-championsgate/property-details/policies",
+   "final_url": "https://www.omnihotels.com/hotels/orlando-championsgate/property-details/policies",
+   "document_sha256": "5c0015656855f536df770da9516de92499175ffdcae1ff74bdbfc5f3cbfb57c0",
+   "document_bytes": 982,
+   "captured_at": "2026-09-15",
+   "identity_signals": {
+    "name_on_page": "Omni Orlando Resort at ChampionsGate",
+    "address_on_page": "1500 Masters Blvd",
+    "postal_code": "33896",
+    "locality": "",
+    "region": "FL",
+    "phone_on_page": "407-238-6550",
+    "property_code_on_page": "",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "ADDRESS_ON_THE_OPERATOR_PROPERTY_PAGE_PLUS_POLICY_ON_THE_OPERATOR_HOTEL_PAGE",
+   "property_code": "",
+   "classification": "FEE_ONLY",
+   "why": "the first-party binding gate's reader does not read this quote as operative: a fee, count or weight alone does not establish acceptance: 'Pet Policy Pets under 50 lbs. are allowed on the second floor of the main resort building, deluxe rooms only. E'",
+   "quote": "Pet Policy Pets under 50 lbs. are allowed on the second floor of the main resort building, deluxe rooms only. E"
   },
   {
    "lane": "DIRECT_STATIC_FETCH",
@@ -16887,20 +18881,6 @@
    "official_url": ""
   },
   {
-   "identity_key": "drury inn and suites near universal orlando resort",
-   "canonical_name": "Drury Inn & Suites near Universal Orlando Resort",
-   "brand": "DRURY",
-   "corridor": "orlando-fl__international-drive-universal",
-   "official_url": "https://www.druryhotels.com/locations/orlando-fl/drury-inn-and-suites-near-universal-orlando-resort"
-  },
-  {
-   "identity_key": "drury plaza hotel orlando disney springs area",
-   "canonical_name": "Drury Plaza Hotel Orlando - Disney Springs Area",
-   "brand": "DRURY",
-   "corridor": "orlando-fl__walt-disney-world",
-   "official_url": "https://www.druryhotels.com/locations/orlando-fl/drury-plaza-hotel-orlando"
-  },
-  {
    "identity_key": "duo boutique hotel",
    "canonical_name": "Duo Boutique Hotel",
    "brand": "",
@@ -17111,20 +19091,6 @@
    "official_url": ""
   },
   {
-   "identity_key": "hampton inn and suites orlando at seaworld",
-   "canonical_name": "Hampton Inn & Suites Orlando at SeaWorld",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__seaworld-idrive-south",
-   "official_url": "https://www.hilton.com/en/hotels/orlnshx-hampton-suites-orlando-at-seaworld/"
-  },
-  {
-   "identity_key": "hampton inn and suites orlando east ucf area",
-   "canonical_name": "Hampton Inn & Suites Orlando - East/ucf Area",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__east-orlando-ucf",
-   "official_url": "https://www.hilton.com/en/hotels/mcouchx-hampton-suites-orlando-east-ucf-area/"
-  },
-  {
    "identity_key": "hampton inn closest to universal orlando",
    "canonical_name": "Hampton Inn closest to Universal Orlando",
    "brand": "HILTON",
@@ -17144,13 +19110,6 @@
    "brand": "HILTON",
    "corridor": "orlando-fl__mco-airport",
    "official_url": "https://www.hilton.com/en/hotels/mconohx-hampton-orlando-southeast-nona/"
-  },
-  {
-   "identity_key": "hard rock hotel at universal orlando",
-   "canonical_name": "Hard Rock Hotel at Universal Orlando",
-   "brand": "LOEWS",
-   "corridor": "orlando-fl__international-drive-universal",
-   "official_url": "https://www.loewshotels.com/hard-rock-hotel"
   },
   {
    "identity_key": "hart hotel",
@@ -17174,27 +19133,6 @@
    "official_url": ""
   },
   {
-   "identity_key": "hilton garden inn at apopka city center",
-   "canonical_name": "Hilton Garden Inn at Apopka City Center",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__apopka",
-   "official_url": "https://www.hilton.com/en/hotels/sfbakgi-hilton-garden-inn-apopka-city-center/"
-  },
-  {
-   "identity_key": "hilton garden inn orlando airport",
-   "canonical_name": "Hilton Garden Inn Orlando Airport",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__mco-airport",
-   "official_url": "https://www.hilton.com/en/hotels/orlahgi-hilton-garden-inn-orlando-airport/"
-  },
-  {
-   "identity_key": "hilton garden inn orlando at seaworld",
-   "canonical_name": "Hilton Garden Inn Orlando at SeaWorld",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__seaworld-idrive-south",
-   "official_url": "https://www.hilton.com/en/hotels/orlsegi-hilton-garden-inn-orlando-at-seaworld/"
-  },
-  {
    "identity_key": "hilton garden inn orlando downtown",
    "canonical_name": "Hilton Garden Inn Orlando Downtown",
    "brand": "HILTON",
@@ -17202,32 +19140,11 @@
    "official_url": "https://www.hilton.com/en/hotels/mcomagi-hilton-garden-inn-orlando-downtown/"
   },
   {
-   "identity_key": "hilton garden inn orlando east ucf area",
-   "canonical_name": "Hilton Garden Inn Orlando East / UCF Area",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__east-orlando-ucf",
-   "official_url": "https://www.hilton.com/en/hotels/orlucgi-hilton-garden-inn-orlando-east-ucf-area/"
-  },
-  {
-   "identity_key": "hilton garden inn orlando international drive north",
-   "canonical_name": "Hilton Garden Inn Orlando International Drive North",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__international-drive-universal",
-   "official_url": "https://www.hilton.com/en/hotels/orlihgi-hilton-garden-inn-orlando-international-drive-north/"
-  },
-  {
    "identity_key": "hilton garden inn orlando north lake mary fl",
    "canonical_name": "Hilton Garden Inn Orlando North-Lake Mary Fl",
    "brand": "HILTON",
    "corridor": "orlando-fl__lake-mary-sanford",
    "official_url": "https://www.hilton.com/en/hotels/orllmgi-hilton-garden-inn-orlando-north-lake-mary/"
-  },
-  {
-   "identity_key": "hilton garden inn winter park",
-   "canonical_name": "Hilton Garden Inn Winter Park",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__winter-park-maitland",
-   "official_url": "https://www.hilton.com/en/hotels/mcowpgi-hilton-garden-inn-winter-park/"
   },
   {
    "identity_key": "hilton grand vacations club las palmeras orlando",
@@ -17328,13 +19245,6 @@
    "official_url": ""
   },
   {
-   "identity_key": "home2 suites by hilton orlando airport",
-   "canonical_name": "Home2 Suites by Hilton Orlando Airport",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__mco-airport",
-   "official_url": "https://www.hilton.com/en/hotels/orlapht-home2-suites-orlando-airport/"
-  },
-  {
    "identity_key": "home2 suites by hilton orlando downtown",
    "canonical_name": "Home2 Suites by Hilton Orlando Downtown",
    "brand": "HILTON",
@@ -17342,32 +19252,11 @@
    "official_url": "https://www.hilton.com/en/hotels/mconmht-home2-suites-orlando-downtown/"
   },
   {
-   "identity_key": "home2 suites by hilton orlando near universal",
-   "canonical_name": "Home2 Suites By Hilton Orlando Near Universal",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__international-drive-universal",
-   "official_url": "https://www.hilton.com/en/hotels/orlusht-home2-suites-orlando-near-universal/"
-  },
-  {
-   "identity_key": "home2 suites by hilton orlando south park",
-   "canonical_name": "Home2 Suites by Hilton Orlando South Park",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__international-drive-universal",
-   "official_url": "https://www.hilton.com/en/hotels/orljoht-home2-suites-orlando-south-park/"
-  },
-  {
    "identity_key": "home2 suites by hilton orlando southeast nona",
    "canonical_name": "Home2 Suites by Hilton Orlando Southeast Nona",
    "brand": "HILTON",
    "corridor": "orlando-fl__mco-airport",
    "official_url": "https://www.hilton.com/en/hotels/mcolnht-home2-suites-orlando-southeast-nona/"
-  },
-  {
-   "identity_key": "home2 suites by hilton winter garden",
-   "canonical_name": "Home2 Suites by Hilton Winter Garden",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__flamingo-crossings-winter-garden",
-   "official_url": "https://www.hilton.com/en/hotels/mcownht-home2-suites-winter-garden/"
   },
   {
    "identity_key": "homesuitehome eastgate",
@@ -17391,25 +19280,11 @@
    "official_url": "https://www.hilton.com/en/hotels/mcovshw-homewood-suites-lake-buena-vista-orlando/"
   },
   {
-   "identity_key": "homewood suites by hilton orlando theme parks",
-   "canonical_name": "Homewood Suites by Hilton Orlando Theme Parks",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__seaworld-idrive-south",
-   "official_url": "https://www.hilton.com/en/hotels/orlwwhw-homewood-suites-orlando-theme-parks/"
-  },
-  {
    "identity_key": "hotel belair",
    "canonical_name": "Hotel Belair",
    "brand": "",
    "corridor": "orlando-fl__south-orlando",
    "official_url": ""
-  },
-  {
-   "identity_key": "hotel landy orlando universal blvd a marriott tribute portfolio hotel",
-   "canonical_name": "Hotel Landy Orlando Universal Blvd - A Marriott Tribute Portfolio Hotel",
-   "brand": "MARRIOTT",
-   "corridor": "orlando-fl__international-drive-universal",
-   "official_url": "https://www.marriott.com/en-us/hotels/mcost-hotel-landy-orlando-universal-blvd-a-tribute-portfolio-hotel/overview/"
   },
   {
    "identity_key": "hotel monreale express and studios i drive distric orlando",
@@ -17461,25 +19336,11 @@
    "official_url": ""
   },
   {
-   "identity_key": "hyatt house orlando airport",
-   "canonical_name": "Hyatt House Orlando Airport",
-   "brand": "",
-   "corridor": "orlando-fl__mco-airport",
-   "official_url": ""
-  },
-  {
    "identity_key": "hyatt place lake mary orlando north",
    "canonical_name": "Hyatt Place Lake Mary/Orlando-North",
    "brand": "HYATT",
    "corridor": "orlando-fl__lake-mary-sanford",
    "official_url": "https://www.hyatt.com/en-us/hotel/florida/hyatt-place-lake-mary-orlando-north/mcozl"
-  },
-  {
-   "identity_key": "hyatt place orlando lake buena vista",
-   "canonical_name": "Hyatt Place Orlando/Lake Buena Vista",
-   "brand": "HYATT",
-   "corridor": "orlando-fl__lake-buena-vista",
-   "official_url": "https://www.hyatt.com/en-us/hotel/florida/hyatt-place-orlando-lake-buena-vista/orlzb"
   },
   {
    "identity_key": "hyatt regency grand cypress",
@@ -17570,13 +19431,6 @@
    "canonical_name": "Lake Minneola Inn",
    "brand": "",
    "corridor": "orlando-fl__clermont",
-   "official_url": ""
-  },
-  {
-   "identity_key": "lake nona wave hotel",
-   "canonical_name": "Lake Nona Wave Hotel",
-   "brand": "",
-   "corridor": "orlando-fl__mco-airport",
    "official_url": ""
   },
   {
@@ -17713,11 +19567,11 @@
    "official_url": ""
   },
   {
-   "identity_key": "omni championsgate resort hotel lp",
-   "canonical_name": "Omni Championsgate Resort Hotel Lp",
-   "brand": "",
+   "identity_key": "omni orlando resort at championsgate",
+   "canonical_name": "Omni Orlando Resort at ChampionsGate",
+   "brand": "OMNI",
    "corridor": "orlando-fl__four-corners-davenport",
-   "official_url": ""
+   "official_url": "https://www.omnihotels.com/hotels/orlando-championsgate/property-details/policies"
   },
   {
    "identity_key": "opal hotel and suites",
@@ -17811,13 +19665,6 @@
    "official_url": ""
   },
   {
-   "identity_key": "park plaza",
-   "canonical_name": "Park Plaza",
-   "brand": "",
-   "corridor": "orlando-fl__winter-park-maitland",
-   "official_url": ""
-  },
-  {
    "identity_key": "park royal orlando",
    "canonical_name": "Park Royal Orlando",
    "brand": "",
@@ -17888,32 +19735,11 @@
    "official_url": ""
   },
   {
-   "identity_key": "renaissance orlando at seaworld",
-   "canonical_name": "Renaissance Orlando At SeaWorld",
-   "brand": "MARRIOTT",
-   "corridor": "orlando-fl__seaworld-idrive-south",
-   "official_url": "https://www.marriott.com/en-us/hotels/mcosr-renaissance-orlando-at-seaworld/overview/"
-  },
-  {
-   "identity_key": "residence inn by marriott orlando downtown",
-   "canonical_name": "Residence Inn by Marriott Orlando Downtown",
-   "brand": "MARRIOTT",
-   "corridor": "orlando-fl__downtown-orlando",
-   "official_url": "https://www.marriott.com/en-us/hotels/mcozd-residence-inn-orlando-downtown/overview/"
-  },
-  {
    "identity_key": "residence inn by marriott orlando lake nona",
    "canonical_name": "Residence Inn by Marriott Orlando Lake Nona",
    "brand": "MARRIOTT",
    "corridor": "orlando-fl__mco-airport",
    "official_url": "https://www.marriott.com/en-us/hotels/mcoln-residence-inn-orlando-lake-nona/overview/"
-  },
-  {
-   "identity_key": "residence inn orlando at seaworld",
-   "canonical_name": "Residence Inn Orlando at SeaWorld",
-   "brand": "MARRIOTT",
-   "corridor": "orlando-fl__seaworld-idrive-south",
-   "official_url": "https://www.marriott.com/en-us/hotels/mcosw-residence-inn-orlando-at-seaworld/overview/"
   },
   {
    "identity_key": "reunion resort and club group sales",
@@ -18035,20 +19861,6 @@
    "official_url": ""
   },
   {
-   "identity_key": "sonesta es suites orlando lake buena vista",
-   "canonical_name": "Sonesta ES Suites Orlando – Lake Buena Vista",
-   "brand": "SONESTA",
-   "corridor": "orlando-fl__lake-buena-vista",
-   "official_url": "https://www.sonesta.com/sonesta-es-suites/fl/orlando/sonesta-es-suites-orlando-lake-buena-vista"
-  },
-  {
-   "identity_key": "spark by hilton orlando universal blvd",
-   "canonical_name": "Spark by Hilton Orlando Universal Blvd.",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__international-drive-universal",
-   "official_url": "https://www.hilton.com/en/hotels/mcouvpe-spark-orlando-universal-blvd/"
-  },
-  {
    "identity_key": "spot x hotel orlando",
    "canonical_name": "Spot X Hotel Orlando",
    "brand": "",
@@ -18061,13 +19873,6 @@
    "brand": "MARRIOTT",
    "corridor": "orlando-fl__seaworld-idrive-south",
    "official_url": "https://www.marriott.com/en-us/hotels/mcoss-springhill-suites-orlando-at-seaworld/overview/"
-  },
-  {
-   "identity_key": "springhill suites winter park",
-   "canonical_name": "Springhill Suites Winter Park",
-   "brand": "MARRIOTT",
-   "corridor": "orlando-fl__winter-park-maitland",
-   "official_url": "https://www.marriott.com/en-us/hotels/mcows-springhill-suites-winter-park/overview/"
   },
   {
    "identity_key": "stadium inn and suites",
@@ -18182,13 +19987,6 @@
    "official_url": "https://www.marriott.com/en-us/hotels/mcotu-the-celeste-hotel-orlando-a-tribute-portfolio-hotel/overview/"
   },
   {
-   "identity_key": "the delaney hotel",
-   "canonical_name": "The Delaney Hotel",
-   "brand": "",
-   "corridor": "orlando-fl__downtown-orlando",
-   "official_url": ""
-  },
-  {
    "identity_key": "the florida hotel",
    "canonical_name": "The Florida hotel",
    "brand": "",
@@ -18228,28 +20026,7 @@
    "canonical_name": "Towneplace Suites by Marriott Orlando",
    "brand": "MARRIOTT",
    "corridor": "orlando-fl__downtown-orlando",
-   "official_url": "https://www.marriott.com/en-us/hotels/mcota-towneplace-suites-orlando-airport/overview/"
-  },
-  {
-   "identity_key": "towneplace suites by marriott orlando southwest near universal",
-   "canonical_name": "TownePlace Suites by Marriott Orlando Southwest Near Universal",
-   "brand": "MARRIOTT",
-   "corridor": "orlando-fl__international-drive-universal",
-   "official_url": "https://www.marriott.com/en-us/hotels/mcote-towneplace-suites-orlando-near-universal/overview/"
-  },
-  {
-   "identity_key": "towneplace suites orlando at seaworld",
-   "canonical_name": "TownePlace Suites Orlando at SeaWorld",
-   "brand": "MARRIOTT",
-   "corridor": "orlando-fl__seaworld-idrive-south",
-   "official_url": "https://www.marriott.com/en-us/hotels/mcoyw-towneplace-suites-orlando-at-seaworld/overview/"
-  },
-  {
-   "identity_key": "towneplace suites orlando east ucf",
-   "canonical_name": "TownePlace Suites Orlando East UCF",
-   "brand": "MARRIOTT",
-   "corridor": "orlando-fl__east-orlando-ucf",
-   "official_url": "https://www.marriott.com/en-us/hotels/mcots-towneplace-suites-orlando-east-ucf-area/overview/"
+   "official_url": "https://www.marriott.com/en-us/hotels/mcoto-towneplace-suites-orlando-downtown/overview/"
   },
   {
    "identity_key": "tropicana motel",
@@ -18257,13 +20034,6 @@
    "brand": "",
    "corridor": "orlando-fl__kissimmee-east",
    "official_url": ""
-  },
-  {
-   "identity_key": "tru by hilton orlando convention center",
-   "canonical_name": "Tru by Hilton Orlando Convention Center",
-   "brand": "HILTON",
-   "corridor": "orlando-fl__seaworld-idrive-south",
-   "official_url": "https://www.hilton.com/en/hotels/orlccru-tru-orlando-convention-center-area/"
   },
   {
    "identity_key": "tryp by wyndham orlando",
@@ -18396,13 +20166,6 @@
    "canonical_name": "Wellborn Hotel",
    "brand": "",
    "corridor": "orlando-fl__downtown-orlando",
-   "official_url": ""
-  },
-  {
-   "identity_key": "westgate blue tree at lake buena vista",
-   "canonical_name": "Westgate Blue Tree at Lake Buena Vista",
-   "brand": "",
-   "corridor": "orlando-fl__lake-buena-vista",
    "official_url": ""
   },
   {

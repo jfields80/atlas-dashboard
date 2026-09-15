@@ -566,7 +566,8 @@ def _transcription_sha(r):
 def marriott_rows(zips):
     out = []
     seen = set()
-    for path in ("marriott_browser_rows.jsonl", "marriott_browser_rows_agent.jsonl", "marriott_browser_rows_retry.jsonl"):
+    for path in ("marriott_browser_rows.jsonl", "marriott_browser_rows_agent.jsonl", "marriott_browser_rows_retry.jsonl",
+                 "marriott_browser_rows_closure.jsonl"):
         for r in _jsonl(os.path.join(RAW, path)):
             if r.get("status", "OK") != "OK" or r["c"] in seen:
                 continue
@@ -609,7 +610,7 @@ def hilton_rows(zips):
     seen = set()
     # the retry pass (after hilton.com's error-page wall lifted) fills codes the first pass recorded BLOCKED or never
     # reached; a code read OK in the first pass is never re-read
-    for path in ("hilton_browser_rows.jsonl", "hilton_browser_rows_retry.jsonl"):
+    for path in ("hilton_browser_rows.jsonl", "hilton_browser_rows_retry.jsonl", "hilton_browser_rows_closure.jsonl"):
       for r in _jsonl(os.path.join(RAW, path)):
         if r.get("status") != "OK":
             continue
@@ -688,7 +689,12 @@ def _split_us_address(addr):
 
 def hyatt_rows(zips):
     out = []
-    for r in _jsonl(os.path.join(RAW, "hyatt_browser_rows.jsonl")):
+    # closure-002 re-read two targeted Hyatt pages (the full pet module range); a closure row replaces the earlier
+    # transcription of the same property code, which captured fewer nodes
+    closure = {r["c"] for r in _jsonl(os.path.join(RAW, "hyatt_browser_rows_closure.jsonl")) if r.get("status") == "OK"}
+    rows = [(r, "hyatt_browser_rows.jsonl") for r in _jsonl(os.path.join(RAW, "hyatt_browser_rows.jsonl")) if r["c"] not in closure]
+    rows += [(r, "hyatt_browser_rows_closure.jsonl") for r in _jsonl(os.path.join(RAW, "hyatt_browser_rows_closure.jsonl"))]
+    for r, path in rows:
         if r.get("status") != "OK":
             continue
         pet = r.get("pet") or []
@@ -702,7 +708,7 @@ def hyatt_rows(zips):
                         len(json.dumps(r, ensure_ascii=False).encode("utf-8")),
                         "the property page's own pet module (accessibility-tree text nodes, verbatim)", quote, ext, zips,
                         "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE", conflict, sha_kind="TRANSCRIPTION_SHA256",
-                        extra={"raw_capture": "raw_captures/hyatt_browser_rows.jsonl"}))
+                        extra={"raw_capture": "raw_captures/" + path}))
     return out
 
 
@@ -836,18 +842,18 @@ def esa_rows(zips):
     return out
 
 
-def independent_rows(zips):
-    """Independents' own policy / FAQ pages (orlando_fl_v2_independent_reads_001): verbatim sentences, explicit facts."""
+def independent_rows(zips, fname="independent_rows.json"):
+    """Independents' own policy / FAQ pages (orlando_fl_v2_independent_reads_001) and the closure order's targeted
+    static reads (orlando_fl_v2_closure_static_001): verbatim sentences, explicit facts."""
     out = []
-    for r in (_load(os.path.join(RAW, "independent_rows.json"), {}) or {}).get("rows", []):
+    for r in (_load(os.path.join(RAW, fname), {}) or {}).get("rows", []):
         sig = OrderedDict([("name_on_page", r.get("n")), ("address_on_page", r.get("st")), ("postal_code", r.get("z")),
                            ("locality", ""), ("region", "FL"), ("phone_on_page", r.get("ph")),
                            ("property_code_on_page", ""), ("lat", None), ("lng", None)])
-        out.append(_row("INDEPENDENT", "DIRECT_STATIC_FETCH", "", r["u"], r.get("final_url") or r["u"], sig, r.get("h"),
-                        r.get("b"), "the property's own pet policy / FAQ page (verbatim sentences)", r["q"],
+        out.append(_row(r.get("brand") or "INDEPENDENT", "DIRECT_STATIC_FETCH", "", r["u"], r.get("final_url") or r["u"],
+                        sig, r.get("h"), r.get("b"), "the property's own pet policy / FAQ page (verbatim sentences)", r["q"],
                         OrderedDict(r["extraction"]), zips, r["binding"], None,
-                        extra={"read_for_identity_key": r["identity_key"],
-                               "raw_capture": "raw_captures/independent_rows.json"}))
+                        extra={"read_for_identity_key": r["identity_key"], "raw_capture": "raw_captures/" + fname}))
     return out
 
 
@@ -906,6 +912,9 @@ def build():
     out += choice_rows(zips)
     out += loews_rows(zips)
     out += independent_rows(zips)
+    out += independent_rows(zips, "closure_static_rows.json")
+    out += [dict(r, lane="ATTENDED_BROWSER", document_sha256_kind="TRANSCRIPTION_SHA256")
+            for r in independent_rows(zips, "closure_browser_rows.json")]
     out += _lane_rows(_load(STATIC, {}), "DIRECT_STATIC_FETCH", zips)
     out += [r for r in _lane_rows(_load(FIRECRAWL, {}), "FIRECRAWL", zips) if not r.get("diagnostic_only")]
     in_market = [r for r in out if r["in_market"]]

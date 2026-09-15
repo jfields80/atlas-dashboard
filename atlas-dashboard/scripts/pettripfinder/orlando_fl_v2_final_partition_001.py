@@ -99,9 +99,11 @@ def build():
     # browser reads the supported lane attempted and the site refused (Akamai "Access Denied"), by brand property code
     browser_blocked = {}
     raw = os.path.join(PKG, "markets", "staging", "orlando-fl", "raw_captures")
+    browser_ok = set()
     for fname in ("marriott_browser_rows.jsonl", "marriott_browser_rows_agent.jsonl", "marriott_browser_rows_retry.jsonl",
-                  "hilton_browser_rows.jsonl", "hilton_browser_rows_retry.jsonl",
-                  "hyatt_browser_rows.jsonl", "bestwestern_browser_rows.jsonl"):
+                  "marriott_browser_rows_closure.jsonl", "hilton_browser_rows.jsonl", "hilton_browser_rows_retry.jsonl",
+                  "hilton_browser_rows_closure.jsonl", "hyatt_browser_rows.jsonl", "hyatt_browser_rows_closure.jsonl",
+                  "bestwestern_browser_rows.jsonl"):
         p = os.path.join(raw, fname)
         if not os.path.exists(p):
             continue
@@ -113,7 +115,13 @@ def build():
             code = (r.get("c") or (re.search(r"/hotels/([a-z0-9]+)-", r.get("u") or "") or [None, ""])[1]).lower()
             if r.get("status") in ("BLOCKED", "RETIRED", "COMING_SOON") and code:
                 browser_blocked[code] = r.get("status")
-    pf = {r["identity_key"] for r in clean["clean_pet_friendly"]}
+            elif r.get("status") == "OK" and code:
+                browser_ok.add(code)
+    # a code the browser later read (closure-002 retry after the wall lifted) is no longer browser-blocked
+    for code in browser_ok:
+        if browser_blocked.get(code) == "BLOCKED":
+            del browser_blocked[code]
+    pf ={r["identity_key"] for r in clean["clean_pet_friendly"]}
     np_ = {r["identity_key"] for r in clean["clean_verified_no_pets"]}
     by_street = {}
     for h in census["hotels"]:
