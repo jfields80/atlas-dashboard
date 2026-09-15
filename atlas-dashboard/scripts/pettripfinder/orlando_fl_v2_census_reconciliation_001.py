@@ -1329,6 +1329,11 @@ def merge_street_spelling(nodes, zips=None):
     return [n for n in nodes if id(n) not in absorbed], merged
 
 
+def _listing_slug(name):
+    """hotel_profile_page._slug: the listing id a published row is routed under."""
+    return re.sub(r"[^a-z0-9]+", "-", (name or "").strip().lower()).strip("-")
+
+
 def fold_registry_rows_into_a_page_read(nodes):
     """ORLANDO: one licensed building, two street NAMES. DBPR licenses the Hyatt Regency at MCO as "9300 Airport Blvd";
     the hotel's own page states "9300 Jeff Fuqua Blvd" (the airport road's current name). A node that only the registry,
@@ -2064,6 +2069,48 @@ def build():
                       if str(o.get("lane", "")).startswith("PROPERTY_PAGE") and o.get("name")]
         if page_names:
             n.name = page_names[0]
+        # ORLANDO: a listing id is the slug of the name and the site's /go/ routes refuse one longer than 80 characters
+        # (commercial_actions._SAFE_ID_RE; FAST rule J). "TownePlace Suites by Marriott Orlando at FLAMINGO CROSSINGS
+        # Town Center/Western Entrance" is 88. Such a building takes the longest name its brand's OWN inventory (then the
+        # state licence, then the map) states for it that fits -- a stated name, never a truncation.
+        if len(_listing_slug(n.name)) > 80:
+            for name_lanes in (("BRAND_INVENTORY_OWNED", "BRAND_INVENTORY_CITY_PAGE", "BRAND_INVENTORY_SITEMAP"),
+                               ("REGISTRY_FL_DBPR",), ("OSM_OVERPASS",)):
+                fits = sorted({o.get("name") for o in n.observations if o.get("lane") in name_lanes and o.get("name")
+                               and len(_listing_slug(o["name"])) <= 80}, key=lambda s: (-len(s), s))
+                if fits:
+                    n.name = fits[0]
+                    break
+
+    # ORLANDO: the property code (and route) the property's OWN page states wins. A brand-sitemap row binds by name
+    # alone ("Quality Inn Kissimmee" fl519 -> the Quality Inn at 7785 W Irlo Bronson, whose own page states fl096), and
+    # FAST rule C refuses a record whose page carries another code. A same-family, address-less observation whose code
+    # differs from the code on the building's own page is detached here (it names another building) and recorded.
+    code_detached = []
+    for n in nodes:
+        page = [o for o in n.observations if str(o.get("lane", "")).startswith("PROPERTY_PAGE")
+                and (o.get("property_code") or "").strip() and o.get("brand")]
+        codes = sorted({o["property_code"].strip().lower() for o in page})
+        if len(codes) != 1:
+            continue
+        code = codes[0]
+        keep = []
+        for o in n.observations:
+            oc = (o.get("property_code") or "").strip().lower()
+            # a route row carries no address: a code of the same family that differs from the page's names
+            # another property, however it was bound (a name, or a name alias in the merge)
+            if (oc and oc != code and (o.get("brand") or "") == page[0].get("brand")
+                    and not str(o.get("lane", "")).startswith("PROPERTY_PAGE")):
+                code_detached.append(OrderedDict([("from", n.name), ("street", n.street), ("page_code", code),
+                                                  ("detached_code", oc), ("detached_name", o.get("name")),
+                                                  ("lane", o.get("lane"))]))
+                continue
+            keep.append(o)
+        n.observations = keep
+        if (n.property_code or "").lower() != code:
+            n.property_code = code
+            n.route = next((o.get("route") for o in page if o["property_code"].strip().lower() == code and o.get("route")),
+                           n.route)
 
     # A same-brand, same-city PAIR is demoted to review rather than aliased.
     # The pair has to be a pair of BUILDINGS: only nodes that state a street or
@@ -2247,6 +2294,7 @@ def build():
             ("filled", city_filled), ("left_blank", city_unfilled),
         ])),
         ("merge_conflicts", merge_conflicts),
+        ("name_bound_codes_detached_by_the_page_code", code_detached),
         ("street_spelling_merge", spelling_merged),
         ("same_name_map_rows_folded_into_a_read_building", neighbour_folded),
         ("destination_roster_merge", destination_merged),
