@@ -98,7 +98,12 @@ def _digits(s):
 
 
 def main():
-    census = {h["identity_key"]: h for h in json.load(open(CENSUS, encoding="utf-8"))["hotels"]}
+    hotels = json.load(open(CENSUS, encoding="utf-8"))["hotels"]
+    census = {h["identity_key"]: h for h in hotels}
+    # a read renames its building to the name the page states; the baseline key survives as an alias
+    for h in hotels:
+        for alias in h.get("identity_key_aliases") or []:
+            census.setdefault(alias, h)
     st = B.Stats()
     rows, dropped = [], []
     for key, (brand, url, sentences, ext, cohorts) in READS.items():
