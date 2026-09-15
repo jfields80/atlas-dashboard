@@ -88,8 +88,9 @@ def _first_existing(*paths):
 REPORTS = os.path.join(PKG, "markets", "reports")
 #: SHADOW UNTIL REGISTERED: the census is written to the market zone's proposed
 #: census path. The later registration order copies it into identity_census/.
-CENSUS_DIR = os.path.join(PKG, "identity_census_proposed")
-CONTRACT_PATH = os.path.join(PKG, "markets", "proposed", "orlando-fl.json")
+#: REGISTERED by PTF-ORLANDO-FL-V2-REGISTRATION-AND-FOUNDER-PACKET-003; the source-ready census in identity_census_proposed/ is history.
+CENSUS_DIR = os.path.join(PKG, "identity_census")
+CONTRACT_PATH = os.path.join(PKG, "markets", "orlando-fl.json")
 PROPOSED_CONTRACT = os.path.join(REPORTS, "orlando_fl_v2_corridor_registry_001.json")
 
 OSM_LANE = os.path.join(REPORTS, "orlando_fl_v2_osm_lane_001.json")
@@ -2219,7 +2220,7 @@ def build():
 
     census = OrderedDict([
         ("schema", SCHEMA), ("market_id", MARKET_ID),
-        ("status", "PROPOSED_CENSUS_SHADOW_UNTIL_REGISTERED"),
+        ("status", "REGISTERED_CENSUS"),
         ("identity_key_contract", "ptf_identity_key/1.0"),
         ("identity_contract", "ptf-identity-evidence/1.0"),
         ("work_order", WORK_ORDER), ("captured_at", "2026-09-15"),

@@ -17,7 +17,7 @@ from collections import OrderedDict
 
 _DASH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "orlando-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "orlando-fl.json")
 OUT = os.path.join(PKG, "markets", "staging", "orlando-fl", "raw_captures", "closure_browser_rows.json")
 
 TRANSCRIPTIONS = [

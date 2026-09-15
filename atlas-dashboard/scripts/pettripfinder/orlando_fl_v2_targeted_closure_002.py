@@ -27,8 +27,11 @@ _DASH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 REPO = os.path.dirname(_DASH)
 BASE = "ad2423b5"
 PKG = "launch_packages/pettripfinder"
-CENSUS = PKG + "/identity_census_proposed/orlando-fl.json"
-PARTITION = PKG + "/markets/staging/orlando-fl/launch_package/orlando_fl_final_partition_v2_001.json"
+#: the baseline (ad2423b5) paths, read by git show; REGISTERED by PTF-ORLANDO-FL-V2-REGISTRATION-AND-FOUNDER-PACKET-003 to the paths below
+BASE_CENSUS = PKG + "/identity_census_proposed/orlando-fl.json"
+BASE_PARTITION = PKG + "/markets/staging/orlando-fl/launch_package/orlando_fl_final_partition_v2_001.json"
+CENSUS = PKG + "/identity_census/orlando-fl.json"
+PARTITION = PKG + "/orlando_fl_final_partition_v2_001.json"
 ACCOUNTING = PKG + "/markets/reports/orlando_fl_v2_source_ready_accounting_001.json"
 V1DIAG = PKG + "/markets/reports/orlando_fl_v2_v1_diagnostic_001.json"
 CLEAN = PKG + "/markets/reports/orlando_fl_v2_clean_authority_001.json"
@@ -112,8 +115,8 @@ def _jsonl(name):
 
 
 def main():
-    c0, c1 = _git(CENSUS), _now(CENSUS)
-    p0 = {i["identity_key"]: i for i in _git(PARTITION)["items"]}
+    c0, c1 = _git(BASE_CENSUS), _now(CENSUS)
+    p0 = {i["identity_key"]: i for i in _git(BASE_PARTITION)["items"]}
     p1 = {i["identity_key"]: i for i in _now(PARTITION)["items"]}
     h0 = {h["identity_key"]: h for h in c0["hotels"]}
     h1 = {h["identity_key"]: h for h in c1["hotels"]}

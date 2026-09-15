@@ -36,8 +36,9 @@ WORK_ORDER = "PTF-ORLANDO-FL-HARDENED-V2-SOURCE-READY-001"
 MARKET_ID = "orlando-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-OUT = os.path.join(PKG, "markets", "staging", "orlando-fl", "launch_package", "orlando_fl_final_partition_v2_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "orlando-fl.json")
+#: REGISTERED by PTF-ORLANDO-FL-V2-REGISTRATION-AND-FOUNDER-PACKET-003: the package root, as every registered market.
+OUT = os.path.join(PKG, "orlando_fl_final_partition_v2_001.json")
+CENSUS = os.path.join(PKG, "identity_census", "orlando-fl.json")
 CLEAN = os.path.join(REPORTS, "orlando_fl_v2_clean_authority_001.json")
 ROUTING = os.path.join(REPORTS, "orlando_fl_v2_routing_001.json")
 STATIC = os.path.join(REPORTS, "orlando_fl_v2_free_static_capture_001.json")

@@ -75,7 +75,9 @@ MARKET_ID = "orlando-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 CONFIG_OUT = os.path.join(_DASH, "scripts", "pettripfinder", "discovery", "config", "orlando_fl.json")
-SHARD_OUT = os.path.join(PKG, "markets", "proposed", "orlando-fl.json")
+#: REGISTERED by PTF-ORLANDO-FL-V2-REGISTRATION-AND-FOUNDER-PACKET-003 against the Savannah-live parent. The source-ready
+#: order wrote markets/proposed/orlando-fl.json (kept as history).
+SHARD_OUT = os.path.join(PKG, "markets", "orlando-fl.json")
 REPORT_OUT = os.path.join(REPORTS, "orlando_fl_v2_geography_001.json")
 REGISTRY_OUT = os.path.join(REPORTS, "orlando_fl_v2_corridor_registry_001.json")
 AS_OF = "2026-09-15"

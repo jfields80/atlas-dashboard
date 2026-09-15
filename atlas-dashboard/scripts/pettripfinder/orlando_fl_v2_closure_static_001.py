@@ -33,7 +33,7 @@ from scripts.pettripfinder import orlando_fl_v2_brand_inventory_001 as B  # noqa
 
 B.DOCS = os.path.join(_DASH, "data", "acquisition", "orlando_fl_v2_closure_static_001")
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "orlando-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "orlando-fl.json")
 OUT = os.path.join(PKG, "markets", "staging", "orlando-fl", "raw_captures", "closure_static_rows.json")
 
 # identity_key -> (brand, url, [verbatim sentences], extraction, cohorts)

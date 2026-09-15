@@ -40,7 +40,7 @@ MARKET_ID = "orlando-fl"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "orlando-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "orlando-fl.json")
 OUT = os.path.join(REPORTS, "orlando_fl_v2_routing_001.json")
 
 # --- route helpers copied from the Nashville TN routing helper (a market-local copy, so no market imports another) ---

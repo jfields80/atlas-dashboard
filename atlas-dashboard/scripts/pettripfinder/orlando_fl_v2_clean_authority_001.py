@@ -64,7 +64,7 @@ MARKET_ID = "orlando-fl"
 SCHEMA = "ptf-market-clean-authority/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "orlando-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "orlando-fl.json")
 ATTENDED = os.path.join(REPORTS, "orlando_fl_v2_policy_reads_001.json")
 STATIC = os.path.join(REPORTS, "orlando_fl_v2_no_separate_static_verdicts.json")  # static rows arrive through the reads report
 
