@@ -239,8 +239,8 @@ browser session whose URL was verified to match the intended property at read ti
 24. FACTORY CODE CHANGED = NO
 25. BROAD REGRESSION RUN = NO
 26. AUGUSTA DEPLOYED = NO
-27. origin == HEAD = (confirmed after push, see commit below)
-28. tree clean = (confirmed after push, see commit below)
+27. origin == HEAD = YES (both `55d432dc17561b41b05dba811d7980d15af54e21`)
+28. tree clean = YES
 
 AUGUSTA POLICY EVIDENCE CLOSURE = COMPLETE
 AUGUSTA TECHNICAL SOURCE READY = YES
