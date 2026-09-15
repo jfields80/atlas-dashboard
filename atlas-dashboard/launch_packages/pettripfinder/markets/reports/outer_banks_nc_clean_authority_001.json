@@ -1,0 +1,2153 @@
+{
+ "schema": "ptf-market-clean-authority/1.0",
+ "work_order": "PTF-OUTER-BANKS-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "outer-banks-nc",
+ "phase": "13/14 -- policy classification and the clean set",
+ "as_of": "2026-09-13",
+ "status": "PROPOSED_NOT_PUBLISHED",
+ "what_is_excluded": "Everything that is not an operative first-party statement of acceptance or refusal, bound to an ADMITTED census identity by the street identity the page itself states. A read that joins no census row, joins a withheld row, states no policy, or states only a fee / weight / count / amenity chip / service-animal sentence is reported in `rejected` with its class and publishes nothing.",
+ "one_identity_classified_once": "The join is on street identity, so two brands at one address cannot both settle it: the census already withheld those buildings as a founder ruling, and a second read of an already-settled identity is reported DUPLICATE_READ_FOR_ONE_IDENTITY.",
+ "counts": {
+  "reads_evaluated": 37,
+  "clean_pet_friendly": 26,
+  "clean_verified_no_pets": 5,
+  "resolved_census_identities": 31,
+  "unresolved_census_identities": 24,
+  "census_count": 55,
+  "rejected": 6,
+  "rejected_by_class": {
+   "CENSUS_ROW_NOT_ADMITTED": 1,
+   "FIRST_PARTY_CONFLICT": 2,
+   "QUOTE_NOT_OPERATIVE": 3
+  },
+  "pf_by_brand": {
+   "HILTON": 4,
+   "IHG": 1,
+   "INDEPENDENT": 17,
+   "MARRIOTT": 1,
+   "WYNDHAM": 3
+  },
+  "pf_by_corridor": {
+   "outer-banks-nc__corolla": 1,
+   "outer-banks-nc__kill-devil-hills": 10,
+   "outer-banks-nc__kitty-hawk-southern-shores-duck": 2,
+   "outer-banks-nc__manteo-roanoke-island": 4,
+   "outer-banks-nc__nags-head": 9
+  }
+ },
+ "clean_pet_friendly": [
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.blueheronnc.com/pet-policy",
+   "final_url": "https://www.blueheronnc.com/pet-policy",
+   "document_sha256": "3953a6952debc228068fbc48a73a31ae47bae7ecebcc0799a5fad8cdfda5c05e",
+   "document_bytes": 25527,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Blue Heron Motel",
+    "address_on_page": "6811 Virginia Dare Trail",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "252-441-7447",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "blue heron motel",
+   "canonical_name": "Blue Heron Motel",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "At the Blue Heron, we understand that pets are family — and we’re happy to welcome yours! Our Pet Policy is simple: Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "At the Blue Heron, we understand that pets are family — and we’re happy to welcome yours! Our Pet Policy is simple: Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "At the Blue Heron, we understand that pets are family — and we’re happy to welcome yours! Our Pet Policy is simple: Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "At the Blue Heron, we understand that pets are family — and we’re happy to welcome yours! Our Pet Policy is simple: Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.colonialinnmotel.com/pet-policy.html",
+   "final_url": "https://www.colonialinnmotel.com/pet-policy.html",
+   "document_sha256": "0cc341b65af85b4a0acd9612485f187f5b89a8488357413f02d6503557c8c7f5",
+   "document_bytes": 11748,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Colonial Inn",
+    "address_on_page": "3329 South Virginia Dare Trail",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "colonial inn",
+   "canonical_name": "Colonial Inn",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "We are pleased to welcome your pets! Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "We are pleased to welcome your pets! Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "We are pleased to welcome your pets! Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "We are pleased to welcome your pets! Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.dolphinmotel.net/area-information-2-2-2-2/",
+   "final_url": "https://www.dolphinmotel.net/area-information-2-2-2-2/",
+   "document_sha256": "57cce81d761a88a70a131c4cededbbc64616a2223eccfa378bd2f4c0a9ae64e3",
+   "document_bytes": 88036,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Dolphin Oceanfront Motel",
+    "address_on_page": "8017 S. Old Oregon Inlet Road",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "dolphin oceanfront motel",
+   "canonical_name": "Dolphin Oceanfront Motel",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Dolphin Oceanfront Motel is proud to offer Pet Friendly rooms. We accept dogs for a nightly fee of $10 per night. 2 pets maximum per room.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "fee_basis": "per_night"
+   },
+   "evidence": [
+    {
+     "quote": "Dolphin Oceanfront Motel is proud to offer Pet Friendly rooms. We accept dogs for a nightly fee of $10 per night. 2 pets maximum per room.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Dolphin Oceanfront Motel is proud to offer Pet Friendly rooms. We accept dogs for a nightly fee of $10 per night. 2 pets maximum per room.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Dolphin Oceanfront Motel is proud to offer Pet Friendly rooms. We accept dogs for a nightly fee of $10 per night. 2 pets maximum per room.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Dolphin Oceanfront Motel is proud to offer Pet Friendly rooms. We accept dogs for a nightly fee of $10 per night. 2 pets maximum per room.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dolphin Oceanfront Motel is proud to offer Pet Friendly rooms. We accept dogs for a nightly fee of $10 per night. 2 pets maximum per room.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/obxnchx-hampton-suites-outer-banks-corolla/",
+   "final_url": "https://www.hilton.com/en/hotels/obxnchx-hampton-suites-outer-banks-corolla/",
+   "document_sha256": "e83872b25b48e8f05301934086b3171c438950c2f0b4a5ff6fae9efe7ec391e9",
+   "document_bytes": 277539,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Outer Banks/ Corolla",
+    "address_on_page": "333 Audubon Drive",
+    "postal_code": "27927",
+    "locality": "Corolla",
+    "region": "NC",
+    "phone_on_page": "+1 252-453-6565",
+    "property_code_on_page": "obxnchx",
+    "lat": 36.2612,
+    "lng": -75.7874
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "obxnchx",
+   "identity_key": "hampton inn and suites outer banks corolla",
+   "canonical_name": "Hampton Inn & Suites Outer Banks/ Corolla",
+   "corridor": "outer-banks-nc__corolla",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2petsMax,dog/cat, combined weight cannot exceed 75 pounds",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "weight_basis": "combined",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2petsMax,dog/cat, combined weight cannot exceed 75 pounds",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2petsMax,dog/cat, combined weight cannot exceed 75 pounds",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2petsMax,dog/cat, combined weight cannot exceed 75 pounds",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2petsMax,dog/cat, combined weight cannot exceed 75 pounds",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_basis"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.heartofmanteo.com/pet-policy",
+   "final_url": "https://www.heartofmanteo.com/pet-policy",
+   "document_sha256": "c911a6fd0cab2e21c830091ee83f22d2fea596e17ed1f3cf44004e2a94f9b25b",
+   "document_bytes": 25869,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Heart of Manteo Motor Lodge",
+    "address_on_page": "100 US-64",
+    "postal_code": "27954",
+    "locality": "Manteo",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "heart of manteo motor lodge",
+   "canonical_name": "Heart of Manteo Motor Lodge",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs and cats are allowed based on room availability. A daily fee is charged per pet (a maximum of 2 pets are allowed in a room).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orfkhgi-hilton-garden-inn-outer-banks-kitty-hawk/",
+   "final_url": "https://www.hilton.com/en/hotels/orfkhgi-hilton-garden-inn-outer-banks-kitty-hawk/",
+   "document_sha256": "05c94ea1518a1cd99b68652f9e2a912524b1b1d674909fe269d3090b22e60de0",
+   "document_bytes": 295011,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Outer Banks/Kitty Hawk",
+    "address_on_page": "5353 N. Virginia DareTrail",
+    "postal_code": "27949",
+    "locality": null,
+    "region": "NC",
+    "phone_on_page": "+1 252-261-1290",
+    "property_code_on_page": "orfkhgi",
+    "lat": 36.0989,
+    "lng": -75.7104
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "orfkhgi",
+   "identity_key": "hilton garden inn outer banks kitty hawk",
+   "canonical_name": "Hilton Garden Inn Outer Banks/Kitty Hawk",
+   "corridor": "outer-banks-nc__kitty-hawk-southern-shores-duck",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/nags-head/nghob/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/nags-head/nghob/hoteldetail",
+   "document_sha256": "564dc6c5e858a5224f1390e316ca2f326dd9782677a3b53637be50867a2d9a7b",
+   "document_bytes": 276467,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express Nags Head Oceanfront",
+    "address_on_page": "4701 South Virginia Dare Trail",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "1-252-4410454",
+    "property_code_on_page": "nghob",
+    "lat": 35.944653,
+    "lng": -75.617031
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "nghob",
+   "identity_key": "holiday inn express nags head oceanfront",
+   "canonical_name": "Holiday Inn Express Nags Head Oceanfront",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Holiday Inn Express Nags Head Oceanfront.\nPet policy description. We welcome one pet 75 lbs. max for a 75 USD fee per stay. Pets must be leashed, may not be left unattended, and are prohibited in the pool, fitness center, and breakfast area. Guests are responsible for all pet related damages.\nPet fee per stay: 75 USD\nPet weight limit: 75\n1 pets allowed\nPets allowed: Only dogs allowed",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 1,
+    "species_allowed": [
+     "dog"
+    ],
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Nags Head Oceanfront.\nPet policy description. We welcome one pet 75 lbs. max for a 75 USD fee per stay. Pets must be leashed, may not be left unattended, and are prohibited in the pool, fitness center, and breakfast area. Guests are responsible for all pet related damages.\nPet fee per stay: 75 USD\nPet weight limit: 75\n1 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Nags Head Oceanfront.\nPet policy description. We welcome one pet 75 lbs. max for a 75 USD fee per stay. Pets must be leashed, may not be left unattended, and are prohibited in the pool, fitness center, and breakfast area. Guests are responsible for all pet related damages.\nPet fee per stay: 75 USD\nPet weight limit: 75\n1 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Nags Head Oceanfront.\nPet policy description. We welcome one pet 75 lbs. max for a 75 USD fee per stay. Pets must be leashed, may not be left unattended, and are prohibited in the pool, fitness center, and breakfast area. Guests are responsible for all pet related damages.\nPet fee per stay: 75 USD\nPet weight limit: 75\n1 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Nags Head Oceanfront.\nPet policy description. We welcome one pet 75 lbs. max for a 75 USD fee per stay. Pets must be leashed, may not be left unattended, and are prohibited in the pool, fitness center, and breakfast area. Guests are responsible for all pet related damages.\nPet fee per stay: 75 USD\nPet weight limit: 75\n1 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Nags Head Oceanfront.\nPet policy description. We welcome one pet 75 lbs. max for a 75 USD fee per stay. Pets must be leashed, may not be left unattended, and are prohibited in the pool, fitness center, and breakfast area. Guests are responsible for all pet related damages.\nPet fee per stay: 75 USD\nPet weight limit: 75\n1 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Nags Head Oceanfront.\nPet policy description. We welcome one pet 75 lbs. max for a 75 USD fee per stay. Pets must be leashed, may not be left unattended, and are prohibited in the pool, fitness center, and breakfast area. Guests are responsible for all pet related damages.\nPet fee per stay: 75 USD\nPet weight limit: 75\n1 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ffallht-home2-suites-outer-banks-kill-devil-hills/",
+   "final_url": "https://www.hilton.com/en/hotels/ffallht-home2-suites-outer-banks-kill-devil-hills/",
+   "document_sha256": "55981deaeaaf0c11162aeb5cb10c9539339482f886ab3ae52b4d467c3daffa29",
+   "document_bytes": 271261,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Outer Banks Kill Devil Hills",
+    "address_on_page": "107 S Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "+1 252-715-0695",
+    "property_code_on_page": "ffallht",
+    "lat": 36.014427,
+    "lng": -75.6571388
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ffallht",
+   "identity_key": "home2 suites by hilton outer banks kill devil hills",
+   "canonical_name": "Home2 Suites by Hilton Outer Banks Kill Devil Hills",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details are available at the front desk.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details are available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details are available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details are available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details are available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/trademark/manteo-north-carolina/hotel-manteo-trademark-collection/overview",
+   "final_url": "https://www.wyndhamhotels.com/BWSServices/services/search/property/search?isOverviewNeeded=true&propertyId=58992&isAmenitiesNeeded=false&channelId=tab&language=en-us&isRoomAmenitiesNeeded=false",
+   "document_sha256": "98b2afdc0c73981c78c56987f217406abec756908e69a14b45133b4079fcfe68",
+   "document_bytes": 38122,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hotel Manteo, Trademark Collection by Wyndham",
+    "address_on_page": "814 US-64",
+    "postal_code": "27954",
+    "locality": "Manteo",
+    "region": "NC",
+    "phone_on_page": "252-5733737",
+    "property_code_on_page": "58992",
+    "lat": 35.91426,
+    "lng": -75.677491
+   },
+   "identity_binding_method": "PROPERTY_SERVICE_ADDRESS_AND_PROPERTY_ID",
+   "property_code": "58992",
+   "identity_key": "hotel manteo trademark collection by wyndham",
+   "canonical_name": "Hotel Manteo, Trademark Collection by Wyndham",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. Dogs and cats only. / Fees - 50USD per pet per stay. / Other Information - Pets cannot be left unattended in room.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet"
+   },
+   "evidence": [
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. Dogs and cats only. / Fees - 50USD per pet per stay. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. Dogs and cats only. / Fees - 50USD per pet per stay. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. Dogs and cats only. / Fees - 50USD per pet per stay. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. Dogs and cats only. / Fees - 50USD per pet per stay. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. Dogs and cats only. / Fees - 50USD per pet per stay. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.johnyanceyinn.com/faq",
+   "final_url": "https://www.johnyanceyinn.com/faq",
+   "document_sha256": "34fe74f07eee7e427f0b37e5830600a78b7a3cef552ee2a8056e80cad1537c55",
+   "document_bytes": 103154,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "John Yancey Oceanfront Inn",
+    "address_on_page": "2009 S. Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "john yancey oceanfront inn",
+   "canonical_name": "John Yancey Oceanfront Inn",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Yes, we are dog friendly! Dogs are allowed in designated pet friendly rooms. We do require a pet liability waiver to be signed at check in. Please inquire with the reservations team when making your reservation. The pet fee is $40 plus taxes per pet, max of 2 dogs per hotel room not to exceed 80lbs total.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 80.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Yes, we are dog friendly! Dogs are allowed in designated pet friendly rooms. We do require a pet liability waiver to be signed at check in. Please inquire with the reservations team when making your reservation. The pet fee is $40 plus taxes per pet, max of 2 dogs per hotel room not to exceed 80lbs total.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Yes, we are dog friendly! Dogs are allowed in designated pet friendly rooms. We do require a pet liability waiver to be signed at check in. Please inquire with the reservations team when making your reservation. The pet fee is $40 plus taxes per pet, max of 2 dogs per hotel room not to exceed 80lbs total.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Yes, we are dog friendly! Dogs are allowed in designated pet friendly rooms. We do require a pet liability waiver to be signed at check in. Please inquire with the reservations team when making your reservation. The pet fee is $40 plus taxes per pet, max of 2 dogs per hotel room not to exceed 80lbs total.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Yes, we are dog friendly! Dogs are allowed in designated pet friendly rooms. We do require a pet liability waiver to be signed at check in. Please inquire with the reservations team when making your reservation. The pet fee is $40 plus taxes per pet, max of 2 dogs per hotel room not to exceed 80lbs total.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.marinerobx.com/hotel-policy",
+   "final_url": "https://www.marinerobx.com/hotel-policy",
+   "document_sha256": "9d1d5357033cbf595c2a5ae9dbcc866da96d75ee404c5266355a7817fcf46234",
+   "document_bytes": 28699,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Mariner Inn & Suites",
+    "address_on_page": "1801 N Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "mariner inn and suites",
+   "canonical_name": "Mariner Inn & Suites",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Pets are ONLY allowed in designated pet-friendly rooms and up to two pets/room The pet fee is $25/night for each pet.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are ONLY allowed in designated pet-friendly rooms and up to two pets/room The pet fee is $25/night for each pet.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are ONLY allowed in designated pet-friendly rooms and up to two pets/room The pet fee is $25/night for each pet.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets are ONLY allowed in designated pet-friendly rooms and up to two pets/room The pet fee is $25/night for each pet.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets are ONLY allowed in designated pet-friendly rooms and up to two pets/room The pet fee is $25/night for each pet.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.miasboutiquehotel.com/hotel-policy",
+   "final_url": "https://www.miasboutiquehotel.com/hotel-policy",
+   "document_sha256": "95a5a653bacc6f820cbc7393f2376d3979c844a751cf4077f6cdcb71c1b3192e",
+   "document_bytes": 27748,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Mia's Boutique Hotel",
+    "address_on_page": "7115 South Virginia Dare Trail",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "mia s boutique hotel",
+   "canonical_name": "Mia's Boutique Hotel",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Pet Policies Dogs and cats are allowed If you intend to bring your pet, please make sure to mention your pet while booking your room.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policies Dogs and cats are allowed If you intend to bring your pet, please make sure to mention your pet while booking your room.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policies Dogs and cats are allowed If you intend to bring your pet, please make sure to mention your pet while booking your room.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.obxmotorlodge.com/faqs.html",
+   "final_url": "https://www.obxmotorlodge.com/faqs.html",
+   "document_sha256": "bc533ce06b7f5d622b2daee0f49bf7854faa95f103751556c75a52dc38b089f3",
+   "document_bytes": 21132,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Outer Banks Motor Lodge",
+    "address_on_page": "1509 S. Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "outer banks motor lodge",
+   "canonical_name": "Outer Banks Motor Lodge",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Do you allow pets? We only have 4 rooms that are pet friendly, to reserve one of our pet rooms, be sure the description of the room says \"pet friendly\". Our oceanfront rooms are not pet friendly. If you need a pet friendly room, it is best to call the motel to be sure you get the room you need. Is there a pet fee? Yes, we have an additional $25 per night pet fee.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night"
+   },
+   "evidence": [
+    {
+     "quote": "Do you allow pets? We only have 4 rooms that are pet friendly, to reserve one of our pet rooms, be sure the description of the room says \"pet friendly\". Our oceanfront rooms are not pet friendly. If you need a pet friendly room, it is best to call the motel to be sure you get the room you need. Is there a pet fee? Yes, we have an additional $25 per night pet fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Do you allow pets? We only have 4 rooms that are pet friendly, to reserve one of our pet rooms, be sure the description of the room says \"pet friendly\". Our oceanfront rooms are not pet friendly. If you need a pet friendly room, it is best to call the motel to be sure you get the room you need. Is there a pet fee? Yes, we have an additional $25 per night pet fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Do you allow pets? We only have 4 rooms that are pet friendly, to reserve one of our pet rooms, be sure the description of the room says \"pet friendly\". Our oceanfront rooms are not pet friendly. If you need a pet friendly room, it is best to call the motel to be sure you get the room you need. Is there a pet fee? Yes, we have an additional $25 per night pet fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "fee_currency"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/ramada/kill-devil-hills-north-carolina/ramada-plaza-nags-head-beach/overview",
+   "final_url": "https://www.wyndhamhotels.com/BWSServices/services/search/property/search?isOverviewNeeded=true&propertyId=00604&isAmenitiesNeeded=false&channelId=tab&language=en-us&isRoomAmenitiesNeeded=false",
+   "document_sha256": "99bb0a75a4f811315f3554f70a9092b913204162d0caf822ffa88e09466ffbe1",
+   "document_bytes": 42628,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Ramada Plaza by Wyndham Nags Head Oceanfront",
+    "address_on_page": "1701 South Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "252-4412151",
+    "property_code_on_page": "00604",
+    "lat": 35.999294,
+    "lng": -75.647636
+   },
+   "identity_binding_method": "PROPERTY_SERVICE_ADDRESS_AND_PROPERTY_ID",
+   "property_code": "00604",
+   "identity_key": "ramada plaza by wyndham nags head oceanfront",
+   "canonical_name": "Ramada Plaza by Wyndham Nags Head Oceanfront",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Dogs Only Allowed - 2 pets max. / Fees - Non-refundable 35 USD plus tax per night per room/ Other Information - Pets only permitted in pet designated room types. Pet rooms on first floor only.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_night"
+   },
+   "evidence": [
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Dogs Only Allowed - 2 pets max. / Fees - Non-refundable 35 USD plus tax per night per room/ Other Information - Pets only permitted in pet designated room types. Pet rooms on first floor only.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Dogs Only Allowed - 2 pets max. / Fees - Non-refundable 35 USD plus tax per night per room/ Other Information - Pets only permitted in pet designated room types. Pet rooms on first floor only.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Dogs Only Allowed - 2 pets max. / Fees - Non-refundable 35 USD plus tax per night per room/ Other Information - Pets only permitted in pet designated room types. Pet rooms on first floor only.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Dogs Only Allowed - 2 pets max. / Fees - Non-refundable 35 USD plus tax per night per room/ Other Information - Pets only permitted in pet designated room types. Pet rooms on first floor only.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Dogs Only Allowed - 2 pets max. / Fees - Non-refundable 35 USD plus tax per night per room/ Other Information - Pets only permitted in pet designated room types. Pet rooms on first floor only.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Dogs Only Allowed - 2 pets max. / Fees - Non-refundable 35 USD plus tax per night per room/ Other Information - Pets only permitted in pet designated room types. Pet rooms on first floor only.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://roanokeislandinn.com/policies",
+   "final_url": "https://roanokeislandinn.com/policies",
+   "document_sha256": "6748d2d8e6b7f8c71ed3f0002588406723d726da54e59b02ab9862da40f98b61",
+   "document_bytes": 29262,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Roanoke Island Inn",
+    "address_on_page": "305 Fernando Street",
+    "postal_code": "27954",
+    "locality": "Manteo",
+    "region": "NC",
+    "phone_on_page": "(252) 473-5511",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "roanoke island inn",
+   "canonical_name": "Roanoke Island Inn",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Dogs are welcome in rooms 2, 3, the Bungalow and Dot's Cottage and require a $50 cleaning fee.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "Dogs are welcome in rooms 2, 3, the Bungalow and Dot's Cottage and require a $50 cleaning fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Dogs are welcome in rooms 2, 3, the Bungalow and Dot's Cottage and require a $50 cleaning fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://seafoam.com/rooms-and-amenities/",
+   "final_url": "https://seafoam.com/rooms-and-amenities/",
+   "document_sha256": "96e34efad346b6b5b31b8f22bb490286820bf04c6c9623cf9fee5d71ad242e16",
+   "document_bytes": 168540,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Sea Foam Motel",
+    "address_on_page": "7111 S. Virginia Dare Trail",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "sea foam motel",
+   "canonical_name": "Sea Foam Motel",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "We have select rooms that are pet-friendly and invite you to bring your canine companion (Pet fee applies)",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "We have select rooms that are pet-friendly and invite you to bring your canine companion (Pet fee applies)",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.searanchresort.com/pet-policy/",
+   "final_url": "https://www.searanchresort.com/pet-policy/",
+   "document_sha256": "176095d3d1d53ca044b4cd8c02f6e2ff86ffc32de66ddaba8d00cbf39d9665fd",
+   "document_bytes": 116202,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Sea Ranch Resort",
+    "address_on_page": "1731 N. Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "sea ranch resort",
+   "canonical_name": "Sea Ranch Resort",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "we have a limited number of guest rooms designated as dog-friendly and welcome your visit.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "we have a limited number of guest rooms designated as dog-friendly and welcome your visit.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://seahorseinnobx.com/pet-policy",
+   "final_url": "https://seahorseinnobx.com/pet-policy",
+   "document_sha256": "0a02959a2481105e8d4c24e232c39473a37fcdacd38ca5874eac7092d2123e10",
+   "document_bytes": 21405,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Seahorse Inn & Cottages",
+    "address_on_page": "7218 S Virginia Dare Trail",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "252-441-5242",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "seahorse inn and cottages",
+   "canonical_name": "Seahorse Inn & Cottages",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Not ALL rooms are pet friendly. Pets are ONLY allowed in designated pet friendly rooms (RMS 140, 141, 142 and 143). Pet fees are $25 per pet, per night.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
+   },
+   "evidence": [
+    {
+     "quote": "Not ALL rooms are pet friendly. Pets are ONLY allowed in designated pet friendly rooms (RMS 140, 141, 142 and 143). Pet fees are $25 per pet, per night.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Not ALL rooms are pet friendly. Pets are ONLY allowed in designated pet friendly rooms (RMS 140, 141, 142 and 143). Pet fees are $25 per pet, per night.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Not ALL rooms are pet friendly. Pets are ONLY allowed in designated pet friendly rooms (RMS 140, 141, 142 and 143). Pet fees are $25 per pet, per night.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "fee_currency"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.seeseaobx.com/pet-policies",
+   "final_url": "https://www.seeseaobx.com/pet-policies",
+   "document_sha256": "4537008887ea19bcea5391d879661a92ebdaa6e6fd3c289b07a2d8eee9117de7",
+   "document_bytes": 102636,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "See Sea Motel",
+    "address_on_page": "1234 South Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "see sea motel",
+   "canonical_name": "See Sea Motel",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "We’re thrilled to be a pet-friendly motel and welcome dogs in selected rooms.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "We’re thrilled to be a pet-friendly motel and welcome dogs in selected rooms.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "We’re thrilled to be a pet-friendly motel and welcome dogs in selected rooms.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ffaobpe-spark-outer-banks-kill-devil-hills/",
+   "final_url": "https://www.hilton.com/en/hotels/ffaobpe-spark-outer-banks-kill-devil-hills/",
+   "document_sha256": "2bd1ddb5bebf2a6dc36e574afd15f92513af9db26141e20f673a392d55bd3cf8",
+   "document_bytes": 265759,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Spark by Hilton Outer Banks Kill Devil Hills",
+    "address_on_page": "401 N Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "+1 252-564-1310",
+    "property_code_on_page": "ffaobpe",
+    "lat": 36.0172379,
+    "lng": -75.6584065
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ffaobpe",
+   "identity_key": "spark by hilton outer banks kill devil hills",
+   "canonical_name": "Spark by Hilton Outer Banks Kill Devil Hills",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details are available at the front desk.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details are available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details are available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details are available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details are available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.surfsideobx.com/faqs/",
+   "final_url": "https://www.surfsideobx.com/faqs/",
+   "document_sha256": "1705cad480b4246a576a9e792d90d6570901427475ec27354e489b3720d37b0b",
+   "document_bytes": 240696,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Surf Side Hotel",
+    "address_on_page": "6701 S. Virginia Dare Trail",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "252 441-2105",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "surf side hotel",
+   "canonical_name": "Surf Side Hotel",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Do you allow pets? Yes. We have a couple of pet friendly rooms in our condo building. Condo rentals allow up to two dogs under 50 pounds with a nightly fee.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Do you allow pets? Yes. We have a couple of pet friendly rooms in our condo building. Condo rentals allow up to two dogs under 50 pounds with a nightly fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Do you allow pets? Yes. We have a couple of pet friendly rooms in our condo building. Condo rentals allow up to two dogs under 50 pounds with a nightly fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Do you allow pets? Yes. We have a couple of pet friendly rooms in our condo building. Condo rentals allow up to two dogs under 50 pounds with a nightly fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Do you allow pets? Yes. We have a couple of pet friendly rooms in our condo building. Condo rentals allow up to two dogs under 50 pounds with a nightly fee.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.tarheelobx.com/faqs",
+   "final_url": "https://www.tarheelobx.com/faqs",
+   "document_sha256": "368a8d7beaa09783e584f3a0451f6dfa0a9e13de4d982ec4c6a7c8043cf7e6ee",
+   "document_bytes": 109489,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Tar Heel Motel",
+    "address_on_page": "7010 South Virginia Dare Trail",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "tar heel motel",
+   "canonical_name": "Tar Heel Motel",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "The Tar Heel Motel offers pet-friendly rooms, and only dogs are allowed at the facility.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "The Tar Heel Motel offers pet-friendly rooms, and only dogs are allowed at the facility.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "The Tar Heel Motel offers pet-friendly rooms, and only dogs are allowed at the facility.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.theislandmotel.com/fyi/policies/",
+   "final_url": "https://www.theislandmotel.com/fyi/policies/",
+   "document_sha256": "7ae1ff3600049717d4834f6f37be45f15fdfa959ec8fb384664836ac7b1e8c29",
+   "document_bytes": 80142,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Island Guesthouse & Motel",
+    "address_on_page": "706 N Hwy 64",
+    "postal_code": "27954",
+    "locality": "Manteo",
+    "region": "NC",
+    "phone_on_page": "252-473-2434",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "the island guesthouse and motel",
+   "canonical_name": "The Island Guesthouse & Motel",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Pets: We have several pet-friendly rooms available on the property. Advanced notice is required if your pet is accompanying you. You will be charged a pet fee of $40 per pet/ per night. Additional nights will be only $25.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets: We have several pet-friendly rooms available on the property. Advanced notice is required if your pet is accompanying you. You will be charged a pet fee of $40 per pet/ per night. Additional nights will be only $25.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.thesanderling.com/faq/",
+   "final_url": "https://www.thesanderling.com/faq/",
+   "document_sha256": "160c965c0af18dad20c8654d923f69e9c8bebb5c64ba9bc9815e7ac22cc9def5",
+   "document_bytes": 93448,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Sanderling Resort",
+    "address_on_page": "1461 Duck Road",
+    "postal_code": "27949",
+    "locality": "Duck",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "the sanderling resort",
+   "canonical_name": "The Sanderling Resort",
+   "corridor": "outer-banks-nc__kitty-hawk-southern-shores-duck",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "The Sanderling welcomes dogs staying with their owners .The fee is $300 for guest rooms and $400 for the residences. The maximum allowance is two (2) dogs, under 60 pounds each, per guestroom or vacation home.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 60.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "The Sanderling welcomes dogs staying with their owners .The fee is $300 for guest rooms and $400 for the residences. The maximum allowance is two (2) dogs, under 60 pounds each, per guestroom or vacation home.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "The Sanderling welcomes dogs staying with their owners .The fee is $300 for guest rooms and $400 for the residences. The maximum allowance is two (2) dogs, under 60 pounds each, per guestroom or vacation home.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "The Sanderling welcomes dogs staying with their owners .The fee is $300 for guest rooms and $400 for the residences. The maximum allowance is two (2) dogs, under 60 pounds each, per guestroom or vacation home.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "The Sanderling welcomes dogs staying with their owners .The fee is $300 for guest rooms and $400 for the residences. The maximum allowance is two (2) dogs, under 60 pounds each, per guestroom or vacation home.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ffats-towneplace-suites-outer-banks-kill-devil-hills/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ffats-towneplace-suites-outer-banks-kill-devil-hills/overview/",
+   "document_sha256": "0084e1719acf59f1ba3e0b831697a28b9ef271f051166df46d2913c692732183",
+   "document_bytes": 341045,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Outer Banks Kill Devil Hills",
+    "address_on_page": "2028 South Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "+12524572190",
+    "property_code_on_page": "ffats",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ffats",
+   "identity_key": "towneplace suites by marriott outer banks kill devil hills",
+   "canonical_name": "TownePlace Suites by Marriott Outer Banks Kill Devil Hills",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pets Welcome 2 pets per room allowed with USD 100 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "fee_scope": "per_room"
+   },
+   "evidence": [
+    {
+     "quote": "Pets Welcome 2 pets per room allowed with USD 100 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets per room allowed with USD 100 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets per room allowed with USD 100 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets per room allowed with USD 100 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets per room allowed with USD 100 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/travelodge/kill-devil-hills-north-carolina/travelodge-outer-banks-kill-devil-hills/overview",
+   "final_url": "https://www.wyndhamhotels.com/BWSServices/services/search/property/search?isOverviewNeeded=true&propertyId=00951&isAmenitiesNeeded=false&channelId=tab&language=en-us&isRoomAmenitiesNeeded=false",
+   "document_sha256": "13ebe4442313a3669bab915c6921e4c293a8e6d06c48ab6d9071af478c0bd1a0",
+   "document_bytes": 32305,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Travelodge by Wyndham Outer Banks/Kill Devil Hills",
+    "address_on_page": "804 North Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "1-252-4410411",
+    "property_code_on_page": "00951",
+    "lat": 36.019238,
+    "lng": -75.661186
+   },
+   "identity_binding_method": "PROPERTY_SERVICE_ADDRESS_AND_PROPERTY_ID",
+   "property_code": "00951",
+   "identity_key": "travelodge by wyndham outer banks kill devil hills",
+   "canonical_name": "Travelodge by Wyndham Outer Banks/Kill Devil Hills",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "Pets are welcome at this hotel in our Pet-Friendly Rooms Only - pet fee is 25 USD per pet per night for Pet-Friendly Rooms. ADA-defined service animals are also welcome at this hotel.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at this hotel in our Pet-Friendly Rooms Only - pet fee is 25 USD per pet per night for Pet-Friendly Rooms. ADA-defined service animals are also welcome at this hotel.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at this hotel in our Pet-Friendly Rooms Only - pet fee is 25 USD per pet per night for Pet-Friendly Rooms. ADA-defined service animals are also welcome at this hotel.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at this hotel in our Pet-Friendly Rooms Only - pet fee is 25 USD per pet per night for Pet-Friendly Rooms. ADA-defined service animals are also welcome at this hotel.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    }
+   ]
+  }
+ ],
+ "clean_verified_no_pets": [
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/kill-devil-hills-north-carolina/days-inn-kill-devil-hills-oceanfront-wilbur/overview",
+   "final_url": "https://www.wyndhamhotels.com/BWSServices/services/search/property/search?isOverviewNeeded=true&propertyId=05312&isAmenitiesNeeded=false&channelId=tab&language=en-us&isRoomAmenitiesNeeded=false",
+   "document_sha256": "bb4745befd4c015f7968bf93063379700c417ab6dc83208b59c026e46cbe5e8e",
+   "document_bytes": 20625,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Days Inn by Wyndham Kill Devil Hills Oceanfront - Wilbur",
+    "address_on_page": "201 North Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "252-4417211",
+    "property_code_on_page": "05312",
+    "lat": 36.015152,
+    "lng": -75.656921
+   },
+   "identity_binding_method": "PROPERTY_SERVICE_ADDRESS_AND_PROPERTY_ID",
+   "property_code": "05312",
+   "identity_key": "days inn by wyndham kill devil hills oceanfront wilbur",
+   "canonical_name": "Days Inn by Wyndham Kill Devil Hills Oceanfront - Wilbur",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/orfnf-fairfield-inn-and-suites-nags-head/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/orfnf-fairfield-inn-and-suites-nags-head/overview/",
+   "document_sha256": "828d1a0374567808f3e33356594de5b12dcdd8fcb604266ebe4a2c2f5d7e2fd3",
+   "document_bytes": 287378,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Nags Head",
+    "address_on_page": "110 W Lakeside St",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "+12527153760",
+    "property_code_on_page": "orfnf",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "orfnf",
+   "identity_key": "fairfield by marriott inn and suites nags head",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Nags Head",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://oasissuites.com/policies/hotel-policy/",
+   "final_url": "https://oasissuites.com/policies/hotel-policy/",
+   "document_sha256": "606b611abe58e2c9cf37ed19a57b113f1c07feba102d7ac8eb0e6ceb72861144",
+   "document_bytes": 161128,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Oasis Suites Hotel",
+    "address_on_page": "7721 South Virginia Dare Trail",
+    "postal_code": "27959",
+    "locality": "Nags Head",
+    "region": "NC",
+    "phone_on_page": "(252) 441-5211",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "oasis suites hotel",
+   "canonical_name": "Oasis Suites Hotel",
+   "corridor": "outer-banks-nc__nags-head",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Pets : Oasis is a “No Pet” facility.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pets : Oasis is a “No Pet” facility.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.scarboroughinnmanteo.com/hotel-policy",
+   "final_url": "https://www.scarboroughinnmanteo.com/hotel-policy",
+   "document_sha256": "9220b10df98ea08b2ee42e5626daa994a6a512abea69e6bcfe9f8cae7888da31",
+   "document_bytes": 28638,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Scarborough Inn",
+    "address_on_page": "524 US Highway 64",
+    "postal_code": "27954",
+    "locality": "Manteo",
+    "region": "NC",
+    "phone_on_page": "+1-252-473-3979",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "scarborough inn",
+   "canonical_name": "Scarborough Inn",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Pet Policies Pets not allowed.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policies Pets not allowed.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://shuttersonthebanks.com/amenities/",
+   "final_url": "https://shuttersonthebanks.com/amenities/",
+   "document_sha256": "bbdc57eefba6e80742bb8e97656dd08269d9cfd77cd4dc2ff1f774481777711a",
+   "document_bytes": 59458,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Shutters on the Banks",
+    "address_on_page": "405 S. Virginia Dare Trail",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "252-441-5581",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "shutters on the banks",
+   "canonical_name": "Shutters on the Banks",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "In deference to our other guests, pets are not allowed at Shutters on the Banks.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "In deference to our other guests, pets are not allowed at Shutters on the Banks.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  }
+ ],
+ "rejected": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/orfbrgv-hilton-vacation-club-beachwoods-kitty-hawk/",
+   "final_url": "https://www.hilton.com/en/hotels/orfbrgv-hilton-vacation-club-beachwoods-kitty-hawk/",
+   "document_sha256": "adf5155db4465131d686d8d285dc1c8e175af81e16d31cf4fcc89f1a4311cfee",
+   "document_bytes": 266330,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Vacation Club Beachwoods Kitty Hawk",
+    "address_on_page": "1 Cypress Knee Trail",
+    "postal_code": "27949",
+    "locality": null,
+    "region": "NC",
+    "phone_on_page": "+1 252-261-4610",
+    "property_code_on_page": "orfbrgv",
+    "lat": 36.09432054573,
+    "lng": -75.71869110161
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "orfbrgv",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building NON_LODGING (Hilton Vacation Club Beachwoods is a vacation-ownership (timeshare) resort: owner weeks / points inventory, not a hotel ); a read cannot promote a row the identity graph withheld",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/kitty-hawk/ecgkh/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/kitty-hawk/ecgkh/hoteldetail",
+   "document_sha256": "e954979b3f611e47029102dda6e5a207dc09d1303ba90c9019202aa66e35246b",
+   "document_bytes": 287954,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express Kitty Hawk – Outer Banks",
+    "address_on_page": "3915 N. Croatan Highway",
+    "postal_code": "27949",
+    "locality": "Kitty Hawk",
+    "region": "NC",
+    "phone_on_page": "1-252-2614888",
+    "property_code_on_page": "ecgkh",
+    "lat": 36.0682246,
+    "lng": -75.6931896
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ecgkh",
+   "classification": "FIRST_PARTY_CONFLICT",
+   "why": "the property's own site states both acceptance and refusal: the FAQ heading says 'Pets are welcome' and the hotel's own pet policy description admits only service animals: 'Certified ADA service animals who are trained to perform a service for someone with a disability are allowed to stay on property with their owner. Emotional support animals are NOT service animals and are not allowed to be at the property.'. Two first-party statements that disagree publish neither",
+   "quote": "Pets are welcome at Holiday Inn Express Kitty Hawk – Outer Banks.\nPet policy description. Certified ADA service animals who are trained to perform a service for someone with a disability are allowed to stay on property with their owner. Emotional support animals are NOT service animals and are not allowed to be at the property.\nPet fee per stay: 75 USD\nPet weight limit: 75\n1 pets allowed\nPets allowed: Only dogs allowed"
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.oceansandskilldevilhills.com/rooms/pet-friendly/",
+   "final_url": "https://www.oceansandskilldevilhills.com/rooms/pet-friendly/",
+   "document_sha256": "0304521f9f8b908e16ad3bc25a86d61153fa5d4fef295733ea33f2494d7e1d26",
+   "document_bytes": 103298,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Ocean Sands Beach Boutique Inn",
+    "address_on_page": "1003 S Croatan Hwy",
+    "postal_code": "27948",
+    "locality": "Kill Devil Hills",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the first-party binding gate's reader does not read this quote as operative: no acceptance the reader will interpret: 'At Ocean Sands Beach Boutique Inn in Kill Devil Hills, we welcome well behaved dogs and cats in select rooms so you can enjoy the shoreline together.'",
+   "quote": "At Ocean Sands Beach Boutique Inn in Kill Devil Hills, we welcome well behaved dogs and cats in select rooms so you can enjoy the shoreline together."
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://thepearlhotelmanteo.com/policies/",
+   "final_url": "https://thepearlhotelmanteo.com/policies/",
+   "document_sha256": "3b04458313fb9549a6e7b2ff64deadf5a55c3c3672f1526b3d38a201dca45446",
+   "document_bytes": 133918,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Pearl Hotel",
+    "address_on_page": "100 Old Tom Ave",
+    "postal_code": "27954",
+    "locality": "Manteo",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "classification": "FIRST_PARTY_CONFLICT",
+   "why": "the property's own site states both acceptance and refusal: the hotel's own policy calls it 'a No Pet facility' and in the same sentence accepts a dog of 15 lb or less in one suite (#205); a single-suite exception to a no-pet facility is neither a pet-friendly hotel nor a verified no-pets hotel, so neither publishes. Two first-party statements that disagree publish neither",
+   "quote": "Pets: Pearl is a No Pet facility with the exception of our Soundscape Family Suite, #205. The dog must be 15 pounds or smaller."
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://cypressmooninn.com/",
+   "final_url": "https://cypressmooninn.com/",
+   "document_sha256": "d3dc8ffaa364d7293a5104b2294ac2baa1ab7636b64c5ff1fb3e9339efdb88f1",
+   "document_bytes": 93394,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Cypress Moon Inn",
+    "address_on_page": "1206 Harbor Court",
+    "postal_code": "27949",
+    "locality": "Kitty Hawk",
+    "region": "NC",
+    "phone_on_page": "",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the first-party binding gate's reader does not read this quote as operative: no refusal the reader will interpret: 'Although pets cannot stay at the inn there are some very good local boarding options close by that allow you to spend the day with your pet.'",
+   "quote": "Although pets cannot stay at the inn there are some very good local boarding options close by that allow you to spend the day with your pet."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.tranquilhouseinn.com/manteo-inn-amenities",
+   "final_url": "https://www.tranquilhouseinn.com/manteo-inn-amenities",
+   "document_sha256": "9ae6aab0a7b7d546a0d5f11b6f3aa59bcb241c4a8f580baf0fc1dfe9dc4f332e",
+   "document_bytes": 74397,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Tranquil House Inn",
+    "address_on_page": "405 Queen Elizabeth Avenue",
+    "postal_code": "27954",
+    "locality": "Manteo",
+    "region": "NC",
+    "phone_on_page": "(252) 473-1404",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "BROWSER_HASHED_DOCUMENT_STATING_THE_PROPERTYS_OWN_ADDRESS",
+   "property_code": null,
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the first-party binding gate's reader does not read this quote as operative: no refusal the reader will interpret: 'No guest pets allowed.'",
+   "quote": "No guest pets allowed."
+  }
+ ],
+ "unresolved_census_identities": [
+  {
+   "identity_key": "burrus house inn waterfront suites",
+   "canonical_name": "Burrus House Inn Waterfront Suites",
+   "brand": "",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "official_url": ""
+  },
+  {
+   "identity_key": "cameron house inn",
+   "canonical_name": "Cameron House Inn",
+   "brand": "",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "official_url": ""
+  },
+  {
+   "identity_key": "cavalier by the sea",
+   "canonical_name": "Cavalier by the Sea",
+   "brand": "",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "official_url": ""
+  },
+  {
+   "identity_key": "colington creek inn",
+   "canonical_name": "Colington Creek Inn",
+   "brand": "",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "official_url": ""
+  },
+  {
+   "identity_key": "comfort inn on the ocean",
+   "canonical_name": "Comfort Inn On The Ocean",
+   "brand": "",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "official_url": ""
+  },
+  {
+   "identity_key": "comfort inn south oceanfront",
+   "canonical_name": "Comfort Inn South Oceanfront",
+   "brand": "",
+   "corridor": "outer-banks-nc__nags-head",
+   "official_url": ""
+  },
+  {
+   "identity_key": "cypress house inn",
+   "canonical_name": "Cypress House Inn",
+   "brand": "",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "official_url": ""
+  },
+  {
+   "identity_key": "cypress moon inn",
+   "canonical_name": "Cypress Moon Inn",
+   "brand": "",
+   "corridor": "outer-banks-nc__kitty-hawk-southern-shores-duck",
+   "official_url": "http://cypressmooninn.com/"
+  },
+  {
+   "identity_key": "dare haven motel",
+   "canonical_name": "Dare Haven Motel",
+   "brand": "",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "official_url": ""
+  },
+  {
+   "identity_key": "driftin sands motel",
+   "canonical_name": "Driftin' Sands Motel",
+   "brand": "",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "official_url": ""
+  },
+  {
+   "identity_key": "fin n feather waterside inn",
+   "canonical_name": "Fin N' Feather Waterside Inn",
+   "brand": "",
+   "corridor": "outer-banks-nc__nags-head",
+   "official_url": ""
+  },
+  {
+   "identity_key": "first colony inn",
+   "canonical_name": "First Colony Inn",
+   "brand": "",
+   "corridor": "outer-banks-nc__nags-head",
+   "official_url": ""
+  },
+  {
+   "identity_key": "holiday inn express kitty hawk outer banks",
+   "canonical_name": "Holiday Inn Express Kitty Hawk – Outer Banks",
+   "brand": "IHG",
+   "corridor": "outer-banks-nc__kitty-hawk-southern-shores-duck",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/kitty-hawk/ecgkh/hoteldetail"
+  },
+  {
+   "identity_key": "inn at corolla light",
+   "canonical_name": "Inn at Corolla Light",
+   "brand": "",
+   "corridor": "outer-banks-nc__corolla",
+   "official_url": ""
+  },
+  {
+   "identity_key": "island house of wanchese b and b",
+   "canonical_name": "Island House of Wanchese B&B",
+   "brand": "",
+   "corridor": "outer-banks-nc__wanchese",
+   "official_url": ""
+  },
+  {
+   "identity_key": "islander motel",
+   "canonical_name": "Islander Motel",
+   "brand": "",
+   "corridor": "outer-banks-nc__nags-head",
+   "official_url": ""
+  },
+  {
+   "identity_key": "nags head beach inn",
+   "canonical_name": "Nags Head Beach Inn",
+   "brand": "",
+   "corridor": "outer-banks-nc__nags-head",
+   "official_url": ""
+  },
+  {
+   "identity_key": "ocean sands beach boutique inn",
+   "canonical_name": "Ocean Sands Beach Boutique Inn",
+   "brand": "",
+   "corridor": "outer-banks-nc__kill-devil-hills",
+   "official_url": "https://www.oceansandskilldevilhills.com/rooms/pet-friendly/"
+  },
+  {
+   "identity_key": "sandspur ocean cottages",
+   "canonical_name": "Sandspur Ocean Cottages",
+   "brand": "",
+   "corridor": "outer-banks-nc__nags-head",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the manteo house",
+   "canonical_name": "The Manteo House",
+   "brand": "",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the pearl hotel",
+   "canonical_name": "The Pearl Hotel",
+   "brand": "",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "official_url": "https://thepearlhotelmanteo.com/policies/"
+  },
+  {
+   "identity_key": "the roanoke bungalow",
+   "canonical_name": "The Roanoke Bungalow",
+   "brand": "",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the tranquil house inn",
+   "canonical_name": "The Tranquil House Inn",
+   "brand": "",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "official_url": "https://www.tranquilhouseinn.com/manteo-inn-amenities"
+  },
+  {
+   "identity_key": "white doe inn bed and breakfast",
+   "canonical_name": "White Doe Inn Bed and Breakfast",
+   "brand": "",
+   "corridor": "outer-banks-nc__manteo-roanoke-island",
+   "official_url": ""
+  }
+ ]
+}

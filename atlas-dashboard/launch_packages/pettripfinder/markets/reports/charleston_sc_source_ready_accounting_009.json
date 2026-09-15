@@ -1,0 +1,2142 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-CHARLESTON-SC-PARALLEL-SOURCE-READY-001",
+ "market_id": "charleston-sc",
+ "display_market": "Charleston, South Carolina",
+ "state": "SOURCE_READY -- SHADOW_UNTIL_REGISTERED",
+ "release_queue": "Current verified live: Atlanta (23 markets / 1500 profiles / 1744 routes, deploy 6aa7f125a91c73ba2363139e, commit 6825851b). Charleston waits for its turn in the serialized release lane behind the queued markets.",
+ "timings": {
+  "CHARLESTON_START_TIMESTAMP": "2026-09-14T14:08:03Z (2026-09-14T10:08:03-04:00)",
+  "precheck_and_template_read": "14:08Z-14:18Z (worktree, branch, HEAD 6825851b = the Atlanta-live release, tree clean; Savannah / Atlanta / Outer Banks / Greenville shadow chains and the Savannah browser transcript read)",
+  "geography": "14:18:45Z (14 corridors: 7 CORE / 4 CORRIDOR / 3 FRINGE, 36 admitted ZIPs; Kiawah / Seabrook refused by municipality inside 29455 and preserved for kiawah-seabrook-sc)",
+  "census_lanes": "OSM lane 164.4 s (South Carolina extract, hard link of the Charlotte run's 2026-09-10 snapshot; 393 elements); brand inventory about 15 min detached (Marriott SC sitemap page, 18 Hilton city pages + 27 sub-pages, 16 family sitemap probes); Charleston Area CVB roster 21.2 s plain client (109 listings)",
+  "identity": "14:41Z-15:00Z (census reconciliation passes, rulings: vacation-rental / timeshare / resort-component / component-of; same-campus guard)",
+  "routing": "Wyndham property service 6.4 s (25 routes: 13 read, 12 retired); static lane 8.7 s (94 targets)",
+  "browser_evidence": "14:31Z-14:41Z attended same-origin reads: IHG 17, Hyatt 8, Choice 32, Marriott 34, Hilton 41, Best Western 8, Red Roof 2; Extended Stay America 5 at 14:55Z (every committed payload's canonical-JSON sha256 verified against the page's)",
+  "static_evidence": "policy-page lane 32.3 s / 35.8 s / 40.0 s over three passes (63 / 81 / 88 sites)",
+  "policy_adjudication": "14:45Z-15:00Z (candidate quotes tested against the shared first-party reader; independent quotes proved verbatim with house number and ZIP on the same document)",
+  "reconciliation": "15:00Z-15:06Z (clean set 82 / 44, staged authority, final partition 186 identities, 0 contract issues)",
+  "shadow_package_and_fast": "15:06:48Z-15:08:12Z at fa4a9a47 (sealed twice in-process, FAST 15/15, determinism BYTE_IDENTICAL); an earlier seal at 3b3d1271 (15:01:29Z-15:03:21Z) also passed 15/15 and was superseded when the census stopped folding Homewood Suites Summerville into the Hilton Garden Inn through their shared switchboard phone",
+  "independent_reproduction": "15:08:30Z-15:08:52Z (clean git worktree at fa4a9a47 with a COPY of the document store: geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference; only the eol-unattributed discovery config checks out CRLF; separate-process digest-only seal = the same digest)",
+  "ZERO_TO_SOURCE_READY": "1 h 0 min 9 s (14:08:03Z -> 15:08:12Z, the final FAST-passed sealed shadow package; the first FAST-passed seal was at 15:03:21Z, 55 min 18 s)",
+  "peak_memory": "not measured on this run"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 440,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 12 unnamed map elements, 12 retired Wyndham routes, and the Hilton / IHG / Choice national-navigation codes outside South Carolina's 294xx / 299xx postal prefixes.",
+  "classification_counts": {
+   "DUPLICATE_LISTING": 2,
+   "IDENTITY_REVIEW_REQUIRED": 27,
+   "NAME_ONLY_UNRESOLVED": 55,
+   "NON_LODGING": 45,
+   "OUTSIDE_MARKET": 123,
+   "SAME_CAMPUS_DISTINCT_ENTITY": 2,
+   "TRUE_HOTEL_IDENTITY": 186
+  },
+  "PROPOSED_CENSUS": 186,
+  "VALID_PET_FRIENDLY": 82,
+  "VALID_VERIFIED_NO_PETS": 44,
+  "RESOLVED": 126,
+  "UNRESOLVED": 60,
+  "partition_counts_by_state": {
+   "ACCESS_BLOCKED": 2,
+   "AWAITING_OFFICIAL_URL": 3,
+   "AWAITING_POLICY_OBSERVATION": 55,
+   "PUBLISHED_PET_FRIENDLY": 82,
+   "VERIFIED_NO_PETS": 44
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "every_census_identity_key_unique": true
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 81,
+   "identity_review_required": [
+    "27 State",
+    "5 Doughty Street",
+    "Beachhouse",
+    "Bee & Blossom | Historic Charm",
+    "Boardwalk Inn",
+    "Charleston 1857 - Luxury Guesthouse",
+    "Comfort Suites North Charleston - Ashley Phosphate",
+    "Econo Lodge",
+    "Fairfield Inn & Suites",
+    "Hampton Inn & Suites",
+    "Historic 86 Church Street Charleston",
+    "Homewood Suites by Hilton Summerville",
+    "Hyatt Place North Charleston",
+    "SpringHill Suites",
+    "The Hamilton Motel",
+    "The Inn at Middleton Place",
+    "The Preserve Collection",
+    "The Quarters on Spring",
+    "The Quarters on Vendue",
+    "The Restoration Hotel",
+    "The Restoration Hotel",
+    "The VIBE on Spring",
+    "Wild Dunes Resort - Sweetgrass Inn and Boardwalk Inn",
+    "Wingate by Wyndham Charleston University Boulevard"
+   ],
+   "name_only_unresolved": [
+    "Beachside Boutique Inn",
+    "Belvedere Charleston",
+    "Budget Inn",
+    "Budget Inn",
+    "Candlewood Suites Charleston-Ashley Phosphate",
+    "Carolina Inn",
+    "Charleston Creekside Inn",
+    "Charleston Grand Hotel",
+    "Charleston Heights Motel",
+    "Charleston Heights Motel",
+    "Creekside Lands Inn",
+    "Econo Lodge",
+    "Economy Inn",
+    "Economy Inn and Suites",
+    "Economy Inn and Suites",
+    "Evergreen Motel",
+    "Extended Stay America",
+    "Extended Stay America",
+    "Extended Stay America - Charleston - North Charleston",
+    "Extended Stay America Select Suites",
+    "Folliday Inn",
+    "Hawthorn Suites by Wyndham Charleston",
+    "Hawthorn Suites by Wyndham North Charleston",
+    "Holiday Inn Express & Suites Charleston-Ashley Phosphate",
+    "Holiday Inn Express Charleston",
+    "Holliday Inn Express",
+    "Hotel Circulo",
+    "Hotel Folly",
+    "InTown Suites Charleston Southwest",
+    "InTown Suites Extended Stay Living Charleston Central",
+    "InTown Suites Extended Stay Living Charleston/I-26",
+    "InTown Suites Extended Stay North Charleston",
+    "Lodge building",
+    "Motel 6 Charleston N",
+    "Motel 6 Charleston South",
+    "Motel 6 Summerville",
+    "North Charleston Lodge",
+    "Ocean Inn",
+    "Ocean Inn",
+    "Palm Hotel",
+    "Regatta Inn",
+    "Relax Inn",
+    "Riverside Inn and Cottages",
+    "Seaside Inn",
+    "Sleep Inn",
+    "Stay APT Suites",
+    "Sweetgrass Inn",
+    "The Governor's House Inn",
+    "The Inn at Middleton",
+    "The Restoration on King",
+    "The Vendue",
+    "Town & Country Inn and Suites",
+    "Vera Hotel",
+    "Water's Edge Inn",
+    "West Ashley Inn"
+   ],
+   "rebrand_unresolved": [],
+   "same_campus_unproved": [
+    "Hyatt House Charleston/Historic District",
+    "The Lowline Hotel"
+   ],
+   "note": "Not census identities and never published: brand-flag map rows the brand's own inventory does not list (Comfort Suites / Econo Lodge / Sleep Inn Ashley Phosphate & Summerville, Wingate University Boulevard, Hyatt Place at 7331 Mazyck Road), resort components (Wild Dunes' combined Sweetgrass Inn / Boardwalk Inn listing), guest-house map rows of unconfirmed category, the same-campus pair at 560 King Street (Hyatt House / The Lowline), and name-only map and directory leads (InTown Suites x4, Motel 6 x2, Hawthorn Suites x2, Hotel Folly, Folliday Inn, Vera Hotel, Regatta Inn, Beachside Boutique Inn, Water's Edge Inn ...)."
+  },
+  "ROUTING_HOLDS": {
+   "count": 3,
+   "identities": [
+    "Country Victorian",
+    "Stay Express Inn North Charleston",
+    "The Palmetto House Inn"
+   ]
+  },
+  "ACCESS_BLOCKED": {
+   "count": 2,
+   "by_cause": {
+    "OWN_SITE": 2
+   },
+   "identities": [
+    "Starlight Motor Inn",
+    "The Cottages on Charleston Harbor"
+   ]
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 55,
+   "identities": [
+    "20 South Battery",
+    "360 King Boutique Suites",
+    "86 Cannon Historic Inn",
+    "Andrew Pinckney Inn",
+    "avid hotels Summerville",
+    "Bijou Boutique Inn",
+    "Charleston Harbor Resort & Marina",
+    "Days Inn by Wyndham Goose Creek",
+    "DoubleTree by Hilton Charleston Mount Pleasant",
+    "DoubleTree by Hilton Hotel & Suites Charleston Airport",
+    "DoubleTree by Hilton Hotel North Charleston - Convention Center",
+    "Elliott House Inn",
+    "Emeline",
+    "Extended Stay America - Charleston - Airport",
+    "Extended Stay America - Charleston - Ashley Phosphate Rd.",
+    "Extended Stay America - Charleston - Mt. Pleasant",
+    "Extended Stay America - Charleston - North Charleston - I-526",
+    "Extended Stay America - Charleston - Northwoods Blvd.",
+    "Fire Tower",
+    "Francis Marion Hotel",
+    "French Quarter Inn",
+    "Fulton Lane Inn",
+    "HarbourView Inn",
+    "Hilton Garden Inn Summerville",
+    "Homewood Suites by Hilton Summerville",
+    "Hotel Bennett",
+    "Hotel Richemont",
+    "Indigo Inn",
+    "Luxury Bed & Breakfast Inn on Folly Beach",
+    "Market Pavilion Hotel",
+    "Meeting Street Inn",
+    "Parson Inn",
+    "Planters Inn",
+    "Seaside Inn",
+    "Shem Creek Inn",
+    "Staybridge Suites Charleston-Ashley Phosphate",
+    "Staybridge Suites Charleston - Mount Pleasant",
+    "Staybridge Suites Summerville - Charleston Area",
+    "The Ansonborough",
+    "The Ashley",
+    "The Charlee on Cannon",
+    "The Charleston Place",
+    "The Cooper",
+    "The Jasmine House",
+    "The Loutrel",
+    "The Nickel Hotel",
+    "The Palmetto Hotel Charleston",
+    "The Palms Oceanfront Hotel",
+    "The Pinch",
+    "The Ryder Hotel",
+    "The Spectator Hotel",
+    "Tides Folly Beach",
+    "Victoria House Inn",
+    "WoodSpring Suites North Charleston Airport I-526",
+    "Zero George"
+   ],
+   "rejected_reads_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 13,
+    "CO_LOCATION_RULING_REQUIRED": 2,
+    "POLICY_NOT_FOUND": 4,
+    "QUOTE_NOT_OPERATIVE": 1,
+    "SERVICE_ANIMAL_ONLY": 3
+   }
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 0,
+   "identities": []
+  },
+  "PAID_HOLDS": {
+   "count": 0,
+   "note": "No census cohort requires a paid lane: every brand family that names a census identity served the attended session. Motel 6 refused the attended browser, but its Charleston rows are name-only map leads, not census identities. PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 3,
+   "identities": [
+    "Hilton Club Liberty Place Charleston",
+    "Hilton Vacation Club King 583 Charleston",
+    "Hilton Vacation Club Lodge Alley Inn Charleston"
+   ],
+   "note": "Hilton Grand Vacations / Hilton Club properties: whether vacation-ownership inventory that Hilton also sells by the night independently qualifies as a public hotel is a founder ruling under the order's timeshare rule. Co-location holds are registration-order work in shared identity state."
+  },
+  "CLOSED_OR_RETIRED": {
+   "count": 12,
+   "wyndham_retired_routes": [
+    "https://www.wyndhamhotels.com/days-inn/charleston-south-carolina/days-inn-charleston-historic-district/overview",
+    "https://www.wyndhamhotels.com/days-inn/mount-pleasant-south-carolina/days-inn-mount-pleasant-charleston-patriots-point/overview",
+    "https://www.wyndhamhotels.com/hawthorn-extended-stay/charleston-south-carolina/hawthorn-suites-by-wyndham-charleston/overview",
+    "https://www.wyndhamhotels.com/hawthorn-extended-stay/north-charleston-south-carolina/hawthorn-suites-by-wyndham-north-charleston-sc/overview",
+    "https://www.wyndhamhotels.com/ramada/charleston-south-carolina/ramada-charleston-sc/overview",
+    "https://www.wyndhamhotels.com/ramada/walterboro-south-carolina/ramada-walterboro/overview",
+    "https://www.wyndhamhotels.com/super-8/north-charleston-south-carolina/super-8-north-charleston/overview",
+    "https://www.wyndhamhotels.com/wingate/north-charleston-south-carolina/wingate-by-wyndham-charleston-airport-coliseum/overview",
+    "https://www.wyndhamhotels.com/wingate/north-charleston-south-carolina/wingate-by-wyndham-charleston-university-boulevard/overview",
+    "https://www.wyndhamhotels.com/wingate/north-charleston-south-carolina/wingate-by-wyndham-north-charleston-airport/overview",
+    "https://www.wyndhamhotels.com/wyndham-garden/mount-pleasant-south-carolina/wyndham-garden-mount-pleasant-charleston/overview",
+    "https://www.wyndhamhotels.com/wyndham-grand/charleston-south-carolina/the-mills-house-wyndham-grand-hotel/overview"
+   ],
+   "note": "Wyndham routes that redirect to the brand's search (Days Inn Historic District and Patriots Point, both Hawthorn Suites, Ramada Charleston, Super 8 North Charleston, three Wingate routes, Wyndham Garden Mount Pleasant and the former Mills House Wyndham Grand, now the Mills House Curio). Routes, not census identities."
+  },
+  "OUTSIDE": {
+   "count": 123,
+   "future_market_kiawah_seabrook": 110,
+   "future_market_identities": [
+    "3 Doors Down",
+    "A Dose Of Edisto",
+    "A Fish Called Wanda",
+    "ATL South",
+    "Acapella",
+    "After Dune Delight",
+    "Alcemac",
+    "Alibi",
+    "Barker's Meow",
+    "Beach Blessing",
+    "Beach Music",
+    "Beach Nuts",
+    "Beach Retreat",
+    "Beachaholic",
+    "Bellevue II",
+    "Better Together",
+    "Birds Nest",
+    "Bonna-vill-a",
+    "Carolina Blue",
+    "Carolina Breeze",
+    "Carolina Escape",
+    "Charleston Kiawah Island/Andell Inn",
+    "Cricket's Crib",
+    "Crowfield by the Sea",
+    "Decked Out",
+    "Devil's Den",
+    "Double Trouble",
+    "Down River",
+    "Down by the Sea",
+    "Edgewater",
+    "Edisto Dreams",
+    "Edisto Escape",
+    "Edisto Wood",
+    "Edistoaway",
+    "Family Tides",
+    "Family Tradition",
+    "Fantasea",
+    "Fosters Ocean View",
+    "Gail Force Winds",
+    "Grand View",
+    "Happy Return",
+    "High Cotton",
+    "High Tide",
+    "It'll Do",
+    "It's About Time",
+    "Kiawah Island Golf Resort",
+    "Kickin' Back",
+    "Liberty Call",
+    "Loggerhead Lair",
+    "Lucky Enough",
+    "Merritt Time",
+    "No Regrets",
+    "Not Too Crabby",
+    "Ocean Breeze",
+    "Ocean Villa",
+    "On Point",
+    "On the Rocks",
+    "Palmetto Kiss",
+    "Palmetto Tides",
+    "Real Escape",
+    "Robyn's Roost",
+    "Sand in my Shoes",
+    "Sandy Beach",
+    "Sandy Paws",
+    "Sandy Toes",
+    "Sea Boy",
+    "Sea Breeze",
+    "Sea Change",
+    "Sea Gull II",
+    "Sea La Vie",
+    "Sea Watcher",
+    "Sisters' Corner",
+    "So Sweet",
+    "Some Other Place",
+    "Square One",
+    "Stage II",
+    "Summer Place",
+    "Sur Of The Moment",
+    "Surf Tide",
+    "Sweet Carol Ann",
+    "Sweet Grass",
+    "TGIF",
+    "The Beach Club",
+    "The Blue Crab Inn",
+    "The Dunlin, Auberge Collection",
+    "The Great White",
+    "The Kaptain's Kottage",
+    "The Loggerhead",
+    "The Painted Bunting",
+    "The Peach Pit",
+    "The Sandcastle",
+    "The Seahorse",
+    "The Shark's Tooth",
+    "The Simmons Gamecock",
+    "Tigers Roost",
+    "Tip-Sea",
+    "Tonic Green",
+    "Town of Seabrook Island",
+    "Turnabout",
+    "Turtle Turf",
+    "Vacasa",
+    "View Pointe",
+    "Wave Watching",
+    "Whole Wide World",
+    "Wyndham Ocean Ridge Beach Walk",
+    "Wyndham Ocean Ridge Beach Walk",
+    "Wyndham Ocean Ridge Beach Walk",
+    "Wyndham Ocean Ridge South Point",
+    "Wyndham Ocean Ridge, The Village",
+    "iTrip Vacations Charleston Beaches - Kiawah Island"
+   ]
+  },
+  "NON_HOTEL": {
+   "count": 45,
+   "by_kind": {
+    "BUREAU_VACATION_RENTAL_OR_PROPERTY_MANAGER": 8,
+    "MAP_APARTMENT_COTTAGE_UNIT": 32,
+    "PRIVATE_MEMBER_ONLY_LODGING": 1,
+    "VENUE_BAR_BOOKING_SITE_OR_MANAGEMENT_OFFICE": 4
+   },
+   "identities": [
+    "15 Church Street Bed & Breakfast",
+    "16 Fulton Street Bed and Breakfast",
+    "19 Broad",
+    "21 East Battery Bed & Breakfast",
+    "22 Charlotte",
+    "66 Cannon",
+    "Camellias",
+    "Captain's House Bed & Breakfast",
+    "Charleston B&B",
+    "Charleston Coast Vacations by Dunes Properties | Folly Beach",
+    "Charleston Coast Vacations by Dunes Properties | Isle of Palms and Wild Dunes",
+    "Charming Inns",
+    "Charming Kitchen House with Beautiful Garden",
+    "Cottages at James Island County Park",
+    "Cottages of Crosstown at King",
+    "ESPM Vacation Rentals",
+    "East Islands Rentals, Inc.",
+    "Emerson Square Charleston",
+    "Exclusive Properties",
+    "Gibbon House at Casa Zoe",
+    "Guesthouse Charleston",
+    "Hank's Loft",
+    "Island Realty - Vacation Rentals",
+    "Lavender & Lace Bed & Breakfast",
+    "Morning Sunrise Vacation Rental Home",
+    "Old Village Post House",
+    "Rose Getaway",
+    "Rutledge Victorian Guest House",
+    "Salley Morrison House",
+    "The Barbados House",
+    "The Boat House",
+    "The Broad Street Guest House",
+    "The Charleston Chestnut Mansion",
+    "The Charlestonian",
+    "The Garden Cottage",
+    "The Jacob Rabb House -Steps to the Historic Market",
+    "The King Suites at 493",
+    "The Nicholas Bed and Breakfast",
+    "The Palms of Charleston",
+    "The Rutledge Avenue Inn",
+    "The Sarah Clifford Guest House",
+    "Two Meeting Street Inn",
+    "Wortham House",
+    "Zero Water Street Bed & Breakfast",
+    "iTrip Vacations Charleston Beaches - Isle of Palms"
+   ]
+  }
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "charleston-sc__historic-district",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29401",
+    "29402",
+    "29413",
+    "29424",
+    "29425"
+   ],
+   "census": 40,
+   "pet_friendly": 9,
+   "verified_no_pets": 5,
+   "unresolved": 26,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "charleston-sc__upper-peninsula",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29403",
+    "29409"
+   ],
+   "census": 16,
+   "pet_friendly": 7,
+   "verified_no_pets": 1,
+   "unresolved": 8,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "charleston-sc__west-ashley",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29407",
+    "29414",
+    "29416",
+    "29417"
+   ],
+   "census": 14,
+   "pet_friendly": 8,
+   "verified_no_pets": 6,
+   "unresolved": 0,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "charleston-sc__north-charleston",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29405",
+    "29406",
+    "29410",
+    "29415",
+    "29419",
+    "29420",
+    "29423"
+   ],
+   "census": 32,
+   "pet_friendly": 15,
+   "verified_no_pets": 9,
+   "unresolved": 8,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "charleston-sc__chs-airport-convention",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29418"
+   ],
+   "census": 23,
+   "pet_friendly": 16,
+   "verified_no_pets": 5,
+   "unresolved": 2,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "charleston-sc__mount-pleasant",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29464",
+    "29465",
+    "29466"
+   ],
+   "census": 33,
+   "pet_friendly": 18,
+   "verified_no_pets": 8,
+   "unresolved": 7,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "charleston-sc__daniel-island",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "29492"
+   ],
+   "census": 2,
+   "pet_friendly": 2,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "charleston-sc__james-island",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "29412",
+    "29422"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "charleston-sc__summerville",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "29483",
+    "29484",
+    "29485",
+    "29486"
+   ],
+   "census": 16,
+   "pet_friendly": 6,
+   "verified_no_pets": 6,
+   "unresolved": 4,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "charleston-sc__goose-creek",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "29445"
+   ],
+   "census": 3,
+   "pet_friendly": 0,
+   "verified_no_pets": 2,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "charleston-sc__ladson",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "29456"
+   ],
+   "census": 3,
+   "pet_friendly": 1,
+   "verified_no_pets": 2,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "charleston-sc__folly-beach",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "29439"
+   ],
+   "census": 2,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 2,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "charleston-sc__isle-of-palms",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "29451",
+    "29482"
+   ],
+   "census": 2,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 2,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "charleston-sc__johns-island",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "29455",
+    "29457"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  }
+ ],
+ "corridor_pages_meeting_threshold": 7,
+ "area_coverage": {
+  "what_it_is": "Coverage for the order's named areas. Reporting only; membership and corridor come from the postal partition. The CHS airport and the Convention Center / Tanger district share 29418; Patriots Point shares 29464 with Mount Pleasant.",
+  "areas": {
+   "Historic District / Downtown": {
+    "census": 40,
+    "pet_friendly": 9,
+    "verified_no_pets": 5,
+    "unresolved": 26,
+    "identities": [
+     {
+      "canonical_name": "20 South Battery",
+      "state": "UNRESOLVED",
+      "street": "20 S Battery St"
+     },
+     {
+      "canonical_name": "360 King Boutique Suites",
+      "state": "UNRESOLVED",
+      "street": "360 King St"
+     },
+     {
+      "canonical_name": "Andrew Pinckney Inn",
+      "state": "UNRESOLVED",
+      "street": "40 Pinckney Street"
+     },
+     {
+      "canonical_name": "Barksdale House Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "27 George Street"
+     },
+     {
+      "canonical_name": "Bijou Boutique Inn",
+      "state": "UNRESOLVED",
+      "street": "19 Pinckney Street"
+     },
+     {
+      "canonical_name": "Church Street Inn Historic Charleston, an Ascend Collection Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "177 Church St"
+     },
+     {
+      "canonical_name": "Country Victorian",
+      "state": "UNRESOLVED",
+      "street": "105 Tradd Street"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Charleston Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "125 Calhoun Street"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Charleston Waterfront",
+      "state": "VERIFIED_NO_PETS",
+      "street": "35 Lockwood Drive"
+     },
+     {
+      "canonical_name": "Elliott House Inn",
+      "state": "UNRESOLVED",
+      "street": "78 Queen Street"
+     },
+     {
+      "canonical_name": "Emeline",
+      "state": "UNRESOLVED",
+      "street": "181 Church Street"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Charleston Downtown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "144 Bee Street"
+     },
+     {
+      "canonical_name": "French Quarter Inn",
+      "state": "UNRESOLVED",
+      "street": "166 Church Street"
+     },
+     {
+      "canonical_name": "Fulton Lane Inn",
+      "state": "UNRESOLVED",
+      "street": "202 King St"
+     },
+     {
+      "canonical_name": "Grand Bohemian Charleston, Autograph Collection",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "55 Wentworth Street"
+     },
+     {
+      "canonical_name": "HarbourView Inn",
+      "state": "UNRESOLVED",
+      "street": "2 Vendue Range"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Charleston Waterfront/Downtown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "45 Lockwood Drive"
+     },
+     {
+      "canonical_name": "Hotel Bella Grace/Charleston Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "117 Calhoun Street"
+     },
+     {
+      "canonical_name": "Hotel Richemont",
+      "state": "UNRESOLVED",
+      "street": "93 Society Street"
+     },
+     {
+      "canonical_name": "Indigo Inn",
+      "state": "UNRESOLVED",
+      "street": "1 Maiden Lane"
+     },
+     {
+      "canonical_name": "John Rutledge House Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "116 Broad St"
+     },
+     {
+      "canonical_name": "Kings Courtyard Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "198 King Street"
+     },
+     {
+      "canonical_name": "Market Pavilion Hotel",
+      "state": "UNRESOLVED",
+      "street": "225 East Bay Street"
+     },
+     {
+      "canonical_name": "Meeting Street Inn",
+      "state": "UNRESOLVED",
+      "street": "173 Meeting Street"
+     },
+     {
+      "canonical_name": "Mills House Charleston, Curio Collection by Hilton",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "115 Meeting Street"
+     },
+     {
+      "canonical_name": "Planters Inn",
+      "state": "UNRESOLVED",
+      "street": "112 North Market Street"
+     },
+     {
+      "canonical_name": "The Ansonborough",
+      "state": "UNRESOLVED",
+      "street": "21 Hasell St."
+     },
+     {
+      "canonical_name": "The Charleston Place",
+      "state": "UNRESOLVED",
+      "street": "205 Meeting Street"
+     },
+     {
+      "canonical_name": "The Cooper",
+      "state": "UNRESOLVED",
+      "street": "176 Concord Street"
+     },
+     {
+      "canonical_name": "The Jasmine House",
+      "state": "UNRESOLVED",
+      "street": "64 Hasell St"
+     },
+     {
+      "canonical_name": "The Lindy Renaissance Charleston Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "68 Wentworth Street"
+     },
+     {
+      "canonical_name": "The Loutrel",
+      "state": "UNRESOLVED",
+      "street": "61 State St"
+     },
+     {
+      "canonical_name": "The Palmetto Hotel Charleston",
+      "state": "UNRESOLVED",
+      "street": "194 E Bay St"
+     },
+     {
+      "canonical_name": "The Pinch",
+      "state": "UNRESOLVED",
+      "street": "40 George Street"
+     },
+     {
+      "canonical_name": "The Ryder Hotel",
+      "state": "UNRESOLVED",
+      "street": "237 Meeting Street"
+     },
+     {
+      "canonical_name": "The Spectator Hotel",
+      "state": "UNRESOLVED",
+      "street": "67 State Street"
+     },
+     {
+      "canonical_name": "The Vendue",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "19 Vendue Range"
+     },
+     {
+      "canonical_name": "Victoria House Inn",
+      "state": "UNRESOLVED",
+      "street": "208 King Street"
+     },
+     {
+      "canonical_name": "Wentworth Mansion, an SLH Hotel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "149 Wentworth St."
+     },
+     {
+      "canonical_name": "Zero George",
+      "state": "UNRESOLVED",
+      "street": "0 George Street"
+     }
+    ]
+   },
+   "Upper Peninsula / Meeting Street": {
+    "census": 6,
+    "pet_friendly": 5,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Embassy Suites by Hilton Charleston Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "337 Meeting Street"
+     },
+     {
+      "canonical_name": "Hampton Inn Charleston-Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "345 Meeting St."
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Charleston Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "415 Meeting Street"
+     },
+     {
+      "canonical_name": "Live Oak, Charleston Historic District, a Tribute Portfolio Hotel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "425 Meeting Street"
+     },
+     {
+      "canonical_name": "Moxy Charleston Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "547 Meeting Street"
+     },
+     {
+      "canonical_name": "The Dewberry Charleston",
+      "state": "VERIFIED_NO_PETS",
+      "street": "334 Meeting Street"
+     }
+    ]
+   },
+   "Upper Peninsula": {
+    "census": 10,
+    "pet_friendly": 2,
+    "verified_no_pets": 0,
+    "unresolved": 8,
+    "identities": [
+     {
+      "canonical_name": "86 Cannon Historic Inn",
+      "state": "UNRESOLVED",
+      "street": "86 Cannon Street"
+     },
+     {
+      "canonical_name": "Charleston Marriott",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "170 Lockwood Boulevard"
+     },
+     {
+      "canonical_name": "Fire Tower",
+      "state": "UNRESOLVED",
+      "street": "563 King Street"
+     },
+     {
+      "canonical_name": "Francis Marion Hotel",
+      "state": "UNRESOLVED",
+      "street": "387 King Street"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Charleston DWTN – Medical CTR",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "250 Spring Street"
+     },
+     {
+      "canonical_name": "Hotel Bennett",
+      "state": "UNRESOLVED",
+      "street": "404 KING ST"
+     },
+     {
+      "canonical_name": "Parson Inn",
+      "state": "UNRESOLVED",
+      "street": "111 President Street"
+     },
+     {
+      "canonical_name": "The Ashley",
+      "state": "UNRESOLVED",
+      "street": "201 Ashley Avenue"
+     },
+     {
+      "canonical_name": "The Charlee on Cannon",
+      "state": "UNRESOLVED",
+      "street": "89 Cannon Street"
+     },
+     {
+      "canonical_name": "The Nickel Hotel",
+      "state": "UNRESOLVED",
+      "street": "529 King Street"
+     }
+    ]
+   },
+   "West Ashley": {
+    "census": 14,
+    "pet_friendly": 8,
+    "verified_no_pets": 6,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Best Western Charleston Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1540 Savannah Highway"
+     },
+     {
+      "canonical_name": "Clarion Pointe Charleston - West Ashley",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2455 Savannah Highway"
+     },
+     {
+      "canonical_name": "Comfort Suites Charleston West Ashley",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2080 Savannah Highway"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Charleston Riverview",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "84 Ripley Point Dr."
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Charleston/West Ashley",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "678 Citadel Haven Drive"
+     },
+     {
+      "canonical_name": "Holiday Inn Charleston-Riverview",
+      "state": "VERIFIED_NO_PETS",
+      "street": "301 Savannah Hwy"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Charleston US Hwy 17 & I-526",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1943 Savannah Highway"
+     },
+     {
+      "canonical_name": "Home2 Suites Charleston West Ashley",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1963 Savannah Highway"
+     },
+     {
+      "canonical_name": "La Quinta Inn & Suites by Wyndham Charleston Riverview",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "11 Ashley Pointe Drive"
+     },
+     {
+      "canonical_name": "Quality Inn Charleston - West Ashley",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2237 Savannah Hwy."
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Charleston Riverview",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "90 Ripley Point Drive"
+     },
+     {
+      "canonical_name": "Sleep Inn Charleston - West Ashley",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1524 Savannah Hwy, US 17 S"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Charleston Riverview",
+      "state": "VERIFIED_NO_PETS",
+      "street": "98 Ripley Point Drive"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Charleston-West Ashley",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "805 Orleans Road"
+     }
+    ]
+   },
+   "North Charleston": {
+    "census": 26,
+    "pet_friendly": 12,
+    "verified_no_pets": 8,
+    "unresolved": 6,
+    "identities": [
+     {
+      "canonical_name": "Candlewood Suites Charleston - Northwoods",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2177 Northwoods Blvd."
+     },
+     {
+      "canonical_name": "Comfort Inn & Suites North Charleston - Northwoods",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2470 Prospect Dr"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Charleston-North Charleston",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7465 Northside Drive"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott North Charleston Airport/Coliseum",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2415 Mall Drive"
+     },
+     {
+      "canonical_name": "Extended Stay America - Charleston - Ashley Phosphate Rd.",
+      "state": "UNRESOLVED",
+      "street": "7477 Northside Dr"
+     },
+     {
+      "canonical_name": "Extended Stay America - Charleston - North Charleston - I-526",
+      "state": "UNRESOLVED",
+      "street": "4835 Rivers Ave"
+     },
+     {
+      "canonical_name": "Extended Stay America - Charleston - Northwoods Blvd.",
+      "state": "UNRESOLVED",
+      "street": "7641 Northwoods Blvd."
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Charleston North/Ashley Phosphate",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2540 North Forest Drive"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Charleston North/University Area",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2600 Elms Center Road"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites North Charleston-University Blvd",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2688 Fernwood Drive"
+     },
+     {
+      "canonical_name": "Hampton Inn Charleston-North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7424 Northside Drive"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Charleston-North",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2435 Elms Center Road"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Charleston - Northwoods",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7670 Northwoods Blvd."
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton North Charleston",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7399 Northwoods Blvd."
+     },
+     {
+      "canonical_name": "North Charleston Marriott",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4770 Goer Drive"
+     },
+     {
+      "canonical_name": "Quality Inn & Suites North Charleston - Ashley Phosphate",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2499 La Quinta Lane"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Charleston North/Ashley Phosphate",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7457 Northside Drive"
+     },
+     {
+      "canonical_name": "Sleep Inn North Charleston Ashley Phosphate",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7435 Northside Dr."
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Charleston North/Ashley Phosphate",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7535 North Forest Drive"
+     },
+     {
+      "canonical_name": "Starlight Motor Inn",
+      "state": "UNRESOLVED",
+      "street": "3245 Rivers Avenue"
+     },
+     {
+      "canonical_name": "Staybridge Suites Charleston-Ashley Phosphate",
+      "state": "UNRESOLVED",
+      "street": "7329 Mazyck Road"
+     },
+     {
+      "canonical_name": "Suburban Studios North Charleston I-526",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4620 Dorchester Road"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Charleston-North Charleston",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7535 Northside Drive"
+     },
+     {
+      "canonical_name": "Travelodge by Wyndham North Charleston",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7415 Northside Dr"
+     },
+     {
+      "canonical_name": "Tru by Hilton Charleston Ashley Phosphate",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2475 Prospect Drive"
+     },
+     {
+      "canonical_name": "WoodSpring Suites North Charleston Airport I-526",
+      "state": "UNRESOLVED",
+      "street": "4475 Leeds Place West"
+     }
+    ]
+   },
+   "Hanahan": {
+    "census": 6,
+    "pet_friendly": 3,
+    "verified_no_pets": 1,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Country Inn & Suites By Radisson, Charleston North, SC",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7429 Stafford Rd"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Hotel & Suites Charleston Airport",
+      "state": "UNRESOLVED",
+      "street": "7401 Northwoods Boulevard"
+     },
+     {
+      "canonical_name": "Hyatt Place North Charleston",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2455 Prospect Drive"
+     },
+     {
+      "canonical_name": "Red Roof Inn North Charleston Coliseum",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7480 Northwoods Blvd"
+     },
+     {
+      "canonical_name": "Rodeway Inn North Charleston - Ashley Phosphate",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2311 Ashley Phosphate"
+     },
+     {
+      "canonical_name": "Stay Express Inn North Charleston",
+      "state": "UNRESOLVED",
+      "street": "6100 Rivers Avenue"
+     }
+    ]
+   },
+   "CHS Airport": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Convention Center / Coliseum / Tanger": {
+    "census": 21,
+    "pet_friendly": 14,
+    "verified_no_pets": 5,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Aloft by Marriott Charleston Airport & Convention Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4875 Tanger Outlet Boulevard"
+     },
+     {
+      "canonical_name": "Comfort Inn & Suites Charleston Airport Convention Center",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4715 Saul White Blvd"
+     },
+     {
+      "canonical_name": "Crowne Plaza Charleston Airport - Conv Ctr",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4831 Tanger Outlet Boulevard"
+     },
+     {
+      "canonical_name": "Days Inn & Suites by Wyndham Charleston Airport West",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2998 W Montague Ave"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Hotel North Charleston - Convention Center",
+      "state": "UNRESOLVED",
+      "street": "5264 International Blvd"
+     },
+     {
+      "canonical_name": "Econo Lodge Coliseum",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4725 Saul White Blvd."
+     },
+     {
+      "canonical_name": "Embassy Suites by Hilton Charleston Airport Hotel & Convention Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5055 International Boulevard"
+     },
+     {
+      "canonical_name": "Extended Stay America - Charleston - Airport",
+      "state": "UNRESOLVED",
+      "street": "5045 N. Arco Ln."
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Charleston Airport/Convention Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4841 Tanger Outlet Blvd"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Charleston Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3020 Montague Avenue"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Charleston Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5265 International Boulevard"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Charleston Arpt-Conv Ctr Area",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3025 W. Montague Ave."
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Charleston Airport/Convention Center, SC",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3401 W. Montague Avenue"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Charleston Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5048 International Blvd."
+     },
+     {
+      "canonical_name": "Hyatt Place Charleston Airport/Convention Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3234 West Montague Avenue"
+     },
+     {
+      "canonical_name": "Quality Inn Coliseum",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5055 North Arco Lane"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Charleston Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5035 International Boulevard"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Charleston Airport & Convention Center",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3454 West Montague Avenue"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Charleston Airport/Convention Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5001 Fashion Avenue"
+     },
+     {
+      "canonical_name": "Tru by Hilton Charleston Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3331 W Montague Avenue"
+     },
+     {
+      "canonical_name": "Wingate by Wyndham Charleston Coliseum",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4701 Saul White Blvd"
+     }
+    ]
+   },
+   "CHS Airport / Convention (other)": {
+    "census": 2,
+    "pet_friendly": 2,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Drury Plaza Hotel North Charleston",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2934 West Montague"
+     },
+     {
+      "canonical_name": "Element by Marriott Charleston Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5054 Erin Court"
+     }
+    ]
+   },
+   "Mount Pleasant": {
+    "census": 28,
+    "pet_friendly": 16,
+    "verified_no_pets": 7,
+    "unresolved": 5,
+    "identities": [
+     {
+      "canonical_name": "Best Western Patriots Point",
+      "state": "VERIFIED_NO_PETS",
+      "street": "259 McGrath Darby Boulevard"
+     },
+     {
+      "canonical_name": "Cambria Hotel Mount Pleasant - Charleston",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1472 N HIGHWAY 17"
+     },
+     {
+      "canonical_name": "Candlewood Suites Charleston – Mt. Pleasant",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "400 Magrath Darby Boulevard"
+     },
+     {
+      "canonical_name": "Comfort Suites at Isle of Palms Connector",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1130 Hungryneck Blvd."
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Charleston Mt. Pleasant",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1251 Woodland Avenue"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Charleston Mount Pleasant",
+      "state": "UNRESOLVED",
+      "street": "1330 Stuart Engals Blvd."
+     },
+     {
+      "canonical_name": "Extended Stay America - Charleston - Mt. Pleasant",
+      "state": "UNRESOLVED",
+      "street": "304 Wingo Way"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Charleston/Mt. Pleasant-Isle Of Palms",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1104 Isle of Palms Connector"
+     },
+     {
+      "canonical_name": "Hampton Inn Charleston/Mt. Pleasant-Patriots Point",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "255 Sessions Way"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Charleston / Mt. Pleasant",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "300 Wingo Way"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Charleston - Mount Pleasant",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "350 Johnnie Dodds Blvd."
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Charleston NE Mt Pleasant US17",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1104 Stockade Lane"
+     },
+     {
+      "canonical_name": "Home2 Suites By Hilton Mt Pleasant Charleston",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1650 James Nelson Road"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Charleston - Mt. Pleasant",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1998 Riviera Drive"
+     },
+     {
+      "canonical_name": "Hotel Indigo Mount Pleasant",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "250 Johnnie Dodds Boulevard"
+     },
+     {
+      "canonical_name": "Hyatt House Charleston / Mount Pleasant",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1430 Midtown Avenue"
+     },
+     {
+      "canonical_name": "Hyatt Place Mount Pleasant Towne Centre",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1600 Palmetto Grande Drive"
+     },
+     {
+      "canonical_name": "Inn at I'On, an Ascend Collection Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "148 Civitas Street"
+     },
+     {
+      "canonical_name": "Quality Inn Mt. Pleasant - Charleston",
+      "state": "VERIFIED_NO_PETS",
+      "street": "310 Johnnie Dodds Blvd."
+     },
+     {
+      "canonical_name": "Red Roof PLUS+ Mt Pleasant - Patriots Point",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "301 Johnnie Dodds Blvd"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Charleston Mt. Pleasant",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1116 Isle of Palms Connector"
+     },
+     {
+      "canonical_name": "Shem Creek Inn",
+      "state": "UNRESOLVED",
+      "street": "1401 Shrimp Boat Lane"
+     },
+     {
+      "canonical_name": "Sleep Inn Mt. Pleasant - Charleston",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "299 Wingo Way"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Charleston Mount Pleasant",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "245 Magrath Darby Boulevard"
+     },
+     {
+      "canonical_name": "Staybridge Suites Charleston - Mount Pleasant",
+      "state": "UNRESOLVED",
+      "street": "251 Sessions Way"
+     },
+     {
+      "canonical_name": "The Palmetto House Inn",
+      "state": "UNRESOLVED",
+      "street": "140 Civitas Street"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Charleston Mt. Pleasant",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1350 Stuart Engals Boulevard"
+     },
+     {
+      "canonical_name": "Tru by Hilton Mt Pleasant Charleston",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1651 Midtown Avenue"
+     }
+    ]
+   },
+   "Patriots Point": {
+    "census": 5,
+    "pet_friendly": 2,
+    "verified_no_pets": 1,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Charleston Harbor Resort & Marina",
+      "state": "UNRESOLVED",
+      "street": "20 Patriots Point Road"
+     },
+     {
+      "canonical_name": "Comfort Inn & Suites Patriots Point",
+      "state": "VERIFIED_NO_PETS",
+      "street": "196 Patriots Point Rd"
+     },
+     {
+      "canonical_name": "Embassy Suites by Hilton Charleston Harbor Mt. Pleasant",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "100 Ferry Wharf Road"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Charleston Patriots Point",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "15 Harry M. Hallman Jr. Blvd."
+     },
+     {
+      "canonical_name": "The Cottages on Charleston Harbor",
+      "state": "UNRESOLVED",
+      "street": "16 Patriots Point Road"
+     }
+    ]
+   },
+   "Daniel Island": {
+    "census": 2,
+    "pet_friendly": 2,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Hampton Inn Charleston - Daniel Island",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "160 Fairchild Street"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Charleston Daniel Island",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "120 Fairchild Street"
+     }
+    ]
+   },
+   "James Island": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Summerville": {
+    "census": 16,
+    "pet_friendly": 6,
+    "verified_no_pets": 6,
+    "unresolved": 4,
+    "identities": [
+     {
+      "canonical_name": "avid hotels Summerville",
+      "state": "UNRESOLVED",
+      "street": "301 Holiday Drive"
+     },
+     {
+      "canonical_name": "Comfort Inn Summerville - Charleston",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1025 Jockey Court"
+     },
+     {
+      "canonical_name": "Comfort Suites Summerville",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1005 Jockey Ct."
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Charleston Summerville",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1510 Rose Drive"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Summerville Nexton",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "405 Sigma Dr."
+     },
+     {
+      "canonical_name": "Hampton Inn Summerville",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "121 Holiday Drive"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Summerville",
+      "state": "UNRESOLVED",
+      "street": "406 Sigma Drive"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Summerville",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1657 N Main Street"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Summerville",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "221 Holiday Drive"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Summerville",
+      "state": "UNRESOLVED",
+      "street": "406 Sigma Drive"
+     },
+     {
+      "canonical_name": "Quality Inn Summerville-Charleston",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1015 Jockey Court"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Charleston Summerville",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1528 North Main Street"
+     },
+     {
+      "canonical_name": "Spark by Hilton Summerville",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "220 Holiday Drive"
+     },
+     {
+      "canonical_name": "Staybridge Suites Summerville - Charleston Area",
+      "state": "UNRESOLVED",
+      "street": "225 Holiday Drive"
+     },
+     {
+      "canonical_name": "SureStay by Best Western Summerville Flowertown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "115 Holiday Drive"
+     },
+     {
+      "canonical_name": "Wyndham Garden Summerville",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "120 Holiday Dr"
+     }
+    ]
+   },
+   "Goose Creek": {
+    "census": 3,
+    "pet_friendly": 0,
+    "verified_no_pets": 2,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Days Inn by Wyndham Goose Creek",
+      "state": "UNRESOLVED",
+      "street": "1430 Redbank Road"
+     },
+     {
+      "canonical_name": "Econo Lodge Goose Creek - Charleston North",
+      "state": "VERIFIED_NO_PETS",
+      "street": "401 Goose Creek Blvd. N."
+     },
+     {
+      "canonical_name": "Quality Inn Goose Creek - Charleston",
+      "state": "VERIFIED_NO_PETS",
+      "street": "103 Red Bank Road"
+     }
+    ]
+   },
+   "Ladson": {
+    "census": 3,
+    "pet_friendly": 1,
+    "verified_no_pets": 2,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Best Western Magnolia Inn and Suites",
+      "state": "VERIFIED_NO_PETS",
+      "street": "747 Treeland Drive"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Ladson Summerville Charleston",
+      "state": "VERIFIED_NO_PETS",
+      "street": "119 Gateway Drive"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton North Charleston University Blvd",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "9341 Blue House Rd"
+     }
+    ]
+   },
+   "Folly Beach": {
+    "census": 2,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Luxury Bed & Breakfast Inn on Folly Beach",
+      "state": "UNRESOLVED",
+      "street": "79 2nd Street West"
+     },
+     {
+      "canonical_name": "Tides Folly Beach",
+      "state": "UNRESOLVED",
+      "street": "1 Center Street"
+     }
+    ]
+   },
+   "Isle of Palms": {
+    "census": 2,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Seaside Inn",
+      "state": "UNRESOLVED",
+      "street": "1004 Ocean Blvd"
+     },
+     {
+      "canonical_name": "The Palms Oceanfront Hotel",
+      "state": "UNRESOLVED",
+      "street": "1126 Ocean Blvd"
+     }
+    ]
+   },
+   "Sullivan's Island": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Johns Island": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   }
+  },
+  "unplaced": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "identities": []
+  }
+ },
+ "lane_yields": {
+  "osm_elements": 393,
+  "brand_inventory_leads": 229,
+  "brand_family_dispositions": {
+   "MARRIOTT_STATE_SITEMAP": "STATE_SITEMAP_ANSWERED_THIS_CLIENT",
+   "WYNDHAM": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "SONESTA": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "DRURY": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "WOODSPRING": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "INTOWN": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "LOEWS": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "CHOICE": "SITEMAP_UNREACHABLE__TimeoutError",
+   "IHG": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "BEST_WESTERN": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RED_ROOF": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "MOTEL6": "SITEMAP_UNREACHABLE__TimeoutError",
+   "EXTENDED_STAY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "HYATT": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RADISSON": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "OMNI": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "FOUR_SEASONS": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403"
+  },
+  "charleston_cvb_roster": {
+   "coverage": "EVERY_LODGING_CATEGORY_PAGE_AND_SITEMAP_LISTING",
+   "listings": 109,
+   "by_category": {
+    "Beach Resorts": 5,
+    "Bed & Breakfasts": 3,
+    "Cottages": 2,
+    "Extended Stay": 8,
+    "Historic Inns": 13,
+    "Hotels": 65,
+    "Vacation Rentals": 13
+   }
+  },
+  "visit_folly_directory": "8 'Hotels & Inns' names (names only, tier 2)",
+  "census_lane_observations": {
+   "OSM_OVERPASS": 381,
+   "BRAND_INVENTORY_OWNED": 34,
+   "BRAND_INVENTORY_CITY_PAGE": 47,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 13,
+   "DESTINATION_ORGANIZATION": 108,
+   "REGIONAL_VISITOR_CENTER": 8,
+   "COMPETITOR_LEAD": 24,
+   "PROPERTY_PAGE": 191
+  },
+  "first_party_reads": {
+   "pages_read": 149,
+   "by_brand": {
+    "BEST_WESTERN": 4,
+    "CHOICE": 25,
+    "DRURY": 1,
+    "HILTON": 41,
+    "HYATT": 7,
+    "IHG": 17,
+    "INDEPENDENT": 5,
+    "MARRIOTT": 34,
+    "RED_ROOF": 2,
+    "WYNDHAM": 13
+   },
+   "identity_confirmed": 149,
+   "in_market": 142,
+   "outside_market": 7,
+   "in_market_pets_allowed_true": 85,
+   "in_market_pets_allowed_false": 50,
+   "in_market_first_party_conflicts": 0
+  },
+  "wyndham_property_service": {
+   "routes": 25,
+   "read": 13,
+   "retired": 12,
+   "errors": 0
+  },
+  "clean_set": {
+   "reads_evaluated": 149,
+   "clean_pet_friendly": 82,
+   "clean_verified_no_pets": 44,
+   "resolved_census_identities": 126,
+   "unresolved_census_identities": 60,
+   "census_count": 186,
+   "rejected": 23,
+   "rejected_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 13,
+    "CO_LOCATION_RULING_REQUIRED": 2,
+    "POLICY_NOT_FOUND": 4,
+    "QUOTE_NOT_OPERATIVE": 1,
+    "SERVICE_ANIMAL_ONLY": 3
+   },
+   "pf_by_brand": {
+    "BEST_WESTERN": 1,
+    "CHOICE": 5,
+    "DRURY": 1,
+    "HILTON": 32,
+    "HYATT": 4,
+    "IHG": 6,
+    "INDEPENDENT": 4,
+    "MARRIOTT": 23,
+    "RED_ROOF": 2,
+    "WYNDHAM": 4
+   },
+   "pf_by_corridor": {
+    "charleston-sc__chs-airport-convention": 16,
+    "charleston-sc__daniel-island": 2,
+    "charleston-sc__historic-district": 9,
+    "charleston-sc__ladson": 1,
+    "charleston-sc__mount-pleasant": 18,
+    "charleston-sc__north-charleston": 15,
+    "charleston-sc__summerville": 6,
+    "charleston-sc__upper-peninsula": 7,
+    "charleston-sc__west-ashley": 8
+   }
+  }
+ },
+ "competitor_gap_challenge": {
+  "competitor_rows_observed": 24,
+  "also_seen_by_a_first_party_lane": 16,
+  "competitor_only": 8,
+  "competitor_only_by_class": {
+   "NAME_ONLY_UNRESOLVED": 8
+  },
+  "matched_by_class": {
+   "NAME_ONLY_UNRESOLVED": 1,
+   "TRUE_HOTEL_IDENTITY": 15
+  }
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "0 -- no committed census or authority holds a 294xx identity; Charleston WV / IL / MO routes are refused by the brand lane's NEGATIVE tokens.",
+  "OWNED_ROUTES": "34 -- CHS-coded Marriott routes from the committed national harvest dayton_oh_brand_directory_harvest_001 (read at zero requests; every one re-read on Marriott's own page). The Charlotte and Nashville owned-evidence reports only list three of the same CHS routes.",
+  "OWNED_VALID_POLICY_EVIDENCE": "0 -- every policy record here is a new first-party capture of this order."
+ },
+ "package": {
+  "SHADOW_PACKAGE_CREATED": "YES",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "package_id": "pkg-charleston-sc-b2987ee1c2bccb01",
+  "PACKAGE_DIGEST": "sha256:b2987ee1c2bccb01818e858f630b56f72fc1cde271fd9ca8e3dfce045788023f",
+  "created_from_source_sha": "fa4a9a47a57f49c7fce4031953d4cd793e1873d1",
+  "package_path": "launch_packages/pettripfinder/markets/staging/charleston-sc/shadow_packages/charleston-sc/pkg-charleston-sc-b2987ee1c2bccb01.json",
+  "BUILD_INPUT_KEY": {
+   "staged_input_digest": "sha256:a9f266510201eb798518ff7480769197bd0216a76a050ba4cbb15f779f58f5c3",
+   "changed_market_bundle_sha256": "16a313707cb2ed6176b599729713b3e4cae6ee0bcfb5d75ac48da384b2571db6",
+   "contract_sha256": "sha256:a6a9b18e01a88970f49c969ca7ad9503f544e1f887967b8b70c0db28bae57607",
+   "dependency_input_digests": {
+    "market": "sha256:828ca73421d647762f8e5221c83ad1427eae229f1d8d740d7bf75e002415e6a6",
+    "census": "sha256:63eebb0274af4243c4fe94c07d27456ef966394b97a139c943d58a0ab4b2411c",
+    "policy_package": "sha256:575a0891e6820e37edfe8f65d2c5b2109de52b7bf297adcb5190690984816b52",
+    "exclusions": "sha256:a56fdc73ed76bc246d9545413725c7de4251237e61f371d029851c99a88addc3",
+    "routing": "sha256:0d8c412775c1a07fdfa4254580c8e0292ca34d01a5ff36ab12cb82b316c515fe",
+    "seed": "sha256:ab45f859d08d2e6a8b4883db75ba050ff6398ee90da8745062e76f10cab2ee84",
+    "partition": "sha256:8e725f6eb27d6add6548e75c6fd47f472b7406867f213d501204ae087a2006f2"
+   }
+  },
+  "INTENDED_DELTA": {
+   "market_id": "charleston-sc",
+   "add_property_ids": [
+    "aloft by marriott charleston airport and convention center",
+    "barksdale house inn",
+    "best western charleston inn",
+    "candlewood suites charleston mt pleasant",
+    "candlewood suites charleston northwoods",
+    "charleston marriott",
+    "courtyard by marriott charleston historic district",
+    "courtyard by marriott charleston north charleston",
+    "crowne plaza charleston airport conv ctr",
+    "days inn and suites by wyndham charleston airport west",
+    "doubletree by hilton charleston riverview",
+    "doubletree by hilton summerville nexton",
+    "drury plaza hotel north charleston",
+    "element by marriott charleston airport",
+    "embassy suites by hilton charleston airport hotel and convention center",
+    "embassy suites by hilton charleston harbor mt pleasant",
+    "embassy suites by hilton charleston historic district",
+    "fairfield by marriott inn and suites charleston airport convention center",
+    "fairfield by marriott inn and suites charleston north ashley phosphate",
+    "grand bohemian charleston autograph collection",
+    "hampton inn and suites charleston airport",
+    "hampton inn and suites charleston mt pleasant isle of palms",
+    "hampton inn and suites charleston west ashley",
+    "hampton inn and suites north charleston university blvd",
+    "hampton inn charleston daniel island",
+    "hampton inn charleston historic district",
+    "hampton inn charleston mt pleasant patriots point",
+    "hampton inn charleston north",
+    "hampton inn summerville",
+    "hilton garden inn charleston airport",
+    "hilton garden inn charleston mt pleasant",
+    "holiday inn express and suites charleston dwtn medical ctr",
+    "holiday inn express and suites charleston mount pleasant",
+    "home2 suites by hilton charleston airport convention center sc",
+    "home2 suites by hilton charleston daniel island",
+    "home2 suites by hilton mt pleasant charleston",
+    "home2 suites by hilton north charleston university blvd",
+    "home2 suites by hilton summerville",
+    "home2 suites charleston west ashley",
+    "homewood suites by hilton charleston airport",
+    "homewood suites by hilton charleston historic district",
+    "homewood suites by hilton charleston mt pleasant",
+    "homewood suites by hilton north charleston",
+    "hotel bella grace charleston historic district",
+    "hotel indigo mount pleasant",
+    "hyatt house charleston mount pleasant",
+    "hyatt place charleston airport convention center",
+    "hyatt place mount pleasant towne centre",
+    "hyatt place north charleston",
+    "john rutledge house inn",
+    "kings courtyard inn",
+    "la quinta inn and suites by wyndham charleston riverview",
+    "live oak charleston historic district a tribute portfolio hotel",
+    "mills house charleston curio collection by hilton",
+    "moxy charleston downtown",
+    "north charleston marriott",
+    "quality inn and suites north charleston ashley phosphate",
+    "quality inn coliseum",
+    "red roof inn north charleston coliseum",
+    "red roof plus mt pleasant patriots point",
+    "residence inn by marriott charleston airport",
+    "residence inn by marriott charleston mt pleasant",
+    "residence inn by marriott charleston north ashley phosphate",
+    "residence inn by marriott charleston patriots point",
+    "residence inn by marriott charleston riverview",
+    "residence inn by marriott charleston summerville",
+    "rodeway inn north charleston ashley phosphate",
+    "sleep inn charleston west ashley",
+    "sleep inn mt pleasant charleston",
+    "spark by hilton summerville",
+    "springhill suites by marriott charleston mount pleasant",
+    "the vendue",
+    "towneplace suites by marriott charleston airport convention center",
+    "towneplace suites by marriott charleston mt pleasant",
+    "towneplace suites by marriott charleston north charleston",
+    "towneplace suites by marriott charleston west ashley",
+    "travelodge by wyndham north charleston",
+    "tru by hilton charleston airport",
+    "tru by hilton charleston ashley phosphate",
+    "tru by hilton mt pleasant charleston",
+    "wentworth mansion an slh hotel",
+    "wyndham garden summerville"
+   ],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/charleston-sc/",
+    "/pet-friendly-hotels/charleston-sc/aloft-by-marriott-charleston-airport-convention-center/",
+    "/pet-friendly-hotels/charleston-sc/barksdale-house-inn/",
+    "/pet-friendly-hotels/charleston-sc/best-western-charleston-inn/",
+    "/pet-friendly-hotels/charleston-sc/candlewood-suites-charleston-mt-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/candlewood-suites-charleston-northwoods/",
+    "/pet-friendly-hotels/charleston-sc/charleston-marriott/",
+    "/pet-friendly-hotels/charleston-sc/chs-airport-convention/",
+    "/pet-friendly-hotels/charleston-sc/courtyard-by-marriott-charleston-historic-district/",
+    "/pet-friendly-hotels/charleston-sc/courtyard-by-marriott-charleston-north-charleston/",
+    "/pet-friendly-hotels/charleston-sc/crowne-plaza-charleston-airport-conv-ctr/",
+    "/pet-friendly-hotels/charleston-sc/days-inn-suites-by-wyndham-charleston-airport-west/",
+    "/pet-friendly-hotels/charleston-sc/doubletree-by-hilton-charleston-riverview/",
+    "/pet-friendly-hotels/charleston-sc/doubletree-by-hilton-summerville-nexton/",
+    "/pet-friendly-hotels/charleston-sc/drury-plaza-hotel-north-charleston/",
+    "/pet-friendly-hotels/charleston-sc/element-by-marriott-charleston-airport/",
+    "/pet-friendly-hotels/charleston-sc/embassy-suites-by-hilton-charleston-airport-hotel-convention-center/",
+    "/pet-friendly-hotels/charleston-sc/embassy-suites-by-hilton-charleston-harbor-mt-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/embassy-suites-by-hilton-charleston-historic-district/",
+    "/pet-friendly-hotels/charleston-sc/fairfield-by-marriott-inn-suites-charleston-airport-convention-center/",
+    "/pet-friendly-hotels/charleston-sc/fairfield-by-marriott-inn-suites-charleston-north-ashley-phosphate/",
+    "/pet-friendly-hotels/charleston-sc/grand-bohemian-charleston-autograph-collection/",
+    "/pet-friendly-hotels/charleston-sc/hampton-inn-charleston-daniel-island/",
+    "/pet-friendly-hotels/charleston-sc/hampton-inn-charleston-historic-district/",
+    "/pet-friendly-hotels/charleston-sc/hampton-inn-charleston-mt-pleasant-patriots-point/",
+    "/pet-friendly-hotels/charleston-sc/hampton-inn-charleston-north/",
+    "/pet-friendly-hotels/charleston-sc/hampton-inn-suites-charleston-airport/",
+    "/pet-friendly-hotels/charleston-sc/hampton-inn-suites-charleston-mt-pleasant-isle-of-palms/",
+    "/pet-friendly-hotels/charleston-sc/hampton-inn-suites-charleston-west-ashley/",
+    "/pet-friendly-hotels/charleston-sc/hampton-inn-suites-north-charleston-university-blvd/",
+    "/pet-friendly-hotels/charleston-sc/hampton-inn-summerville/",
+    "/pet-friendly-hotels/charleston-sc/hilton-garden-inn-charleston-airport/",
+    "/pet-friendly-hotels/charleston-sc/hilton-garden-inn-charleston-mt-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/historic-district/",
+    "/pet-friendly-hotels/charleston-sc/holiday-inn-express-suites-charleston-dwtn-medical-ctr/",
+    "/pet-friendly-hotels/charleston-sc/holiday-inn-express-suites-charleston-mount-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/home2-suites-by-hilton-charleston-airport-convention-center-sc/",
+    "/pet-friendly-hotels/charleston-sc/home2-suites-by-hilton-charleston-daniel-island/",
+    "/pet-friendly-hotels/charleston-sc/home2-suites-by-hilton-mt-pleasant-charleston/",
+    "/pet-friendly-hotels/charleston-sc/home2-suites-by-hilton-north-charleston-university-blvd/",
+    "/pet-friendly-hotels/charleston-sc/home2-suites-by-hilton-summerville/",
+    "/pet-friendly-hotels/charleston-sc/home2-suites-charleston-west-ashley/",
+    "/pet-friendly-hotels/charleston-sc/homewood-suites-by-hilton-charleston-airport/",
+    "/pet-friendly-hotels/charleston-sc/homewood-suites-by-hilton-charleston-historic-district/",
+    "/pet-friendly-hotels/charleston-sc/homewood-suites-by-hilton-charleston-mt-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/homewood-suites-by-hilton-north-charleston/",
+    "/pet-friendly-hotels/charleston-sc/hotel-bella-grace-charleston-historic-district/",
+    "/pet-friendly-hotels/charleston-sc/hotel-indigo-mount-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/hyatt-house-charleston-mount-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/hyatt-place-charleston-airport-convention-center/",
+    "/pet-friendly-hotels/charleston-sc/hyatt-place-mount-pleasant-towne-centre/",
+    "/pet-friendly-hotels/charleston-sc/hyatt-place-north-charleston/",
+    "/pet-friendly-hotels/charleston-sc/john-rutledge-house-inn/",
+    "/pet-friendly-hotels/charleston-sc/kings-courtyard-inn/",
+    "/pet-friendly-hotels/charleston-sc/la-quinta-inn-suites-by-wyndham-charleston-riverview/",
+    "/pet-friendly-hotels/charleston-sc/live-oak-charleston-historic-district-a-tribute-portfolio-hotel/",
+    "/pet-friendly-hotels/charleston-sc/mills-house-charleston-curio-collection-by-hilton/",
+    "/pet-friendly-hotels/charleston-sc/mount-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/moxy-charleston-downtown/",
+    "/pet-friendly-hotels/charleston-sc/north-charleston-marriott/",
+    "/pet-friendly-hotels/charleston-sc/north-charleston/",
+    "/pet-friendly-hotels/charleston-sc/quality-inn-coliseum/",
+    "/pet-friendly-hotels/charleston-sc/quality-inn-suites-north-charleston-ashley-phosphate/",
+    "/pet-friendly-hotels/charleston-sc/red-roof-inn-north-charleston-coliseum/",
+    "/pet-friendly-hotels/charleston-sc/red-roof-plus-mt-pleasant-patriots-point/",
+    "/pet-friendly-hotels/charleston-sc/residence-inn-by-marriott-charleston-airport/",
+    "/pet-friendly-hotels/charleston-sc/residence-inn-by-marriott-charleston-mt-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/residence-inn-by-marriott-charleston-north-ashley-phosphate/",
+    "/pet-friendly-hotels/charleston-sc/residence-inn-by-marriott-charleston-patriots-point/",
+    "/pet-friendly-hotels/charleston-sc/residence-inn-by-marriott-charleston-riverview/",
+    "/pet-friendly-hotels/charleston-sc/residence-inn-by-marriott-charleston-summerville/",
+    "/pet-friendly-hotels/charleston-sc/rodeway-inn-north-charleston-ashley-phosphate/",
+    "/pet-friendly-hotels/charleston-sc/sleep-inn-charleston-west-ashley/",
+    "/pet-friendly-hotels/charleston-sc/sleep-inn-mt-pleasant-charleston/",
+    "/pet-friendly-hotels/charleston-sc/spark-by-hilton-summerville/",
+    "/pet-friendly-hotels/charleston-sc/springhill-suites-by-marriott-charleston-mount-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/summerville/",
+    "/pet-friendly-hotels/charleston-sc/the-vendue/",
+    "/pet-friendly-hotels/charleston-sc/towneplace-suites-by-marriott-charleston-airport-convention-center/",
+    "/pet-friendly-hotels/charleston-sc/towneplace-suites-by-marriott-charleston-mt-pleasant/",
+    "/pet-friendly-hotels/charleston-sc/towneplace-suites-by-marriott-charleston-north-charleston/",
+    "/pet-friendly-hotels/charleston-sc/towneplace-suites-by-marriott-charleston-west-ashley/",
+    "/pet-friendly-hotels/charleston-sc/travelodge-by-wyndham-north-charleston/",
+    "/pet-friendly-hotels/charleston-sc/tru-by-hilton-charleston-airport/",
+    "/pet-friendly-hotels/charleston-sc/tru-by-hilton-charleston-ashley-phosphate/",
+    "/pet-friendly-hotels/charleston-sc/tru-by-hilton-mt-pleasant-charleston/",
+    "/pet-friendly-hotels/charleston-sc/upper-peninsula/",
+    "/pet-friendly-hotels/charleston-sc/wentworth-mansion-an-slh-hotel/",
+    "/pet-friendly-hotels/charleston-sc/west-ashley/",
+    "/pet-friendly-hotels/charleston-sc/wyndham-garden-summerville/"
+   ],
+   "change_routes": [],
+   "remove_routes": [],
+   "expected_profile_delta": 82,
+   "expected_verified_no_pets_delta": 44,
+   "expected_market_count_delta": 1,
+   "expected_participation_delta": [
+    {
+     "market_id": "charleston-sc",
+     "from": false,
+     "to": true
+    }
+   ],
+   "joining_market_profiles": 82,
+   "joining_market_verified_no_pets": 44,
+   "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
+  },
+  "VALIDATION_RECEIPT": {
+   "path": "launch_packages/pettripfinder/markets/staging/charleston-sc/shadow_receipts/charleston-sc/pkg-charleston-sc-b2987ee1c2bccb01-0abe82fc8aca6e50.json",
+   "digest": "sha256:0abe82fc8aca6e508b7b36453d24003db4c1726f963b4b3a6d02525cb80e52ab",
+   "eligible": "YES",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown": [],
+   "failed": [],
+   "determinism": "BYTE_IDENTICAL"
+  },
+  "COVERAGE_SCORECARD": {
+   "census_count": 186,
+   "published_pet_friendly": 82,
+   "verified_no_pets": 44,
+   "out_of_category": 0,
+   "unresolved": 60,
+   "public_routes": 91,
+   "evidence_references": 126,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 0,
+   "counts_by_partition_state": {
+    "ACCESS_BLOCKED": 2,
+    "AWAITING_OFFICIAL_URL": 3,
+    "AWAITING_POLICY_OBSERVATION": 55,
+    "PUBLISHED_PET_FRIENDLY": 82,
+    "VERIFIED_NO_PETS": 44
+   }
+  },
+  "parent_binding": "parent_live_state names the CURRENT live release (Atlanta, deploy 6aa7f125...). That is what this package was validated against. Once any later market is live, FAST rule N fails this package BY DESIGN; the registration order -- when Charleston reaches the front of the release queue -- re-seals the same committed inputs against that parent as a NEW package id. Nothing here is a production candidate, and no whole-site build was assembled."
+ },
+ "factory_code_changed": "NO -- every changed path is a charleston_sc_* helper, the market's discovery config, or a document under the market's own proposed / staging / report paths",
+ "shared_factory_notes_recorded_not_repaired": [
+  "The shared exclusion contract's co_located_distinct reads Marriott / Hilton / IHG route codes but not Hyatt's, so Hyatt House Charleston/Historic District (chsxh) and The Lowline Hotel (chszh) at 560 King Street cannot be proved distinct and the sealed-package writer refuses them as SAME_PREMISES_UNPROVEN. Both are held SAME_CAMPUS_DISTINCT_ENTITY for a registration-order resolution.",
+  "The shared first-party reader does not read 'While we love our furry friends, we do not accept pets', 'As much as we love pets, we cannot accommodate them', 'We are unfortunately not a pet friendly hotel', 'No, we do not allow pets on our property', 'The Charleston Harbor Resort & Marina does allow dogs', 'We welcome a maximum of two (2) dogs per guestroom' or 'We welcome pets of all sizes at The Charleston Place' as operative; those rows are held with the exact wording.",
+  "Many Charleston independents state their policy on a FAQ page whose visible text carries no street number or postal code; the verified-quote builder requires both on the SAME document, so those reads are held ADDRESS_NOT_ON_DOCUMENT rather than bound by a sibling page."
+ ],
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO -- FAST composes the release index in memory only",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts, identity_resolutions.json and the market registry are unchanged",
+ "next_order": [
+  "When Charleston reaches the front of the serialized release lane, read CURRENT VERIFIED LIVE and merge that live parent into worker/ptf-charleston-sc-market-001; the Atlanta binding of this shadow package is then invalid.",
+  "Copy markets/proposed/charleston-sc.json -> markets/charleston-sc.json, identity_census_proposed/charleston-sc.json -> identity_census/charleston-sc.json and the staged launch_package documents (hotel_policy_facts_charleston-sc.json, charleston_sc_final_partition_007.json, the authority shard) into their registered paths; repoint the helpers' paths.",
+  "Record same-campus resolutions in identity_resolutions.json -- 406 Sigma Drive (Hilton Garden Inn + Homewood Suites Summerville) and 560 King Street (Hyatt House Charleston/Historic District + The Lowline Hotel) -- and re-admit the held records through the census and clean set.",
+  "Take the founder ruling on the three Hilton Grand Vacations / Hilton Club properties (timeshare rule).",
+  "market_registration_cli --write, build_global_authority --write then --check, the release contract, registration_release_lane register + seal --work-order (a NEW package id: this shadow package fails FAST rule N by design once the parent moves), FAST.",
+  "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder packet; deploy only on founder authorization.",
+  "Before sealing: re-probe Starlight Motor Inn and The Cottages on Charleston Harbor (403); read Folly Beach's Regatta Inn, Beachside Boutique Inn and Water's Edge Inn and the Summerville Country Inn on their own pages; find an address-bearing document for the FAQ-only independents (The Loutrel, The Pinch, The Nickel, The Spectator, Jasmine House, Elliott House, Andrew Pinckney, 86 Cannon, Market Pavilion, Francis Marion, Emeline, Tides Folly Beach)."
+ ]
+}

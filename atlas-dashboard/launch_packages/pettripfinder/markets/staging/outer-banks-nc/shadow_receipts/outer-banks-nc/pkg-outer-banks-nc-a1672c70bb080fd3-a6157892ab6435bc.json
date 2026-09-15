@@ -1,0 +1,643 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-outer-banks-nc-a1672c70bb080fd3",
+ "PACKAGE_DIGEST": "sha256:a1672c70bb080fd37932238964d9eff3127bb6fa1a24aeb7597f737c72b8202f",
+ "MARKET_ID": "outer-banks-nc",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6aa60a3e018fd6b1b9a40450",
+  "rollback_target": "6aa5e2623de160fcdf416577",
+  "source_commit": "5c3264650962cf726700ccda4962422d96dadad1",
+  "live_index_digest": "sha256:6ef7bc5fc2d2cb4e333bfeb5ae912f4fa446a8d03056d819ea10580e442a6547"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:f76685e70587f60bfecf791c1777ce98e17b00464f708e2b72f4d4aac51f0419",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.011,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-outer-banks-nc-a1672c70bb080fd3",
+    "package_digest": "sha256:a1672c70bb080fd37932238964d9eff3127bb6fa1a24aeb7597f737c72b8202f"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.048,
+   "detail": {
+    "identity_records": 55,
+    "census_count": 55,
+    "declared_relations": 0,
+    "writer_seconds": 0.047
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.084,
+   "detail": {
+    "records_evaluated": 31,
+    "eligible": 31,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 26,
+    "verified_no_pets_records": 5,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 31
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 55,
+    "unresolved_rows": 24,
+    "counts_by_partition_state": {
+     "ACCESS_BLOCKED": 5,
+     "AWAITING_OFFICIAL_URL": 2,
+     "AWAITING_POLICY_OBSERVATION": 17,
+     "PUBLISHED_PET_FRIENDLY": 26,
+     "VERIFIED_NO_PETS": 5
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.084,
+   "detail": {
+    "live_digest": "sha256:6ef7bc5fc2d2cb4e333bfeb5ae912f4fa446a8d03056d819ea10580e442a6547",
+    "proposed_digest": "sha256:48996f010946006decacbeb6f5ae5416abf7a87b81a7a5c3ecd5d4c194b856b4",
+    "proposed_participating": [
+     "asheville-nc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "outer-banks-nc",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "proposed_total_profiles": 1221,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.0808
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.084,
+   "detail": {
+    "live_participating": [
+     "asheville-nc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "live_total_profiles": 1195,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.084,
+   "detail": {
+    "intended_delta": {
+     "market_id": "outer-banks-nc",
+     "add_property_ids": [
+      "blue heron motel",
+      "colonial inn",
+      "dolphin oceanfront motel",
+      "hampton inn and suites outer banks corolla",
+      "heart of manteo motor lodge",
+      "hilton garden inn outer banks kitty hawk",
+      "holiday inn express nags head oceanfront",
+      "home2 suites by hilton outer banks kill devil hills",
+      "hotel manteo trademark collection by wyndham",
+      "john yancey oceanfront inn",
+      "mariner inn and suites",
+      "mia s boutique hotel",
+      "outer banks motor lodge",
+      "ramada plaza by wyndham nags head oceanfront",
+      "roanoke island inn",
+      "sea foam motel",
+      "sea ranch resort",
+      "seahorse inn and cottages",
+      "see sea motel",
+      "spark by hilton outer banks kill devil hills",
+      "surf side hotel",
+      "tar heel motel",
+      "the island guesthouse and motel",
+      "the sanderling resort",
+      "towneplace suites by marriott outer banks kill devil hills",
+      "travelodge by wyndham outer banks kill devil hills"
+     ],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/outer-banks-nc/",
+      "/pet-friendly-hotels/outer-banks-nc/blue-heron-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/colonial-inn/",
+      "/pet-friendly-hotels/outer-banks-nc/dolphin-oceanfront-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/hampton-inn-suites-outer-banks-corolla/",
+      "/pet-friendly-hotels/outer-banks-nc/heart-of-manteo-motor-lodge/",
+      "/pet-friendly-hotels/outer-banks-nc/hilton-garden-inn-outer-banks-kitty-hawk/",
+      "/pet-friendly-hotels/outer-banks-nc/holiday-inn-express-nags-head-oceanfront/",
+      "/pet-friendly-hotels/outer-banks-nc/home2-suites-by-hilton-outer-banks-kill-devil-hills/",
+      "/pet-friendly-hotels/outer-banks-nc/hotel-manteo-trademark-collection-by-wyndham/",
+      "/pet-friendly-hotels/outer-banks-nc/john-yancey-oceanfront-inn/",
+      "/pet-friendly-hotels/outer-banks-nc/kill-devil-hills/",
+      "/pet-friendly-hotels/outer-banks-nc/mariner-inn-suites/",
+      "/pet-friendly-hotels/outer-banks-nc/mia-s-boutique-hotel/",
+      "/pet-friendly-hotels/outer-banks-nc/nags-head/",
+      "/pet-friendly-hotels/outer-banks-nc/outer-banks-motor-lodge/",
+      "/pet-friendly-hotels/outer-banks-nc/ramada-plaza-by-wyndham-nags-head-oceanfront/",
+      "/pet-friendly-hotels/outer-banks-nc/roanoke-island-inn/",
+      "/pet-friendly-hotels/outer-banks-nc/sea-foam-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/sea-ranch-resort/",
+      "/pet-friendly-hotels/outer-banks-nc/seahorse-inn-cottages/",
+      "/pet-friendly-hotels/outer-banks-nc/see-sea-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/spark-by-hilton-outer-banks-kill-devil-hills/",
+      "/pet-friendly-hotels/outer-banks-nc/surf-side-hotel/",
+      "/pet-friendly-hotels/outer-banks-nc/tar-heel-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/the-island-guesthouse-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/the-sanderling-resort/",
+      "/pet-friendly-hotels/outer-banks-nc/towneplace-suites-by-marriott-outer-banks-kill-devil-hills/",
+      "/pet-friendly-hotels/outer-banks-nc/travelodge-by-wyndham-outer-banks-kill-devil-hills/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 26,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "outer-banks-nc",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [
+      "blue heron motel",
+      "colonial inn",
+      "dolphin oceanfront motel",
+      "hampton inn and suites outer banks corolla",
+      "heart of manteo motor lodge",
+      "hilton garden inn outer banks kitty hawk",
+      "holiday inn express nags head oceanfront",
+      "home2 suites by hilton outer banks kill devil hills",
+      "hotel manteo trademark collection by wyndham",
+      "john yancey oceanfront inn",
+      "mariner inn and suites",
+      "mia s boutique hotel",
+      "outer banks motor lodge",
+      "ramada plaza by wyndham nags head oceanfront",
+      "roanoke island inn",
+      "sea foam motel",
+      "sea ranch resort",
+      "seahorse inn and cottages",
+      "see sea motel",
+      "spark by hilton outer banks kill devil hills",
+      "surf side hotel",
+      "tar heel motel",
+      "the island guesthouse and motel",
+      "the sanderling resort",
+      "towneplace suites by marriott outer banks kill devil hills",
+      "travelodge by wyndham outer banks kill devil hills"
+     ],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/outer-banks-nc/",
+      "/pet-friendly-hotels/outer-banks-nc/blue-heron-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/colonial-inn/",
+      "/pet-friendly-hotels/outer-banks-nc/dolphin-oceanfront-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/hampton-inn-suites-outer-banks-corolla/",
+      "/pet-friendly-hotels/outer-banks-nc/heart-of-manteo-motor-lodge/",
+      "/pet-friendly-hotels/outer-banks-nc/hilton-garden-inn-outer-banks-kitty-hawk/",
+      "/pet-friendly-hotels/outer-banks-nc/holiday-inn-express-nags-head-oceanfront/",
+      "/pet-friendly-hotels/outer-banks-nc/home2-suites-by-hilton-outer-banks-kill-devil-hills/",
+      "/pet-friendly-hotels/outer-banks-nc/hotel-manteo-trademark-collection-by-wyndham/",
+      "/pet-friendly-hotels/outer-banks-nc/john-yancey-oceanfront-inn/",
+      "/pet-friendly-hotels/outer-banks-nc/kill-devil-hills/",
+      "/pet-friendly-hotels/outer-banks-nc/mariner-inn-suites/",
+      "/pet-friendly-hotels/outer-banks-nc/mia-s-boutique-hotel/",
+      "/pet-friendly-hotels/outer-banks-nc/nags-head/",
+      "/pet-friendly-hotels/outer-banks-nc/outer-banks-motor-lodge/",
+      "/pet-friendly-hotels/outer-banks-nc/ramada-plaza-by-wyndham-nags-head-oceanfront/",
+      "/pet-friendly-hotels/outer-banks-nc/roanoke-island-inn/",
+      "/pet-friendly-hotels/outer-banks-nc/sea-foam-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/sea-ranch-resort/",
+      "/pet-friendly-hotels/outer-banks-nc/seahorse-inn-cottages/",
+      "/pet-friendly-hotels/outer-banks-nc/see-sea-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/spark-by-hilton-outer-banks-kill-devil-hills/",
+      "/pet-friendly-hotels/outer-banks-nc/surf-side-hotel/",
+      "/pet-friendly-hotels/outer-banks-nc/tar-heel-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/the-island-guesthouse-motel/",
+      "/pet-friendly-hotels/outer-banks-nc/the-sanderling-resort/",
+      "/pet-friendly-hotels/outer-banks-nc/towneplace-suites-by-marriott-outer-banks-kill-devil-hills/",
+      "/pet-friendly-hotels/outer-banks-nc/travelodge-by-wyndham-outer-banks-kill-devil-hills/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 26,
+     "verified_no_pets_delta": 5,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 13.38,
+   "detail": {
+    "bundle_sha256": "3e02b44f25a1e150f91a667db6c4b31dc7cf27489bca7e3de28d60dd991ae414",
+    "file_count": 171,
+    "html_count": 155,
+    "staged_input_digest": "sha256:6262aa5c85521521c8e9878909fb5a35c6d8e81dd724dbe0d926159ac6f1d7d1",
+    "contract_sha256": "sha256:d9e25a20a88fde86120c6fc5b5e6d43ccdaf4e951a3da4545a0c29a73a7acaf0",
+    "release_name": "package-outer-banks-nc-nogit-c715bed6-5f353500",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "1ac8b7038959f6b524a7d9cf7263196555504f7243adb6d84665fd968a581dce",
+      "seconds": 3.342
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "d0a770dc8a427f889d9a9af0dd0fb2530434a24404f3d6c9fd7958307bdf28be",
+      "seconds": 8.317
+     }
+    ],
+    "build_seconds": 13.082
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 11.545,
+   "detail": {
+    "input_digest": "sha256:6262aa5c85521521c8e9878909fb5a35c6d8e81dd724dbe0d926159ac6f1d7d1",
+    "output_digest_a": "3e02b44f25a1e150f91a667db6c4b31dc7cf27489bca7e3de28d60dd991ae414",
+    "output_digest_b": "3e02b44f25a1e150f91a667db6c4b31dc7cf27489bca7e3de28d60dd991ae414",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 11.545
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "package_digest": "sha256:a1672c70bb080fd37932238964d9eff3127bb6fa1a24aeb7597f737c72b8202f",
+    "rederived_digest": "sha256:a1672c70bb080fd37932238964d9eff3127bb6fa1a24aeb7597f737c72b8202f",
+    "evidence_references": 31,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:f76685e70587f60bfecf791c1777ce98e17b00464f708e2b72f4d4aac51f0419"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "max_age_days": 365,
+    "references": 31,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-13T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.016,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6aa60a3e018fd6b1b9a40450",
+     "previous_deploy_id": "6aa5e2623de160fcdf416577",
+     "rollback_target": "6aa5e2623de160fcdf416577",
+     "source_commit": "5c3264650962cf726700ccda4962422d96dadad1",
+     "bundle_sha256": "d98a24038ef25df4b481e71b8436377ff01abc2bc80a11de2fe7222df9dadb36",
+     "sitemap_sha256": "6a33f1e53a094f934f1175bd21c58e77675820ab18b593288ab472c55152a699",
+     "participating_markets": [
+      "asheville-nc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "profile_counts": {
+      "asheville-nc": 41,
+      "charlotte-nc": 106,
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "piedmont-triad-nc": 54,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "st-louis-mo": 82,
+      "toledo-oh": 17,
+      "wilmington-nc": 29
+     },
+     "total_profiles": 1195,
+     "sitemap_route_count": 1408,
+     "deployment_record": "ptf-deploy-asheville-002-6aa60a3e018fd6b1b9a40450.json",
+     "authorization_id": "ptf-auth-asheville-002-d98a24038ef2",
+     "rollback_record": "ptf-deploy-wilmington-002-6aa5e2623de160fcdf416577.json",
+     "rollback_markets": [
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-13T23:40:27Z",
+  "finished_at": "2026-09-13T23:40:53Z",
+  "seconds": 25.325
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "3e02b44f25a1e150f91a667db6c4b31dc7cf27489bca7e3de28d60dd991ae414",
+  "changed_market_bundle_sha256_b": "3e02b44f25a1e150f91a667db6c4b31dc7cf27489bca7e3de28d60dd991ae414",
+  "staged_input_digest": "sha256:6262aa5c85521521c8e9878909fb5a35c6d8e81dd724dbe0d926159ac6f1d7d1",
+  "staged_contract_sha256": "sha256:d9e25a20a88fde86120c6fc5b5e6d43ccdaf4e951a3da4545a0c29a73a7acaf0"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:6ef7bc5fc2d2cb4e333bfeb5ae912f4fa446a8d03056d819ea10580e442a6547",
+  "proposed": "sha256:48996f010946006decacbeb6f5ae5416abf7a87b81a7a5c3ecd5d4c194b856b4"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:220165abd0b499c625b2354de0408077c74df9e4ff772bfcecd55b2d678a02f2",
+ "INTENDED_DELTA_DIGEST": "sha256:dfdc8a886db576cf9766763c07c212530dbc9eb8bc65f87e84bde526ffbf33b1",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "e636dcd5169a97a04ab655252df1f4fef0877916",
+  "peak_working_set_mb": 74.9
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6aa60a3e018fd6b1b9a40450",
+   "the live index digest is sha256:6ef7bc5fc2d2cb4e333bfeb5ae912f4fa446a8d03056d819ea10580e442a6547",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-13T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 25.325,
+  "per_rule_seconds": {
+   "A": 0.011,
+   "B": 0.048,
+   "C": 0.084,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.084,
+   "H": 0.084,
+   "I": 0.084,
+   "J": 13.38,
+   "K": 11.545,
+   "L": 0.0,
+   "M": 0.0,
+   "N": 0.016,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 13.082,
+  "determinism_build_seconds": 11.545
+ },
+ "RECEIPT_DIGEST": "sha256:a6157892ab6435bcdc574b48a616cec6102d9811d6c86fc29f766f600baf0583"
+}
