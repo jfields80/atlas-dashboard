@@ -1,0 +1,22 @@
+{
+ "schema": "ptf-orlando-fl-identity-rulings/1.0",
+ "market_id": "orlando-fl",
+ "work_order": "PTF-ORLANDO-FL-PARALLEL-SOURCE-READY-001",
+ "rule": "Applied AFTER mechanical identity resolution. Each ruling cites the independent signals that support it. A ruling may bind a brand code to a licensed premises, classify a lead, or HOLD an identity; it never merges on name, brand, campus or phone alone.",
+ "bind_brand_code_to_licence": [
+  {"brand_code": "MARRIOTT:mcotw", "licence": "DBPR:HOT5811166", "identity_state": "IDENTITY_CONFIRMED",
+   "basis": "identical property name 'Residence Inn Near Universal Orlando' on the DBPR licence and the Marriott slug; Visit Orlando + OSM give 5614 Major Blvd, the licence gives 5616 Major Blvd (adjacent house-number variant on the same block, same ZIP 32819)."},
+  {"brand_code": "MARRIOTT:mcocb", "licence": "DBPR:HOT5908462", "identity_state": "IDENTITY_CONFIRMED",
+   "basis": "REBRAND: licence DBA 'CELEBRATION HOTEL', 700 Bloom St, Celebration 34747; Visit Orlando listing, OSM and the property's own site theinnatcelebration.com all name 'The Inn at Celebration' at 700 Bloom Street."},
+  {"brand_code": "MARRIOTT:mcoae", "licence": "DBPR:HOT5811198", "identity_state": "IDENTITY_PROVISIONAL", "hold": "AWAITING_IDENTITY_RESOLUTION",
+   "basis": "licence is held under a legal-entity name ('5730 CENTRAL FL PKWY TRS LLC', 144 units) beside the Element licence at 5750; Visit Orlando lists 'Aloft and Element Orlando at SeaWorld' as ONE listing at 5740. Premises binding is probable but unproven -> HOLD."},
+  {"brand_code": "MARRIOTT:mcoak", "licence": "DBPR:HOT5810170", "identity_state": "IDENTITY_PROVISIONAL", "hold": "AWAITING_IDENTITY_RESOLUTION",
+   "basis": "REBRAND UNCONFIRMED: the owned Marriott harvest still carries 'Grand Bohemian Orlando, Autograph Collection' while the active DBPR licence at 325 S Orange Ave reads 'HOTEL BEAUDEN'. No first-party page captured this run -> HOLD."}
+ ],
+ "classify_identity": [
+  {"anchor": "MARRIOTT:mcolt", "class": "OUTSIDE", "basis": "TownePlace Suites Lake City -- Lake City, FL (Columbia County), ~150 mi north; harvested only because of the 'mco' code prefix."},
+  {"anchor": "MARRIOTT:mcoau", "class": "VACATION_RENTAL", "basis": "Villatel Resort Orlando, 'Apartments by Marriott Bonvoy' -- whole-home / villa rental product, no DBPR hotel/motel licence."},
+  {"anchor": "HILTON:ORLEMQQ", "class": "RESORT_RESIDENCE", "basis": "Evermore Orlando Resort residences/villas sold on hilton.com; no DBPR hotel/motel licence for the residence product (the Conrad Orlando hotel on the same campus is licensed separately as HOT5811226 and stays in the census)."},
+  {"anchor": "DBPR:HOT5912062", "class": "MIXED_RESORT_HOLD", "basis": "Barefoot Suites / Barefoot'n Resort (2750 Florida Plaza Blvd) holds a HOTL licence (42 units) but OSM binds it to Hilton Grand Vacations; vacation-ownership vs public hotel operation unproven."}
+ ]
+}
