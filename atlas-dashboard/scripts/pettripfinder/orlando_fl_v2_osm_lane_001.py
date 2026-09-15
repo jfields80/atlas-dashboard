@@ -190,8 +190,8 @@ def main(argv=None):
         json.dump(doc, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
     print("elements:", doc["element_count"], doc["by_type"], doc["by_tourism"],
-          "postcode:", doc["with_postcode"], "street:", doc["with_street"],
-          "seconds:", round(time.time() - started, 1))  # printed, never written: a wall-clock breaks byte identity
+          "postcode:", doc["with_postcode"], "street:", doc["with_street"])
+    # no wall-clock is written or printed: the report must be byte-identical across reproductions
     return 0
 
 
