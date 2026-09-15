@@ -566,7 +566,7 @@ def _transcription_sha(r):
 def marriott_rows(zips):
     out = []
     seen = set()
-    for path in ("marriott_browser_rows.jsonl", "marriott_browser_rows_agent.jsonl"):
+    for path in ("marriott_browser_rows.jsonl", "marriott_browser_rows_agent.jsonl", "marriott_browser_rows_retry.jsonl"):
         for r in _jsonl(os.path.join(RAW, path)):
             if r.get("status", "OK") != "OK" or r["c"] in seen:
                 continue
@@ -607,7 +607,10 @@ def _hilton_fields(pets):
 def hilton_rows(zips):
     out = []
     seen = set()
-    for r in _jsonl(os.path.join(RAW, "hilton_browser_rows.jsonl")):
+    # the retry pass (after hilton.com's error-page wall lifted) fills codes the first pass recorded BLOCKED or never
+    # reached; a code read OK in the first pass is never re-read
+    for path in ("hilton_browser_rows.jsonl", "hilton_browser_rows_retry.jsonl"):
+      for r in _jsonl(os.path.join(RAW, path)):
         if r.get("status") != "OK":
             continue
         code = (re.search(r"/hotels/([a-z0-9]+)-", r["u"]) or [None, ""])[1]
@@ -648,7 +651,7 @@ def hilton_rows(zips):
                         _transcription_sha(r), len(json.dumps(r, ensure_ascii=False).encode("utf-8")),
                         "hotel-info page Pets section (accessibility-tree text nodes, verbatim)", quote, ext, zips,
                         "PROPERTY_CODE_IN_ROUTE_AND_ADDRESS_ON_THE_PAGE", conflict, sha_kind="TRANSCRIPTION_SHA256",
-                        extra={"raw_capture": "raw_captures/hilton_browser_rows.jsonl"}))
+                        extra={"raw_capture": "raw_captures/" + path}))
     return out
 
 

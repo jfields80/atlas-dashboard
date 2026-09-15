@@ -76,7 +76,9 @@ def _load(p, default=None):
 
 
 def _keys(h):
-    return {h["identity_key"], *(h.get("identity_key_aliases") or [])}
+    # ORDERED (the identity key, then its aliases sorted): callers take the FIRST key a lane row exists for, and a set's
+    # order moves with Python's per-process string hash -- the reproduction run picked another alias's static row
+    return [h["identity_key"]] + sorted(set(h.get("identity_key_aliases") or []) - {h["identity_key"]})
 
 
 def build():
@@ -97,7 +99,8 @@ def build():
     # browser reads the supported lane attempted and the site refused (Akamai "Access Denied"), by brand property code
     browser_blocked = {}
     raw = os.path.join(PKG, "markets", "staging", "orlando-fl", "raw_captures")
-    for fname in ("marriott_browser_rows.jsonl", "marriott_browser_rows_agent.jsonl", "hilton_browser_rows.jsonl",
+    for fname in ("marriott_browser_rows.jsonl", "marriott_browser_rows_agent.jsonl", "marriott_browser_rows_retry.jsonl",
+                  "hilton_browser_rows.jsonl", "hilton_browser_rows_retry.jsonl",
                   "hyatt_browser_rows.jsonl", "bestwestern_browser_rows.jsonl"):
         p = os.path.join(raw, fname)
         if not os.path.exists(p):

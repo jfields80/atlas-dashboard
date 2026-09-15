@@ -169,7 +169,6 @@ def build():
             ("kept", "tourism in (hotel, motel, guest_house, chalet, apartment)"),
         ])),
         ("paid_provider_calls", 0), ("free_http_requests", 0),
-        ("seconds", round(time.time() - started, 1)),
         ("element_count", len(elements)),
         ("by_type", dict(Counter(e["type"] for e in elements))),
         ("by_tourism", dict(Counter(e["tags"].get("tourism") for e in elements))),
@@ -192,7 +191,7 @@ def main(argv=None):
         fh.write("\n")
     print("elements:", doc["element_count"], doc["by_type"], doc["by_tourism"],
           "postcode:", doc["with_postcode"], "street:", doc["with_street"],
-          "seconds:", doc["seconds"])
+          "seconds:", round(time.time() - started, 1))  # printed, never written: a wall-clock breaks byte identity
     return 0
 
 
