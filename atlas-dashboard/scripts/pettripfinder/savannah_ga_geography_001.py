@@ -135,7 +135,9 @@ MARKET_ID = "savannah-ga"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 CONFIG_OUT = os.path.join(_DASH, "scripts", "pettripfinder", "discovery", "config", "savannah_ga.json")
-SHARD_OUT = os.path.join(PKG, "markets", "proposed", "savannah-ga.json")
+#: REGISTERED by PTF-SAVANNAH-GA-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002 against the Outer-Banks-live parent. The source-ready
+#: order wrote markets/proposed/savannah-ga.json (kept as history).
+SHARD_OUT = os.path.join(PKG, "markets", "savannah-ga.json")
 REPORT_OUT = os.path.join(REPORTS, "savannah_ga_geography_001.json")
 REGISTRY_OUT = os.path.join(REPORTS, "savannah_ga_corridor_registry_001.json")
 
@@ -435,9 +437,9 @@ def build():
         ("usd_spent", 0.0),
         ("free_http_requests", 0),
         ("registration_state",
-         "SHADOW_UNTIL_REGISTERED: the market document is written to markets/proposed/, never to the "
-         "registry's markets/<id>.json. Registration waits for Savannah's turn in the serialized release "
-         "queue against the then-current live parent."),
+         "REGISTERED: the market document is written to the registry's markets/<id>.json by "
+         "PTF-SAVANNAH-GA-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002 against the Outer-Banks-live parent (Savannah is next in the founder-directed "
+         "release order). The source-ready order's markets/proposed/ copy is history."),
         ("membership_rule",
          "The property's OWN postal code, as its own official page states it, joined to the corridor "
          "registry. Nothing else admits a property."),

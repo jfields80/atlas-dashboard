@@ -51,8 +51,8 @@ WORK_ORDER = "PTF-SAVANNAH-GA-PARALLEL-SOURCE-READY-001"
 MARKET_ID = "savannah-ga"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-OUT = os.path.join(PKG, "markets", "staging", "savannah-ga", "launch_package",
-                   "savannah_ga_final_partition_007.json")
+#: REGISTERED by PTF-SAVANNAH-GA-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002: the package root.
+OUT = os.path.join(PKG, "savannah_ga_final_partition_007.json")
 
 #: A family this order MEASURED as refusing on this run, with what it returned. None in Savannah: Choice
 #: (after a slow challenge page), Best Western, Red Roof, Motel 6, Extended Stay America and Hyatt all served
@@ -159,7 +159,7 @@ def _brand_of(row):
 
 
 def build():
-    census = _load(os.path.join(PKG, "identity_census_proposed", "%s.json" % MARKET_ID))
+    census = _load(os.path.join(PKG, "identity_census", "%s.json" % MARKET_ID))
     clean = _load(os.path.join(REPORTS, "savannah_ga_clean_authority_001.json"))
     routing = _load(os.path.join(REPORTS, "savannah_ga_routing_001.json"), {})
 

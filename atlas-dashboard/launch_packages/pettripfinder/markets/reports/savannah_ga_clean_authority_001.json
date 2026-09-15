@@ -3,22 +3,21 @@
  "work_order": "PTF-SAVANNAH-GA-PARALLEL-SOURCE-READY-001",
  "market_id": "savannah-ga",
  "phase": "13/14 -- policy classification and the clean set",
- "as_of": "2026-09-14",
+ "as_of": "2026-09-15",
  "status": "PROPOSED_NOT_PUBLISHED",
  "what_is_excluded": "Everything that is not an operative first-party statement of acceptance or refusal, bound to an ADMITTED census identity by the street identity the page itself states. A read that joins no census row, joins a withheld row, states no policy, or states only a fee / weight / count / amenity chip / service-animal sentence is reported in `rejected` with its class and publishes nothing.",
  "one_identity_classified_once": "The join is on street identity, so two brands at one address cannot both settle it: the census already withheld those buildings as a founder ruling, and a second read of an already-settled identity is reported DUPLICATE_READ_FOR_ONE_IDENTITY.",
  "counts": {
   "reads_evaluated": 168,
-  "clean_pet_friendly": 96,
+  "clean_pet_friendly": 99,
   "clean_verified_no_pets": 40,
-  "resolved_census_identities": 136,
-  "unresolved_census_identities": 51,
+  "resolved_census_identities": 139,
+  "unresolved_census_identities": 48,
   "census_count": 187,
-  "rejected": 32,
+  "rejected": 29,
   "rejected_by_class": {
    "ADDRESS_KEY_DIRECTIONAL_COLLISION": 4,
    "CENSUS_ROW_NOT_ADMITTED": 11,
-   "CO_LOCATION_RULING_REQUIRED": 3,
    "FIRST_PARTY_CONFLICT": 1,
    "POLICY_NOT_FOUND": 6,
    "QUOTE_NOT_OPERATIVE": 1,
@@ -33,7 +32,7 @@
    "HYATT": 2,
    "IHG": 4,
    "INDEPENDENT": 5,
-   "MARRIOTT": 21,
+   "MARRIOTT": 24,
    "RED_ROOF": 5,
    "WOODSPRING": 1,
    "WYNDHAM": 14
@@ -43,9 +42,9 @@
    "savannah-ga__historic-district": 26,
    "savannah-ga__hutchinson-island": 1,
    "savannah-ga__midtown": 10,
-   "savannah-ga__pooler": 10,
+   "savannah-ga__pooler": 11,
    "savannah-ga__port-wentworth": 14,
-   "savannah-ga__richmond-hill": 9,
+   "savannah-ga__richmond-hill": 11,
    "savannah-ga__sav-airport": 9,
    "savannah-ga__southside": 5
   }
@@ -973,6 +972,63 @@
     {
      "quote": "Pets Allowed: Yes / General: All Pets Allowed. Pet Charge 30 USD Per Pet, Per Night. Pet limit 50lbs. Maximum of 2 Pets Per Room.. Service animals are permitted, without charge.",
      "location": "the property page's own 'Pets' item (label and general policy words)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/savrc-courtyard-richmond-hill/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/savrc-courtyard-richmond-hill/overview/",
+   "document_sha256": "cb01e1ec27d2a095256cebf2253a48d8df105e6a445a360145a3c6a6ee89c161",
+   "document_bytes": 306284,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Richmond Hill",
+    "address_on_page": "190 Pioneer Way",
+    "postal_code": "31324",
+    "locality": "Richmond Hill",
+    "region": "GA",
+    "phone_on_page": "+19128886016",
+    "property_code_on_page": "savrc",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "savrc",
+   "identity_key": "courtyard by marriott richmond hill",
+   "canonical_name": "Courtyard by Marriott Richmond Hill",
+   "corridor": "savannah-ga__richmond-hill",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pets Welcome 1 pet 25lbs max per pet per room with non-refundable fee Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 1",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 25.0,
+    "pet_count_limit": 1,
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets Welcome 1 pet 25lbs max per pet per room with non-refundable fee Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 1 pet 25lbs max per pet per room with non-refundable fee Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 1 pet 25lbs max per pet per room with non-refundable fee Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pet_count_limit"
      ]
@@ -4810,6 +4866,63 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/savrr-residence-inn-richmond-hill/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/savrr-residence-inn-richmond-hill/overview/",
+   "document_sha256": "50950bb283695a7f25387c9327d724c3767bf09086c59f85e71f8c74f5c3ad71",
+   "document_bytes": 306809,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Richmond Hill",
+    "address_on_page": "190 Pioneer Way",
+    "postal_code": "31324",
+    "locality": "Richmond Hill",
+    "region": "GA",
+    "phone_on_page": "+19128886018",
+    "property_code_on_page": "savrr",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "savrr",
+   "identity_key": "residence inn by marriott richmond hill",
+   "canonical_name": "Residence Inn by Marriott Richmond Hill",
+   "corridor": "savannah-ga__richmond-hill",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/savsp-residence-inn-savannah-airport/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/savsp-residence-inn-savannah-airport/overview/",
    "document_sha256": "1cf29cbf47403e25f3f72b8b8174a77f71602658cfbc6ab188ade5698feee70a",
@@ -6204,6 +6317,88 @@
     },
     {
      "quote": "Pets Welcome Limit 2 pets per suite, pet contract required, call hotel for specifics Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 60.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/savtp-towneplace-suites-savannah-pooler/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/savtp-towneplace-suites-savannah-pooler/overview/",
+   "document_sha256": "ffa1c954976c51e4c20d5001ba33b3ada0831dc29cbb42557ea9f3efa91d2c46",
+   "document_bytes": 307206,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Savannah Pooler",
+    "address_on_page": "100 Half Moon Way",
+    "postal_code": "31322",
+    "locality": "Pooler",
+    "region": "GA",
+    "phone_on_page": "+19123489489",
+    "property_code_on_page": "savtp",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "savtp",
+   "identity_key": "towneplace suites by marriott savannah pooler",
+   "canonical_name": "TownePlace Suites by Marriott Savannah Pooler",
+   "corridor": "savannah-ga__pooler",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "fee_refundable"
@@ -8892,58 +9087,6 @@
   },
   {
    "lane": "ATTENDED_BROWSER",
-   "brand": "MARRIOTT",
-   "source_url": "https://www.marriott.com/en-us/hotels/savrc-courtyard-richmond-hill/overview/",
-   "final_url": "https://www.marriott.com/en-us/hotels/savrc-courtyard-richmond-hill/overview/",
-   "document_sha256": "cb01e1ec27d2a095256cebf2253a48d8df105e6a445a360145a3c6a6ee89c161",
-   "document_bytes": 306284,
-   "captured_at": "2026-09-14",
-   "identity_signals": {
-    "name_on_page": "Courtyard by Marriott Richmond Hill",
-    "address_on_page": "190 Pioneer Way",
-    "postal_code": "31324",
-    "locality": "Richmond Hill",
-    "region": "GA",
-    "phone_on_page": "+19128886016",
-    "property_code_on_page": "savrc",
-    "lat": null,
-    "lng": null
-   },
-   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
-   "property_code": "savrc",
-   "classification": "CO_LOCATION_RULING_REQUIRED",
-   "why": "a second pet-friendly hotel states the same street identity (a dual-brand building); the shared listing builder keeps one row per unreviewed address, so a same-campus resolution in identity_resolutions.json (shared state, registration-order work) must be recorded before either profile publishes. The operative quote is retained: 'Pets Welcome 1 pet 25lbs max per pet per room with non-refundable fee Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 1'",
-   "quote": "Pets Welcome 1 pet 25lbs max per pet per room with non-refundable fee Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 1",
-   "identity_key": "courtyard by marriott richmond hill"
-  },
-  {
-   "lane": "ATTENDED_BROWSER",
-   "brand": "MARRIOTT",
-   "source_url": "https://www.marriott.com/en-us/hotels/savrr-residence-inn-richmond-hill/overview/",
-   "final_url": "https://www.marriott.com/en-us/hotels/savrr-residence-inn-richmond-hill/overview/",
-   "document_sha256": "50950bb283695a7f25387c9327d724c3767bf09086c59f85e71f8c74f5c3ad71",
-   "document_bytes": 306809,
-   "captured_at": "2026-09-14",
-   "identity_signals": {
-    "name_on_page": "Residence Inn by Marriott Richmond Hill",
-    "address_on_page": "190 Pioneer Way",
-    "postal_code": "31324",
-    "locality": "Richmond Hill",
-    "region": "GA",
-    "phone_on_page": "+19128886018",
-    "property_code_on_page": "savrr",
-    "lat": null,
-    "lng": null
-   },
-   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
-   "property_code": "savrr",
-   "classification": "CO_LOCATION_RULING_REQUIRED",
-   "why": "a second pet-friendly hotel states the same street identity (a dual-brand building); the shared listing builder keeps one row per unreviewed address, so a same-campus resolution in identity_resolutions.json (shared state, registration-order work) must be recorded before either profile publishes. The operative quote is retained: 'Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2'",
-   "quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
-   "identity_key": "residence inn by marriott richmond hill"
-  },
-  {
-   "lane": "ATTENDED_BROWSER",
    "brand": "IHG",
    "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/savannah/savid/hoteldetail",
    "final_url": "https://www.ihg.com/hotelindigo/hotels/us/en/savannah/savid/hoteldetail",
@@ -8993,32 +9136,6 @@
    "why": "a second pet-friendly hotel on the opposite directional of the same street and house number ('11 Gateway Boulevard East' vs '11 West Gateway Boulevard') collapses to the same shared address_key; the shared listing builder would dedupe the two distinct buildings, so both are held until the shared identity layer distinguishes street directionals or a registration-order resolution records the pair. The operative quote is retained: 'Pets are welcome at Holiday Inn Savannah S - I-95 Gateway.\\nPet policy description. We are pet friendly. A one time nonrefundable fee of 100.00 per stay. Max 2 p'",
    "quote": "Pets are welcome at Holiday Inn Savannah S - I-95 Gateway.\nPet policy description. We are pet friendly. A one time nonrefundable fee of 100.00 per stay. Max 2 pets per room, each under 50 lbs. Pets must be declared at check in, leashed in public, and not left unattended.\nPet fee per night: 100 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
    "identity_key": "holiday inn savannah s i 95 gateway"
-  },
-  {
-   "lane": "ATTENDED_BROWSER",
-   "brand": "MARRIOTT",
-   "source_url": "https://www.marriott.com/en-us/hotels/savtp-towneplace-suites-savannah-pooler/overview/",
-   "final_url": "https://www.marriott.com/en-us/hotels/savtp-towneplace-suites-savannah-pooler/overview/",
-   "document_sha256": "ffa1c954976c51e4c20d5001ba33b3ada0831dc29cbb42557ea9f3efa91d2c46",
-   "document_bytes": 307206,
-   "captured_at": "2026-09-14",
-   "identity_signals": {
-    "name_on_page": "TownePlace Suites by Marriott Savannah Pooler",
-    "address_on_page": "100 Half Moon Way",
-    "postal_code": "31322",
-    "locality": "Pooler",
-    "region": "GA",
-    "phone_on_page": "+19123489489",
-    "property_code_on_page": "savtp",
-    "lat": null,
-    "lng": null
-   },
-   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
-   "property_code": "savtp",
-   "classification": "CO_LOCATION_RULING_REQUIRED",
-   "why": "a VERIFIED_NO_PETS hotel states the same street identity (a dual-brand building); the shared publication guard matches that exclusion to this candidate on street identity, so a same-campus resolution in identity_resolutions.json (shared state, registration-order work) must be recorded before this profile publishes. The operative quote is retained: 'Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2'",
-   "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
-   "identity_key": "towneplace suites by marriott savannah pooler"
   }
  ],
  "unresolved_census_identities": [
@@ -9091,13 +9208,6 @@
    "brand": "MARRIOTT",
    "corridor": "savannah-ga__pooler",
    "official_url": "https://www.marriott.com/en-us/hotels/savpx-city-express-pooler-savannah-airport/overview/"
-  },
-  {
-   "identity_key": "courtyard by marriott richmond hill",
-   "canonical_name": "Courtyard by Marriott Richmond Hill",
-   "brand": "MARRIOTT",
-   "corridor": "savannah-ga__richmond-hill",
-   "official_url": "https://www.marriott.com/en-us/hotels/savrc-courtyard-richmond-hill/overview/"
   },
   {
    "identity_key": "doubletree by hilton hotel savannah airport",
@@ -9240,13 +9350,6 @@
    "official_url": ""
   },
   {
-   "identity_key": "residence inn by marriott richmond hill",
-   "canonical_name": "Residence Inn by Marriott Richmond Hill",
-   "brand": "MARRIOTT",
-   "corridor": "savannah-ga__richmond-hill",
-   "official_url": "https://www.marriott.com/en-us/hotels/savrr-residence-inn-richmond-hill/overview/"
-  },
-  {
    "identity_key": "river street inn",
    "canonical_name": "River Street Inn",
    "brand": "",
@@ -9343,13 +9446,6 @@
    "brand": "",
    "corridor": "savannah-ga__historic-district",
    "official_url": ""
-  },
-  {
-   "identity_key": "towneplace suites by marriott savannah pooler",
-   "canonical_name": "TownePlace Suites by Marriott Savannah Pooler",
-   "brand": "MARRIOTT",
-   "corridor": "savannah-ga__pooler",
-   "official_url": "https://www.marriott.com/en-us/hotels/savtp-towneplace-suites-savannah-pooler/overview/"
   },
   {
    "identity_key": "towneplace suites by marriott savannah south",
