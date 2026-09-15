@@ -1,0 +1,92 @@
+{
+  "routing_closure": [
+    {
+      "canonical_name": "Affordable Suites of America Augusta",
+      "routing_outcome": "ROUTE_RESOLVED",
+      "resolved_url_or_null": "https://www.affordablesuites.com/hotels/affordable-suites-augusta-ga/",
+      "policy_classification_or_null": "VERIFIED_PET_FRIENDLY",
+      "operative_quote_or_null": "Both small pets and service animals are always welcome in our pet-friendly rooms. Two-animal maximum per room. There is a $25 non-refundable charge per pet, per day, with a maximum of $150 per pet. There is no charge for service animals.",
+      "negation_flag": false
+    },
+    {
+      "canonical_name": "Americas Best Value Inn Augusta",
+      "routing_outcome": "ROUTE_RESOLVED",
+      "resolved_url_or_null": "https://www.sonesta.com/americas-best-value-inn/ga/augusta/americas-best-value-inn-augusta-s",
+      "policy_classification_or_null": "SOURCE_SILENT",
+      "operative_quote_or_null": null,
+      "negation_flag": false,
+      "note": "This America's Best Value Inn franchise brand was absorbed into Sonesta's portfolio (Sonesta acquired Red Lion Hotels Corp., ABVI's franchisor). The brand-affiliated property page now lives on sonesta.com and its address (3320 Deans Bridge Road, Augusta, GA 30906) matches exactly, so this is treated as the current official/brand property page rather than a third-party aggregator. Page only links a generic 'PAWS at Sonesta' program with no property-specific pet terms, hence SOURCE_SILENT rather than a verified classification. A search for a standalone americasbestvalueinn.com listing for this address did not surface a separate franchise-network page distinct from the Sonesta one."
+    },
+    {
+      "canonical_name": "Comfort Inn & Suites Augusta Fort Eisenhower Area",
+      "routing_outcome": "ACCESS_BLOCKED",
+      "resolved_url_or_null": "https://www.choicehotels.com/georgia/augusta/comfort-inn-hotels/ga800",
+      "policy_classification_or_null": "POLICY_UNRESOLVED",
+      "operative_quote_or_null": null,
+      "negation_flag": false,
+      "note": "Correct choicehotels.com property page identified via search (property code ga800, address 2121 Noland Connector, Augusta GA 30909, phone (706) 736-6100 per search snippet). Direct page load failed repeatedly: WebFetch timed out on 4 separate attempts and a raw curl request was actively reset by the server (CURLE_RECV_ERROR / 'Recv failure: Connection was reset') after ~19s, consistent with bot/edge blocking rather than a dead page. Could not verify pet policy text directly from the page."
+    },
+    {
+      "canonical_name": "Perrin Guest House Inn (Perrin Plantation and Inn)",
+      "routing_outcome": "DEAD_URL",
+      "resolved_url_or_null": "https://www.perringuesthouse.com",
+      "policy_classification_or_null": null,
+      "operative_quote_or_null": null,
+      "negation_flag": false,
+      "note": "Search engines still index perringuesthouse.com as the property's official site (address 208 Lafayette Dr, Augusta GA; phone (706) 737-9444; email Info@perringuesthouse.com per aggregator citations), but fetching the live domain returns an unrelated Indonesian-language spam/gambling content site (page title: 'Informasi Game Online Terbaru 2025 yang Wajib Kamu Coba'). This indicates the domain has expired and been re-registered/squatted; it is no longer the business's working site. No pet policy could be read. No alternate live official domain was found in search."
+    },
+    {
+      "canonical_name": "Quality Inn & Suites Augusta Fort Gordon Area",
+      "routing_outcome": "ACCESS_BLOCKED",
+      "resolved_url_or_null": "https://www.choicehotels.com/georgia/augusta/quality-inn-hotels/ga395",
+      "policy_classification_or_null": "POLICY_UNRESOLVED",
+      "operative_quote_or_null": null,
+      "negation_flag": false,
+      "note": "Correct choicehotels.com property page identified via search (property code ga395, address 4073 Jimmie Dyess Pkwy, Augusta GA 30909, phone (706) 855-2088 per search snippet). Direct page load failed on repeated WebFetch attempts (60s timeouts); choicehotels.com also blocked a raw curl attempt for the sibling Comfort Inn page with a connection reset, so this is treated as network/bot-protection blocking rather than a missing page. Could not verify pet policy text directly."
+    },
+    {
+      "canonical_name": "Scottish Inn Augusta (Deluxe Inn Augusta)",
+      "routing_outcome": "NO_OFFICIAL_ROUTE_FOUND",
+      "resolved_url_or_null": null,
+      "policy_classification_or_null": null,
+      "operative_quote_or_null": null,
+      "negation_flag": false,
+      "note": "Scottish Inns is franchised by Hospitality International (stayhihotels.com). That network's locator only lists two Augusta, GA properties: a Scottish Inns at 1079 Stevens Creek Road, and a Red Carpet Inn at 2050 Gordon Highway -- neither matches the target address (1636 Gordon Highway, 30906). Fetching https://www.stayhihotels.com/property/scottish-inns-augusta-ga/ directly confirmed it describes the Stevens Creek Road property, not Gordon Highway. No stayhihotels.com or redlion.com page for a Scottish Inns/Deluxe Inn specifically at 1636 Gordon Highway could be found; only third-party aggregators (Yelp, Expedia, Booking.com, hotels-augusta.com mirrors) list this address. This property may have exited the Hospitality International franchise network or never had a brand-hosted page under this address."
+    },
+    {
+      "canonical_name": "Sunset Inn Augusta",
+      "routing_outcome": "ROUTE_RESOLVED",
+      "resolved_url_or_null": "https://sunsetinnaugusta.com/",
+      "policy_classification_or_null": "SOURCE_SILENT",
+      "operative_quote_or_null": null,
+      "negation_flag": false,
+      "note": "Domain name (sunsetinnaugusta.com) is specific to this independent property and distinct from aggregator domains, so treated as its own official site rather than a third-party listing. However, the page as fetched is very thin/templated: no pet-policy language, and its address/phone fields render as unpopulated placeholders (with some leftover Chinese template text, e.g. '联系我们' contact-us placeholder), suggesting an unfinished or minimally maintained self-built site. No pet policy statement of any kind was found."
+    }
+  ],
+  "identity_investigation": [
+    {
+      "pair_label": "Pair 1 - shared IHG code 'agsjd'",
+      "property_a": "Holiday Inn Express & Suites West Augusta -- 4087 Jimmie Dyess Parkway, Augusta GA 30909 -- https://www.ihg.com/holidayinnexpress/hotels/us/en/augusta/agsjd/hoteldetail",
+      "property_b": "Holiday Inn West Augusta -- 441 Park West, Augusta GA 30909 (per source record) -- https://www.ihg.com/holidayinn/hotels/us/en/augusta/agsjd/hoteldetail",
+      "evidence_found": "Both supplied ihg.com URLs returned HTTP 403 on direct fetch (WebFetch) and on a raw curl request with a browser user-agent (IHG's bot protection blocks automated fetches), so page content could not be read directly. However, independent search-engine indexing of ihg.com's own subpages gives strong corroborating detail: the code 'agsjd' consistently and exclusively resolves, across many indexed ihg.com URLs (hoteldetail, /rooms, /amenities, /gallery, /directions, /hotel-reviews, /local-guide-whats-nearby), to 'Holiday Inn Express & Suites Augusta West - Ft Gordon Area' at 4087 Jimmie Dyess Parkway, Augusta GA 30909, phone (706) 860-8223. Separately, the property actually located at 441 Park West Dr, Augusta GA 30813 (note: different ZIP, 30813 not 30909) is indexed on ihg.com under its OWN distinct code 'agsbr' as 'Holiday Inn Augusta West I-20' (ihg.com/holidayinn/hotels/us/en/augusta/agsbr/hoteldetail and .../agsbr/hoteldetail/directions, .../amenities, .../rooms), phone (706) 396-4600. No indexed ihg.com content anywhere associates code 'agsjd' with the Park West address; every citation of 'agsjd' points to the Jimmie Dyess Express property.",
+      "your_assessment": "LIKELY_DISTINCT_PROPERTIES",
+      "reasoning": "These read as two real, physically separate hotels of different IHG brands (Holiday Inn Express & Suites vs plain Holiday Inn), at different addresses, different ZIP codes (30909 vs 30813), and different phone numbers. The evidence points to a DATA ERROR rather than a double-listing: the source record for 'Holiday Inn West Augusta' at 441 Park West has the wrong IHG property code attached (agsjd, which belongs solely to the Jimmie Dyess Express property) -- its correct code, per ihg.com's own indexed pages, is 'agsbr'. Recommend the orchestrator correct the Park West record's URL/code to use agsbr (https://www.ihg.com/holidayinn/hotels/us/en/augusta/agsbr/hoteldetail) rather than merging or dropping either listing. Could not independently render either original supplied URL live due to IHG bot-blocking, so this rests on corroborating third-party/search-indexed evidence, not a live screenshot of both pages side by side."
+    },
+    {
+      "pair_label": "Pair 2 - shared street number 3027 Washington Road",
+      "property_a": "Rodeway Inn Augusta (Washington Rd) -- 3027 Washington Road, Unit B -- https://www.choicehotels.com/georgia/augusta/rodeway-inn-hotels/gab67",
+      "property_b": "Masters Inn Augusta / Masters Economy Inn -- 3027 Washington Road (no unit) -- http://mastersinn.com",
+      "evidence_found": "mastersinn.com is DEAD: curl returned HTTP 200 but the page is a HugeDomains 'this domain is for sale' parking page (title: 'MastersInn.com is for sale | HugeDomains'), confirming Masters Inn has no active corporate/official website of its own. Search aggregators consistently give Masters Inn / Masters Economy Inn's address as '3027 Washington Rd, Augusta, GA 30907' (no unit letter), phone (706) 863-5566, toll-free 800-633-3434, an independently-run 68-room economy motel. Separately, Choice Hotels' own site consistently gives the Rodeway Inn's address as '3027 Washington Rd UNIT B, Augusta, GA 30907', phone 1-706-496-2202, toll-free 877-424-6423. Notably, Choice's property code 'gab67' resolves under BOTH the 'rodeway-inn-hotels' and 'econo-lodge-hotels' URL paths on choicehotels.com, indicating this specific Unit B property recently rebranded within Choice's own system from Econo Lodge to Rodeway Inn -- unrelated to Masters Inn.",
+      "your_assessment": "LIKELY_DISTINCT_PROPERTIES",
+      "reasoning": "Different phone numbers, different franchise affiliation (Choice-branded Rodeway Inn in a specifically lettered 'Unit B' vs an independent, non-Choice 'Masters Inn' with no unit letter and a long-standing separate phone number), and no evidence either name is a rebrand of the other (Rodeway's own rebrand history traces to Econo Lodge, not Masters Inn). The 'Unit B' designation strongly suggests a single motel complex/building at 3027 Washington Road has been split into at least two separately operated, separately branded units -- a common pattern for older motor-lodge properties along this corridor (the same pattern recurs in Pair 3 below). This is a recommendation, not a final determination: a human should confirm via Google Maps satellite/street view or Georgia Secretary of State business registration whether these are legally distinct businesses sharing one lot, since the identical street number and immediate proximity keep some ambiguity."
+    },
+    {
+      "pair_label": "Pair 3 - adjacent address, Washington Road (3039 / 3039B)",
+      "property_a": "Sonesta Essential Augusta -- 3039B Washington Road -- https://www.sonesta.com/sonesta-essential/ga/augusta/sonesta-essential-augusta",
+      "property_b": "Heritage Inn Augusta -- 3039 Washington Road (no unit) -- no official URL found",
+      "evidence_found": "Sonesta's own newsroom press release ('Sonesta Essential Opens in Augusta') and multiple travel/booking sites document this property's rebrand lineage precisely: it operated as 'Rodeway Inn & Suites' before March 2020, then 'SureStay Plus Hotel by Best Western Augusta' before April 2023, and is now 'Sonesta Essential Augusta' at 3039B Washington Road, phone (706) 650-1311. 'Heritage Inn' is never mentioned anywhere in that documented lineage. Heritage Inn Augusta is independently and consistently listed across aggregators at '3039 Washington Rd' (no 'B'), Augusta GA 30907, phone (706) 868-6930, described as built in 1985, and has guest reviews dated as recently as December 2025 explicitly praising its location -- indicating it is still actively operating today under its own name, not absorbed into Sonesta. No official/independent website for Heritage Inn could be found (only aggregator listings: Yelp, Tripadvisor, Expedia, Hotels.com, augustagahotel.com mirror).",
+      "your_assessment": "LIKELY_DISTINCT_PROPERTIES",
+      "reasoning": "Different phone numbers, a fully documented multi-brand rebrand chain for the Sonesta Essential property that never includes 'Heritage Inn' at any point, and continuing independent guest-review activity for Heritage Inn through December 2025 (i.e., after Sonesta Essential's 2023-era rebrand) all argue against Sonesta Essential being a rebrand of Heritage Inn -- unlike the confirmed Spark by Hilton / former Sleep Inn precedent at 1050 Claussen Rd. This looks like the same 'one street number, suite-letter split' pattern as Pair 2 (3039 vs 3039B), i.e., two adjacent, separately operated buildings/businesses rather than one relisted property. Flagging as a recommendation only: no direct phone-lookup or Google Maps business-listing confirmation was obtained for Heritage Inn (no working official site to cross-check against), so a human should verify via Google Maps / Secretary of State records before finalizing."
+    }
+  ]
+}

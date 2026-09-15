@@ -10,7 +10,7 @@ and the Savannah-GA branch. This is a self-contained, honestly-scoped
 equivalent: its own schema name (``ptf-augusta-shadow-package/1.0``), not a
 claim to be the generic factory sealer.
 
-Run AFTER augusta_ga_market_build_001 and augusta_ga_fast_checks_001:
+Run AFTER augusta_ga_market_build_002 and augusta_ga_fast_checks_002:
 
     python -m scripts.pettripfinder.augusta_ga_shadow_package_002
 """
@@ -29,8 +29,11 @@ if str(_REPO_ROOT) not in sys.path:
 
 from scripts.pettripfinder.augusta_ga_market_build_001 import (
     AS_OF, CENSUS_PATH, EXCLUSIONS_SHARD_PATH, MARKET_CONFIG_PATH, MARKET_ID,
-    PARTITION_PATH, ROUTING_SHARD_PATH, STAGING, WORK_ORDER,
+    PARTITION_PATH, ROUTING_SHARD_PATH, STAGING,
 )
+from scripts.pettripfinder.augusta_ga_market_build_002 import POLICY_FACTS_PATH
+
+WORK_ORDER = "PTF-AUGUSTA-GA-POLICY-EVIDENCE-CLOSURE-002"
 
 DOC_PATHS = {
     "market_config": MARKET_CONFIG_PATH,
@@ -38,6 +41,7 @@ DOC_PATHS = {
     "final_partition": PARTITION_PATH,
     "identity_routing_shard": ROUTING_SHARD_PATH,
     "hotel_exclusions_shard": EXCLUSIONS_SHARD_PATH,
+    "hotel_policy_facts": POLICY_FACTS_PATH,
 }
 
 
@@ -84,9 +88,9 @@ def main() -> int:
         "documents": documents,
         "census_count": census["count"],
         "partition_final_state_counts": final_state_counts,
-        "fast_checks": "15/15 PASS (scripts/pettripfinder/augusta_ga_fast_checks_001.py)",
+        "fast_checks": "16/16 PASS (scripts/pettripfinder/augusta_ga_fast_checks_002.py)",
         "reproducibility": "BYTE_IDENTICAL across two independent build runs of "
-                           "augusta_ga_market_build_001 from the same source data",
+                           "augusta_ga_market_build_002 from the same source data",
         "paid_provider_cost_usd": 0,
     }
     package_digest = _sha256_text(json.dumps(package_core, sort_keys=True))
@@ -106,9 +110,9 @@ def main() -> int:
         "package_digest": package["package_digest"],
         "package_path": str(pkg_path.relative_to(_REPO_ROOT)).replace("\\", "/"),
         "receipt_issued_at": AS_OF,
-        "issued_by": "PTF-AUGUSTA-GA-PARALLEL-SOURCE-READY-001 (automated build, unattended)",
+        "issued_by": "PTF-AUGUSTA-GA-POLICY-EVIDENCE-CLOSURE-002 (automated build, unattended)",
         "verification": {
-            "fast_checks": "15/15 PASS",
+            "fast_checks": "16/16 PASS",
             "reproducibility": "BYTE_IDENTICAL",
             "cross_market_contamination": "0 files touched outside augusta-owned paths "
                                           "(git status check)",

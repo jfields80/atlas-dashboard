@@ -75,7 +75,11 @@ CANDIDATES = [
     _c("Augusta Marriott at the Convention Center", "2 10th Street", "Augusta", "30901",
        "downtown", "https://www.marriott.com/en-us/hotels/agsmc-augusta-marriott-at-the-convention-center/overview/"),
     _c("Hyatt House Augusta/Downtown", "1268 Broad Street", "Augusta", "30901",
-       "downtown", "https://www.hyatt.com/hyatt-house/en-US/agshx-hyatt-house-augusta-downtown"),
+       "downtown", "https://www.visitaugusta.com/listing/hyatt-house-augusta/681/",
+       notes="CORRECTED in PTF-AUGUSTA-GA-POLICY-EVIDENCE-CLOSURE-002: the prior pass's official_url "
+             "(a hyatt.com property code) was never actually captured in the source research and has been "
+             "reverted to the real captured URL (a Visit Augusta CVB listing, Tier 4). The direct hyatt.com "
+             "property page still needs to be located."),
     _c("Holiday Inn Express Augusta Downtown", "444 Broad Street", "Augusta", "30901",
        "downtown", "https://www.ihg.com/holidayinnexpress/hotels/us/en/augusta/agsag/hoteldetail"),
     _c("Ramada by Wyndham Augusta Downtown Hotel & Conference Center", "640 Broad Street", "Augusta", "30901",
@@ -111,8 +115,12 @@ CANDIDATES = [
     _c("Homewood Suites by Hilton Augusta", "1049 Stevens Creek Road", "Augusta", "30907",
        "washington-road", "https://www.hilton.com/en/hotels/augwehw-homewood-suites-augusta/"),
     _c("Holiday Inn Express Augusta (Stevens Creek Rd)", "1073 Stevens Creek Road", "Augusta", "30907",
-       "washington-road", "https://www.ihg.com/holidayinnexpress/hotels/us/en/augusta/agsst/hoteldetail",
-       notes="Distinct from Holiday Inn Express Augusta Downtown (444 Broad St)."),
+       "washington-road", "https://www.ihg.com/holidayinnexpress/hotels/us/en/augusta/",
+       notes="Distinct from Holiday Inn Express Augusta Downtown (444 Broad St). CORRECTED in "
+             "PTF-AUGUSTA-GA-POLICY-EVIDENCE-CLOSURE-002: the prior pass's URL carried a property code "
+             "(agsst/hoteldetail) that was never actually captured in the source research; reverted to the "
+             "real captured URL, a brand-index page with no property code -- needs property-level "
+             "resolution."),
     _c("Sheraton Augusta Hotel", "1069 Stevens Creek Road", "Augusta", "30907",
        "washington-road", "https://www.marriott.com/en-us/hotels/agshi-sheraton-augusta-hotel/overview/"),
     _c("Courtyard by Marriott Augusta", "1045 Stevens Creek Road", "Augusta", "30907",
@@ -184,9 +192,11 @@ CANDIDATES = [
        notes="Also listed as 'Comfort Inn & Suites Augusta West Near Fort Eisenhower' by a second directory; "
              "same address, treated as one identity."),
     _c("Quality Inn & Suites Augusta Fort Gordon Area", "4073 Jimmie Dyess Parkway", "Augusta", "30909",
-       "west-augusta", "", disposition="observation",
-       notes="Distinct address from the Quality Inn on Gordon Highway (2176) and the one on Center West Pkwy "
-             "(2562); no property-level URL confirmed yet."),
+       "west-augusta", "", disposition="no_url",
+       notes="Choice-brand (Quality Inn); distinct address from the Quality Inn on Gordon Highway (2176) and "
+             "the one on Center West Pkwy (2562); no property-level URL confirmed yet. CORRECTED in "
+             "PTF-AUGUSTA-GA-POLICY-EVIDENCE-CLOSURE-002: this row's disposition was inconsistently coded as "
+             "'observation' despite carrying no URL; the accompanying note already said so."),
     _c("Hampton Inn & Suites West Augusta", "4081 Jimmie Dyess Parkway", "Augusta", "30909",
        "west-augusta", "https://www.hilton.com/en/hotels/agswshx-hampton-suites-west-augusta/"),
     _c("Holiday Inn Express & Suites West Augusta", "4087 Jimmie Dyess Parkway", "Augusta", "30909",
@@ -256,9 +266,11 @@ CANDIDATES = [
              "directories -- treated as one independently-franchised identity, not two; no confirmed official "
              "website either name."),
     _c("Comfort Inn & Suites Augusta Fort Eisenhower Area", "2121 Noland Connector", "Augusta", "30909",
-       "gordon-highway-fort-eisenhower", "",
-       notes="Distinct address from the Comfort Inn on Jimmie Dyess Pkwy; on the official Visit Augusta CVB "
-             "lodging list."),
+       "gordon-highway-fort-eisenhower", "", disposition="no_url",
+       notes="Choice-brand (Comfort Inn & Suites); distinct address from the Comfort Inn on Jimmie Dyess Pkwy; "
+             "on the official Visit Augusta CVB lodging list (no direct URL captured). CORRECTED in "
+             "PTF-AUGUSTA-GA-POLICY-EVIDENCE-CLOSURE-002: this row's disposition was inconsistently left at "
+             "the 'observation' default despite carrying no URL."),
     _c("Red Carpet Inn - Augusta", "2050 Gordon Highway", "Augusta", "30909",
        "gordon-highway-fort-eisenhower", "https://www.stayhihotels.com/property/red-carpet-inn-augusta-ga/",
        notes="Independent/regional franchise."),
@@ -274,7 +286,10 @@ CANDIDATES = [
     _c("Rodeway Inn & Suites Hephzibah Augusta", "3682 Deans Bridge Road", "Hephzibah", "30815",
        "south-augusta", "https://www.hotelplanner.com/Hotels/56258/Reservations-Rodeway-Inn-Suites-Hephzibah-Augusta-Hephzibah-3682-Deans-Bridge-Rd-30815",
        notes="Hephzibah is an incorporated city inside Richmond County, adjoining south Augusta along Deans "
-             "Bridge Rd; its own brand name blends 'Hephzibah' and 'Augusta'."),
+             "Bridge Rd; its own brand name blends 'Hephzibah' and 'Augusta'. NOTE: the raw research record's "
+             "own 'booking_url' field for this property is actually an Econo Lodge URL (a research-source "
+             "mislabel, not this pass's error); this build deliberately uses the record's 'source_url' "
+             "(a real hotelplanner.com reservation page for this exact property) instead."),
 
     # --- Grovetown, GA ---
     _c("Baymont Inn & Suites Grovetown", "461 Parkwest Drive", "Grovetown", "30813",
