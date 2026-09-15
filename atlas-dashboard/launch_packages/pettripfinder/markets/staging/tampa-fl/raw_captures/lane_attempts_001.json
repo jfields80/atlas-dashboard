@@ -1,0 +1,37 @@
+{
+ "schema": "ptf-tampa-fl-lane-attempts/1.0",
+ "market_id": "tampa-fl",
+ "note": "Plain-client outcome counts by host for this run. A refusal is a fact about a moment, never inherited.",
+ "hosts": {
+  "hilton.com": {
+   "200_browser": 36,
+   "search_ui_blocked": 1
+  },
+  "marriott.com": {
+   "403": 3
+  },
+  "www2.myfloridalicense.com": {
+   "200": 1
+  },
+  "overpass-api.de": {
+   "406": 2
+  },
+  "overpass.kumi.systems": {
+   "timeout": 1
+  },
+  "overpass.private.coffee": {
+   "timeout": 1
+  },
+  "maps.mail.ru": {
+   "200": 1
+  },
+  "visittampabay.com": {
+   "200_browser_xhr_replay": 1
+  },
+  "visitstpeteclearwater.com": {
+   "200_browser_editorial_extract": 1
+  }
+ },
+ "attended_browser_note": "hilton.com: 36 individual property hotel-info pages loaded successfully in an authenticated browser session; Hilton's own bulk search/GraphQL endpoint did not return results (UI stuck on 'Finding hotels...', likely a bot-classifier block on the aggregate search API specifically, distinct from per-property pages which rendered normally). marriott.com: every attempt (plain client) returned 403; no attended capture was attempted this run (time-boxed); owned Marriott property codes/URLs were reused from a prior market's national sitemap harvest instead (see marriott_owned_harvest_codes_001.json).",
+ "url_last_status": {}
+}
