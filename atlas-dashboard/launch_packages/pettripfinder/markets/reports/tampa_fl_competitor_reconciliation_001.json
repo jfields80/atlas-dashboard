@@ -1,0 +1,25 @@
+{
+ "schema": "ptf-tampa-fl-competitor-reconciliation/1.0",
+ "market_id": "tampa-fl",
+ "work_order": "PTF-TAMPA-FL-PARALLEL-SOURCE-READY-001",
+ "as_of": "2026-09-15",
+ "lane": "BringFido (identity/discovery/gap-challenge only, never production authority)",
+ "captured_via": "browser (claude-in-chrome); plain WebFetch returned 403 (bot-walled)",
+ "observations": [
+  {
+   "city": "Tampa",
+   "url": "https://www.bringfido.com/lodging/city/tampa_fl_us/",
+   "bringfido_claimed_count": 378,
+   "note": "mixes hotels with Airbnb/VRBO rentals and self-reported marketing claims; not a verified count"
+  },
+  {
+   "city": "St. Petersburg",
+   "url": "https://www.bringfido.com/lodging/city/saint_petersburg_fl_us/",
+   "bringfido_claimed_count": 142,
+   "note": "same caveat; Crystal Bay Historic Hotel appears on both BringFido and this package (AWAITING_OFFICIAL_URL hold), a real cross-validation"
+  }
+ ],
+ "this_package_valid_pet_friendly": 30,
+ "gap_explanation": "Evidence acquisition this run covered Hilton only (36 pages, all real, all free). IHG (Holiday Inn / Holiday Inn Express) properties appear repeatedly on BringFido Tampa/St. Petersburg listings; Choice, Wyndham, Best Western and most independent hotels in the 580-row census have a routed URL (373 rows: AWAITING_OFFICIAL_URL or AWAITING_PROPERTY_LEVEL_URL) but no evidence page fetched yet. This is the material, honestly bounded root cause of the gap between 30 confirmed and BringFido's marketing counts -- not a defect in identity/geography/classification, which independently reconcile (FAST 1-11, 15).",
+ "material_unexplained_gap_remains": true
+}

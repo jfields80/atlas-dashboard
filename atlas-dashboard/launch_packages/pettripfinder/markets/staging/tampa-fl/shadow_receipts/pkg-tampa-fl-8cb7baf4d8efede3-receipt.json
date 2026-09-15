@@ -1,0 +1,106 @@
+{
+ "schema": "ptf-tampa-fl-shadow-receipt/1.0",
+ "market_id": "tampa-fl",
+ "work_order": "PTF-TAMPA-FL-PARALLEL-SOURCE-READY-001",
+ "package": "launch_packages/pettripfinder/markets/staging/tampa-fl/shadow_packages/pkg-tampa-fl-8cb7baf4d8efede3.json",
+ "package_digest_sha256": "8cb7baf4d8efede372aa630c6a4d4df9d0acc7c9c63794f2d6dbabfa124e4ceb",
+ "package_file_sha256": "64da2ebfff50d922cd6eae57e7873f17f347b6db1b112699df4e04069ecaa442",
+ "lifecycle": "SHADOW_UNTIL_REGISTERED",
+ "fast": {
+  "schema": "ptf-tampa-fl-fast-result/1.0",
+  "total": 15,
+  "passed": 15,
+  "checks": [
+   {
+    "n": 1,
+    "name": "census.validate (FL-only)",
+    "status": "PASS",
+    "detail": "580 rows"
+   },
+   {
+    "n": 2,
+    "name": "partition.validate",
+    "status": "PASS",
+    "detail": ""
+   },
+   {
+    "n": 3,
+    "name": "partition.reconcile == census identity keys",
+    "status": "PASS",
+    "detail": "published 30 / no-pets 4 / unresolved 546"
+   },
+   {
+    "n": 4,
+    "name": "identity_key.key_collisions empty",
+    "status": "PASS",
+    "detail": ""
+   },
+   {
+    "n": 5,
+    "name": "identity_routing.validate_authority (shadow shard)",
+    "status": "PASS",
+    "detail": ""
+   },
+   {
+    "n": 6,
+    "name": "hotel_exclusions.validate (shadow shard)",
+    "status": "PASS",
+    "detail": ""
+   },
+   {
+    "n": 7,
+    "name": "markets.contract.parse_market (staged config)",
+    "status": "PASS",
+    "detail": "16 corridors"
+   },
+   {
+    "n": 8,
+    "name": "zero non-FL / OUTSIDE rows in census",
+    "status": "PASS",
+    "detail": ""
+   },
+   {
+    "n": 9,
+    "name": "corridor assignment complete; explicit ids == census; nothing navigable",
+    "status": "PASS",
+    "detail": "page-eligible corridors (PF >= 5): 2 / 16"
+   },
+   {
+    "n": 10,
+    "name": "tampa-fl absent from LIVE registry and sharded_market_ids()",
+    "status": "PASS",
+    "detail": ""
+   },
+   {
+    "n": 11,
+    "name": "zero drift in LIVE generated global artifacts",
+    "status": "PASS",
+    "detail": ""
+   },
+   {
+    "n": 12,
+    "name": "byte-reproducible rebuild in an independent process",
+    "status": "PASS",
+    "detail": "9 outputs byte-identical in an independent process"
+   },
+   {
+    "n": 13,
+    "name": "git status touches only tampa-owned paths",
+    "status": "PASS",
+    "detail": ""
+   },
+   {
+    "n": 14,
+    "name": "evidence integrity: every terminal row backed by a re-hashed durable first-party page",
+    "status": "PASS",
+    "detail": "35 evidence rows over 36 stored pages re-hashed"
+   },
+   {
+    "n": 15,
+    "name": "lodging safety: no unit/timeshare/vacation rental admitted; accounting reconciles",
+    "status": "PASS",
+    "detail": "0 timeshare / vacation-rental / resort-residence / unit identities admitted"
+   }
+  ]
+ }
+}
