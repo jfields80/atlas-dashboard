@@ -1,0 +1,146 @@
+{
+ "schema": "ptf-market-release-contract/1.0",
+ "contract_id": "pettripfinder-orlando-fl-release/1.0",
+ "market_id": "orlando-fl",
+ "product": "pettripfinder-orlando-fl",
+ "release_name_prefix": "prod-orlando",
+ "description": "Deterministic release-gate contract for the PetTripFinder Orlando market through PTF-ORLANDO-FL-V2-REGISTRATION-AND-FOUNDER-PACKET-003. Every number is derived from THIS market's committed authority by release_contracts.derive_authority; none is typed and none is inherited from or comparable to another market's contract.",
+ "deployment_authorization": {
+  "grants_deployment": false,
+  "asserts_market_complete": false,
+  "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish gate holds. It is not a deployment authorization and asserts nothing about the market being complete -- 260 of this market's 583 registered identities are still unresolved, and no founder deployment decision exists for Orlando at 201 published profiles."
+ },
+ "canonical": {
+  "base_url": "https://pettripfinder.com",
+  "canonical_host": "pettripfinder.com",
+  "robots_sitemap_host": "pettripfinder.com",
+  "sitemap_host": "pettripfinder.com"
+ },
+ "identity_census": {
+  "path": "launch_packages/pettripfinder/identity_census/orlando-fl.json",
+  "schema": "ptf-market-identity-census/1.1",
+  "expected_count": 583,
+  "note": "583 registered identities, built from zero by PTF-ORLANDO-FL-HARDENED-V2-SOURCE-READY-001 and closed by PTF-ORLANDO-FL-V2-TARGETED-COVERAGE-CLOSURE-002 at $0 USD (existing Firecrawl plan credits only), registered by PTF-ORLANDO-FL-V2-REGISTRATION-AND-FOUNDER-PACKET-003. Membership is this market's own corridor postal partition (census_membership_basis CORRIDOR_REGISTRY): a multi-core theme-park, convention, airport and suburban market of 20 corridors over 62 postal codes -- Downtown Orlando, MCO Airport, International Drive / Universal, SeaWorld / I-Drive South, Lake Buena Vista, Walt Disney World, Kissimmee US-192 Maingate and Celebration / West 192 (CORE); South Orlando, Kissimmee East, Lake Mary / Sanford, East Orlando / UCF, Altamonte Springs / Longwood, North Orlando, Four Corners / Davenport, Flamingo Crossings / Winter Garden and Winter Park / Maitland (CORRIDOR); Clermont, St. Cloud and Apopka (FRINGE). Universal, the Convention Center, Disney Springs and Celebration are overlays, not pages. Timeshare, vacation-rental and resort-residence rows are excluded; DBPR condominium, dwelling and non-transient apartment licences never enter the graph. Every dual-brand / same-campus address-key collision stays HELD (no ruling is written). Rows the identity graph did not admit are recorded, not dropped: 88 IDENTITY_REVIEW_REQUIRED; 125 NAME_ONLY_UNRESOLVED; 197 NON_LODGING; 106 OUTSIDE_MARKET; 4 SAME_IDENTITY_REBRAND_SUCCESSOR."
+ },
+ "reconciliation": {
+  "confirmed_identities": 583,
+  "published_pet_friendly": 201,
+  "verified_no_pets": 122,
+  "resolved": 323,
+  "unresolved": 260,
+  "note": "201 clean pet-friendly and 122 clean verified-no-pets over a 583-identity census. A row publishes only on an OPERATIVE first-party quote from the property's own page, bound to its census identity by the street identity that page states: a fee, a weight, a count, an amenity chip or a service-animal sentence alone publishes nothing. 63 reads were made and did not publish (2 AMENITY_CHIP_ONLY; 6 CENSUS_ROW_NOT_ADMITTED; 10 CO_LOCATION_RULING_REQUIRED; 17 DUPLICATE_READ_FOR_ONE_IDENTITY; 2 FEE_ONLY; 6 IDENTITY_HOLD; 5 NEGATION_HOLD_UNREADABLE_REFUSAL; 9 OUTSIDE_MARKET_READ; 2 POLICY_NOT_FOUND; 1 QUOTE_CONTRADICTS_CLAIM; 3 QUOTE_NOT_OPERATIVE); every one is named in orlando_fl_v2_clean_authority_001.json with its class. No gate was lowered to preserve a count."
+ },
+ "policy_package": {
+  "path": "launch_packages/pettripfinder/hotel_policy_facts_orlando-fl.json",
+  "expected_sha256": "098bc57d3e92b76fe9d4bb5c9fc21a3205b00fa83271f9235c1d0d83d6ef98ef",
+  "expected_schema_version": "1.3",
+  "expected_record_count": 201,
+  "identity_authority": true,
+  "note": "The verified hotel identities are DERIVED from this package at assembly time via site_data.verified_public_hotels(); they are not restated here. Every record carries the exact operator quote for each published fact, the capture lane, and the sha256 of the document it was read from. No record here came through a paid lane: this market cost $0 and zero provider calls."
+ },
+ "final_partition": {
+  "path": "launch_packages/pettripfinder/orlando_fl_final_partition_v2_001.json",
+  "schema": "ptf-market-final-partition/1.1",
+  "expected_sha256": "d601bb2c06cd8ba86aa8b787ad1b9918c0d42ce270fcd358fb84be5c77966c6f",
+  "expected_count": 583,
+  "note": "The partition of record for this market, referenced by path and content digest so the whole-site assembler resolves it from THIS contract rather than from a table in its own source. Written from the committed file by release_contracts.final_partition_block; verified by market_partition_resolution: the file must exist, declare this market_id, hash to expected_sha256 and carry expected_count identities. Regenerating the partition means reissuing this block."
+ },
+ "public_surface": {
+  "seed_hotel_rows": 201,
+  "public_hotel_profile_count": 201,
+  "excluded_public_profile_count": 0,
+  "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package (not-published seed hotels: held/manual-review plus rows still pending evidence) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials. This market currently holds none -- every seed row it owns is published -- and the gate is derived, so it starts enforcing the moment that changes."
+ },
+ "routes": {
+  "market_slug": "orlando-fl",
+  "route_mode": "market_prefixed",
+  "hotel_route_count": 201,
+  "published_corridor_route_count": 15,
+  "note": "route_mode market_prefixed: this market's hub, corridor and policy-comparison pages live under /pet-friendly-hotels/orlando-fl/. 15 of 20 corridors reach their own publication minimum; the rest are suppressed, which is a threshold and not a gap. The market and its corridors are hidden from navigation and the sitemap (show_in_navigation=false, show_in_sitemap=false) until a launch order says otherwise."
+ },
+ "minimum_release_gates": [
+  "authority.contract_is_for_this_market",
+  "authority.reconciliation_matches_market_authority",
+  "authority.package_exists",
+  "authority.package_sha256",
+  "authority.package_schema_version",
+  "authority.package_count",
+  "identity.verified_from_package",
+  "identity.held_derived",
+  "route.profile_count_matches_contract",
+  "route.all_committed_profiles_present",
+  "route.all_held_absent",
+  "route.no_excluded_reference_on_any_surface",
+  "publish.control_files_present",
+  "publish.headers_match_tracked_source",
+  "publish.redirects_match_tracked_source",
+  "publish.no_forbidden_files",
+  "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
+  "content.zero_broken_links",
+  "content.quality_report_clean",
+  "content.build_report_hotel_count_matches_contract",
+  "tech.go_pages_noindex",
+  "tech.sitemap_public_canonical_only",
+  "tech.robots_sitemap_host_apex",
+  "tech.no_credentials",
+  "tech.no_windows_local_paths",
+  "tech.no_runtime_paths"
+ ],
+ "forbidden_output_tokens": [
+  "C:\\Atlas",
+  "C:/Atlas",
+  "NETLIFY_AUTH_TOKEN",
+  "NETLIFY_SITE_ID",
+  "nfp_",
+  "AppData",
+  "/Users/",
+  "\\Users\\"
+ ],
+ "publish": {
+  "publishable_root": "site/",
+  "control_files": [
+   "_headers",
+   "_redirects"
+  ],
+  "control_file_sources": {
+   "_headers": {
+    "preview": "deploy/netlify/headers.preview",
+    "production": "deploy/netlify/headers.production"
+   },
+   "_redirects": "deploy/netlify/redirects"
+  },
+  "forbidden_basenames": [
+   "_build_report.json",
+   "_broken_link_report.json",
+   "_quality_report.json",
+   "bundle_manifest.json",
+   ".env"
+  ],
+  "forbidden_extensions": [
+   ".py",
+   ".pyc",
+   ".pyo",
+   ".patch",
+   ".map",
+   ".json",
+   ".env"
+  ],
+  "forbidden_path_segments": [
+   ".git",
+   ".github",
+   ".claude",
+   ".netlify",
+   "__pycache__",
+   "data",
+   "docs",
+   "tests",
+   "scripts",
+   "services",
+   "launch_packages",
+   "engines",
+   "repositories"
+  ],
+  "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
+ }
+}
