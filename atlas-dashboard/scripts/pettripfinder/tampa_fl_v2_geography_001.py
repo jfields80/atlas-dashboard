@@ -98,12 +98,16 @@ CORRIDORS = [
      "immediately around it."),
     ("westshore-airport-rocky-point", "Westshore / Tampa International Airport (TPA) / Rocky Point / "
      "Raymond James Stadium", "Westshore & TPA Airport", "CORE", "tampa",
-     ["33607", "33609", "33614", "33615"],
+     ["33607", "33609", "33611", "33614", "33615", "33629"],
      "Tampa's largest hotel cluster: Tampa International Airport (TPA), the Westshore business district "
      "and International Plaza on Westshore Boulevard, the Rocky Point peninsula on the Courtney Campbell "
      "Causeway, Raymond James Stadium on North Dale Mabry Highway, and Town 'n' Country to the west. "
      "Rocky Point, TPA and the stadium each share ZIP 33607 with the general Westshore footprint and are "
-     "reported as street-and-pin overlays, never separate corridors."),
+     "reported as street-and-pin overlays, never separate corridors. PTF-TAMPA-FL-V2-TERMINAL-HOLD-CLOSURE-003 "
+     "added 33611 (Gandy Blvd / South Tampa, immediately south of the airport) and 33629 (S Dale Mabry Hwy / "
+     "Palma Ceia, immediately south of the stadium) after this pass's BringFido reconciliation surfaced real, "
+     "durably-addressed hotels in both ZIPs that the pass-2 ZIP-verified registry had never enumerated -- a "
+     "registry-completeness gap discovered by evidence, not a corridor boundary redesign."),
     ("busch-gardens-usf", "Busch Gardens / USF / Fowler Avenue / Temple Terrace", "Busch Gardens & USF",
      "CORE", "tampa",
      ["33612", "33613", "33617", "33637"],
@@ -127,9 +131,13 @@ CORRIDORS = [
      "St. Petersburg outside its own downtown: the Skyway Marina District, Tyrone, Central Avenue west of "
      "downtown, and the Gandy / Carillon office corridor toward the Howard Frankland and Gandy bridges."),
     ("clearwater-downtown", "Clearwater", "Clearwater", "CORRIDOR", "clearwater",
-     ["33755", "33756"],
+     ["33755", "33756", "33762", "33764"],
      "Clearwater's mainland downtown and US-19 corridor, across the Memorial Causeway from Clearwater "
-     "Beach."),
+     "Beach. PTF-TAMPA-FL-V2-TERMINAL-HOLD-CLOSURE-003 added 33762 (St. Pete-Clearwater International "
+     "Airport / PIE and the Ulmerton Road hotel corridor -- a USPS 'Clearwater, FL' ZIP) and 33764 (US-19 "
+     "south of downtown) after this pass's BringFido reconciliation surfaced real, durably-addressed hotels "
+     "in both that the pass-2 ZIP-verified registry had never enumerated -- a registry-completeness gap "
+     "discovered by evidence, not a corridor boundary redesign."),
     ("clearwater-beach", "Clearwater Beach", "Clearwater Beach", "CORRIDOR", "clearwater",
      ["33767"],
      "Clearwater Beach's barrier-island resort strip on Gulfview Boulevard and Mandalay Avenue, one of the "
@@ -458,9 +466,11 @@ def build():
              "Davis Islands. Distinct convention, arena and business demand; too small and too Tampa-bound to "
              "stand as its own market."),
             ("C. Westshore / TPA Airport / Rocky Point / Raymond James Stadium",
-             "CORE corridor westshore-airport-rocky-point (33607, 33609, 33614, 33615), Tampa's largest hotel "
-             "cluster. Rocky Point and the stadium cannot be separate pages under a postal partition without "
-             "splitting 33607 from the airport hotels that depend on it; each is an overlay."),
+             "CORE corridor westshore-airport-rocky-point (33607, 33609, 33611, 33614, 33615, 33629), Tampa's "
+             "largest hotel cluster. Rocky Point and the stadium cannot be separate pages under a postal "
+             "partition without splitting 33607 from the airport hotels that depend on it; each is an "
+             "overlay. 33611/33629 (Gandy Blvd / S Dale Mabry Hwy, South Tampa) added in "
+             "PTF-TAMPA-FL-V2-TERMINAL-HOLD-CLOSURE-003 as a registry-completeness fix."),
             ("D. Ybor City",
              "CORE corridor ybor-city (33605). A distinct historic entertainment district with its own hotel "
              "demand, separated from downtown by the postal partition."),
@@ -480,9 +490,11 @@ def build():
              "CORRIDOR corridor st-petersburg (33702, 33703, 33704, 33710, 33712, 33713, 33714, 33716): the "
              "Skyway Marina District, Tyrone and the Gandy corridor."),
             ("J. Clearwater / Clearwater Beach",
-             "CORRIDOR clearwater-downtown (33755, 33756) for the mainland, and CORRIDOR clearwater-beach "
-             "(33767) for the barrier-island resort strip -- kept separate because the Memorial Causeway "
-             "genuinely separates two distinct lodging products (business/medical mainland vs. beach resort)."),
+             "CORRIDOR clearwater-downtown (33755, 33756, 33762, 33764) for the mainland, and CORRIDOR "
+             "clearwater-beach (33767) for the barrier-island resort strip -- kept separate because the "
+             "Memorial Causeway genuinely separates two distinct lodging products (business/medical mainland "
+             "vs. beach resort). 33762 (PIE airport / Ulmerton Rd)/33764 (US-19 south) added in "
+             "PTF-TAMPA-FL-V2-TERMINAL-HOLD-CLOSURE-003 as a registry-completeness fix."),
             ("K. St. Pete Beach / Treasure Island",
              "CORRIDOR st-pete-beach-treasure-island (33706): the two towns share one ZIP and one continuous "
              "Gulf Boulevard resort strip; cannot be split by the postal partition."),
