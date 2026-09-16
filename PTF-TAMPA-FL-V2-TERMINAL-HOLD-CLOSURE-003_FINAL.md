@@ -227,8 +227,8 @@ This is a mechanical reading of PHASE 12's own criteria, not a claim that the pu
 31. FACTORY CODE CHANGED = NO
 32. BROAD REGRESSION RUN = 0
 33. TAMPA DEPLOYED = NO
-34. origin == HEAD = (verified mechanically after push — see below)
-35. tree clean = (verified mechanically after push — see below)
+34. origin == HEAD = YES — mechanically verified: `git push`, then `git fetch origin worker/ptf-tampa-fl-market-002` and `git rev-parse HEAD` / `git rev-parse origin/worker/ptf-tampa-fl-market-002` both returned `49fa0bb9ae9795910e4c0d567ac0bac951fa07b6`
+35. tree clean = YES — mechanically verified: `git status -sb` after the fetch reported `worker/ptf-tampa-fl-market-002...origin/worker/ptf-tampa-fl-market-002` with no ahead/behind markers and no modified/untracked files
 
 TAMPA V2 TERMINAL HOLD CLOSURE = COMPLETE
 TAMPA V2 TECHNICAL SOURCE READY = YES
