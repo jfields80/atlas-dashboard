@@ -251,6 +251,55 @@ def build_evidence_index(census_hotels):
                           ("captured_via", "shared direct_http_capture pipeline, plain client")])
         add_key(r["identity_key"], ev)
 
+    # CLOSURE (PTF-TAMPA-FL-V2-COVERAGE-CLOSURE-002): 12 supported-browser
+    # reads over rows the source-ready build routed to BROWSER_CAPTURE_NEEDED
+    # but never reached (Best Western, additional Hyatt/Hilton/IHG rows).
+    for r in _jsonl(os.path.join(STAGING, "closure_browser_rows.jsonl")):
+        if r.get("outcome") != "READ" or "pets_allowed" not in r:
+            continue
+        ev = OrderedDict([("lane", "PROPERTY_PAGE_ATTENDED"), ("source_url", r["final_url"]),
+                          ("pets_allowed_claim", r["pets_allowed"]), ("quote", r["quote"]),
+                          ("document_sha256", r["transcription_sha256"]),
+                          ("captured_via", "supported browser, accessibility tree (navigate + find only), closure pass")])
+        add_key(r["identity_key"], ev)
+
+    # CLOSURE (PTF-TAMPA-FL-V2-COVERAGE-CLOSURE-002): the 4 newly-admitted
+    # Wyndham sub-brand (La Quinta / Days Inn) reads, keyed straight to the
+    # identity_key the closure census-additions pass minted for them.
+    for r in _load(os.path.join(STAGING, "closure_wyndham_rows.json"), {}).get("rows", []):
+        if not r.get("id") or r.get("pet_indicator") not in ("Y", "N"):
+            continue
+        pets = r["pet_indicator"] == "Y"
+        ev = OrderedDict([("lane", "PROPERTY_PAGE_STATIC"), ("source_url", r["u"]),
+                          ("pets_allowed_claim", pets), ("quote", r["p"]),
+                          ("document_sha256", r.get("h") or _transcription_sha(r)),
+                          ("captured_via", "the brand's own property-service API, closure pass")])
+        add_key(r["identity_key"], ev)
+
+    # CLOSURE: the routing-hold independents' own websites the Places
+    # route-discovery lane found and this pass fetched (same binding
+    # discipline as policy_pages_rows.json: house number + postal code,
+    # phone digits, or JSON-LD street/postal -- never name alone).
+    for r in (_load(os.path.join(STAGING, "closure_static_rows.json"), {}) or {}).get("rows", []):
+        if not r.get("bound"):
+            continue
+        sentences = [s for p in r.get("pages", []) for s in p.get("pet_sentences", [])]
+        if not sentences:
+            continue
+        text = " ".join(sentences)
+        if _REFUSAL.search(text):
+            pets = False
+        elif _ACCEPT.search(text) or _FEE_RX.search(text) or _WEIGHT_RX.search(text):
+            pets = True
+        else:
+            continue
+        ev = OrderedDict([("lane", "PROPERTY_PAGE_STATIC"), ("source_url", r.get("final_url") or r["u"]),
+                          ("pets_allowed_claim", pets), ("quote", text[:500]),
+                          ("document_sha256", r.get("h") or _transcription_sha(r)),
+                          ("captured_via", "the independent property's own site (route discovered via Google "
+                                          "Places, closure pass), plain client")])
+        add_key(r["identity_key"], ev)
+
     fc_doc = _load(FIRECRAWL, {}) or {}
     for r in fc_doc.get("rows", []):
         if r.get("firecrawl_class") != "FIRECRAWL_PUBLICATION_GRADE":
