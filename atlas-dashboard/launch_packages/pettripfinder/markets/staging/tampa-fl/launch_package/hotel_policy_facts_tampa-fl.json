@@ -465,6 +465,35 @@
    ]
   },
   {
+   "key": "bellweather beach resort",
+   "identity_key": "bellweather beach resort",
+   "name": "Bellweather Beach Resort",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Is the hotel pet friendly? Unfortunately, Bellwether Beach Resort is a pet-free facility. We accept service dogs and will require a signed pet agreement.",
+     "source_url": "https://www.bellwetherbeachresort.com/?utm_source=google&utm_medium=organic&utm_campaign=mybusiness",
+     "value": "true",
+     "evidence_ref": "ev:5721af0448a012ff",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:53d309c69a49f15004cad17ab111f543bb5c32642181b88ef7bc42a6f050efc3",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
    "key": "bon aire motel apts",
    "identity_key": "bon aire motel apts",
    "name": "Bon Aire Motel Apts",
@@ -797,6 +826,106 @@
    ]
   },
   {
+   "key": "drury plaza hotel tampa brandon",
+   "identity_key": "drury plaza hotel tampa brandon",
+   "name": "Drury Plaza Hotel Tampa Brandon",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "species": {
+     "cat": "accepted",
+     "dog": "accepted"
+    },
+    "species_source_grade": {
+     "cat": "PT2_BRAND",
+     "dog": "PT2_BRAND"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pet Policy Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Limit of two pets per room with a combined weight of 80 pounds.",
+     "source_url": "https://www.druryhotels.com/locations/tampa-fl/drury-plaza-hotel-tampa-brandon/?utm_campaign=gmb&utm_medium=organic&utm_source=local2",
+     "value": "true",
+     "evidence_ref": "ev:e6e7b20d25158160",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:601a39abeb4e331553e4de4c51966ec6f35e59ffe08677d2827c49551f2d6a99",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "Pet Policy Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Limit of two pets per room with a combined weight of 80 pounds.",
+     "source_url": "https://www.druryhotels.com/locations/tampa-fl/drury-plaza-hotel-tampa-brandon/?utm_campaign=gmb&utm_medium=organic&utm_source=local2",
+     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 80.0}",
+     "evidence_ref": "ev:8760d6540af2e4c0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:601a39abeb4e331553e4de4c51966ec6f35e59ffe08677d2827c49551f2d6a99",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Pet Policy Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Limit of two pets per room with a combined weight of 80 pounds.",
+     "source_url": "https://www.druryhotels.com/locations/tampa-fl/drury-plaza-hotel-tampa-brandon/?utm_campaign=gmb&utm_medium=organic&utm_source=local2",
+     "value": "{\"amount_cents\": 5000, \"basis\": \"per_stay\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:03c0fad9ad3dc6a3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:601a39abeb4e331553e4de4c51966ec6f35e59ffe08677d2827c49551f2d6a99",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species",
+     "quote": "Pet Policy Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Limit of two pets per room with a combined weight of 80 pounds.",
+     "source_url": "https://www.druryhotels.com/locations/tampa-fl/drury-plaza-hotel-tampa-brandon/?utm_campaign=gmb&utm_medium=organic&utm_source=local2",
+     "value": "{\"cat\": \"accepted\", \"dog\": \"accepted\"}",
+     "evidence_ref": "ev:71cc63d6fb634afe",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:601a39abeb4e331553e4de4c51966ec6f35e59ffe08677d2827c49551f2d6a99",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species_source_grade",
+     "quote": "Pet Policy Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Limit of two pets per room with a combined weight of 80 pounds.",
+     "source_url": "https://www.druryhotels.com/locations/tampa-fl/drury-plaza-hotel-tampa-brandon/?utm_campaign=gmb&utm_medium=organic&utm_source=local2",
+     "value": "{\"cat\": \"PT2_BRAND\", \"dog\": \"PT2_BRAND\"}",
+     "evidence_ref": "ev:887e6731abf35d33",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:601a39abeb4e331553e4de4c51966ec6f35e59ffe08677d2827c49551f2d6a99",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
    "key": "east lake inn",
    "identity_key": "east lake inn",
    "name": "East Lake Inn",
@@ -1067,6 +1196,335 @@
      "artifact_kind": "rendered_html",
      "captured_at": "2026-09-15T21:00:00+00:00",
      "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "extended stay america 1805",
+   "identity_key": "extended stay america 1805",
+   "name": "Extended Stay America #1805",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/airport-spruce-street?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "true",
+     "evidence_ref": "ev:4d5962e28a73298e",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:99369b0fccf960db9e9eaa9d71f60ed16a70e924f53ed865a778666d4d5946bd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/airport-spruce-street?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:b5533b7cfa5198f9",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:99369b0fccf960db9e9eaa9d71f60ed16a70e924f53ed865a778666d4d5946bd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "extended stay america 9807",
+   "identity_key": "extended stay america 9807",
+   "name": "Extended Stay America #9807",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/airport-n-westshore-blvd?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "true",
+     "evidence_ref": "ev:64cbc3d6e26932c9",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:2dcac0d6d6a175e2e6a566132ba2532bb86f84bf0c2f4a030d7417586be9f1cb",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/airport-n-westshore-blvd?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:6235df59f7a94df1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:2dcac0d6d6a175e2e6a566132ba2532bb86f84bf0c2f4a030d7417586be9f1cb",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "extended stay america premier ste 1561",
+   "identity_key": "extended stay america premier ste 1561",
+   "name": "Extended Stay America Premier Ste (1561)",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/tampa-casino-area",
+     "value": "true",
+     "evidence_ref": "ev:2b654b6ef8f6fdd4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:97555042bf8b6581a0e5ad1f95dccd3aa2773a051f70fec5c107913371773b98",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/tampa-casino-area",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:55b8a8968e33e53d",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:97555042bf8b6581a0e5ad1f95dccd3aa2773a051f70fec5c107913371773b98",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "extended stay america select ste 789",
+   "identity_key": "extended stay america select ste 789",
+   "name": "Extended Stay America Select Ste (789)",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/north-usf-attractions?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "true",
+     "evidence_ref": "ev:360e6eb37e114f65",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:53f8db130e2d6d78854d38d43340a702596adad5a5db54cd6d36e93dd2e80a29",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/north-usf-attractions?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:798009b852cbdc1c",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:53f8db130e2d6d78854d38d43340a702596adad5a5db54cd6d36e93dd2e80a29",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "extended stay america select suites 9643",
+   "identity_key": "extended stay america select suites 9643",
+   "name": "Extended Stay America Select Suites 9643",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/tampa-brandon?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "true",
+     "evidence_ref": "ev:0c90904e5beaa5c0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8e12fda9ba4ab344c4bd93be3ffcebc19a39b2312e801698f598fe5d7686db8e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/tampa-brandon?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:79749924912243a7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8e12fda9ba4ab344c4bd93be3ffcebc19a39b2312e801698f598fe5d7686db8e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "extended stay america suites 8010",
+   "identity_key": "extended stay america suites 8010",
+   "name": "Extended Stay America Suites #8010",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/brandon-east?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "true",
+     "evidence_ref": "ev:fc5dae516a9d6146",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:7bc5d800a7aede5494dc969e94c378e370ce14880ddd6b0b9dd4d1fd15f95e64",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/brandon-east?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:5a51d9930400e499",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:7bc5d800a7aede5494dc969e94c378e370ce14880ddd6b0b9dd4d1fd15f95e64",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "extended stay america suites 8080",
+   "identity_key": "extended stay america suites 8080",
+   "name": "Extended Stay America Suites #8080",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/northeast?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "true",
+     "evidence_ref": "ev:57b48814ead8f4c6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8231384e3bf30689dc1fcd95822440816e400b4b41297ccb670672a3981a2c9f",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/northeast?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:8570d70bdcfc93f7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8231384e3bf30689dc1fcd95822440816e400b4b41297ccb670672a3981a2c9f",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
      "source_grade": "PT2_BRAND"
     }
    ]
@@ -3466,6 +3924,64 @@
    ]
   },
   {
+   "key": "holiday inn",
+   "identity_key": "holiday inn",
+   "name": "Holiday Inn",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets are welcome at Holiday Inn St. Petersburg West.",
+     "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/st-petersburg/tpapb/hoteldetail",
+     "value": "true",
+     "evidence_ref": "ev:83bf1e295bb3521a",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:e6a06fc5d78b3ee1209b71dde110d79b02f2db9fce06593f6c7b6e29e7348c06",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "holiday inn express and suites hotel busch gardens and usf",
+   "identity_key": "holiday inn express and suites hotel busch gardens and usf",
+   "name": "Holiday Inn Express and Suites Hotel Busch Gardens and Usf",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Tampa -USF-Busch Gardens.",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpabb/hoteldetail",
+     "value": "true",
+     "evidence_ref": "ev:3ae3284066aab8ab",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:f5e1d933da4e4e6603e3c54e8af86c3eaf26af3400e5e50967ec7e036916df55",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
    "key": "holiday inn express and suites largo clearwater",
    "identity_key": "holiday inn express and suites largo clearwater",
    "name": "Holiday Inn Express & Suites Largo-Clearwater",
@@ -3601,6 +4117,35 @@
      "artifact_kind": "rendered_html",
      "captured_at": "2026-09-15T21:00:00+00:00",
      "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "holiday inn express oldsmar",
+   "identity_key": "holiday inn express oldsmar",
+   "name": "Holiday Inn Express Oldsmar",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Tampa Northwest-Oldsmar.",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/oldsmar/oldfl/hoteldetail",
+     "value": "true",
+     "evidence_ref": "ev:adb6e22a4ac24f65",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:2c6a42ee5f70f0b5c4d27132274c32556bf474254b098f10d0e6c73a751ed208",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
      "source_grade": "PT2_BRAND"
     }
    ]
@@ -4322,6 +4867,135 @@
    ]
   },
   {
+   "key": "hyatt house tampa airport westshore",
+   "identity_key": "hyatt house tampa airport westshore",
+   "name": "Hyatt House Tampa Airport Westshore",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Hyatt House Tampa Airport / Westshore is a pet-friendly hotel that welcomes up to two dogs per room.",
+     "source_url": "https://www.hyatt.com/hyatt-house/en-US/tpaxw-hyatt-house-tampa-airport-westshore/hotel-info",
+     "value": "true",
+     "evidence_ref": "ev:e580e6a3ea07a08f",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0b4d258f7ac73025c5e5cff1c320e6c16b826e250504c4f48e02394660ee0b5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Hyatt House Tampa Airport / Westshore is a pet-friendly hotel that welcomes up to two dogs per room.",
+     "source_url": "https://www.hyatt.com/hyatt-house/en-US/tpaxw-hyatt-house-tampa-airport-westshore/hotel-info",
+     "value": "2",
+     "evidence_ref": "ev:24a3e09f4cb9d9b7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0b4d258f7ac73025c5e5cff1c320e6c16b826e250504c4f48e02394660ee0b5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "hyatt place and hyatt house tampa downtown",
+   "identity_key": "hyatt place and hyatt house tampa downtown",
+   "name": "Hyatt Place & Hyatt House Tampa Downtown",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Your pets are welcome at Hyatt Place Tampa Downtown. Bring up to two dogs along when you stay with us.",
+     "source_url": "https://www.hyatt.com/hyatt-place/en-US/tpazd-hyatt-place-tampa-downtown/hotel-info",
+     "value": "true",
+     "evidence_ref": "ev:deffb954130a93a2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bb22dbcac6093a8e794c608b7ac8851e452a5302969301f541eecb0c269b3b91",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Your pets are welcome at Hyatt Place Tampa Downtown. Bring up to two dogs along when you stay with us.",
+     "source_url": "https://www.hyatt.com/hyatt-place/en-US/tpazd-hyatt-place-tampa-downtown/hotel-info",
+     "value": "2",
+     "evidence_ref": "ev:a71a7321bc2d736a",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bb22dbcac6093a8e794c608b7ac8851e452a5302969301f541eecb0c269b3b91",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "hyatt place saint petersburg downtown",
+   "identity_key": "hyatt place saint petersburg downtown",
+   "name": "Hyatt Place Saint Petersburg / Downtown",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Your dogs are welcome when you stay at our pet-friendly hotel in downtown St. Pete. We welcome up to 2 pets, maximum number of pets is 2.",
+     "source_url": "https://www.hyatt.com/hyatt-place/en-US/piezd-hyatt-place-st-petersburg-downtown/hotel-info",
+     "value": "true",
+     "evidence_ref": "ev:68f205d713d737e4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:23e96d1e4fb494a8833fea0ec393a328f74c398a543d4d69ca5869e49921dd7c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Your dogs are welcome when you stay at our pet-friendly hotel in downtown St. Pete. We welcome up to 2 pets, maximum number of pets is 2.",
+     "source_url": "https://www.hyatt.com/hyatt-place/en-US/piezd-hyatt-place-st-petersburg-downtown/hotel-info",
+     "value": "2",
+     "evidence_ref": "ev:1d5b6ca81b977600",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:23e96d1e4fb494a8833fea0ec393a328f74c398a543d4d69ca5869e49921dd7c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
    "key": "hyatt place tampa airport westshore",
    "identity_key": "hyatt place tampa airport westshore",
    "name": "Hyatt Place Tampa Airport Westshore",
@@ -4346,6 +5020,53 @@
      "artifact_kind": "rendered_html",
      "captured_at": "2026-09-15T21:00:00+00:00",
      "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "kl florida llc",
+   "identity_key": "kl florida llc",
+   "name": "Kl Florida Llc",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 800,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "And yes, we're pet-friendly, so your whole crew can make the trip. Paid parking Pet friendly Minty Suite Outdoor Pool Outdoor Lounge View amenity details Availability Selected dates: Add dates 1 guest Loading Loading Loading Loading Best rate guaranteed! Grab & Go market Outdoor swimming pool, open from 9am to 9pm Outdoor dining area Grilling station Fire pit Bike rentals (via the Zybra app ) Please note Only one approved dog is allowed per unit at a nightly fee of $8-30/night based on length of",
+     "source_url": "https://kasa.com/properties/mint-house-st-petersburg-downtown-by-kasa?utm_source=Google&utm_medium=nonpaid&utm_campaign=GMB&utm_term=VisitHotelWebsiteButton&utm_content=SPF",
+     "value": "true",
+     "evidence_ref": "ev:efb292e3779788a6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3b53f7a4e4d0b455ed55448e084d8d20752582982caafc1fcfe6ef92272f3bdd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "And yes, we're pet-friendly, so your whole crew can make the trip. Paid parking Pet friendly Minty Suite Outdoor Pool Outdoor Lounge View amenity details Availability Selected dates: Add dates 1 guest Loading Loading Loading Loading Best rate guaranteed! Grab & Go market Outdoor swimming pool, open from 9am to 9pm Outdoor dining area Grilling station Fire pit Bike rentals (via the Zybra app ) Please note Only one approved dog is allowed per unit at a nightly fee of $8-30/night based on length of",
+     "source_url": "https://kasa.com/properties/mint-house-st-petersburg-downtown-by-kasa?utm_source=Google&utm_medium=nonpaid&utm_campaign=GMB&utm_term=VisitHotelWebsiteButton&utm_content=SPF",
+     "value": "{\"amount_cents\": 800, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:16abfa3f5f150280",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3b53f7a4e4d0b455ed55448e084d8d20752582982caafc1fcfe6ef92272f3bdd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
      "source_grade": "PT2_BRAND"
     }
    ]
@@ -5451,6 +6172,49 @@
    ]
   },
   {
+   "key": "sandpearl resort",
+   "identity_key": "sandpearl resort",
+   "name": "Sandpearl Resort",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Dog Policy We welcome well-mannered dogs. Guests bringing dogs must always have them leashed when outside the guestroom and will be charged a non-refundable fee disclosed at the time of booking per night, per dog; maximum of two dogs per room. Guests will be responsible for any property damage inadvertently caused by their dogs. Housekeeping service during your stay should be arranged either when you and your dog are not in the room or if you are, the dog must be leashed or crated. Service dogs",
+     "source_url": "https://www.opalcollection.com/sandpearl/?utm_source=google&utm_medium=listing",
+     "value": "true",
+     "evidence_ref": "ev:97362b7389b2c4c6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:678f943c61163df8cc0340ff8863e81f02d36b7118b2d62c4ef21cb04ce1ccd5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Dog Policy We welcome well-mannered dogs. Guests bringing dogs must always have them leashed when outside the guestroom and will be charged a non-refundable fee disclosed at the time of booking per night, per dog; maximum of two dogs per room. Guests will be responsible for any property damage inadvertently caused by their dogs. Housekeeping service during your stay should be arranged either when you and your dog are not in the room or if you are, the dog must be leashed or crated. Service dogs",
+     "source_url": "https://www.opalcollection.com/sandpearl/?utm_source=google&utm_medium=listing",
+     "value": "2",
+     "evidence_ref": "ev:edd79786126d6790",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:678f943c61163df8cc0340ff8863e81f02d36b7118b2d62c4ef21cb04ce1ccd5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
    "key": "sheraton tampa brandon",
    "identity_key": "sheraton tampa brandon",
    "name": "Sheraton Tampa Brandon",
@@ -5819,6 +6583,64 @@
      "evidence_ref": "ev:aca4d3feb7359bd4",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:2822102f14b63ccf2292984b081d596c129fbbe343fea7c2bf14ff6035dd67fd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "staybridge suites",
+   "identity_key": "staybridge suites",
+   "name": "Staybridge Suites",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets are welcome at Staybridge Suites St. Petersburg Downtown.",
+     "source_url": "https://www.ihg.com/staybridge/hotels/us/en/st-petersburg/piesb/hoteldetail",
+     "value": "true",
+     "evidence_ref": "ev:8a3d27eecc4c3981",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:be0e24b372bd5ba431d42b05c812e84e811caf446845baf5facdca8c0f10603c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "staybridge suites tampa east brandon",
+   "identity_key": "staybridge suites tampa east brandon",
+   "name": "Staybridge Suites Tampa East-Brandon",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets are welcome at Staybridge Suites Tampa East- Brandon. There is a pet deposit per stay of 75 USD.",
+     "source_url": "https://www.ihg.com/staybridge/hotels/us/en/tampa/tpasb/hoteldetail",
+     "value": "true",
+     "evidence_ref": "ev:c41c96400ea8eeda",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d57f74af7b90b56aea6bd2b242536a1c5f138ce2ca46aca0488cc8ce62be360a",
      "artifact_kind": "rendered_html",
      "captured_at": "2026-09-15T21:00:00+00:00",
      "capture_method": "attended_browser",
@@ -6974,6 +7796,116 @@
    ]
   },
   {
+   "key": "treasure island beach resort",
+   "identity_key": "treasure island beach resort",
+   "name": "Treasure Island Beach Resort",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Dog Policy We welcome well-mannered dogs. Guests bringing dogs must always have them leashed when outside the guestroom and will be charged a non-refundable fee disclosed at the time of booking per night, per dog; maximum of two dogs per room. Guests will be responsible for any property damage inadvertently caused by their dogs. Housekeeping service during your stay should be arranged either when you and your dog are not in the room or if you are, the dog must be leashed or crated. Service dogs",
+     "source_url": "https://www.opalcollection.com/treasure-island/?utm_source=google&utm_medium=listing&utm_campaign=opal%20treasure%20island%20beach%20resort",
+     "value": "true",
+     "evidence_ref": "ev:07c7c330e5cdaaa8",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d474fee7f66137de25414dcb6081419b09575d6887944a38ac09ba93aa423cd3",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Dog Policy We welcome well-mannered dogs. Guests bringing dogs must always have them leashed when outside the guestroom and will be charged a non-refundable fee disclosed at the time of booking per night, per dog; maximum of two dogs per room. Guests will be responsible for any property damage inadvertently caused by their dogs. Housekeeping service during your stay should be arranged either when you and your dog are not in the room or if you are, the dog must be leashed or crated. Service dogs",
+     "source_url": "https://www.opalcollection.com/treasure-island/?utm_source=google&utm_medium=listing&utm_campaign=opal%20treasure%20island%20beach%20resort",
+     "value": "2",
+     "evidence_ref": "ev:3d28d1f9ad67f60f",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d474fee7f66137de25414dcb6081419b09575d6887944a38ac09ba93aa423cd3",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "uptown suites tampa riverview",
+   "identity_key": "uptown suites tampa riverview",
+   "name": "Uptown Suites - Tampa/riverview",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2000,
+     "currency": "USD",
+     "basis": "per_night",
+     "refundable": false
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "The suites at our long-term hotel in Tampa are modern and welcoming for guests, and the dog-friendly lodging allows one pup to stay per room, weight and size permitting. Are Pets Allowed at Uptown Suites Extended Stay in Riverview, FL? Uptown Suites Tampa FL – Riverview allows one dog (40 lbs. Dogs must be less than 36″ long and less than 36″ tall. The Uptown Suites Extended Stay Hotel in Riverview charges a non-refundable pet fee of $20 (plus tax) per night not to exceed $200. Please read all o",
+     "source_url": "https://uptownsuites.com/extended-stay-hotels/tampariverview-florida/",
+     "value": "true",
+     "evidence_ref": "ev:2790cc755a54e478",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:6500620f4833dd6fd1a59e78e930d9c42e81d1363afee4433d725b43269327de",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "The suites at our long-term hotel in Tampa are modern and welcoming for guests, and the dog-friendly lodging allows one pup to stay per room, weight and size permitting. Are Pets Allowed at Uptown Suites Extended Stay in Riverview, FL? Uptown Suites Tampa FL – Riverview allows one dog (40 lbs. Dogs must be less than 36″ long and less than 36″ tall. The Uptown Suites Extended Stay Hotel in Riverview charges a non-refundable pet fee of $20 (plus tax) per night not to exceed $200. Please read all o",
+     "source_url": "https://uptownsuites.com/extended-stay-hotels/tampariverview-florida/",
+     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 40.0}",
+     "evidence_ref": "ev:597ca022705d7e0e",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:6500620f4833dd6fd1a59e78e930d9c42e81d1363afee4433d725b43269327de",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "The suites at our long-term hotel in Tampa are modern and welcoming for guests, and the dog-friendly lodging allows one pup to stay per room, weight and size permitting. Are Pets Allowed at Uptown Suites Extended Stay in Riverview, FL? Uptown Suites Tampa FL – Riverview allows one dog (40 lbs. Dogs must be less than 36″ long and less than 36″ tall. The Uptown Suites Extended Stay Hotel in Riverview charges a non-refundable pet fee of $20 (plus tax) per night not to exceed $200. Please read all o",
+     "source_url": "https://uptownsuites.com/extended-stay-hotels/tampariverview-florida/",
+     "value": "{\"amount_cents\": 2000, \"basis\": \"per_night\", \"currency\": \"USD\", \"refundable\": false}",
+     "evidence_ref": "ev:217f15a87ea642b4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:6500620f4833dd6fd1a59e78e930d9c42e81d1363afee4433d725b43269327de",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
    "key": "vinoy resort and golf club",
    "identity_key": "vinoy resort and golf club",
    "name": "Vinoy Resort & Golf Club",
@@ -7537,6 +8469,368 @@
      "evidence_ref": "ev:508bcd8a1fc7fafe",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:d1beff2e0a084fce5fde80379ce877894dc19c10a3e2974a111f25f1ca9a12d9",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "la quinta inn and suites by wyndham tampa bay area tampa south",
+   "identity_key": "la quinta inn and suites by wyndham tampa bay area tampa south",
+   "name": "La Quinta Inn & Suites by Wyndham Tampa Bay Area-Tampa South",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2,
+    "species": {
+     "cat": "accepted",
+     "dog": "accepted"
+    },
+    "species_source_grade": {
+     "cat": "PT2_BRAND",
+     "dog": "PT2_BRAND"
+    }
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/tampa-florida/la-quinta-tampa-bay-area-tampa-south/overview?CID=LC:6ysy27krtpcrqev:53063&iata=00093796",
+     "value": "true",
+     "evidence_ref": "ev:826fa38a8fbf1ba8",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:4535d6dc1ebdff13da7e1db3dfeb647172b1338c35ade2347cca17958014a3ae",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/tampa-florida/la-quinta-tampa-bay-area-tampa-south/overview?CID=LC:6ysy27krtpcrqev:53063&iata=00093796",
+     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 75.0}",
+     "evidence_ref": "ev:976a879495bb53da",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:4535d6dc1ebdff13da7e1db3dfeb647172b1338c35ade2347cca17958014a3ae",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/tampa-florida/la-quinta-tampa-bay-area-tampa-south/overview?CID=LC:6ysy27krtpcrqev:53063&iata=00093796",
+     "value": "2",
+     "evidence_ref": "ev:f30ffb748facf41a",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:4535d6dc1ebdff13da7e1db3dfeb647172b1338c35ade2347cca17958014a3ae",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/tampa-florida/la-quinta-tampa-bay-area-tampa-south/overview?CID=LC:6ysy27krtpcrqev:53063&iata=00093796",
+     "value": "{\"cat\": \"accepted\", \"dog\": \"accepted\"}",
+     "evidence_ref": "ev:73f395ee4053f932",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:4535d6dc1ebdff13da7e1db3dfeb647172b1338c35ade2347cca17958014a3ae",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species_source_grade",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/tampa-florida/la-quinta-tampa-bay-area-tampa-south/overview?CID=LC:6ysy27krtpcrqev:53063&iata=00093796",
+     "value": "{\"cat\": \"PT2_BRAND\", \"dog\": \"PT2_BRAND\"}",
+     "evidence_ref": "ev:c59eace588c2e65b",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:4535d6dc1ebdff13da7e1db3dfeb647172b1338c35ade2347cca17958014a3ae",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "la quinta inn and suites by wyndham st pete clearwater airpt",
+   "identity_key": "la quinta inn and suites by wyndham st pete clearwater airpt",
+   "name": "La Quinta Inn & Suites by Wyndham St. Pete-Clearwater Airpt",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2,
+    "species": {
+     "cat": "accepted",
+     "dog": "accepted"
+    },
+    "species_source_grade": {
+     "cat": "PT2_BRAND",
+     "dog": "PT2_BRAND"
+    }
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/clearwater-florida/la-quinta-st-pete-clearwater-airport/overview?CID=LC:6ysy27krtpcrqev:52696&iata=00093796",
+     "value": "true",
+     "evidence_ref": "ev:531cb78ec6b8f924",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bd1e05b9eb9520d5e81fe911dd65851f6bb224b67be34fc086fe0aa3c6464790",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/clearwater-florida/la-quinta-st-pete-clearwater-airport/overview?CID=LC:6ysy27krtpcrqev:52696&iata=00093796",
+     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 75.0}",
+     "evidence_ref": "ev:ea551c17644817d3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bd1e05b9eb9520d5e81fe911dd65851f6bb224b67be34fc086fe0aa3c6464790",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/clearwater-florida/la-quinta-st-pete-clearwater-airport/overview?CID=LC:6ysy27krtpcrqev:52696&iata=00093796",
+     "value": "2",
+     "evidence_ref": "ev:86f1937a92eb0be6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bd1e05b9eb9520d5e81fe911dd65851f6bb224b67be34fc086fe0aa3c6464790",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/clearwater-florida/la-quinta-st-pete-clearwater-airport/overview?CID=LC:6ysy27krtpcrqev:52696&iata=00093796",
+     "value": "{\"cat\": \"accepted\", \"dog\": \"accepted\"}",
+     "evidence_ref": "ev:b7db4c5a6174c274",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bd1e05b9eb9520d5e81fe911dd65851f6bb224b67be34fc086fe0aa3c6464790",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species_source_grade",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/clearwater-florida/la-quinta-st-pete-clearwater-airport/overview?CID=LC:6ysy27krtpcrqev:52696&iata=00093796",
+     "value": "{\"cat\": \"PT2_BRAND\", \"dog\": \"PT2_BRAND\"}",
+     "evidence_ref": "ev:683f320c933f20aa",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bd1e05b9eb9520d5e81fe911dd65851f6bb224b67be34fc086fe0aa3c6464790",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "extended stay america suites st petersburg clearwater executive dr",
+   "identity_key": "extended stay america suites st petersburg clearwater executive dr",
+   "name": "Extended Stay America Suites- St. Petersburg - Clearwater - Executive Dr.",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/clearwater-airport?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "true",
+     "evidence_ref": "ev:f35b57d8c6aae3bf",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:f04731d733e38004f205505d3554cda221de6513d231bbe3c8a4ff66b9021aa0",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/clearwater-airport?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:5e737488051277ed",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:f04731d733e38004f205505d3554cda221de6513d231bbe3c8a4ff66b9021aa0",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "extended stay america suites clearwater carillon park",
+   "identity_key": "extended stay america suites clearwater carillon park",
+   "name": "Extended Stay America Suites- Clearwater - Carillon Park",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/carillon-park?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "true",
+     "evidence_ref": "ev:0c5314049be891cf",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:4b262b7f23aa78f2dd109db1ed8c03fcb0e3f437da5eecf01761b517099a1c2b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/carillon-park?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:475f189766d468d9",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:4b262b7f23aa78f2dd109db1ed8c03fcb0e3f437da5eecf01761b517099a1c2b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "extended stay america select suites clearwater",
+   "identity_key": "extended stay america select suites clearwater",
+   "name": "Extended Stay America Select Suites- Clearwater",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/clearwater?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "true",
+     "evidence_ref": "ev:e2b489ced22708fa",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ffce80520d62c7518aec4d9e0c4fa09ca06d2e84b267619705951a7498b9bd68",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+     "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/clearwater?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\"}",
+     "evidence_ref": "ev:aef75b4c6228899a",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ffce80520d62c7518aec4d9e0c4fa09ca06d2e84b267619705951a7498b9bd68",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-15T21:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "hotel south tampa and suites",
+   "identity_key": "hotel south tampa and suites",
+   "name": "Hotel South Tampa & Suites",
+   "market_id": "tampa-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "reviewed_at": "2026-09-15",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Are pets allowed at the hotel? + To ensure the comfort of all our guests, we maintain a strict no-pet policy.",
+     "source_url": "https://www.hotelsouthtampa.com/",
+     "value": "true",
+     "evidence_ref": "ev:0bf543ef88fc3472",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0e02ea2e7c932d77147b93dbc41bbaf8d93b50b2c4bfd3f972a7e4033d070daf",
      "artifact_kind": "rendered_html",
      "captured_at": "2026-09-15T21:00:00+00:00",
      "capture_method": "direct_static_fetch",
