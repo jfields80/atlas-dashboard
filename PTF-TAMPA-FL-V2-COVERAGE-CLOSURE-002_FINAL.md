@@ -176,8 +176,8 @@ All source-ready safety rules were kept unchanged. The market-local negation gua
 29. FACTORY CODE CHANGED = NO
 30. BROAD REGRESSION RUN = 0
 31. TAMPA DEPLOYED = NO
-32. origin == HEAD = (verified mechanically after push — see push output below)
-33. tree clean = (verified mechanically after push — see push output below)
+32. origin == HEAD = YES — mechanically verified: `git push` to `origin/worker/ptf-tampa-fl-market-002`, then `git fetch origin worker/ptf-tampa-fl-market-002` and `git rev-parse HEAD` / `git rev-parse origin/worker/ptf-tampa-fl-market-002` both returned `31d5d452925de59b7b6b46a46950d031efde6da5`
+33. tree clean = YES — mechanically verified: `git status -sb` after the fetch reported `worker/ptf-tampa-fl-market-002...origin/worker/ptf-tampa-fl-market-002` with no ahead/behind markers and no modified/untracked files
 
 TAMPA V2 COVERAGE CLOSURE = COMPLETE
 TAMPA V2 TECHNICAL SOURCE READY = YES
