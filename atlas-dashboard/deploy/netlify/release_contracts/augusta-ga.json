@@ -1,0 +1,146 @@
+{
+ "schema": "ptf-market-release-contract/1.0",
+ "contract_id": "pettripfinder-augusta-ga-release/1.0",
+ "market_id": "augusta-ga",
+ "product": "pettripfinder-augusta-ga",
+ "release_name_prefix": "prod-augusta",
+ "description": "Deterministic release-gate contract for the PetTripFinder Augusta market through PTF-AUGUSTA-GA-V2-REGISTRATION-AND-FOUNDER-PACKET-003. Every number is derived from THIS market's committed authority by release_contracts.derive_authority; none is typed and none is inherited from or comparable to another market's contract.",
+ "deployment_authorization": {
+  "grants_deployment": false,
+  "asserts_market_complete": false,
+  "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish gate holds. It is not a deployment authorization and asserts nothing about the market being complete -- 63 of this market's 91 registered identities are still unresolved, and no founder deployment decision exists for Augusta at 14 published profiles."
+ },
+ "canonical": {
+  "base_url": "https://pettripfinder.com",
+  "canonical_host": "pettripfinder.com",
+  "robots_sitemap_host": "pettripfinder.com",
+  "sitemap_host": "pettripfinder.com"
+ },
+ "identity_census": {
+  "path": "launch_packages/pettripfinder/identity_census/augusta-ga.json",
+  "schema": "ptf-market-identity-census/1.1",
+  "expected_count": 91,
+  "note": "91 registered identities, built from zero by PTF-AUGUSTA-GA-HARDENED-V2-SOURCE-READY-001 under existing authorized Firecrawl capacity (89 credits, $0 new spend), registered by PTF-AUGUSTA-GA-V2-REGISTRATION-AND-FOUNDER-PACKET-003. Membership is this market's own corridor postal partition (census_membership_basis CORRIDOR_REGISTRY): 11 corridors over 15 postal codes -- Downtown / Medical District, Washington Road / I-20 / Martinez / Belair, Gordon Highway, Fort Eisenhower, AGS Airport / South Augusta / Hephzibah (CORE); Grovetown, Evans / Harlem (CORRIDOR); Thomson, Wrens, Waynesboro, Lincolnton (FRINGE). South Carolina (North Augusta, Aiken, Edgefield, Graniteville, Clearwater) is OUTSIDE and preserved for future north-augusta-sc / aiken-sc standalone markets; 0 South Carolina profiles are in this census. Rows the identity graph did not admit are recorded, not dropped: ."
+ },
+ "reconciliation": {
+  "confirmed_identities": 91,
+  "published_pet_friendly": 14,
+  "verified_no_pets": 14,
+  "resolved": 28,
+  "unresolved": 63,
+  "note": "14 clean pet-friendly and 14 clean verified-no-pets over a 91-identity census. A row publishes only on an OPERATIVE first-party quote from the property's own page, bound to its census identity by the street identity that page states: a fee, a weight, a count, an amenity chip or a service-animal sentence alone publishes nothing. 63 reads were made and did not publish (5 AWAITING_CONTRADICTION_RESOLUTION; 26 AWAITING_OFFICIAL_URL; 19 AWAITING_POLICY_OBSERVATION; 13 AWAITING_ROUTING_REVIEW); every one is named in augusta_ga_final_partition_007.json with its exact class -- AWAITING_OFFICIAL_URL, AWAITING_POLICY_OBSERVATION, AWAITING_ROUTING_REVIEW (includes the Hilton capability wall) and AWAITING_CONTRADICTION_RESOLUTION (a plain-reading refusal the shared first-party reader would not mechanically confirm -- held, never guessed). No gate was lowered to preserve a count."
+ },
+ "policy_package": {
+  "path": "launch_packages/pettripfinder/hotel_policy_facts_augusta-ga.json",
+  "expected_sha256": "9c5c748d92bd86e060054fa25a655db8d054b6dba5c8a1dc0964228ddfc93351",
+  "expected_schema_version": "1.3",
+  "expected_record_count": 14,
+  "identity_authority": true,
+  "note": "The verified hotel identities are DERIVED from this package at assembly time via site_data.verified_public_hotels(); they are not restated here. Every record carries the exact operator quote for each published fact, the capture lane, and the sha256 of the document it was read from. Every Firecrawl-sourced record here carries a real paid_reservation bound to the shared cross-run paid-attempt ledger (ptf_paid_attempt_ledger_001.json); 89 Firecrawl credits were spent under existing authorized capacity, $0 new spend, $0 new provider authorization."
+ },
+ "final_partition": {
+  "path": "launch_packages/pettripfinder/augusta_ga_final_partition_007.json",
+  "schema": "ptf-market-final-partition/1.1",
+  "expected_sha256": "31470bdb86415ae7a832c6cb98519df288f37108efa4f07e40e37d2812f3d2f8",
+  "expected_count": 91,
+  "note": "The partition of record for this market, referenced by path and content digest so the whole-site assembler resolves it from THIS contract rather than from a table in its own source. Written from the committed file by release_contracts.final_partition_block; verified by market_partition_resolution: the file must exist, declare this market_id, hash to expected_sha256 and carry expected_count identities. Regenerating the partition means reissuing this block."
+ },
+ "public_surface": {
+  "seed_hotel_rows": 14,
+  "public_hotel_profile_count": 14,
+  "excluded_public_profile_count": 0,
+  "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package (not-published seed hotels: held/manual-review plus rows still pending evidence) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials. This market currently holds none -- every seed row it owns is published -- and the gate is derived, so it starts enforcing the moment that changes."
+ },
+ "routes": {
+  "market_slug": "augusta-ga",
+  "route_mode": "market_prefixed",
+  "hotel_route_count": 14,
+  "published_corridor_route_count": 1,
+  "note": "route_mode market_prefixed: this market's hub, corridor and policy-comparison pages live under /pet-friendly-hotels/augusta-ga/. 1 of 11 corridors reach their own publication minimum (Washington Road only, at this census); the rest are suppressed, which is a threshold and not a gap. The market and its corridors are hidden from navigation and the sitemap (show_in_navigation=false, show_in_sitemap=false) until a launch order says otherwise."
+ },
+ "minimum_release_gates": [
+  "authority.contract_is_for_this_market",
+  "authority.reconciliation_matches_market_authority",
+  "authority.package_exists",
+  "authority.package_sha256",
+  "authority.package_schema_version",
+  "authority.package_count",
+  "identity.verified_from_package",
+  "identity.held_derived",
+  "route.profile_count_matches_contract",
+  "route.all_committed_profiles_present",
+  "route.all_held_absent",
+  "route.no_excluded_reference_on_any_surface",
+  "publish.control_files_present",
+  "publish.headers_match_tracked_source",
+  "publish.redirects_match_tracked_source",
+  "publish.no_forbidden_files",
+  "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
+  "content.zero_broken_links",
+  "content.quality_report_clean",
+  "content.build_report_hotel_count_matches_contract",
+  "tech.go_pages_noindex",
+  "tech.sitemap_public_canonical_only",
+  "tech.robots_sitemap_host_apex",
+  "tech.no_credentials",
+  "tech.no_windows_local_paths",
+  "tech.no_runtime_paths"
+ ],
+ "forbidden_output_tokens": [
+  "C:\\Atlas",
+  "C:/Atlas",
+  "NETLIFY_AUTH_TOKEN",
+  "NETLIFY_SITE_ID",
+  "nfp_",
+  "AppData",
+  "/Users/",
+  "\\Users\\"
+ ],
+ "publish": {
+  "publishable_root": "site/",
+  "control_files": [
+   "_headers",
+   "_redirects"
+  ],
+  "control_file_sources": {
+   "_headers": {
+    "preview": "deploy/netlify/headers.preview",
+    "production": "deploy/netlify/headers.production"
+   },
+   "_redirects": "deploy/netlify/redirects"
+  },
+  "forbidden_basenames": [
+   "_build_report.json",
+   "_broken_link_report.json",
+   "_quality_report.json",
+   "bundle_manifest.json",
+   ".env"
+  ],
+  "forbidden_extensions": [
+   ".py",
+   ".pyc",
+   ".pyo",
+   ".patch",
+   ".map",
+   ".json",
+   ".env"
+  ],
+  "forbidden_path_segments": [
+   ".git",
+   ".github",
+   ".claude",
+   ".netlify",
+   "__pycache__",
+   "data",
+   "docs",
+   "tests",
+   "scripts",
+   "services",
+   "launch_packages",
+   "engines",
+   "repositories"
+  ],
+  "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
+ }
+}

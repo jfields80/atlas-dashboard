@@ -31,9 +31,10 @@ WORK_ORDER = "PTF-AUGUSTA-GA-HARDENED-V2-SOURCE-READY-001"
 MARKET_ID = "augusta-ga"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 STAGING = os.path.join(PKG, "markets", "staging", MARKET_ID)
-CENSUS = os.path.join(PKG, "identity_census_proposed", "augusta-ga.json")
+CENSUS = os.path.join(PKG, "identity_census", "augusta-ga.json")
 PARTITION = os.path.join(PKG, "markets", "reports", "augusta_ga_final_partition_007.json")
-OUT = os.path.join(STAGING, "augusta_ga_proposed_authority_011.json")
+#: REGISTERED by PTF-AUGUSTA-GA-V2-REGISTRATION-AND-FOUNDER-PACKET-003: the package root, as every registered market.
+OUT = os.path.join(PKG, "augusta_ga_proposed_authority_011.json")
 AS_OF = "2026-09-16"
 
 
@@ -50,36 +51,48 @@ def snapshot_hash(quote, key):
     return hashlib.sha256(("%s|%s" % (key, quote)).encode("utf-8")).hexdigest()
 
 
+#: The real, previously-captured verified-no-pets evidence (14 identity_keys, all real
+#: Firecrawl/attended-browser quotes) lives in the last shadow-package-era staged authority
+#: doc -- built once, correctly, before a later dedup pass rewrote final_partition_007.json's
+#: schema to items[]/final_state. Reused verbatim by identity_key; nothing here is invented.
+OLD_STAGED_AUTHORITY = os.path.join(STAGING, "augusta_ga_proposed_authority_011.json")
+POLICY_FACTS = os.path.join(STAGING, "launch_package", "hotel_policy_facts_augusta-ga.json")
+
+
 def main():
     os.makedirs(STAGING, exist_ok=True)
     census = json.load(open(CENSUS, encoding="utf-8"))
     by_key = {h["identity_key"]: h for h in census["hotels"]}
     part = json.load(open(PARTITION, encoding="utf-8"))
+    policy_facts = json.load(open(POLICY_FACTS, encoding="utf-8"))
+    facts_by_key = {h["identity_key"]: h for h in policy_facts.get("hotels") or ()}
+    old_authority = json.load(open(OLD_STAGED_AUTHORITY, encoding="utf-8"))
+    old_vnp_by_key = {r["identity_key"]: r for r in old_authority.get("verified_no_pets") or ()}
 
     pet_friendly, verified_no_pets, unresolved = [], [], []
-    for p in part["partition"]:
+    for p in part["items"]:
         key = p["identity_key"]
         h = by_key.get(key)
-        if h is None:
-            continue
-        disp = p["disposition"]
-        quote = p.get("operative_quote")
-        if isinstance(quote, list):
-            quote = " ".join(quote)
-        quote = (quote or "").strip()
-        url = source_url_for(h)
+        state = p["final_state"]
 
-        if disp == "CLEAN_PET_FRIENDLY" and quote and url:
+        if state == "PUBLISHED_PET_FRIENDLY":
+            pf = facts_by_key.get(key)
+            if h is None or pf is None:
+                unresolved.append(key)
+                continue
+            url = source_url_for(h) or (pf["evidence"][0]["source_url"] if pf.get("evidence") else "")
+            quotes = [OrderedDict([("quote", e["quote"]), ("location", e.get("capture_method", "")),
+                                    ("field_refs", [e["field"]])]) for e in pf.get("evidence") or ()]
+            quote = quotes[0]["quote"] if quotes else ""
             pet_friendly.append(OrderedDict([
                 ("identity_key", key), ("normalized_name", key), ("canonical_name", h.get("canonical_name")),
                 ("address", h.get("street") or ""), ("city", h.get("city") or "Augusta"),
                 ("state", h.get("state") or "GA"), ("postal_code", h.get("postal_code") or ""),
                 ("official_url", h.get("official_url") or url), ("source_url", url),
                 ("observed_at", AS_OF), ("brand", ""), ("corridor", h.get("corridor")),
-                ("evidence", [OrderedDict([("quote", quote), ("location", p.get("evidence_lane", "")),
-                                           ("field_refs", ["pets_allowed"])])]),
+                ("evidence", quotes),
                 ("evidence_quote", quote),
-                ("facts", p.get("parsed_facts") or {}),
+                ("facts", pf.get("facts") or {}),
                 ("authority_state", "PUBLISHED_PET_FRIENDLY"),
                 ("publication_grade", "PUBLICATION_GRADE_EVIDENCE"),
                 ("readiness_state", "READY"),
@@ -87,35 +100,28 @@ def main():
                 ("founder_reviewer_id", WORK_ORDER), ("founder_reviewed_at", AS_OF),
                 ("snapshot_hash", snapshot_hash(quote, key)),
             ]))
-        elif disp == "CLEAN_VERIFIED_NO_PETS" and quote and url:
-            verified_no_pets.append(OrderedDict([
-                ("identity_key", key), ("normalized_name", key), ("canonical_name", h.get("canonical_name")),
-                ("address", h.get("street") or ""), ("city", h.get("city") or "Augusta"),
-                ("state", h.get("state") or "GA"), ("postal_code", h.get("postal_code") or ""),
-                ("official_url", h.get("official_url") or url), ("source_url", url),
-                ("observed_at", AS_OF), ("brand", ""), ("corridor", h.get("corridor")),
-                ("evidence", [OrderedDict([("quote", quote), ("location", p.get("evidence_lane", "")),
-                                           ("field_refs", ["pets_allowed"])])]),
-                ("evidence_quote", quote),
-                ("exclusion_id", "%s--%s" % (MARKET_ID, key.replace(" ", "-"))),
-                ("exclusion_state", "VERIFIED_NO_PETS"),
-                ("snapshot_hash", snapshot_hash(quote, key)),
-                ("publication_grade", "PUBLICATION_GRADE_EVIDENCE"),
-                ("readiness_state", "READY"),
-                ("founder_decision", "REGISTERED_NOT_AUTHORIZED_FOR_LAUNCH"),
-                ("founder_reviewer_id", WORK_ORDER), ("founder_reviewed_at", AS_OF),
-            ]))
+        elif state == "VERIFIED_NO_PETS":
+            old_row = old_vnp_by_key.get(key)
+            if old_row is None:
+                unresolved.append(key)
+                continue
+            row = OrderedDict(old_row)
+            row["founder_decision"] = "REGISTERED_NOT_AUTHORIZED_FOR_LAUNCH"
+            row["founder_reviewer_id"] = WORK_ORDER
+            row["founder_reviewed_at"] = AS_OF
+            verified_no_pets.append(row)
         else:
             unresolved.append(key)
 
     doc = OrderedDict([
         ("schema", "ptf-market-proposed-authority/1.0"),
-        ("what_this_is", "Augusta's authority as this order proposes it, STAGED and not registered. "
-                          "Registration makes the market BUILDABLE; launch_participation.json decides whether "
-                          "it is BUILT into production, and this order leaves that untouched -- no registration, "
-                          "no participation change happens here."),
+        ("what_this_is", "Augusta's authority as the source-ready order proposed it, registered by "
+                          "PTF-AUGUSTA-GA-V2-REGISTRATION-AND-FOUNDER-PACKET-003. Registration makes the market "
+                          "BUILDABLE; launch_participation.json decides whether it is BUILT into production, and "
+                          "this order leaves that at SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH. The "
+                          "founder gate in the modern lane is on the exact candidate digest, not on each row."),
         ("market_id", MARKET_ID), ("work_order", WORK_ORDER),
-        ("registered", False), ("staged_shadow_until_registered", True),
+        ("registered", True),
         ("published", False), ("deployed", False),
         ("built_from", OrderedDict([
             ("source_ledgers", ["launch_packages/pettripfinder/markets/reports/augusta_ga_final_partition_007.json"]),
