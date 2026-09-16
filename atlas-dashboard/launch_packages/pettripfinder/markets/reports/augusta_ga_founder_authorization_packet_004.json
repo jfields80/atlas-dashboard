@@ -1,0 +1,192 @@
+{
+ "schema": "ptf-deployment-authorization-proposal/1.0",
+ "STATUS": "AWAITING_FOUNDER_AUTHORIZATION",
+ "AUGUSTA_FOUNDER_AUTHORIZATION_READY": "YES",
+ "supersedes": {
+  "work_order": "PTF-AUGUSTA-GA-V2-REGISTRATION-AND-FOUNDER-PACKET-003",
+  "packet_path": "launch_packages/pettripfinder/markets/reports/augusta_ga_founder_authorization_packet_003.json",
+  "prior_parent_deploy_id": "6aa93de5263dfda8c243d0a7",
+  "prior_parent_release_digest": "4acb4f16824da6e46b01d86359bf4de0ee8ce3aa005b3d676d42c9560de203ed",
+  "reason": "packet 003 was bound to the Savannah-live parent (deploy 6aa93de5, 27/1802/2081); Orlando-fl deployed live independently on its own branch (deploy 6aa9dad7, 28/2003/2299) and was merged into this branch (ae8e0133), making packet 003's parent binding stale. Nothing was authorized against packet 003; it is superseded, not edited."
+ },
+ "readiness_gate": {
+  "AUTOMATED_NARROW_CLASSIFICATION": "NOT_APPLICABLE_STRUCTURALLY_UNRESOLVED_AFTER_LIVE_LINEAGE_MERGE",
+  "FULL_REGRESSION_REQUIRED_classifier_output": "YES",
+  "full_regression_required_reason": "caused by inherited Orlando live deployment/participation history in the branch diff, not by a newly introduced Augusta shared-factory change",
+  "classifier_bases_tried": {
+   "ae8e0133 (merge commit)": "augusta-ga already registered at this base -- 'registry gained nothing', the NEW_MARKET_REGISTRATION_DATA_ONLY precondition does not hold",
+   "30d1b3ce (orlando-fl live tip)": "augusta-ga's own market-local scripts fail isolation narrowing when diffed against a sibling branch that never carried them",
+   "709e84b3 (this branch's pre-merge tip)": "the diff crosses orlando-fl's actual deployment event (deployment_records, deployment_authorizations, global_deployment_manifest.json), which is a DEPLOYMENT_CHANGE by design and can never be narrowed"
+  },
+  "BROAD_REGRESSION_RUN": "NO",
+  "FAST": "15 / 15 PASS",
+  "RELEASE_INDEX_CANDIDATE_COMPARISON_UNEXPECTED_FINDINGS": 0,
+  "ALL_CURRENT_LIVE_MARKETS_PRESERVED": true,
+  "UNCHANGED_LIVE_MARKETS_REBUILT": 0,
+  "ORLANDO_FL_IN_UNCHANGED_SET": true,
+  "FINAL_PACKAGE_REPRODUCIBLE": "YES",
+  "FINAL_CANDIDATE_REPRODUCIBLE": "YES",
+  "CANDIDATE_REPRODUCTION_METHOD": "3 independent builds compared byte-identical: two internal to one seal invocation, one fully separate clean git worktree checkout",
+  "HELD_IDENTITIES_ABSENT_FROM_CANDIDATE": true,
+  "SOUTH_CAROLINA_PROFILES_IN_CANDIDATE": 0,
+  "UNEXPECTED_MARKET_PROFILE_ROUTE_CHANGES": [
+   0,
+   0,
+   0
+  ],
+  "FACTORY_CODE_CHANGED": "NO",
+  "DEPLOYMENT_AUTHORIZATION_CREATED": "NO",
+  "AUGUSTA_FOUNDER_AUTHORIZATION_READY": "YES"
+ },
+ "what_this_is": "A prepared, UNSIGNED deployment authorization proposal for founder review, produced by PTF-AUGUSTA-GA-V2-STALE-PARENT-RECHECK-004. Nothing has been deployed, no launch-participation flag has been committed, and no authorization exists. Every digest below was read from a committed or lane-written artifact.",
+ "what_this_explicitly_does_not_claim": [
+  "Does NOT claim CHANGE_CLASS = COMPOSITE_FRESH_MARKET_DATA_ONLY or NEW_MARKET_REGISTRATION_DATA_ONLY -- the automated classifier could not grant either class for this change set under any base commit tried; see readiness_gate above.",
+  "Does NOT claim FULL_REGRESSION_REQUIRED = NO from the classifier -- its literal output was YES, for the structural reason recorded above, and no broad regression was run to resolve it.",
+  "Does NOT assert a full whole-site sitemap rebuild was performed; only the release-index candidate (profiles, hotel/corridor/market routes) was independently composed and reproduced."
+ ],
+ "would_become": "Augusta, Georgia joins production as the TWENTY-NINTH market with 14 pet-friendly hotel profiles and 14 verified-no-pets records over a 91-identity registered census, taking the site from 2003 to 2017 published profiles and from 2238 to 2254 release-index routes (over the current 28 live markets plus Augusta).",
+ "prepared_by": "PTF-AUGUSTA-GA-V2-STALE-PARENT-RECHECK-004",
+ "authorized_by": null,
+ "authorized_at": null,
+ "source_commit": null,
+ "source_commit_note": "This document is written before its own commit exists, so it cannot name its own commit hash. The sealed package's created_from_source_sha below names the exact parent commit it was built from; the commit that adds this file is the very next commit on this branch.",
+ "source_branch": "worker/ptf-augusta-ga-market-002",
+ "binding_identity": "bundle_sha256",
+ "the_digests_this_authorization_binds": {
+  "parent_deploy_id": "6aa9dad7cf1419580b307f71",
+  "parent_release_digest": "7222c0665d4b28943e13a996e9c175612657b8b17c76c04bfc05aefe26c163ae",
+  "parent_sitemap_digest": "e057181ade7d52a3d7faa6bffae41efafc39190a6c631c98d44e6463de41e969",
+  "parent_release_index_digest": "sha256:28529a73c1ebf2acc258c2508961a0d79714c0d478e8cb447f1bea6cbc95a2e1",
+  "sealed_package_id": "pkg-augusta-ga-87a7ba365bb89295",
+  "sealed_package_digest": "sha256:87a7ba365bb892954de630f4251fb9061c0d48d2246539b124064a2200b3eac3",
+  "sealed_package_created_from_source_sha": "ae8e013316d45974832930198d3a3728527c9e5d",
+  "sealed_package_dependency_input_digests": {
+   "census": "sha256:163f7d0a191f6c27f976510c55f47f3080673c089acc1a91fc7f4fe090068040",
+   "exclusions": "sha256:e5cca7e91ad9f5d3d75070bd77d12f846858e708e2cdb511df6d51e3a380e0f2",
+   "market": "sha256:068aa70b3425352783c09b307f82ee1cacc86826466f1ce72e75631edfe8c530",
+   "partition": "sha256:31470bdb86415ae7a832c6cb98519df288f37108efa4f07e40e37d2812f3d2f8",
+   "policy_package": "sha256:9c5c748d92bd86e060054fa25a655db8d054b6dba5c8a1dc0964228ddfc93351",
+   "routing": "sha256:1e1e277e39d72bf376e9dba7bc06a80aa9312d6fbe48c32c417111b38f3cfbef",
+   "seed": "sha256:0efdce74ec66d6547fb88f6213baf4eb15ede79bf8e995f637b8ff49fb54410f"
+  },
+  "intended_delta_digest": "816043c621b6bb5748ec72720ca60638b1e672f0cf613d85a0ed0798801555b3",
+  "validation_receipt_digest": "sha256:768508fab625d9e689da056942b7ce8407390ddfc6aedf86d9f5d39e75e2212b",
+  "expected_candidate_release_index_digest": "sha256:2c4f8cc3b8a739a5c92a7329214c1447fc4e20f6f6ddc575af533a04081d7f01",
+  "candidate_independent_rebuild_digest": "sha256:2c4f8cc3b8a739a5c92a7329214c1447fc4e20f6f6ddc575af533a04081d7f01",
+  "staged_launch_participation_sha256": "1e8d1340f1f7f83e28407aea9ee5b73f06a70a8c6ecc5bc9060a6f246cf037ad",
+  "no_abbreviated_identifier_appears_in_this_document": true
+ },
+ "parent_release": {
+  "live_deploy_id": "6aa9dad7cf1419580b307f71",
+  "rollback_target_of_the_parent": "6aa93de5263dfda8c243d0a7",
+  "source_commit": "8e5c62ddfbed8b685621c1e81e2523ac8450c45d",
+  "markets": 28,
+  "profiles": 2003,
+  "routes": 2299,
+  "participating_markets": [
+   "asheville-nc",
+   "atlanta-ga",
+   "boone-blowing-rock-nc",
+   "charleston-sc",
+   "charlotte-nc",
+   "cincinnati-oh",
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "fayetteville-nc",
+   "grand-rapids-holland-mi",
+   "greenville-nc",
+   "indianapolis-in",
+   "jacksonville-nc",
+   "lexington-ky",
+   "louisville-ky",
+   "milwaukee-wi",
+   "nashville-tn",
+   "orlando-fl",
+   "outer-banks-nc",
+   "piedmont-triad-nc",
+   "pittsburgh-pa",
+   "raleigh-nc",
+   "richmond-va",
+   "savannah-ga",
+   "st-louis-mo",
+   "toledo-oh",
+   "wilmington-nc"
+  ],
+  "orlando_fl_participating": true,
+  "orlando_fl_profile_count": 201,
+  "verified_from_the_host": {
+   "release_index_problems": []
+  },
+  "rechecked_before_composition": [
+   "Phase 1/3 (this order, pre-merge state)",
+   "immediately after the Orlando merge",
+   "immediately after the fresh reseal",
+   "immediately before this packet's creation"
+  ]
+ },
+ "production_delta_audit": {
+  "removed_markets": 0,
+  "removed_existing_profiles": 0,
+  "unexpected_route_changes": 0,
+  "unexpected_market_or_profile_changes": 0,
+  "existing_live_markets_preserved": true,
+  "unchanged_markets_count": 28,
+  "unchanged_markets_rebuilt": 0,
+  "release_diff_passed": true,
+  "finding_counts": {}
+ },
+ "augusta": {
+  "total_discovered_candidates": 157,
+  "registered_census": 91,
+  "census_classification_counts": {
+   "TRUE_HOTEL_IDENTITY": 91
+  },
+  "non_admitted_classification_counts": {
+   "OUTSIDE_MARKET": 19,
+   "OUT_OF_METRO_FALSE_POSITIVE": 20,
+   "NON_HOTEL": 6,
+   "OUTSIDE": 2
+  },
+  "valid_pet_friendly": 14,
+  "valid_verified_no_pets": 14,
+  "resolved": 28,
+  "unresolved": 63,
+  "resolution_rate_pct": 30.8,
+  "partition_states": {
+   "PUBLISHED_PET_FRIENDLY": 14,
+   "AWAITING_ROUTING_REVIEW": 13,
+   "VERIFIED_NO_PETS": 14,
+   "AWAITING_POLICY_OBSERVATION": 19,
+   "AWAITING_OFFICIAL_URL": 26,
+   "AWAITING_CONTRADICTION_RESOLUTION": 5
+  },
+  "holds_by_class": {
+   "AWAITING_OFFICIAL_URL (routing)": 26,
+   "AWAITING_POLICY_OBSERVATION (evidence)": 19,
+   "AWAITING_ROUTING_REVIEW (access-blocked, incl. Hilton capability wall)": 13,
+   "AWAITING_CONTRADICTION_RESOLUTION (negation, held not guessed)": 5
+  },
+  "south_carolina_boundary": {
+   "sc_hotels_discovered": 21,
+   "sc_profiles_admitted_to_augusta_ga": 0,
+   "preserved_for_future_standalone_markets": [
+    "north-augusta-sc",
+    "aiken-sc"
+   ]
+  },
+  "provider_cost": {
+   "existing_authorized_firecrawl_credits_spent": 89,
+   "new_paid_spend_usd": 0,
+   "new_provider_authorization": null
+  }
+ },
+ "what_is_not_claimed": [
+  "No founder authorization exists yet -- this document proposes one.",
+  "No deployment authorization exists.",
+  "No deployment has occurred; canonical live production is untouched.",
+  "No broad regression was run.",
+  "The automated narrow registration classifier did not grant a data-only class for this change set (see readiness_gate.AUTOMATED_NARROW_CLASSIFICATION); safety is established by the direct mechanical proofs in readiness_gate and production_delta_audit instead.",
+  "Coverage completeness is a separate founder judgment call, not asserted here: the source-ready order reported COVERAGE READY = FOUNDER DECISION at a 30.8%% resolution rate, and that assessment is unchanged by registration or this reseal."
+ ]
+}
