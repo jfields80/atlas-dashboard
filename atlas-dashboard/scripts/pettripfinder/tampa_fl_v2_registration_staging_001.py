@@ -81,8 +81,12 @@ def _facts(pets_allowed, pf, quote):
         fee = OrderedDict([("amount_cents", int(pf["pet_fee_cents"])), ("currency", pf.get("fee_currency") or "USD"),
                            ("basis", "per_night" if re.search(r"per\s+night|nightly|per\s+day|/day", quote, re.I)
                             else "per_stay")])
-        if pf.get("fee_refundable") is not None:
-            fee["refundable"] = bool(pf["fee_refundable"])
+        # A REFUNDABLE amount is a deposit under the shared fee/deposit contract
+        # (other_charges[kind=refundable_deposit]), never a pet_fee.refundable=True -- and this order does not
+        # build a separate other_charges record, so a refundable component is safely omitted here rather than
+        # written into the wrong field. Only an explicit non-refundable statement is ever written.
+        if pf.get("fee_refundable") is False:
+            fee["refundable"] = False
         out["pet_fee"] = fee
     if pf.get("max_pet_count") is not None:
         out["pet_count_limit"] = int(pf["max_pet_count"])
@@ -135,6 +139,7 @@ def build():
         quote = ev.get("quote") or ""
         lane = ev.get("lane") or ""
         source_url = ev.get("source_url") or c.get("official_url") or ""
+        doc_sha = ev.get("document_sha256") or ""
 
         if disp == "CLEAN_PET_FRIENDLY":
             pf = r.get("policy_facts") or {}
@@ -149,7 +154,7 @@ def build():
                 ("computation_class", FC.classify(facts).computation_class),
                 ("verification_state", "VERIFIED_PET_FRIENDLY"),
                 ("reviewer_id", WORK_ORDER), ("reviewed_at", OBSERVED_AT),
-                ("evidence", _evidence(key, lane, quote, source_url, "", facts)),
+                ("evidence", _evidence(key, lane, quote, source_url, doc_sha, facts)),
             ])
             r_issues = PS.validate_record(record)
             if r_issues:
@@ -166,7 +171,7 @@ def build():
                 ("evidence", record["evidence"]), ("evidence_quote", quote), ("facts", dict(facts)),
                 ("authority_state", enums.PUBLISHED_PET_FRIENDLY), ("publication_grade", "PUBLICATION_GRADE_EVIDENCE"),
                 ("readiness_state", "READY"), ("founder_decision", "REGISTERED_NOT_AUTHORIZED_FOR_LAUNCH"),
-                ("founder_reviewer_id", WORK_ORDER), ("founder_reviewed_at", OBSERVED_AT), ("snapshot_hash", ""),
+                ("founder_reviewer_id", WORK_ORDER), ("founder_reviewed_at", OBSERVED_AT), ("snapshot_hash", doc_sha),
             ]))
         else:
             exclusions.append(OrderedDict([
@@ -176,10 +181,10 @@ def build():
                 ("postal_code", (c.get("postal_code") or "")[:5]),
                 ("official_url", c.get("official_url") or source_url), ("source_url", source_url),
                 ("observed_at", OBSERVED_AT), ("brand", c.get("brand") or ""), ("corridor", c.get("corridor") or ""),
-                ("evidence", _evidence(key, lane, quote, source_url, "", OrderedDict([("pets_allowed", False)]))),
+                ("evidence", _evidence(key, lane, quote, source_url, doc_sha, OrderedDict([("pets_allowed", False)]))),
                 ("evidence_quote", quote),
                 ("exclusion_id", "%s--%s" % (MARKET_ID, re.sub(r"[^a-z0-9]+", "-", key).strip("-"))),
-                ("exclusion_state", enums.VERIFIED_NO_PETS), ("snapshot_hash", ""),
+                ("exclusion_state", enums.VERIFIED_NO_PETS), ("snapshot_hash", doc_sha),
                 ("publication_grade", "PUBLICATION_GRADE_EVIDENCE"), ("readiness_state", "READY"),
                 ("founder_decision", "REGISTERED_NOT_AUTHORIZED_FOR_LAUNCH"),
                 ("founder_reviewer_id", WORK_ORDER), ("founder_reviewed_at", OBSERVED_AT),

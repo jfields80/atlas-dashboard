@@ -144,6 +144,13 @@ def extract_facts(quote):
                         ("max_pet_count", count)])
 
 
+def _transcription_sha(line_obj):
+    """The sha256 of the canonical JSON transcription line itself -- declared as a TRANSCRIPTION_SHA256, never
+    passed off as a page hash (Phase 15's durability rule for an accessibility-tree read)."""
+    import hashlib
+    return hashlib.sha256(json.dumps(line_obj, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
 def build_evidence_index(census_hotels):
     by_code = {}   # (brand, property_code_lower) -> evidence
     by_key = {}    # identity_key -> evidence
@@ -170,6 +177,7 @@ def build_evidence_index(census_hotels):
                 continue
             ev = OrderedDict([("lane", "PROPERTY_PAGE_ATTENDED"), ("source_url", r["url"]),
                               ("pets_allowed_claim", r["pets_allowed"]), ("quote", r["quote"]),
+                              ("document_sha256", _transcription_sha(r)),
                               ("captured_via", "supported browser, accessibility tree (navigate + find only)")])
             add_code(brand, r["code"], ev)
 
@@ -178,6 +186,7 @@ def build_evidence_index(census_hotels):
             continue
         ev = OrderedDict([("lane", "PROPERTY_PAGE_ATTENDED"), ("source_url", r["url"]),
                           ("pets_allowed_claim", r["pets_allowed"]), ("quote", r["quote"]),
+                          ("document_sha256", _transcription_sha(r)),
                           ("captured_via", "supported browser, accessibility tree (navigate + find only)")])
         if r.get("code"):
             add_code(r["family"], r["code"], ev)
@@ -189,6 +198,7 @@ def build_evidence_index(census_hotels):
         pets = r["pet_indicator"] == "Y"
         ev = OrderedDict([("lane", "PROPERTY_PAGE_STATIC"), ("source_url", r["u"]),
                           ("pets_allowed_claim", pets), ("quote", r["p"]),
+                          ("document_sha256", r.get("h") or _transcription_sha(r)),
                           ("captured_via", "the brand's own property-service API (same JSON the overview page renders)")])
         add_addr(_house_number(r.get("st") or ""), r.get("z") or "", ev)
 
@@ -208,6 +218,7 @@ def build_evidence_index(census_hotels):
             continue
         ev = OrderedDict([("lane", "PROPERTY_PAGE_STATIC"), ("source_url", r.get("final_url") or r["u"]),
                           ("pets_allowed_claim", pets), ("quote", text[:500]),
+                          ("document_sha256", r.get("h") or _transcription_sha(r)),
                           ("captured_via", "the independent property's own policy/FAQ page, plain client")])
         add_key(r["identity_key"], ev)
 
@@ -222,6 +233,7 @@ def build_evidence_index(census_hotels):
         quotes = [e.get("quote", "") for e in ((r.get("observation") or {}).get("evidence") or []) if e.get("quote")]
         ev = OrderedDict([("lane", "PROPERTY_PAGE_STATIC"), ("source_url", r.get("final_url") or r.get("requested_url")),
                           ("pets_allowed_claim", pa), ("quote", " ".join(quotes)[:500] or ("pets_allowed=%s (shared reader)" % pa)),
+                          ("document_sha256", r.get("page_sha256") or _transcription_sha({"k": r["identity_key"], "u": r.get("requested_url")})),
                           ("captured_via", "shared direct_http_capture pipeline, plain client")])
         add_key(r["identity_key"], ev)
 
@@ -235,6 +247,7 @@ def build_evidence_index(census_hotels):
         quotes = [e.get("quote", "") for e in ((r.get("observation") or {}).get("evidence") or []) if e.get("quote")]
         ev = OrderedDict([("lane", "FIRECRAWL"), ("source_url", r.get("final_url") or r.get("requested_url")),
                           ("pets_allowed_claim", pa), ("quote", " ".join(quotes)[:500] or ("pets_allowed=%s (Firecrawl reader)" % pa)),
+                          ("document_sha256", r.get("page_sha256") or _transcription_sha({"k": r["identity_key"], "u": r.get("requested_url")})),
                           ("captured_via", "Firecrawl rendered scrape, existing plan credits")])
         add_key(r["identity_key"], ev)
 
