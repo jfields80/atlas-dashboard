@@ -1,0 +1,136 @@
+{
+ "schema": "ptf-registration-authorization-readiness/1.0",
+ "status": "AUTHORIZATION_READY",
+ "founder_status": "AWAITING_FOUNDER_AUTHORIZATION",
+ "what_this_is": "A prepared, UNSIGNED readiness document for founder review, written by the registration release lane after Regression V2 classified the registration. It authorizes nothing: no launch-participation flag has moved, no activation flag is enabled, nothing is deployed. The founder's decision, if it comes, is a separate write into deploy/netlify/deployment_authorizations/ that this document never makes.",
+ "market_id": "tampa-fl",
+ "prepared_by": "PTF-TAMPA-FL-V2-FINAL-CANDIDATE-AND-FOUNDER-PACKET-005",
+ "prepared_at": "2026-09-16T18:17:52Z",
+ "authorized_by": null,
+ "authorized_at": null,
+ "supersedes": {
+  "path": "launch_packages/pettripfinder/markets/reports/tampa_fl_founder_authorization_packet_004.json",
+  "commit": "c8ff65c28e18e575343505536a2a14b09405c773",
+  "reason": "Packet 004 was AUTHORIZATION_READY but did not carry the exact deployable-bundle digests (final candidate / deployment artifact / candidate sitemap); this packet supersedes it by stating plainly why those fields are structurally unavailable before authorization, rather than by omission. Packet 004 is left committed, unedited, as history."
+ },
+ "deployable_artifact_status": {
+  "FINAL_CANDIDATE_DIGEST": "NOT_PRODUCIBLE_PRE_AUTHORIZATION",
+  "DEPLOYMENT_ARTIFACT_DIGEST": "NOT_PRODUCIBLE_PRE_AUTHORIZATION",
+  "CANDIDATE_SITEMAP_DIGEST": "NOT_PRODUCIBLE_PRE_AUTHORIZATION",
+  "why": "release_coordinator.stage() -- the only tool in this factory that builds a real, deployable whole-site bundle -- computes final membership exclusively from the committed, founder-authorized rows in deploy/netlify/launch_participation.json (release_coordinator.py:_final_membership: 'Membership comes from the participation document (the founder's decision), never from what happens to exist in the tree'). Tampa's row there still reads SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, so a real stage() call for tampa-fl raises CoordinatorError(UNAUTHORIZED_ADDITION) by design -- verified directly against the live tool, not assumed. No synthetic, temporary, or non-persisted authority was passed to force it past that gate, and launch_participation.json was not touched. The exact deployable bundle is therefore intentionally unavailable before founder authorization; it is not a gap in this packet, it is how the release coordinator is built.",
+  "what_is_available_instead": "The abstract, release-index-level 'expected candidate' comparison computed by registration_release_lane.py's own seal step (registration_data_only.check_expected_release), which does NOT build a real bundle and is NOT gated by launch_participation.json -- see the_digests_this_readiness_binds.expected_candidate_index_digest / actual_candidate_index_digest below. That check already passed (0 unexpected market/profile/route changes) and is what this packet binds to."
+ },
+ "regression_v2": {
+  "base": "30d1b3ce4557eb3cbda5988d12580d1b63b23ea8",
+  "head": "WORKTREE",
+  "change_classes": [
+   "DOCUMENTATION_ONLY",
+   "GENERATED_REPORT_ONLY",
+   "MARKET_DATA_PACKAGE",
+   "COMPOSITE_FRESH_MARKET_DATA_ONLY"
+  ],
+  "release_surfaces": [
+   "MARKET_DATA_PACKAGE",
+   "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+   "NARROW_NON_RELEASE"
+  ],
+  "CHANGE_CLASS": "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+  "FULL_REGRESSION_REQUIRED": "NO",
+  "REMOTE_BROAD_JOBS_REQUIRED": 0,
+  "plan_modules": 118,
+  "assembly_required": false,
+  "reason": "every changed file classifies into a narrow class (COMPOSITE_FRESH_MARKET_DATA_ONLY, DOCUMENTATION_ONLY, GENERATED_REPORT_ONLY, MARKET_DATA_PACKAGE); no row of the matrix makes a broad regression mandatory"
+ },
+ "registration_proof": {
+  "proof_version": "ptf-registration-data-only/2.0",
+  "ELIGIBLE": "YES",
+  "checks": {
+   "change_set": "PASS",
+   "market_local_zone": "PASS",
+   "discovery_config": "PASS",
+   "registration_input": "PASS",
+   "identity_resolutions": "PASS",
+   "participation": "PASS",
+   "release_contract": "PASS",
+   "build_closure": "PASS",
+   "derived_globals": "PASS",
+   "sealed_package": "PASS",
+   "fast_receipt": "PASS",
+   "expected_release": "PASS",
+   "identity_routes": "PASS",
+   "market_state_pin": "PASS",
+   "release_integrity": "PASS"
+  },
+  "seconds": 57.934
+ },
+ "the_digests_this_readiness_binds": {
+  "parent_live_deploy_id": "6aa9dad7cf1419580b307f71",
+  "parent_release_digest": "sha256:4cd7c62adbcce0d7206f485d4a4a4daca78a22457b04fe57e9dd05b3332ccb83",
+  "sealed_package_id": "pkg-tampa-fl-38f6e4b2dc1f6a11",
+  "sealed_package_digest": "sha256:38f6e4b2dc1f6a111985288f334ca93d66472423ccac760c98f05f47afaa9c8d",
+  "fast_receipt": "launch_packages/pettripfinder/markets/receipts/tampa-fl/pkg-tampa-fl-38f6e4b2dc1f6a11-854bc3cc9b4afc23.json",
+  "fast_receipt_digest": "sha256:854bc3cc9b4afc2332e2a4ccc8c58714f5aa4dba8899fc9049b512aae3c09df5",
+  "changed_market_bundle_sha256": "c1504c075e0720ec2703c86094c9e176cbecd9af06a02c76142d6dc560b5b940",
+  "expected_candidate_index_digest": "sha256:0dfd1238bb14e5e740920ed967d77336d974ae7525c36c3278c1f02cad079b4a",
+  "actual_candidate_index_digest": "sha256:da1a00504b09d62fa0af401e3e234bb55358e2c421094e82227ae29747e829bc"
+ },
+ "projected_live": {
+  "markets": 29,
+  "profiles": 2151,
+  "routes": 2398,
+  "unexpected_market_changes": 0,
+  "unexpected_profile_changes": 0,
+  "unexpected_route_changes": 0
+ },
+ "lane": {
+  "PACKAGE_REPRODUCIBLE": "YES",
+  "CANDIDATE_REPRODUCIBLE": "YES",
+  "UNCHANGED_MARKETS_REBUILT": 0,
+  "fast_rules_passed": 15
+ },
+ "coverage_and_hold_safety": {
+  "COVERAGE_READY": "YES",
+  "coverage_readiness_source": "PTF-TAMPA-FL-V2-TERMINAL-HOLD-CLOSURE-003 (commit 32d110fb): mechanical, non-percentage-based criteria all met -- actionable unresolved = 0, competitor gap explained (0 true-missing BringFido candidates), every remaining unresolved row terminal and bounded, no evidence cohort skipped, all publishable policies safety-gated, no material identity gap.",
+  "tampa_publishable_pet_friendly_profiles": 148,
+  "tampa_verified_no_pets_exclusion_records": 45,
+  "tampa_held_unresolved_identities": 314,
+  "HELD_TAMPA_PROPERTIES_LEAKED": 0,
+  "leak_check_method": "cross-referenced every held identity_key in the committed final partition (tampa_fl_final_partition_v2_001.json) against the registered seed_businesses.csv (148 rows, PF) and markets/authority/tampa-fl/hotel_exclusions.json (45 rows, NP) -- 0 matches by name or key.",
+  "resolution_accounting": "314 held + 193 resolved (148 PF + 45 NP) = 507 total registered identities; no row omitted, no row double-counted."
+ },
+ "live_recheck_before_this_packet": {
+  "performed_at": "2026-09-16T18:17:00Z (immediately before this packet was written)",
+  "methods": [
+   "scripts.pettripfinder.release_index.live_index() read from this worktree",
+   "scripts.pettripfinder.release_coordinator inspect (cross-checks 8 independent authoritative sources: deployment record, global deployment manifest, test-suite live pin, consumed deployment authorization, launch_participation.json, the sealed package's own live snapshot, live_production_routes.txt, market_state pins) -- returned verified=true, problems=[]",
+   "direct HTTPS fetch of https://pettripfinder.com/sitemap.xml, sha256 compared byte-for-byte against the committed sitemap_sha256"
+  ],
+  "result": "UNCHANGED. Live is still exactly deploy 6aa9dad7cf1419580b307f71 (Orlando), 28 markets, 2003 profiles, 2299 sitemap routes, bundle sha256 7222c0665d4b28943e13a996e9c175612657b8b17c76c04bfc05aefe26c163ae, sitemap sha256 e057181ade7d52a3d7faa6bffae41efafc39190a6c631c98d44e6463de41e969 -- identical to the parent this packet, and packet 004 before it, are bound to. STALE_PARENT = NO."
+ },
+ "founder_authorization_must_scope": {
+  "market": "tampa-fl only",
+  "exact_packet": "launch_packages/pettripfinder/markets/reports/tampa_fl_founder_authorization_packet_005.json",
+  "exact_parent_deployment": "6aa9dad7cf1419580b307f71",
+  "exact_registered_package": "pkg-tampa-fl-38f6e4b2dc1f6a11",
+  "expected_delta": "+1 market (28->29), +148 profiles (2003->2151), +99 sitemap/release-index routes (2299->2398), 0 removed markets, 0 removed profiles, 0 removed routes"
+ },
+ "next_launch_order_must": [
+  "1. Re-read CURRENT VERIFIED LIVE.",
+  "2. Require it still equals this packet's bound parent (6aa9dad7cf1419580b307f71); if not, STOP as stale and do not proceed.",
+  "3. Persist the scoped tampa-fl founder authorization through the normal lifecycle (deploy/netlify/deployment_authorizations/), never a hand-edit of launch_participation.json.",
+  "4. Use release_coordinator.py normally -- stage() with the now-real, committed authority -- no synthetic/temporary/non-persisted authority, no bypass of the membership gate.",
+  "5. Stage the exact deployable Tampa candidate.",
+  "6. Compute FINAL CANDIDATE DIGEST, DEPLOYMENT ARTIFACT DIGEST, CANDIDATE SITEMAP DIGEST, and the exact intended-delta digest if the lifecycle produces one at that stage.",
+  "7. Independently reproduce the staged artifact (separate process/worktree, byte-identical required).",
+  "8. Require all prior live markets preserved (0 removed, 0 unexpected profile/route changes).",
+  "9. Require all 314 Tampa holds remain unpublished.",
+  "10. Present the exact staged digests for final verification before any deploy action.",
+  "11. Deploy only if the authorized parent is still current and every gate passes.",
+  "12. Otherwise STOP as stale and repeat from step 1 against the new parent."
+ ],
+ "what_is_not_claimed": [
+  "This document authorizes nothing. Only a founder authorization in deploy/netlify/deployment_authorizations/ admits a market to production.",
+  "The whole-site deployment artifact is built and hashed by the deployment order, under the current-parent guard, the exact-bytes rule and the rollback guard, none of which this lane touches.",
+  "The registration's participation row reads SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH."
+ ]
+}
