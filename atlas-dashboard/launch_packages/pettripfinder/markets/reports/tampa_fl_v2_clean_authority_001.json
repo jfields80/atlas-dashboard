@@ -27,6 +27,16 @@
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Menu Your Hideaway on St Pete Beach (727) 367-2781 Main navigation ABOUT Resort Information Frequently Asked Questions Video Tour Area Attractions Photos Live Webcam Floor Plans Unit Rental Rates Pet/Animal Policy Timeshare Calendar Resales Information Lifestyle OUR RESORTS CONTACT Owner Login Beachfront Vacation Condos on St. Pet/Service Animal Policy | Hideaway Sands Resort Skip to main content We've re-opened. Menu Your Hideaway on St Pete Beach (727) 367-2781 Main navigation ABOUT Resort Inf\""
   },
   {
+   "identity_key": "holiday inn express hotel and suites i 75 new tampa",
+   "name": "Holiday Inn Express Hotel & Suites I-75/New Tampa",
+   "why": "QUOTE_CONTRADICTS_CLAIM -- the captured quote contains an explicit refusal phrase while this order's own read claimed acceptance; the refusal governs"
+  },
+  {
+   "identity_key": "holiday inn express hotel and suites i 75 new tampa",
+   "name": "Holiday Inn Express Hotel & Suites I-75/New Tampa",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Pets are welcome at Holiday Inn Express & Suites Tampa-I-75 @ Bruce B. Downs. Pet policy description: 2 well behaved dogs under 35lbs. Pets not allowed on Elevators or in Suites.'"
+  },
+  {
    "identity_key": "holiday inn tampa north",
    "name": "Holiday Inn Tampa North",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'pets allowed'"
@@ -40,6 +50,16 @@
    "identity_key": "hotel cabana clearwater beach",
    "name": "Hotel Cabana Clearwater Beach",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Are pets allowed? To help maintain the property and rooms, pets are not accepted.'"
+  },
+  {
+   "identity_key": "hyatt place tampa busch gardens",
+   "name": "Hyatt Place Tampa-Busch Gardens",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "hyatt regency clearwater resort and spa",
+   "name": "Hyatt Regency Clearwater Resort and Spa",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'This hotel does not allow pets with the exception of service animals.'"
   },
   {
    "identity_key": "provident oceana beach front suites",
@@ -75,22 +95,27 @@
    "identity_key": "the floridian inn",
    "name": "The Floridian Inn",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Are pets allowed? + Pets are not permitted at The Floridian Inn.'"
+  },
+  {
+   "identity_key": "sonesta simply suites clearwater",
+   "name": "Sonesta Simply Suites Clearwater",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: \"Book Now Learn More Show More Offers + Explore the Area What's Nearby About The Hotel Hotel Details Our Hotel Pet Policy Accessibility Amenities & Features In-Room Amenities Parking Pool Group Travel Long Term Stay All-Suite Hotel in Clearwater, FL Located in Clearwater, near St. Enjoy our spacious, pet-friendly, and non-smoking suites equipped with thoughtfully designed amenities such as fully fitted kitchens, comfortable bedding, free Wi-Fi, a mobile desk, mini-fridge, and coffee maker. Pet-Fr\""
   }
  ],
  "counts": {
   "ACCESS_BLOCKED": 10,
-  "BROWSER_CAPTURE_NEEDED": 9,
-  "CLEAN_PET_FRIENDLY": 120,
-  "CLEAN_VERIFIED_NO_PETS": 39,
-  "EVIDENCE_HOLD": 14,
+  "BROWSER_CAPTURE_NEEDED": 1,
+  "CLEAN_PET_FRIENDLY": 147,
+  "CLEAN_VERIFIED_NO_PETS": 42,
+  "EVIDENCE_HOLD": 18,
   "IDENTITY_MISMATCH_HOLD": 2,
-  "ROUTING_HOLD": 297,
+  "ROUTING_HOLD": 277,
   "SOURCE_SILENT": 10
  },
- "valid_pet_friendly": 120,
- "valid_verified_no_pets": 39,
- "resolved": 159,
- "unresolved": 342,
+ "valid_pet_friendly": 147,
+ "valid_verified_no_pets": 42,
+ "resolved": 189,
+ "unresolved": 318,
  "rows": [
   {
    "identity_key": "1888 bed and breakfast",
@@ -620,8 +645,22 @@
    "corridor": "tampa-fl__st-pete-beach-treasure-island",
    "street": "5250 Gulf Blvd",
    "postal_code": "33706",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state INDEPENDENT_REVIEW: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.bellwetherbeachresort.com/?utm_source=google&utm_medium=organic&utm_campaign=mybusiness",
+    "pets_allowed_claim": true,
+    "quote": "Is the hotel pet friendly? Unfortunately, Bellwether Beach Resort is a pet-free facility. We accept service dogs and will require a signed pet agreement.",
+    "document_sha256": "53d309c69a49f15004cad17ab111f543bb5c32642181b88ef7bc42a6f050efc3",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "berkeley beach club",
@@ -1537,8 +1576,22 @@
    "corridor": "tampa-fl__east-tampa-i75",
    "street": "802 South Falkenburg Rd",
    "postal_code": "33619",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.druryhotels.com/locations/tampa-fl/drury-plaza-hotel-tampa-brandon/?utm_campaign=gmb&utm_medium=organic&utm_source=local2",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Limit of two pets per room with a combined weight of 80 pounds.",
+    "document_sha256": "601a39abeb4e331553e4de4c51966ec6f35e59ffe08677d2827c49551f2d6a99",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 80.0,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "dunedin cove motel",
@@ -1763,8 +1816,22 @@
    "corridor": "tampa-fl__westshore-airport-rocky-point",
    "street": "4312 W Spruce St",
    "postal_code": "33607",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/airport-spruce-street?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "pets_allowed_claim": true,
+    "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the ",
+    "document_sha256": "99369b0fccf960db9e9eaa9d71f60ed16a70e924f53ed865a778666d4d5946bd",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "extended stay america 9807",
@@ -1773,8 +1840,22 @@
    "corridor": "tampa-fl__westshore-airport-rocky-point",
    "street": "1805 N Westshore Blvd",
    "postal_code": "33607",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/airport-n-westshore-blvd?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "pets_allowed_claim": true,
+    "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the ",
+    "document_sha256": "2dcac0d6d6a175e2e6a566132ba2532bb86f84bf0c2f4a030d7417586be9f1cb",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "extended stay america premier ste 1561",
@@ -1783,8 +1864,22 @@
    "corridor": "tampa-fl__east-tampa-i75",
    "street": "6780 Lakeview Center Dr.",
    "postal_code": "33619",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/tampa-casino-area",
+    "pets_allowed_claim": true,
+    "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the ",
+    "document_sha256": "97555042bf8b6581a0e5ad1f95dccd3aa2773a051f70fec5c107913371773b98",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "extended stay america premier suites tampa fairgrounds casino",
@@ -1803,8 +1898,22 @@
    "corridor": "tampa-fl__busch-gardens-usf",
    "street": "12242 Morris Brdg",
    "postal_code": "33637",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/north-usf-attractions?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "pets_allowed_claim": true,
+    "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+    "document_sha256": "53f8db130e2d6d78854d38d43340a702596adad5a5db54cd6d36e93dd2e80a29",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "extended stay america select suites 9643",
@@ -1813,8 +1922,22 @@
    "corridor": "tampa-fl__brandon",
    "street": "330 Grand Regency Blvd",
    "postal_code": "33510",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/tampa-brandon?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "pets_allowed_claim": true,
+    "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+    "document_sha256": "8e12fda9ba4ab344c4bd93be3ffcebc19a39b2312e801698f598fe5d7686db8e",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "extended stay america suites 8010",
@@ -1823,8 +1946,22 @@
    "corridor": "tampa-fl__east-tampa-i75",
    "street": "2450 Falkenburg Rd",
    "postal_code": "33619",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state ROUTE_BRAND_MISMATCH: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/brandon-east?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "pets_allowed_claim": true,
+    "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+    "document_sha256": "7bc5d800a7aede5494dc969e94c378e370ce14880ddd6b0b9dd4d1fd15f95e64",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "extended stay america suites 8080",
@@ -1833,8 +1970,22 @@
    "corridor": "tampa-fl__busch-gardens-usf",
    "street": "12162 Morris Bridge Rd",
    "postal_code": "33637",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/northeast?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "pets_allowed_claim": true,
+    "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+    "document_sha256": "8231384e3bf30689dc1fcd95822440816e400b4b41297ccb670672a3981a2c9f",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "extended stay palm harbor",
@@ -3017,8 +3168,22 @@
    "corridor": "tampa-fl__st-petersburg",
    "street": "1200 34th St N",
    "postal_code": "33713",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/st-petersburg/tpapb/hoteldetail",
+    "pets_allowed_claim": true,
+    "quote": "Pets are welcome at Holiday Inn St. Petersburg West.",
+    "document_sha256": "e6a06fc5d78b3ee1209b71dde110d79b02f2db9fce06593f6c7b6e29e7348c06",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "holiday inn express and suites clearwater north dunedin",
@@ -3044,8 +3209,22 @@
    "corridor": "tampa-fl__busch-gardens-usf",
    "street": "2807 E Busch Blvd",
    "postal_code": "33612",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpabb/hoteldetail",
+    "pets_allowed_claim": true,
+    "quote": "Pets are welcome at Holiday Inn Express & Suites Tampa -USF-Busch Gardens.",
+    "document_sha256": "f5e1d933da4e4e6603e3c54e8af86c3eaf26af3400e5e50967ec7e036916df55",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "holiday inn express and suites largo clearwater",
@@ -3103,8 +3282,15 @@
    "corridor": "tampa-fl__east-tampa-i75",
    "street": "2520 N 50 St",
    "postal_code": "33619",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; a supported-browser or Firecrawl read did not reach this row"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpans/hoteldetail",
+    "pets_allowed_claim": false,
+    "quote": "No, pets are not allowed at Holiday Inn Express & Suites Tampa East - Ybor City.",
+    "document_sha256": "c7a1a35bb38203a1f64446c45fe3bea8d40c9ac323f26aeb237456dbad4a676c",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "holiday inn express and suites tampa fairgrounds casino",
@@ -3191,8 +3377,17 @@
    "corridor": "tampa-fl__wesley-chapel-new-tampa",
    "street": "8310 Galbraith Rd",
    "postal_code": "33647",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; a supported-browser or Firecrawl read did not reach this row"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpabd/hoteldetail",
+    "pets_allowed_claim": true,
+    "quote": "Pets are welcome at Holiday Inn Express & Suites Tampa-I-75 @ Bruce B. Downs. Pet policy description: 2 well behaved dogs under 35lbs. Pets not allowed on Elevators or in Suites.",
+    "document_sha256": "f61e60fe3b6d09d6eaede2901dc57b9d3e23ee01962275d53e6b19f3aca1ce90",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "negation_conflict": "QUOTE_CONTRADICTS_CLAIM -- the captured quote contains an explicit refusal phrase while this order's own read claimed acceptance; the refusal governs",
+   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pets are welcome at Holiday Inn Express & Suites Tampa-I-75 @ Bruce B. Downs. Pet policy description: 2 well behaved dogs under 35lbs. Pets not allowed on Elevat), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
   },
   {
    "identity_key": "holiday inn express oldsmar",
@@ -3201,8 +3396,22 @@
    "corridor": "tampa-fl__safety-harbor-oldsmar-palm-harbor",
    "street": "3990 Tampa Rd",
    "postal_code": "34677",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/oldsmar/oldfl/hoteldetail",
+    "pets_allowed_claim": true,
+    "quote": "Pets are welcome at Holiday Inn Express & Suites Tampa Northwest-Oldsmar.",
+    "document_sha256": "2c6a42ee5f70f0b5c4d27132274c32556bf474254b098f10d0e6c73a751ed208",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "holiday inn express tampa brandon",
@@ -3254,8 +3463,15 @@
    "corridor": "tampa-fl__madeira-redington-indian-rocks",
    "street": "401 E 2 St",
    "postal_code": "33785",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/clearwater/clwrb/hoteldetail",
+    "pets_allowed_claim": false,
+    "quote": "No, pets are not allowed at Holiday Inn & Suites Clearwater Beach S-Harbourside.",
+    "document_sha256": "d363ab3aaecc81bb4e4f680ef8b843c36e07e4c9e61cf53cf7ca9faa53b13cca",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "holiday inn hotel and suites clearwater beach",
@@ -3264,18 +3480,15 @@
    "corridor": "tampa-fl__clearwater-beach",
    "street": "521 S Gulfview Blvd",
    "postal_code": "33767",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
-  },
-  {
-   "identity_key": "holiday inn tampa airport westshore",
-   "canonical_name": "Holiday Inn Tampa Airport Westshore",
-   "brand": "",
-   "corridor": "tampa-fl__westshore-airport-rocky-point",
-   "street": "700 N Westshore Blvd",
-   "postal_code": "33609",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/clearwater-beach/clwgv/hoteldetail",
+    "pets_allowed_claim": false,
+    "quote": "No, pets are not allowed at Holiday Inn & Suites Clearwater Beach.",
+    "document_sha256": "e3bff91cd3f9c5d0e7847ec4f3e791ebc7799995f09db5d98dbb2312590d12ba",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "holiday inn tampa north",
@@ -3619,8 +3832,22 @@
    "corridor": "tampa-fl__westshore-airport-rocky-point",
    "street": "5308 Avion Park Dr",
    "postal_code": "33607",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; a supported-browser or Firecrawl read did not reach this row"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/hyatt-house/en-US/tpaxw-hyatt-house-tampa-airport-westshore/hotel-info",
+    "pets_allowed_claim": true,
+    "quote": "Hyatt House Tampa Airport / Westshore is a pet-friendly hotel that welcomes up to two dogs per room.",
+    "document_sha256": "0b4d258f7ac73025c5e5cff1c320e6c16b826e250504c4f48e02394660ee0b5e",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": 2
+   }
   },
   {
    "identity_key": "hyatt place and hyatt house tampa downtown",
@@ -3629,8 +3856,22 @@
    "corridor": "tampa-fl__downtown-riverwalk",
    "street": "325 N Florida Ave",
    "postal_code": "33602",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; a supported-browser or Firecrawl read did not reach this row"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/hyatt-place/en-US/tpazd-hyatt-place-tampa-downtown/hotel-info",
+    "pets_allowed_claim": true,
+    "quote": "Your pets are welcome at Hyatt Place Tampa Downtown. Bring up to two dogs along when you stay with us.",
+    "document_sha256": "bb22dbcac6093a8e794c608b7ac8851e452a5302969301f541eecb0c269b3b91",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": 2
+   }
   },
   {
    "identity_key": "hyatt place saint petersburg downtown",
@@ -3639,8 +3880,22 @@
    "corridor": "tampa-fl__st-petersburg-downtown",
    "street": "25 2nd St N",
    "postal_code": "33701",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; a supported-browser or Firecrawl read did not reach this row"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/hyatt-place/en-US/piezd-hyatt-place-st-petersburg-downtown/hotel-info",
+    "pets_allowed_claim": true,
+    "quote": "Your dogs are welcome when you stay at our pet-friendly hotel in downtown St. Pete. We welcome up to 2 pets, maximum number of pets is 2.",
+    "document_sha256": "23e96d1e4fb494a8833fea0ec393a328f74c398a543d4d69ca5869e49921dd7c",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": 2
+   }
   },
   {
    "identity_key": "hyatt place tampa airport westshore",
@@ -3673,8 +3928,16 @@
    "corridor": "tampa-fl__busch-gardens-usf",
    "street": "11408 N 30 St",
    "postal_code": "33612",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; a supported-browser or Firecrawl read did not reach this row"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/hyatt-place/en-US/tpazb-hyatt-place-tampa-busch-gardens/hotel-info",
+    "pets_allowed_claim": true,
+    "quote": "We welcome your furry friends at Hyatt Place Tampa/Busch Gardens.",
+    "document_sha256": "a32ae5aeb809c68b17ae9ee945a372535bef6b9c4c9f9209e78b170da8e02581",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "negation_conflict": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
   },
   {
    "identity_key": "hyatt regency clearwater resort and spa",
@@ -3683,8 +3946,16 @@
    "corridor": "tampa-fl__clearwater-beach",
    "street": "301 S Gulfview Blvd",
    "postal_code": "33767",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; a supported-browser or Firecrawl read did not reach this row"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/hyatt-regency/en-US/pierc-hyatt-regency-clearwater-beach-resort-and-suites/policies",
+    "pets_allowed_claim": false,
+    "quote": "This hotel does not allow pets with the exception of service animals.",
+    "document_sha256": "d7d696f7a1199f4ff40fab8ee5b849f09086c969edef5fa8e21bf207284c7e2f",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'This hotel does not allow pets with the exception of service animals.'), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
   },
   {
    "identity_key": "hyde park hotel",
@@ -3894,8 +4165,22 @@
    "corridor": "tampa-fl__st-petersburg-downtown",
    "street": "77 11th St N",
    "postal_code": "33705",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state INDEPENDENT_REVIEW: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://kasa.com/properties/mint-house-st-petersburg-downtown-by-kasa?utm_source=Google&utm_medium=nonpaid&utm_campaign=GMB&utm_term=VisitHotelWebsiteButton&utm_content=SPF",
+    "pets_allowed_claim": true,
+    "quote": "And yes, we're pet-friendly, so your whole crew can make the trip. Paid parking Pet friendly Minty Suite Outdoor Pool Outdoor Lounge View amenity details Availability Selected dates: Add dates 1 guest Loading Loading Loading Loading Best rate guaranteed! Grab & Go market Outdoor swimming pool, open from 9am to 9pm Outdoor dining area Grilling station Fire pit Bike rentals (via the Zybra app ) Please note Only one approved dog is allowed per unit at a nightly fee of $8-30/night based on length of",
+    "document_sha256": "3b53f7a4e4d0b455ed55448e084d8d20752582982caafc1fcfe6ef92272f3bdd",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 800,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "knight s inn",
@@ -5507,8 +5792,22 @@
    "corridor": "tampa-fl__clearwater-beach",
    "street": "500 Mandalay Ave",
    "postal_code": "33767",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state INDEPENDENT_REVIEW: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.opalcollection.com/sandpearl/?utm_source=google&utm_medium=listing",
+    "pets_allowed_claim": true,
+    "quote": "Dog Policy We welcome well-mannered dogs. Guests bringing dogs must always have them leashed when outside the guestroom and will be charged a non-refundable fee disclosed at the time of booking per night, per dog; maximum of two dogs per room. Guests will be responsible for any property damage inadvertently caused by their dogs. Housekeeping service during your stay should be arranged either when you and your dog are not in the room or if you are, the dog must be leashed or crated. Service dogs ",
+    "document_sha256": "678f943c61163df8cc0340ff8863e81f02d36b7118b2d62c4ef21cb04ce1ccd5",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": 2
+   }
   },
   {
    "identity_key": "satoshi hideout sol",
@@ -5913,8 +6212,22 @@
    "corridor": "tampa-fl__st-petersburg-downtown",
    "street": "940 5 Ave S",
    "postal_code": "33705",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state FREE_LANE_EXHAUSTED: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.ihg.com/staybridge/hotels/us/en/st-petersburg/piesb/hoteldetail",
+    "pets_allowed_claim": true,
+    "quote": "Pets are welcome at Staybridge Suites St. Petersburg Downtown.",
+    "document_sha256": "be0e24b372bd5ba431d42b05c812e84e811caf446845baf5facdca8c0f10603c",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "staybridge suites tampa east brandon",
@@ -5923,8 +6236,22 @@
    "corridor": "tampa-fl__east-tampa-i75",
    "street": "3624 N Falkenburg Rd",
    "postal_code": "33619",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; a supported-browser or Firecrawl read did not reach this row"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.ihg.com/staybridge/hotels/us/en/tampa/tpasb/hoteldetail",
+    "pets_allowed_claim": true,
+    "quote": "Pets are welcome at Staybridge Suites Tampa East- Brandon. There is a pet deposit per stay of 75 USD.",
+    "document_sha256": "d57f74af7b90b56aea6bd2b242536a1c5f138ce2ca46aca0488cc8ce62be360a",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), closure pass"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "strawberry house llc",
@@ -6759,8 +7086,22 @@
    "corridor": "tampa-fl__st-pete-beach-treasure-island",
    "street": "10800 Gulf Blvd",
    "postal_code": "33706",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state INDEPENDENT_REVIEW: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.opalcollection.com/treasure-island/?utm_source=google&utm_medium=listing&utm_campaign=opal%20treasure%20island%20beach%20resort",
+    "pets_allowed_claim": true,
+    "quote": "Dog Policy We welcome well-mannered dogs. Guests bringing dogs must always have them leashed when outside the guestroom and will be charged a non-refundable fee disclosed at the time of booking per night, per dog; maximum of two dogs per room. Guests will be responsible for any property damage inadvertently caused by their dogs. Housekeeping service during your stay should be arranged either when you and your dog are not in the room or if you are, the dog must be leashed or crated. Service dogs ",
+    "document_sha256": "d474fee7f66137de25414dcb6081419b09575d6887944a38ac09ba93aa423cd3",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": 2
+   }
   },
   {
    "identity_key": "tropical breeze",
@@ -6829,8 +7170,22 @@
    "corridor": "tampa-fl__south-hillsborough",
    "street": "9321 Everhart Rd",
    "postal_code": "33578",
-   "disposition": "ROUTING_HOLD",
-   "hold_reason": "routing state INDEPENDENT_REVIEW: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://uptownsuites.com/extended-stay-hotels/tampariverview-florida/",
+    "pets_allowed_claim": true,
+    "quote": "The suites at our long-term hotel in Tampa are modern and welcoming for guests, and the dog-friendly lodging allows one pup to stay per room, weight and size permitting. Are Pets Allowed at Uptown Suites Extended Stay in Riverview, FL? Uptown Suites Tampa FL – Riverview allows one dog (40 lbs. Dogs must be less than 36″ long and less than 36″ tall. The Uptown Suites Extended Stay Hotel in Riverview charges a non-refundable pet fee of $20 (plus tax) per night not to exceed $200. Please read all o",
+    "document_sha256": "6500620f4833dd6fd1a59e78e930d9c42e81d1363afee4433d725b43269327de",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "valley forge motel",
@@ -7174,6 +7529,168 @@
    "postal_code": "34683",
    "disposition": "ROUTING_HOLD",
    "hold_reason": "routing state INDEPENDENT_REVIEW: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham tampa bay area tampa south",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Tampa Bay Area-Tampa South",
+   "brand": "WYNDHAM",
+   "corridor": "tampa-fl__westshore-airport-rocky-point",
+   "street": "4620 W Gandy Blvd",
+   "postal_code": "33611",
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.wyndhamhotels.com/laquinta/tampa-florida/la-quinta-tampa-bay-area-tampa-south/overview?CID=LC:6ysy27krtpcrqev:53063&iata=00093796",
+    "pets_allowed_claim": true,
+    "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+    "document_sha256": "4535d6dc1ebdff13da7e1db3dfeb647172b1338c35ade2347cca17958014a3ae",
+    "captured_via": "the brand's own property-service API, closure pass"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": 2
+   }
+  },
+  {
+   "identity_key": "sonesta simply suites clearwater",
+   "canonical_name": "Sonesta Simply Suites Clearwater",
+   "brand": "SONESTA",
+   "corridor": "tampa-fl__clearwater-downtown",
+   "street": "13231 49th Street N",
+   "postal_code": "33762",
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.sonesta.com/sonesta-simply-suites/fl/clearwater/sonesta-simply-suites-clearwater",
+    "pets_allowed_claim": false,
+    "quote": "Book Now Learn More Show More Offers + Explore the Area What's Nearby About The Hotel Hotel Details Our Hotel Pet Policy Accessibility Amenities & Features In-Room Amenities Parking Pool Group Travel Long Term Stay All-Suite Hotel in Clearwater, FL Located in Clearwater, near St. Enjoy our spacious, pet-friendly, and non-smoking suites equipped with thoughtfully designed amenities such as fully fitted kitchens, comfortable bedding, free Wi-Fi, a mobile desk, mini-fridge, and coffee maker. Pet-Fr",
+    "document_sha256": "965fe480f4ab2768314191697c37bb5becaca36d9fbacbfd6345bd8e735c91c1",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: \"Book Now Learn More Show More Offers + Explore the Area What's Nearby About The Hotel Hotel Details Our Hotel Pet Policy Accessibility Amenities & Features In-Room Amenities P), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham st pete clearwater airpt",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham St. Pete-Clearwater Airpt",
+   "brand": "WYNDHAM",
+   "corridor": "tampa-fl__clearwater-downtown",
+   "street": "3301 Ulmerton Rd",
+   "postal_code": "33762",
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.wyndhamhotels.com/laquinta/clearwater-florida/la-quinta-st-pete-clearwater-airport/overview?CID=LC:6ysy27krtpcrqev:52696&iata=00093796",
+    "pets_allowed_claim": true,
+    "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+    "document_sha256": "bd1e05b9eb9520d5e81fe911dd65851f6bb224b67be34fc086fe0aa3c6464790",
+    "captured_via": "the brand's own property-service API, closure pass"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": 2
+   }
+  },
+  {
+   "identity_key": "extended stay america suites st petersburg clearwater executive dr",
+   "canonical_name": "Extended Stay America Suites- St. Petersburg - Clearwater - Executive Dr.",
+   "brand": "EXTENDED_STAY_AMERICA",
+   "corridor": "tampa-fl__clearwater-downtown",
+   "street": "3089 Executive Dr",
+   "postal_code": "33762",
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/clearwater-airport?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "pets_allowed_claim": true,
+    "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the ",
+    "document_sha256": "f04731d733e38004f205505d3554cda221de6513d231bbe3c8a4ff66b9021aa0",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
+  },
+  {
+   "identity_key": "extended stay america suites clearwater carillon park",
+   "canonical_name": "Extended Stay America Suites- Clearwater - Carillon Park",
+   "brand": "EXTENDED_STAY_AMERICA",
+   "corridor": "tampa-fl__clearwater-downtown",
+   "street": "2311 Ulmerton Rd",
+   "postal_code": "33762",
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/carillon-park?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "pets_allowed_claim": true,
+    "quote": "Our extended stay guests also enjoy free grab-and-go breakfast along with pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the ",
+    "document_sha256": "4b262b7f23aa78f2dd109db1ed8c03fcb0e3f437da5eecf01761b517099a1c2b",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
+  },
+  {
+   "identity_key": "extended stay america select suites clearwater",
+   "canonical_name": "Extended Stay America Select Suites- Clearwater",
+   "brand": "EXTENDED_STAY_AMERICA",
+   "corridor": "tampa-fl__clearwater-downtown",
+   "street": "15672 US-19",
+   "postal_code": "33764",
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.extendedstayamerica.com/hotels/fl/tampa/clearwater?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "pets_allowed_claim": true,
+    "quote": "Our extended stay guests also enjoy pet-friendly rooms. Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as “Other Fees”). Pet fees: Not to exceed a $25. 00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each da",
+    "document_sha256": "ffce80520d62c7518aec4d9e0c4fa09ca06d2e84b267619705951a7498b9bd68",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
+  },
+  {
+   "identity_key": "hotel south tampa and suites",
+   "canonical_name": "Hotel South Tampa & Suites",
+   "brand": "",
+   "corridor": "tampa-fl__westshore-airport-rocky-point",
+   "street": "3314 S Dale Mabry Hwy",
+   "postal_code": "33629",
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://www.hotelsouthtampa.com/",
+    "pets_allowed_claim": true,
+    "quote": "Are pets allowed at the hotel? + To ensure the comfort of all our guests, we maintain a strict no-pet policy.",
+    "document_sha256": "0e02ea2e7c932d77147b93dbc41bbaf8d93b50b2c4bfd3f972a7e4033d070daf",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   }
  ]
 }
