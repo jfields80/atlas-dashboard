@@ -335,7 +335,7 @@ def build():
                 negation_conflicts.append(OrderedDict([("identity_key", key), ("name", h["canonical_name"]), ("why", conflict)]))
             if final_pa is True:
                 row["disposition"] = CLEAN_PET_FRIENDLY
-                row["policy_facts"] = extract_facts(ev["quote"])
+                row["policy_facts"] = extract_facts((ev["quote"] + " " + ev.get("context", "")).strip())
             elif final_pa is False:
                 row["disposition"] = CLEAN_VERIFIED_NO_PETS
             else:

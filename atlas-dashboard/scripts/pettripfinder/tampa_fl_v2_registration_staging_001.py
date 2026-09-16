@@ -137,13 +137,19 @@ def build():
             continue
         ev = r.get("evidence") or {}
         quote = ev.get("quote") or ""
+        # The evidence entries staged for EVERY fact field of this record must all cite text from the SAME
+        # artifact (first_party_binding._context groups an acceptance quote's context by matching
+        # artifact_sha256, never by field): a bare "pets allowed" quote is an AMENITY_CHIP_ONLY on its own even
+        # though the record's own fee/count context, captured separately, proves it is a real policy block.
+        # Every field's staged quote is therefore the full quote+context text, not the short quote alone.
+        full_quote = (quote + " " + ev.get("context", "")).strip() or quote
         lane = ev.get("lane") or ""
         source_url = ev.get("source_url") or c.get("official_url") or ""
         doc_sha = ev.get("document_sha256") or ""
 
         if disp == "CLEAN_PET_FRIENDLY":
             pf = r.get("policy_facts") or {}
-            facts = _facts(True, pf, quote)
+            facts = _facts(True, pf, full_quote)
             issues = PS.validate_facts(facts)
             if issues:
                 refused.append((key, "; ".join(str(i) for i in issues)[:160]))
@@ -154,7 +160,7 @@ def build():
                 ("computation_class", FC.classify(facts).computation_class),
                 ("verification_state", "VERIFIED_PET_FRIENDLY"),
                 ("reviewer_id", WORK_ORDER), ("reviewed_at", OBSERVED_AT),
-                ("evidence", _evidence(key, lane, quote, source_url, doc_sha, facts)),
+                ("evidence", _evidence(key, lane, full_quote, source_url, doc_sha, facts)),
             ])
             r_issues = PS.validate_record(record)
             if r_issues:
