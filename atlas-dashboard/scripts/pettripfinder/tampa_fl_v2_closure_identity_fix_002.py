@@ -24,10 +24,6 @@ if _DASH not in sys.path:
 from scripts.pettripfinder.contracts.identity_key import ptf_identity_key  # noqa: E402
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
-TARGETS = [
-    os.path.join(PKG, "identity_census_proposed", "tampa-fl.json"),
-    os.path.join(PKG, "markets", "staging", "tampa-fl", "launch_package", "identity_census", "tampa-fl.json"),
-]
 
 OLD_KEY = "staybridge suites"
 NEW_NAME = "Staybridge Suites St. Petersburg Downtown"
@@ -38,7 +34,10 @@ OFFICIAL_URL = "https://www.ihg.com/staybridge/hotels/us/en/st-petersburg/piesb/
 
 
 def main():
-    for path in TARGETS:
+    for path in (
+        os.path.join(PKG, "identity_census_proposed", "tampa-fl.json"),
+        os.path.join(PKG, "markets", "staging", "tampa-fl", "launch_package", "identity_census", "tampa-fl.json"),
+    ):
         census = json.load(open(path, encoding="utf-8"))
         changed = 0
         for h in census["hotels"]:

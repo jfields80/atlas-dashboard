@@ -87,7 +87,8 @@ def main():
         ("group_counts", OrderedDict(sorted((k, len(v)) for k, v in groups.items()))),
         ("items", worklist),
     ])
-    with open(f"{REPORTS}/tampa_fl_v2_closure_worklist_001.json", "w", encoding="utf-8") as f:
+    with open("launch_packages/pettripfinder/markets/reports/tampa_fl_v2_closure_worklist_001.json",
+              "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1, sort_keys=False, ensure_ascii=False)
         f.write("\n")
 

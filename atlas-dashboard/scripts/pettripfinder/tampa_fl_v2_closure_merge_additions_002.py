@@ -11,15 +11,14 @@ from collections import OrderedDict
 _DASH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 ADDITIONS = os.path.join(PKG, "markets", "reports", "tampa_fl_v2_closure_census_additions_002.json")
-TARGETS = [
-    os.path.join(PKG, "identity_census_proposed", "tampa-fl.json"),
-    os.path.join(PKG, "markets", "staging", "tampa-fl", "launch_package", "identity_census", "tampa-fl.json"),
-]
 
 
 def main():
     additions = json.load(open(ADDITIONS, encoding="utf-8"))["additions"]
-    for path in TARGETS:
+    for path in (
+        os.path.join(PKG, "identity_census_proposed", "tampa-fl.json"),
+        os.path.join(PKG, "markets", "staging", "tampa-fl", "launch_package", "identity_census", "tampa-fl.json"),
+    ):
         census = json.load(open(path, encoding="utf-8"))
         keys_in_file = {h["identity_key"] for h in census["hotels"]}
         new_rows = [a for a in additions if a["identity_key"] not in keys_in_file]

@@ -25,10 +25,6 @@ from collections import OrderedDict
 
 _DASH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
-TARGETS = [
-    os.path.join(PKG, "identity_census_proposed", "tampa-fl.json"),
-    os.path.join(PKG, "markets", "staging", "tampa-fl", "launch_package", "identity_census", "tampa-fl.json"),
-]
 REPORTS = os.path.join(PKG, "markets", "reports")
 OUT = os.path.join(REPORTS, "tampa_fl_v2_closure_dedup_002.json")
 
@@ -38,7 +34,10 @@ KEPT_KEY = "holiday inn tampa westshore airport area"
 
 def main():
     removed_any = None
-    for path in TARGETS:
+    for path in (
+        os.path.join(PKG, "identity_census_proposed", "tampa-fl.json"),
+        os.path.join(PKG, "markets", "staging", "tampa-fl", "launch_package", "identity_census", "tampa-fl.json"),
+    ):
         census = json.load(open(path, encoding="utf-8"))
         before = len(census["hotels"])
         removed = [h for h in census["hotels"] if h["identity_key"] == RETIRE_KEY]
