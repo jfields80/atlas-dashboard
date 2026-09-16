@@ -40,6 +40,11 @@ import re
 import sys
 from collections import Counter, OrderedDict
 
+_DASH_EARLY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+if _DASH_EARLY not in sys.path:
+    sys.path.insert(0, _DASH_EARLY)
+from scripts.pettripfinder import first_party_binding as FPB  # noqa: E402
+
 _DASH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 if _DASH not in sys.path:
     sys.path.insert(0, _DASH)
@@ -230,9 +235,18 @@ def build_evidence_index(census_hotels):
         pa = ext.get("pets_allowed")
         if pa is None:
             continue
-        quotes = [e.get("quote", "") for e in ((r.get("observation") or {}).get("evidence") or []) if e.get("quote")]
+        evs = (r.get("observation") or {}).get("evidence") or []
+        # The record's OWN pets_allowed quote is the operative statement, but the shared reader's amenity-chip
+        # rule needs the OTHER field quotes on the same page (fee, count, weight) as context to tell a policy
+        # BLOCK ("Pets Welcome" beside "$50 fee") from a bare amenity chip -- deduplicated so a fact quoted for
+        # two fields is not repeated into what looks like a duplicated, garbled sentence.
+        pa_quotes = [e.get("quote", "") for e in evs if "pets_allowed" in (e.get("field_refs") or [])]
+        other_quotes = list(dict.fromkeys(e.get("quote", "") for e in evs
+                                          if e.get("quote") and "pets_allowed" not in (e.get("field_refs") or [])))
+        quotes = pa_quotes or [e.get("quote", "") for e in evs if e.get("quote")]
         ev = OrderedDict([("lane", "PROPERTY_PAGE_STATIC"), ("source_url", r.get("final_url") or r.get("requested_url")),
                           ("pets_allowed_claim", pa), ("quote", " ".join(quotes)[:500] or ("pets_allowed=%s (shared reader)" % pa)),
+                          ("context", " ".join(other_quotes)[:500]),
                           ("document_sha256", r.get("page_sha256") or _transcription_sha({"k": r["identity_key"], "u": r.get("requested_url")})),
                           ("captured_via", "shared direct_http_capture pipeline, plain client")])
         add_key(r["identity_key"], ev)
@@ -244,9 +258,14 @@ def build_evidence_index(census_hotels):
         pa = r.get("pets_allowed")
         if pa is None:
             continue
-        quotes = [e.get("quote", "") for e in ((r.get("observation") or {}).get("evidence") or []) if e.get("quote")]
+        evs = (r.get("observation") or {}).get("evidence") or []
+        pa_quotes = [e.get("quote", "") for e in evs if "pets_allowed" in (e.get("field_refs") or [])]
+        other_quotes = list(dict.fromkeys(e.get("quote", "") for e in evs
+                                          if e.get("quote") and "pets_allowed" not in (e.get("field_refs") or [])))
+        quotes = pa_quotes or [e.get("quote", "") for e in evs if e.get("quote")]
         ev = OrderedDict([("lane", "FIRECRAWL"), ("source_url", r.get("final_url") or r.get("requested_url")),
                           ("pets_allowed_claim", pa), ("quote", " ".join(quotes)[:500] or ("pets_allowed=%s (Firecrawl reader)" % pa)),
+                          ("context", " ".join(other_quotes)[:500]),
                           ("document_sha256", r.get("page_sha256") or _transcription_sha({"k": r["identity_key"], "u": r.get("requested_url")})),
                           ("captured_via", "Firecrawl rendered scrape, existing plan credits")])
         add_key(r["identity_key"], ev)
@@ -323,6 +342,26 @@ def build():
                 row["disposition"] = NEGATION_HOLD if conflict and "QUOTE_CONTRADICTS_CLAIM" in conflict else EVIDENCE_HOLD
             if conflict:
                 row["negation_conflict"] = conflict
+            # A SECOND, INDEPENDENT gate: the shared first_party_binding reader that the sealed package's own
+            # FAST rule C will run at seal time. Publishing only what this order's own read agrees with is not
+            # enough (Phase 17): if the shared reader reads the same quote differently -- most often because it
+            # finds service-animal wording alongside the acceptance/refusal statement and will not treat that
+            # combination as operative -- this order must hold the row here rather than have the seal reject it
+            # later. Never modifies the shared reader; only decides whether THIS row may be published.
+            if row["disposition"] in (CLEAN_PET_FRIENDLY, CLEAN_VERIFIED_NO_PETS):
+                kind = FPB.KIND_PET_FRIENDLY if row["disposition"] == CLEAN_PET_FRIENDLY else FPB.KIND_NO_PETS
+                cls, why = FPB.classify_quote(ev["quote"], kind=kind, context=ev.get("context", ""))
+                if cls != FPB.ELIGIBLE:
+                    negation_conflicts.append(OrderedDict([
+                        ("identity_key", key), ("name", h["canonical_name"]),
+                        ("why", "SHARED_READER_DISAGREES -- this order read %s; the shared first_party_binding "
+                                "reader classifies the same quote %s: %s" % (row["disposition"], cls, why))]))
+                    row["disposition"] = EVIDENCE_HOLD
+                    row.pop("policy_facts", None)
+                    row["hold_reason"] = ("the shared reader that FAST rule C re-runs at seal time classifies "
+                                          "this quote %s (%s), not an operative %s statement; held rather than "
+                                          "published on a disagreement this order does not get to override"
+                                          % (cls, why[:200], kind))
         else:
             reason, why = router_hold_reason(key, routing_by_key, static_by_key, fc_by_key)
             row["disposition"] = reason

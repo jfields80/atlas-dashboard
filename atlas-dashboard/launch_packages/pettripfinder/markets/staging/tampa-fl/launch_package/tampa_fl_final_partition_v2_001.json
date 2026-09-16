@@ -9,23 +9,23 @@
   "ACCESS_BLOCKED": 10,
   "AWAITING_ATTENDED_CAPTURE": 21,
   "AWAITING_OFFICIAL_URL": 330,
-  "AWAITING_POLICY_OBSERVATION": 12,
+  "AWAITING_POLICY_OBSERVATION": 15,
   "AWAITING_ROUTING_REPLACEMENT": 2,
-  "PUBLISHED_PET_FRIENDLY": 93,
-  "VERIFIED_NO_PETS": 27
+  "PUBLISHED_PET_FRIENDLY": 92,
+  "VERIFIED_NO_PETS": 25
  },
  "counts_by_disposition": {
   "ACCESS_BLOCKED": 10,
   "BROWSER_CAPTURE_NEEDED": 21,
-  "CLEAN_PET_FRIENDLY": 93,
-  "CLEAN_VERIFIED_NO_PETS": 27,
-  "EVIDENCE_HOLD": 2,
+  "CLEAN_PET_FRIENDLY": 92,
+  "CLEAN_VERIFIED_NO_PETS": 25,
+  "EVIDENCE_HOLD": 5,
   "IDENTITY_MISMATCH_HOLD": 2,
   "ROUTING_HOLD": 330,
   "SOURCE_SILENT": 10
  },
- "resolved": 120,
- "unresolved": 375,
+ "resolved": 117,
+ "unresolved": 378,
  "items": [
   {
    "identity_key": "1888 bed and breakfast",
@@ -3942,7 +3942,8 @@
     "lane": "FIRECRAWL",
     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
     "pets_allowed_claim": true,
-    "quote": "pets allowed 75 USD Pet damage deposit Pet fee per night: 75 USD Pet fee per night: 75 USD 2 pets allowed",
+    "quote": "pets allowed",
+    "context": "75 USD Pet damage deposit Pet fee per night: 75 USD 2 pets allowed",
     "document_sha256": "b42190d43a961c675f901df4ac0a0d11c6229b9c16496d06deda93eec1e0c270",
     "captured_via": "Firecrawl rendered scrape, existing plan credits"
    }
@@ -4002,7 +4003,8 @@
     "lane": "FIRECRAWL",
     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
     "pets_allowed_claim": true,
-    "quote": "pets allowed Pet fee per night: 35 USD Pet fee per night: 35 USD 2 pets allowed dogs and cats allowed",
+    "quote": "pets allowed",
+    "context": "Pet fee per night: 35 USD 2 pets allowed dogs and cats allowed",
     "document_sha256": "21af0b3a16bd6f22fcfe60cfa88fdf1ca5ea5330dbba96947c92c33125daa43c",
     "captured_via": "Firecrawl rendered scrape, existing plan credits"
    }
@@ -4020,6 +4022,7 @@
     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wesley-chapel/tpawc/hoteldetail",
     "pets_allowed_claim": false,
     "quote": "pets are not allowed",
+    "context": "",
     "document_sha256": "80469ba5fffcd20dbc888b209824ae0ff10b13a713d6aff0d4ba7d5940c8dda7",
     "captured_via": "Firecrawl rendered scrape, existing plan credits"
    }
@@ -4037,6 +4040,7 @@
     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail",
     "pets_allowed_claim": false,
     "quote": "pets are not allowed",
+    "context": "",
     "document_sha256": "7f3e146149221bf3c524c7f3cf1391e36e1f11d51497de5e62d5e84e6fbc961d",
     "captured_via": "Firecrawl rendered scrape, existing plan credits"
    }
@@ -4114,7 +4118,8 @@
     "lane": "FIRECRAWL",
     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
     "pets_allowed_claim": true,
-    "quote": "pets allowed 65 USD Pet damage deposit Pet fee per night: 65 USD Pet fee per night: 65 USD 2 pets allowed",
+    "quote": "pets allowed",
+    "context": "65 USD Pet damage deposit Pet fee per night: 65 USD 2 pets allowed",
     "document_sha256": "247844b90ab0e96f5a4b4200f7eae2e0433437af1d5b29fde23e16255385c076",
     "captured_via": "Firecrawl rendered scrape, existing plan credits"
    }
@@ -4132,6 +4137,7 @@
     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpatd/hoteldetail",
     "pets_allowed_claim": false,
     "quote": "pets are not allowed",
+    "context": "",
     "document_sha256": "d7c9c7d13e3772988a4f16e9b453b9d434383535c21857a1fa2ea7cb27ee9a8d",
     "captured_via": "Firecrawl rendered scrape, existing plan credits"
    }
@@ -4195,23 +4201,17 @@
    "canonical_name": "Holiday Inn Tampa North",
    "corridor": "tampa-fl__busch-gardens-usf",
    "brand": "",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": null,
-    "fee_currency": null,
-    "fee_refundable": null,
-    "max_pet_weight_lbs": null,
-    "max_pet_count": null
-   },
-   "evidence": {
-    "lane": "FIRECRAWL",
-    "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
-    "pets_allowed_claim": true,
-    "quote": "pets allowed Pet fee per night: 50 USD Pet fee per night: 50 USD 2 pets allowed No charge for service animals.",
-    "document_sha256": "427251a67ad3718350598d9b689d7a3f7e070f240fa3d0d4078997b5304dfa24",
-    "captured_via": "Firecrawl rendered scrape, existing plan credits"
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-TAMPA-FL-HARDENED-V2 acquisition router record",
+   "determined_by": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "next_action": "the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'pets allowed'), not an operative pet_friendly statement; held rather than published on a disagreement this order does not get to override",
+   "router_record": {
+    "brand_family": "INDEPENDENT",
+    "route": "",
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'pets allowed'), not an operative pet_friendly statement; held rather than published on a disagreement this order does not get to override"
    }
   },
   {
@@ -7144,16 +7144,17 @@
    "canonical_name": "Safety Harbor Resort",
    "corridor": "tampa-fl__safety-harbor-oldsmar-palm-harbor",
    "brand": "",
-   "final_state": "VERIFIED_NO_PETS",
-   "disposition": "CLEAN_VERIFIED_NO_PETS",
-   "resolved": true,
-   "evidence": {
-    "lane": "PROPERTY_PAGE_STATIC",
-    "source_url": "https://www.wyndhamhotels.com/trademark/safety-harbor-florida/safety-harbor-resort-and-spa/overview",
-    "pets_allowed_claim": false,
-    "quote": "ADA defined service animals are welcome. Sorry no other pets are allowed. There will be a cleaning fee of 250.00USD if an unauthorized pet is found in the guest room.",
-    "document_sha256": "11a83ed116e7430d52627efa783dfc10896da92c7d09a6dea165246c40e23c75",
-    "captured_via": "the brand's own property-service API (same JSON the overview page renders)"
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-TAMPA-FL-HARDENED-V2 acquisition router record",
+   "determined_by": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "next_action": "the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'ADA defined service animals are welcome. Sorry no other pets are allowed. There will be a cleaning fee of 250.00USD if an unaut), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override",
+   "router_record": {
+    "brand_family": "INDEPENDENT",
+    "route": "",
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'ADA defined service animals are welcome. Sorry no other pets are allowed. There will be a cleaning fee of 250.00USD if an unaut), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
    }
   },
   {
@@ -7179,16 +7180,17 @@
    "canonical_name": "Sailport Waterfront Suites on Tampa Bay",
    "corridor": "tampa-fl__westshore-airport-rocky-point",
    "brand": "",
-   "final_state": "VERIFIED_NO_PETS",
-   "disposition": "CLEAN_VERIFIED_NO_PETS",
-   "resolved": true,
-   "evidence": {
-    "lane": "PROPERTY_PAGE_STATIC",
-    "source_url": "https://www.providentresorts.com/sailport-waterfront-suites-tampa-and-treasure-island/",
-    "pets_allowed_claim": false,
-    "quote": "PETS: Pets and Emotional Support Animals are not allowed on property. Sailport Waterfront Suites adheres to Federal ADA Law allowing ADA Compliant Services Animals. Is Sailport Waterfront Suites pet-friendly? No, unfortunately pets are not allowed at Sailport Waterfront Suites.",
-    "document_sha256": "de454fb0ef17b6386d7b8ffc6c39fadf2afafae1f7b7718b001d02a6f835097a",
-    "captured_via": "the independent property's own policy/FAQ page, plain client"
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-TAMPA-FL-HARDENED-V2 acquisition router record",
+   "determined_by": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+   "next_action": "the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'PETS: Pets and Emotional Support Animals are not allowed on property. Sailport Waterfront Suites adheres to Federal ADA Law all), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override",
+   "router_record": {
+    "brand_family": "INDEPENDENT",
+    "route": "",
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'PETS: Pets and Emotional Support Animals are not allowed on property. Sailport Waterfront Suites adheres to Federal ADA Law all), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
    }
   },
   {
@@ -8822,8 +8824,8 @@
    }
   },
   {
-   "identity_key": "towneplace suites by marriott",
-   "canonical_name": "Towneplace Suites by Marriott",
+   "identity_key": "towneplace suites plant city",
+   "canonical_name": "TownePlace Suites Plant City",
    "corridor": "tampa-fl__plant-city",
    "brand": "MARRIOTT",
    "final_state": "PUBLISHED_PET_FRIENDLY",
@@ -9439,14 +9441,15 @@
     "pet_fee_cents": null,
     "fee_currency": null,
     "fee_refundable": null,
-    "max_pet_weight_lbs": 75.0,
-    "max_pet_count": 7
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
    },
    "evidence": {
     "lane": "PROPERTY_PAGE_STATIC",
     "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/tampa/woodspring-suites-tampa-wesley-chapel",
     "pets_allowed_claim": true,
-    "quote": "Pets allowed 10.00 USD per night, per pet 10.00 USD per night, per pet 10.00 USD per night, per pet Max 75 lbs No cats",
+    "quote": "Pets allowed",
+    "context": "10.00 USD per night, per pet Max 75 lbs No cats",
     "document_sha256": "9ac6f7a45293a47825c0844aa861e7887ac96fde03e34998216a1e1be51580c7",
     "captured_via": "shared direct_http_capture pipeline, plain client"
    }
