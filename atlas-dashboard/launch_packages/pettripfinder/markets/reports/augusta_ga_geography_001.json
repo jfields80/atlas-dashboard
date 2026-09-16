@@ -1,0 +1,283 @@
+{
+ "schema": "ptf-market-geography/1.0",
+ "work_order": "PTF-AUGUSTA-GA-HARDENED-V2-SOURCE-READY-001",
+ "phase": "3 + 4 -- Augusta travel-market geography and corridor model",
+ "market_id": "augusta-ga",
+ "as_of": "2026-09-15",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "registration_state": "SHADOW_UNTIL_REGISTERED: the market document is written to the zone's proposed path only. No registration, no global participation, no production candidate.",
+ "membership_rule": "The property's OWN postal code, as its own official page states it, joined to the corridor registry. Nothing else admits a property.",
+ "travel_market": "Augusta-Richmond County's lodging cores (Downtown / Medical District, Washington Road, Gordon Highway, Fort Eisenhower, AGS Airport / South Augusta) plus Columbia County's own towns (Grovetown, Evans) as CORRIDOR-class edge markets, and four distant county seats as FRINGE.",
+ "classes": {
+  "CORE": "Downtown Augusta / Medical District (30901, 30902, 30903, 30912); Washington Road / I-20 / Martinez / Belair (30907); Gordon Highway (30909); Fort Eisenhower (30905); AGS Airport / South Augusta / Hephzibah (30906, 30815, 30805)",
+  "CORRIDOR": "Grovetown (30813); Evans / Harlem (30809, 30814)",
+  "FRINGE": "Thomson (30824); Wrens (30833); Waynesboro (30830); Lincolnton (30817)"
+ },
+ "outside_class": "South Carolina, refused by default with its postal codes.",
+ "revision_from_draft_plan": {
+  "west_augusta": "RETIRED -- no distinct postal cluster in real discovery data; folded into Washington Road (30907) and Gordon Highway (30909).",
+  "medical_district": "Folded into Downtown as an overlay (zero discovered hotels of its own postal code, 30912).",
+  "martinez": "Folded into Washington Road as an overlay (shares 30907; zero discovered hotels of its own).",
+  "belair": "Folded into Washington Road as an overlay (zero discovered hotels).",
+  "harlem": "Folded into Evans as an overlay (zero discovered hotels).",
+  "hephzibah": "Folded into AGS Airport / South Augusta as planned; one real candidate discovered at 30815."
+ },
+ "osm_data_quality_flag": {
+  "finding": "OSM discovery returned a node named 'Holiday Inn Express North Agusta' [sic, OSM's own typo] whose own address tags state addr:city=Augusta, addr:state=GA, addr:postcode=30907 -- i.e. a Georgia hotel, not a hotel in North Augusta, South Carolina.",
+  "disposition": "Binds to augusta-ga / Washington Road corridor (30907) by its own stated address. Must never be treated as evidence for, or merged into, a future north-augusta-sc market. Carried forward as an explicit flag for census/identity reconciliation."
+ },
+ "corridor_registry_is_a_partition": true,
+ "admitted_postal_codes": [
+  "30805",
+  "30809",
+  "30813",
+  "30814",
+  "30815",
+  "30817",
+  "30824",
+  "30830",
+  "30833",
+  "30901",
+  "30902",
+  "30903",
+  "30905",
+  "30906",
+  "30907",
+  "30909",
+  "30912"
+ ],
+ "admitted_postal_code_count": 17,
+ "corridors": [
+  {
+   "corridor_id": "augusta-ga__downtown-medical-district",
+   "name": "Downtown Augusta / Medical District",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30901",
+    "30902",
+    "30903",
+    "30912"
+   ]
+  },
+  {
+   "corridor_id": "augusta-ga__washington-road",
+   "name": "Washington Road / I-20 / Martinez / Belair",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30907"
+   ]
+  },
+  {
+   "corridor_id": "augusta-ga__gordon-highway",
+   "name": "Gordon Highway",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30909"
+   ]
+  },
+  {
+   "corridor_id": "augusta-ga__fort-eisenhower",
+   "name": "Fort Eisenhower",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30905"
+   ]
+  },
+  {
+   "corridor_id": "augusta-ga__ags-south-augusta",
+   "name": "AGS Airport / South Augusta / Hephzibah",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30906",
+    "30815",
+    "30805"
+   ]
+  },
+  {
+   "corridor_id": "augusta-ga__grovetown",
+   "name": "Grovetown",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30813"
+   ]
+  },
+  {
+   "corridor_id": "augusta-ga__evans",
+   "name": "Evans / Harlem",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30809",
+    "30814"
+   ]
+  },
+  {
+   "corridor_id": "augusta-ga__fringe-thomson",
+   "name": "Thomson",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "30824"
+   ]
+  },
+  {
+   "corridor_id": "augusta-ga__fringe-wrens",
+   "name": "Wrens",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "30833"
+   ]
+  },
+  {
+   "corridor_id": "augusta-ga__fringe-waynesboro",
+   "name": "Waynesboro",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "30830"
+   ]
+  },
+  {
+   "corridor_id": "augusta-ga__fringe-lincolnton",
+   "name": "Lincolnton",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "30817"
+   ]
+  }
+ ],
+ "corridor_count": 11,
+ "corridor_count_by_class": {
+  "CORE": 5,
+  "CORRIDOR": 2,
+  "FRINGE": 4
+ },
+ "corridor_page_rule": "A corridor page publishes only when the existing publication threshold (minimum_hotel_count = 5 verified pet-friendly hotels) is met. No thin corridor page is invented for SEO; every corridor is show_in_navigation/show_in_sitemap false until a registration order publishes it. Medical District, Martinez, Belair and Harlem cannot be separate pages under a postal-code partition; they are reported as overlays.",
+ "coverage_areas_are_a_reporting_overlay": "Named areas sharing a postal code with another area (Medical District inside Downtown's 30912-adjacent 30901 grouping; Martinez and Belair inside Washington Road's 30907; Harlem inside Evans's 30814) are reported from the property's own stated street/city first and a nearest-anchor overlay on its pin second. The overlay decides nothing about membership or corridor.",
+ "coverage_areas": [
+  {
+   "area": "Downtown Augusta",
+   "anchor_lat": 33.4735,
+   "anchor_lng": -81.9748,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Medical District",
+   "anchor_lat": 33.472,
+   "anchor_lng": -82.0018,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Washington Road",
+   "anchor_lat": 33.5075,
+   "anchor_lng": -82.023,
+   "radius_km": 3.5
+  },
+  {
+   "area": "Martinez",
+   "anchor_lat": 33.5257,
+   "anchor_lng": -82.0821,
+   "radius_km": 3.5
+  },
+  {
+   "area": "Belair",
+   "anchor_lat": 33.5104,
+   "anchor_lng": -82.0574,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Gordon Highway",
+   "anchor_lat": 33.459,
+   "anchor_lng": -81.996,
+   "radius_km": 3.5
+  },
+  {
+   "area": "Fort Eisenhower",
+   "anchor_lat": 33.417,
+   "anchor_lng": -82.12,
+   "radius_km": 4.5
+  },
+  {
+   "area": "AGS Airport / South Augusta",
+   "anchor_lat": 33.4,
+   "anchor_lng": -81.98,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Hephzibah",
+   "anchor_lat": 33.3057,
+   "anchor_lng": -82.0888,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Grovetown",
+   "anchor_lat": 33.4487,
+   "anchor_lng": -82.1943,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Evans",
+   "anchor_lat": 33.5457,
+   "anchor_lng": -82.129,
+   "radius_km": 4.5
+  },
+  {
+   "area": "Harlem",
+   "anchor_lat": 33.4979,
+   "anchor_lng": -82.3143,
+   "radius_km": 4.0
+  }
+ ],
+ "outside_named_and_refused": [
+  {
+   "municipality": "North Augusta",
+   "state": "SC",
+   "postal_codes": [
+    "29841",
+    "29842",
+    "29860"
+   ],
+   "why": "North Augusta, South Carolina: across the Savannah River from downtown Augusta, its own municipality and its own postal codes; PRESERVED for the future north-augusta-sc standalone market, evaluated and refused here."
+  },
+  {
+   "municipality": "Aiken",
+   "state": "SC",
+   "postal_codes": [
+    "29801",
+    "29803"
+   ],
+   "why": "Aiken, South Carolina and its own lodging cluster (Days Inn, Clarion, Hilton Garden Inn, TownePlace Suites, Fairfield Inn, Econo Lodge, The Willcox, Quality Inn, Hampton Inn, Americas Best Value Inn -- ten real hotels discovered); PRESERVED for the future aiken-sc standalone market, evaluated and refused here."
+  },
+  {
+   "municipality": "Edgefield",
+   "state": "SC",
+   "postal_codes": [
+    "29824"
+   ],
+   "why": "South Carolina, one real candidate discovered (Quality Inn & Suites); refused by default per the order's South Carolina boundary rule; preserved for a future South Carolina market."
+  },
+  {
+   "municipality": "Graniteville",
+   "state": "SC",
+   "postal_codes": [
+    "29829"
+   ],
+   "why": "South Carolina; zero hotels discovered as of this order; refused by default; preserved for a future South Carolina market."
+  },
+  {
+   "municipality": "Clearwater",
+   "state": "SC",
+   "postal_codes": [
+    "29822"
+   ],
+   "why": "South Carolina; zero hotels discovered as of this order; refused by default; preserved for a future South Carolina market."
+  }
+ ],
+ "observation_is_not_admission": "Five cells observe North Augusta, Aiken, Edgefield, Graniteville and Clearwater SC. They admit nothing; fourteen real hotels were discovered there and are carried in the census as OUTSIDE with this reason, not silently dropped.",
+ "vacation_rental_and_masters_rule": "The census admits hotels, motels, inns, boutique hotels, qualifying resorts and qualifying lodging establishments operated as lodging businesses: bookable nightly rooms or suites sold to the public under one establishment name, with an official property page and a front desk / on-site hotel operation. It NEVER admits: individual vacation houses; condominium units or condo complexes rented unit-by-unit; property-management or realty rental portfolios (including Masters-week private-home rental operations); Airbnb / Vrbo-style listings; app-only apartment-hotel units without a front desk; ordinary apartment communities; private residences; and timeshare / vacation-ownership inventory unless that property independently qualifies as a hotel. On-post, government or restricted-access Fort Eisenhower lodging is never admitted, not even as a hold. Campgrounds, RV parks, hostels-as-dormitories and university/military housing are NON_LODGING.",
+ "config_written": "scripts/pettripfinder/discovery/config/augusta_ga.json",
+ "market_document_written": "launch_packages/pettripfinder/markets/proposed/augusta-ga.json",
+ "cells_total": 22,
+ "cells_admitting": 17,
+ "cells_observation_only": 5,
+ "discovery_evidence": "data/discovery/augusta_ga/discovery_001: 44/44 cells exhausted (36 via local Geofabrik Georgia + South Carolina extracts after live Overpass rate-limited/timed out at 8 cells; 8 via live overpass-api.de and overpass.kumi.systems), 94 raw candidates, 0 paid requests."
+}

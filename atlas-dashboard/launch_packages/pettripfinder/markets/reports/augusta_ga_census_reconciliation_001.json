@@ -1,0 +1,172 @@
+{
+ "schema": "ptf-census-reconciliation/1.0",
+ "work_order": "PTF-AUGUSTA-GA-HARDENED-V2-SOURCE-READY-001",
+ "market_id": "augusta-ga",
+ "phase": "8-10 -- census reconciliation into one identity graph",
+ "as_of": "2026-09-16",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "inputs": {
+  "osm_candidates": "data/discovery/augusta_ga/discovery_001/candidates/augusta-ga_candidates.json",
+  "brand_inventory": "launch_packages/pettripfinder/markets/reports/augusta_ga_brand_inventory_001.json"
+ },
+ "geography_method": "Postal-code partition (augusta_ga_geography_001.classify_postal). A candidate with no stated postal code is geography_state=PENDING_VERIFICATION, carried unresolved -- never assigned a corridor from a brand's marketing name or a URL slug.",
+ "known_false_positive_filter": "Hilton city-page leads whose own brand-card city is not an Augusta-area municipality or an observed South Carolina town are excluded before the identity graph runs, never entering the census: 20 excluded (Americus, Cordele, Dublin, Forsyth, Locust Grove, Macon, Madison, Milledgeville, Perry, Warner Robins).",
+ "dedup_method": "Candidates within 150 m are grouped; a row is merged into its group's anchor only when the two rows state the same street address, sit within 45 m, or share a distinctive name token -- a postal or address disagreement blocks the merge and reports ADDRESS_CONFLICT instead.",
+ "totals": {
+  "candidates_in": 157,
+  "typed_as_lodging": 157,
+  "non_lodging_excluded": 0,
+  "out_of_metro_excluded": 20,
+  "outside_market": 19,
+  "proposed_census": 118,
+  "classifications": {
+   "IDENTITY_REVIEW_REQUIRED": 13,
+   "TRUE_HOTEL_IDENTITY": 105
+  },
+  "geography_state": {
+   "PENDING_VERIFICATION": 70,
+   "RESOLVED": 48
+  },
+  "corridor_assignment": {
+   "ags-south-augusta": 3,
+   "downtown-medical-district": 6,
+   "fort-eisenhower": 1,
+   "fringe-thomson": 2,
+   "fringe-waynesboro": 1,
+   "gordon-highway": 18,
+   "grovetown": 2,
+   "washington-road": 15
+  },
+  "non_admitted": {
+   "OUTSIDE_MARKET": 19,
+   "OUT_OF_METRO_FALSE_POSITIVE": 20
+  }
+ },
+ "possible_duplicates_for_static_lane_review": [
+  {
+   "name": "Baymont Inn And Suites Augusta Riverwatch",
+   "possible_same_as": [
+    "Baymont Inn And Suites Augusta West"
+   ]
+  },
+  {
+   "name": "Days Inn Augusta",
+   "possible_same_as": [
+    "Days Inn And Suites Augusta Near Fort Eisenhower",
+    "Days Inn Augusta Fort Eisenhower",
+    "Days Inn And Suites Augusta Near Fort Gordon"
+   ]
+  },
+  {
+   "name": "Days Inn And Suites Augusta Near Fort Eisenhower",
+   "possible_same_as": [
+    "Days Inn Augusta",
+    "Days Inn Augusta Fort Eisenhower",
+    "Days Inn And Suites Augusta Near Fort Gordon"
+   ]
+  },
+  {
+   "name": "Days Inn Augusta Fort Eisenhower",
+   "possible_same_as": [
+    "Days Inn Augusta",
+    "Days Inn And Suites Augusta Near Fort Eisenhower",
+    "Days Inn And Suites Augusta Near Fort Gordon"
+   ]
+  },
+  {
+   "name": "Ramada Augusta",
+   "possible_same_as": [
+    "Ramada Augusta Fort Gordon"
+   ]
+  },
+  {
+   "name": "Super 8 Augusta Ft Eisenhower Area",
+   "possible_same_as": [
+    "Super 8 Augusta Ft Gordon Area"
+   ]
+  },
+  {
+   "name": "Super 8 Augusta Ga",
+   "possible_same_as": [
+    "Super 8 Augusta"
+   ]
+  },
+  {
+   "name": "Super 8 Augusta",
+   "possible_same_as": [
+    "Super 8 Augusta Ga"
+   ]
+  },
+  {
+   "name": "Wingate By Wyndham Augusta Fort Eisenhower",
+   "possible_same_as": [
+    "Wingate By Wyndham Augusta",
+    "Wingate By Wyndham Augusta Washington Road",
+    "Wingate By Wyndham Augusta Fort Gordon"
+   ]
+  },
+  {
+   "name": "Wingate By Wyndham Augusta",
+   "possible_same_as": [
+    "Wingate By Wyndham Augusta Fort Eisenhower",
+    "Wingate By Wyndham Augusta Washington Road",
+    "Wingate By Wyndham Augusta Fort Gordon"
+   ]
+  },
+  {
+   "name": "Wingate By Wyndham Augusta Washington Road",
+   "possible_same_as": [
+    "Wingate By Wyndham Augusta Fort Eisenhower",
+    "Wingate By Wyndham Augusta",
+    "Wingate By Wyndham Augusta Fort Gordon"
+   ]
+  },
+  {
+   "name": "Days Inn And Suites Augusta Near Fort Gordon",
+   "possible_same_as": [
+    "Days Inn Augusta",
+    "Days Inn And Suites Augusta Near Fort Eisenhower",
+    "Days Inn Augusta Fort Eisenhower"
+   ]
+  },
+  {
+   "name": "Super 8 Augusta Ft Gordon Area",
+   "possible_same_as": [
+    "Super 8 Augusta Ft Eisenhower Area"
+   ]
+  },
+  {
+   "name": "Ramada Augusta Fort Gordon",
+   "possible_same_as": [
+    "Ramada Augusta"
+   ]
+  },
+  {
+   "name": "Baymont Inn And Suites Augusta West",
+   "possible_same_as": [
+    "Baymont Inn And Suites Augusta Riverwatch"
+   ]
+  },
+  {
+   "name": "Wingate By Wyndham Augusta Fort Gordon",
+   "possible_same_as": [
+    "Wingate By Wyndham Augusta Fort Eisenhower",
+    "Wingate By Wyndham Augusta",
+    "Wingate By Wyndham Augusta Washington Road"
+   ]
+  },
+  {
+   "name": "Woodspring Suites Augusta Fort Gordon",
+   "possible_same_as": [
+    "Woodspring Suites Augusta Riverwatch"
+   ]
+  },
+  {
+   "name": "Woodspring Suites Augusta Riverwatch",
+   "possible_same_as": [
+    "Woodspring Suites Augusta Fort Gordon"
+   ]
+  }
+ ]
+}

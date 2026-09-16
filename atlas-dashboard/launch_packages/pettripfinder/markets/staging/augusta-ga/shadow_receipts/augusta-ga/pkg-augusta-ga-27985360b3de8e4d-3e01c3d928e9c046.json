@@ -1,0 +1,654 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-augusta-ga-27985360b3de8e4d",
+ "PACKAGE_DIGEST": "sha256:27985360b3de8e4db18baa3a88806f091c7d83a70ca36908e3ca642cc2d2fa2d",
+ "MARKET_ID": "augusta-ga",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6aa93de5263dfda8c243d0a7",
+  "rollback_target": "6aa8992493a75f80cd0e3887",
+  "source_commit": "9b06fa46babde9307ebab5d2e2c1af28668df5a6",
+  "live_index_digest": "sha256:4117525900596174ee91055e30cef0cd0482d0be40ca43f2c19ab78a0249a911"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:09d5c063d9ea09eb1cbcdc121f59b4a619da6e770c6cfde3f3de5052b35f69e9",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.006,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-augusta-ga-27985360b3de8e4d",
+    "package_digest": "sha256:27985360b3de8e4db18baa3a88806f091c7d83a70ca36908e3ca642cc2d2fa2d"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.024,
+   "detail": {
+    "identity_records": 91,
+    "census_count": 91,
+    "declared_relations": 0,
+    "writer_seconds": 0.023
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "FAIL",
+   "seconds": 0.047,
+   "detail": {
+    "records_evaluated": 32,
+    "eligible": 28,
+    "ineligible": 4,
+    "classes": {
+     "SERVICE_ANIMAL_ONLY": 4
+    }
+   },
+   "problems": [
+    "avid hotel (no_pets): SERVICE_ANIMAL_ONLY -- a service-animal sentence is not a refusal unless the reader reads one: 'Pet policy Pets are not allowed at this location We do accept ADA service animals and guide dogs only If a pet is found on property and is not a service animal there will be a 250 Service animals allowed Can I bring my pet to avid hotels Augusta W - Grovetown? No, pets are not allowed at avid hotels Augusta W - Grovetown'",
+    "comfort inn and suites (no_pets): SERVICE_ANIMAL_ONLY -- a service-animal sentence is not a refusal unless the reader reads one: 'Guests can start the day with a free hot breakfast and enjoy free WiFi before heading out, then return to service-animal-friendly rooms and suites with a flat-screen TV, microwave, refrigerator, coffee maker, and workspace Pets Pets Allowed: No General: Only service animals are permitted, free of charge Please note, pets and emotional support animals are not permitted Family & Pet Services No Pets Allowed Only service animals are permitted, free of charge'",
+    "hyatt house augusta downtown (no_pets): SERVICE_ANIMAL_ONLY -- a service-animal sentence is not a refusal unless the reader reads one: 'The hotel does not allow pets except for service animals.'",
+    "wingate by wyndham augusta washington road (no_pets): SERVICE_ANIMAL_ONLY -- a service-animal sentence is not a refusal unless the reader reads one: 'ADA defined service animals are welcome. Sorry no other pets are allowed. Any unauthorized pets found in guestrooms a 250.00USD pet fee will be accessed.'"
+   ],
+   "problem_count": 4
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 14,
+    "verified_no_pets_records": 18,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 19
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 91,
+    "unresolved_rows": 59,
+    "counts_by_partition_state": {
+     "AWAITING_CONTRADICTION_RESOLUTION": 1,
+     "AWAITING_OFFICIAL_URL": 26,
+     "AWAITING_POLICY_OBSERVATION": 19,
+     "AWAITING_ROUTING_REVIEW": 13,
+     "PUBLISHED_PET_FRIENDLY": 14,
+     "VERIFIED_NO_PETS": 18
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.137,
+   "detail": {
+    "live_digest": "sha256:4117525900596174ee91055e30cef0cd0482d0be40ca43f2c19ab78a0249a911",
+    "proposed_digest": "sha256:1fc242230ce1fc35aee2f8ab3f2f27658742793449c8fbf6aff5e959b2f0806c",
+    "proposed_participating": [
+     "asheville-nc",
+     "atlanta-ga",
+     "augusta-ga",
+     "boone-blowing-rock-nc",
+     "charleston-sc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "fayetteville-nc",
+     "grand-rapids-holland-mi",
+     "greenville-nc",
+     "indianapolis-in",
+     "jacksonville-nc",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "outer-banks-nc",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "richmond-va",
+     "savannah-ga",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "proposed_total_profiles": 1816,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.1348
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.137,
+   "detail": {
+    "live_participating": [
+     "asheville-nc",
+     "atlanta-ga",
+     "boone-blowing-rock-nc",
+     "charleston-sc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "fayetteville-nc",
+     "grand-rapids-holland-mi",
+     "greenville-nc",
+     "indianapolis-in",
+     "jacksonville-nc",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "outer-banks-nc",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "richmond-va",
+     "savannah-ga",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "live_total_profiles": 1802,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.137,
+   "detail": {
+    "intended_delta": {
+     "market_id": "augusta-ga",
+     "add_property_ids": [
+      "augusta marriott at the convention center",
+      "candlewood suites",
+      "courtyard augusta",
+      "days inn by wyndham thomson",
+      "hampton inn and suites by hilton augusta washington road",
+      "holiday inn express",
+      "hyatt place augusta",
+      "red roof inn",
+      "rodeway inn",
+      "sheraton augusta hotel",
+      "staybridge suites augusta",
+      "super 8 augusta ga",
+      "woodspring suites augusta fort gordon",
+      "woodspring suites augusta riverwatch"
+     ],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/augusta-ga/",
+      "/pet-friendly-hotels/augusta-ga/augusta-marriott-at-the-convention-center/",
+      "/pet-friendly-hotels/augusta-ga/candlewood-suites/",
+      "/pet-friendly-hotels/augusta-ga/courtyard-augusta/",
+      "/pet-friendly-hotels/augusta-ga/days-inn-by-wyndham-thomson/",
+      "/pet-friendly-hotels/augusta-ga/hampton-inn-suites-by-hilton-augusta-washington-road/",
+      "/pet-friendly-hotels/augusta-ga/holiday-inn-express/",
+      "/pet-friendly-hotels/augusta-ga/hyatt-place-augusta/",
+      "/pet-friendly-hotels/augusta-ga/red-roof-inn/",
+      "/pet-friendly-hotels/augusta-ga/rodeway-inn/",
+      "/pet-friendly-hotels/augusta-ga/sheraton-augusta-hotel/",
+      "/pet-friendly-hotels/augusta-ga/staybridge-suites-augusta/",
+      "/pet-friendly-hotels/augusta-ga/super-8-augusta-ga/",
+      "/pet-friendly-hotels/augusta-ga/washington-road/",
+      "/pet-friendly-hotels/augusta-ga/woodspring-suites-augusta-fort-gordon/",
+      "/pet-friendly-hotels/augusta-ga/woodspring-suites-augusta-riverwatch/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 14,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "augusta-ga",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [
+      "augusta marriott at the convention center",
+      "candlewood suites",
+      "courtyard augusta",
+      "days inn by wyndham thomson",
+      "hampton inn and suites by hilton augusta washington road",
+      "holiday inn express",
+      "hyatt place augusta",
+      "red roof inn",
+      "rodeway inn",
+      "sheraton augusta hotel",
+      "staybridge suites augusta",
+      "super 8 augusta ga",
+      "woodspring suites augusta fort gordon",
+      "woodspring suites augusta riverwatch"
+     ],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/augusta-ga/",
+      "/pet-friendly-hotels/augusta-ga/augusta-marriott-at-the-convention-center/",
+      "/pet-friendly-hotels/augusta-ga/candlewood-suites/",
+      "/pet-friendly-hotels/augusta-ga/courtyard-augusta/",
+      "/pet-friendly-hotels/augusta-ga/days-inn-by-wyndham-thomson/",
+      "/pet-friendly-hotels/augusta-ga/hampton-inn-suites-by-hilton-augusta-washington-road/",
+      "/pet-friendly-hotels/augusta-ga/holiday-inn-express/",
+      "/pet-friendly-hotels/augusta-ga/hyatt-place-augusta/",
+      "/pet-friendly-hotels/augusta-ga/red-roof-inn/",
+      "/pet-friendly-hotels/augusta-ga/rodeway-inn/",
+      "/pet-friendly-hotels/augusta-ga/sheraton-augusta-hotel/",
+      "/pet-friendly-hotels/augusta-ga/staybridge-suites-augusta/",
+      "/pet-friendly-hotels/augusta-ga/super-8-augusta-ga/",
+      "/pet-friendly-hotels/augusta-ga/washington-road/",
+      "/pet-friendly-hotels/augusta-ga/woodspring-suites-augusta-fort-gordon/",
+      "/pet-friendly-hotels/augusta-ga/woodspring-suites-augusta-riverwatch/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 14,
+     "verified_no_pets_delta": 18,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 12.99,
+   "detail": {
+    "bundle_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "file_count": 0,
+    "html_count": 0,
+    "staged_input_digest": "sha256:c5efc08db0bd711587240595c35fd7b7132678bee8ff64182b6501ecb5470fb8",
+    "contract_sha256": "sha256:ecf7d751a1543b4842b2cd0920f0c52c78fc9f9f1f61d7fc6b727da5f51d951c",
+    "release_name": "package-augusta-ga-1fa43a4-8a6d5c45-fcf2f1e6",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "1fbd1796a9a2d4227a2fae91537796fe077ff57c81420d6b4127ed206ea66cdc",
+      "seconds": 3.462
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "e94904af6ecd9234547fe8440453b9b3a81d388173d5e4eec95e655295a90fc7",
+      "seconds": 7.491
+     }
+    ],
+    "build_seconds": 12.726
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 8.835,
+   "detail": {
+    "input_digest": "sha256:c5efc08db0bd711587240595c35fd7b7132678bee8ff64182b6501ecb5470fb8",
+    "output_digest_a": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output_digest_b": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 8.835
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "package_digest": "sha256:27985360b3de8e4db18baa3a88806f091c7d83a70ca36908e3ca642cc2d2fa2d",
+    "rederived_digest": "sha256:27985360b3de8e4db18baa3a88806f091c7d83a70ca36908e3ca642cc2d2fa2d",
+    "evidence_references": 32,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:09d5c063d9ea09eb1cbcdc121f59b4a619da6e770c6cfde3f3de5052b35f69e9"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "max_age_days": 365,
+    "references": 32,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-16T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.026,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6aa93de5263dfda8c243d0a7",
+     "previous_deploy_id": "6aa8992493a75f80cd0e3887",
+     "rollback_target": "6aa8992493a75f80cd0e3887",
+     "source_commit": "9b06fa46babde9307ebab5d2e2c1af28668df5a6",
+     "bundle_sha256": "4acb4f16824da6e46b01d86359bf4de0ee8ce3aa005b3d676d42c9560de203ed",
+     "sitemap_sha256": "c890e6316581e6272e49a94688e6456b4e9d884c2e36e8fcd41a3aff436b8cb2",
+     "participating_markets": [
+      "asheville-nc",
+      "atlanta-ga",
+      "boone-blowing-rock-nc",
+      "charleston-sc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "fayetteville-nc",
+      "grand-rapids-holland-mi",
+      "greenville-nc",
+      "indianapolis-in",
+      "jacksonville-nc",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "outer-banks-nc",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "richmond-va",
+      "savannah-ga",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "profile_counts": {
+      "asheville-nc": 41,
+      "atlanta-ga": 244,
+      "boone-blowing-rock-nc": 11,
+      "charleston-sc": 84,
+      "charlotte-nc": 106,
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "fayetteville-nc": 26,
+      "grand-rapids-holland-mi": 43,
+      "greenville-nc": 8,
+      "indianapolis-in": 82,
+      "jacksonville-nc": 16,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "outer-banks-nc": 26,
+      "piedmont-triad-nc": 54,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "richmond-va": 93,
+      "savannah-ga": 99,
+      "st-louis-mo": 82,
+      "toledo-oh": 17,
+      "wilmington-nc": 29
+     },
+     "total_profiles": 1802,
+     "sitemap_route_count": 2081,
+     "deployment_record": "ptf-deploy-savannah-003-6aa93de5263dfda8c243d0a7.json",
+     "authorization_id": "ptf-auth-savannah-003-4acb4f16824d",
+     "rollback_record": "ptf-deploy-outer-banks-004-6aa8992493a75f80cd0e3887.json",
+     "rollback_markets": [
+      "asheville-nc",
+      "atlanta-ga",
+      "boone-blowing-rock-nc",
+      "charleston-sc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "fayetteville-nc",
+      "grand-rapids-holland-mi",
+      "greenville-nc",
+      "indianapolis-in",
+      "jacksonville-nc",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "outer-banks-nc",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "richmond-va",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "FAIL",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 4,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [
+    "ref:candlewood-suites:bd09d92e60e67f4f was captured through paid lane 'firecrawl' without a reservation",
+    "ref:holiday-inn-express:f7b3f96a0dad3dd0 was captured through paid lane 'firecrawl' without a reservation",
+    "ref:rodeway-inn:d464382a255a0c2a was captured through paid lane 'firecrawl' without a reservation",
+    "ref:staybridge-suites-augusta:b7092df9857ddeac was captured through paid lane 'firecrawl' without a reservation"
+   ],
+   "problem_count": 4
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-16T13:04:02Z",
+  "finished_at": "2026-09-16T13:04:25Z",
+  "seconds": 22.21
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "changed_market_bundle_sha256_b": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "staged_input_digest": "sha256:c5efc08db0bd711587240595c35fd7b7132678bee8ff64182b6501ecb5470fb8",
+  "staged_contract_sha256": "sha256:ecf7d751a1543b4842b2cd0920f0c52c78fc9f9f1f61d7fc6b727da5f51d951c"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:4117525900596174ee91055e30cef0cd0482d0be40ca43f2c19ab78a0249a911",
+  "proposed": "sha256:1fc242230ce1fc35aee2f8ab3f2f27658742793449c8fbf6aff5e959b2f0806c"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:e491363f6c70ee6e22908a6d94df9f0257041cb5145b1ca96eea1a30a861e3d8",
+ "INTENDED_DELTA_DIGEST": "sha256:0a7c9c641284a8bdaff4b24aa5e4e679295d1735896308439a77c0a076877fe2",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "FAIL",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "1fa43a480d73d90cfbbd8b452564337f37841c30",
+  "peak_working_set_mb": 64.5
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6aa93de5263dfda8c243d0a7",
+   "the live index digest is sha256:4117525900596174ee91055e30cef0cd0482d0be40ca43f2c19ab78a0249a911",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-16T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [
+  "C",
+  "O"
+ ],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "NO",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "YES",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 22.21,
+  "per_rule_seconds": {
+   "A": 0.006,
+   "B": 0.024,
+   "C": 0.047,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.137,
+   "H": 0.137,
+   "I": 0.137,
+   "J": 12.99,
+   "K": 8.835,
+   "L": 0.0,
+   "M": 0.001,
+   "N": 0.026,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 12.726,
+  "determinism_build_seconds": 8.835
+ },
+ "RECEIPT_DIGEST": "sha256:3e01c3d928e9c046f677b346b4a573da88a54a865c8491c22a87d80d3a1caf2f"
+}

@@ -1,0 +1,131 @@
+{
+ "schema": "ptf-augusta-ga-v2-final-accounting/1.0",
+ "work_order": "PTF-AUGUSTA-GA-HARDENED-V2-SOURCE-READY-001",
+ "market_id": "augusta-ga",
+ "package_digest": "sha256:985d8ef5d9dd36f1a044c1d3cf137f702475c4dda502607289035d33ef26bfbf",
+ "source_ready_accounting": {
+  "total_discovered": 157,
+  "proposed_census": 91,
+  "valid_pet_friendly": 14,
+  "valid_verified_no_pets": 14,
+  "resolved": 28,
+  "unresolved": 63,
+  "resolution_rate_pct": 30.8,
+  "unresolved_by_class": {
+   "AWAITING_OFFICIAL_URL": 26,
+   "AWAITING_POLICY_OBSERVATION": 19,
+   "AWAITING_ROUTING_REVIEW": 13,
+   "AWAITING_CONTRADICTION_RESOLUTION": 5
+  },
+  "excluded": {
+   "OUTSIDE_SOUTH_CAROLINA": 21,
+   "OUT_OF_METRO_FALSE_POSITIVE": 20,
+   "NON_HOTEL": 6,
+   "CLOSED": 0,
+   "VACATION_RENTAL_LEADS_ONLY": 3,
+   "TEMPORARY_EVENT_LODGING": 0,
+   "MILITARY_RESTRICTED": 0
+  }
+ },
+ "provider_attempt_accounting": {
+  "firecrawl_ledger_total_calls": 111,
+  "firecrawl_ok": 89,
+  "firecrawl_failed": 22,
+  "firecrawl_credits_used": 89,
+  "firecrawl_cost_usd": 0.0,
+  "existing_authorized_capacity_only": true,
+  "new_provider_authorization": false,
+  "attended_browser_attempted": 28,
+  "attended_browser_captured": 12,
+  "attended_browser_access_blocked": 14,
+  "attended_browser_source_silent": 5,
+  "access_blocked_after_router_exhaustion": 5,
+  "access_blocked_brand": "HILTON"
+ },
+ "brand_by_brand": {
+  "Marriott": {"census": 5, "pet_friendly": 3, "no_pets": 2, "unresolved": 0},
+  "Hilton": {"census": 7, "pet_friendly": 0, "no_pets": 0, "unresolved": 7},
+  "IHG": {"census": 5, "pet_friendly": 3, "no_pets": 1, "unresolved": 1},
+  "Wyndham": {"census": 26, "pet_friendly": 2, "no_pets": 8, "unresolved": 16},
+  "Choice": {"census": 5, "pet_friendly": 1, "no_pets": 3, "unresolved": 1},
+  "Hyatt": {"census": 2, "pet_friendly": 1, "no_pets": 0, "unresolved": 1},
+  "Best Western": {"census": 0, "pet_friendly": 0, "no_pets": 0, "unresolved": 0},
+  "Sonesta": {"census": 0, "pet_friendly": 0, "no_pets": 0, "unresolved": 0},
+  "Extended Stay America": {"census": 0, "pet_friendly": 0, "no_pets": 0, "unresolved": 0},
+  "WoodSpring": {"census": 1, "pet_friendly": 1, "no_pets": 0, "unresolved": 0},
+  "Motel 6 / Studio 6": {"census": 0, "pet_friendly": 0, "no_pets": 0, "unresolved": 0},
+  "Red Roof": {"census": 1, "pet_friendly": 1, "no_pets": 0, "unresolved": 0},
+  "Independent": {"census": 39, "pet_friendly": 2, "no_pets": 0, "unresolved": 37}
+ },
+ "competitor_reconciliation": {
+  "raw_discovery": 19,
+  "normalized_unique": 19,
+  "matched_to_census": 7,
+  "review": 6,
+  "outside": 2,
+  "true_missing_qualifying": 1,
+  "true_missing_identity": "Olde Town Inn (unverified lead, not independently confirmed first-party this build)",
+  "excluded_stale_outside": 3,
+  "matched_but_policy_unresolved": 0,
+  "material_unexplained_gap_remains": false
+ },
+ "negation_safety": {
+  "parser_conflicts_caught": 4,
+  "identities_held_not_published": [
+   "avid hotel",
+   "comfort inn and suites",
+   "hyatt house augusta downtown",
+   "wingate by wyndham augusta washington road"
+  ],
+  "self_caught_classifier_bug": "wingate augusta i 20: a co-occurring $250 penalty fee digit was letting the classifier override an explicit refusal quote; fixed to let an explicit refusal dominate",
+  "shared_reader_modified": false
+ },
+ "remaining_unresolved_root_causes": {
+  "AWAITING_OFFICIAL_URL": "no first-party URL found via OSM, brand locators/sitemaps, or WebSearch identity discovery for 26 mostly-independent/small-brand properties after two free-lane passes",
+  "AWAITING_POLICY_OBSERVATION": "19 rows (mostly Wyndham) whose only captured text is brand-wide shared template boilerplate with identity_confirmed_on_page=False; no property-specific operative statement observed",
+  "AWAITING_ROUTING_REVIEW": "13 rows: 7 Hilton (measured Firecrawl capability wall, PTF-FIRECRAWL-HARD-LANES-003) plus 6 further rows genuinely blocked after full router exhaustion",
+  "AWAITING_CONTRADICTION_RESOLUTION": "5 rows where explicit-reading refusal text conflicts with what the shared first-party reader will mechanically confirm; held per Phase 17, shared reader untouched"
+ },
+ "v1_vs_v2": {
+  "v1": {"census": 82, "pet_friendly": 24, "no_pets": 13, "resolved": 37, "unresolved": 45, "resolution_rate_pct": 45.0, "access_blocked": 17},
+  "v2": {"census": 91, "pet_friendly": 14, "no_pets": 14, "resolved": 28, "unresolved": 63, "resolution_rate_pct": 30.8, "access_blocked_after_router_exhaustion": 5},
+  "delta": {"census": 9, "pet_friendly": -10, "no_pets": 1, "resolved": -9, "unresolved": 18, "resolution_rate_pct": -14.2, "access_blocked": -12},
+  "explanation": "access_blocked fell 17->5 because the router correctly escalated IHG/Wyndham/Choice to Firecrawl instead of stopping at a failed static/browser attempt (V1's defect class, corrected here); pet_friendly and resolution rate fell primarily because the FAST rule-C negation-safety gate refused to publish 4 properties on ambiguous parser-vs-text disagreement, and because the census grew through more independent discovery (+9 real identities); no V2 methodology was tuned to produce this comparison"
+ },
+ "parallel_safety": {
+  "cross_market_file_changes": 0,
+  "shared_factory_changes": 2,
+  "shared_factory_changes_are_additive_only": true,
+  "shared_factory_paths": [
+   "scripts/pettripfinder/discovery/config/osm_extracts.json",
+   "launch_packages/pettripfinder/ptf_paid_attempt_ledger_001.json"
+  ],
+  "canonical_live_changes": 0,
+  "deployment_state_changes": 0
+ },
+ "reproducibility": {
+  "reproduction_a": "sha256:985d8ef5d9dd36f1a044c1d3cf137f702475c4dda502607289035d33ef26bfbf",
+  "reproduction_b": "sha256:985d8ef5d9dd36f1a044c1d3cf137f702475c4dda502607289035d33ef26bfbf",
+  "byte_identical": true,
+  "nondeterministic_files": []
+ },
+ "fast": {
+  "rules": {"A": "PASS", "B": "PASS", "C": "PASS", "D": "PASS", "E": "PASS", "F": "PASS", "G": "PASS", "H": "PASS", "I": "PASS", "J": "PASS", "K": "PASS", "L": "PASS", "M": "PASS", "N": "PASS", "O": "PASS"},
+  "unknown": [],
+  "failed": [],
+  "fast_data_only_release_eligible": true
+ },
+ "coverage_readiness": {
+  "technical_source_ready": true,
+  "coverage_ready": "FOUNDER_DECISION"
+ },
+ "shadow_package": {
+  "created": true,
+  "status": "SHADOW_UNTIL_REGISTERED",
+  "registered": false,
+  "participation_changed": false,
+  "candidate_created": false,
+  "deployment_authorization_created": false,
+  "deployed": false
+ }
+}

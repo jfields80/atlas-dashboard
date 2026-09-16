@@ -91,6 +91,30 @@
       ],
       "license": "ODbL 1.0 (OpenStreetMap contributors)",
       "notes": "PTF-RALEIGH-NC-FINAL-FRESH-CITY-PROOF-001. The SAME North Carolina extract file the Charlotte row names, registered a second time under its own extract_id and its own index_path because an index is reduced to ONE market's bounds: a single row reused across two markets would let the first index built answer the second market's cells as empty. One output root per extract per market. Covers every Raleigh discovery cell (Wake County in full, plus the observation ring into Durham, Orange, Johnston and Franklin counties). data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-north-carolina-raleigh in their provenance."
+    },
+    {
+      "extract_id": "geofabrik-georgia",
+      "region": "Georgia, US",
+      "url": "https://download.geofabrik.de/north-america/us/georgia-latest.osm.pbf",
+      "md5_url": "https://download.geofabrik.de/north-america/us/georgia-latest.osm.pbf.md5",
+      "local_pbf": "data/osm_extracts/georgia-latest.osm.pbf",
+      "index_path": "data/osm_extracts/geofabrik-georgia.augusta-ga.index.json",
+      "markets": [
+        "augusta-ga"
+      ],
+      "license": "ODbL 1.0 (OpenStreetMap contributors)",
+      "notes": "Covers the GEORGIA discovery cells of the Augusta market (Richmond/Columbia/McDuffie/Jefferson/Burke/Lincoln county territory). The five South Carolina observation cells (North Augusta, Aiken, Edgefield, Graniteville, Clearwater) are NOT inside this state extract -- see geofabrik-south-carolina below, following the Charlotte precedent for a market whose observation ring crosses a state line. Registered by PTF-AUGUSTA-GA-HARDENED-V2-SOURCE-READY-001 after the approved public Overpass endpoints answered 8 of 44 planned cells and then all went to cooldown together (overpass-api.de and overpass.kumi.systems both rate-limited/timed out). The index is built with the market's geographic_bounds as a bbox, so a state extract of a few hundred MB reduces to a few hundred lodging elements. data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-georgia in their provenance. This row is additive and names augusta-ga alone: it changes no other market's lane."
+    },
+    {
+      "extract_id": "geofabrik-south-carolina-augusta",
+      "region": "South Carolina, US",
+      "url": "https://download.geofabrik.de/north-america/us/south-carolina-latest.osm.pbf",
+      "md5_url": "https://download.geofabrik.de/north-america/us/south-carolina-latest.osm.pbf.md5",
+      "local_pbf": "data/osm_extracts/south-carolina-latest.osm.pbf",
+      "index_path": "data/osm_extracts/geofabrik-south-carolina.augusta-ga.index.json",
+      "markets": [],
+      "license": "ODbL 1.0 (OpenStreetMap contributors)",
+      "notes": "Answers the SOUTH CAROLINA observation cells of the Augusta market -- North Augusta, Aiken, Edgefield, Graniteville and Clearwater (all admitting=false; observed for future north-augusta-sc / aiken-sc standalone-market optionality, never admitted to augusta-ga) -- built with the same augusta-ga geographic_bounds bbox. `markets` is deliberately EMPTY, exactly the geofabrik-south-carolina precedent: ExtractRegistry.for_market returns the first row naming a market, so a second row naming augusta-ga would make resolution silently ambiguous with geofabrik-georgia. Augusta's South Carolina cells are answered by naming this index explicitly (`discovery_cli run --osm-extract-index data/osm_extracts/geofabrik-south-carolina.augusta-ga.index.json`), which records endpoint_id local_extract:geofabrik-south-carolina-augusta in the cell's provenance. Registered by PTF-AUGUSTA-GA-HARDENED-V2-SOURCE-READY-001. This row is additive and touches no other market's lane (the existing geofabrik-south-carolina row keeps its own charlotte-nc-scoped index_path and is untouched)."
     }
   ]
 }
