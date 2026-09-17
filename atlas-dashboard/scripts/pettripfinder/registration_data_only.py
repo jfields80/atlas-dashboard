@@ -416,6 +416,169 @@ def bucket_of_role(role: str) -> str:
     return BUCKET_REGISTRATION
 
 
+#: PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: the cross-market paid
+#: attempt ledger. A market's acquisition APPENDS its own rows here, so every
+#: market that paid for a page carried a change no bucket claimed. It narrows
+#: only by :func:`prove_paid_ledger_append` -- a content proof, never the path.
+PAID_ATTEMPT_LEDGER_PATH = "launch_packages/pettripfinder/ptf_paid_attempt_ledger_001.json"
+PAID_LEDGER_CONDITIONS: Tuple[str, ...] = (
+    "status", "parse", "format", "header", "prefix", "appended_rows", "own_market", "validator",
+)
+
+
+def _canonical(document: Any) -> str:
+    return json.dumps(document, sort_keys=False, separators=(",", ":"), ensure_ascii=False)
+
+
+def prove_paid_ledger_append(base: str, head: str, market_id: str, status: str,
+                             relpath: str = PAID_ATTEMPT_LEDGER_PATH) -> "OrderedDict[str, Any]":
+    """Is this ledger change exactly "the registering market appended its own
+    attempts"? Every condition must hold, or the path is shared behaviour.
+
+    status        the file is MODIFIED (not added, deleted or renamed)
+    parse         base and head are both JSON objects
+    format        both are byte-for-byte what the ledger's own writer
+                  (``paid_attempt_ledger.save``) serialises them as
+    header        every key other than ``attempts`` is unchanged, in order
+    prefix        the base attempts are the head's first rows, row for row,
+                  unchanged and in the same order -- nothing deleted, mutated,
+                  replaced or reordered
+    appended_rows every new row is an object whose fields are exactly the
+                  writer's attempt fields plus fields the base rows already
+                  carry, each of a type the base rows already use, with the
+                  writer's own derived ``attempt_id``, unique in the ledger
+    own_market    every new row belongs to the registering market
+    validator     the head ledger loads (``paid_attempt_ledger.load``) and
+                  indexes (``LedgerIndex``)
+    """
+    import tempfile
+    from scripts.pettripfinder.acquisition import paid_attempt_ledger as LEDGER
+
+    conditions: "OrderedDict[str, OrderedDict]" = OrderedDict(
+        (name, OrderedDict((("pass", False), ("why", "not evaluated: an earlier condition failed"))))
+        for name in PAID_LEDGER_CONDITIONS)
+
+    def _done(appended: int = 0) -> "OrderedDict[str, Any]":
+        failed = [name for name, c in conditions.items() if not c["pass"]]
+        return OrderedDict((("passed", not failed), ("mode", "paid_ledger_append"), ("zone", None),
+                            ("appended_rows", appended), ("failed_conditions", failed),
+                            ("conditions", conditions)))
+
+    def _set(name: str, passed: bool, why: str) -> bool:
+        conditions[name] = OrderedDict((("pass", bool(passed)), ("why", why)))
+        return bool(passed)
+
+    if not _set("status", status == "M", "status %r (a registration may only append to the existing ledger)"
+                % status if status != "M" else "modified in place"):
+        return _done()
+    base_bytes, head_bytes = bytes_at(base, relpath), bytes_at(head, relpath)
+    try:
+        base_doc = _json((base_bytes or b"").decode("utf-8"))
+        head_doc = _json((head_bytes or b"").decode("utf-8"))
+        parsed = isinstance(base_doc, Mapping) and isinstance(head_doc, Mapping) \
+            and isinstance(base_doc.get("attempts"), list) and isinstance(head_doc.get("attempts"), list)
+        why = "both sides are ledger objects" if parsed else "a side is not an object with an attempts list"
+    except (ValueError, UnicodeDecodeError) as exc:
+        parsed, why = False, "does not parse: %s" % str(exc)[:120]
+    if not _set("parse", parsed, why):
+        return _done()
+
+    def _lf(data: Optional[bytes]) -> bytes:
+        # The ledger is ``eol=lf`` in .gitattributes and the writer uses the
+        # platform newline, so the comparison is line-ending independent.
+        return (data or b"").replace(b"\r\n", b"\n")
+
+    with tempfile.TemporaryDirectory() as scratch:
+        def _written(document: Mapping) -> bytes:
+            target = Path(scratch) / "ledger.json"
+            LEDGER.save(target, document)
+            return _lf(target.read_bytes())
+        base_canonical = _written(base_doc) == _lf(base_bytes)
+        head_canonical = _written(head_doc) == _lf(head_bytes)
+    if not _set("format", base_canonical and head_canonical,
+                "both sides are the ledger writer's own serialisation" if base_canonical and head_canonical
+                else "the %s is not the ledger writer's serialisation (a format change)"
+                % ("base" if not base_canonical else "head")):
+        return _done()
+
+    base_header = OrderedDict((k, v) for k, v in base_doc.items() if k != "attempts")
+    head_header = OrderedDict((k, v) for k, v in head_doc.items() if k != "attempts")
+    header_equal = _canonical(list(base_header.items())) == _canonical(list(head_header.items()))
+    if not _set("header", header_equal, "schema, description and provenance unchanged" if header_equal
+                else "top-level ledger fields changed: %s"
+                % sorted(k for k in set(base_header) | set(head_header)
+                         if _canonical(base_header.get(k)) != _canonical(head_header.get(k)))[:6]):
+        return _done()
+
+    base_rows, head_rows = base_doc["attempts"], head_doc["attempts"]
+    changed = [i for i, row in enumerate(base_rows)
+               if i >= len(head_rows) or _canonical(row) != _canonical(head_rows[i])]
+    if not _set("prefix", not changed,
+                "all %d base attempts are the head's first rows, unchanged and in order" % len(base_rows)
+                if not changed else "%d base attempt(s) deleted, changed or reordered (first at row %d, attempt %s)"
+                % (len(changed), changed[0], (base_rows[changed[0]] or {}).get("attempt_id")
+                   if isinstance(base_rows[changed[0]], Mapping) else "?")):
+        return _done()
+
+    appended = head_rows[len(base_rows):]
+    writer_fields = set(LEDGER.build_attempt({}, market_id="", work_order="", run_id="").keys())
+    known_types: Dict[str, set] = {}
+    for row in base_rows:
+        if isinstance(row, Mapping):
+            for key, value in row.items():
+                known_types.setdefault(key, set()).add(type(value).__name__)
+    known_fields = writer_fields | set(known_types)
+    seen_ids = [row.get("attempt_id") for row in base_rows if isinstance(row, Mapping)]
+    row_problems: List[str] = []
+    for offset, row in enumerate(appended):
+        where = "appended row %d" % offset
+        if not isinstance(row, Mapping):
+            row_problems.append("%s is not an object" % where)
+            continue
+        missing = sorted(writer_fields - set(row))
+        unknown = sorted(set(row) - known_fields)
+        if missing:
+            row_problems.append("%s lacks writer field(s) %s" % (where, missing[:4]))
+        if unknown:
+            row_problems.append("%s carries unknown field(s) %s" % (where, unknown[:4]))
+        wrong = sorted(key for key, value in row.items()
+                       if key in known_types and type(value).__name__ not in known_types[key])
+        if wrong:
+            row_problems.append("%s has field(s) of a type no base row uses: %s" % (where, wrong[:4]))
+        if not isinstance(row.get("market_id"), str) or not row.get("market_id"):
+            row_problems.append("%s has no market_id" % where)
+        derived = LEDGER.attempt_id(str(row.get("market_id") or ""), str(row.get("run_id") or ""),
+                                    str(row.get("identity_key") or ""), str(row.get("lane") or ""))
+        if row.get("attempt_id") != derived:
+            row_problems.append("%s attempt_id %r is not the writer's derived id %s"
+                                % (where, row.get("attempt_id"), derived))
+        if row.get("attempt_id") in seen_ids:
+            row_problems.append("%s repeats attempt_id %r" % (where, row.get("attempt_id")))
+        seen_ids.append(row.get("attempt_id"))
+    if not _set("appended_rows", bool(appended) and not row_problems,
+                "%d appended row(s), each a well-formed writer attempt" % len(appended) if appended and not row_problems
+                else ("no row was appended, so nothing here is acquisition" if not appended
+                      else "; ".join(row_problems[:4]))):
+        return _done(len(appended))
+
+    foreign = sorted({str(row.get("market_id")) for row in appended if row.get("market_id") != market_id})
+    if not _set("own_market", not foreign, "every appended row belongs to %s" % market_id if not foreign
+                else "appended row(s) belong to another market: %s" % foreign[:4]):
+        return _done(len(appended))
+
+    try:
+        with tempfile.TemporaryDirectory() as scratch:
+            target = Path(scratch) / "ledger.json"
+            target.write_bytes(head_bytes or b"")
+            loaded = LEDGER.load(target)
+        LEDGER.LedgerIndex(loaded)
+        valid, why = True, "the head ledger loads and indexes"
+    except Exception as exc:
+        valid, why = False, "the ledger validator refuses the head: %s: %s" % (type(exc).__name__, str(exc)[:120])
+    _set("validator", valid, why)
+    return _done(len(appended))
+
+
 def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
                         blockers: Sequence[str]) -> "OrderedDict[str, Any]":
     """Which market, if any, this change set registers -- by the registry
@@ -488,6 +651,24 @@ def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
             reasons[rel] = "registration role %s" % role
             if role == ROLE_DISCOVERY_MARKET_CONFIG:
                 candidates.append((rel, status))
+            continue
+        if rel == PAID_ATTEMPT_LEDGER_PATH:
+            # PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: the shared
+            # ledger narrows ONLY on the content proof; the path alone earns
+            # nothing, and every failed condition is shared behaviour.
+            proof = prove_paid_ledger_append(base, head, market_id, status)
+            proofs[rel] = proof
+            if proof["passed"]:
+                roles[rel] = ROLE_MARKET_LOCAL
+                buckets[rel] = BUCKET_MARKET_LOCAL
+                reasons[rel] = "paid-ledger append proof passed (%d row(s) of %s appended)" % (
+                    proof["appended_rows"], market_id)
+            else:
+                why = "; ".join(str(proof["conditions"][c]["why"]) for c in proof["failed_conditions"])
+                buckets[rel] = BUCKET_SHARED
+                reasons[rel] = "paid-ledger append proof failed on %s: %s" % (
+                    ", ".join(proof["failed_conditions"]), why[:200])
+                problems.append("%s is not an append of %s's own attempts: %s" % (rel, market_id, why[:200]))
             continue
         # A narrow companion (a report, prose, a baseline, the market's own
         # package / receipt) keeps the semantics the audited registration
@@ -1387,12 +1568,21 @@ def find_covering_package(market_id: str, head: str) -> Tuple[Optional[Mapping],
     return covering[-1], detail
 
 
+def _lookup_detail(lookup: Mapping) -> "OrderedDict[str, Any]":
+    """The package lookup as check detail. PTF-RELEASE-FACTORY-EFFICIENCY-
+    BOUNDED-REPAIR-002: a lookup that explains itself carries ``why``, which is
+    also ``_result``'s own positional argument -- passed through as ``**``
+    it raised a TypeError and turned a named FAIL into an UNKNOWN. The
+    lookup's reason is kept, under a key that cannot collide."""
+    return OrderedDict((("lookup_why" if key == "why" else key, value) for key, value in lookup.items()))
+
+
 def check_sealed_package(package: Optional[Mapping], market_id: str, live_state: RI.LiveState,
                          live_idx: RI.ReleaseIndex, lookup: Mapping) -> "OrderedDict[str, Any]":
     problems: List[str] = []
     if package is None:
         return _result(False, "no committed sealed package under markets/packages/%s is sealed from the head "
-                              "bytes of the market's authority" % market_id, **lookup)
+                              "bytes of the market's authority" % market_id, **_lookup_detail(lookup))
     issues = SMP.validate(package)
     if issues:
         problems.append("package invalid: %s" % [str(i) for i in issues[:3]])
@@ -1444,7 +1634,7 @@ def check_sealed_package(package: Optional[Mapping], market_id: str, live_state:
         ("declared_routes", len(delta.get("add_routes") or ())),
         ("parent_live_deploy_id", parent.get("live_deploy_id")),
     ))
-    detail.update(lookup)
+    detail.update(_lookup_detail(lookup))
     if problems:
         return _result(False, "; ".join(problems[:5]), problems=problems, **detail)
     return _result(True, "package %s is sealed from exactly the head bytes, for REGISTERED_LIVE, declaring "

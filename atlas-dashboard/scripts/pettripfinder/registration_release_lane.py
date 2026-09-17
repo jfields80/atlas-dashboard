@@ -5,9 +5,16 @@ classifier has answered -- prepare the UNSIGNED authorization-readiness packet.
 
     python -m scripts.pettripfinder.registration_release_lane register --market <id> --work-order <ORDER>
     python -m scripts.pettripfinder.registration_release_lane seal --market <id> --work-order <ORDER>
-    python -m scripts.pettripfinder.regression_delta classify --base <sha> --out <classify.json>
-    python -m scripts.pettripfinder.registration_release_lane packet --market <id> \
-        --classification <classify.json>
+    python -m scripts.pettripfinder.registration_release_lane packet --market <id>
+
+PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: ``register`` and ``seal``
+refuse a tree that does not contain CURRENT_LIVE_SOURCE_COMMIT
+(``release_index.resolve_current_live_source``), and ``packet`` with no
+``--classification`` derives the classification base itself
+(:func:`derive_registration_base`) and runs ``regression_delta`` on the
+committed registration -- an ordinary registration names no ``--base``. A
+classification produced elsewhere may still be passed and is recorded as
+SUPPLIED.
 
 PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001 added ``register`` and
 the market-state block to ``seal``, so that the whole registration transaction
@@ -68,7 +75,7 @@ import sys
 import time
 from collections import OrderedDict
 from pathlib import Path
-from typing import Any, Dict, Mapping, Optional, Sequence
+from typing import Any, Dict, List, Mapping, Optional, Sequence
 
 _DASH = Path(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")))
 if str(_DASH) not in sys.path:
@@ -429,6 +436,149 @@ def seal(market_id: str, *, sealed_at: str, work_dir: Path, out: Path,
     return doc
 
 
+# --------------------------------------------------------------------------- #
+# PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: the live base and the
+# automatic classification. An ordinary registration names no --base.
+# --------------------------------------------------------------------------- #
+
+STALE_LIVE_BASE = "STALE_LIVE_BASE"
+BASE_NOT_DERIVABLE = "BASE_NOT_DERIVABLE"
+DIRTY_WORKTREE = "DIRTY_WORKTREE"
+CLASSIFICATION_SOURCE_AUTOMATIC = "AUTOMATIC"
+CLASSIFICATION_SOURCE_SUPPLIED = "SUPPLIED"
+_BASE_WALK_LIMIT = 2000
+
+
+class LaneRefusal(SystemExit):
+    """A named, fail-closed refusal of the lane (exit status 2)."""
+
+    def __init__(self, code: str, detail: str) -> None:
+        super().__init__(2)
+        self.code = code
+        self.detail = detail
+
+    def __str__(self) -> str:
+        return "%s: %s" % (self.code, self.detail)
+
+
+def _git_text(*args: str, git_root: Optional[Path] = None) -> str:
+    import subprocess
+    proc = subprocess.run(["git", *args], cwd=str(git_root or _DASH.parent), capture_output=True, text=True)
+    if proc.returncode != 0:
+        raise LaneRefusal(BASE_NOT_DERIVABLE, "git %s failed: %s" % (" ".join(args[:3]), proc.stderr.strip()[:200]))
+    return proc.stdout
+
+
+def require_current_live(resolution: Optional[Mapping] = None, *, git_root: Optional[Path] = None,
+                         prefix: Optional[str] = None,
+                         worktree_live: Optional[Any] = None) -> "OrderedDict[str, Any]":
+    """CURRENT_LIVE_SOURCE_COMMIT, and this worktree built on it -- or refuse.
+
+    Refuses when the resolver cannot name live (any refusal code), when HEAD
+    does not descend from the live lineage commit, or when the live state
+    this worktree's own committed records describe is not that live."""
+    doc = OrderedDict(resolution) if resolution is not None else RI.resolve_current_live_source(
+        git_root, prefix=prefix)
+    if doc.get("RESOLVED") != "YES":
+        raise LaneRefusal(STALE_LIVE_BASE, "CURRENT_LIVE_SOURCE_COMMIT is not resolvable: %s"
+                          % "; ".join((doc.get("problems") or ["unresolved"])[:3]))
+    if not doc.get("head_contains_live"):
+        raise LaneRefusal(STALE_LIVE_BASE, "HEAD %s does not contain the live lineage commit %s (live deploy %s); "
+                          "merge the live lineage before registering"
+                          % (str(doc.get("head_commit"))[:12], str(doc["CURRENT_LIVE_SOURCE_COMMIT"])[:12],
+                             doc.get("live_deploy_id")))
+    state = worktree_live if worktree_live is not None else RI.current_verified_live()
+    if state.deploy_id != doc.get("live_deploy_id") or state.problems:
+        raise LaneRefusal(STALE_LIVE_BASE, "this worktree's committed live state is deploy %s (%d problem(s)), "
+                          "live is %s" % (state.deploy_id, len(state.problems), doc.get("live_deploy_id")))
+    return doc
+
+
+def _paths_naming(commit: str, market_id: str, prefix: str, git_root: Optional[Path]) -> List[str]:
+    us = market_id.replace("-", "_")
+    listing = _git_text("ls-tree", "-r", "--name-only", commit, "--", prefix.rstrip("/"), git_root=git_root)
+    return [line for line in listing.splitlines()
+            if market_id in line.lower() or us in line.lower()]
+
+
+def _truth_ids(commit: str, prefix: str, git_root: Optional[Path]) -> List[str]:
+    import subprocess
+    spec = "".join("%s:%s%s\n" % (commit, prefix, p) for p in RI._LIVE_TRUTH_PATHS)
+    proc = subprocess.run(["git", "cat-file", "--batch-check"], cwd=str(git_root or _DASH.parent),
+                          input=spec, capture_output=True, text=True)
+    return [line.split()[0] if line.split() else "" for line in proc.stdout.splitlines()]
+
+
+def derive_registration_base(market_id: str, live_commit: str, *, head: str = "HEAD",
+                             git_root: Optional[Path] = None,
+                             prefix: Optional[str] = None) -> "OrderedDict[str, Any]":
+    """The classification base, mechanically: the newest commit on HEAD's
+    first-parent chain that (a) descends from the live lineage commit, (b)
+    carries no path naming the registering market, and (c) carries exactly
+    the live lineage commit's live-truth files. Everything the market brings
+    -- its acquisition helpers, its shadow data, its registration -- is then
+    in the diff the classifier proves, and nothing else is.
+
+    Refuses when the chain leaves the live lineage before reaching such a
+    commit: the market's work predates live and must be re-registered on it.
+    """
+    prefix = prefix if prefix is not None else _DASH.name + "/"
+    live_truth = _truth_ids(live_commit, prefix, git_root)
+    chain = _git_text("rev-list", "--first-parent", "--max-count=%d" % _BASE_WALK_LIMIT, head,
+                      git_root=git_root).split()
+    walked: List["OrderedDict[str, Any]"] = []
+    for commit in chain:
+        if not RI._is_ancestor(git_root or _DASH.parent, live_commit, commit):
+            raise LaneRefusal(BASE_NOT_DERIVABLE,
+                              "%s's work reaches back past the live lineage commit %s (first-parent %s does not "
+                              "contain it): merge live first, then register"
+                              % (market_id, live_commit[:12], commit[:12]))
+        naming = _paths_naming(commit, market_id, prefix, git_root)
+        walked.append(OrderedDict((("commit", commit), ("market_paths", len(naming)))))
+        if naming:
+            continue
+        if _truth_ids(commit, prefix, git_root) != live_truth:
+            raise LaneRefusal(BASE_NOT_DERIVABLE,
+                              "%s carries no %s path but its live-truth files differ from the live lineage "
+                              "commit %s" % (commit[:12], market_id, live_commit[:12]))
+        between = _git_text("log", "--format=%H %s", "%s..%s" % (live_commit, commit),
+                            git_root=git_root).splitlines()
+        return OrderedDict((
+            ("base", commit), ("live_lineage_commit", live_commit),
+            ("rule", "newest first-parent ancestor of HEAD that contains the live lineage commit, names no "
+                     "path of the registering market, and carries the live lineage commit's live-truth files"),
+            ("commits_walked", walked),
+            ("factory_commits_since_live", [OrderedDict((("commit", line[:40]), ("subject", line[41:])))
+                                            for line in between if line.strip()]),
+        ))
+    raise LaneRefusal(BASE_NOT_DERIVABLE, "no base within %d first-parent commits" % _BASE_WALK_LIMIT)
+
+
+def classify_automatically(market_id: str, *, out: Path, git_root: Optional[Path] = None,
+                           resolution: Optional[Mapping] = None) -> "OrderedDict[str, Any]":
+    """Resolve live, derive the base, run the existing classifier on the
+    working tree, and write the classification the packet consumes."""
+    from scripts.pettripfinder import regression_delta as RD
+    started = time.monotonic()
+    live = require_current_live(resolution, git_root=git_root)
+    dirty = _git_text("status", "--porcelain", "--untracked-files=all", "--", _DASH.name,
+                      git_root=git_root).strip()
+    if dirty:
+        raise LaneRefusal(DIRTY_WORKTREE, "commit the registration first; the classifier proves committed "
+                          "bytes: %s" % dirty.splitlines()[:3])
+    base = derive_registration_base(market_id, live["CURRENT_LIVE_SOURCE_COMMIT"], git_root=git_root)
+    doc = RD.classify_document(base["base"], RD.WORKTREE)
+    doc["classification_source"] = CLASSIFICATION_SOURCE_AUTOMATIC
+    doc["live_resolution"] = OrderedDict((k, live.get(k)) for k in (
+        "CURRENT_LIVE_SOURCE_COMMIT", "built_from_commit", "live_deploy_id", "deployment_record",
+        "bundle_sha256", "sitemap_sha256", "total_profiles", "sitemap_route_count", "head_commit",
+        "head_contains_live", "origin_main_contains_live", "origin_main_stale", "refs_scanned", "seconds"))
+    doc["registration_base"] = base
+    doc["automatic_classification_seconds"] = round(time.monotonic() - started, 2)
+    _write(out, doc)
+    return doc
+
+
 def packet(market_id: str, *, classification_path: Path, lane_report: Path, out: Path,
            prepared_by: str) -> Dict:
     classification = _read(classification_path)
@@ -455,6 +605,9 @@ def packet(market_id: str, *, classification_path: Path, lane_report: Path, out:
         ("authorized_by", None),
         ("authorized_at", None),
         ("regression_v2", OrderedDict((
+            ("classification_source", classification.get("classification_source") or CLASSIFICATION_SOURCE_SUPPLIED),
+            ("current_live_source_commit", (classification.get("live_resolution") or {}).get("CURRENT_LIVE_SOURCE_COMMIT")),
+            ("registration_base", (classification.get("registration_base") or {}).get("base")),
             ("base", classification.get("base_sha")), ("head", classification.get("head_sha")),
             ("change_classes", classification.get("change_classes")),
             ("release_surfaces", classification.get("release_surfaces")),
@@ -531,13 +684,27 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     s.add_argument("--out", default=None)
     s = sub.add_parser("packet", help="write the UNSIGNED authorization-readiness packet")
     s.add_argument("--market", required=True)
-    s.add_argument("--classification", required=True)
+    s.add_argument("--classification", default=None,
+                   help="a classification JSON produced elsewhere (SUPPLIED); omitted, the lane resolves "
+                        "CURRENT_LIVE_SOURCE_COMMIT, derives the base and classifies itself (AUTOMATIC)")
     s.add_argument("--lane-report", default=None)
     s.add_argument("--out", default=None)
     s.add_argument("--prepared-by", default="registration_release_lane")
     args = p.parse_args(argv)
 
     us = args.market.replace("-", "_")
+    try:
+        return _run(args, us)
+    except LaneRefusal as refusal:
+        print("REFUSED        :", refusal)
+        return 2
+
+
+def _run(args: Any, us: str) -> int:
+    if args.command in ("register", "seal"):
+        # PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: never register or
+        # seal on a tree that is not built on current live.
+        require_current_live()
     if args.command == "register":
         register(args.market, work_order=args.work_order, decided_on=args.decided_on,
                  out=Path(args.out) if args.out else REPORTS / ("%s_registration_participation.json" % us))
@@ -550,7 +717,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
              out=Path(args.out) if args.out else REPORTS / ("%s_registration_release_lane.json" % us),
              paid_reservations=reservations, work_order=args.work_order)
         return 0
-    packet(args.market, classification_path=Path(args.classification),
+    classification_path = Path(args.classification) if args.classification else None
+    if classification_path is None:
+        classification_path = REPORTS / ("%s_registration_classification.json" % us)
+        doc = classify_automatically(args.market, out=classification_path)
+        print("live source    :", doc["live_resolution"]["CURRENT_LIVE_SOURCE_COMMIT"][:12], "| deploy",
+              doc["live_resolution"]["live_deploy_id"], "| base", doc["registration_base"]["base"][:12],
+              "| %.1fs" % doc["automatic_classification_seconds"])
+    packet(args.market, classification_path=classification_path,
            lane_report=Path(args.lane_report) if args.lane_report else REPORTS / ("%s_registration_release_lane.json" % us),
            out=Path(args.out) if args.out else REPORTS / ("%s_registration_authorization_readiness.json" % us),
            prepared_by=args.prepared_by)

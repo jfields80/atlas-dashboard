@@ -54,7 +54,7 @@ import shutil
 import sys
 from collections import OrderedDict
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+from typing import Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
@@ -781,130 +781,46 @@ def assemble(output: str, *, context: str = "production",
     return manifest
 
 
-def _assemble_uncached(output: str, *, context: str, base_url: str,
-                       markets: Optional[Sequence[MarketConfig]],
-                       keep_fragments: bool) -> Dict:
-    """The composition proper. Always a real build into ``output``."""
-    out_root = Path(output)
-    work = out_root / ".assemble_work"
-    bundle = work / "site"
-    gates: "OrderedDict[str, Dict]" = OrderedDict()
+def record_assembly_gates(gates: "OrderedDict[str, Dict]", collisions: Sequence[str],
+                          shadowing: Sequence[str], missing_pages: Sequence[str]) -> bool:
+    """The three composition gates, recorded. ``True`` when the anchor supplied
+    the global shell -- the one failure composition cannot continue past.
 
-    chosen, eligibility = select_markets(markets)
-    if not chosen:
-        raise AssemblyError("no market satisfies the assembly conditions: %s"
-                            % json.dumps(eligibility))
-    eligibility_by_id = {r["market_id"]: r for r in eligibility}
-    anchor = anchor_market(chosen)
-
-    if work.exists():
-        shutil.rmtree(work)
-    bundle.mkdir(parents=True)
-
-    fragments: "OrderedDict[str, Dict]" = OrderedDict()
-    route_owner: "OrderedDict[str, str]" = OrderedDict()
-    collisions: List[str] = []
-    shadowing: List[str] = []
-    anchor_pages: Dict[str, str] = {}
-
-    for market in chosen:
-        frag_root = build_fragment(market, work / "fragments" / market.market_id)
-        owned, discarded, violations = classify_fragment(market, frag_root)
-        shadowing.extend("%s claims global route %s" % (market.market_id, r)
-                         for r in violations)
-        if market.market_id == anchor.market_id:
-            for rel in GLOBAL_FILES:
-                path = frag_root / rel
-                if path.is_file() and rel.endswith(".html"):
-                    anchor_pages[rel] = path.read_text(encoding="utf-8")
-
-        for rel, path in owned.items():
-            dest = bundle / rel
-            if rel in route_owner:
-                # Shared, byte-identical assets (the stylesheets, the review
-                # imagery) are not a collision: they are the same file. A
-                # DIFFERING file at one route is, and it names both owners.
-                if path.read_bytes() == dest.read_bytes():
-                    continue
-                collisions.append(
-                    "%s claimed by %s and %s" % (_route_of(frag_root, path),
-                                                 route_owner[rel], market.market_id))
-                continue
-            route_owner[rel] = market.market_id
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(path, dest)
-
-        declared = owned_routes(market)
-        fragments[market.market_id] = OrderedDict([
-            ("market_id", market.market_id),
-            ("market_name", market.market_name),
-            ("route_mode", market.route_mode),
-            ("hub_route", market_route(market)),
-            ("comparison_route", market_route(market) + "policy-comparison/"),
-            ("hotel_routes", sorted(r for r, k in declared.items()
-                                    if k == "hotel_profile")),
-            ("corridor_routes", sorted(r for r, k in declared.items()
-                                       if k == "corridor")),
-            ("published_count", sum(1 for k in declared.values()
-                                    if k == "hotel_profile")),
-            ("files_contributed", len(owned)),
-            ("globals_discarded", sorted(discarded)),
-        ])
-
+    PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: shared with the release
+    coordinator's reuse staging, so a composed candidate is gated by THIS code,
+    not a copy of it."""
     _gate(gates, "assembly.no_route_collisions", not collisions,
           "; ".join(collisions[:6]))
     _gate(gates, "assembly.no_global_shadowing", not shadowing,
           "; ".join(shadowing[:6]))
-    missing_pages = [rel for rel in ("index.html", "pet-friendly-hotels/index.html",
-                                     "about/index.html", "contact/index.html",
-                                     "methodology/index.html")
-                     if rel not in anchor_pages]
-    if not _gate(gates, "assembly.anchor_supplies_global_shell", not missing_pages,
-                 "missing=%s" % missing_pages):
-        raise AssemblyError("anchor market %s did not generate the global shell: %s"
-                            % (anchor.market_id, missing_pages))
+    return _gate(gates, "assembly.anchor_supplies_global_shell", not missing_pages,
+                 "missing=%s" % list(missing_pages))
 
-    # ---- global surfaces, written exactly once --------------------------
-    entries = [OrderedDict([
-        ("market_id", m.market_id),
-        ("name", m.market_name),
-        ("route", market_route(m)),
-        ("comparison_route", market_route(m) + "policy-comparison/"),
-        ("scope", market_scope_line(m)),
-        ("published", fragments[m.market_id]["published_count"]),
-    ]) for m in chosen]
-    # Navigation visibility is a separate decision from assembly (section 13).
-    visible = [e for e, m in zip(entries, chosen) if m.show_in_navigation]
 
-    (bundle / "index.html").write_text(
-        build_global_home(anchor_pages["index.html"], visible),
-        encoding="utf-8", newline="\n")
-    (bundle / "pet-friendly-hotels").mkdir(parents=True, exist_ok=True)
-    (bundle / "pet-friendly-hotels" / "index.html").write_text(
-        build_global_hotel_index(anchor_pages["pet-friendly-hotels/index.html"], visible),
-        encoding="utf-8", newline="\n")
-    for rel in ("about/index.html", "contact/index.html", "methodology/index.html"):
-        target = bundle / rel
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(anchor_pages[rel], encoding="utf-8", newline="\n")
+def describe_composed_bundle(gates: "OrderedDict[str, Dict]", bundle: Path, *,
+                             chosen: Sequence[MarketConfig],
+                             eligibility: Sequence[Mapping],
+                             fragments: Mapping[str, Mapping],
+                             collisions: Sequence[str], shadowing: Sequence[str],
+                             anchor: MarketConfig, visible: Sequence[Mapping],
+                             context: str, base_url: str,
+                             headers_bytes: bytes, redirects_bytes: bytes
+                             ) -> Tuple["OrderedDict[str, object]", Dict[str, Dict], "OrderedDict[str, str]"]:
+    """Gate a composed bundle and describe it: ``(manifest, failing, hashes)``.
 
-    (bundle / "robots.txt").write_text(_ROBOTS_TXT % base_url,
-                                       encoding="utf-8", newline="\n")
-    (bundle / "llms.txt").write_text(build_global_llms(visible, base_url),
-                                     encoding="utf-8", newline="\n")
-
-    # Control files, from the TRACKED sources, before the sitemap is built so
-    # the bundle on disk is the bundle that gets gated and hashed.
-    headers_bytes = HEADERS_SOURCES[context].read_bytes()
-    redirects_bytes = REDIRECTS_SOURCE.read_bytes()
-    (bundle / "_headers").write_bytes(headers_bytes)
-    (bundle / "_redirects").write_bytes(redirects_bytes)
-
+    The global publish, participation, migration, measurement, affiliate and
+    content gates over the bundle ON DISK, and the global bundle manifest built
+    from their results. Extracted verbatim from :func:`_assemble_uncached`
+    (PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002) so the release
+    coordinator's reuse staging produces the SAME manifest from the same bytes
+    -- the manifest ``global_deployment.build_manifest`` consumes -- without a
+    second implementation. Raises nothing: the caller decides what a failing
+    gate means.
+    """
+    eligibility_by_id = {r["market_id"]: r for r in eligibility}
     indexable = sorted(
         r for r in (_route_of(bundle, p) for p in bundle.rglob("index.html"))
         if not r.startswith("/go/"))
-    (bundle / "sitemap.xml").write_text(build_global_sitemap(indexable, base_url),
-                                        encoding="utf-8", newline="\n")
 
     # ---- gates over the composed bundle ---------------------------------
     # The five publish gates are the SAME implementation the per-market
@@ -1019,6 +935,134 @@ def _assemble_uncached(output: str, *, context: str, base_url: str,
         # Phase E assembles; it does not authorize a deploy.
         ("deployment_authorized", False),
     ])
+
+    return manifest, failing, hashes
+
+
+def _assemble_uncached(output: str, *, context: str, base_url: str,
+                       markets: Optional[Sequence[MarketConfig]],
+                       keep_fragments: bool) -> Dict:
+    """The composition proper. Always a real build into ``output``."""
+    out_root = Path(output)
+    work = out_root / ".assemble_work"
+    bundle = work / "site"
+    gates: "OrderedDict[str, Dict]" = OrderedDict()
+
+    chosen, eligibility = select_markets(markets)
+    if not chosen:
+        raise AssemblyError("no market satisfies the assembly conditions: %s"
+                            % json.dumps(eligibility))
+    anchor = anchor_market(chosen)
+
+    if work.exists():
+        shutil.rmtree(work)
+    bundle.mkdir(parents=True)
+
+    fragments: "OrderedDict[str, Dict]" = OrderedDict()
+    route_owner: "OrderedDict[str, str]" = OrderedDict()
+    collisions: List[str] = []
+    shadowing: List[str] = []
+    anchor_pages: Dict[str, str] = {}
+
+    for market in chosen:
+        frag_root = build_fragment(market, work / "fragments" / market.market_id)
+        owned, discarded, violations = classify_fragment(market, frag_root)
+        shadowing.extend("%s claims global route %s" % (market.market_id, r)
+                         for r in violations)
+        if market.market_id == anchor.market_id:
+            for rel in GLOBAL_FILES:
+                path = frag_root / rel
+                if path.is_file() and rel.endswith(".html"):
+                    anchor_pages[rel] = path.read_text(encoding="utf-8")
+
+        for rel, path in owned.items():
+            dest = bundle / rel
+            if rel in route_owner:
+                # Shared, byte-identical assets (the stylesheets, the review
+                # imagery) are not a collision: they are the same file. A
+                # DIFFERING file at one route is, and it names both owners.
+                if path.read_bytes() == dest.read_bytes():
+                    continue
+                collisions.append(
+                    "%s claimed by %s and %s" % (_route_of(frag_root, path),
+                                                 route_owner[rel], market.market_id))
+                continue
+            route_owner[rel] = market.market_id
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(path, dest)
+
+        declared = owned_routes(market)
+        fragments[market.market_id] = OrderedDict([
+            ("market_id", market.market_id),
+            ("market_name", market.market_name),
+            ("route_mode", market.route_mode),
+            ("hub_route", market_route(market)),
+            ("comparison_route", market_route(market) + "policy-comparison/"),
+            ("hotel_routes", sorted(r for r, k in declared.items()
+                                    if k == "hotel_profile")),
+            ("corridor_routes", sorted(r for r, k in declared.items()
+                                       if k == "corridor")),
+            ("published_count", sum(1 for k in declared.values()
+                                    if k == "hotel_profile")),
+            ("files_contributed", len(owned)),
+            ("globals_discarded", sorted(discarded)),
+        ])
+
+    missing_pages = [rel for rel in ("index.html", "pet-friendly-hotels/index.html",
+                                     "about/index.html", "contact/index.html",
+                                     "methodology/index.html")
+                     if rel not in anchor_pages]
+    if not record_assembly_gates(gates, collisions, shadowing, missing_pages):
+        raise AssemblyError("anchor market %s did not generate the global shell: %s"
+                            % (anchor.market_id, missing_pages))
+
+    # ---- global surfaces, written exactly once --------------------------
+    entries = [OrderedDict([
+        ("market_id", m.market_id),
+        ("name", m.market_name),
+        ("route", market_route(m)),
+        ("comparison_route", market_route(m) + "policy-comparison/"),
+        ("scope", market_scope_line(m)),
+        ("published", fragments[m.market_id]["published_count"]),
+    ]) for m in chosen]
+    # Navigation visibility is a separate decision from assembly (section 13).
+    visible = [e for e, m in zip(entries, chosen) if m.show_in_navigation]
+
+    (bundle / "index.html").write_text(
+        build_global_home(anchor_pages["index.html"], visible),
+        encoding="utf-8", newline="\n")
+    (bundle / "pet-friendly-hotels").mkdir(parents=True, exist_ok=True)
+    (bundle / "pet-friendly-hotels" / "index.html").write_text(
+        build_global_hotel_index(anchor_pages["pet-friendly-hotels/index.html"], visible),
+        encoding="utf-8", newline="\n")
+    for rel in ("about/index.html", "contact/index.html", "methodology/index.html"):
+        target = bundle / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(anchor_pages[rel], encoding="utf-8", newline="\n")
+
+    (bundle / "robots.txt").write_text(_ROBOTS_TXT % base_url,
+                                       encoding="utf-8", newline="\n")
+    (bundle / "llms.txt").write_text(build_global_llms(visible, base_url),
+                                     encoding="utf-8", newline="\n")
+
+    # Control files, from the TRACKED sources, before the sitemap is built so
+    # the bundle on disk is the bundle that gets gated and hashed.
+    headers_bytes = HEADERS_SOURCES[context].read_bytes()
+    redirects_bytes = REDIRECTS_SOURCE.read_bytes()
+    (bundle / "_headers").write_bytes(headers_bytes)
+    (bundle / "_redirects").write_bytes(redirects_bytes)
+
+    indexable = sorted(
+        r for r in (_route_of(bundle, p) for p in bundle.rglob("index.html"))
+        if not r.startswith("/go/"))
+    (bundle / "sitemap.xml").write_text(build_global_sitemap(indexable, base_url),
+                                        encoding="utf-8", newline="\n")
+
+    manifest, failing, hashes = describe_composed_bundle(
+        gates, bundle, chosen=chosen, eligibility=eligibility, fragments=fragments,
+        collisions=collisions, shadowing=shadowing, anchor=anchor, visible=visible,
+        context=context, base_url=base_url, headers_bytes=headers_bytes,
+        redirects_bytes=redirects_bytes)
 
     if failing:
         raise AssemblyError("global assembly gates failed: %s" % list(failing))
