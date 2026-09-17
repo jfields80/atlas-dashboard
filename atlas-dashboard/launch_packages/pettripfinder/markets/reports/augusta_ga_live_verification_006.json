@@ -1,0 +1,212 @@
+{
+ "schema": "ptf-market-live-verification/1.0",
+ "work_order": "PTF-AUGUSTA-GA-V2-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
+ "market_id": "augusta-ga",
+ "verified_at": "2026-09-17T13:05:00Z",
+ "host_deployment_id": "6aaeb3b7384e1bb712adb084",
+ "host_published_state": "ready",
+ "host_published_at": "2026-09-17T12:55:00.000Z",
+ "sitemap": {
+  "url": "https://pettripfinder.com/sitemap.xml",
+  "live_sha256": "d08b8ca2f019196be244a99c082369b3c557715dbb98ce5dc1da604bbed937e1",
+  "authorized_sha256": "d08b8ca2f019196be244a99c082369b3c557715dbb98ce5dc1da604bbed937e1",
+  "matches": true,
+  "live_route_count": 2477,
+  "authorized_route_count": 2477
+ },
+ "pre_deploy_baseline_sitemap_sha256": "53589cf6a740046ad244d3760495f6cdc62bbc0f17f3061cfc4d83e1017f103b",
+ "all_2477_live_routes_check": {
+  "method": "concurrent HTTP GET, 20 workers, every <loc> in the live sitemap",
+  "total": 2477,
+  "status_200": 2477,
+  "not_200": 0
+ },
+ "augusta_pages": {
+  "hub": {
+   "url": "https://pettripfinder.com/pet-friendly-hotels/augusta-ga/",
+   "status": 200
+  },
+  "policy_comparison": {
+   "url": "https://pettripfinder.com/pet-friendly-hotels/augusta-ga/policy-comparison/",
+   "status": 200
+  },
+  "publishing_corridors": {
+   "washington-road": 200
+  },
+  "sampled_profiles_200": {
+   "augusta-marriott-at-the-convention-center": 200,
+   "candlewood-suites": 200,
+   "courtyard-augusta": 200,
+   "days-inn-by-wyndham-thomson": 200,
+   "hampton-inn-suites-by-hilton-augusta-washington-road": 200,
+   "holiday-inn-express-augusta-downtown": 200,
+   "hyatt-place-augusta": 200,
+   "red-roof-inn": 200,
+   "rodeway-inn": 200,
+   "sheraton-augusta-hotel": 200,
+   "staybridge-suites-augusta": 200,
+   "super-8-augusta-ga": 200,
+   "woodspring-suites-augusta-fort-gordon": 200,
+   "woodspring-suites-augusta-riverwatch": 200
+  }
+ },
+ "held_identities_check": {
+  "total_held": 63,
+  "method": "for every held identity in augusta_ga_final_partition_007.json (63 rows), slugify canonical_name to construct the candidate URL under /pet-friendly-hotels/augusta-ga/<slug>/, then check it against both the live sitemap URL set (membership) and a live HTTP GET (fetchability)",
+  "checked": 63,
+  "in_live_sitemap": 0,
+  "status_counts": {
+   "404": 63
+  },
+  "fetchable_200": []
+ },
+ "prior_live_markets_check": {
+  "method": "compare each market's published_profiles in the authoritative global_bundle_manifest.json against its pre-deploy value from release_coordinator inspect()",
+  "markets_checked": 29,
+  "unchanged": 29,
+  "changed": 0,
+  "detail": {
+   "asheville-nc": {
+    "before": 41,
+    "after": 41
+   },
+   "atlanta-ga": {
+    "before": 244,
+    "after": 244
+   },
+   "boone-blowing-rock-nc": {
+    "before": 11,
+    "after": 11
+   },
+   "charleston-sc": {
+    "before": 84,
+    "after": 84
+   },
+   "charlotte-nc": {
+    "before": 106,
+    "after": 106
+   },
+   "cincinnati-oh": {
+    "before": 130,
+    "after": 130
+   },
+   "cleveland-akron-canton-oh": {
+    "before": 120,
+    "after": 120
+   },
+   "columbus-oh": {
+    "before": 88,
+    "after": 88
+   },
+   "dayton-oh": {
+    "before": 54,
+    "after": 54
+   },
+   "fayetteville-nc": {
+    "before": 26,
+    "after": 26
+   },
+   "grand-rapids-holland-mi": {
+    "before": 43,
+    "after": 43
+   },
+   "greenville-nc": {
+    "before": 8,
+    "after": 8
+   },
+   "indianapolis-in": {
+    "before": 82,
+    "after": 82
+   },
+   "jacksonville-nc": {
+    "before": 16,
+    "after": 16
+   },
+   "lexington-ky": {
+    "before": 20,
+    "after": 20
+   },
+   "louisville-ky": {
+    "before": 53,
+    "after": 53
+   },
+   "milwaukee-wi": {
+    "before": 73,
+    "after": 73
+   },
+   "nashville-tn": {
+    "before": 79,
+    "after": 79
+   },
+   "orlando-fl": {
+    "before": 201,
+    "after": 201
+   },
+   "outer-banks-nc": {
+    "before": 26,
+    "after": 26
+   },
+   "piedmont-triad-nc": {
+    "before": 54,
+    "after": 54
+   },
+   "pittsburgh-pa": {
+    "before": 61,
+    "after": 61
+   },
+   "raleigh-nc": {
+    "before": 63,
+    "after": 63
+   },
+   "richmond-va": {
+    "before": 93,
+    "after": 93
+   },
+   "savannah-ga": {
+    "before": 99,
+    "after": 99
+   },
+   "st-louis-mo": {
+    "before": 82,
+    "after": 82
+   },
+   "tampa-fl": {
+    "before": 148,
+    "after": 148
+   },
+   "toledo-oh": {
+    "before": 17,
+    "after": 17
+   },
+   "wilmington-nc": {
+    "before": 29,
+    "after": 29
+   }
+  }
+ },
+ "queued_market_still_non_live": {
+  "detroit-ann-arbor-mi": 404
+ },
+ "assembly_gates": {
+  "broken_links": 0,
+  "collisions": 0,
+  "global_shadowing": 0,
+  "canonical_violations": 0,
+  "all_27_required_gates_pass": true
+ },
+ "independent_reproduction": {
+  "build_a": {
+   "output": "atlas-dashboard/taug6a",
+   "bundle_sha256": "55e0f5bbf02a5e26e8a5eba8510a4488d9a3da6ffaac604ef22df80637fd8914",
+   "sitemap_sha256": "d08b8ca2f019196be244a99c082369b3c557715dbb98ce5dc1da604bbed937e1"
+  },
+  "build_b": {
+   "output": "atlas-dashboard/taug6b",
+   "bundle_sha256": "55e0f5bbf02a5e26e8a5eba8510a4488d9a3da6ffaac604ef22df80637fd8914",
+   "sitemap_sha256": "d08b8ca2f019196be244a99c082369b3c557715dbb98ce5dc1da604bbed937e1"
+  },
+  "byte_identical": true,
+  "note": "two fully independent process invocations of assemble_production_site.py, separate output directories, separate memory-availability windows"
+ },
+ "ALL_CRITICAL_CHECKS_PASS": true
+}

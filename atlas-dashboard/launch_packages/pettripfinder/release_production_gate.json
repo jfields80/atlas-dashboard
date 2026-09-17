@@ -1,6 +1,6 @@
 {
  "schema": "ptf-release-production-gate/1.0",
- "work_order": "PTF-TAMPA-FL-V2-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
+ "work_order": "PTF-AUGUSTA-GA-V2-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
  "what_this_is": "The explicit allowlist that gates REAL production activation by the release coordinator. ATLAS-THROUGHPUT-006 built the remote validation lane, the trusted artifact handoff, the release queue and a real host adapter, and left this gate EMPTY on purpose. A market is activated for real only when the founder adds it here, names the candidate digest they authorised, and the coordinator's own guards still pass at the moment of the call. There is no implicit opt-in: an empty allowlist means no market can be deployed by this machinery, whatever else is green.",
  "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
  "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": [],
@@ -298,6 +298,23 @@
    "consumed_at": "2026-09-17T00:43:38+00:00",
    "host_deployment_id": "6aab379e0777c9ee96702a4f",
    "deployment_record_id": "ptf-deploy-tampa-006-6aab379e0777c9ee96702a4f",
+   "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
+  },
+  {
+   "work_order": "PTF-AUGUSTA-GA-V2-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
+   "market_id": "augusta-ga",
+   "authorization_id": "ptf-auth-augusta-006-55e0f5bbf02a",
+   "candidate_digest": "55e0f5bbf02a5e26e8a5eba8510a4488d9a3da6ffaac604ef22df80637fd8914",
+   "deployment_artifact_digest": "55e0f5bbf02a5e26e8a5eba8510a4488d9a3da6ffaac604ef22df80637fd8914",
+   "parent_release_digest": "cf761795e3deb1380ffb8e25869bd6ceefe31d2a9dfbaddad30c550ff69d60d2",
+   "package_digest": "sha256:14806eca154760a0a9dc59b200b4fa83e4f748b4ebc8eba197eab8d1e50c0df6",
+   "intended_delta_digest_note": "release_coordinator.py's own stage() was not used for this deploy, following the same proven Orlando/Tampa pathway (assemble_production_site.py -> deployment_authorization.py -> netlify deploy); release_coordinator.stage() was attempted first and blocked by a real seed_from_assembly() cache-naming defect, structurally unrelated to Augusta data.",
+   "opened_at": "2026-09-17T05:42:36+00:00",
+   "scope": "ONE market and ONE candidate. augusta-ga only; no other source-ready market is allowed.",
+   "lifecycle": "This entry is CONSUMED and the allowlist emptied by this same work order once the deployment is verified live. It is not left open.",
+   "consumed_at": "2026-09-17T13:00:00+00:00",
+   "host_deployment_id": "6aaeb3b7384e1bb712adb084",
+   "deployment_record_id": "ptf-deploy-augusta-006-6aaeb3b7384e1bb712adb084",
    "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
   }
  ]
