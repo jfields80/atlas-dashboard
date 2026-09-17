@@ -46,6 +46,7 @@ import copy
 import hashlib
 import json
 import os
+import re
 import shutil
 import sys
 import time
@@ -138,6 +139,20 @@ FRAGMENT_UNAVAILABLE = "FRAGMENT_UNAVAILABLE"
 RELEASE_NOT_CURRENT = "RELEASE_NOT_CURRENT"
 NOT_AUTHORIZED = "NOT_AUTHORIZED"
 GATES_FAILED = "GATES_FAILED"
+#: PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: a staging pass that does
+#: not re-run the FAST lane must name the committed receipt that already proved
+#: THIS package against THIS live parent, or it refuses.
+RECEIPT_NOT_BOUND = "RECEIPT_NOT_BOUND"
+#: The composed candidate does not participate exactly as the COMMITTED
+#: participation record says, so it cannot describe a deployable artifact.
+NOT_DEPLOYABLE_UNDER_COMMITTED_PARTICIPATION = "NOT_DEPLOYABLE_UNDER_COMMITTED_PARTICIPATION"
+
+#: The store keys a stored release carries BESIDE its manifest. A stored
+#: release is addressed by the digest of the manifest alone, so these are
+#: stripped (and named in ``store_attachments``) before the address is checked.
+STORE_ATTACHMENTS_KEY = "store_attachments"
+MARKET_FRAGMENT_ATTACHMENT = "markets[].fragment_digest"
+_DIGEST_STEM = re.compile(r"^[0-9a-f]{64}$")
 
 #: Activation outcomes. UNKNOWN is not FAILED: an unknown outcome means the
 #: host must be reconciled before anything else happens (phase 19 case 4).
@@ -491,29 +506,111 @@ class ReleaseStore:
         return path
 
     def get_release(self, release_digest: str) -> Optional["OrderedDict[str, Any]"]:
+        """The stored release at ``release_digest``, VERIFIED to be it.
+
+        ``None`` when nothing is stored there. A file that is there but does
+        not hash to its own address -- with its declared store attachments
+        set aside -- or whose attached bundle digest is not the manifest's own
+        deployment artifact, is :data:`CANDIDATE_CORRUPT`: a corrupt parent
+        must never read as a merely missing one, and never as a valid one.
+        """
         path = self.root / "releases" / ("%s.json" % _object_name(release_digest))
-        return _read_json(path) if path.is_file() else None
+        if not path.is_file():
+            return None
+        try:
+            doc = _read_json(path)
+        except ValueError as exc:
+            raise CoordinatorError(CANDIDATE_CORRUPT, "stored release %s does not parse: %s"
+                                   % (_object_name(release_digest)[:16], str(exc)[:80]))
+        wanted = "sha256:" + _object_name(release_digest)
+        if not isinstance(doc, Mapping) or wanted not in (digest_of(doc), digest_of(release_identity(doc))):
+            raise CoordinatorError(CANDIDATE_CORRUPT, "stored release %s does not hash to its own address"
+                                   % _object_name(release_digest)[:16])
+        artifact = doc.get("deployment_artifact_digest")
+        if artifact and doc.get("bundle_sha256") and doc.get("bundle_sha256") != artifact:
+            raise CoordinatorError(CANDIDATE_CORRUPT, "stored release %s attaches bundle %s, its manifest "
+                                   "deployed %s" % (_object_name(release_digest)[:16],
+                                                    str(doc.get("bundle_sha256"))[:12], str(artifact)[:12]))
+        return doc
 
     def releases(self) -> List[str]:
-        return sorted(p.stem for p in (self.root / "releases").glob("*.json"))
+        """The content-addressed releases. A stem that is not a digest (the
+        pre-002 ``seed-<bundle[:16]>`` files) names no release and is skipped."""
+        return sorted(p.stem for p in (self.root / "releases").glob("*.json") if _DIGEST_STEM.match(p.stem))
 
     def fragment_digests(self, release_digest: str) -> "OrderedDict[str, str]":
         doc = self.get_release(release_digest) or OrderedDict()
         return OrderedDict((m["market_id"], m.get("fragment_digest"))
                            for m in (doc.get("markets") or ()) if m.get("fragment_digest"))
 
+    def put_stored_release(self, manifest: Mapping, *, bundle_object: str, bundle_sha256: str,
+                           fragments: Mapping[str, str]) -> Tuple[str, Path]:
+        """Store ``manifest`` at ITS OWN digest with the store's attachments
+        beside it: the composed bundle object and each market's fragment.
+
+        This is the layout ``atlas_throughput_005_pilot.store_candidate_as_release``
+        already wrote, made the store's own: the address is the digest a
+        candidate names as its parent, and the attachments are declared so
+        :meth:`get_release` can verify the address without them.
+        """
+        release_digest = digest_of(manifest)
+        artifact = manifest.get("deployment_artifact_digest")
+        if artifact and artifact != bundle_sha256:
+            raise CoordinatorError(BUNDLE_DIGEST_MISMATCH, "the bundle %s is not the release's deployment artifact %s"
+                                   % (bundle_sha256[:12], str(artifact)[:12]))
+        markets = [m.get("market_id") for m in (manifest.get("markets") or ())]
+        missing = sorted(set(markets) - set(fragments))
+        extra = sorted(set(fragments) - set(markets))
+        if missing or extra:
+            raise CoordinatorError(FRAGMENT_UNAVAILABLE, "fragments do not cover the release's markets: "
+                                   "missing %s, not in the release %s" % (missing[:4], extra[:4]))
+        doc = copy.deepcopy(OrderedDict(manifest))
+        for row in doc.get("markets") or ():
+            if "fragment_digest" in row and row["fragment_digest"] != fragments[row["market_id"]]:
+                raise CoordinatorError(PARENT_DIGEST_MISMATCH, "the manifest binds fragment %s for %s, not %s"
+                                       % (str(row["fragment_digest"])[:16], row["market_id"],
+                                          fragments[row["market_id"]][:16]))
+        attached = [key for key in ("bundle_object", "bundle_sha256") if key not in doc]
+        doc["bundle_object"] = bundle_object
+        doc["bundle_sha256"] = bundle_sha256
+        if any("fragment_digest" not in row for row in doc.get("markets") or ()):
+            attached.append(MARKET_FRAGMENT_ATTACHMENT)
+            for row in doc["markets"]:
+                row["fragment_digest"] = fragments[row["market_id"]]
+        doc[STORE_ATTACHMENTS_KEY] = attached
+        if digest_of(release_identity(doc)) != release_digest:
+            raise CoordinatorError(CANDIDATE_CORRUPT, "the stored form does not round-trip to %s"
+                                   % release_digest[7:23])
+        path = self.root / "releases" / ("%s.json" % _object_name(release_digest))
+        if path.is_file():
+            if self.get_release(release_digest) is None:          # pragma: no cover - raced away
+                raise CoordinatorError(CANDIDATE_CORRUPT, "stored release %s vanished" % release_digest[7:23])
+        else:
+            _write_json(path, doc)
+        return release_digest, path
+
     # ---- seeding ---------------------------------------------------------- #
     def seed_from_assembly(self, work_root: Path, manifest: Mapping, *,
-                           live: Optional[LiveTruth] = None) -> "OrderedDict[str, Any]":
-        """Record a whole-site assembly as a release, fragment by fragment.
+                           live: LiveTruth) -> "OrderedDict[str, Any]":
+        """Record the VERIFIED LIVE release from one whole-site assembly.
 
         ``work_root`` is an ``assemble_production_site.assemble(...,
         keep_fragments=True)`` output: ``site/`` is the composed bundle and
         ``.assemble_work/fragments/<market_id>/`` is each market's generated
-        tree. The composed bundle digest is checked against the live record
-        when ``live`` is given -- that check is what makes the seeded release
-        the LIVE release rather than merely a build of it.
+        tree.
+
+        PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002. The seed used to be
+        written as ``releases/seed-<bundle_sha[:16]>.json`` -- a name no reader
+        asks for: :meth:`get_release` is asked for the live RELEASE digest
+        (``LiveTruth.digest()``), which is neither a bundle digest nor 16
+        characters. The parent-route gate therefore always failed. It is now
+        stored at exactly that digest, through :meth:`put_stored_release`, and
+        refused outright unless it IS live: a verified live truth, the live
+        bundle byte for byte, and one fragment for every live market.
         """
+        if live is None:
+            raise CoordinatorError(LIVE_NOT_VERIFIED, "a release store is seeded only from verified live")
+        live.require_verified()
         work_root = Path(work_root)
         site = work_root / "site"
         fragments_dir = work_root / ".assemble_work" / "fragments"
@@ -522,45 +619,54 @@ class ReleaseStore:
         if not fragments_dir.is_dir():
             raise CoordinatorError(FRAGMENT_UNAVAILABLE,
                                    "assemble(keep_fragments=True) is required to seed a release store")
-        hashes = APS.file_hashes(site)
-        bundle_sha = APS.bundle_digest(hashes)
-        problems: List[str] = []
-        if live is not None and live.state.bundle_sha256 and bundle_sha != live.state.bundle_sha256:
-            problems.append("composed bundle %s is not the live bundle %s"
-                            % (bundle_sha[:12], live.state.bundle_sha256[:12]))
-        rows: List["OrderedDict[str, Any]"] = []
-        for market_id in sorted(manifest.get("market_fragments_included") or ()):
-            tree = fragments_dir / market_id
-            if not tree.is_dir():
-                problems.append("no fragment tree for %s" % market_id)
-                continue
-            stored = self.put_fragment(market_id, tree)
-            frag = (manifest.get("fragments") or {}).get(market_id) or {}
-            rows.append(OrderedDict((
-                ("market_id", market_id),
-                ("fragment_digest", stored["digest"]),
-                ("published_count", frag.get("published_count")),
-                ("files_contributed", frag.get("files_contributed")),
-            )))
+        included = sorted(manifest.get("market_fragments_included") or ())
+        if included != sorted(live.participating_markets):
+            raise CoordinatorError(PARENT_DIGEST_MISMATCH, "the assembly composed %s, live participates %s"
+                                   % (sorted(set(included) ^ set(live.participating_markets))[:4],
+                                      len(live.participating_markets)))
+        bundle_sha = APS.bundle_digest(APS.file_hashes(site))
+        if bundle_sha != live.state.bundle_sha256:
+            raise CoordinatorError(BUNDLE_DIGEST_MISMATCH, "composed bundle %s is not the live bundle %s"
+                                   % (bundle_sha[:12], str(live.state.bundle_sha256)[:12]))
+        missing = [m for m in included if not (fragments_dir / m).is_dir()]
+        if missing:
+            raise CoordinatorError(FRAGMENT_UNAVAILABLE, "no fragment tree for %s" % missing[:4])
+        fragments = OrderedDict((m, self.put_fragment(m, fragments_dir / m)["digest"]) for m in included)
         bundle = self.put_bundle(site)
-        doc = OrderedDict((
+        parent = live.manifest()
+        release_digest, path = self.put_stored_release(parent, bundle_object=bundle["digest"],
+                                                      bundle_sha256=bundle_sha, fragments=fragments)
+        stored = self.get_release(live.digest())
+        if stored is None or release_digest != live.digest():
+            raise CoordinatorError(PARENT_DIGEST_MISMATCH, "the seeded release is not readable at the live "
+                                   "release digest %s" % live.digest()[7:23])
+        return OrderedDict((
             ("schema", STORE_SCHEMA),
             ("kind", "SEEDED_FROM_ASSEMBLY"),
             ("created_at", _iso()),
-            ("anchor_market", manifest.get("anchor_market")),
-            ("context", manifest.get("context")),
-            ("base_url", manifest.get("base_url")),
+            ("release_digest", release_digest),
             ("bundle_sha256", bundle_sha),
             ("bundle_object", bundle["digest"]),
             ("source_commit", manifest.get("generated_from_commit")),
-            ("markets", rows),
-            ("live_deploy_id", live.state.deploy_id if live is not None else None),
-            ("problems", problems),
+            ("live_deploy_id", live.state.deploy_id),
+            ("markets", [OrderedDict((("market_id", m), ("fragment_digest", d))) for m, d in fragments.items()]),
+            ("path", str(path)),
         ))
-        path = self.root / "releases" / ("seed-%s.json" % _object_name(bundle_sha)[:16])
-        _write_json(path, doc)
-        doc["path"] = str(path)
-        return doc
+
+
+def release_identity(stored: Mapping) -> "OrderedDict[str, Any]":
+    """A stored release with its declared store attachments removed: the
+    document whose digest is the release's address."""
+    doc = copy.deepcopy(OrderedDict(stored))
+    attached = list(doc.pop(STORE_ATTACHMENTS_KEY, None) or ())
+    for key in attached:
+        if key == MARKET_FRAGMENT_ATTACHMENT:
+            for row in doc.get("markets") or ():
+                if isinstance(row, dict):
+                    row.pop("fragment_digest", None)
+        else:
+            doc.pop(key, None)
+    return doc
 
 
 # --------------------------------------------------------------------------- #
@@ -752,7 +858,8 @@ def stage(*, package: Optional[Mapping] = None, delta_kind: str = UPDATE,
           parent_release_digest: Optional[str] = None,
           run_fast_lane: bool = True,
           require_gates: bool = True,
-          now: Optional[datetime] = None) -> Candidate:
+          now: Optional[datetime] = None,
+          receipts_dir: Optional[Path] = None) -> Candidate:
     """CURRENT LIVE + ONE AUTHORIZED PACKAGE DELTA = ONE FINAL CANDIDATE.
 
     Every unchanged live market is inherited by fragment digest from the
@@ -776,6 +883,12 @@ def stage(*, package: Optional[Mapping] = None, delta_kind: str = UPDATE,
     delta_market = str(package["market_id"]) if package is not None else None
     if package is None and delta_kind != NO_DELTA:
         raise CoordinatorError(INTENDED_DELTA_MISMATCH, "%s needs a sealed package" % delta_kind)
+    # PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: skipping the FAST lane
+    # here re-uses its verdict, never waives it. The committed receipt must
+    # prove THIS package against THIS live parent, or staging refuses.
+    bound_receipt = None
+    if package is not None and not run_fast_lane:
+        bound_receipt = bound_fast_receipt(package, live, receipts_dir=receipts_dir)
 
     timing: "OrderedDict[str, float]" = OrderedDict()
     t = time.perf_counter()
@@ -857,8 +970,8 @@ def stage(*, package: Optional[Mapping] = None, delta_kind: str = UPDATE,
     if site.exists():
         shutil.rmtree(site, ignore_errors=True)
     site.mkdir(parents=True)
-    globals_written = _compose(site, participating, configs, trees, anchor,
-                               context=context, base_url=base_url)
+    globals_written, fragment_records = _compose(site, participating, configs, trees, anchor,
+                                                 context=context, base_url=base_url)
     timing["compose_seconds"] = round(time.perf_counter() - t, 3)
 
     # ---- gates ----------------------------------------------------------- #
@@ -949,8 +1062,15 @@ def stage(*, package: Optional[Mapping] = None, delta_kind: str = UPDATE,
     _write_json(staging / "release_manifest.json", manifest)
     _write_json(staging / "release_diff.json", diff)
     _write_json(staging / "gates.json", OrderedDict((("failing", failing), ("gates", gates))))
+    if receipt is None and bound_receipt is not None:
+        receipt = bound_receipt
     if receipt is not None:
         _write_json(staging / "fast_lane_receipt.json", receipt)
+    # What the assembler's own manifest says about each market's files, kept
+    # beside the candidate so deployment_bundle_manifest() can describe these
+    # exact bytes without a second composition.
+    _write_json(staging / "fragments.json", OrderedDict((
+        ("anchor_market", anchor.market_id), ("fragments", fragment_records))))
     timing["total_seconds"] = round(time.perf_counter() - started, 3)
     telemetry = OrderedDict((
         ("release_operation_id", "stage-%s" % uuid.uuid4().hex[:12]),
@@ -963,6 +1083,10 @@ def stage(*, package: Optional[Mapping] = None, delta_kind: str = UPDATE,
         ("bundles_rebuilt", rebuilt),
         ("global_artifacts_regenerated", sum(1 for v in GLOBAL_ARTIFACTS.values() if v[0] == REGENERATE)),
         ("cache_hits", cache_hits), ("cache_misses", cache_misses),
+        ("delta_market_builder_invocations", sum(int(r.get("builder_invocations") or 0) for r in rows
+                                                 if r.get("fragment_source") == FROM_PACKAGE)),
+        ("fast_lane_receipt_source", "STAGE" if run_fast_lane and package is not None
+         else ("SEAL_RECEIPT_BOUND" if bound_receipt is not None else None)),
         ("stale_parent", False), ("unexpected_delta", diff["unexpected_changes"]),
         ("result", CANDIDATE_STAGED),
     ))
@@ -979,6 +1103,93 @@ def stage(*, package: Optional[Mapping] = None, delta_kind: str = UPDATE,
     _write_json(staging / "telemetry.json", telemetry)
     os.replace(str(staging), str(root))
     return Candidate(root, manifest, diff, receipt, telemetry)
+
+
+def bound_fast_receipt(package: Mapping, live: "LiveTruth", *,
+                       receipts_dir: Optional[Path] = None) -> "OrderedDict[str, Any]":
+    """The committed FAST receipt that already proved ``package`` against the
+    CURRENT live parent -- or :data:`RECEIPT_NOT_BOUND`.
+
+    PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002. The registration lane's
+    ``seal`` ran rules A-O on this exact package (two cold builds of the
+    market included). A staging pass that re-uses that verdict instead of
+    re-running it must be able to name it: eligible, hashing to itself, every
+    rule PASS, this package's digest, this market, this live parent."""
+    market_id = str(package["market_id"])
+    paths = FL.eligible_receipts(market_id, str(package["package_digest"]), receipts_dir)
+    if not paths:
+        raise CoordinatorError(RECEIPT_NOT_BOUND, "no committed FAST receipt says ELIGIBLE for %s"
+                               % package.get("package_id"))
+    doc = _read_json(paths[-1])
+    problems: List[str] = []
+    body = OrderedDict((k, v) for k, v in doc.items()
+                       if k not in ("TIMESTAMPS", "ENVIRONMENT", "PERFORMANCE", "RECEIPT_DIGEST"))
+    if doc.get("RECEIPT_DIGEST") != digest_of(body):
+        problems.append("the receipt does not hash to its own contents")
+    results = doc.get("RESULTS") or {}
+    failed = sorted(rule for rule in FL.RULES if (results.get(rule) or {}).get("status") != FL.PASS)
+    if failed or doc.get("UNKNOWN_RULES") or doc.get("FAILED_RULES"):
+        problems.append("rules not all PASS: %s" % (failed or doc.get("UNKNOWN_RULES") or doc.get("FAILED_RULES")))
+    if doc.get("MARKET_ID") != market_id or doc.get("PACKAGE_ID") != package.get("package_id"):
+        problems.append("the receipt binds %s / %s" % (doc.get("MARKET_ID"), doc.get("PACKAGE_ID")))
+    parent = doc.get("PARENT_RELEASE") or {}
+    if parent.get("source_commit") != live.state.source_commit:
+        problems.append("the receipt's parent source commit %r is not live's %r"
+                        % (str(parent.get("source_commit"))[:12], live.state.source_commit[:12]))
+    if problems:
+        raise CoordinatorError(RECEIPT_NOT_BOUND, "%s: %s" % (paths[-1].name, "; ".join(problems[:3])))
+    return doc
+
+
+def deployment_bundle_manifest(candidate: "Candidate", *, context: str = "production",
+                               base_url: str = "https://pettripfinder.com") -> Dict:
+    """The assembler's global bundle manifest for a STAGED candidate -- what
+    ``global_deployment.build_manifest`` consumes -- computed by the
+    assembler's own :func:`assemble_production_site.describe_composed_bundle`
+    over the candidate's bytes on disk.
+
+    PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002. Refuses unless the
+    candidate participates exactly as the COMMITTED participation record and
+    the assembler's own market selection say: a candidate staged under any
+    other membership (a projection) describes no deployable artifact. Nothing
+    is written; the existing deployment path decides what to do with it.
+    """
+    chosen, eligibility = APS.select_markets()
+    chosen_ids = [m.market_id for m in chosen]
+    staged = list(candidate.manifest.get("participating_markets") or ())
+    if sorted(chosen_ids) != sorted(staged):
+        raise CoordinatorError(NOT_DEPLOYABLE_UNDER_COMMITTED_PARTICIPATION,
+                               "staged %s, the committed participation assembles %s"
+                               % (sorted(set(staged) - set(chosen_ids)), sorted(set(chosen_ids) - set(staged))))
+    problems = candidate.verify_bytes()
+    if problems:
+        raise CoordinatorError(CANDIDATE_CORRUPT, "; ".join(problems))
+    records = _read_json(candidate.root / "fragments.json")
+    fragments = OrderedDict((m, records["fragments"][m]) for m in chosen_ids)
+    anchor = APS.anchor_market(chosen)
+    bundle = candidate.site
+    missing_pages = [rel for rel in ("index.html", "pet-friendly-hotels/index.html", "about/index.html",
+                                     "contact/index.html", "methodology/index.html")
+                     if not (bundle / rel).is_file()]
+    gates: "OrderedDict[str, Dict]" = OrderedDict()
+    # _compose refuses on any collision or global shadowing, so a staged
+    # candidate carries none; the gates record exactly that.
+    APS.record_assembly_gates(gates, [], [], missing_pages)
+    entries = [OrderedDict((
+        ("market_id", m.market_id), ("name", m.market_name), ("route", APS.market_route(m)),
+        ("comparison_route", APS.market_route(m) + "policy-comparison/"),
+        ("scope", APS.market_scope_line(m)), ("published", fragments[m.market_id]["published_count"]),
+    )) for m in chosen]
+    visible = [e for e, m in zip(entries, chosen) if m.show_in_navigation]
+    manifest, _failing, _hashes = APS.describe_composed_bundle(
+        gates, bundle, chosen=chosen, eligibility=eligibility, fragments=fragments,
+        collisions=[], shadowing=[], anchor=anchor, visible=visible, context=context, base_url=base_url,
+        headers_bytes=APS.HEADERS_SOURCES[context].read_bytes(),
+        redirects_bytes=APS.REDIRECTS_SOURCE.read_bytes())
+    if manifest.get("bundle_sha256") != candidate.bundle_sha256:
+        raise CoordinatorError(BUNDLE_DIGEST_MISMATCH, "the described bundle %s is not the candidate's %s"
+                               % (str(manifest.get("bundle_sha256"))[:12], candidate.bundle_sha256[:12]))
+    return dict(manifest)
 
 
 def _fragment_from_package(package: Mapping, dest: Path, *, cache: Optional[Any],
@@ -1030,14 +1241,33 @@ def _fragment_from_package(package: Mapping, dest: Path, *, cache: Optional[Any]
 
 def _compose(site: Path, participating: Sequence[str], configs: Mapping[str, Any],
              trees: Mapping[str, Path], anchor: Any, *, context: str, base_url: str
-             ) -> "OrderedDict[str, str]":
-    """Copy every market's owned files, then write the release-global set."""
+             ) -> Tuple["OrderedDict[str, str]", "OrderedDict[str, OrderedDict]"]:
+    """Copy every market's owned files, then write the release-global set.
+
+    Returns ``(global artifacts written, per-market fragment records)``; the
+    records are the assembler manifest's own ``fragments`` rows
+    (PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002)."""
     anchor_pages: Dict[str, str] = {}
     route_owner: Dict[str, str] = {}
     collisions: List[str] = []
+    records: "OrderedDict[str, OrderedDict]" = OrderedDict()
     for market_id in participating:
         tree = Path(trees[market_id])
-        owned, _discarded, violations = APS.classify_fragment(configs[market_id], tree)
+        market = configs[market_id]
+        owned, discarded, violations = APS.classify_fragment(market, tree)
+        declared = APS.owned_routes(market)
+        records[market_id] = OrderedDict((
+            ("market_id", market.market_id),
+            ("market_name", market.market_name),
+            ("route_mode", market.route_mode),
+            ("hub_route", APS.market_route(market)),
+            ("comparison_route", APS.market_route(market) + "policy-comparison/"),
+            ("hotel_routes", sorted(r for r, k in declared.items() if k == "hotel_profile")),
+            ("corridor_routes", sorted(r for r, k in declared.items() if k == "corridor")),
+            ("published_count", sum(1 for k in declared.values() if k == "hotel_profile")),
+            ("files_contributed", len(owned)),
+            ("globals_discarded", sorted(discarded)),
+        ))
         if violations:
             raise CoordinatorError(UNKNOWN_GLOBAL_DEPENDENCY,
                                    "%s claims global routes %s" % (market_id, violations))
@@ -1105,7 +1335,7 @@ def _compose(site: Path, participating: Sequence[str], configs: Mapping[str, Any
     if unknown:
         raise CoordinatorError(UNKNOWN_GLOBAL_DEPENDENCY,
                                "no regeneration class declared for %s" % unknown)
-    return written
+    return written, records
 
 
 def _migration_gate_with_intent(gates: "OrderedDict[str, Dict]", site: Path,
@@ -1192,7 +1422,12 @@ def _parent_route_gate(gates: "OrderedDict[str, Dict]", site: Path, store: "Rele
     The parent's route list is read from the stored archive's index, so this
     costs milliseconds and never extracts a byte.
     """
-    doc = store.get_release(parent_digest) if parent_digest else None
+    try:
+        doc = store.get_release(parent_digest) if parent_digest else None
+    except CoordinatorError as exc:
+        APS._gate(gates, "release.parent_routes_preserved", False,
+                  "%s: the stored parent release is not trustworthy: %s" % (exc.code, exc.detail))
+        return
     if not doc or not doc.get("bundle_object"):
         APS._gate(gates, "release.parent_routes_preserved", False,
                   "no stored parent bundle for %s: a candidate cannot prove what it preserved"
@@ -1202,6 +1437,16 @@ def _parent_route_gate(gates: "OrderedDict[str, Dict]", site: Path, store: "Rele
     if not archive.is_file():
         APS._gate(gates, "release.parent_routes_preserved", False,
                   "the stored parent bundle object is missing")
+        return
+    # PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: the archive is content
+    # addressed; one that no longer hashes to its name is a corrupt parent.
+    archive_sha = hashlib.sha256()
+    with archive.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1 << 20), b""):
+            archive_sha.update(chunk)
+    if archive_sha.hexdigest() != _object_name(str(doc["bundle_object"])):
+        APS._gate(gates, "release.parent_routes_preserved", False,
+                  "%s: the stored parent bundle object does not hash to its name" % CANDIDATE_CORRUPT)
         return
     import zipfile
     with zipfile.ZipFile(archive) as zf:
@@ -1707,7 +1952,14 @@ def rollback(*, to_release_digest: str, expected_current: str, host: SimulatedHo
              % (str(expected_current)[7:23], str(current)[7:23])),
             ("seconds", round(time.perf_counter() - started, 3)),
         ))
-    target = store.get_release(to_release_digest)
+    try:
+        target = store.get_release(to_release_digest)
+    except CoordinatorError as exc:
+        return OrderedDict((
+            ("outcome", ACTIVATION_REFUSED), ("refusal", exc.code),
+            ("detail", "release %s is stored but corrupt: %s" % (to_release_digest[7:23], exc.detail)),
+            ("seconds", round(time.perf_counter() - started, 3)),
+        ))
     if target is None:
         return OrderedDict((
             ("outcome", ACTIVATION_REFUSED), ("refusal", FRAGMENT_UNAVAILABLE),

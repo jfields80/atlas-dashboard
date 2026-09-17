@@ -2250,6 +2250,18 @@ def _print_matrix(doc: Mapping) -> None:
           % ", ".join(doc["safe_narrow_classes"]))
 
 
+def classify_document(base: str, head: str = WORKTREE) -> Dict:
+    """The ``classify`` verdict as one document: the classification, its plan,
+    ``FULL_REGRESSION_REQUIRED`` and the reason. The CLI and the registration
+    release lane both write exactly this."""
+    doc = classify_change(base, head)
+    plan = plan_for(doc)
+    doc["plan"] = plan
+    doc["FULL_REGRESSION_REQUIRED"] = "YES" if plan["full_regression_required"] else "NO"
+    doc["full_regression_reason"] = _full_reason(plan)
+    return doc
+
+
 def main(argv: Optional[Sequence[str]] = None) -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = p.add_subparsers(dest="command", required=True)
@@ -2297,12 +2309,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         return 0
 
     if args.command == "classify":
-        doc = classify_change(args.base, args.head)
-        plan = plan_for(doc)
-        doc["plan"] = plan
-        doc["FULL_REGRESSION_REQUIRED"] = ("YES" if plan["full_regression_required"]
-                                           else "NO")
-        doc["full_regression_reason"] = _full_reason(plan)
+        doc = classify_document(args.base, args.head)
+        plan = doc["plan"]
         if args.out:
             _write_json(Path(args.out), doc)
         for row in doc["changed_files"]:

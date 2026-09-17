@@ -431,6 +431,321 @@ def current_verified_live(deploy_dir: Optional[Path] = None,
     )
 
 
+# --------------------------------------------------------------------------- #
+# PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: CURRENT LIVE SOURCE COMMIT.
+# --------------------------------------------------------------------------- #
+
+LIVE_SOURCE_SCHEMA = "ptf-current-live-source/1.0"
+
+# Refusal codes. Every one is fail-closed: a resolution carrying any of them
+# names no live source commit a registration may start from.
+MISSING_LIVE_RECORD = "MISSING_LIVE_RECORD"
+CONFLICTING_LIVE_RECORDS = "CONFLICTING_LIVE_RECORDS"
+LINEAGE_AMBIGUOUS = "LINEAGE_AMBIGUOUS"
+INCONSISTENT_DEPLOYMENT_RECORDS = "INCONSISTENT_DEPLOYMENT_RECORDS"
+SOURCE_NOT_IN_LINEAGE = "SOURCE_NOT_IN_LINEAGE"
+HOST_MISMATCH = "HOST_MISMATCH"
+GIT_UNREADABLE = "GIT_UNREADABLE"
+
+_LIVE_TRUTH_PATHS: Tuple[str, ...] = (
+    "deploy/netlify/deployment_records",
+    "deploy/netlify/deployment_authorizations",
+    "deploy/netlify/global_deployment_manifest.json",
+    "tests/pettripfinder/pins/deployment_state.json",
+)
+
+
+class LiveSourceError(ReleaseIndexError):
+    """No current live source commit can be named; ``problems`` says why."""
+
+    def __init__(self, problems: Sequence[str]) -> None:
+        super().__init__("; ".join(problems[:4]))
+        self.problems = list(problems)
+
+
+def _git_bytes(git_root: Path, *args: str, stdin: Optional[bytes] = None) -> bytes:
+    import subprocess
+    proc = subprocess.run(["git", *args], cwd=str(git_root), input=stdin, capture_output=True)
+    if proc.returncode != 0:
+        raise ReleaseIndexError("git %s failed: %s" % (" ".join(args[:3]),
+                                                      proc.stderr.decode("utf-8", "replace").strip()[:200]))
+    return proc.stdout
+
+
+def _is_ancestor(git_root: Path, older: str, newer: str) -> bool:
+    import subprocess
+    return subprocess.run(["git", "merge-base", "--is-ancestor", older, newer], cwd=str(git_root),
+                          capture_output=True).returncode == 0
+
+
+def _cat_file_batch(git_root: Path, objects: Sequence[str]) -> "OrderedDict[str, Optional[bytes]]":
+    """``object -> bytes`` for every object in one ``git cat-file --batch``;
+    ``None`` for an object git does not have."""
+    out: "OrderedDict[str, Optional[bytes]]" = OrderedDict()
+    if not objects:
+        return out
+    data = _git_bytes(git_root, "cat-file", "--batch", stdin="".join("%s\n" % o for o in objects).encode("utf-8"))
+    pos = 0
+    for name in objects:
+        end = data.index(b"\n", pos)
+        header = data[pos:end].decode("utf-8", "replace").split()
+        pos = end + 1
+        if len(header) < 3 or header[-1] == "missing":
+            out[name] = None
+            continue
+        size = int(header[2])
+        out[name] = data[pos:pos + size]
+        pos += size + 1
+    return out
+
+
+def resolve_current_live_source(git_root: Optional[Path] = None, *, prefix: Optional[str] = None,
+                                refs: Optional[Sequence[str]] = None, head: str = "HEAD",
+                                fetch: bool = False,
+                                verify_host: Optional[Any] = None) -> "OrderedDict[str, Any]":
+    """CURRENT_LIVE_SOURCE_COMMIT, from the committed deployment records of
+    EVERY ref this clone knows -- never from whichever branch is checked out,
+    and never from ``origin/main`` merely because it is called main.
+
+    1. Every local and remote-tracking ref (plus ``head``) is read for its
+       ``deploy/netlify/deployment_records/``. Records are immutable, so one
+       file name carrying two different contents anywhere is a conflict.
+    2. The newest DEPLOYED record (by ``deployed_at``) is live. Two different
+       deployments sharing that instant is a conflict.
+    3. The LIVE LINEAGE COMMIT is the commit that added that record. Every ref
+       carrying the record must descend from it, or the lineage is ambiguous.
+    4. At that commit, the deployment record, global manifest, deployment-state
+       pin and consumed authorization must agree
+       (:func:`current_verified_live`), and the record's own ``source_commit``
+       must be an ancestor.
+    5. ``verify_host`` (optional) is a ``url -> bytes`` fetcher: the served
+       sitemap must hash to the record's ``sitemap_sha256``.
+
+    ``CURRENT_LIVE_SOURCE_COMMIT`` is the lineage commit -- the one a new
+    market starts from, because it carries the live records themselves.
+    ``built_from_commit`` is the record's ``source_commit``: the commit the
+    deployed bytes were built from, which predates its own deployment record.
+    """
+    import hashlib
+    import io
+    import tempfile
+    import zipfile
+
+    git_root = Path(git_root) if git_root is not None else REPO_ROOT.parent
+    prefix = prefix if prefix is not None else REPO_ROOT.name + "/"
+    started = time.perf_counter()
+    problems: List[str] = []
+    codes: List[str] = []
+    doc: "OrderedDict[str, Any]" = OrderedDict((
+        ("schema", LIVE_SOURCE_SCHEMA),
+        ("CURRENT_LIVE_SOURCE_COMMIT", None), ("built_from_commit", None),
+        ("live_deploy_id", None), ("deployment_record", None), ("deployed_at", None),
+        ("bundle_sha256", None), ("sitemap_sha256", None),
+        ("participating_markets", []), ("total_profiles", None), ("sitemap_route_count", None),
+        ("head", head), ("head_commit", None), ("head_contains_live", False),
+        ("origin_main", None), ("origin_main_contains_live", None), ("origin_main_stale", None),
+        ("refs_scanned", 0), ("refs_containing_live", []), ("host_verified", None),
+    ))
+
+    def _refuse(code: str, message: str) -> "OrderedDict[str, Any]":
+        codes.append(code)
+        problems.append("%s: %s" % (code, message))
+        return _finish()
+
+    def _finish() -> "OrderedDict[str, Any]":
+        doc["problems"] = problems
+        doc["refusal_codes"] = sorted(set(codes))
+        doc["RESOLVED"] = "YES" if not problems and doc["CURRENT_LIVE_SOURCE_COMMIT"] else "NO"
+        doc["seconds"] = round(time.perf_counter() - started, 3)
+        return doc
+
+    records_dir = prefix + "deploy/netlify/deployment_records"
+    try:
+        if fetch:
+            _git_bytes(git_root, "fetch", "--prune", "origin")
+        doc["head_commit"] = _git_bytes(git_root, "rev-parse", head).decode().strip()
+        if refs is None:
+            listing = _git_bytes(git_root, "for-each-ref", "--format=%(refname)", "refs/heads", "refs/remotes")
+            refs = [r for r in listing.decode("utf-8").split() if not r.endswith("/HEAD")]
+        refs = list(refs) + [head]
+        doc["refs_scanned"] = len(refs)
+        # One tree per ref, then one listing per DISTINCT tree: 200 refs cost
+        # a few dozen listings, not 200.
+        tree_of_ref: "OrderedDict[str, str]" = OrderedDict()
+        check =_git_bytes(git_root, "cat-file", "--batch-check",
+                           stdin="".join("%s:%s\n" % (ref, records_dir) for ref in refs).encode("utf-8"))
+        for ref, line in zip(refs, check.decode("utf-8").splitlines()):
+            parts = line.split()
+            if len(parts) >= 2 and parts[1] == "tree":
+                tree_of_ref[ref] = parts[0]
+        blobs_of_tree: Dict[str, Dict[str, str]] = {}
+        for tree in sorted(set(tree_of_ref.values())):
+            entries: Dict[str, str] = {}
+            for line in _git_bytes(git_root, "ls-tree", tree).decode("utf-8").splitlines():
+                meta, _tab, name = line.partition("\t")
+                parts = meta.split()
+                if len(parts) == 3 and parts[1] == "blob" and name.endswith(".json"):
+                    entries[name] = parts[2]
+            blobs_of_tree[tree] = entries
+    except ReleaseIndexError as exc:
+        return _refuse(GIT_UNREADABLE, str(exc))
+
+    by_name: Dict[str, Set[str]] = {}
+    refs_of_blob: Dict[str, List[str]] = {}
+    for ref, tree in tree_of_ref.items():
+        for name, blob in blobs_of_tree[tree].items():
+            by_name.setdefault(name, set()).add(blob)
+            refs_of_blob.setdefault(blob, []).append(ref)
+    for name, blobs in sorted(by_name.items()):
+        if len(blobs) > 1:
+            codes.append(CONFLICTING_LIVE_RECORDS)
+            problems.append("%s: deployment record %s has %d different contents across refs (records are "
+                            "immutable)" % (CONFLICTING_LIVE_RECORDS, name, len(blobs)))
+    contents = _cat_file_batch(git_root, sorted({b for blobs in by_name.values() for b in blobs}))
+    deployed: List[Tuple[str, str, str, Mapping]] = []
+    for name, blobs in sorted(by_name.items()):
+        for blob in sorted(blobs):
+            try:
+                record = json.loads((contents.get(blob) or b"").decode("utf-8-sig"), object_pairs_hook=OrderedDict)
+            except ValueError:
+                codes.append(CONFLICTING_LIVE_RECORDS)
+                problems.append("%s: deployment record %s does not parse" % (CONFLICTING_LIVE_RECORDS, name))
+                continue
+            if isinstance(record, Mapping) and record.get("final_status") == "DEPLOYED" and record.get("deployed_at"):
+                deployed.append((str(record["deployed_at"]), name, blob, record))
+    if not deployed:
+        return _refuse(MISSING_LIVE_RECORD, "no DEPLOYED deployment record under %s in any of %d refs"
+                       % (records_dir, len(refs)))
+    deployed.sort(key=lambda r: (r[0], r[1]))
+    newest_at, name, blob, record = deployed[-1]
+    rivals = sorted({r[3].get("deployment_id") for r in deployed if r[0] == newest_at} - {record.get("deployment_id")})
+    if rivals:
+        return _refuse(CONFLICTING_LIVE_RECORDS, "deployments %s and %s both claim to be the newest (%s)"
+                       % (record.get("deployment_id"), rivals, newest_at))
+    same_deploy = sorted({r[1] for r in deployed if r[3].get("deployment_id") == record.get("deployment_id")})
+    if len(same_deploy) > 1:
+        return _refuse(CONFLICTING_LIVE_RECORDS, "deployment %s is recorded by %d files: %s"
+                       % (record.get("deployment_id"), len(same_deploy), same_deploy))
+    if problems:
+        return _finish()
+
+    doc.update(OrderedDict((
+        ("live_deploy_id", record.get("deployment_id")), ("deployment_record", name),
+        ("deployed_at", newest_at), ("built_from_commit", record.get("source_commit")),
+        ("bundle_sha256", record.get("bundle_sha256")), ("sitemap_sha256", record.get("sitemap_sha256")),
+        ("participating_markets", list(record.get("participating_markets") or ())),
+        ("total_profiles", record.get("total_profiles")), ("sitemap_route_count", record.get("sitemap_route_count")),
+    )))
+    carriers = sorted(set(refs_of_blob.get(blob) or ()))
+    doc["refs_containing_live"] = carriers
+    try:
+        path = "%s/%s" % (records_dir, name)
+        lineage = _git_bytes(git_root, "log", "--diff-filter=A", "--format=%H", "-1", carriers[0],
+                             "--", path).decode().strip()
+    except ReleaseIndexError as exc:
+        return _refuse(GIT_UNREADABLE, str(exc))
+    if not lineage:
+        return _refuse(LINEAGE_AMBIGUOUS, "no commit adds %s on %s" % (name, carriers[0]))
+    strays = [ref for ref in carriers if not _is_ancestor(git_root, lineage, ref)]
+    if strays:
+        return _refuse(LINEAGE_AMBIGUOUS, "%s carry the live record without descending from %s, the commit that "
+                       "added it" % (strays[:4], lineage[:12]))
+
+    # The live truth, AT the lineage commit, must agree with itself.
+    try:
+        archive = _git_bytes(git_root, "archive", "--format=zip", lineage,
+                             *[prefix + p for p in _LIVE_TRUTH_PATHS])
+    except ReleaseIndexError as exc:
+        return _refuse(INCONSISTENT_DEPLOYMENT_RECORDS, "the live-truth files are not all present at %s: %s"
+                       % (lineage[:12], exc))
+    with tempfile.TemporaryDirectory() as scratch:
+        with zipfile.ZipFile(io.BytesIO(archive)) as zf:
+            zf.extractall(scratch)
+        root = Path(scratch) / prefix
+        try:
+            state = current_verified_live(deploy_dir=root / "deploy" / "netlify",
+                                          pins_dir=root / "tests" / "pettripfinder" / "pins")
+        except ReleaseIndexError as exc:
+            return _refuse(INCONSISTENT_DEPLOYMENT_RECORDS, str(exc))
+    for problem in state.problems:
+        codes.append(INCONSISTENT_DEPLOYMENT_RECORDS)
+        problems.append("%s: at %s: %s" % (INCONSISTENT_DEPLOYMENT_RECORDS, lineage[:12], problem))
+    if state.deploy_id != record.get("deployment_id"):
+        codes.append(INCONSISTENT_DEPLOYMENT_RECORDS)
+        problems.append("%s: at %s the newest record is %s, not the live %s"
+                        % (INCONSISTENT_DEPLOYMENT_RECORDS, lineage[:12], state.deploy_id, record.get("deployment_id")))
+    source = str(record.get("source_commit") or "")
+    if not source or not _is_ancestor(git_root, source, lineage):
+        codes.append(SOURCE_NOT_IN_LINEAGE)
+        problems.append("%s: the record's source_commit %r is not an ancestor of %s"
+                        % (SOURCE_NOT_IN_LINEAGE, source[:12], lineage[:12]))
+    if verify_host is not None and not problems:
+        try:
+            served = verify_host("https://pettripfinder.com/sitemap.xml")
+            served_sha = hashlib.sha256(served).hexdigest()
+            doc["host_verified"] = served_sha == record.get("sitemap_sha256")
+            if not doc["host_verified"]:
+                codes.append(HOST_MISMATCH)
+                problems.append("%s: the served sitemap hashes %s, the live record says %s"
+                                % (HOST_MISMATCH, served_sha[:16], str(record.get("sitemap_sha256"))[:16]))
+        except Exception as exc:
+            doc["host_verified"] = False
+            codes.append(HOST_MISMATCH)
+            problems.append("%s: the host could not be read: %s" % (HOST_MISMATCH, str(exc)[:120]))
+
+    doc["CURRENT_LIVE_SOURCE_COMMIT"] = lineage
+    doc["head_contains_live"] = _is_ancestor(git_root, lineage, doc["head_commit"])
+    try:
+        origin_main = _git_bytes(git_root, "rev-parse", "--verify", "-q", "refs/remotes/origin/main").decode().strip()
+    except ReleaseIndexError:
+        origin_main = ""
+    if origin_main:
+        doc["origin_main"] = origin_main
+        doc["origin_main_contains_live"] = _is_ancestor(git_root, lineage, origin_main)
+        doc["origin_main_stale"] = not doc["origin_main_contains_live"]
+    return _finish()
+
+
+def require_current_live_source(resolution: Mapping) -> str:
+    """The lineage commit, or :class:`LiveSourceError`."""
+    if resolution.get("RESOLVED") != "YES" or resolution.get("problems"):
+        raise LiveSourceError(list(resolution.get("problems") or ["unresolved"]))
+    return str(resolution["CURRENT_LIVE_SOURCE_COMMIT"])
+
+
+def _fetch_url(url: str) -> bytes:
+    import urllib.request
+    with urllib.request.urlopen(url, timeout=60) as response:   # noqa: S310 - fixed https host
+        return response.read()
+
+
+def main(argv: Optional[Sequence[str]] = None) -> int:
+    import argparse
+    parser = argparse.ArgumentParser(description="PetTripFinder release index")
+    sub = parser.add_subparsers(dest="command", required=True)
+    s = sub.add_parser("live-source", help="resolve CURRENT_LIVE_SOURCE_COMMIT from every ref's deployment records")
+    s.add_argument("--json", action="store_true")
+    s.add_argument("--fetch", action="store_true", help="git fetch --prune origin first")
+    s.add_argument("--verify-host", action="store_true", help="hash the served sitemap against the live record")
+    s.add_argument("--out", default=None)
+    args = parser.parse_args(argv)
+    doc = resolve_current_live_source(fetch=args.fetch, verify_host=_fetch_url if args.verify_host else None)
+    text = json.dumps(doc, indent=1, ensure_ascii=False)
+    if args.out:
+        Path(args.out).write_text(text + "\n", encoding="utf-8", newline="\n")
+    if args.json:
+        print(text)
+    else:
+        for key in ("RESOLVED", "CURRENT_LIVE_SOURCE_COMMIT", "built_from_commit", "live_deploy_id",
+                    "deployment_record", "total_profiles", "sitemap_route_count", "head_contains_live",
+                    "origin_main_contains_live", "origin_main_stale", "refs_scanned", "host_verified", "seconds"):
+            print("%-28s %s" % (key, doc.get(key)))
+        print("%-28s %d" % ("participating_markets", len(doc.get("participating_markets") or ())))
+        for problem in doc.get("problems") or ():
+            print("PROBLEM", problem)
+    return 0 if doc["RESOLVED"] == "YES" else 1
+
+
 def live_index(live: Optional[LiveState] = None) -> Tuple[ReleaseIndex, LiveState, List[str]]:
     """The committed authority of every live market, checked against the
     live record's profile counts. Returns ``(index, live_state, problems)``:
@@ -736,4 +1051,11 @@ __all__ = [
     "UNEXPECTED_PROPERTY_DELETION", "UNEXPECTED_MEMBERSHIP_CHANGE", "UNINTENDED_ADDITION",
     "UNINTENDED_UPDATE", "UNINTENDED_ROUTE_CHANGE", "INTENT_NOT_REALISED", "DELTA_MISMATCH",
     "UNRELATED_MARKET_CHANGED",
+    "LIVE_SOURCE_SCHEMA", "LiveSourceError", "resolve_current_live_source", "require_current_live_source",
+    "MISSING_LIVE_RECORD", "CONFLICTING_LIVE_RECORDS", "LINEAGE_AMBIGUOUS", "INCONSISTENT_DEPLOYMENT_RECORDS",
+    "SOURCE_NOT_IN_LINEAGE", "HOST_MISMATCH", "GIT_UNREADABLE",
 ]
+
+
+if __name__ == "__main__":                               # pragma: no cover
+    raise SystemExit(main())
