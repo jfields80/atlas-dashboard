@@ -1408,6 +1408,50 @@ def _split_consequential(lost: Sequence[str], declared_removals: Set[str]
     return consequential, undeclared
 
 
+def _split_implied_additions(added: Sequence[str], declared_additions: Set[str]
+                             ) -> Tuple[List[str], List[str]]:
+    """``(implied, undeclared)`` for the routes a candidate newly serves.
+
+    PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: the mirror of
+    :func:`_split_consequential`. A package's ``intended_delta.add_routes``
+    declares the INDEXABLE routes a joining market brings -- its hub, its
+    corridors and its profiles (``registration_release_lane.joining_delta``) --
+    and not the routes that exist only because one of those does:
+
+    * ``/go/<market>/<slug>/<action>/`` for each commercial action of a
+      declared profile ``/pet-friendly-hotels/<market>/<slug>/``, and
+    * ``<hub>policy-comparison/`` for a declared market hub.
+
+    Without this, every joining market failed ``release.additions_are_declared``
+    on its own action pages (57 routes for Augusta's 14 profiles), so the
+    reuse lane could never stage one. Anything else new -- another market's
+    page, an action of an undeclared profile, an unknown action -- stays
+    undeclared and fails the gate.
+    """
+    from scripts.pettripfinder import commercial_actions as CA
+
+    declared_pages: Set[Tuple[str, str]] = set()
+    declared_hubs: Set[str] = set()
+    for route in declared_additions:
+        parts = [seg for seg in str(route).split("/") if seg]
+        if len(parts) == 3 and parts[0] == "pet-friendly-hotels":
+            declared_pages.add((parts[1], parts[2]))
+        elif len(parts) == 2 and parts[0] == "pet-friendly-hotels":
+            declared_hubs.add(str(route))
+    implied: List[str] = []
+    undeclared: List[str] = []
+    for route in added:
+        parts = [seg for seg in route.split("/") if seg]
+        if (route.startswith("/go/") and len(parts) == 4 and (parts[1], parts[2]) in declared_pages
+                and parts[3] in CA.ACTION_TYPES):
+            implied.append(route)
+        elif route.endswith("/policy-comparison/") and route[: -len("policy-comparison/")] in declared_hubs:
+            implied.append(route)
+        else:
+            undeclared.append(route)
+    return implied, undeclared
+
+
 def _parent_route_gate(gates: "OrderedDict[str, Dict]", site: Path, store: "ReleaseStore",
                        parent_digest: Optional[str], intended_delta: Mapping) -> None:
     """Every route the PARENT RELEASE served must still be served here.
@@ -1456,7 +1500,9 @@ def _parent_route_gate(gates: "OrderedDict[str, Dict]", site: Path, store: "Rele
     declared_removals = set(intended_delta.get("remove_routes") or ())
     lost_all = sorted(parent_routes - here)
     consequential, undeclared = _split_consequential(lost_all, declared_removals)
-    undeclared_adds = sorted(here - parent_routes - set(intended_delta.get("add_routes") or ()))
+    implied_adds, undeclared_adds = _split_implied_additions(
+        sorted(here - parent_routes - set(intended_delta.get("add_routes") or ())),
+        set(intended_delta.get("add_routes") or ()))
     APS._gate(gates, "release.parent_routes_preserved", not undeclared,
               "routes the parent served that this candidate does not, and the delta neither "
               "declares nor implies: %s" % undeclared[:6])
@@ -1468,6 +1514,9 @@ def _parent_route_gate(gates: "OrderedDict[str, Dict]", site: Path, store: "Rele
     row["declared_removals"] = len(declared_removals)
     row["consequential_removals"] = len(consequential)
     row["undeclared_removals"] = len(undeclared)
+    adds_row = gates["release.additions_are_declared"]
+    adds_row["implied_additions"] = len(implied_adds)
+    adds_row["undeclared_additions"] = len(undeclared_adds)
 
 
 def _run_candidate_gates(site: Path, participating: Sequence[str], configs: Mapping[str, Any],
