@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import copy
 import json
+import shutil
 import subprocess
 from collections import OrderedDict
 from pathlib import Path
@@ -397,6 +398,46 @@ class TestReleaseStoreRoundTrip:
         with pytest.raises(RC.CoordinatorError) as exc:
             store.seed_from_assembly(work, {"market_fragments_included": ["m-one", "m-two"]}, live=unverified)
         assert exc.value.code == RC.LIVE_NOT_VERIFIED
+
+    def test_a_joining_markets_action_and_comparison_pages_are_implied(self):
+        declared = {"/pet-friendly-hotels/%s/" % NEW_MARKET,
+                    "/pet-friendly-hotels/%s/downtown/" % NEW_MARKET,
+                    "/pet-friendly-hotels/%s/some-hotel/" % NEW_MARKET}
+        implied_routes = ["/go/%s/some-hotel/%s/" % (NEW_MARKET, action)
+                          for action in ("booking", "call", "directions", "official-website", "report-change")]
+        implied_routes.append("/pet-friendly-hotels/%s/policy-comparison/" % NEW_MARKET)
+        implied, undeclared = RC._split_implied_additions(sorted(implied_routes), declared)
+        assert sorted(implied) == sorted(implied_routes) and undeclared == []
+
+    def test_anything_else_new_stays_undeclared(self):
+        declared = {"/pet-friendly-hotels/%s/" % NEW_MARKET, "/pet-friendly-hotels/%s/some-hotel/" % NEW_MARKET}
+        smuggled = [
+            "/go/%s/undeclared-hotel/booking/" % NEW_MARKET,          # an undeclared profile's action
+            "/go/%s/some-hotel/steal/" % NEW_MARKET,                   # an unknown action
+            "/go/other-market-nc/some-hotel/booking/",                 # another market's action
+            "/pet-friendly-hotels/other-market-nc/policy-comparison/",  # another market's comparison
+            "/pet-friendly-hotels/%s/undeclared-page/" % NEW_MARKET,  # an undeclared page
+            "/about-us/",
+        ]
+        implied, undeclared = RC._split_implied_additions(smuggled, declared)
+        assert implied == [] and sorted(undeclared) == sorted(smuggled)
+
+    def test_the_parent_gate_fails_an_undeclared_addition_and_passes_an_implied_one(self, tmp_path):
+        work, live, store, _seed = _seeded(tmp_path)
+        site = tmp_path / "candidate"
+        shutil.copytree(work / "site", site)
+        _tree(site, ["pet-friendly-hotels/m-new/index.html", "pet-friendly-hotels/m-new/h/index.html",
+                     "go/m-new/h/booking/index.html", "pet-friendly-hotels/m-new/policy-comparison/index.html"])
+        delta = {"add_routes": ["/pet-friendly-hotels/m-new/", "/pet-friendly-hotels/m-new/h/"]}
+        gates = OrderedDict()
+        RC._parent_route_gate(gates, site, store, live.digest(), delta)
+        assert gates["release.additions_are_declared"]["pass"] is True
+        assert gates["release.additions_are_declared"]["implied_additions"] == 2
+        _tree(site, ["pet-friendly-hotels/m-one/smuggled/index.html"])
+        gates = OrderedDict()
+        RC._parent_route_gate(gates, site, store, live.digest(), delta)
+        assert gates["release.additions_are_declared"]["pass"] is False
+        assert gates["release.additions_are_declared"]["undeclared_additions"] == 1
 
     def test_the_pilot_layout_still_verifies(self, tmp_path):
         store = RC.ReleaseStore(tmp_path / "store")
