@@ -1,0 +1,575 @@
+{
+ "schema": "ptf-market-geography/1.0",
+ "work_order": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+ "phase": "3 + 4 + 7 -- Tampa Bay travel-market geography, submarket split test and corridor model",
+ "market_id": "tampa-fl",
+ "as_of": "2026-09-15",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "registration_state": "SHADOW_UNTIL_REGISTERED: the market document is written to markets/proposed/tampa-fl.json; the registry's markets/<id>.json is never written by this order.",
+ "membership_rule": "The property's OWN postal code, as its own official page or its Florida DBPR public-lodging licence states it, joined to the corridor registry. Nothing else admits a property.",
+ "classes": {
+  "CORE": "Downtown Tampa / Riverwalk / Channelside / Hyde Park (33602, 33603, 33606); Ybor City (33605); Westshore / Tampa International Airport (TPA) / Rocky Point / Raymond James Stadium (33607, 33609, 33611, 33614, 33615, 33629); Busch Gardens / USF / Fowler Avenue / Temple Terrace (33612, 33613, 33617, 33637); Brandon / Seffner (33510, 33511, 33584); East Tampa / Causeway Boulevard / I-75 (33610, 33619)",
+  "CORRIDOR": "Downtown St. Petersburg (33701, 33705); St. Petersburg (33702, 33703, 33704, 33710, 33712, 33713, 33714, 33716); Clearwater (33755, 33756, 33762, 33764); Clearwater Beach (33767); St. Pete Beach / Treasure Island (33706); Madeira Beach / Redington Beaches / Indian Rocks Beach / Belleair Beach (33708, 33785, 33786); Largo (33770, 33771, 33773, 33774, 33777, 33778, 33779)",
+  "FRINGE": "Wesley Chapel / New Tampa (33647, 33543, 33544, 33545); Riverview / Apollo Beach / Ruskin / Sun City Center (33569, 33578, 33579, 33570, 33572, 33598); Plant City (33563, 33565, 33566, 33567); Tarpon Springs / Dunedin (34688, 34689, 34698); Seminole / Pinellas Park / Gulfport (33707, 33772, 33776, 33781, 33782); Safety Harbor / Oldsmar / Palm Harbor (34677, 34683, 34695)"
+ },
+ "outside_class": "Everything else, refused by name with its postal codes; future standalone markets named.",
+ "future_standalone_markets": {
+  "pinellas-beaches-fl": "The Gulf beaches (Clearwater Beach through St. Pete Beach / Treasure Island / Madeira Beach) as their own beach-resort market, if traveler behaviour later diverges far enough from the Tampa Bay core to justify a split",
+  "st-petersburg-fl": "St. Petersburg (with its own CVB, Visit St. Pete-Clearwater) as its own standalone market, if it later grows enough distinct lodging demand to stand alone",
+  "sarasota-bradenton-fl": "Sarasota / Bradenton / Siesta Key -- its own Gulf coast resort and arts market immediately south of the Sunshine Skyway",
+  "lakeland-winter-haven-fl": "Lakeland / Winter Haven / Legoland Florida -- Polk County's I-4 midpoint market between Tampa and Orlando (a separate PetTripFinder market order may also reach it from the Orlando side)",
+  "spring-hill-brooksville-fl": "Spring Hill / Brooksville / Hernando County -- its own small-market lodging area on US-19 north of the Tampa Bay core"
+ },
+ "submarket_split_test": {
+  "A. Tampa vs. St. Petersburg vs. Clearwater": "ONE market (tampa-fl), not three. Single Census MSA, causeway/interstate connectivity (Howard Frankland, Courtney Campbell, Gandy, Sunshine Skyway) and a shared 'Tampa Bay' travel identity, even though Visit Tampa Bay and Visit St. Pete-Clearwater run separate CVBs. St. Petersburg and Clearwater/the Gulf beaches are kept as named CORRIDOR tiers, never folded anonymously into generic Tampa corridors, so the CVB / county distinction is preserved without a market split. FUTURE_STANDALONE st-petersburg-fl and pinellas-beaches-fl are named and preserved.",
+  "B. Downtown Tampa": "CORE corridor downtown-riverwalk (33602, 33603, 33606): Riverwalk, Channelside, Hyde Park / Davis Islands. Distinct convention, arena and business demand; too small and too Tampa-bound to stand as its own market.",
+  "C. Westshore / TPA Airport / Rocky Point / Raymond James Stadium": "CORE corridor westshore-airport-rocky-point (33607, 33609, 33611, 33614, 33615, 33629), Tampa's largest hotel cluster. Rocky Point and the stadium cannot be separate pages under a postal partition without splitting 33607 from the airport hotels that depend on it; each is an overlay. 33611/33629 (Gandy Blvd / S Dale Mabry Hwy, South Tampa) added in PTF-TAMPA-FL-V2-TERMINAL-HOLD-CLOSURE-003 as a registry-completeness fix.",
+  "D. Ybor City": "CORE corridor ybor-city (33605). A distinct historic entertainment district with its own hotel demand, separated from downtown by the postal partition.",
+  "E. Busch Gardens / USF / Temple Terrace": "CORE corridor busch-gardens-usf (33612, 33613, 33617, 33637). Temple Terrace's own incorporated limits share 33617 with north Tampa / USF and cannot be split out; reported as an overlay.",
+  "F. Brandon": "CORE corridor brandon (33510, 33511, 33584): the US-301 / SR-60 / I-75 interstate hotel cluster east of Tampa.",
+  "G. East Tampa / I-75": "CORE corridor east-tampa-i75 (33610, 33619): Adamo Drive / US-301 and the Causeway Boulevard I-75/I-4 interchange.",
+  "H. Downtown St. Petersburg": "CORRIDOR corridor st-petersburg-downtown (33701, 33705): Beach Drive, the EDGE District and Tropicana Field, the state's own distinct downtown hotel cluster.",
+  "I. St. Petersburg (broader)": "CORRIDOR corridor st-petersburg (33702, 33703, 33704, 33710, 33712, 33713, 33714, 33716): the Skyway Marina District, Tyrone and the Gandy corridor.",
+  "J. Clearwater / Clearwater Beach": "CORRIDOR clearwater-downtown (33755, 33756, 33762, 33764) for the mainland, and CORRIDOR clearwater-beach (33767) for the barrier-island resort strip -- kept separate because the Memorial Causeway genuinely separates two distinct lodging products (business/medical mainland vs. beach resort). 33762 (PIE airport / Ulmerton Rd)/33764 (US-19 south) added in PTF-TAMPA-FL-V2-TERMINAL-HOLD-CLOSURE-003 as a registry-completeness fix.",
+  "K. St. Pete Beach / Treasure Island": "CORRIDOR st-pete-beach-treasure-island (33706): the two towns share one ZIP and one continuous Gulf Boulevard resort strip; cannot be split by the postal partition.",
+  "L. Madeira Beach / Redington / Indian Rocks Beach": "CORRIDOR madeira-redington-indian-rocks (33708, 33785, 33786): the beach towns between John's Pass and Belleair Beach.",
+  "M. Largo": "CORRIDOR largo (33770, 33771, 33773, 33774, 33777, 33778, 33779): mid-Pinellas County's largest inland city.",
+  "N. Careful-evaluation fringe (Wesley Chapel/New Tampa, South Hillsborough, Plant City, Tarpon Springs/Dunedin, mid-Pinellas, Safety Harbor/Oldsmar/Palm Harbor)": "Six FRINGE corridors, admitted at lower expected density per the mission's explicit 'careful evaluation' list; a corridor page still requires the same minimum_hotel_count = 5 threshold."
+ },
+ "evaluated_inclusions": {
+  "Tampa": "ADMITTED (CORE, six corridors).",
+  "St. Petersburg": "ADMITTED (CORRIDOR, st-petersburg-downtown / st-petersburg).",
+  "Clearwater": "ADMITTED (CORRIDOR, clearwater-downtown).",
+  "Clearwater Beach": "ADMITTED (CORRIDOR, clearwater-beach).",
+  "St. Pete Beach": "ADMITTED (CORRIDOR, st-pete-beach-treasure-island, 33706).",
+  "Treasure Island": "ADMITTED (CORRIDOR, st-pete-beach-treasure-island, 33706, shares the ZIP with St. Pete Beach).",
+  "Madeira Beach": "ADMITTED (CORRIDOR, madeira-redington-indian-rocks).",
+  "Indian Rocks Beach": "ADMITTED (CORRIDOR, madeira-redington-indian-rocks, 33785).",
+  "Largo": "ADMITTED (CORRIDOR, largo).",
+  "Wesley Chapel": "ADMITTED (FRINGE, wesley-chapel-new-tampa) -- careful evaluation.",
+  "New Tampa": "ADMITTED (FRINGE, wesley-chapel-new-tampa, 33647) -- careful evaluation.",
+  "Riverview": "ADMITTED (FRINGE, south-hillsborough) -- careful evaluation.",
+  "Apollo Beach": "ADMITTED (FRINGE, south-hillsborough, 33572) -- careful evaluation.",
+  "Ruskin": "ADMITTED (FRINGE, south-hillsborough, 33570) -- careful evaluation.",
+  "Plant City": "ADMITTED (FRINGE, plant-city) -- careful evaluation.",
+  "Tarpon Springs": "ADMITTED (FRINGE, tarpon-dunedin) -- careful evaluation.",
+  "Dunedin": "ADMITTED (FRINGE, tarpon-dunedin, 34698) -- careful evaluation.",
+  "Seminole": "ADMITTED (FRINGE, mid-pinellas) -- careful evaluation.",
+  "Pinellas Park": "ADMITTED (FRINGE, mid-pinellas, 33781/33782) -- careful evaluation.",
+  "Gulfport": "ADMITTED (FRINGE, mid-pinellas, 33707, shares the ZIP with Seminole/Pinellas Park, not with the St. Petersburg corridor) -- careful evaluation.",
+  "Safety Harbor": "ADMITTED (FRINGE, safety-harbor-oldsmar-palm-harbor) -- careful evaluation.",
+  "Oldsmar": "ADMITTED (FRINGE, safety-harbor-oldsmar-palm-harbor, 34677) -- careful evaluation.",
+  "Palm Harbor": "ADMITTED (FRINGE, safety-harbor-oldsmar-palm-harbor, 34683) -- careful evaluation.",
+  "Lithia / Fishhawk": "OUTSIDE -- careful evaluation: rural, weak hotel intent.",
+  "Sarasota": "OUTSIDE by name (order) -- future sarasota-bradenton-fl.",
+  "Bradenton": "OUTSIDE by name (order) -- future sarasota-bradenton-fl.",
+  "Anna Maria Island": "OUTSIDE by name (order) -- future sarasota-bradenton-fl; do not automatically absorb.",
+  "Lakeland": "OUTSIDE by name (order) -- future lakeland-winter-haven-fl; do not automatically absorb.",
+  "Spring Hill / Brooksville": "OUTSIDE by name (order) -- future spring-hill-brooksville-fl; do not automatically absorb.",
+  "Orlando": "OUTSIDE by name (order) -- its own separate, already-built market."
+ },
+ "nonpublic_names": {},
+ "corridor_registry_is_a_partition": true,
+ "admitted_postal_codes": [
+  "33510",
+  "33511",
+  "33543",
+  "33544",
+  "33545",
+  "33563",
+  "33565",
+  "33566",
+  "33567",
+  "33569",
+  "33570",
+  "33572",
+  "33578",
+  "33579",
+  "33584",
+  "33598",
+  "33602",
+  "33603",
+  "33605",
+  "33606",
+  "33607",
+  "33609",
+  "33610",
+  "33611",
+  "33612",
+  "33613",
+  "33614",
+  "33615",
+  "33617",
+  "33619",
+  "33629",
+  "33637",
+  "33647",
+  "33701",
+  "33702",
+  "33703",
+  "33704",
+  "33705",
+  "33706",
+  "33707",
+  "33708",
+  "33710",
+  "33712",
+  "33713",
+  "33714",
+  "33716",
+  "33755",
+  "33756",
+  "33762",
+  "33764",
+  "33767",
+  "33770",
+  "33771",
+  "33772",
+  "33773",
+  "33774",
+  "33776",
+  "33777",
+  "33778",
+  "33779",
+  "33781",
+  "33782",
+  "33785",
+  "33786",
+  "34677",
+  "34683",
+  "34688",
+  "34689",
+  "34695",
+  "34698"
+ ],
+ "admitted_postal_code_count": 70,
+ "corridors": [
+  {
+   "corridor_id": "tampa-fl__downtown-riverwalk",
+   "name": "Downtown Tampa / Riverwalk / Channelside / Hyde Park",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33602",
+    "33603",
+    "33606"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__ybor-city",
+   "name": "Ybor City",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33605"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__westshore-airport-rocky-point",
+   "name": "Westshore / Tampa International Airport (TPA) / Rocky Point / Raymond James Stadium",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33607",
+    "33609",
+    "33611",
+    "33614",
+    "33615",
+    "33629"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__busch-gardens-usf",
+   "name": "Busch Gardens / USF / Fowler Avenue / Temple Terrace",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33612",
+    "33613",
+    "33617",
+    "33637"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__brandon",
+   "name": "Brandon / Seffner",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33510",
+    "33511",
+    "33584"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__east-tampa-i75",
+   "name": "East Tampa / Causeway Boulevard / I-75",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33610",
+    "33619"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__st-petersburg-downtown",
+   "name": "Downtown St. Petersburg",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33701",
+    "33705"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__st-petersburg",
+   "name": "St. Petersburg",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33702",
+    "33703",
+    "33704",
+    "33710",
+    "33712",
+    "33713",
+    "33714",
+    "33716"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__clearwater-downtown",
+   "name": "Clearwater",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33755",
+    "33756",
+    "33762",
+    "33764"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__clearwater-beach",
+   "name": "Clearwater Beach",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33767"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__st-pete-beach-treasure-island",
+   "name": "St. Pete Beach / Treasure Island",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33706"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__madeira-redington-indian-rocks",
+   "name": "Madeira Beach / Redington Beaches / Indian Rocks Beach / Belleair Beach",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33708",
+    "33785",
+    "33786"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__largo",
+   "name": "Largo",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33770",
+    "33771",
+    "33773",
+    "33774",
+    "33777",
+    "33778",
+    "33779"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__wesley-chapel-new-tampa",
+   "name": "Wesley Chapel / New Tampa",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "33647",
+    "33543",
+    "33544",
+    "33545"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__south-hillsborough",
+   "name": "Riverview / Apollo Beach / Ruskin / Sun City Center",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "33569",
+    "33578",
+    "33579",
+    "33570",
+    "33572",
+    "33598"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__plant-city",
+   "name": "Plant City",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "33563",
+    "33565",
+    "33566",
+    "33567"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__tarpon-dunedin",
+   "name": "Tarpon Springs / Dunedin",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "34688",
+    "34689",
+    "34698"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__mid-pinellas",
+   "name": "Seminole / Pinellas Park / Gulfport",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "33707",
+    "33772",
+    "33776",
+    "33781",
+    "33782"
+   ]
+  },
+  {
+   "corridor_id": "tampa-fl__safety-harbor-oldsmar-palm-harbor",
+   "name": "Safety Harbor / Oldsmar / Palm Harbor",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "34677",
+    "34683",
+    "34695"
+   ]
+  }
+ ],
+ "corridor_count": 19,
+ "corridor_count_by_class": {
+  "CORE": 6,
+  "CORRIDOR": 7,
+  "FRINGE": 6
+ },
+ "corridor_page_rule": "A corridor page publishes only when the existing publication threshold (minimum_hotel_count = 5 verified pet-friendly hotels) is met. No thin corridor page is invented for SEO; every corridor is show_in_navigation / show_in_sitemap false until a registration order publishes it. Rocky Point, TPA Airport, Raymond James Stadium, Temple Terrace and Gulfport cannot be separate pages under a postal-code partition; they are reported as overlays.",
+ "coverage_areas": [
+  {
+   "area": "Downtown Tampa",
+   "anchor_lat": 27.9475,
+   "anchor_lng": -82.4584,
+   "radius_km": 2.2
+  },
+  {
+   "area": "Channelside",
+   "anchor_lat": 27.943,
+   "anchor_lng": -82.446,
+   "radius_km": 1.2
+  },
+  {
+   "area": "Hyde Park / Davis Islands",
+   "anchor_lat": 27.937,
+   "anchor_lng": -82.465,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Ybor City",
+   "anchor_lat": 27.961,
+   "anchor_lng": -82.437,
+   "radius_km": 1.5
+  },
+  {
+   "area": "Tampa International Airport (TPA)",
+   "anchor_lat": 27.9755,
+   "anchor_lng": -82.5332,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Westshore",
+   "anchor_lat": 27.956,
+   "anchor_lng": -82.529,
+   "radius_km": 2.2
+  },
+  {
+   "area": "Rocky Point",
+   "anchor_lat": 27.972,
+   "anchor_lng": -82.548,
+   "radius_km": 1.5
+  },
+  {
+   "area": "Raymond James Stadium",
+   "anchor_lat": 27.98,
+   "anchor_lng": -82.505,
+   "radius_km": 1.5
+  },
+  {
+   "area": "Busch Gardens",
+   "anchor_lat": 28.0378,
+   "anchor_lng": -82.4197,
+   "radius_km": 1.8
+  },
+  {
+   "area": "USF",
+   "anchor_lat": 28.06,
+   "anchor_lng": -82.414,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Temple Terrace",
+   "anchor_lat": 28.035,
+   "anchor_lng": -82.39,
+   "radius_km": 2.2
+  },
+  {
+   "area": "Brandon",
+   "anchor_lat": 27.9378,
+   "anchor_lng": -82.2859,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Downtown St. Petersburg",
+   "anchor_lat": 27.773,
+   "anchor_lng": -82.639,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Tropicana Field",
+   "anchor_lat": 27.7683,
+   "anchor_lng": -82.6534,
+   "radius_km": 1.5
+  },
+  {
+   "area": "Clearwater Beach",
+   "anchor_lat": 27.9775,
+   "anchor_lng": -82.8288,
+   "radius_km": 1.8
+  },
+  {
+   "area": "Clearwater (mainland)",
+   "anchor_lat": 27.9659,
+   "anchor_lng": -82.8001,
+   "radius_km": 2.2
+  },
+  {
+   "area": "St. Pete Beach",
+   "anchor_lat": 27.7256,
+   "anchor_lng": -82.7412,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Treasure Island",
+   "anchor_lat": 27.7676,
+   "anchor_lng": -82.7659,
+   "radius_km": 1.8
+  },
+  {
+   "area": "Madeira Beach",
+   "anchor_lat": 27.7967,
+   "anchor_lng": -82.7898,
+   "radius_km": 1.5
+  },
+  {
+   "area": "Indian Rocks Beach",
+   "anchor_lat": 27.8842,
+   "anchor_lng": -82.8443,
+   "radius_km": 1.8
+  },
+  {
+   "area": "Largo",
+   "anchor_lat": 27.9095,
+   "anchor_lng": -82.7873,
+   "radius_km": 2.5
+  }
+ ],
+ "outside_named_and_refused": [
+  {
+   "municipality": "Sarasota",
+   "state": "FL",
+   "postal_codes": [
+    "34236",
+    "34237",
+    "34239",
+    "34242"
+   ],
+   "why": "Sarasota's downtown and Siesta Key; FUTURE_STANDALONE sarasota-bradenton-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Bradenton",
+   "state": "FL",
+   "postal_codes": [
+    "34205",
+    "34208",
+    "34209",
+    "34210"
+   ],
+   "why": "Bradenton; FUTURE_STANDALONE sarasota-bradenton-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Anna Maria Island (Anna Maria / Bradenton Beach / Longboat Key)",
+   "state": "FL",
+   "postal_codes": [
+    "34216",
+    "34217",
+    "34228"
+   ],
+   "why": "Anna Maria Island's three barrier-island towns, south of the Sunshine Skyway in Manatee County; FUTURE_STANDALONE sarasota-bradenton-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Lakeland",
+   "state": "FL",
+   "postal_codes": [
+    "33801",
+    "33803",
+    "33805",
+    "33809",
+    "33810",
+    "33811",
+    "33812",
+    "33813",
+    "33815"
+   ],
+   "why": "FUTURE_STANDALONE lakeland-winter-haven-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Spring Hill / Brooksville",
+   "state": "FL",
+   "postal_codes": [
+    "34606",
+    "34608",
+    "34609",
+    "34610",
+    "34601",
+    "34602",
+    "34604",
+    "34613",
+    "34614"
+   ],
+   "why": "Hernando County; FUTURE_STANDALONE spring-hill-brooksville-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Orlando / Greater Orlando",
+   "state": "FL",
+   "postal_codes": [],
+   "why": "FUTURE / separate market orlando-fl, already built; refused by name (order). No Orlando-oriented inventory (theme-park marketing using 'near Orlando' or 'near Tampa' language for the same building) is admitted here on marketing alone -- the property's own postal code governs."
+  },
+  {
+   "municipality": "Lithia / Fishhawk",
+   "state": "FL",
+   "postal_codes": [
+    "33547"
+   ],
+   "why": "rural southeast Hillsborough County beyond Brandon, weak hotel intent; careful evaluation, refused."
+  }
+ ],
+ "vacation_rental_rule": "The census admits hotels, motels, inns, public resorts, qualifying resort towers, qualifying extended-stay hotels and other public lodging establishments: bookable nightly rooms or suites sold to the public under one establishment name, with an official property page and an on-site hotel operation. It NEVER admits: individual condominium units (DBPR rank CNDO) or vacation dwellings (DBPR rank DWEL); individual vacation homes or villas; whole-home rental communities and property-management portfolios; Airbnb / Vrbo listings; ordinary apartments (DBPR NAPT); individual timeshare units, vacation-ownership inventory sold to owners, and private resort residences; and privately managed units inside resort campuses. A mixed hotel / timeshare / condo campus is admitted ONLY as the exact hotel premises its operator sells to the public as a hotel, proved on the operator's own page and the licence's exact premises. Campgrounds, RV parks and dormitory hostels are NON_LODGING.",
+ "theme_park_campus_rule": "Never merged solely by brand, resort family, phone, campus, shared entrance, shared amenities, shared booking engine or display name. Exact premises identity (its own street address or its own brand property code on its own page) governs.",
+ "config_written": "scripts/pettripfinder/discovery/config/tampa_fl.json",
+ "market_document_written": "launch_packages/pettripfinder/markets/proposed/tampa-fl.json",
+ "cells_total": 23,
+ "cells_admitting": 19,
+ "cells_observation_only": 4
+}

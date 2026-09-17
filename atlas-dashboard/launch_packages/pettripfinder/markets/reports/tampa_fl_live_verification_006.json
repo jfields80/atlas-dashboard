@@ -1,0 +1,84 @@
+{
+ "schema": "ptf-market-live-verification/1.0",
+ "work_order": "PTF-TAMPA-FL-V2-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
+ "market_id": "tampa-fl",
+ "verified_at": "2026-09-17T00:45:00Z",
+ "host_deployment_id": "6aab379e0777c9ee96702a4f",
+ "host_published_state": "ready",
+ "host_published_at": "2026-09-17T00:43:38.767Z",
+ "sitemap": {
+  "url": "https://pettripfinder.com/sitemap.xml",
+  "live_sha256": "53589cf6a740046ad244d3760495f6cdc62bbc0f17f3061cfc4d83e1017f103b",
+  "authorized_sha256": "53589cf6a740046ad244d3760495f6cdc62bbc0f17f3061cfc4d83e1017f103b",
+  "matches": true,
+  "live_route_count": 2460,
+  "authorized_route_count": 2460
+ },
+ "pre_deploy_baseline_sitemap_sha256": "e057181ade7d52a3d7faa6bffae41efafc39190a6c631c98d44e6463de41e969",
+ "all_2460_live_routes_check": {
+  "method": "concurrent HTTP HEAD, 20 workers, every <loc> in the live sitemap",
+  "total": 2460,
+  "status_200": 2460,
+  "not_200": 0
+ },
+ "tampa_pages": {
+  "hub": {"url": "https://pettripfinder.com/pet-friendly-hotels/tampa-fl/", "status": 200},
+  "policy_comparison": {"url": "https://pettripfinder.com/pet-friendly-hotels/tampa-fl/policy-comparison/", "status": 200},
+  "publishing_corridors": {
+   "downtown-riverwalk": 200, "westshore-airport-rocky-point": 200, "busch-gardens-usf": 200,
+   "brandon": 200, "east-tampa-i75": 200, "st-petersburg-downtown": 200, "st-petersburg": 200,
+   "clearwater-downtown": 200, "clearwater-beach": 200, "st-pete-beach-treasure-island": 200,
+   "south-hillsborough": 200
+  },
+  "sampled_profiles_200": {
+   "woodspring-suites-wesley-chapel-tampa": 200, "aloft-tampa-downtown": 200,
+   "aloft-tampa-midtown": 200, "avalon-club-hotel": 200, "ave-tampa-riverwalk": 200,
+   "bay-palms-waterfront-resort": 200, "bayview-plaza-waterfront-resort": 200,
+   "bellweather-beach-resort": 200
+  }
+ },
+ "held_identities_check": {
+  "total_held": 314,
+  "method": "for every held identity_key in tampa_fl_final_partition_v2_001.json, construct the slugified URL and confirm it is neither in the live sitemap nor fetchable at 200",
+  "in_live_sitemap": 0,
+  "status_counts": {"404": 314},
+  "fetchable_200": []
+ },
+ "prior_live_markets_check": {
+  "method": "compare each market's published_profiles in the authoritative global_bundle_manifest.json against its pre-deploy value from release_coordinator inspect()",
+  "markets_checked": 28,
+  "unchanged": 28,
+  "changed": 0,
+  "detail": {
+   "asheville-nc": {"before": 41, "after": 41}, "atlanta-ga": {"before": 244, "after": 244},
+   "boone-blowing-rock-nc": {"before": 11, "after": 11}, "charleston-sc": {"before": 84, "after": 84},
+   "charlotte-nc": {"before": 106, "after": 106}, "cincinnati-oh": {"before": 130, "after": 130},
+   "cleveland-akron-canton-oh": {"before": 120, "after": 120}, "columbus-oh": {"before": 88, "after": 88},
+   "dayton-oh": {"before": 54, "after": 54}, "fayetteville-nc": {"before": 26, "after": 26},
+   "grand-rapids-holland-mi": {"before": 43, "after": 43}, "greenville-nc": {"before": 8, "after": 8},
+   "indianapolis-in": {"before": 82, "after": 82}, "jacksonville-nc": {"before": 16, "after": 16},
+   "lexington-ky": {"before": 20, "after": 20}, "louisville-ky": {"before": 53, "after": 53},
+   "milwaukee-wi": {"before": 73, "after": 73}, "nashville-tn": {"before": 79, "after": 79},
+   "orlando-fl": {"before": 201, "after": 201}, "outer-banks-nc": {"before": 26, "after": 26},
+   "piedmont-triad-nc": {"before": 54, "after": 54}, "pittsburgh-pa": {"before": 61, "after": 61},
+   "raleigh-nc": {"before": 63, "after": 63}, "richmond-va": {"before": 93, "after": 93},
+   "savannah-ga": {"before": 99, "after": 99}, "st-louis-mo": {"before": 82, "after": 82},
+   "toledo-oh": {"before": 17, "after": 17}, "wilmington-nc": {"before": 29, "after": 29}
+  }
+ },
+ "queued_market_still_non_live": {"detroit-ann-arbor-mi": 404},
+ "assembly_gates": {
+  "broken_links": 0,
+  "collisions": 0,
+  "global_shadowing": 0,
+  "canonical_violations": 0,
+  "all_27_required_gates_pass": true
+ },
+ "independent_reproduction": {
+  "build_a": {"output": "C:\\t\\tpa6b", "bundle_sha256": "cf761795e3deb1380ffb8e25869bd6ceefe31d2a9dfbaddad30c550ff69d60d2", "sitemap_sha256": "53589cf6a740046ad244d3760495f6cdc62bbc0f17f3061cfc4d83e1017f103b"},
+  "build_b": {"output": "C:\\t\\tpa6c", "bundle_sha256": "cf761795e3deb1380ffb8e25869bd6ceefe31d2a9dfbaddad30c550ff69d60d2", "sitemap_sha256": "53589cf6a740046ad244d3760495f6cdc62bbc0f17f3061cfc4d83e1017f103b"},
+  "byte_identical": true,
+  "note": "two fully independent process invocations of assemble_production_site.py, separate output directories, separate memory-availability windows"
+ },
+ "ALL_CRITICAL_CHECKS_PASS": true
+}

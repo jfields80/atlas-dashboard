@@ -1,0 +1,2793 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-TAMPA-FL-HARDENED-V2-SOURCE-READY-001",
+ "market_id": "tampa-fl",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "tampa_fl_v2_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 90,
+  "credit_floor": 400,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 176,
+  "static_to_attended": 156,
+  "firecrawl_candidates": 14,
+  "share_static_to_attended": 0.8864,
+  "share_firecrawl_candidates": 0.0795,
+  "threshold": 0.2,
+  "warning": false,
+  "message": ""
+ },
+ "planned_rows": 23,
+ "attempted_rows": 23,
+ "stopped_by": "",
+ "credits": {
+  "before": 561,
+  "after": 544,
+  "delta": 17,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "holiday inn express and suites largo clearwater": {
+    "identity_key": "holiday inn express and suites largo clearwater",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express and suites ruskin sun city": {
+    "identity_key": "holiday inn express and suites ruskin sun city",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/ruskin/tpask/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express and suites tampa fairgrounds casino": {
+    "identity_key": "holiday inn express and suites tampa fairgrounds casino",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express and suites tampa north wesley chapel": {
+    "identity_key": "holiday inn express and suites tampa north wesley chapel",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wesley-chapel/tpawc/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express and suites tampa stadium": {
+    "identity_key": "holiday inn express and suites tampa stadium",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express tampa brandon": {
+    "identity_key": "holiday inn express tampa brandon",
+    "requested_url": "http://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express tampa n i 75 university area": {
+    "identity_key": "holiday inn express tampa n i 75 university area",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpatd/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn tampa north": {
+    "identity_key": "holiday inn tampa north",
+    "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express": {
+    "identity_key": "holiday inn express",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/st-petersburg/piefl/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "holiday inn express and suites clearwater north dunedin",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "holiday inn express and suites tampa stadium area",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "holiday inn tampa westshore airport area",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "la quinta inn and suites tampa central",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "holiday inn express hotel seminole fl",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "ac hotel by marriott clearwater beach",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "ave tampa riverwalk",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "chase suite hotel tampa",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "country inn and suites tampa rj stadium",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "doubletree beach resort by hilton hotel tampa bay north redington beach",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "epicurean hotel autograph collection",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "fenway hotel autograph collection",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "red roof inn plus and suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "red roof inn tampa fairgrounds",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 23,
+  "results": 23
+ },
+ "class_counts": {
+  "FIRECRAWL_FAILED": 8,
+  "FIRECRAWL_MISMATCH": 6,
+  "FIRECRAWL_PUBLICATION_GRADE": 9
+ },
+ "outcome_counts": {
+  "IDENTITY_MISMATCH": 6,
+  "NAVIGATION_FAILED": 6,
+  "UNEXPECTED_PAGE": 2,
+  "VALID": 9
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "holiday inn express and suites clearwater north dunedin",
+   "canonical_name": "Holiday Inn Express & Suites Clearwater North/Dunedin",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dunedin/ddnfl/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dunedin/ddnfl/hoteldetail",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '975 Broadway St' does not agree with expected '975 Broadway'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Clearwater North/Dunedin",
+     "address_on_page": "975 Broadway St",
+     "postal_code": "34698",
+     "phone_on_page": "1-727-4501200",
+     "property_code_on_page": "ddnfl",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dunedin/ddnfl/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "7274501200"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '975 Broadway St' does not agree with expected '975 Broadway'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "34698",
+   "expected_street": "975 Broadway",
+   "captured_at": "2026-09-16T01:59:26.552338+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dunedin/ddnfl/hoteldetail"
+    },
+    "envelope_sha256": "b624bc24211f40c9c75419f44e95622596a6c75e26a7bdad429cbd868592b998"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express-and-suites-clearwater-north-dunedin\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "holiday inn express and suites largo clearwater",
+   "canonical_name": "Holiday Inn Express & Suites Largo-Clearwater",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Largo-Clearwater",
+     "address_on_page": "210 Seminole Blvd",
+     "postal_code": "33770",
+     "phone_on_page": "1-727-5813900",
+     "property_code_on_page": "clwls",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "7275813900"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33770",
+   "expected_street": "210 Seminole Blvd",
+   "captured_at": "2026-09-16T01:59:38.707068+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail"
+    },
+    "envelope_sha256": "c33fd71ab7e30432398c9f9146c079fb2c43f0c03e0f64b0dae4bedbb62d21c7"
+   },
+   "page_sha256": "b42190d43a961c675f901df4ac0a0d11c6229b9c16496d06deda93eec1e0c270",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express-and-suites-largo-clearwater\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_deposit": 7500,
+     "pet_fee": 7500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "pet_count_limit": 2
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "75 USD Pet damage deposit",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_deposit"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 75 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 75 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "2 pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "weight_limit": "SOURCE_AMBIGUOUS"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_deposit": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites largo clearwater::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "b42190d43a961c675f901df4ac0a0d11c6229b9c16496d06deda93eec1e0c270",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites largo clearwater::pet_deposit::1",
+       "field": "pet_deposit",
+       "quote": "75 USD Pet damage deposit",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "b42190d43a961c675f901df4ac0a0d11c6229b9c16496d06deda93eec1e0c270",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites largo clearwater::pet_fee::2",
+       "field": "pet_fee",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "b42190d43a961c675f901df4ac0a0d11c6229b9c16496d06deda93eec1e0c270",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites largo clearwater::fee_currency::2",
+       "field": "fee_currency",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "b42190d43a961c675f901df4ac0a0d11c6229b9c16496d06deda93eec1e0c270",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites largo clearwater::fee_basis::3",
+       "field": "fee_basis",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "b42190d43a961c675f901df4ac0a0d11c6229b9c16496d06deda93eec1e0c270",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites largo clearwater::pet_count_limit::4",
+       "field": "pet_count_limit",
+       "quote": "2 pets allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/largo/clwls/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "b42190d43a961c675f901df4ac0a0d11c6229b9c16496d06deda93eec1e0c270",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "c3c9efa670e85f27ba14aaf19e588d441973aab968640b637210359fbf30269e",
+     "document_sha256": "b42190d43a961c675f901df4ac0a0d11c6229b9c16496d06deda93eec1e0c270"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express and suites ruskin sun city",
+   "canonical_name": "Holiday Inn Express & Suites Ruskin - Sun City",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/ruskin/tpask/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/ruskin/tpask/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Ruskin - Sun City",
+     "address_on_page": "226 Teco Rd",
+     "postal_code": "33570",
+     "phone_on_page": "1-813-9224561",
+     "property_code_on_page": "tpask",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/ruskin/tpask/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8773208457",
+      "8772757258",
+      "8139224561"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33570",
+   "expected_street": "226 Teco Rd",
+   "captured_at": "2026-09-16T01:59:51.375909+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/ruskin/tpask/hoteldetail"
+    },
+    "envelope_sha256": "3c6dbc36a62ae58d4f3b2481c5f7275c9f3baae65449f024153d490ab34622c6"
+   },
+   "page_sha256": "0c3b1238b6110594305e320aa30bcf87c0a7e9da338df99f76cf21dfc7eb4bdb",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express-and-suites-ruskin-sun-city\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pet_fee": 3000,
+     "fee_currency": "USD",
+     "fee_basis": "per_night"
+    },
+    "evidence": [
+     {
+      "quote": "Pet fee per night: 30 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 30 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites ruskin sun city::pet_fee::0",
+       "field": "pet_fee",
+       "quote": "Pet fee per night: 30 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/ruskin/tpask/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "0c3b1238b6110594305e320aa30bcf87c0a7e9da338df99f76cf21dfc7eb4bdb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites ruskin sun city::fee_currency::0",
+       "field": "fee_currency",
+       "quote": "Pet fee per night: 30 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/ruskin/tpask/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "0c3b1238b6110594305e320aa30bcf87c0a7e9da338df99f76cf21dfc7eb4bdb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites ruskin sun city::fee_basis::1",
+       "field": "fee_basis",
+       "quote": "Pet fee per night: 30 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/ruskin/tpask/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "0c3b1238b6110594305e320aa30bcf87c0a7e9da338df99f76cf21dfc7eb4bdb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "a53a14435c303e9449cfa6782d0b28edf33ad69771fa7b5e6598fe9d24fb46ce",
+     "document_sha256": "0c3b1238b6110594305e320aa30bcf87c0a7e9da338df99f76cf21dfc7eb4bdb"
+    }
+   },
+   "pets_allowed": null,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express and suites tampa fairgrounds casino",
+   "canonical_name": "Holiday Inn Express & Suites Tampa Fairgrounds Casino",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Tampa-Fairgrounds-Casino",
+     "address_on_page": "8610 Elm Fair Boulevard",
+     "postal_code": "33610",
+     "phone_on_page": "1-813-4901000",
+     "property_code_on_page": "tpafl",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8134901000"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33610",
+   "expected_street": "8610 Elm Fair Blvd",
+   "captured_at": "2026-09-16T02:00:04.347900+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail"
+    },
+    "envelope_sha256": "11cb4f4c87b6a36ef23daf75c795a9ee734f3bad5474e2f0d8d799239806532b"
+   },
+   "page_sha256": "21af0b3a16bd6f22fcfe60cfa88fdf1ca5ea5330dbba96947c92c33125daa43c",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express-and-suites-tampa-fairgrounds-casino\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 3500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 35 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 35 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "2 pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "dogs and cats allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "weight_limit": "SOURCE_AMBIGUOUS"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "species_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites tampa fairgrounds casino::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "21af0b3a16bd6f22fcfe60cfa88fdf1ca5ea5330dbba96947c92c33125daa43c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites tampa fairgrounds casino::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "Pet fee per night: 35 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "21af0b3a16bd6f22fcfe60cfa88fdf1ca5ea5330dbba96947c92c33125daa43c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites tampa fairgrounds casino::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "Pet fee per night: 35 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "21af0b3a16bd6f22fcfe60cfa88fdf1ca5ea5330dbba96947c92c33125daa43c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites tampa fairgrounds casino::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "Pet fee per night: 35 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "21af0b3a16bd6f22fcfe60cfa88fdf1ca5ea5330dbba96947c92c33125daa43c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites tampa fairgrounds casino::pet_count_limit::3",
+       "field": "pet_count_limit",
+       "quote": "2 pets allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "21af0b3a16bd6f22fcfe60cfa88fdf1ca5ea5330dbba96947c92c33125daa43c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites tampa fairgrounds casino::species_allowed::4",
+       "field": "species_allowed",
+       "quote": "dogs and cats allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpafl/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "21af0b3a16bd6f22fcfe60cfa88fdf1ca5ea5330dbba96947c92c33125daa43c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "ca771b6e569303e650a507647f1fc16d792f0d375e472a1d7b4089db9419ce47",
+     "document_sha256": "21af0b3a16bd6f22fcfe60cfa88fdf1ca5ea5330dbba96947c92c33125daa43c"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express and suites tampa north wesley chapel",
+   "canonical_name": "Holiday Inn Express & Suites Tampa North - Wesley Chapel",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wesley-chapel/tpawc/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wesley-chapel/tpawc/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Tampa North - Wesley Chapel",
+     "address_on_page": "2775 Cypress Ridge Blvd",
+     "postal_code": "33544",
+     "phone_on_page": "1-813-8037899",
+     "property_code_on_page": "tpawc",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wesley-chapel/tpawc/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8138037899"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33544",
+   "expected_street": "2775 Cypress Ridge Blvd",
+   "captured_at": "2026-09-16T02:00:24.000250+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wesley-chapel/tpawc/hoteldetail"
+    },
+    "envelope_sha256": "072013daaffd50a1c1f2a0e31a3fb0aba1a6f4d5a541081ebb29d6ed6c6edd62"
+   },
+   "page_sha256": "80469ba5fffcd20dbc888b209824ae0ff10b13a713d6aff0d4ba7d5940c8dda7",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express-and-suites-tampa-north-wesley-chapel\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets are not allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites tampa north wesley chapel::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wesley-chapel/tpawc/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "80469ba5fffcd20dbc888b209824ae0ff10b13a713d6aff0d4ba7d5940c8dda7",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "643cb8d8876a0f6beed30075528e353795581c02ac33878eb5a81d11a5f002eb",
+     "document_sha256": "80469ba5fffcd20dbc888b209824ae0ff10b13a713d6aff0d4ba7d5940c8dda7"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express and suites tampa stadium",
+   "canonical_name": "Holiday Inn Express & Suites - Tampa Stadium",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Tampa Stadium - Airport Area",
+     "address_on_page": "2055 North Dale Mabry Highway",
+     "postal_code": "33607",
+     "phone_on_page": "1-813-4502400",
+     "property_code_on_page": "tpada",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8134502400"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33607",
+   "expected_street": "2055 N Dale Mabry Hwy",
+   "captured_at": "2026-09-16T02:00:39.409451+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail"
+    },
+    "envelope_sha256": "50c0819abec04376f9fa2f6b32470d51f0fd0fa3f67eb5031b383d647d447d6f"
+   },
+   "page_sha256": "7f3e146149221bf3c524c7f3cf1391e36e1f11d51497de5e62d5e84e6fbc961d",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express-and-suites-tampa-stadium\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets are not allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express and suites tampa stadium::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "7f3e146149221bf3c524c7f3cf1391e36e1f11d51497de5e62d5e84e6fbc961d",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "0e071f957435668fc0456e1a36839df8d90e273dfe125e93001dd097792c7c16",
+     "document_sha256": "7f3e146149221bf3c524c7f3cf1391e36e1f11d51497de5e62d5e84e6fbc961d"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express and suites tampa stadium area",
+   "canonical_name": "Holiday Inn Express & Suites Tampa - Stadium Area",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '2055 North Dale Mabry Highway' does not agree with expected '2005 North Dale Mabry Highway'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Tampa Stadium - Airport Area",
+     "address_on_page": "2055 North Dale Mabry Highway",
+     "postal_code": "33607",
+     "phone_on_page": "1-813-4502400",
+     "property_code_on_page": "tpada",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8134502400"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '2055 North Dale Mabry Highway' does not agree with expected '2005 North Dale Mabry Highway'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33607",
+   "expected_street": "2005 North Dale Mabry Highway",
+   "captured_at": "2026-09-16T02:00:55.472453+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpada/hoteldetail"
+    },
+    "envelope_sha256": "50c0819abec04376f9fa2f6b32470d51f0fd0fa3f67eb5031b383d647d447d6f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express-and-suites-tampa-stadium-area\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "holiday inn express tampa brandon",
+   "canonical_name": "Holiday Inn Express Tampa-Brandon",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "http://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express Tampa-Brandon",
+     "address_on_page": "510 Grand Regency Blvd.",
+     "postal_code": "33510",
+     "phone_on_page": "1-813-6433800",
+     "property_code_on_page": "tpabr",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8136433800"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '1-813-6433800' is not the census number '813-315-1060'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33510",
+   "expected_street": "510 Grand Regency Blvd.",
+   "captured_at": "2026-09-16T02:00:58.647975+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail"
+    },
+    "envelope_sha256": "16604151f45f4b97739b775397ba9f6ddf97dd1705214c0d022d204f6edd9491"
+   },
+   "page_sha256": "247844b90ab0e96f5a4b4200f7eae2e0433437af1d5b29fde23e16255385c076",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express-tampa-brandon\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_deposit": 6500,
+     "pet_fee": 6500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "pet_count_limit": 2
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "65 USD Pet damage deposit",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_deposit"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 65 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 65 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "2 pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_deposit": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express tampa brandon::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "247844b90ab0e96f5a4b4200f7eae2e0433437af1d5b29fde23e16255385c076",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express tampa brandon::pet_deposit::1",
+       "field": "pet_deposit",
+       "quote": "65 USD Pet damage deposit",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "247844b90ab0e96f5a4b4200f7eae2e0433437af1d5b29fde23e16255385c076",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express tampa brandon::pet_fee::2",
+       "field": "pet_fee",
+       "quote": "Pet fee per night: 65 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "247844b90ab0e96f5a4b4200f7eae2e0433437af1d5b29fde23e16255385c076",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express tampa brandon::fee_currency::2",
+       "field": "fee_currency",
+       "quote": "Pet fee per night: 65 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "247844b90ab0e96f5a4b4200f7eae2e0433437af1d5b29fde23e16255385c076",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express tampa brandon::fee_basis::3",
+       "field": "fee_basis",
+       "quote": "Pet fee per night: 65 USD",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "247844b90ab0e96f5a4b4200f7eae2e0433437af1d5b29fde23e16255385c076",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express tampa brandon::pet_count_limit::4",
+       "field": "pet_count_limit",
+       "quote": "2 pets allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brandon/tpabr/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "247844b90ab0e96f5a4b4200f7eae2e0433437af1d5b29fde23e16255385c076",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "903dd55e6aa9953c73cb776ffa1bedb0b05bb3b855901e1baef9cb47de038fe4",
+     "document_sha256": "247844b90ab0e96f5a4b4200f7eae2e0433437af1d5b29fde23e16255385c076"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express tampa n i 75 university area",
+   "canonical_name": "Holiday Inn Express Tampa N I-75 - University Area",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpatd/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpatd/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express Tampa N I-75 - University Area",
+     "address_on_page": "13294 Telecom Drive",
+     "postal_code": "33637",
+     "phone_on_page": "1-813-9729800",
+     "property_code_on_page": "tpatd",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpatd/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8139729800"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33637",
+   "expected_street": "13294 Telecom Dr",
+   "captured_at": "2026-09-16T02:01:17.763742+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpatd/hoteldetail"
+    },
+    "envelope_sha256": "b03edea6d432559fc41d26bf01e6082d0e8485ca51f65d88e61cfb78bcb2d63e"
+   },
+   "page_sha256": "d7c9c7d13e3772988a4f16e9b453b9d434383535c21857a1fa2ea7cb27ee9a8d",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express-tampa-n-i-75-university-area\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets are not allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express tampa n i 75 university area::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tampa/tpatd/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d7c9c7d13e3772988a4f16e9b453b9d434383535c21857a1fa2ea7cb27ee9a8d",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "1ee5771ab9004029d6c642082981c67e5dafaac378e0a965b83a436a231fea25",
+     "document_sha256": "d7c9c7d13e3772988a4f16e9b453b9d434383535c21857a1fa2ea7cb27ee9a8d"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn tampa north",
+   "canonical_name": "Holiday Inn Tampa North",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Tampa North",
+     "address_on_page": "3751 E. Fowler Ave",
+     "postal_code": "33612",
+     "phone_on_page": "1-813-4022982",
+     "property_code_on_page": "tpafa",
+     "canonical_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8134022982"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '1-813-4022982' is not the census number '813-979-2828'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33612",
+   "expected_street": "3751 E Fowler Ave",
+   "captured_at": "2026-09-16T02:01:32.664208+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail"
+    },
+    "envelope_sha256": "3664dc51322688386e797fbc13ca7ce4badd6c38601b2acdfe9a01dc2ed1f22f"
+   },
+   "page_sha256": "427251a67ad3718350598d9b689d7a3f7e070f240fa3d0d4078997b5304dfa24",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-tampa-north\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 5000,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "pet_count_limit": 2,
+     "service_animal_exception": "No charge for service animals."
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 50 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 50 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "2 pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "No charge for service animals.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn tampa north::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "427251a67ad3718350598d9b689d7a3f7e070f240fa3d0d4078997b5304dfa24",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn tampa north::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "Pet fee per night: 50 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "427251a67ad3718350598d9b689d7a3f7e070f240fa3d0d4078997b5304dfa24",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn tampa north::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "Pet fee per night: 50 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "427251a67ad3718350598d9b689d7a3f7e070f240fa3d0d4078997b5304dfa24",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn tampa north::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "Pet fee per night: 50 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "427251a67ad3718350598d9b689d7a3f7e070f240fa3d0d4078997b5304dfa24",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn tampa north::pet_count_limit::3",
+       "field": "pet_count_limit",
+       "quote": "2 pets allowed",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "427251a67ad3718350598d9b689d7a3f7e070f240fa3d0d4078997b5304dfa24",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn tampa north::service_animal_exception::4",
+       "field": "service_animal_exception",
+       "quote": "No charge for service animals.",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpafa/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "427251a67ad3718350598d9b689d7a3f7e070f240fa3d0d4078997b5304dfa24",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "ba42ad23d32794e195985cc037eb166974c3a3efd3d1695fb97a7af5c199fae8",
+     "document_sha256": "427251a67ad3718350598d9b689d7a3f7e070f240fa3d0d4078997b5304dfa24"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn tampa westshore airport area",
+   "canonical_name": "Holiday Inn Tampa Westshore - Airport Area",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpacp/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpacp/hoteldetail",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '700 North Westshore Blvd' does not agree with expected '700 North West Shore Boulevard'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Tampa Westshore - Airport Area",
+     "address_on_page": "700 North Westshore Blvd",
+     "postal_code": "33609",
+     "phone_on_page": "1-813-2898200",
+     "property_code_on_page": "tpacp",
+     "canonical_url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpacp/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8132898200"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '700 North Westshore Blvd' does not agree with expected '700 North West Shore Boulevard'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33609",
+   "expected_street": "700 North West Shore Boulevard",
+   "captured_at": "2026-09-16T02:02:09.219927+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinn/hotels/us/en/tampa/tpacp/hoteldetail"
+    },
+    "envelope_sha256": "6b28648f76efb767a7ea46b5821efc5400fe7ecd0e1890eff68b44107bced329"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-tampa-westshore-airport-area\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "la quinta inn and suites tampa central",
+   "canonical_name": "La Quinta Inn & Suites Tampa Central",
+   "family": "WYNDHAM",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "http://www.laquintatampacentral.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.laquintatampacentral.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33614",
+   "expected_street": "3826 W Waters Avenue",
+   "captured_at": "2026-09-16T02:02:42.808355+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.laquintatampacentral.com"
+    },
+    "envelope_sha256": "69e235af14615fabb136100eb2bbbc0c2bde934975ba99712610cb4dfc02741a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\la-quinta-inn-and-suites-tampa-central\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "holiday inn express",
+   "canonical_name": "Holiday Inn Express",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/st-petersburg/piefl/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/st-petersburg/piefl/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites St. Petersburg North (I-275)",
+     "address_on_page": "2171 54th Avenue N",
+     "postal_code": "33714",
+     "phone_on_page": "1-727-5207800",
+     "property_code_on_page": "piefl",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/st-petersburg/piefl/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "7275207800"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-16T02:02:45.522167+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/st-petersburg/piefl/hoteldetail"
+    },
+    "envelope_sha256": "3c459f411f2ccf6f93fb5b95f31c30716db9f295193ccef5809cbd0870857b69"
+   },
+   "page_sha256": "18c05f00365ccc107596015c42ac04dc2915f789398eaa625068c4351516e3bc",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets are not allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "tampa_fl_v2_firecrawl_001::holiday inn express::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/st-petersburg/piefl/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "18c05f00365ccc107596015c42ac04dc2915f789398eaa625068c4351516e3bc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-16",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "66f1999476d6d112f38d368a4e1c41b65bbf36d3cf7e35b8664039c1b529d192",
+     "document_sha256": "18c05f00365ccc107596015c42ac04dc2915f789398eaa625068c4351516e3bc"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express hotel seminole fl",
+   "canonical_name": "Holiday Inn Express Hotel Seminole Fl",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/st-petersburg/snmle/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/st-petersburg/snmle/hoteldetail",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Holiday Inn Express &amp; Suites St. Petersburg - Madeira Beach', which does not agree with 'Holiday Inn Express Hotel Seminole Fl'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites St. Petersburg - Madeira Beach",
+     "address_on_page": "4816 100th Way North",
+     "postal_code": "33708",
+     "phone_on_page": "1-727-9147107",
+     "property_code_on_page": "snmle",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/st-petersburg/snmle/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "7279147107"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Holiday Inn Express &amp; Suites St. Petersburg - Madeira Beach', which does not agree with 'Holiday Inn Express Hotel Seminole Fl'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-16T02:02:59.637923+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/st-petersburg/snmle/hoteldetail"
+    },
+    "envelope_sha256": "fdbf50eded4bc6cb5c9a453dbbd859210f68802ee292966e189ac0b1aec1c7ce"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\holiday-inn-express-hotel-seminole-fl\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "ac hotel by marriott clearwater beach",
+   "canonical_name": "AC Hotel by Marriott Clearwater Beach",
+   "family": "MARRIOTT",
+   "cohort": "WALL_REPROBE",
+   "property_code": "TPAAB",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tpaab-ac-hotel-clearwater-beach/overview/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "FirecrawlError: HTTP 500 SCRAPE_SITE_RESTRICTION_BLOCKED: {\"success\":false,\"code\":\"SCRAPE_SITE_RESTRICTION_BLOCKED\",\"error\":\"This site restricts automated access to the requested content. Safe Mode is enabled for your organization, so the site's restriction ",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33767",
+   "expected_street": "395 Coronado Dr",
+   "captured_at": "2026-09-16T02:03:12.709107+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.marriott.com/en-us/hotels/tpaab-ac-hotel-clearwater-beach/overview/"
+    },
+    "envelope_sha256": "06d42bac0ac479e43554a49415f837733367c87605c2b74dc958dfb50a27eaa5"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\ac-hotel-by-marriott-clearwater-beach\\attempt-01",
+   "ladder_reason": "FIRECRAWL_WALL_REPROBE_DIAGNOSTIC_ONLY",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-HARD-LANES-003",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "ave tampa riverwalk",
+   "canonical_name": "AVE Tampa Riverwalk",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.aveliving.com/furnished/tampa?utm_source=visittampabay&utm_medium=referral&utm_campaign=stay",
+   "final_url": "https://www.aveliving.com/locations/tampa-florida/tampa-riverwalk/furnished-apartments",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33602",
+   "expected_street": "160 W Tyler St",
+   "captured_at": "2026-09-16T02:03:20.110898+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.aveliving.com/furnished/tampa?utm_source=visittampabay&utm_medium=referral&utm_campaign=stay"
+    },
+    "envelope_sha256": "e164be80582295f0ed1681353adb34c6df691b5dd18432852f8e9a66721b10fd"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\ave-tampa-riverwalk\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "chase suite hotel tampa",
+   "canonical_name": "Chase Suite Hotel Tampa",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.chasehoteltampa.com/",
+   "final_url": "https://mild88a8.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33607",
+   "expected_street": "3075 North Rocky Point Drive East",
+   "captured_at": "2026-09-16T02:03:34.947556+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.chasehoteltampa.com/"
+    },
+    "envelope_sha256": "48f56d20a1e84a6976d39855bb9c955dcfa6125970769f781bcc8e0c721da41d"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\chase-suite-hotel-tampa\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "country inn and suites tampa rj stadium",
+   "canonical_name": "Country Inn & Suites, Tampa RJ Stadium",
+   "family": "RADISSON",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.radissonhotelsamericas.com/en-us/hotels/country-inn-tampa-stadium",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "FirecrawlError: HTTP 500 SCRAPE_SITE_RESTRICTION_BLOCKED: {\"success\":false,\"code\":\"SCRAPE_SITE_RESTRICTION_BLOCKED\",\"error\":\"This site restricts automated access to the requested content. Safe Mode is enabled for your organization, so the site's restriction ",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33614",
+   "expected_street": "4750 N Dale Mabry Hwy",
+   "captured_at": "2026-09-16T02:03:50.118211+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.radissonhotelsamericas.com/en-us/hotels/country-inn-tampa-stadium"
+    },
+    "envelope_sha256": "3e200f816dc2604e97c14bba7a0c7e8910476c04b6162a761a081597f4cbef03"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\country-inn-and-suites-tampa-rj-stadium\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "doubletree beach resort by hilton hotel tampa bay north redington beach",
+   "canonical_name": "DoubleTree Beach Resort by Hilton Hotel Tampa Bay - North Redington Beach",
+   "family": "HILTON",
+   "cohort": "WALL_REPROBE",
+   "property_code": "NORNHDT",
+   "requested_url": "https://www.hilton.com/en/hotels/nornhdt-doubletree-beach-resort-tampa-bay-north-redington-beach/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "FirecrawlError: HTTP 500 SCRAPE_SITE_RESTRICTION_BLOCKED: {\"success\":false,\"code\":\"SCRAPE_SITE_RESTRICTION_BLOCKED\",\"error\":\"This site restricts automated access to the requested content. Safe Mode is enabled for your organization, so the site's restriction ",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33708",
+   "expected_street": "17120 Gulf Blvd",
+   "captured_at": "2026-09-16T02:04:14.905211+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hilton.com/en/hotels/nornhdt-doubletree-beach-resort-tampa-bay-north-redington-beach/"
+    },
+    "envelope_sha256": "aa3a3434589a60b44c93cf05c7bb13c6e4c74c52eba403115582416d38ce3126"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\doubletree-beach-resort-by-hilton-hotel-tampa-bay-north-redington-beach\\attempt-01",
+   "ladder_reason": "FIRECRAWL_WALL_REPROBE_DIAGNOSTIC_ONLY",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-HARD-LANES-003",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "epicurean hotel autograph collection",
+   "canonical_name": "Epicurean Hotel Autograph Collection",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "TPAAK",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tpaak-epicurean-hotel-autograph-collection/overview/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "FirecrawlError: HTTP 500 SCRAPE_SITE_RESTRICTION_BLOCKED: {\"success\":false,\"code\":\"SCRAPE_SITE_RESTRICTION_BLOCKED\",\"error\":\"This site restricts automated access to the requested content. Safe Mode is enabled for your organization, so the site's restriction ",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-16T02:04:24.901055+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.marriott.com/en-us/hotels/tpaak-epicurean-hotel-autograph-collection/overview/"
+    },
+    "envelope_sha256": "cad6705316fea90767d5c9bc22f6355c0be634fe14e5f233dd6f5596261f537d"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\epicurean-hotel-autograph-collection\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "fenway hotel autograph collection",
+   "canonical_name": "Fenway Hotel Autograph Collection",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "TPADU",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tpadu-fenway-hotel-autograph-collection/overview/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "FirecrawlError: HTTP 500 SCRAPE_SITE_RESTRICTION_BLOCKED: {\"success\":false,\"code\":\"SCRAPE_SITE_RESTRICTION_BLOCKED\",\"error\":\"This site restricts automated access to the requested content. Safe Mode is enabled for your organization, so the site's restriction ",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "34698",
+   "expected_street": "453 Edgewater Dr",
+   "captured_at": "2026-09-16T02:04:30.628217+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.marriott.com/en-us/hotels/tpadu-fenway-hotel-autograph-collection/overview/"
+    },
+    "envelope_sha256": "793b9722836bd14019194edadacbccf5969063dd32224a4684e623b6535959d4"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\fenway-hotel-autograph-collection\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "red roof inn plus and suites",
+   "canonical_name": "Red Roof Inn Plus & Suites",
+   "family": "RED_ROOF",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.redroof.com/property/fl/tampa/RRI1261",
+   "final_url": "https://www.redroof.com/property/fl/tampa/rri1261",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Tampa', which does not agree with 'Red Roof Inn Plus & Suites'; page street '11310 N 30th St' does not agree with expected '11310 N 30 St'; page telephone '1-937-328-4858' is not the census number '941.380.6942'; one property commonly publishes several",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Tampa",
+     "address_on_page": "11310 N 30th St",
+     "postal_code": "",
+     "phone_on_page": "1-937-328-4858",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.redroof.com/property/fl/tampa/rri1261",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "9373284858",
+      "8778437663",
+      "8777337244",
+      "8003330991",
+      "8007337663",
+      "8773983633",
+      "8139717690"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name",
+     "street_identity"
+    ],
+    "reasons": [
+     "page names 'Tampa', which does not agree with 'Red Roof Inn Plus & Suites'",
+     "page street '11310 N 30th St' does not agree with expected '11310 N 30 St'",
+     "page telephone '1-937-328-4858' is not the census number '941.380.6942'; one property commonly publishes several"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33612",
+   "expected_street": "11310 N 30 St",
+   "captured_at": "2026-09-16T02:04:42.651419+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.redroof.com/property/fl/tampa/RRI1261"
+    },
+    "envelope_sha256": "21641d61e5333e8408d14a4c472616f7fa6bc1bb40db774c307d904b7da81bee"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\red-roof-inn-plus-and-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "red roof inn tampa fairgrounds",
+   "canonical_name": "Red Roof Inn Tampa Fairgrounds",
+   "family": "RED_ROOF",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.redroof.com/property/fl/tampa/RRI092",
+   "final_url": "https://www.redroof.com/property/fl/tampa/rri092",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Tampa Fairgrounds - Casino', which does not agree with 'Red Roof Inn Tampa Fairgrounds'; page street '5001 US-301' does not agree with expected '5001 Us 301 N'; the page declares telephone '1-937-328-1466' and also prints this property's '813-623-5245' -- one site, several properties",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Tampa Fairgrounds - Casino",
+     "address_on_page": "5001 US-301",
+     "postal_code": "",
+     "phone_on_page": "1-937-328-1466",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.redroof.com/property/fl/tampa/rri092",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "9373281466",
+      "8778437663",
+      "8777337244",
+      "8003330991",
+      "8007337663",
+      "8773983633",
+      "8136235245"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name",
+     "street_identity"
+    ],
+    "reasons": [
+     "page names 'Tampa Fairgrounds - Casino', which does not agree with 'Red Roof Inn Tampa Fairgrounds'",
+     "page street '5001 US-301' does not agree with expected '5001 Us 301 N'",
+     "the page declares telephone '1-937-328-1466' and also prints this property's '813-623-5245' -- one site, several properties"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33610",
+   "expected_street": "5001 Us 301 N",
+   "captured_at": "2026-09-16T02:04:53.261068+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.redroof.com/property/fl/tampa/RRI092"
+    },
+    "envelope_sha256": "9907c8eb0b891765cc670378d70df230e9c93f02b1cd2d9158c0636d016ed0b7"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\tampa_fl_v2_firecrawl_001\\red-roof-inn-tampa-fairgrounds\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "cambria hotel saint petersburg madeira beach marina",
+   "requested_url": "https://www.choicehotels.com/florida/madeira-beach/cambria-hotels/fld99?mc=llgoxxpx",
+   "final_url": "https://www.choicehotels.com/florida/madeira-beach/cambria-hotels/fld99?mc=llgoxxpx",
+   "page_sha256": "c069b5ef4b1c9dae684dde899d2de798c485ad9cb847169b24104565351f4a38",
+   "pets_allowed": false,
+   "observation": {
+    "evidence": [
+     {
+      "quote": "All Room Types (4) 1 Bed (3) 2+ Beds (1) Suite (1) Accessible (1) 4 1 King Bed 2 Guests Occupancy Max occupancy 2 No Smoking No Pets Allowed Bluetooth Mirror PURE Bath Amenities No Pets Allowed Only service animals are permitted, free of charge. al Alarm Alert Visual Doorbell Alert TV with Closed Captioning Room Details 1 Room Left At This Rate $149 USD /night Per Night View estimated total details $168 total Book Now 5 2 Queen Beds 4 Guests Occupancy Max occupancy 4 No Smoking No Pets Allowed B",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ]
+   },
+   "captured_via": "Firecrawl rendered scrape (raw HTML), existing plan credits, terminal-hold closure pass -- Choice/Motel6 Akamai wall bypassed",
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "cambria hotel tampa brandon",
+   "requested_url": "https://www.choicehotels.com/florida/tampa/cambria-hotels/flg59?mc=llgoxxpx",
+   "final_url": "https://www.choicehotels.com/florida/tampa/cambria-hotels/flg59?mc=llgoxxpx",
+   "page_sha256": "dc73b66f892208d5060ad5aff5cd47a972017b786f930d269a1042acc89606b7",
+   "pets_allowed": false,
+   "observation": {
+    "evidence": [
+     {
+      "quote": "Not only is this theme park known for its rollercoasters, there is also a waterpark, animal sanctuary, and live entertainment. mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (813) 867-0558 Children Anyone aged 18 and under, at time of booking, stay for free Fax (813) 405-8114 Office Hours 24/7 Pets Pets Allowed: No General: Only service animals are permitted, free of charge. View Terms $152 USD /night Per Night View package ●",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ]
+   },
+   "captured_via": "Firecrawl rendered scrape (raw HTML), existing plan credits, terminal-hold closure pass -- Choice/Motel6 Akamai wall bypassed",
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "clarion inn and conference center tampa brandon",
+   "requested_url": "https://www.choicehotels.com/florida/tampa/quality-inn-hotels/fl046?mc=llgoxxpx",
+   "final_url": "https://www.choicehotels.com/florida/tampa/quality-inn-hotels/fl046?mc=llgoxxpx",
+   "page_sha256": "beb9394aeadd5c6cda559edea47b718c3f7091c37a303aed18863429bf3eba6d",
+   "pets_allowed": false,
+   "observation": {
+    "evidence": [
+     {
+      "quote": "If you’re an animal lover, don’t miss the Florida Aquarium, the Big Cat Rescue, Tampa’s Lowry Park Zoo and the Tampa Electric’s Manatee Viewing Center. Whether you want to see marine animals in their natural habitat or learn more about the big cats, Tampa has an opportunity for you. Tamp is also home to the Busch Gardens amusement park where you can get an adrenaline rush from riding roller coasters, see some animals or take in a live show. 1 mi Show more Info Essential details Check-In 3:00 PM ",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ]
+   },
+   "captured_via": "Firecrawl rendered scrape (raw HTML), existing plan credits, terminal-hold closure pass -- Choice/Motel6 Akamai wall bypassed",
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "clarion pointe near fairgrounds casino",
+   "requested_url": "https://www.choicehotels.com/florida/tampa/quality-inn-hotels/flb96?mc=llgoxxpx",
+   "final_url": "https://www.choicehotels.com/florida/tampa/quality-inn-hotels/flb96?mc=llgoxxpx",
+   "page_sha256": "1e5ccf8edbb5dd44f3c926dbefc50ac54a7a103875caf6a8bf58aef7266ae212",
+   "pets_allowed": false,
+   "observation": {
+    "evidence": [
+     {
+      "quote": "Nova University 1 mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (813) 990-0311 Children Anyone aged 18 and under, at time of booking, stay for free Fax (888) 519-3178 Pets Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ]
+   },
+   "captured_via": "Firecrawl rendered scrape (raw HTML), existing plan credits, terminal-hold closure pass -- Choice/Motel6 Akamai wall bypassed",
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "comfort inn suites brandon",
+   "requested_url": "https://www.choicehotels.com/florida/tampa/comfort-suites-hotels/fl014?mc=llgoxxpx",
+   "firecrawl_class": "FIRECRAWL_FAILED",
+   "detail": "exception:FirecrawlError"
+  },
+  {
+   "identity_key": "comfort suites clearwater dunedin",
+   "requested_url": "https://www.choicehotels.com/florida/clearwater/comfort-suites-hotels/fl636?mc=llgoxxpx",
+   "firecrawl_class": "FIRECRAWL_FAILED",
+   "detail": "exception:FirecrawlError"
+  },
+  {
+   "identity_key": "country inn and suites tampa brandon fl",
+   "requested_url": "https://www.choicehotels.com/florida/tampa/country-inn-suites-hotels/flj35?mc=llgoxxpx",
+   "firecrawl_class": "FIRECRAWL_FAILED",
+   "detail": "exception:FirecrawlError"
+  },
+  {
+   "identity_key": "econo lodge st petersburg central",
+   "requested_url": "https://www.choicehotels.com/en-ca/florida/st-petersburg/econo-lodge-hotels/fll27?mc=llgoxxpx",
+   "firecrawl_class": "FIRECRAWL_FAILED",
+   "detail": "exception:FirecrawlError"
+  },
+  {
+   "identity_key": "grant street inn",
+   "requested_url": "https://www.choicehotels.com/florida/dunedin/ascend-hotels/flk89",
+   "firecrawl_class": "FIRECRAWL_FAILED",
+   "detail": "exception:FirecrawlError"
+  },
+  {
+   "identity_key": "j hotel",
+   "requested_url": "https://www.choicehotels.com/florida/dunedin/ascend-hotels/flk88",
+   "firecrawl_class": "FIRECRAWL_FAILED",
+   "detail": "exception:FirecrawlError"
+  },
+  {
+   "identity_key": "knight s inn",
+   "requested_url": "https://www.choicehotels.com/florida/saint-petersburg/quality-inn-hotels/flf51?mc=llgoxxpx",
+   "final_url": "https://www.choicehotels.com/florida/saint-petersburg/quality-inn-hotels/flf51?mc=llgoxxpx",
+   "page_sha256": "85ea5f24adbd17c6241603992ba99323c9eb0d573745e193460a048a7e67a2c2",
+   "pets_allowed": true,
+   "observation": {
+    "evidence": [
+     {
+      "quote": "5 mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (727) 201-3703 Children Anyone aged 18 and under, at time of booking, stay for free Fax (727) 220-0601 Pets Pets Allowed: Yes General: Pets allowed 25. Max 20 lbs, 2 pets per room. Pets allowed 25. View Terms $85 USD /night Per Night View package Amenities Hotel Amenities Family & Pet Services Pet-friendly Hotel Service animals are permitted, without charge. * Pets Allowed Pets",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ]
+   },
+   "captured_via": "Firecrawl rendered scrape (raw HTML), existing plan credits, terminal-hold closure pass -- Choice/Motel6 Akamai wall bypassed",
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "mainstay suites",
+   "requested_url": "https://www.choicehotels.com/florida/temple-terrace/mainstay-hotels/flk37?mc=llgoxxpx",
+   "firecrawl_class": "FIRECRAWL_FAILED",
+   "detail": "exception:FirecrawlError"
+  },
+  {
+   "identity_key": "motel 6 tampa fairgrounds",
+   "requested_url": "https://www.motel6.com/property/motel-tampa-florida-us-293583?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+   "final_url": "https://www.motel6.com/property/motel-tampa-florida-us-293583?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+   "firecrawl_class": "FIRECRAWL_MISMATCH",
+   "detail": "captured page did not confirm this identity (no matching house number + postal or JSON-LD address)"
+  },
+  {
+   "identity_key": "quality inn and suites tampa fairground",
+   "requested_url": "https://www.choicehotels.com/florida/tampa/quality-inn-hotels/fla63?mc=llgoxxpx",
+   "firecrawl_class": "FIRECRAWL_FAILED",
+   "detail": "exception:FirecrawlError"
+  },
+  {
+   "identity_key": "quality inn plant city",
+   "requested_url": "https://www.choicehotels.com/florida/plant-city/quality-inn-hotels/fl103?mc=llgoxxpx",
+   "firecrawl_class": "FIRECRAWL_FAILED",
+   "detail": "exception:FirecrawlError"
+  },
+  {
+   "identity_key": "quality inn suites",
+   "requested_url": "https://www.choicehotels.com/florida/saint-petersburg/quality-inn-hotels/fl484?mc=llgoxxpx",
+   "firecrawl_class": "FIRECRAWL_FAILED",
+   "detail": "exception:FirecrawlError"
+  },
+  {
+   "identity_key": "sleep inn near busch gardens usf",
+   "requested_url": "https://www.choicehotels.com/florida/tampa/sleep-inn-hotels/fl078?mc=llgoxxpx",
+   "final_url": "https://www.choicehotels.com/florida/tampa/sleep-inn-hotels/fl078?mc=llgoxxpx",
+   "page_sha256": "c473bf451a4bcedbf4748a52caa2b591963ac3392a09ab9e3948c99d299e67bc",
+   "pets_allowed": false,
+   "observation": {
+    "evidence": [
+     {
+      "quote": "Between plans, relax in service-animal-friendly rooms, thoughtfully equipped with a flat-screen TV, microwave, refrigerator, and coffee maker. 5 mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (813) 990-0295 Children Anyone aged 18 and under, at time of booking, stay for free Fax (813) 989-1659 Pets Pets Allowed: No General: Only service animals are permitted, free of charge. Learn More Help & Advice Popular FAQs Does the Slee",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ]
+   },
+   "captured_via": "Firecrawl rendered scrape (raw HTML), existing plan credits, terminal-hold closure pass -- Choice/Motel6 Akamai wall bypassed",
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "winter the dolphin s beach club ascend hotel collection",
+   "requested_url": "https://www.choicehotels.com/florida/clearwater-beach/ascend-hotels/fl815",
+   "final_url": "https://www.choicehotels.com/florida/clearwater-beach/ascend-hotels/fl815",
+   "page_sha256": "3049dc7692494e45747b150826d46273883a5431f134d55e4ec70b13b8da8e0c",
+   "pets_allowed": false,
+   "observation": {
+    "evidence": [
+     {
+      "quote": "h 6 mi Paradyne 10 mi Show more Info Essential details Check-In 4:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (727) 228-8575 Children Anyone aged 18 and under, at time of booking, stay for free Fax (727) 446-7177 Pets Pets Allowed: No General: Only service animals are permitted, free of charge. View Terms $196 USD /night Per Night View package ● ○ ○ ○ ○ ○ Amenities Hotel Amenities Family & Pet Services No Pets Allowed Only service animals are permitted, free of charge.",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ]
+   },
+   "captured_via": "Firecrawl rendered scrape (raw HTML), existing plan credits, terminal-hold closure pass -- Choice/Motel6 Akamai wall bypassed",
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  }
+ ]
+}
