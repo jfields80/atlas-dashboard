@@ -164,16 +164,43 @@ _PET_WORD = re.compile(r"\b(pets?|dogs?|cats?|canine|animals?)\b", re.I)
 
 
 def pet_text(quote):
-    parts = [p for p in re.split(r"(?<=[.!?])\s+|\s*\|\s*|\s{2,}", quote or "") if _PET_WORD.search(p)]
-    return " ".join(parts)
+    """The parts of the quote that state the pet policy: every part naming a pet, plus a part that directly
+    continues one ("Pets allowed: Yes." / "$125 non-refundable fee, max weight 30 lbs")."""
+    kept, prev_kept = [], False
+    for part in re.split(r"(?<=[.!?])\s+|\s*\|\s*|\s{2,}", quote or ""):
+        if _PET_WORD.search(part):
+            kept.append(part)
+            prev_kept = True
+        elif prev_kept and not _OTHER_FEE.search(part) and re.search(r"\$|\blbs?\b|\bpounds\b|\bmax", part, re.I):
+            kept.append(part)
+        else:
+            prev_kept = False
+    return " ".join(kept)
+
+
+#: A dollar amount this market's pages carry that is NOT a pet fee.
+_OTHER_FEE = re.compile(r"\b(amenity|resort|facility|destination|parking|valet|service|urban|tax|deposit for "
+                        r"incidental|room rate|per night from|starting at)\b", re.I)
+
+
+def pet_fee_cents(quote):
+    """The dollar amount the quote states as the PET charge: an amount with pet wording near it and no
+    amenity/resort/parking/valet wording in its own neighbourhood. None when the quote names no such amount."""
+    best = None
+    for m in _FEE_RX.finditer(quote or ""):
+        before = quote[max(0, m.start() - 40):m.start()]
+        after = quote[m.end():m.end() + 45]
+        if _OTHER_FEE.search(before) or _OTHER_FEE.search(after):
+            continue
+        cents = int(round(float(m.group(1)) * 100))
+        if best is None:
+            best = cents
+    return best
 
 
 def extract_facts(quote):
     quote = pet_text(quote)
-    fee = None
-    m = _FEE_RX.search(quote or "")
-    if m:
-        fee = int(round(float(m.group(1)) * 100))
+    fee = pet_fee_cents(quote)
     weight = None
     m = _WEIGHT_RX.search(quote or "")
     if m:
