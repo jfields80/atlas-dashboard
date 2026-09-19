@@ -86,8 +86,16 @@ def same_name(page_name, census_name):
     if not page_name or not census_name:
         return False
     a, b = name_key(page_name), name_key(census_name)
-    if a and b:
-        return a == b
+    if a and b and a == b:
+        return True
+    seq = lambda s: " ".join(re.sub(r"[^a-z0-9 ]", " ", s.lower()).split())  # noqa: E731
+    pa, pb = seq(page_name), seq(census_name)
+    if pa == pb:
+        return True
+    # The accessibility read truncates a long heading ("Best Western Plus Miami Airport North Hot"); a heading that
+    # is a PREFIX of the census name (or the reverse), at least 12 characters of it, is the same name cut short.
+    if len(pa) >= 12 and len(pb) >= 12 and (pb.startswith(pa) or pa.startswith(pb)):
+        return True
     norm = lambda s: " ".join(sorted(re.sub(r"[^a-z0-9 ]", " ", s.lower()).split()))  # noqa: E731
     return norm(page_name) == norm(census_name)
 
@@ -103,6 +111,11 @@ def page_code(url):
 def page_street(address):
     m = _STREET_RX.match(address or "")
     return (m.group(1).strip() if m else "").replace("  ", " ")
+
+
+def page_city(address):
+    parts = [p.strip() for p in (address or "").split(",")]
+    return " ".join(parts[1].lower().split()) if len(parts) > 1 else ""
 
 
 def page_postal(address):
@@ -145,6 +158,13 @@ def bind(read, queue_row, census_row):
     if names_agree and street_agrees and not z_page:
         return "BRAND_PAGE_NAME_AND_FULL_STREET", ("the page states no postal code; its own name (%r) and its own "
                                                    "full street (%r) are the census row's" % (read["name_on_page"], st_page))
+    # Still no postal code on the page and the heading is a marketing variant: the page's own FULL STREET plus its
+    # own CITY is the premises. House number alone never reaches here -- address_key carries the street words too.
+    city_page = page_city(read.get("address_on_page"))
+    city_census = " ".join((census_row.get("city") or "").lower().split())
+    if street_agrees and not z_page and city_page and city_census and city_page == city_census:
+        return "BRAND_PAGE_FULL_STREET_AND_CITY", ("the page states no postal code; its own full street (%r) and "
+                                                   "city (%r) are the census row's" % (st_page, city_page))
     return None, ("no exact-premises binding: page code %r vs census %r; page name %r; page address %r vs census %r"
                   % (url_code, census_code, read.get("name_on_page"), read.get("address_on_page"),
                      (census_row.get("street") or "") + " " + z_census))

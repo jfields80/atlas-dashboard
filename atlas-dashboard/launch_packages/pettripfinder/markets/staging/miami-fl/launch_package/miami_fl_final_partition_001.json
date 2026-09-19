@@ -7,25 +7,25 @@
  "count": 637,
  "counts_by_state": {
   "ACCESS_BLOCKED": 113,
-  "AWAITING_ATTENDED_CAPTURE": 49,
+  "AWAITING_ATTENDED_CAPTURE": 46,
   "AWAITING_OFFICIAL_URL": 126,
   "AWAITING_POLICY_OBSERVATION": 164,
   "AWAITING_ROUTING_REPLACEMENT": 38,
-  "PUBLISHED_PET_FRIENDLY": 101,
-  "VERIFIED_NO_PETS": 46
+  "PUBLISHED_PET_FRIENDLY": 102,
+  "VERIFIED_NO_PETS": 48
  },
  "counts_by_disposition": {
   "ACCESS_BLOCKED": 113,
-  "BROWSER_CAPTURE_NEEDED": 49,
-  "CLEAN_PET_FRIENDLY": 101,
-  "CLEAN_VERIFIED_NO_PETS": 46,
+  "BROWSER_CAPTURE_NEEDED": 46,
+  "CLEAN_PET_FRIENDLY": 102,
+  "CLEAN_VERIFIED_NO_PETS": 48,
   "EVIDENCE_HOLD": 38,
   "IDENTITY_MISMATCH_HOLD": 38,
   "ROUTING_HOLD": 126,
   "SOURCE_SILENT": 126
  },
- "resolved": 147,
- "unresolved": 490,
+ "resolved": 150,
+ "unresolved": 487,
  "items": [
   {
    "identity_key": "1 hotel south beach",
@@ -1135,17 +1135,17 @@
    "canonical_name": "Best Western Plus Miami Airport North Hotel & Suites",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.bestwestern.com/en_US/book/hotels-in-miami/best-western-plus-miami-airport-north-hotel-suites/propertyCode.10388.html",
+    "pets_allowed_claim": false,
+    "quote": "Pets are not accepted.",
+    "document_sha256": "132a4d3db0263aa25e281aaa5d8b3ebd2231636ac90723a1fb6758a3e60fc712",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_FULL_STREET"
    }
   },
   {
@@ -1207,17 +1207,17 @@
    "canonical_name": "Best Western Premier Miami International Airport Hotel & Suites Coral Gables",
    "corridor": "miami-fl__coral-gables",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.bestwestern.com/en_US/book/hotel-rooms.10384.html",
+    "pets_allowed_claim": false,
+    "quote": "Pets are not accepted.",
+    "document_sha256": "d575e281ad4b52392f965a50ea12247de7f4c39b0d54eb8a193d7e96b4722aad",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_FULL_STREET_AND_CITY"
    }
   },
   {
@@ -1447,17 +1447,24 @@
    "canonical_name": "Cadillac Hotel & Beach Club",
    "corridor": "miami-fl__mid-beach",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miakc-cadillac-hotel-and-beach-club-autograph-collection/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome 2 pets 75 pounds max per room with USD 100 non-refundable fee per room per stay Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "fca87a2619d03414b76b4facf84109675d948a9c4d16be9bb6ade934d1b8ffa5",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
    }
   },
   {

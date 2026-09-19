@@ -199,18 +199,18 @@
  ],
  "counts": {
   "ACCESS_BLOCKED": 113,
-  "BROWSER_CAPTURE_NEEDED": 49,
-  "CLEAN_PET_FRIENDLY": 101,
-  "CLEAN_VERIFIED_NO_PETS": 46,
+  "BROWSER_CAPTURE_NEEDED": 46,
+  "CLEAN_PET_FRIENDLY": 102,
+  "CLEAN_VERIFIED_NO_PETS": 48,
   "EVIDENCE_HOLD": 38,
   "IDENTITY_MISMATCH_HOLD": 38,
   "ROUTING_HOLD": 126,
   "SOURCE_SILENT": 126
  },
- "valid_pet_friendly": 101,
- "valid_verified_no_pets": 46,
- "resolved": 147,
- "unresolved": 490,
+ "valid_pet_friendly": 102,
+ "valid_verified_no_pets": 48,
+ "resolved": 150,
+ "unresolved": 487,
  "rows": [
   {
    "identity_key": "1 hotel south beach",
@@ -1011,8 +1011,16 @@
    "corridor": "miami-fl__mia-airport-miami-springs",
    "street": "131 Fairway Dr",
    "postal_code": "33166",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.bestwestern.com/en_US/book/hotels-in-miami/best-western-plus-miami-airport-north-hotel-suites/propertyCode.10388.html",
+    "pets_allowed_claim": false,
+    "quote": "Pets are not accepted.",
+    "document_sha256": "132a4d3db0263aa25e281aaa5d8b3ebd2231636ac90723a1fb6758a3e60fc712",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_FULL_STREET"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "best western plus miami doral",
@@ -1051,8 +1059,16 @@
    "corridor": "miami-fl__coral-gables",
    "street": "4100 W Flagler St",
    "postal_code": "33134",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.bestwestern.com/en_US/book/hotel-rooms.10384.html",
+    "pets_allowed_claim": false,
+    "quote": "Pets are not accepted.",
+    "document_sha256": "d575e281ad4b52392f965a50ea12247de7f4c39b0d54eb8a193d7e96b4722aad",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_FULL_STREET_AND_CITY"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "bikini hostel",
@@ -1195,8 +1211,23 @@
    "corridor": "miami-fl__mid-beach",
    "street": "3921 Collins Avenue",
    "postal_code": "33140",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miakc-cadillac-hotel-and-beach-club-autograph-collection/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome 2 pets 75 pounds max per room with USD 100 non-refundable fee per room per stay Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "fca87a2619d03414b76b4facf84109675d948a9c4d16be9bb6ade934d1b8ffa5",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "cadillac hotel and beach club autograph collection hotels",
