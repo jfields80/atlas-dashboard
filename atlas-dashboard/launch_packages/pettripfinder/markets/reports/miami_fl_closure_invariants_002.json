@@ -1,0 +1,72 @@
+{
+ "schema": "ptf-closure-invariants/1.0",
+ "work_order": "PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+ "market_id": "miami-fl",
+ "what_this_is": "the four SOURCE-READY-001 corrections, re-tested mechanically over this pass's own committed adjudication before sealing",
+ "overall": "PASS",
+ "checks": {
+  "1_cross_property_evidence": {
+   "status": "PASS",
+   "problems": [],
+   "detail": {
+    "published_rows_with_a_cited_page": 134,
+    "distinct_cited_pages": 134,
+    "browser_read_bindings": {
+     "BRAND_PAGE_NAME_AND_FULL_STREET": 2,
+     "BRAND_PAGE_NAME_AND_POSTAL": 7,
+     "PROPERTY_CODE": 42
+    }
+   }
+  },
+  "2_weight_not_read_as_count": {
+   "status": "PASS",
+   "problems": [],
+   "detail": [
+    {
+     "quote": "Only one dog is allowed per room (up to 25 lbs) at a charge of USD 50 per day",
+     "max_pet_count": 1,
+     "max_pet_weight_lbs": 25.0
+    },
+    {
+     "quote": "Pets welcome. Maximum of 2 pets per room, 50 lbs each.",
+     "max_pet_count": 2,
+     "max_pet_weight_lbs": 50.0
+    },
+    {
+     "quote": "Pets allowed: Yes. Max weight 75 lbs",
+     "max_pet_count": null,
+     "max_pet_weight_lbs": 75.0
+    }
+   ]
+  },
+  "3_amenity_fee_not_read_as_pet_fee": {
+   "status": "PASS",
+   "problems": [],
+   "detail": [
+    {
+     "quote": "Yes, the hotel charges a $35 nightly plus tax amenity fee including Wireless Internet. Is ",
+     "pet_fee_cents": 15000,
+     "expected": 15000
+    },
+    {
+     "quote": "A daily destination fee of $35.40 is applied. Your pet is welcome, too. PET FEES Up to six",
+     "pet_fee_cents": 10000,
+     "expected": 10000
+    },
+    {
+     "quote": "Pets allowed: Yes. $125.00 non-refundable fee, max weight 30 lbs",
+     "pet_fee_cents": 12500,
+     "expected": 12500
+    }
+   ]
+  },
+  "4_route_host_mismatch_never_publishes": {
+   "status": "PASS",
+   "problems": [],
+   "detail": {
+    "published_rows_checked": 134,
+    "guard_still_refuses_a_foreign_domain": true
+   }
+  }
+ }
+}

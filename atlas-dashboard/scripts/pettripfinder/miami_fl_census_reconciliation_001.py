@@ -180,7 +180,10 @@ _BARE_NUMBERED = re.compile(r"^(\s*\d+[a-z]?\s+)(\d+)(?:st|nd|rd|th)?(?=\s+(?:st
                             r"terrace|pl|place|rd|road|dr|drive|way|ln|lane)\b)", re.I)
 
 
-_DOTTED_QUADRANT = re.compile(r"\b([NnSs])\.\s*([EeWw])\.", re.I)
+#: "N.W." / "N.W" / "N. W." / "S.E." are the same quadrant as NW / SE. PTF-MIAMI-FL-BROWSER-CLOSURE-002: the
+#: trailing dot is optional on real pages ("711 N.W 72nd Avenue"), and without this the same building entered the
+#: census twice (DoubleTree Miami Airport, Hampton Homestead).
+_DOTTED_QUADRANT = re.compile(r"\b([NnSs])\.\s*([EeWw])\.?(?=\s)", re.I)
 
 
 def _ordinal(n):
@@ -215,6 +218,9 @@ def canonical_street(street):
 
 
 def _merge_spelling(street):
+    # the dotted quadrant is folded BEFORE the merge key is built, or "711 N.W 72nd Avenue" and "711 NW 72nd Ave"
+    # are two buildings to the shared key (PTF-MIAMI-FL-BROWSER-CLOSURE-002)
+    street = _DOTTED_QUADRANT.sub(lambda m: (m.group(1) + m.group(2)).upper(), street or "")
     s = re.sub(r"[^A-Za-z0-9 \-]", " ", street or "")
     s = re.sub(r"\bmemorial\s+h(w)?\s*$", "memorial hwy", s, flags=re.I)
     for rx, rep in _SPELLING:

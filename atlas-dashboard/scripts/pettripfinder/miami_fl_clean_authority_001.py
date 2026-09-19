@@ -283,6 +283,27 @@ def build_evidence_index(census_hotels):
                           ("captured_via", "the brand's own property-service API (same JSON the overview page renders)")])
         add_addr(r.get("st") or "", r.get("z") or "", ev)
 
+    # PTF-MIAMI-FL-BROWSER-CLOSURE-002: the supported-browser reads of the 114-row browser queue, each already
+    # bound to its own premises by miami_fl_browser_closure_002 (property code, or the brand page's own name with
+    # its own postal code / full street). The quote is the page's own policy text nodes, joined in page order.
+    for r in _jsonl(os.path.join(STAGING, "browser_closure_rows.jsonl")):
+        if r.get("outcome") != "READ" or not r.get("operative_quote"):
+            continue
+        quote = r["operative_quote"]
+        if _REFUSAL.search(quote):
+            pets = False
+        elif _ACCEPT.search(quote):
+            pets = True
+        else:
+            continue
+        ev = OrderedDict([("lane", "PROPERTY_PAGE_ATTENDED"), ("source_url", r.get("final_url") or r["requested_url"]),
+                          ("pets_allowed_claim", pets), ("quote", quote[:500]),
+                          ("document_sha256", r["transcription_sha256"]),
+                          ("captured_via", "supported browser, accessibility tree (navigate + find only), "
+                                           "PTF-MIAMI-FL-BROWSER-CLOSURE-002"),
+                          ("binding", r.get("binding"))])
+        add_key(r["identity_key"], ev)
+
     # MIAMI: the Choice / IHG property pages the Firecrawl route-discovery lane found (their own sitemaps refused
     # this client, so these routes never reached the census by name). Bound ONLY on the house number + postal code
     # the page itself states.
@@ -498,6 +519,8 @@ def route_domain_conflict(census_row, ev):
 
 
 def router_hold_reason(identity_key, routing_by_key, static_by_key, fc_by_key):
+    if identity_key in BROWSER_CLOSURE_STATE:
+        return BROWSER_CLOSURE_STATE[identity_key]
     r = routing_by_key.get(identity_key)
     if r is None:
         return ROUTING_HOLD, "no route was assembled for this identity in the routing pass"
@@ -549,6 +572,19 @@ def router_hold_reason(identity_key, routing_by_key, static_by_key, fc_by_key):
 
 PLACES_BY_KEY = {}
 SITES_BY_KEY = {}
+#: PTF-MIAMI-FL-BROWSER-CLOSURE-002: what a browser attempt that produced no publishable quote means for the row.
+BROWSER_OUTCOME_STATE = {
+    "AMENITY_CHIP_ONLY": (SOURCE_SILENT, "the brand's own page served and states no pet policy -- only an amenity "
+                                         "chip, which is never a policy (Phase 16)"),
+    "NO_POLICY_ON_PAGE": (SOURCE_SILENT, "the property's own page served and carries no pet policy section at all"),
+    "IDENTITY_NOT_BOUND": (IDENTITY_MISMATCH_HOLD, "the page read did not bind to this row's exact premises "
+                                                   "(property code, name + postal code, or full street)"),
+    "ACCESS_DENIED": (ACCESS_BLOCKED, "the brand answered the authorized browser with an Access Denied / anti-bot "
+                                      "challenge page, which this order does not bypass"),
+    "SHARED_PAGE_CENSUS_DUPLICATE": (IDENTITY_MISMATCH_HOLD, "one brand page bound more than one census row; the "
+                                                             "duplicate identity is resolved before either publishes"),
+}
+BROWSER_CLOSURE_STATE = {}
 
 
 def build():
@@ -559,6 +595,11 @@ def build():
             PLACES_BY_KEY[r["identity_key"]] = r
     for r in (_load(os.path.join(STAGING, "closure_static_rows.json"), {}) or {}).get("rows", []):
         SITES_BY_KEY[r["identity_key"]] = r
+    BROWSER_CLOSURE_STATE.clear()
+    for r in _jsonl(os.path.join(STAGING, "browser_closure_rows.jsonl")):
+        state = BROWSER_OUTCOME_STATE.get(r.get("outcome"))
+        if state:
+            BROWSER_CLOSURE_STATE[r["identity_key"]] = (state[0], state[1] + " (%s)" % (r.get("final_url") or r.get("requested_url")))
     census = _load(CENSUS, {}) or {}
     hotels = census.get("hotels", [])
     routing_doc = _load(ROUTING, {}) or {}
