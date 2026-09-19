@@ -97,6 +97,10 @@ def main():
     part = json.load(open(PARTITION, encoding="utf-8"))
     clean = L("miami_fl_clean_authority_001.json", {}) or {}
     fc = L("miami_fl_firecrawl_pass_001.json", {}) or {}
+    fc2 = L("miami_fl_firecrawl_pass_002.json", {}) or {}
+    fc3 = L("miami_fl_firecrawl_pass_003.json", {}) or {}
+    bpr = L("miami_fl_brand_page_reads_001.json", {}) or {}
+    disc = L("miami_fl_firecrawl_discovery_001.json", {}) or {}
     static = L("miami_fl_free_static_capture_001.json", {}) or {}
     comp = L("miami_fl_competitor_challenge_001.json", {}) or {}
     recon = L("miami_fl_competitor_reconciliation_001.json", {}) or {}
@@ -136,7 +140,7 @@ def main():
         if r["classification"] == "NON_LODGING":
             excl[exclusion_class(r["classification_reason"])] += 1
     ncls = Counter(r["classification"] for r in non)
-    total_obs = sum(v for v in (census.get("lane_yields") or {}).values()) if census.get("lane_yields") else None
+    creport = L("miami_fl_census_reconciliation_001.json", {}) or {}
 
     # corridors
     cor = OrderedDict()
@@ -151,7 +155,10 @@ def main():
                                  ("page_publishes", p >= 5)])
 
     # providers keyed per identity
-    fc_rows = fc.get("rows", [])
+    _final = OrderedDict()
+    for r in fc.get("rows", []) + fc2.get("rows", []) + fc3.get("rows", []):
+        _final[r["identity_key"]] = r
+    fc_rows = list(_final.values())
     fc_by_key = Counter()
     fc_ok_by_key = set()
     for r in fc_rows:
@@ -239,7 +246,8 @@ def main():
     doc = OrderedDict([
         ("schema", "ptf-source-ready-accounting/1.0"), ("work_order", WORK_ORDER), ("market_id", "miami-fl"),
         ("headline", OrderedDict([
-            ("total_raw_observations", sum((census.get("lane_yields") or {}).values()) if census.get("lane_yields") else None),
+            ("total_raw_observations", creport.get("observations_total")),
+            ("raw_observations_by_lane", creport.get("lane_yields")),
             ("dbpr_licensed_lodging_leads", dbpr.get("lead_count")),
             ("osm_lodging_elements", osm.get("element_count")),
             ("brand_inventory_leads", brand.get("lead_count")),
@@ -293,14 +301,33 @@ def main():
                                                      ("bound", sum(1 for r in closure_sites.get("rows", []) if r.get("bound"))),
                                                      ("free_http_requests", closure_sites.get("free_http_requests"))])),
             ("firecrawl", OrderedDict([
-                ("eligible_planned", fc.get("planned_rows", 0)), ("attempted", fc.get("attempted_rows", 0)),
+                ("eligible_planned", fc.get("planned_rows", 0)),
+                ("attempted", fc.get("attempted_rows", 0) + fc2.get("attempted_rows", 0)
+                              + fc3.get("attempted_rows", 0) + bpr.get("attempted", 0) + len(disc.get("pages") or [])),
+                ("property_page_attempts", fc.get("attempted_rows", 0) + fc2.get("attempted_rows", 0)
+                                           + fc3.get("attempted_rows", 0) + bpr.get("attempted", 0)),
+                ("first_pass_attempted", fc.get("attempted_rows", 0)),
+                ("retry_pass_attempted", fc2.get("attempted_rows", 0)),
+                ("probe2_pass_attempted", fc3.get("attempted_rows", 0)),
+                ("route_discovery_pages", len(disc.get("pages") or [])),
+                ("route_discovery_routes", disc.get("route_count", 0)),
+                ("brand_page_reads", OrderedDict([("attempted", bpr.get("attempted", 0)),
+                                                  ("answered", bpr.get("answered", 0)),
+                                                  ("with_own_address", bpr.get("with_own_address", 0)),
+                                                  ("by_family", bpr.get("by_family", {}))])),
+                ("retry_pass_why", "first-pass FIRECRAWL_MISMATCH rows re-attempted once after the census restated "
+                                   "Miami-Dade grid streets in the ordinal spelling the pages use"),
+                ("distinct_identities_attempted", len(fc_rows)),
                 ("by_cohort", OrderedDict(sorted((k, v) for k, v in fc_cohort.items() if k))),
                 ("publication_grade", fc_class.get("FIRECRAWL_PUBLICATION_GRADE", 0)),
                 ("policy_found", sum(1 for r in fc_rows if r.get("firecrawl_class") == "FIRECRAWL_PUBLICATION_GRADE"
                                      and r.get("pets_allowed") is not None)),
                 ("failed", sum(v for k, v in fc_class.items() if k and k != "FIRECRAWL_PUBLICATION_GRADE")),
                 ("class_counts", OrderedDict(sorted((k, v) for k, v in fc_class.items() if k))),
-                ("credits", credits),
+                ("credits", OrderedDict([("first_pass", credits), ("retry_pass", fc2.get("credits", {})),
+                                         ("probe2_pass", fc3.get("credits", {})),
+                                         ("route_discovery", disc.get("credits", {})),
+                                         ("brand_page_reads", bpr.get("credits", {}))])),
             ])),
             ("supported_browser", OrderedDict([("attempted", len(browser)), ("success", 0),
                                                ("outcomes", OrderedDict(sorted(Counter(b["outcome"] for b in browser).items()))),

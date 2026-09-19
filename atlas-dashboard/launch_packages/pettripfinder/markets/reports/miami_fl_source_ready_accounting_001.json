@@ -1,0 +1,906 @@
+{
+ "schema": "ptf-source-ready-accounting/1.0",
+ "work_order": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "miami-fl",
+ "headline": {
+  "total_raw_observations": 3640,
+  "raw_observations_by_lane": {
+   "REGISTRY_FL_DBPR": 1396,
+   "OSM_OVERPASS": 1027,
+   "BRAND_INVENTORY_OWNED": 123,
+   "BRAND_INVENTORY_CITY_PAGE": 83,
+   "BRAND_INVENTORY_STATE_SITEMAP": 3,
+   "BRAND_INVENTORY_SITEMAP": 89,
+   "DESTINATION_ORGANIZATION": 253,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 660,
+   "IDENTITY_VERIFIED_PLACES": 6,
+   "PROPERTY_PAGE": 0
+  },
+  "dbpr_licensed_lodging_leads": 1396,
+  "osm_lodging_elements": 1316,
+  "brand_inventory_leads": 284,
+  "destination_roster_listings": 253,
+  "competitor_leads_normalized": 660,
+  "graph_nodes": 2334,
+  "proposed_census": 639,
+  "valid_pet_friendly": 66,
+  "valid_verified_no_pets": 28,
+  "resolved": 94,
+  "unresolved": 545,
+  "resolution_rate": 0.1471
+ },
+ "holds_by_class": {
+  "IDENTITY": 38,
+  "ROUTING": 122,
+  "ACCESS_BLOCKED": 112,
+  "EVIDENCE": 34,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 115,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 124,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "router exhausted on every free/authorized lane attempted this order (s": 39,
+   "the property's own site (found via Places) did not serve to the plain ": 28,
+   "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED": 12,
+   "router exhausted: static NAVIGATION_FAILED, Firecrawl FIRECRAWL_FAILED": 11,
+   "router exhausted: static ACCESS_DENIED, Firecrawl FIRECRAWL_MISMATCH": 10,
+   "router exhausted: static ACCESS_DENIED, Firecrawl FIRECRAWL_FAILED": 7,
+   "router exhausted: static UNHYDRATED, Firecrawl FIRECRAWL_MISMATCH": 3,
+   "router exhausted: static IDENTITY_MISMATCH, Firecrawl FIRECRAWL_MISMAT": 1,
+   "router exhausted: static UNHYDRATED, Firecrawl FIRECRAWL_FAILED": 1
+  },
+  "BROWSER_CAPTURE_NEEDED": {
+   "static fetch was ACCESS_DENIED; the router sends Marriott to the atten": 55,
+   "static fetch was ACCESS_DENIED; the router sends Hilton to the attende": 44,
+   "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the comm": 9,
+   "static fetch was ACCESS_DENIED; Best Western is an excluded brand in t": 7
+  },
+  "EVIDENCE_HOLD": {
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 17,
+   "": 17
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "the site Places names never stated this row's house number + ZIP, phon": 21,
+   "the fetched page's own identity did not confirm this census row": 17
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 92,
+   "OTHER_EXPLICIT_REASON": 30
+  },
+  "SOURCE_SILENT": {
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 64,
+   "the property's own site (found via Places, bound on its own address/ph": 59,
+   "the page served and stated no operative pet policy (BLOCK_FOUND_BUT_SI": 1
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 79,
+  "timeshare": 1,
+  "resort_residence": 1,
+  "non_hotel": 128,
+  "closed": 0,
+  "outside": 920,
+  "duplicate_listing": 1,
+  "name_only_unresolved_graph_residue": 425,
+  "identity_review_required_graph_residue": 138,
+  "same_campus_distinct_entity": 2,
+  "dbpr_cndo_condo_units_never_admitted": 9446,
+  "dbpr_dwel_vacation_dwellings_never_admitted": 1943,
+  "dbpr_napt_apartments_never_admitted": 5778,
+  "dbpr_tapt_apartment_named_refused": 349,
+  "closed_note": "No row was classified CLOSED: DBPR extracts carry only active licences, and no first-party read in this order stated a closure."
+ },
+ "corridor_coverage": {
+  "downtown-brickell": {
+   "name": "Downtown Miami / Brickell / PortMiami",
+   "class": "CORE",
+   "census": 46,
+   "pet_friendly": 5,
+   "no_pets": 0,
+   "unresolved": 41,
+   "resolution_rate": 0.1087,
+   "page_publishes": true
+  },
+  "south-beach": {
+   "name": "South Beach",
+   "class": "CORE",
+   "census": 202,
+   "pet_friendly": 19,
+   "no_pets": 7,
+   "unresolved": 176,
+   "resolution_rate": 0.1287,
+   "page_publishes": true
+  },
+  "mid-beach": {
+   "name": "Mid-Beach",
+   "class": "CORE",
+   "census": 52,
+   "pet_friendly": 2,
+   "no_pets": 1,
+   "unresolved": 49,
+   "resolution_rate": 0.0577,
+   "page_publishes": false
+  },
+  "north-beach": {
+   "name": "North Beach / North Bay Village",
+   "class": "CORE",
+   "census": 28,
+   "pet_friendly": 3,
+   "no_pets": 1,
+   "unresolved": 24,
+   "resolution_rate": 0.1429,
+   "page_publishes": false
+  },
+  "mia-airport-miami-springs": {
+   "name": "Miami International Airport (MIA) / Miami Springs / Virginia Gardens",
+   "class": "CORE",
+   "census": 45,
+   "pet_friendly": 10,
+   "no_pets": 7,
+   "unresolved": 28,
+   "resolution_rate": 0.3778,
+   "page_publishes": true
+  },
+  "airport-west-blue-lagoon": {
+   "name": "Airport West / Blue Lagoon / Flagami",
+   "class": "CORE",
+   "census": 30,
+   "pet_friendly": 3,
+   "no_pets": 1,
+   "unresolved": 26,
+   "resolution_rate": 0.1333,
+   "page_publishes": false
+  },
+  "doral": {
+   "name": "Doral",
+   "class": "CORE",
+   "census": 35,
+   "pet_friendly": 8,
+   "no_pets": 2,
+   "unresolved": 25,
+   "resolution_rate": 0.2857,
+   "page_publishes": true
+  },
+  "coral-gables": {
+   "name": "Coral Gables / South Miami",
+   "class": "CORE",
+   "census": 29,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 29,
+   "resolution_rate": 0.0,
+   "page_publishes": false
+  },
+  "coconut-grove": {
+   "name": "Coconut Grove",
+   "class": "CORE",
+   "census": 9,
+   "pet_friendly": 2,
+   "no_pets": 2,
+   "unresolved": 5,
+   "resolution_rate": 0.4444,
+   "page_publishes": false
+  },
+  "midtown-wynwood-edgewater": {
+   "name": "Edgewater / Wynwood / Midtown / Design District / MiMo",
+   "class": "CORRIDOR",
+   "census": 31,
+   "pet_friendly": 1,
+   "no_pets": 1,
+   "unresolved": 29,
+   "resolution_rate": 0.0645,
+   "page_publishes": false
+  },
+  "little-havana": {
+   "name": "Little Havana / Coral Way",
+   "class": "CORRIDOR",
+   "census": 11,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 11,
+   "resolution_rate": 0.0,
+   "page_publishes": false
+  },
+  "key-biscayne": {
+   "name": "Key Biscayne",
+   "class": "CORRIDOR",
+   "census": 3,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 2,
+   "resolution_rate": 0.3333,
+   "page_publishes": false
+  },
+  "bal-harbour-surfside": {
+   "name": "Bal Harbour / Surfside / Bay Harbor Islands",
+   "class": "CORRIDOR",
+   "census": 16,
+   "pet_friendly": 2,
+   "no_pets": 2,
+   "unresolved": 12,
+   "resolution_rate": 0.25,
+   "page_publishes": false
+  },
+  "sunny-isles-beach": {
+   "name": "Sunny Isles Beach",
+   "class": "CORRIDOR",
+   "census": 9,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 7,
+   "resolution_rate": 0.2222,
+   "page_publishes": false
+  },
+  "aventura": {
+   "name": "Aventura",
+   "class": "CORRIDOR",
+   "census": 7,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 7,
+   "resolution_rate": 0.0,
+   "page_publishes": false
+  },
+  "north-miami": {
+   "name": "North Miami / North Miami Beach",
+   "class": "CORRIDOR",
+   "census": 4,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 4,
+   "resolution_rate": 0.0,
+   "page_publishes": false
+  },
+  "hialeah-miami-lakes": {
+   "name": "Hialeah / Hialeah Gardens / Miami Lakes",
+   "class": "FRINGE",
+   "census": 21,
+   "pet_friendly": 3,
+   "no_pets": 1,
+   "unresolved": 17,
+   "resolution_rate": 0.1905,
+   "page_publishes": false
+  },
+  "miami-gardens-opa-locka": {
+   "name": "Miami Gardens / Opa-locka / Liberty City",
+   "class": "FRINGE",
+   "census": 4,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 4,
+   "resolution_rate": 0.0,
+   "page_publishes": false
+  },
+  "kendall-south-dade": {
+   "name": "Kendall / Westchester / Tamiami / Cutler Bay",
+   "class": "FRINGE",
+   "census": 22,
+   "pet_friendly": 2,
+   "no_pets": 1,
+   "unresolved": 19,
+   "resolution_rate": 0.1364,
+   "page_publishes": false
+  },
+  "homestead-florida-city": {
+   "name": "Homestead / Florida City",
+   "class": "FRINGE",
+   "census": 35,
+   "pet_friendly": 3,
+   "no_pets": 2,
+   "unresolved": 30,
+   "resolution_rate": 0.1429,
+   "page_publishes": false
+  }
+ },
+ "uncorridored_rows": 0,
+ "corridor_count": 20,
+ "corridors_publishing": [
+  "downtown-brickell",
+  "south-beach",
+  "mia-airport-miami-springs",
+  "doral"
+ ],
+ "brand_by_brand": {
+  "ACCOR": {
+   "census": 7,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 7,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "BEST_WESTERN": {
+   "census": 8,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 8,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 7,
+   "browser_attempted": 1,
+   "browser_success": 0
+  },
+  "CHOICE": {
+   "census": 14,
+   "pet_friendly": 4,
+   "no_pets": 1,
+   "unresolved": 9,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "EXTENDED_STAY_AMERICA": {
+   "census": 6,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 5,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "FOUR_SEASONS": {
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 2,
+   "firecrawl_success": 0,
+   "access_blocked": 2,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "HILTON": {
+   "census": 44,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 44,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 44,
+   "browser_attempted": 1,
+   "browser_success": 0
+  },
+  "HYATT": {
+   "census": 9,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 9,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 9,
+   "browser_attempted": 1,
+   "browser_success": 0
+  },
+  "IHG": {
+   "census": 27,
+   "pet_friendly": 10,
+   "no_pets": 5,
+   "unresolved": 12,
+   "firecrawl_attempted": 17,
+   "firecrawl_success": 9,
+   "access_blocked": 4,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "INDEPENDENT": {
+   "census": 397,
+   "pet_friendly": 30,
+   "no_pets": 13,
+   "unresolved": 354,
+   "firecrawl_attempted": 102,
+   "firecrawl_success": 3,
+   "access_blocked": 94,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "LOEWS": {
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "LUXURY_INDEPENDENT": {
+   "census": 22,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 19,
+   "firecrawl_attempted": 5,
+   "firecrawl_success": 0,
+   "access_blocked": 4,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "MARRIOTT": {
+   "census": 70,
+   "pet_friendly": 6,
+   "no_pets": 1,
+   "unresolved": 63,
+   "firecrawl_attempted": 7,
+   "firecrawl_success": 0,
+   "access_blocked": 4,
+   "browser_capture_needed": 55,
+   "browser_attempted": 2,
+   "browser_success": 0
+  },
+  "MOTEL6_STUDIO6": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "RADISSON": {
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "RED_ROOF": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "RESORT_INDEPENDENT": {
+   "census": 5,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 4,
+   "firecrawl_attempted": 2,
+   "firecrawl_success": 0,
+   "access_blocked": 2,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "SONESTA": {
+   "census": 6,
+   "pet_friendly": 6,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "WYNDHAM": {
+   "census": 16,
+   "pet_friendly": 5,
+   "no_pets": 8,
+   "unresolved": 3,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  }
+ },
+ "providers": {
+  "static_capture": {
+   "targets": 410,
+   "free_http_requests": 102,
+   "outcomes": {
+    "ACCESS_DENIED": 204,
+    "BLANK_PAGE": 5,
+    "IDENTITY_MISMATCH": 91,
+    "NAVIGATION_FAILED": 18,
+    "POLICY_NOT_FOUND": 38,
+    "UNEXPECTED_PAGE": 16,
+    "UNHYDRATED": 18,
+    "VALID": 20
+   }
+  },
+  "wyndham_property_service": {
+   "selected": null,
+   "read": 27,
+   "retired": 24
+  },
+  "extended_stay_america": {
+   "routes": 7,
+   "served": 7,
+   "faq_pet_answer": 7
+  },
+  "independents_policy_pages": {
+   "targets": 214,
+   "bound": 137,
+   "free_http_requests": 422
+  },
+  "places_route_discovery": {
+   "requests": 286,
+   "route_discovery_bound": 230,
+   "with_website": 178,
+   "gap_verdicts": {
+    "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 8,
+    "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 2,
+    "OUTSIDE_MARKET": 3
+   },
+   "cost_basis": "existing GOOGLE_PLACES_API_KEY capacity; no new key, no new authorization, no plan purchase"
+  },
+  "places_discovered_sites": {
+   "targets": 126,
+   "bound": 76,
+   "free_http_requests": 190
+  },
+  "firecrawl": {
+   "eligible_planned": 116,
+   "attempted": 229,
+   "property_page_attempts": 221,
+   "first_pass_attempted": 116,
+   "retry_pass_attempted": 34,
+   "probe2_pass_attempted": 34,
+   "route_discovery_pages": 8,
+   "route_discovery_routes": 67,
+   "brand_page_reads": {
+    "attempted": 37,
+    "answered": 32,
+    "with_own_address": 30,
+    "by_family": {
+     "CHOICE": 12,
+     "IHG": 25
+    }
+   },
+   "retry_pass_why": "first-pass FIRECRAWL_MISMATCH rows re-attempted once after the census restated Miami-Dade grid streets in the ordinal spelling the pages use",
+   "distinct_identities_attempted": 150,
+   "by_cohort": {
+    "PROBE": 109,
+    "RETRY": 34,
+    "ROUTED": 5,
+    "WALL_REPROBE": 2
+   },
+   "publication_grade": 12,
+   "policy_found": 12,
+   "failed": 138,
+   "class_counts": {
+    "FIRECRAWL_BLOCKED": 54,
+    "FIRECRAWL_FAILED": 40,
+    "FIRECRAWL_IDENTITY_ONLY": 2,
+    "FIRECRAWL_MISMATCH": 33,
+    "FIRECRAWL_PUBLICATION_GRADE": 12,
+    "FIRECRAWL_SOURCE_SILENT": 9
+   },
+   "credits": {
+    "first_pass": {
+     "before": 1525,
+     "after": 1436,
+     "delta": 89,
+     "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+    },
+    "retry_pass": {
+     "before": 1436,
+     "after": 1416,
+     "delta": 20,
+     "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+    },
+    "probe2_pass": {
+     "before": 1376,
+     "after": 1346,
+     "delta": 30,
+     "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+    },
+    "route_discovery": {
+     "before": 1416,
+     "after": 1408,
+     "delta": 8
+    },
+    "brand_page_reads": {
+     "before": 1408,
+     "after": 1376,
+     "delta": 32
+    }
+   }
+  },
+  "supported_browser": {
+   "attempted": 5,
+   "success": 0,
+   "outcomes": {
+    "BOT_CHALLENGE_PAGE": 1,
+    "BROWSER_PERMISSION_DENIED": 4
+   },
+   "by_family": {
+    "BEST_WESTERN": 1,
+    "HILTON": 1,
+    "HYATT": 1,
+    "MARRIOTT": 2
+   }
+  },
+  "other_paid_providers": {
+   "bright_data": 0,
+   "other": 0
+  },
+  "routing_by_state": {
+   "FREE_LANE_EXHAUSTED": 41,
+   "INDEPENDENT_REVIEW": 231,
+   "ROUTED_MAP_WEBSITE": 113,
+   "ROUTED_OFFICIAL_DESTINATION": 141,
+   "ROUTED_OFFICIAL_INVENTORY": 112,
+   "ROUTE_BRAND_MISMATCH": 1
+  },
+  "usd_spent": 0.0,
+  "new_paid_spend": 0.0,
+  "new_provider_authorization": "NONE"
+ },
+ "competitor_reconciliation": {
+  "competitor": "BringFido",
+  "cities_challenged": 20,
+  "competitor_raw_discovery": 824,
+  "normalized_unique": 660,
+  "matched_to_census": 282,
+  "matched_distinct_identities": 204,
+  "true_missing_qualifying_candidates": 12,
+  "true_missing_verified_by_places": {
+   "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 8,
+   "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 2,
+   "OUTSIDE_MARKET": 3
+  },
+  "excluded_stale_outside": 293,
+  "review": 73,
+  "matched_but_policy_unresolved": 164,
+  "counts": {
+   "ALIAS": 57,
+   "CONDO_RESIDENCE": 5,
+   "DUPLICATE": 78,
+   "EXACT_ATLAS_MATCH": 147,
+   "NON_HOTEL": 3,
+   "OUTSIDE": 29,
+   "REVIEW": 73,
+   "TRUE_MISSING": 12,
+   "VACATION_RENTAL": 256
+  }
+ },
+ "south_florida_boundary": {
+  "method": "DBPR licences counted by the licence's own county (HOTL/MOTL/BNB/TAPT ranks); graph nodes refused by the geography whose own city or reason names the place. Admission is by the corridor registry only.",
+  "fort_lauderdale_discovered_dbpr": 190,
+  "hollywood_discovered_dbpr": 150,
+  "dania_beach_discovered_dbpr": 40,
+  "hallandale_discovered_dbpr": 16,
+  "broward_county_discovered_dbpr": 609,
+  "west_palm_palm_beach_county_discovered_dbpr": 222,
+  "florida_keys_monroe_discovered_dbpr": 319,
+  "outside_graph_nodes_by_place": {
+   "DANIA_BEACH": 40,
+   "FLORIDA_KEYS": 295,
+   "FORT_LAUDERDALE": 221,
+   "HALLANDALE": 11,
+   "HOLLYWOOD": 140,
+   "WEST_PALM_PALM_BEACH": 85
+  },
+  "miami_market_included_from_those_areas": 0,
+  "future_standalone_markets": [
+   "fort-lauderdale-fl",
+   "west-palm-beach-fl",
+   "florida-keys-fl"
+  ]
+ },
+ "negation_and_parser_conflicts": [
+  {
+   "identity_key": "abae hotel",
+   "name": "Abae Hotel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Are pets allowed in the hotel? While we love animals, pets are not allowed on the property.'"
+  },
+  {
+   "identity_key": "balfour hotel",
+   "name": "Balfour Hotel",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "bentley south beach",
+   "name": "Bentley South Beach",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "chelsea hotel",
+   "name": "Chelsea Hotel",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "clarion inn and suites miami international airport",
+   "name": "Clarion Inn & Suites Miami International Airport",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'laza Executive Center 1 mi Koger Executive Center 1 mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM Phone Number (305) 921-4268 Children Anyone aged 18 and under, at time of booking, stay for free Fax (305) 871-5944 Pets Pets Allowed: No General: Only service animals are permitted, free of charge. 00 USD charge per night stayed to return the room to a pet free room upon check out. NO PETS ARE ALLOWED. Are pets allowed at Clarion Inn & Suites Miami International Airport? M'"
+  },
+  {
+   "identity_key": "comfort inn and suites miami international airport",
+   "name": "Comfort Inn and Suites Miami international Airport",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: '8 mi Info Essential details Check-In 3:00 PM Check-Out 11:00 AM Phone Number (305) 330-2771 Children Anyone aged 18 and under, at time of booking, stay for free Fax (305) 887-3733 Pets Pets Allowed: No General: Only service animals are permitted, free of charge. View Terms $187 USD /night Per Night View package Amenities Hotel Amenities Family & Pet Services No Pets Allowed Only service animals are permitted, free of charge.'"
+  },
+  {
+   "identity_key": "comfort suites",
+   "name": "Comfort Suites",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote refuses pets: 'usiness District 3 mi Show more Info Essential details Check-In 3:00 PM Check-Out 12:00 PM No Smoking 100% Smoke Free Hotel Phone Number (305) 999-5406 Children Anyone aged 12 and under, at time of booking, stay for free Fax (305) 221-1348 Pets Pets Allowed: No General: Only service animals are permitted, free of charge.'"
+  },
+  {
+   "identity_key": "comfort suites miami airport north",
+   "name": "Comfort Suites Miami Airport North",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote refuses pets: '9 mi Hialeah Park 3 mi Flagler Dog Track 3 mi Miami International Airport 5 mi Doral Country Club 6 mi Show more Business Pan Am Intl Flight Academy 0. 9 mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (645) 202-3985 Children Anyone aged 18 and under, at time of booking, stay for free Fax (305) 887-3733 Pets Pets Allowed: No General: Only service animals are permitted, free of charge.'"
+  },
+  {
+   "identity_key": "extended stay america miami airport blue lagoon",
+   "name": "Extended Stay America - Miami - Airport - Blue Lagoon",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "extended stay america miami airport doral",
+   "name": "Extended Stay America - Miami - Airport - Doral",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "extended stay america premier suites miami airport miami springs",
+   "name": "Extended Stay America Premier Suites- Miami - Airport - Miami Springs",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "flamingo adventures at everglades national park",
+   "name": "Flamingo Adventures at Everglades National Park",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Your naturalist will highlight the unique plants and animals and outline the rich history of Flamingo at Everglades National Park. Learn More Backcountry Boat Tour TOURS Explore the magnificent Florida backcountry as your naturalist highlights unique plant and animal life and outlines the rich history of Flamingo at Everglades National Park. Learn More Florida Bay Boat Tour TOURS Venture into Florida Bay while your naturalist highlights unique plant and animal life and outlines the rich history'"
+  },
+  {
+   "identity_key": "holiday inn miami beach",
+   "name": "Holiday Inn Miami Beach",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: '2 USD per day Parking & transportation details Can I bring my pet to Holiday Inn Miami Beach-Oceanfront? No, pets are not allowed at Holiday Inn Miami Beach-Oceanfront.'"
+  },
+  {
+   "identity_key": "holiday inn miami doral",
+   "name": "Holiday Inn Miami-Doral",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: '49 tax included per night Parking fee: 7 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer, Truck Parking & transportation details Can I bring my pet to Holiday Inn Miami-Doral Area? No, pets are not allowed at Holiday Inn Miami-Doral Area.'"
+  },
+  {
+   "identity_key": "intercontinental miami",
+   "name": "InterContinental Miami",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "kompose boutique hotel miami airport",
+   "name": "Kompose Boutique Hotel Miami Airport",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "lincoln arms suites",
+   "name": "Lincoln Arms Suites",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "metropole south beach",
+   "name": "Metropole South Beach",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "national hotel miami beach",
+   "name": "National Hotel Miami Beach",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "nuvo suites hotel",
+   "name": "Nuvo Suites Hotel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: 'VIEW AMENITIES Suites Our spacious guest rooms are hypoallergenic, Wi-Fi-equipped, and pet-friendly for a comfortable extended stay. Pets Pets under 25 pounds are permitted, your pet must be registered at check-in and a non-refundable fee of $75 is required per pet. Failure to inform the front desk of a pet staying in the unit will result in a $150 fine. We welcome up to 2 domestic pets per room, only cats and dogs are allowed. Please ensure your pet is on a leash or a carrier if they are outsid'"
+  },
+  {
+   "identity_key": "parkway inn airport motel",
+   "name": "Parkway Inn Airport Motel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Age restriction The minimum age for check-in is 18 Pets Pets are not allowed. arble floor Private entrance Family rooms Facilities for disabled guests Non-smoking rooms, Designated smoking area, Air conditioning, Tile/marble floor, Private entrance, Family rooms, Facilities for disabled guests, Non-smoking rooms Are pets allowed at Parkway Inn Airport Motel? Pets are not allowed.'"
+  },
+  {
+   "identity_key": "ponce de leon hotel",
+   "name": "Ponce De Leon Hotel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: 'bout Us Policies Pet Policies Rooms Gallery Nearby Attractions About Us Policies Pet Policies Pet Policies Pet Rules & Acknowledgment | Reglas y reconocimiento de mascotas By signing below, you acknowledge and agree to follow the following pet rules for your pet’s stay | Al firmar a continuación, usted reconoce y acepta seguir las siguientes reglas para mascotas durante la estadía de su mascota: Allowed pets | Mascotas permitidos : Only dogs are allowed at our property. If your pet is excessivel'"
+  },
+  {
+   "identity_key": "pullman miami airport",
+   "name": "Pullman Miami Airport",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "quality inn miami airport doral",
+   "name": "Quality Inn Miami Airport - Doral",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote refuses pets: '9 mi Citicorp 1 mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (786) 533-3636 Children Anyone aged 18 and under, at time of booking, stay for free Fax (305) 436-2935 Pets Pets Allowed: No General: Only service animals are permitted, free of charge.'"
+  },
+  {
+   "identity_key": "radisson resort miami beach",
+   "name": "Radisson Resort Miami Beach",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'mi Show more Info Essential details Check-In 4:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (786) 744-5729 Children Anyone aged 18 and under, at time of booking, stay for free Fax (786) 531-6400 Office Hours 24/7 Pets Pets Allowed: No General: Only service animals are permitted, free of charge. NO PETS ARE ALLOWED. 00 USD charge per night stayed to return the room to a pet free room upon check out.'"
+  },
+  {
+   "identity_key": "roami at sunny isles",
+   "name": "Roami at Sunny Isles",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "roami at the palace",
+   "name": "Roami at The Palace",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "sagamore hotel",
+   "name": "Sagamore Hotel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no acceptance the reader will interpret: 'What is the hotel’s pet policy? We are not a pet-friendly hotel.'"
+  },
+  {
+   "identity_key": "shelley hotel",
+   "name": "Shelley Hotel",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "the biltmore hotel miami coral gables",
+   "name": "The Biltmore Hotel Miami - Coral Gables",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Do you allow pets? The Biltmore offers luxury accommodations with a pet-friendly attitude. 00 one time deep cleaning fee for your pet’s stay at the Biltmore Hotel. Pets are welcome as long as the pet is 35 pounds or less, fully-trained and properly restrained by the owner. As an exception to the “No Pets Policy,” this act of good faith allows pet owners to keep their pets in their guest room. Discretion must be used in transporting to and from the guest room and the pet must not be visible at an'"
+  },
+  {
+   "identity_key": "the carmela",
+   "name": "The Carmela",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'Pets allowed'"
+  },
+  {
+   "identity_key": "the elser hotel and residences",
+   "name": "The Elser Hotel & Residences",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "the vagabond hotel miami",
+   "name": "The Vagabond Hotel Miami",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'Are pets allowed at The Vagabond Hotel Miami? Pets are not allowed, with the exception of service animals as required by law.'"
+  },
+  {
+   "identity_key": "trump national doral miami",
+   "name": "Trump National Doral, Miami",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  }
+ ],
+ "remaining_unresolved_root_causes": {
+  "BROWSER_CAPTURE_NEEDED": "Marriott / Hilton / Hyatt / Best Western rows whose static fetch was refused. The router sends Marriott and Hilton to the attended browser (Firecrawl is a measured wall) and excludes Hyatt and Best Western from its paid lanes; this session's browser met an Akamai challenge on marriott.com and extension read-permission refusals on marriott.com, hilton.com, hyatt.com and bestwestern.com. Next action: grant the extension read permission for those four domains and run a closure browser pass.",
+  "ROUTING_HOLD": "no first-party route: the routing pass found no brand, bureau or map website, and Places route discovery either bound no place at the row's own street number + ZIP, or bound one whose card names no website (NO_OFFICIAL_WEB_PRESENCE_FOUND), or names a brand/OTA host.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible or probe-eligible) was refused or failed.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a fee / weight / count sentence with no explicit acceptance wording, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "the fetched page or site never confirmed this census row's address, phone or code."
+ }
+}

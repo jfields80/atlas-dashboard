@@ -150,7 +150,7 @@ def seal(source_sha, work_dir, write=True):
             ("reason", (row.get("classification_reason") or "")[:300])]))
     out.update(OrderedDict([
         ("schema", "ptf-shadow-sealed-package-report/1.0"), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
-        ("as_of", time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())),
+        ("as_of", SEALED_AT),
         ("execution_zone", package["execution_zone"]),
         ("created_from_source_sha", package["created_from_source_sha"]),
         ("sealed_at", package["sealed_at"]),

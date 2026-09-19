@@ -167,6 +167,37 @@ _SPELLING = (
 )
 
 
+_QUADRANT = {"northwest": "NW", "northeast": "NE", "southwest": "SW", "southeast": "SE", "nw": "NW", "ne": "NE",
+             "sw": "SW", "se": "SE", "n": "N", "s": "S", "e": "E", "w": "W", "north": "N", "south": "S",
+             "east": "E", "west": "W"}
+_GRID = re.compile(r"\b(northwest|northeast|southwest|southeast|nw|ne|sw|se|north|south|east|west|n|s|e|w)\.?\s+"
+                   r"(\d+)(?:st|nd|rd|th)?(?=\s+(?:st|street|ave|avenue|ct|court|ter|terr|terrace|pl|place|rd|road|dr|"
+                   r"drive|way|ln|lane|blvd|pkwy|cir)\b)", re.I)
+
+
+#: A house number followed directly by a bare numbered street ("300 17 St", Miami Beach's own grid).
+_BARE_NUMBERED = re.compile(r"^(\s*\d+[a-z]?\s+)(\d+)(?:st|nd|rd|th)?(?=\s+(?:st|street|ave|avenue|ct|court|ter|terr|"
+                            r"terrace|pl|place|rd|road|dr|drive|way|ln|lane)\b)", re.I)
+
+
+def _ordinal(n):
+    n = int(n)
+    suffix = "th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return "%d%s" % (n, suffix)
+
+
+def canonical_street(street):
+    """MIAMI: the census states a Miami-Dade grid street the way a property's own page writes it ("2601 NW 42nd
+    Ave"), whether the licence abbreviated it ("2601 Nw 42 Ave") or the map spelled it out ("2601 Northwest 42nd
+    Avenue"): quadrant abbreviated and upper-cased, the numbered street given its ordinal. Nothing else changes.
+    The shared identity gate keeps "42nd" and drops a bare "42", so an unordinalised licence spelling would refuse
+    the property's own page for a spelling, not a building."""
+    if not street:
+        return street
+    s = _GRID.sub(lambda m: "%s %s" % (_QUADRANT[m.group(1).lower()], _ordinal(m.group(2))), street)
+    return _BARE_NUMBERED.sub(lambda m: "%s%s" % (m.group(1), _ordinal(m.group(2))), s)
+
+
 def _merge_spelling(street):
     s = re.sub(r"[^A-Za-z0-9 \-]", " ", street or "")
     s = re.sub(r"\bmemorial\s+h(w)?\s*$", "memorial hwy", s, flags=re.I)
@@ -1783,11 +1814,12 @@ def build():
             ("canonical_name", node.name),
             ("classification", klass),
             ("classification_reason", why),
-            ("street", node.street), ("city", node.city),
+            ("street", canonical_street(node.street)), ("city", node.city),
             ("state", node.region or corridor_state.get(z, "")),
             ("postal_code", z), ("phone", node.phone),
             ("phone_key", phone_key(node.phone)),
-            ("street_identity", address_key(node.street, node.postal) if (node.street or "").strip() else ""),
+            ("street_identity", address_key(canonical_street(node.street), node.postal)
+             if (node.street or "").strip() else ""),
             ("brand", node.brand), ("property_code", node.property_code),
             ("official_url", node.route),
             ("latitude", node.lat), ("longitude", node.lng),

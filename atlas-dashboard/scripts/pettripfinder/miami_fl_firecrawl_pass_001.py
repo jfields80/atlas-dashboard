@@ -140,6 +140,25 @@ def build(args) -> OrderedDict:
     static_report = read_json(STATIC_REPORT)
     static_by_key = {r["identity_key"]: r for r in static_report["rows"]}
     planned, all_decisions = cohort(static_report)
+    if args.targets_file:
+        # A TARGETS COHORT: rows the router leaves Firecrawl-eligible that this pass's own static-report cohort
+        # cannot see, because their route was not in the static report (a website the Places route-discovery lane
+        # found after the static pass, or a brand route discovered later). Each row still states its family, so the
+        # ladder's own exclusions (Hyatt / Best Western) and walls (Marriott / Hilton) are honoured by the caller.
+        planned = [_D(t["identity_key"], (t.get("family") or "INDEPENDENT").upper(), t["url"],
+                      t.get("why") or "FIRECRAWL_PROBE_ROUTER_ELIGIBLE_NOT_IN_STATIC_COHORT", t.get("cohort", "PROBE"))
+                   for t in sorted(read_json(args.targets_file), key=lambda x: x["identity_key"])
+                   if t.get("url")]
+    elif args.retry_from:
+        # RETRY COHORT: rows a prior pass classed in --retry-class whose failure was THIS order's own census
+        # defect (the licence's abbreviated grid street refused the page's own ordinal spelling), re-attempted once
+        # against the restated census. Not a new family, not a new lane; the same router rung on the same URL.
+        prior = read_json(args.retry_from)
+        want = set(args.retry_class or ())
+        planned = [_D(r["identity_key"], r.get("family") or "INDEPENDENT", r["requested_url"],
+                      "FIRECRAWL_RETRY_AFTER_CENSUS_STREET_RESTATEMENT", "RETRY")
+                   for r in sorted(prior.get("rows", []), key=lambda x: x["identity_key"])
+                   if r.get("firecrawl_class") in want and r["identity_key"] in census]
     pressure = L.attended_pressure(all_decisions)
     print("firecrawl cohort", len(planned), "attempt cap", args.cap_attempts, flush=True)
 
@@ -298,6 +317,9 @@ def main(argv=None) -> int:
     ap.add_argument("--cap-attempts", type=int, default=150)
     ap.add_argument("--floor-credits", type=int, default=400)
     ap.add_argument("--out", default=os.path.join(REPORTS, "miami_fl_firecrawl_pass_001.json"))
+    ap.add_argument("--targets-file", default="", help="a JSON list of {identity_key, family, url, why, cohort}")
+    ap.add_argument("--retry-from", default="", help="a prior pass report whose rows are retried")
+    ap.add_argument("--retry-class", action="append", help="firecrawl_class of the prior rows to retry (repeatable)")
     args = ap.parse_args(argv)
     rep = build(args)
     with open(args.out, "wb") as fh:

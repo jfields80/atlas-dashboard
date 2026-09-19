@@ -1,0 +1,2046 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "miami-fl",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "miami_fl_firecrawl_003",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 150,
+  "credit_floor": 400,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 261,
+  "static_to_attended": 240,
+  "firecrawl_candidates": 18,
+  "share_static_to_attended": 0.9195,
+  "share_firecrawl_candidates": 0.069,
+  "threshold": 0.2,
+  "warning": false,
+  "message": ""
+ },
+ "planned_rows": 34,
+ "attempted_rows": 34,
+ "stopped_by": "",
+ "credits": {
+  "before": 1376,
+  "after": 1346,
+  "delta": 30,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "miami gardens inn and suites": {
+    "identity_key": "miami gardens inn and suites",
+    "requested_url": "http://www.miamigardensinnsuites.com/",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "the standard spa miami beach": {
+    "identity_key": "the standard spa miami beach",
+    "requested_url": "https://www.standardhotels.com/miami/properties/miami-beach",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "agave on the beach",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "alton at mine",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "art deco marela boutique hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "belmont inn and suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "best inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "carlyle hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "casita 76",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "deco mode hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "deluxe inn motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "estancia hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "flow hotel miami",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "grand beach hotel surfside restaurant",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "havana inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hialeah executive motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hialeah motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel miami springs inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel saint augustine",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "ithaca at mine",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "jefferson hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "l hotel miami beach",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "la fuente hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "la fuente motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "link hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "miami beach resort spa",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "ps mia",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "red south beach hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "roami at adagio",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "roami at hotel astor",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "scape motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "tower hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "venezia hotel miami",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "villa italia south beach miami",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 34,
+  "results": 34
+ },
+ "class_counts": {
+  "FIRECRAWL_BLOCKED": 7,
+  "FIRECRAWL_FAILED": 5,
+  "FIRECRAWL_MISMATCH": 20,
+  "FIRECRAWL_SOURCE_SILENT": 2
+ },
+ "outcome_counts": {
+  "ACCESS_DENIED": 1,
+  "IDENTITY_MISMATCH": 20,
+  "NAVIGATION_FAILED": 3,
+  "POLICY_NOT_FOUND": 2,
+  "UNEXPECTED_PAGE": 2,
+  "UNHYDRATED": 6
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "agave on the beach",
+   "canonical_name": "Agave on the Beach",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.agaveonthebeach.com/",
+   "final_url": "https://www.agaveonthebeach.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotel Accommodations | Agave on the Beach | Miami",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.agaveonthebeach.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "3054296672"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33139",
+   "expected_street": "235 18th St",
+   "captured_at": "2026-09-19T22:05:41.486208+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.agaveonthebeach.com/"
+    },
+    "envelope_sha256": "9a1d8ca26a91a5d50ab5bc7281d1a9a6db9f7d2cc78b683c5d1ce5f980b55331"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\agave-on-the-beach\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "alton at mine",
+   "canonical_name": "Alton at Mine",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://atminehospitality.com/",
+   "final_url": "https://www.atminehospitality.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page ZIP '33131' != expected '33139'; the page prints 'SE 1st St', which carries no house number and so names a road rather than a building; page telephone '+13054977553' is not the census number '786-378-9252'; one property commonly publishes several; nothing physical agreed: no street identity and",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "At Mine Hospitality LLC",
+     "address_on_page": "SE 1st St",
+     "postal_code": "33131",
+     "phone_on_page": "+13054977553",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.atminehospitality.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054977553"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [
+     "postal_code"
+    ],
+    "reasons": [
+     "page ZIP '33131' != expected '33139'",
+     "the page prints 'SE 1st St', which carries no house number and so names a road rather than a building",
+     "page telephone '+13054977553' is not the census number '786-378-9252'; one property commonly publishes several",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33139",
+   "expected_street": "810 Alton Rd",
+   "captured_at": "2026-09-19T22:05:51.306347+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://atminehospitality.com/"
+    },
+    "envelope_sha256": "893b5b776f09f8ebb610ce315f23c1b326e61abdd20e6254009d8a5526163f82"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\alton-at-mine\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "art deco marela boutique hotel",
+   "canonical_name": "Art Deco Marela Boutique Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://decomarela.com/",
+   "final_url": "https://decomarela.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Home - Art Deco Marela Boutique Hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://decomarela.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33139",
+   "expected_street": "310 Meridian Ave",
+   "captured_at": "2026-09-19T22:06:01.709950+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://decomarela.com/"
+    },
+    "envelope_sha256": "751abf2b8691c89585c0529b004e1cef0ad74085bde8b9cc7e6c4aed3418c422"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\art-deco-marela-boutique-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "belmont inn and suites",
+   "canonical_name": "Belmont Inn & Suites",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://belmontinnflorida.com/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"belmontinnflorida.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unavai",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33034",
+   "expected_street": "553 NE 1st Ave",
+   "captured_at": "2026-09-19T22:06:11.911572+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://belmontinnflorida.com/"
+    },
+    "envelope_sha256": "46f47c275aeb26829b29489b488061678e5e5f0376c84010a582285a97c2a27a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\belmont-inn-and-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "best inn",
+   "canonical_name": "Best Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.serenainnhomestead.com/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.serenainnhomestead.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily u",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33032",
+   "expected_street": "26480 S Dixie Hwy",
+   "captured_at": "2026-09-19T22:06:14.572758+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.serenainnhomestead.com/"
+    },
+    "envelope_sha256": "26b6ae647fee9f0670818efa633cd02cd98d464025cef148cc8369bd7e1377ee"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\best-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "carlyle hotel",
+   "canonical_name": "Carlyle Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://carlyleoceandrsouthbeach2bedroomluxuryapartment.hotels-miamibeach.com/en/",
+   "final_url": "https://carlyleoceandrsouthbeach2bedroomluxuryapartment.hotels-miamibeach.com/en/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'The Carlyle Oceanfront Luxe Condo Miami Beach', which does not agree with 'Carlyle Hotel'; page ZIP 'FL 33139' != expected '33139'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Carlyle Oceanfront Luxe Condo Miami Beach",
+     "address_on_page": "1250 Ocean Drive",
+     "postal_code": "FL 33139",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://carlyleoceandrsouthbeach2bedroomluxuryapartment.hotels-miamibeach.com/en/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [
+     "street_identity"
+    ],
+    "conflicting": [
+     "name",
+     "postal_code"
+    ],
+    "reasons": [
+     "page names 'The Carlyle Oceanfront Luxe Condo Miami Beach', which does not agree with 'Carlyle Hotel'",
+     "page ZIP 'FL 33139' != expected '33139'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33139",
+   "expected_street": "1250 Ocean Drive",
+   "captured_at": "2026-09-19T22:06:17.091736+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://carlyleoceandrsouthbeach2bedroomluxuryapartment.hotels-miamibeach.com/en/"
+    },
+    "envelope_sha256": "b153bf16229ec241dc841a87b92862162a8e65e91a7434a7a22506a5fd93c126"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\carlyle-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "casita 76",
+   "canonical_name": "Casita 76",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://atminehospitality.com/",
+   "final_url": "https://www.atminehospitality.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'At Mine Hospitality LLC', which does not agree with 'Casita 76'; page ZIP '33131' != expected '33141'; the page prints 'SE 1st St', which carries no house number and so names a road rather than a building; page telephone '+13054977553' is not the census number '7865362106'; one property ",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "At Mine Hospitality LLC",
+     "address_on_page": "SE 1st St",
+     "postal_code": "33131",
+     "phone_on_page": "+13054977553",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.atminehospitality.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054977553"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name",
+     "postal_code"
+    ],
+    "reasons": [
+     "page names 'At Mine Hospitality LLC', which does not agree with 'Casita 76'",
+     "page ZIP '33131' != expected '33141'",
+     "the page prints 'SE 1st St', which carries no house number and so names a road rather than a building",
+     "page telephone '+13054977553' is not the census number '7865362106'; one property commonly publishes several"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33141",
+   "expected_street": "7610 Harding Av",
+   "captured_at": "2026-09-19T22:06:36.593867+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://atminehospitality.com/"
+    },
+    "envelope_sha256": "3e67458727192cf9700ea735b13a71e0b3c8dd4928da652788e7c692129628f6"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\casita-76\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "deco mode hotel",
+   "canonical_name": "Deco Mode Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.harrisononthebeachhotel.com/",
+   "final_url": "https://www.harrisononthebeachhotel.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Boutique Hotel | Hotel Harrison on the beach | Miami Beach, US', which does not agree with 'Deco Mode Hotel'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Boutique Hotel | Hotel Harrison on the beach | Miami Beach, US",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.harrisononthebeachhotel.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Boutique Hotel | Hotel Harrison on the beach | Miami Beach, US', which does not agree with 'Deco Mode Hotel'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33139",
+   "expected_street": "411 Washington Ave",
+   "captured_at": "2026-09-19T22:06:39.411713+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.harrisononthebeachhotel.com/"
+    },
+    "envelope_sha256": "9b4e4234cea6d0f7f594bd7e1414d98967dc146885ac51ea68fc88b974428797"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\deco-mode-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "deluxe inn motel",
+   "canonical_name": "Deluxe Inn Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://nexxmotels.com/yes-motel-homestead/",
+   "final_url": "https://nexxmotels.com/yes-motel-homestead/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33033",
+   "expected_street": "28475 S Dixie Hwy",
+   "captured_at": "2026-09-19T22:06:49.322992+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://nexxmotels.com/yes-motel-homestead/"
+    },
+    "envelope_sha256": "de9dba051a7d51d59a7d699ff570c5aaea71cf88c02a44f8a724dd28ef183840"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\deluxe-inn-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "estancia hotel",
+   "canonical_name": "Estancia Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.estanciasuites.com/",
+   "final_url": "http://www.estanciasuites.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33126",
+   "expected_street": "7685 NW 12th St",
+   "captured_at": "2026-09-19T22:06:58.219782+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.estanciasuites.com/"
+    },
+    "envelope_sha256": "4f0dd16ed987ce873bb939ce36cb72de1a8b0fae814fdd0d3815aac4859540e5"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\estancia-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "flow hotel miami",
+   "canonical_name": "Flow Hotel Miami",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://flowhotel.life/en/miami",
+   "final_url": "https://flowhotel.life/c/en/miami",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33132",
+   "expected_street": "698 NE 1st Avenue",
+   "captured_at": "2026-09-19T22:07:07.055548+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://flowhotel.life/en/miami"
+    },
+    "envelope_sha256": "b3ed01d69f0f72d8715883eaa91f7d5220a57c33efc76787901ff3ab8ab3018b"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\flow-hotel-miami\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "grand beach hotel surfside restaurant",
+   "canonical_name": "Grand Beach Hotel Surfside Restaurant",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.grandbeachhotel.com/hotels/surfside",
+   "final_url": "https://www.grandbeachhotel.com/surfside",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33154",
+   "expected_street": "9418 Collins Ave",
+   "captured_at": "2026-09-19T22:07:18.136330+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.grandbeachhotel.com/hotels/surfside"
+    },
+    "envelope_sha256": "3a39ee1cf9449b0d8aac59e7fd03a08fdf7cfd3c9df4412dcec16608030aec8c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\grand-beach-hotel-surfside-restaurant\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "havana inn",
+   "canonical_name": "Havana Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.havanainnhotel.com/",
+   "final_url": "https://www.havanainnhotel.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "HOME | Havana Inn Hotel | Miami, FL",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.havanainnhotel.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "7864284021"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33127",
+   "expected_street": "193 NW 58th St",
+   "captured_at": "2026-09-19T22:07:20.912557+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.havanainnhotel.com/"
+    },
+    "envelope_sha256": "eb03cec316e1722a7edcf626501c3da6d3aeffbf8fc4a925ed2b31fbc02099eb"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\havana-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "hialeah executive motel",
+   "canonical_name": "Hialeah Executive Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.hialeahexecutivemotel.com/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.hialeahexecutivemotel.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporaril",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33010",
+   "expected_street": "131 W 5th St",
+   "captured_at": "2026-09-19T22:07:30.729295+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.hialeahexecutivemotel.com/"
+    },
+    "envelope_sha256": "e1dee84a4001b71107e4e23145cca051371180a683eef51152253231723a4bc7"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\hialeah-executive-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "hialeah motel",
+   "canonical_name": "Hialeah Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.nexxmotels.com/",
+   "final_url": "http://www.nexxmotels.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33010",
+   "expected_street": "555 East Okeechobee Road",
+   "captured_at": "2026-09-19T22:07:55.321512+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.nexxmotels.com/"
+    },
+    "envelope_sha256": "54bc7fc71f941162690f5bbf0f55bdaea96f32e9a213d172ba0e5ddfb6de568a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\hialeah-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "hotel miami springs inn",
+   "canonical_name": "Hotel Miami Springs Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://miamispringsinn.wixsite.com/home",
+   "final_url": "https://miamispringsinn.wixsite.com/home",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33166",
+   "expected_street": "661 East Drive",
+   "captured_at": "2026-09-19T22:08:04.167613+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://miamispringsinn.wixsite.com/home"
+    },
+    "envelope_sha256": "ec0cd4208c925e12509cfd6934ac7ca52a2a3158631ca322c641ebed13a1e5e2"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\hotel-miami-springs-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "hotel saint augustine",
+   "canonical_name": "Hotel Saint Augustine",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://atminehospitality.com/",
+   "final_url": "https://www.atminehospitality.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'At Mine Hospitality LLC', which does not agree with 'Hotel Saint Augustine'; page ZIP '33131' != expected '33139'; the page prints 'SE 1st St', which carries no house number and so names a road rather than a building; page telephone '+13054977553' is not the census number '305.532.0570';",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "At Mine Hospitality LLC",
+     "address_on_page": "SE 1st St",
+     "postal_code": "33131",
+     "phone_on_page": "+13054977553",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.atminehospitality.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054977553"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name",
+     "postal_code"
+    ],
+    "reasons": [
+     "page names 'At Mine Hospitality LLC', which does not agree with 'Hotel Saint Augustine'",
+     "page ZIP '33131' != expected '33139'",
+     "the page prints 'SE 1st St', which carries no house number and so names a road rather than a building",
+     "page telephone '+13054977553' is not the census number '305.532.0570'; one property commonly publishes several"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33139",
+   "expected_street": "347 Washington Ave",
+   "captured_at": "2026-09-19T22:08:14.362971+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://atminehospitality.com/"
+    },
+    "envelope_sha256": "893b5b776f09f8ebb610ce315f23c1b326e61abdd20e6254009d8a5526163f82"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\hotel-saint-augustine\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "ithaca at mine",
+   "canonical_name": "Ithaca at Mine",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.atminehospitality.com/",
+   "final_url": "https://www.atminehospitality.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page ZIP '33131' != expected '33139'; the page prints 'SE 1st St', which carries no house number and so names a road rather than a building; page telephone '+13054977553' is not the census number '7863789252'; one property commonly publishes several; nothing physical agreed: no street identity and n",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "At Mine Hospitality LLC",
+     "address_on_page": "SE 1st St",
+     "postal_code": "33131",
+     "phone_on_page": "+13054977553",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.atminehospitality.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054977553"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [
+     "postal_code"
+    ],
+    "reasons": [
+     "page ZIP '33131' != expected '33139'",
+     "the page prints 'SE 1st St', which carries no house number and so names a road rather than a building",
+     "page telephone '+13054977553' is not the census number '7863789252'; one property commonly publishes several",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33139",
+   "expected_street": "601 Collins Ave",
+   "captured_at": "2026-09-19T22:08:17.165519+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.atminehospitality.com/"
+    },
+    "envelope_sha256": "1737fd8d72def5195c88242b428bee573b8240c27083e349eac1d12c40e2be7e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\ithaca-at-mine\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "jefferson hotel",
+   "canonical_name": "Jefferson Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.atminehospitality.com/",
+   "final_url": "https://www.atminehospitality.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'At Mine Hospitality LLC', which does not agree with 'Jefferson Hotel'; page ZIP '33131' != expected '33130'; the page prints 'SE 1st St', which carries no house number and so names a road rather than a building",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "At Mine Hospitality LLC",
+     "address_on_page": "SE 1st St",
+     "postal_code": "33131",
+     "phone_on_page": "+13054977553",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.atminehospitality.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054977553"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name",
+     "postal_code"
+    ],
+    "reasons": [
+     "page names 'At Mine Hospitality LLC', which does not agree with 'Jefferson Hotel'",
+     "page ZIP '33131' != expected '33130'",
+     "the page prints 'SE 1st St', which carries no house number and so names a road rather than a building"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33130",
+   "expected_street": "528 SW 9th Ave",
+   "captured_at": "2026-09-19T22:08:19.940595+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.atminehospitality.com/"
+    },
+    "envelope_sha256": "1737fd8d72def5195c88242b428bee573b8240c27083e349eac1d12c40e2be7e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\jefferson-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "l hotel miami beach",
+   "canonical_name": "L Hotel Miami Beach",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.atminehospitality.com/",
+   "final_url": "https://www.atminehospitality.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'At Mine Hospitality LLC', which does not agree with 'L Hotel Miami Beach'; page ZIP '33131' != expected '33140'; the page prints 'SE 1st St', which carries no house number and so names a road rather than a building; page telephone '+13054977553' is not the census number '786.378.9252'; o",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "At Mine Hospitality LLC",
+     "address_on_page": "SE 1st St",
+     "postal_code": "33131",
+     "phone_on_page": "+13054977553",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.atminehospitality.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054977553"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name",
+     "postal_code"
+    ],
+    "reasons": [
+     "page names 'At Mine Hospitality LLC', which does not agree with 'L Hotel Miami Beach'",
+     "page ZIP '33131' != expected '33140'",
+     "the page prints 'SE 1st St', which carries no house number and so names a road rather than a building",
+     "page telephone '+13054977553' is not the census number '786.378.9252'; one property commonly publishes several"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33140",
+   "expected_street": "4121 Indian Creek Dr",
+   "captured_at": "2026-09-19T22:08:22.625670+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.atminehospitality.com/"
+    },
+    "envelope_sha256": "1737fd8d72def5195c88242b428bee573b8240c27083e349eac1d12c40e2be7e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\l-hotel-miami-beach\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "la fuente hotel",
+   "canonical_name": "La Fuente Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.executivefantasyhotels.com/portfolio/la-fuente-motel-8-st/",
+   "final_url": "http://www.executivefantasyhotels.com/portfolio/la-fuente-motel-8-st/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Page not found - Executive Fantasy Hotels | Executive Motel Miami | Theme Hotels In Miami | Romantic Miami Motel', which does not agree with 'La Fuente Hotel'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Page not found - Executive Fantasy Hotels | Executive Motel Miami | Theme Hotels In Miami | Romantic Miami Motel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8883737888",
+      "8888713932"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Page not found - Executive Fantasy Hotels | Executive Motel Miami | Theme Hotels In Miami | Romantic Miami Motel', which does not agree with 'La Fuente Hotel'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33144",
+   "expected_street": "7470 SW 8th St",
+   "captured_at": "2026-09-19T22:08:25.322046+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.executivefantasyhotels.com/portfolio/la-fuente-motel-8-st/"
+    },
+    "envelope_sha256": "d74cf6d304e6df5b543145c249130f82df1667c3c96c8017f04babe1e834f1d8"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\la-fuente-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "la fuente motel",
+   "canonical_name": "La Fuente Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.executivefantasyhotels.com/portfolio/la-fuente-motel-8-st/",
+   "final_url": "https://www.executivefantasyhotels.com/portfolio/la-fuente-motel-8-st/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Page not found - Executive Fantasy Hotels | Executive Motel Miami | Theme Hotels In Miami | Romantic Miami Motel', which does not agree with 'La Fuente Motel'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Page not found - Executive Fantasy Hotels | Executive Motel Miami | Theme Hotels In Miami | Romantic Miami Motel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8883737888",
+      "8888713932"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Page not found - Executive Fantasy Hotels | Executive Motel Miami | Theme Hotels In Miami | Romantic Miami Motel', which does not agree with 'La Fuente Motel'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33010",
+   "expected_street": "151 E Okeechobee Rd",
+   "captured_at": "2026-09-19T22:08:38.195053+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.executivefantasyhotels.com/portfolio/la-fuente-motel-8-st/"
+    },
+    "envelope_sha256": "f1550c0b9e6ee2eddc9be3d69b7ceaf047c5edc71f08ad16872d385f007001c4"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\la-fuente-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "link hotel",
+   "canonical_name": "Link Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://thelinkhotel.net/",
+   "final_url": "https://www.thelinkhotel.net/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'The Link', which does not agree with 'Link Hotel'; page street '529 Lincoln Rd Mall' does not agree with expected '529 Lincoln Road'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Link",
+     "address_on_page": "529 Lincoln Rd Mall",
+     "postal_code": "33139",
+     "phone_on_page": "305-570-1792",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.thelinkhotel.net/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3055701792"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "postal_code",
+     "phone"
+    ],
+    "conflicting": [
+     "name",
+     "street_identity"
+    ],
+    "reasons": [
+     "page names 'The Link', which does not agree with 'Link Hotel'",
+     "page street '529 Lincoln Rd Mall' does not agree with expected '529 Lincoln Road'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33139",
+   "expected_street": "529 Lincoln Road",
+   "captured_at": "2026-09-19T22:08:40.856527+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://thelinkhotel.net/"
+    },
+    "envelope_sha256": "38c8823ee7921a768098561443cb31202694689ff83745242bf2068f1d811bf0"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\link-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "miami beach resort spa",
+   "canonical_name": "Miami Beach Resort Spa",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.miamibeachresortandspa.com/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33140",
+   "expected_street": "4833 Collins Avenue",
+   "captured_at": "2026-09-19T22:08:50.987542+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.miamibeachresortandspa.com/"
+    },
+    "envelope_sha256": "99098e4552b50ddd570be547af8f08faaeff297991babeae667981c2491f7933"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\miami-beach-resort-spa\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "miami gardens inn and suites",
+   "canonical_name": "Miami Gardens Inn & Suites",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.miamigardensinnsuites.com/",
+   "final_url": "https://www.miamigardensinnsuites.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Miami Gardens Inn & Suites",
+     "address_on_page": "16805 Northwest 12th Avenue",
+     "postal_code": "33169",
+     "phone_on_page": "(786) 661-7070",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.miamigardensinnsuites.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "7866617070"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '(786) 661-7070' is not the census number '954-882-2251'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33169",
+   "expected_street": "16805 NW 12th Ave",
+   "captured_at": "2026-09-19T22:09:08.016167+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.miamigardensinnsuites.com/"
+    },
+    "envelope_sha256": "f9a7c16d4ca7521731d5431788d6aa5d09bb9b32ca45351982862a247902c252"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\miami-gardens-inn-and-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "ps mia",
+   "canonical_name": "Ps Mia",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://reserveps.com/",
+   "final_url": "https://reserveps.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'PS reimagines the airport experience', which does not agree with 'Ps Mia'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "PS reimagines the airport experience",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://reserveps.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8559079950"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'PS reimagines the airport experience', which does not agree with 'Ps Mia'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33166",
+   "expected_street": "4900 N.w. 36th Sreet",
+   "captured_at": "2026-09-19T22:09:18.089860+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://reserveps.com/"
+    },
+    "envelope_sha256": "1e3b8c25ed3d8ac6f06f1a156780423fd6bd7526354d498baafe4f24e8f61f9b"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\ps-mia\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "red south beach hotel",
+   "canonical_name": "Red South Beach Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.redsouthbeachhotel.com/",
+   "final_url": "https://www.redsouthbeachhotel.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33140",
+   "expected_street": "3010 Collins Avenue",
+   "captured_at": "2026-09-19T22:09:28.619225+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.redsouthbeachhotel.com/"
+    },
+    "envelope_sha256": "1142b5c765a7e17aa8880b855f04824a229420bbfd22a625ca6ffebc2d3863a9"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\red-south-beach-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "roami at adagio",
+   "canonical_name": "Roami at Adagio",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.roami.com/",
+   "final_url": "https://www.roami.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Roami",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "+1-833-305-3535",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.roami.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8333053535"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33141",
+   "expected_street": "7939 East Drive",
+   "captured_at": "2026-09-19T22:09:38.559227+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.roami.com/"
+    },
+    "envelope_sha256": "06d4df396dbe451d723b43fc47dce9e3ce3745971d07c3287c6be961b76831ae"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\roami-at-adagio\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "roami at hotel astor",
+   "canonical_name": "Roami at Hotel Astor",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.roami.com/",
+   "final_url": "https://www.roami.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page telephone '+1-833-305-3535' is not the census number '848-888-3786'; one property commonly publishes several; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Roami",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "+1-833-305-3535",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.roami.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8333053535"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '+1-833-305-3535' is not the census number '848-888-3786'; one property commonly publishes several",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33139",
+   "expected_street": "956 Washington Ave",
+   "captured_at": "2026-09-19T22:09:41.164525+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.roami.com/"
+    },
+    "envelope_sha256": "06d4df396dbe451d723b43fc47dce9e3ce3745971d07c3287c6be961b76831ae"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\roami-at-hotel-astor\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "scape motel",
+   "canonical_name": "Scape Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.nexxmotels.com/",
+   "final_url": "http://www.nexxmotels.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33170",
+   "expected_street": "22345 South Dixie Hwy",
+   "captured_at": "2026-09-19T22:09:43.732961+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.nexxmotels.com/"
+    },
+    "envelope_sha256": "54bc7fc71f941162690f5bbf0f55bdaea96f32e9a213d172ba0e5ddfb6de568a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\scape-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "the standard spa miami beach",
+   "canonical_name": "The Standard Spa, Miami Beach",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.standardhotels.com/miami/properties/miami-beach",
+   "final_url": "https://www.standardhotels.com/miami/properties/miami-beach",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 1 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotels near South Beach Miami | The Standard, Miami Beach | 4 Star Hotels in Miami Beach",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.standardhotels.com/miami/properties/miami-beach",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "3056731717",
+      "7862450880"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "confirmed on name_partial, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33139",
+   "expected_street": "40 Island Ave",
+   "captured_at": "2026-09-19T22:09:46.193964+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.standardhotels.com/miami/properties/miami-beach"
+    },
+    "envelope_sha256": "32c8f0362ad2db7596b4b71bc847f0bf3fcb3b935c7d3aef8c287e195a4dcc9b"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\the-standard-spa-miami-beach\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "tower hotel",
+   "canonical_name": "Tower Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.atminehospitality.com/",
+   "final_url": "https://www.atminehospitality.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'At Mine Hospitality LLC', which does not agree with 'Tower Hotel'; page ZIP '33131' != expected '33135'; the page prints 'SE 1st St', which carries no house number and so names a road rather than a building; page telephone '+13054977553' is not the census number '305-428-2786'; one prope",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "At Mine Hospitality LLC",
+     "address_on_page": "SE 1st St",
+     "postal_code": "33131",
+     "phone_on_page": "+13054977553",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.atminehospitality.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054977553"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name",
+     "postal_code"
+    ],
+    "reasons": [
+     "page names 'At Mine Hospitality LLC', which does not agree with 'Tower Hotel'",
+     "page ZIP '33131' != expected '33135'",
+     "the page prints 'SE 1st St', which carries no house number and so names a road rather than a building",
+     "page telephone '+13054977553' is not the census number '305-428-2786'; one property commonly publishes several"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33135",
+   "expected_street": "1450 SW 7th St",
+   "captured_at": "2026-09-19T22:10:05.817630+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.atminehospitality.com/"
+    },
+    "envelope_sha256": "1737fd8d72def5195c88242b428bee573b8240c27083e349eac1d12c40e2be7e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\tower-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "venezia hotel miami",
+   "canonical_name": "Venezia Hotel Miami",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.atminehospitality.com/",
+   "final_url": "https://www.atminehospitality.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'At Mine Hospitality LLC', which does not agree with 'Venezia Hotel Miami'; page ZIP '33131' != expected '33140'; the page prints 'SE 1st St', which carries no house number and so names a road rather than a building; page telephone '+13054977553' is not the census number '8473135004'; one",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "At Mine Hospitality LLC",
+     "address_on_page": "SE 1st St",
+     "postal_code": "33131",
+     "phone_on_page": "+13054977553",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.atminehospitality.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054977553"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name",
+     "postal_code"
+    ],
+    "reasons": [
+     "page names 'At Mine Hospitality LLC', which does not agree with 'Venezia Hotel Miami'",
+     "page ZIP '33131' != expected '33140'",
+     "the page prints 'SE 1st St', which carries no house number and so names a road rather than a building",
+     "page telephone '+13054977553' is not the census number '8473135004'; one property commonly publishes several"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33140",
+   "expected_street": "3865 Indian Creek Dr",
+   "captured_at": "2026-09-19T22:10:08.669945+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.atminehospitality.com/"
+    },
+    "envelope_sha256": "1737fd8d72def5195c88242b428bee573b8240c27083e349eac1d12c40e2be7e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\venezia-hotel-miami\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "villa italia south beach miami",
+   "canonical_name": "Villa Italia South Beach Miami",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.atminehospitality.com/",
+   "final_url": "https://www.atminehospitality.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'At Mine Hospitality LLC', which does not agree with 'Villa Italia South Beach Miami'; page ZIP '33131' != expected '33139'; the page prints 'SE 1st St', which carries no house number and so names a road rather than a building; page telephone '+13054977553' is not the census number '34783",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "At Mine Hospitality LLC",
+     "address_on_page": "SE 1st St",
+     "postal_code": "33131",
+     "phone_on_page": "+13054977553",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.atminehospitality.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054977553"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name",
+     "postal_code"
+    ],
+    "reasons": [
+     "page names 'At Mine Hospitality LLC', which does not agree with 'Villa Italia South Beach Miami'",
+     "page ZIP '33131' != expected '33139'",
+     "the page prints 'SE 1st St', which carries no house number and so names a road rather than a building",
+     "page telephone '+13054977553' is not the census number '3478333404'; one property commonly publishes several"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33139",
+   "expected_street": "354 Washington Ave",
+   "captured_at": "2026-09-19T22:10:11.409367+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.atminehospitality.com/"
+    },
+    "envelope_sha256": "1737fd8d72def5195c88242b428bee573b8240c27083e349eac1d12c40e2be7e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\miami_fl_firecrawl_003\\villa-italia-south-beach-miami\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY_SITE_REFUSED_PLAIN_CLIENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  }
+ ]
+}

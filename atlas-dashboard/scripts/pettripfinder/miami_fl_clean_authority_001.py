@@ -59,6 +59,21 @@ CENSUS = os.path.join(PKG, "identity_census_proposed", "miami-fl.json")
 ROUTING = os.path.join(REPORTS, "miami_fl_routing_001.json")
 STATIC = os.path.join(REPORTS, "miami_fl_free_static_capture_001.json")
 FIRECRAWL = os.path.join(REPORTS, "miami_fl_firecrawl_pass_001.json")
+#: The retry pass (after the census street restatement); a retry row supersedes the first pass's row for its key.
+FIRECRAWL_RETRY = os.path.join(REPORTS, "miami_fl_firecrawl_pass_002.json")
+#: The second probe pass: rows whose route reached the router's Firecrawl rung only after the Places lane found
+#: the property's own site (they were not in the static report the first cohort was planned from).
+FIRECRAWL_PROBE2 = os.path.join(REPORTS, "miami_fl_firecrawl_pass_003.json")
+
+
+def firecrawl_rows():
+    by_key = OrderedDict()
+    for path in (FIRECRAWL, FIRECRAWL_RETRY, FIRECRAWL_PROBE2):
+        for r in (_load(path, {}) or {}).get("rows", []):
+            by_key[r["identity_key"]] = r
+    return list(by_key.values())
+
+
 OUT = os.path.join(REPORTS, "miami_fl_clean_authority_001.json")
 
 CLEAN_PET_FRIENDLY = "CLEAN_PET_FRIENDLY"
@@ -214,6 +229,30 @@ def build_evidence_index(census_hotels):
                           ("captured_via", "the brand's own property-service API (same JSON the overview page renders)")])
         add_addr(_house_number(r.get("st") or ""), r.get("z") or "", ev)
 
+    # MIAMI: the Choice / IHG property pages the Firecrawl route-discovery lane found (their own sitemaps refused
+    # this client, so these routes never reached the census by name). Bound ONLY on the house number + postal code
+    # the page itself states.
+    for r in (_load(os.path.join(STAGING, "brand_page_rows.json"), {}) or {}).get("rows", []):
+        if r.get("status") != 200 or not r.get("st") or not r.get("z"):
+            continue
+        sentences = [s for s in (r.get("pet_sentences") or [])
+                     if not (re.search(r"service animals?", s, re.I) and not re.search(r"\bpets?\b|\bdogs?\b", s, re.I))]
+        if not sentences:
+            continue
+        text = " ".join(sentences)
+        if _REFUSAL.search(text):
+            pets = False
+        elif _ACCEPT.search(text):
+            pets = True
+        else:
+            continue
+        ev = OrderedDict([("lane", "FIRECRAWL"), ("source_url", r.get("final_url") or r["u"]),
+                          ("pets_allowed_claim", pets), ("quote", text[:500]),
+                          ("document_sha256", r.get("h") or _transcription_sha(r)),
+                          ("captured_via", "the brand's own property page (route discovered on the brand's own city "
+                                           "page), Firecrawl rendered scrape, existing plan credits")])
+        add_addr(_house_number(r["st"]), r["z"], ev)
+
     # MIAMI: Extended Stay America's own property pages answered this client (Tampa's did not). The operative
     # statement is the property's own FAQ answer ("Is <property> pet friendly?"); the count sentence on the same
     # page is context. Bound by the page's own JSON-LD street + ZIP, or -- where the page omits its address card --
@@ -340,8 +379,7 @@ def build_evidence_index(census_hotels):
                                           "Places, closure pass), plain client")])
         add_key(r["identity_key"], ev)
 
-    fc_doc = _load(FIRECRAWL, {}) or {}
-    for r in fc_doc.get("rows", []):
+    for r in firecrawl_rows():
         if r.get("firecrawl_class") != "FIRECRAWL_PUBLICATION_GRADE":
             continue
         pa = r.get("pets_allowed")
@@ -444,7 +482,7 @@ def build():
     routing_doc = _load(ROUTING, {}) or {}
     routing_by_key = {r["identity_key"]: r for r in routing_doc.get("routes", [])}
     static_by_key = {r["identity_key"]: r for r in (_load(STATIC, {}) or {}).get("rows", [])}
-    fc_by_key = {r["identity_key"]: r for r in (_load(FIRECRAWL, {}) or {}).get("rows", [])}
+    fc_by_key = {r["identity_key"]: r for r in firecrawl_rows()}
     by_code, by_key, by_addr = build_evidence_index(hotels)
 
     rows = []

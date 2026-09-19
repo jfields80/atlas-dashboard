@@ -241,8 +241,9 @@ def build(args) -> OrderedDict:
             census_matched=t["cohort"] == "ROUTED",
         )
         record_path = run_dir / slug / "attempt-01.record.json"
-        if record_path.is_file() and not args.refetch:
-            rec = json.loads(record_path.read_text(encoding="utf-8"))
+        cached = json.loads(record_path.read_text(encoding="utf-8")) if record_path.is_file() else None
+        if cached is not None and not args.refetch and cached.get("outcome") not in set(args.refetch_outcome or ()):
+            rec = cached
         else:
             time.sleep(SPACING_SECONDS)
             attempt, payload = DHC.run_attempt(target, 1, run_dir=run_dir, brand=brand)
@@ -382,6 +383,8 @@ def main(argv=None) -> int:
     ap.add_argument("--cohort", default="")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--refetch", action="store_true")
+    ap.add_argument("--refetch-outcome", action="append",
+                    help="refetch only targets whose cached attempt ended with this outcome (repeatable)")
     args = ap.parse_args(argv)
     rep = build(args)
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
