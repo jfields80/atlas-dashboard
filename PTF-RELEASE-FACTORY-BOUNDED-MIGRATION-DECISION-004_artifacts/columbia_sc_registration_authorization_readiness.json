@@ -1,0 +1,87 @@
+{
+ "schema": "ptf-registration-authorization-readiness/1.0",
+ "status": "AUTHORIZATION_READY",
+ "founder_status": "AWAITING_FOUNDER_AUTHORIZATION",
+ "what_this_is": "A prepared, UNSIGNED readiness document for founder review, written by the registration release lane after Regression V2 classified the registration. It authorizes nothing: no launch-participation flag has moved, no activation flag is enabled, nothing is deployed. The founder's decision, if it comes, is a separate write into deploy/netlify/deployment_authorizations/ that this document never makes.",
+ "market_id": "columbia-sc",
+ "prepared_by": "registration_release_lane",
+ "prepared_at": "2026-09-19T15:39:44Z",
+ "authorized_by": null,
+ "authorized_at": null,
+ "regression_v2": {
+  "classification_source": "AUTOMATIC",
+  "current_live_source_commit": "9656419918229db7a0eb5ca5a1b4fb514e0e9c34",
+  "registration_base": "cf73a06d1b6f3fe83dcdb8363da047735d14d82f",
+  "base": "cf73a06d1b6f3fe83dcdb8363da047735d14d82f",
+  "head": "WORKTREE",
+  "change_classes": [
+   "DOCUMENTATION_ONLY",
+   "GENERATED_REPORT_ONLY",
+   "MARKET_DATA_PACKAGE",
+   "COMPOSITE_FRESH_MARKET_DATA_ONLY"
+  ],
+  "release_surfaces": [
+   "MARKET_DATA_PACKAGE",
+   "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+   "NARROW_NON_RELEASE"
+  ],
+  "CHANGE_CLASS": "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+  "FULL_REGRESSION_REQUIRED": "NO",
+  "REMOTE_BROAD_JOBS_REQUIRED": 0,
+  "plan_modules": 123,
+  "assembly_required": false,
+  "reason": "every changed file classifies into a narrow class (COMPOSITE_FRESH_MARKET_DATA_ONLY, DOCUMENTATION_ONLY, GENERATED_REPORT_ONLY, MARKET_DATA_PACKAGE); no row of the matrix makes a broad regression mandatory"
+ },
+ "registration_proof": {
+  "proof_version": "ptf-registration-data-only/2.0",
+  "ELIGIBLE": "YES",
+  "checks": {
+   "change_set": "PASS",
+   "market_local_zone": "PASS",
+   "discovery_config": "PASS",
+   "registration_input": "PASS",
+   "identity_resolutions": "PASS",
+   "participation": "PASS",
+   "release_contract": "PASS",
+   "build_closure": "PASS",
+   "derived_globals": "PASS",
+   "sealed_package": "PASS",
+   "fast_receipt": "PASS",
+   "expected_release": "PASS",
+   "identity_routes": "PASS",
+   "market_state_pin": "PASS",
+   "release_integrity": "PASS"
+  },
+  "seconds": 51.868
+ },
+ "the_digests_this_readiness_binds": {
+  "parent_live_deploy_id": "6aaeb3b7384e1bb712adb084",
+  "parent_release_digest": "sha256:0bf1800d3c0b6738bb41a8b0da195399b14fd69706b235e283606e73b477c6c9",
+  "sealed_package_id": "pkg-columbia-sc-5b31e211cb02fce5",
+  "sealed_package_digest": "sha256:5b31e211cb02fce51c37f00afdc9870b15db32acbb6cbb598031b14ed89726be",
+  "fast_receipt": "launch_packages/pettripfinder/markets/receipts/columbia-sc/pkg-columbia-sc-5b31e211cb02fce5-74845520d11b8f79.json",
+  "fast_receipt_digest": "sha256:74845520d11b8f798f35e8411de837020f4c09d3c1d6c2ae4cccf6dfedd78c6a",
+  "changed_market_bundle_sha256": "b1e02e9c51a79e5babc63ef9e0799632d9441e6b521a416b600c94a55b52ce05",
+  "expected_candidate_index_digest": "sha256:76b7b751adeb4dfb865a0bb839be294c174d38047c827f85fcda343e21ac0f2b",
+  "actual_candidate_index_digest": "sha256:12a0792ca4b360c8891ca8331c670821992ade80647e158bac58e62625231542"
+ },
+ "projected_live": {
+  "markets": 31,
+  "profiles": 2229,
+  "routes": 2486,
+  "unexpected_market_changes": 0,
+  "unexpected_profile_changes": 0,
+  "unexpected_route_changes": 0
+ },
+ "lane": {
+  "PACKAGE_REPRODUCIBLE": "YES",
+  "CANDIDATE_REPRODUCIBLE": "YES",
+  "UNCHANGED_MARKETS_REBUILT": 0,
+  "fast_rules_passed": 15
+ },
+ "what_is_not_claimed": [
+  "This document authorizes nothing. Only a founder authorization in deploy/netlify/deployment_authorizations/ admits a market to production.",
+  "The whole-site deployment artifact is built and hashed by the deployment order, under the current-parent guard, the exact-bytes rule and the rollback guard, none of which this lane touches.",
+  "The registration's participation row reads SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH."
+ ]
+}
