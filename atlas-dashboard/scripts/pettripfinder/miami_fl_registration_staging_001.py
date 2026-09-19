@@ -37,7 +37,9 @@ if _DASH not in sys.path:
 from scripts.pettripfinder.contracts import enums                     # noqa: E402
 from scripts.pettripfinder.contracts import fee_computation as FC     # noqa: E402
 from scripts.pettripfinder.contracts import policy_schema as PS       # noqa: E402
-from scripts.pettripfinder.site_data import normalize_name            # noqa: E402
+# The census identity_key IS the market's normalized key (ptf_identity_key expands "&" to "and", which
+# site_data.normalize_name does not); the registration CLI joins the authority to the census on it, so every
+# staged row states the census key and never a second spelling of the same name.
 
 WORK_ORDER = "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001"
 MARKET_ID = "miami-fl"
@@ -155,7 +157,7 @@ def build():
                 refused.append((key, "; ".join(str(i) for i in issues)[:160]))
                 continue
             record = OrderedDict([
-                ("key", normalize_name(c["canonical_name"])), ("identity_key", key), ("name", c["canonical_name"]),
+                ("key", key), ("identity_key", key), ("name", c["canonical_name"]),
                 ("market_id", MARKET_ID), ("schema_version", PS.SCHEMA_VERSION), ("facts", facts),
                 ("computation_class", FC.classify(facts).computation_class),
                 ("verification_state", "VERIFIED_PET_FRIENDLY"),
@@ -168,7 +170,7 @@ def build():
                 continue
             hotels.append(record)
             pet_friendly.append(OrderedDict([
-                ("identity_key", key), ("normalized_name", normalize_name(c["canonical_name"])),
+                ("identity_key", key), ("normalized_name", key),
                 ("canonical_name", c["canonical_name"]), ("address", c.get("street") or ""),
                 ("city", c.get("city") or ""), ("state", c.get("state") or ""),
                 ("postal_code", (c.get("postal_code") or "")[:5]),
@@ -181,7 +183,7 @@ def build():
             ]))
         else:
             exclusions.append(OrderedDict([
-                ("identity_key", key), ("normalized_name", normalize_name(c["canonical_name"])),
+                ("identity_key", key), ("normalized_name", key),
                 ("canonical_name", c["canonical_name"]), ("address", c.get("street") or ""),
                 ("city", c.get("city") or ""), ("state", c.get("state") or ""),
                 ("postal_code", (c.get("postal_code") or "")[:5]),
