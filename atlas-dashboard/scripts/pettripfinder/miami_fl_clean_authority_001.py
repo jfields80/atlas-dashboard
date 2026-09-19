@@ -96,7 +96,11 @@ _ACCEPT = re.compile(r"\b(?:pets?|dogs?|cats?)\s+(?:are\s+)?(?:welcome|accepted|
 #: Weight-only, fee-only or count-only text is never read as acceptance on its own (Phase 16).
 _WEIGHT_RX = re.compile(r"(\d+(?:\.\d+)?)\s*(?:lbs?|pounds)\b", re.I)
 _FEE_RX = re.compile(r"\$\s*([0-9]+(?:\.[0-9]{1,2})?)", re.I)
-_COUNT_RX = re.compile(r"(?:max(?:imum)?(?: of| number of pets(?: in room)?:?)?|up to)\s*\(?(\d|one|two|three)\)?\s*(?:pets?|dogs?)?", re.I)
+#: A pet COUNT is only a count when a pet noun follows it: "up to 25 lbs" is a weight, and reading its leading
+#: digit as "2 pets" published a count the quote contradicts (FAST rule C caught it on Avalon Hotel).
+_COUNT_RX = re.compile(r"(?:max(?:imum)?(?: of| number of pets(?: in room)?:?)?|up to|only|limit(?:ed)? to)\s*"
+                       r"\(?(\d(?!\d)|one|two|three)\)?\s*(?:additional\s+|small\s+|well[- ]behaved\s+)?"
+                       r"(?:pets?|dogs?|cats?|animals?)\b", re.I)
 _WORDS = {"one": 1, "two": 2, "three": 3}
 
 
