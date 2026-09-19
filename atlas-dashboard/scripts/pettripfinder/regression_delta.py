@@ -1410,7 +1410,9 @@ def fast_data_only_release(market_id: str, rows: Sequence[Mapping], head: str) -
         from scripts.pettripfinder import release_coordinator as RC
         live = RC.LiveTruth.read()
         store = RC.ReleaseStore()
-        fragments = store.fragment_digests(live.digest())
+        parent_doc, _found_by = store.resolve_deployed(release_digest=live.digest(),
+                                                       bundle_sha256=live.state.bundle_sha256)
+        fragments = RC._fragments_of(parent_doc) if parent_doc is not None else {}
         block["release_coordinator"] = OrderedDict((
             ("coordinator_version", RC.COORDINATOR_VERSION),
             ("live_verified", live.verified),

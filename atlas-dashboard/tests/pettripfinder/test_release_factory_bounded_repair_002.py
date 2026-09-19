@@ -15,6 +15,11 @@ Four repairs, each proven here before any broad run:
 
 Plus the negatives the order names: the narrow lane rejects each of them.
 
+PTF-RELEASE-STORE-LIVE-CONTENT-KEY-CORRECTION-005 adds section 7: the deployed
+parent (route preservation, rollback) is found by the bundle it deployed, which
+a registration never moves, and fails closed when wrong, corrupt, mismatched or
+ambiguous.
+
 The resolver and lane cases run against throw-away git repositories built in
 ``tmp_path``; the proof and store cases run against the committed tree or
 synthetic stores. No case depends on a market total.
@@ -793,3 +798,156 @@ class TestDeploymentCompatibility:
         gate = RC.load_production_gate()
         assert gate["RELEASE_COORDINATOR_PRODUCTION_ENABLED"] == "NO"
         assert gate["RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS"] == []
+
+
+# --------------------------------------------------------------------------- #
+# 7. PTF-RELEASE-STORE-LIVE-CONTENT-KEY-CORRECTION-005: the deployed parent is
+#    found by the bundle it deployed, not by a digest a registration moves.
+# --------------------------------------------------------------------------- #
+
+def _registered(live: RC.LiveTruth, market_id: str = NEW_MARKET) -> RC.LiveTruth:
+    """The same deployed live release after a NON-participating market was
+    registered: the release index gains the market, the deployment does not."""
+    index = RI.ReleaseIndex(markets=OrderedDict(live.index.markets))
+    index.markets[market_id] = RI.MarketIndex(
+        market_id, market_id, "CORRIDOR", False, "committed", OrderedDict(), (),
+        "/pet-friendly-hotels/%s/" % market_id)
+    return RC.LiveTruth(live.state, index, ())
+
+
+def _host(tmp_path, current="sha256:current"):
+    return RC.SimulatedHost(tmp_path / "host", live_release=current)
+
+
+def _gate_by_bundle(store, site, parent_digest, bundle, delta=None):
+    gates = OrderedDict()
+    RC._parent_route_gate(gates, site, store, parent_digest, delta or {}, parent_bundle_sha256=bundle)
+    return gates["release.parent_routes_preserved"]
+
+
+class TestDeployedContentIsTheParentKey:
+
+    def test_a_seeded_live_release_is_found_by_its_exact_bundle(self, tmp_path):
+        _work, live, store, seed = _seeded(tmp_path)
+        doc = store.get_release_by_bundle(live.state.bundle_sha256)
+        assert doc is not None and doc["bundle_sha256"] == live.state.bundle_sha256
+        assert RC.digest_of(RC.release_identity(doc)) == seed["release_digest"]
+
+    def test_registration_moves_the_release_digest_and_never_the_bundle(self, tmp_path):
+        _work, live, store, _seed = _seeded(tmp_path)
+        registered = _registered(live)
+        assert registered.digest() != live.digest()
+        assert registered.state.bundle_sha256 == live.state.bundle_sha256
+        before, after = live.manifest(), registered.manifest()
+        assert sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k)) == ["global_index_digest"]
+        assert store.get_release(registered.digest()) is None
+        doc, found_by = store.resolve_deployed(release_digest=registered.digest(),
+                                               bundle_sha256=registered.state.bundle_sha256)
+        assert found_by == "DEPLOYED_BUNDLE_SHA256"
+        assert RC.digest_of(RC.release_identity(doc)) == live.digest()
+
+    def test_parent_routes_are_preserved_across_a_registration(self, tmp_path):
+        work, live, store, _seed = _seeded(tmp_path)
+        registered = _registered(live)
+        row = _gate_by_bundle(store, work / "site", registered.digest(), registered.state.bundle_sha256)
+        assert row["pass"] is True and row["parent_found_by"] == "DEPLOYED_BUNDLE_SHA256"
+        assert row["parent_release_digest_stored"] == live.digest()
+        assert row["undeclared_removals"] == 0 and row["parent_routes"] == 3
+        # The moved digest alone is what 004 had, and it cannot find the parent.
+        assert _gate(store, work / "site", registered.digest())["pass"] is False
+
+    def test_a_lost_route_still_fails_after_a_bundle_lookup(self, tmp_path):
+        work, live, store, _seed = _seeded(tmp_path)
+        site = tmp_path / "candidate"
+        shutil.copytree(work / "site", site)
+        shutil.rmtree(site / "pet-friendly-hotels" / "m-two")
+        row = _gate_by_bundle(store, site, _registered(live).digest(), live.state.bundle_sha256)
+        assert row["pass"] is False and row["undeclared_removals"] == 1
+
+    def test_rollback_resolves_the_exact_deployed_parent(self, tmp_path):
+        _work, live, store, _seed = _seeded(tmp_path)
+        registered = _registered(live)
+        for kwargs in ({"to_bundle_sha256": live.state.bundle_sha256},
+                       {"to_release_digest": registered.digest(), "to_bundle_sha256": live.state.bundle_sha256}):
+            result = RC.rollback(expected_current="sha256:current", host=_host(tmp_path),
+                                 store=store, work_dir=tmp_path / "rb", **kwargs)
+            assert result["outcome"] == RC.ACTIVATED
+            assert result["restored_found_by"] == "DEPLOYED_BUNDLE_SHA256"
+            assert result["restored_bundle_sha256"] == live.state.bundle_sha256
+            assert result["restored_release_digest"] == live.digest()
+        by_digest = RC.rollback(to_release_digest=live.digest(), expected_current="sha256:current",
+                                host=_host(tmp_path), store=store, work_dir=tmp_path / "rb")
+        assert by_digest["outcome"] == RC.ACTIVATED and by_digest["restored_found_by"] == "RELEASE_DIGEST"
+        stale = RC.rollback(to_bundle_sha256=live.state.bundle_sha256, expected_current="sha256:not-live",
+                            host=_host(tmp_path), store=store, work_dir=tmp_path / "rb")
+        assert stale["refusal"] == RC.RELEASE_NOT_CURRENT
+
+    def test_a_wrong_bundle_finds_no_parent(self, tmp_path):
+        work, live, store, _seed = _seeded(tmp_path)
+        wrong = "0" * 64
+        assert store.get_release_by_bundle(wrong) is None
+        assert store.resolve_deployed(release_digest=_registered(live).digest(), bundle_sha256=wrong) == (None, None)
+        assert _gate_by_bundle(store, work / "site", _registered(live).digest(), wrong)["pass"] is False
+        result = RC.rollback(to_bundle_sha256=wrong, expected_current="sha256:current",
+                             host=_host(tmp_path), store=store, work_dir=tmp_path / "rb")
+        assert result["refusal"] == RC.FRAGMENT_UNAVAILABLE
+
+    def test_a_corrupt_record_fails_closed_on_the_bundle_lookup(self, tmp_path):
+        work, live, store, _seed = _seeded(tmp_path)
+        path = store.root / "releases" / ("%s.json" % live.digest().split(":")[-1])
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        doc["total_profiles"] = doc["total_profiles"] + 1
+        path.write_text(json.dumps(doc), encoding="utf-8")
+        with pytest.raises(RC.CoordinatorError) as exc:
+            store.get_release_by_bundle(live.state.bundle_sha256)
+        assert exc.value.code == RC.CANDIDATE_CORRUPT
+        row = _gate_by_bundle(store, work / "site", _registered(live).digest(), live.state.bundle_sha256)
+        assert row["pass"] is False and RC.CANDIDATE_CORRUPT in row["detail"]
+        result = RC.rollback(to_bundle_sha256=live.state.bundle_sha256, expected_current="sha256:current",
+                             host=_host(tmp_path), store=store, work_dir=tmp_path / "rb")
+        assert result["refusal"] == RC.CANDIDATE_CORRUPT
+
+    def test_a_bundle_sha_mismatch_fails(self, tmp_path):
+        work, live, store, _seed = _seeded(tmp_path)
+        other = "f" * 64
+        with pytest.raises(RC.CoordinatorError) as exc:
+            store.resolve_deployed(release_digest=live.digest(), bundle_sha256=other)
+        assert exc.value.code == RC.BUNDLE_DIGEST_MISMATCH
+        row = _gate_by_bundle(store, work / "site", live.digest(), other)
+        assert row["pass"] is False and RC.BUNDLE_DIGEST_MISMATCH in row["detail"]
+        result = RC.rollback(to_release_digest=live.digest(), to_bundle_sha256=other,
+                             expected_current="sha256:current", host=_host(tmp_path), store=store,
+                             work_dir=tmp_path / "rb")
+        assert result["refusal"] == RC.BUNDLE_DIGEST_MISMATCH
+        # A stored bundle object whose bytes are not its name stays corrupt.
+        stored = store.get_release(live.digest())
+        archive = store.root / "bundles" / ("%s.zip" % stored["bundle_object"].split(":")[-1])
+        archive.write_bytes(archive.read_bytes() + b"tampered")
+        row = _gate_by_bundle(store, work / "site", _registered(live).digest(), live.state.bundle_sha256)
+        assert row["pass"] is False and RC.CANDIDATE_CORRUPT in row["detail"]
+
+    def test_two_records_claim_one_bundle_only_as_the_same_content(self, tmp_path):
+        work, live, store, _seed = _seeded(tmp_path)
+        stored = store.get_release(live.digest())
+        fragments = RC._fragments_of(stored)
+        same = _registered(live, "zz-same-content-nc")
+        store.put_stored_release(same.manifest(), bundle_object=stored["bundle_object"],
+                                 bundle_sha256=stored["bundle_sha256"], fragments=fragments)
+        assert len(store.releases()) == 2
+        doc = store.get_release_by_bundle(live.state.bundle_sha256)
+        assert doc["bundle_object"] == stored["bundle_object"] and RC._fragments_of(doc) == fragments
+        other = _registered(live, "zz-other-content-nc")
+        store.put_stored_release(other.manifest(), bundle_object=stored["bundle_object"],
+                                 bundle_sha256=stored["bundle_sha256"],
+                                 fragments=OrderedDict((m, "sha256:" + "a" * 64) for m in fragments))
+        with pytest.raises(RC.CoordinatorError) as exc:
+            store.get_release_by_bundle(live.state.bundle_sha256)
+        assert exc.value.code == RC.AMBIGUOUS_PARENT_BUNDLE
+        row = _gate_by_bundle(store, work / "site", _registered(live).digest(), live.state.bundle_sha256)
+        assert row["pass"] is False and RC.AMBIGUOUS_PARENT_BUNDLE in row["detail"]
+        result = RC.rollback(to_bundle_sha256=live.state.bundle_sha256, expected_current="sha256:current",
+                             host=_host(tmp_path), store=store, work_dir=tmp_path / "rb")
+        assert result["refusal"] == RC.AMBIGUOUS_PARENT_BUNDLE
+        # A release digest that names one record exactly is still unambiguous.
+        assert store.resolve_deployed(release_digest=live.digest(),
+                                      bundle_sha256=live.state.bundle_sha256)[1] == "RELEASE_DIGEST"

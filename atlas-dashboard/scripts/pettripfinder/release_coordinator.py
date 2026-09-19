@@ -130,6 +130,7 @@ BUNDLE_DIGEST_MISMATCH = "BUNDLE_DIGEST_MISMATCH"
 PARENT_DIGEST_MISMATCH = "PARENT_DIGEST_MISMATCH"
 INTENDED_DELTA_MISMATCH = "INTENDED_DELTA_MISMATCH"
 CANDIDATE_CORRUPT = "CANDIDATE_CORRUPT"
+AMBIGUOUS_PARENT_BUNDLE = "AMBIGUOUS_PARENT_BUNDLE"
 CANDIDATE_SUPERSEDED = "CANDIDATE_SUPERSEDED"
 AUTHORIZATION_REVOKED = "AUTHORIZATION_REVOKED"
 UNAUTHORIZED_ADDITION = "UNAUTHORIZED_ADDITION"
@@ -540,8 +541,63 @@ class ReleaseStore:
 
     def fragment_digests(self, release_digest: str) -> "OrderedDict[str, str]":
         doc = self.get_release(release_digest) or OrderedDict()
-        return OrderedDict((m["market_id"], m.get("fragment_digest"))
-                           for m in (doc.get("markets") or ()) if m.get("fragment_digest"))
+        return _fragments_of(doc)
+
+    def get_release_by_bundle(self, bundle_sha256: str) -> Optional["OrderedDict[str, Any]"]:
+        """The stored release that DEPLOYED ``bundle_sha256``, verified.
+
+        PTF-RELEASE-STORE-LIVE-CONTENT-KEY-CORRECTION-005. A release digest
+        covers the live release INDEX, and that index lists every REGISTERED
+        market, participating or not: registering a market moves the digest
+        while the deployed bytes stay exactly what they were. The deployed
+        bundle digest does not move, so it is the key for deployed content.
+
+        Every record is read through :meth:`get_release`, so a corrupt record
+        is :data:`CANDIDATE_CORRUPT`, never a miss. Two records may claim one
+        bundle only when they are the same content -- the same stored bundle
+        object and the same market fragments; anything else is
+        :data:`AMBIGUOUS_PARENT_BUNDLE`.
+        """
+        if not bundle_sha256:
+            return None
+        matches = []
+        for release_id in self.releases():
+            doc = self.get_release(release_id)
+            if doc is not None and doc.get("bundle_sha256") == bundle_sha256:
+                matches.append(doc)
+        if not matches:
+            return None
+        first = matches[0]
+        for other in matches[1:]:
+            if other.get("bundle_object") != first.get("bundle_object") or \
+                    _fragments_of(other) != _fragments_of(first):
+                raise CoordinatorError(AMBIGUOUS_PARENT_BUNDLE,
+                                       "%d stored releases claim bundle %s with different content"
+                                       % (len(matches), bundle_sha256[:12]))
+        return first
+
+    def resolve_deployed(self, *, release_digest: Optional[str] = None,
+                         bundle_sha256: Optional[str] = None
+                         ) -> Tuple[Optional["OrderedDict[str, Any]"], Optional[str]]:
+        """The stored deployed release, and how it was found.
+
+        The release digest is tried first and kept as metadata; a record found
+        there that did not deploy ``bundle_sha256`` is a
+        :data:`BUNDLE_DIGEST_MISMATCH`. A miss falls through to the deployed
+        content identity, ``bundle_sha256``. Returns ``(None, None)`` when
+        neither finds a record.
+        """
+        if release_digest:
+            doc = self.get_release(release_digest)
+            if doc is not None:
+                if bundle_sha256 and doc.get("bundle_sha256") != bundle_sha256:
+                    raise CoordinatorError(BUNDLE_DIGEST_MISMATCH,
+                                           "stored release %s deployed bundle %s, not %s"
+                                           % (_object_name(release_digest)[:16],
+                                              str(doc.get("bundle_sha256"))[:12], bundle_sha256[:12]))
+                return doc, "RELEASE_DIGEST"
+        doc = self.get_release_by_bundle(bundle_sha256) if bundle_sha256 else None
+        return (doc, "DEPLOYED_BUNDLE_SHA256") if doc is not None else (None, None)
 
     def put_stored_release(self, manifest: Mapping, *, bundle_object: str, bundle_sha256: str,
                            fragments: Mapping[str, str]) -> Tuple[str, Path]:
@@ -652,6 +708,12 @@ class ReleaseStore:
             ("markets", [OrderedDict((("market_id", m), ("fragment_digest", d))) for m, d in fragments.items()]),
             ("path", str(path)),
         ))
+
+
+def _fragments_of(doc: Mapping) -> "OrderedDict[str, str]":
+    """market_id -> fragment digest of a stored release."""
+    return OrderedDict((m["market_id"], m.get("fragment_digest"))
+                       for m in (doc.get("markets") or ()) if m.get("fragment_digest"))
 
 
 def release_identity(stored: Mapping) -> "OrderedDict[str, Any]":
@@ -908,15 +970,11 @@ def stage(*, package: Optional[Mapping] = None, delta_kind: str = UPDATE,
     if frag_root.exists():
         shutil.rmtree(frag_root, ignore_errors=True)
     frag_root.mkdir(parents=True)
-    parent_fragments = store.fragment_digests(parent_digest) if parent_digest else OrderedDict()
-    if not parent_fragments:
-        for release_id in store.releases():
-            doc = store.get_release(release_id) or {}
-            if doc.get("bundle_sha256") == live.state.bundle_sha256:
-                parent_fragments = OrderedDict((m["market_id"], m["fragment_digest"])
-                                               for m in (doc.get("markets") or ())
-                                               if m.get("fragment_digest"))
-                break
+    # PTF-RELEASE-STORE-LIVE-CONTENT-KEY-CORRECTION-005: the live parent is the
+    # deployed bundle; its release digest is metadata that a registration moves.
+    parent_bundle = live.state.bundle_sha256 if parent_release_digest is None else None
+    parent_doc, _found_by = store.resolve_deployed(release_digest=parent_digest, bundle_sha256=parent_bundle)
+    parent_fragments = _fragments_of(parent_doc) if parent_doc is not None else OrderedDict()
 
     rows: List["OrderedDict[str, Any]"] = []
     trees: "OrderedDict[str, Path]" = OrderedDict()
@@ -979,7 +1037,7 @@ def stage(*, package: Optional[Mapping] = None, delta_kind: str = UPDATE,
     intended_delta = OrderedDict(package.get("intended_delta") or {}) if package else OrderedDict()
     gates = _run_candidate_gates(site, participating, configs, context, base_url,
                                  participation_doc, intended_delta, store=store,
-                                 parent_digest=parent_digest)
+                                 parent_digest=parent_digest, parent_bundle_sha256=parent_bundle)
     failing = sorted(gid for gid, res in gates.items() if not res["pass"])
     timing["gate_seconds"] = round(time.perf_counter() - t, 3)
     if failing and require_gates:
@@ -1453,7 +1511,8 @@ def _split_implied_additions(added: Sequence[str], declared_additions: Set[str]
 
 
 def _parent_route_gate(gates: "OrderedDict[str, Dict]", site: Path, store: "ReleaseStore",
-                       parent_digest: Optional[str], intended_delta: Mapping) -> None:
+                       parent_digest: Optional[str], intended_delta: Mapping,
+                       parent_bundle_sha256: Optional[str] = None) -> None:
     """Every route the PARENT RELEASE served must still be served here.
 
     ``deploy/netlify/live_production_routes.txt`` is not the live site: it is
@@ -1465,9 +1524,14 @@ def _parent_route_gate(gates: "OrderedDict[str, Dict]", site: Path, store: "Rele
 
     The parent's route list is read from the stored archive's index, so this
     costs milliseconds and never extracts a byte.
+
+    PTF-RELEASE-STORE-LIVE-CONTENT-KEY-CORRECTION-005: the parent is found by
+    its release digest or, when that digest has moved (a registration moves
+    it), by the bundle it DEPLOYED -- ``parent_bundle_sha256``.
     """
     try:
-        doc = store.get_release(parent_digest) if parent_digest else None
+        doc, found_by = store.resolve_deployed(release_digest=parent_digest,
+                                               bundle_sha256=parent_bundle_sha256)
     except CoordinatorError as exc:
         APS._gate(gates, "release.parent_routes_preserved", False,
                   "%s: the stored parent release is not trustworthy: %s" % (exc.code, exc.detail))
@@ -1475,7 +1539,8 @@ def _parent_route_gate(gates: "OrderedDict[str, Dict]", site: Path, store: "Rele
     if not doc or not doc.get("bundle_object"):
         APS._gate(gates, "release.parent_routes_preserved", False,
                   "no stored parent bundle for %s: a candidate cannot prove what it preserved"
-                  % (str(parent_digest)[7:23] if parent_digest else "<no parent>"))
+                  % (str(parent_digest)[7:23] if parent_digest else
+                     (str(parent_bundle_sha256)[:12] if parent_bundle_sha256 else "<no parent>")))
         return
     archive = store.root / "bundles" / ("%s.zip" % _object_name(str(doc["bundle_object"])))
     if not archive.is_file():
@@ -1509,6 +1574,9 @@ def _parent_route_gate(gates: "OrderedDict[str, Dict]", site: Path, store: "Rele
     APS._gate(gates, "release.additions_are_declared", not undeclared_adds,
               "routes this candidate adds that the delta does not declare: %s" % undeclared_adds[:6])
     row = gates["release.parent_routes_preserved"]
+    row["parent_found_by"] = found_by
+    row["parent_release_digest_stored"] = digest_of(release_identity(doc))
+    row["parent_bundle_sha256"] = doc.get("bundle_sha256")
     row["parent_routes"] = len(parent_routes)
     row["candidate_routes"] = len(here)
     row["declared_removals"] = len(declared_removals)
@@ -1523,7 +1591,8 @@ def _run_candidate_gates(site: Path, participating: Sequence[str], configs: Mapp
                          context: str, base_url: str, participation_doc: Mapping,
                          intended_delta: Optional[Mapping] = None,
                          store: Optional["ReleaseStore"] = None,
-                         parent_digest: Optional[str] = None
+                         parent_digest: Optional[str] = None,
+                         parent_bundle_sha256: Optional[str] = None
                          ) -> "OrderedDict[str, Dict]":
     """The composed-bundle gates, run by their owning modules.
 
@@ -1537,7 +1606,8 @@ def _run_candidate_gates(site: Path, participating: Sequence[str], configs: Mapp
     APS._run_global_publish_gates(gates, chosen, context, site, headers_bytes, redirects_bytes)
     _migration_gate_with_intent(gates, site, intended_delta or {})
     if store is not None:
-        _parent_route_gate(gates, site, store, parent_digest, intended_delta or {})
+        _parent_route_gate(gates, site, store, parent_digest, intended_delta or {},
+                           parent_bundle_sha256=parent_bundle_sha256)
     from scripts.pettripfinder.affiliate_destinations import run_affiliate_gates
     from scripts.pettripfinder.measurement import run_measurement_gates
     run_measurement_gates(gates, APS._gate, site)
@@ -1982,17 +2052,23 @@ def record_verification(candidate: Candidate, record: Mapping,
 # Phase 18: rollback.
 # --------------------------------------------------------------------------- #
 
-def rollback(*, to_release_digest: str, expected_current: str, host: SimulatedHost,
+def rollback(*, to_release_digest: Optional[str] = None, expected_current: str, host: SimulatedHost,
              store: ReleaseStore, work_dir: Path,
-             reason: str = "") -> "OrderedDict[str, Any]":
+             reason: str = "", to_bundle_sha256: Optional[str] = None) -> "OrderedDict[str, Any]":
     """Restore an EXACT prior verified release, or refuse.
 
     The target must exist in durable release storage (never reconstructed from
     a branch) and the caller must name the release it believes is current. If
     a newer release is live, the rollback is refused: a stale rollback is how
     a live market gets un-deployed.
+
+    PTF-RELEASE-STORE-LIVE-CONTENT-KEY-CORRECTION-005: the target may be named
+    by the bundle it deployed (``to_bundle_sha256``), the identity a
+    registration cannot move; a release digest, when also given, must name a
+    record that deployed exactly that bundle.
     """
     started = time.perf_counter()
+    target_name = (to_release_digest or "")[7:23] or str(to_bundle_sha256 or "<none>")[:16]
     current = host.current()
     if current != expected_current:
         return OrderedDict((
@@ -2002,20 +2078,22 @@ def rollback(*, to_release_digest: str, expected_current: str, host: SimulatedHo
             ("seconds", round(time.perf_counter() - started, 3)),
         ))
     try:
-        target = store.get_release(to_release_digest)
+        target, found_by = store.resolve_deployed(release_digest=to_release_digest,
+                                                  bundle_sha256=to_bundle_sha256)
     except CoordinatorError as exc:
         return OrderedDict((
             ("outcome", ACTIVATION_REFUSED), ("refusal", exc.code),
-            ("detail", "release %s is stored but corrupt: %s" % (to_release_digest[7:23], exc.detail)),
+            ("detail", "release %s is stored but not trustworthy: %s" % (target_name, exc.detail)),
             ("seconds", round(time.perf_counter() - started, 3)),
         ))
     if target is None:
         return OrderedDict((
             ("outcome", ACTIVATION_REFUSED), ("refusal", FRAGMENT_UNAVAILABLE),
             ("detail", "release %s is not in durable storage; a rollback target is never rebuilt"
-             % to_release_digest[7:23]),
+             % target_name),
             ("seconds", round(time.perf_counter() - started, 3)),
         ))
+    restored_digest = to_release_digest if found_by == "RELEASE_DIGEST" else digest_of(release_identity(target))
     site = Path(work_dir) / "rollback-site"
     if site.exists():
         shutil.rmtree(site, ignore_errors=True)
@@ -2035,14 +2113,15 @@ def rollback(*, to_release_digest: str, expected_current: str, host: SimulatedHo
              % (actual[:12], str(target.get("bundle_sha256"))[:12])),
             ("seconds", round(time.perf_counter() - started, 3)),
         ))
-    operation_id = "rollback-%s" % to_release_digest[7:23]
-    result = host.activate(operation_id, release_digest=to_release_digest,
+    operation_id = "rollback-%s" % restored_digest[7:23]
+    result = host.activate(operation_id, release_digest=restored_digest,
                            bundle_sha256=str(target.get("bundle_sha256")), site=site)
-    _event("rollback", candidate_digest=to_release_digest, expected_current=expected_current,
+    _event("rollback", candidate_digest=restored_digest, expected_current=expected_current,
            result=result.get("outcome"), rollback_seconds=round(time.perf_counter() - started, 3))
     return OrderedDict((
         ("outcome", result.get("outcome")),
-        ("restored_release_digest", to_release_digest),
+        ("restored_release_digest", restored_digest),
+        ("restored_found_by", found_by),
         ("restored_bundle_sha256", target.get("bundle_sha256")),
         ("restored_markets", [m.get("market_id") for m in (target.get("markets") or ())]),
         ("host_deployment_id", result.get("host_deployment_id")),
@@ -2183,7 +2262,9 @@ def plan(package: Optional[Mapping] = None, *, live: Optional[LiveTruth] = None,
     except CoordinatorError as exc:
         participating, added, removed = list(live.participating_markets), [], []
         refusal = OrderedDict((("code", exc.code), ("detail", exc.detail)))
-    stored = store.fragment_digests(parent_digest)
+    parent_doc, _found_by = store.resolve_deployed(release_digest=parent_digest,
+                                                   bundle_sha256=live.state.bundle_sha256)
+    stored = _fragments_of(parent_doc) if parent_doc is not None else OrderedDict()
     return OrderedDict((
         ("parent_release_digest", parent_digest),
         ("live_verified", live.verified),
@@ -2228,7 +2309,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:  # pragma: no cover - CLI
     p.add_argument("--host", default=None)
     p.add_argument("--operation-id", required=True)
     p = sub.add_parser("rollback-simulated", help="restore an exact prior verified release")
-    p.add_argument("--to", required=True, help="the release digest to restore")
+    p.add_argument("--to", default=None, help="the release digest to restore")
+    p.add_argument("--to-bundle", default=None, help="the deployed bundle sha256 to restore")
     p.add_argument("--expected-current", required=True)
     p.add_argument("--host", default=None)
     p.add_argument("--work", default=None)
@@ -2282,8 +2364,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:  # pragma: no cover - CLI
         return 0
     if args.command == "rollback-simulated":
         host = SimulatedHost(Path(args.host) if args.host else candidate_root() / "simulated_host")
-        result = rollback(to_release_digest=args.to, expected_current=args.expected_current,
-                          host=host, store=ReleaseStore(),
+        if not (args.to or args.to_bundle):
+            print("rollback-simulated needs --to or --to-bundle")
+            return 2
+        result = rollback(to_release_digest=args.to, to_bundle_sha256=args.to_bundle,
+                          expected_current=args.expected_current, host=host, store=ReleaseStore(),
                           work_dir=Path(args.work) if args.work else candidate_root() / "rollback")
         print(SMP.canonical_json(result))
         return 0 if result.get("outcome") == ACTIVATED else 1
