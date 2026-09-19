@@ -180,6 +180,9 @@ _BARE_NUMBERED = re.compile(r"^(\s*\d+[a-z]?\s+)(\d+)(?:st|nd|rd|th)?(?=\s+(?:st
                             r"terrace|pl|place|rd|road|dr|drive|way|ln|lane)\b)", re.I)
 
 
+_DOTTED_QUADRANT = re.compile(r"\b([NnSs])\.\s*([EeWw])\.", re.I)
+
+
 def _ordinal(n):
     n = int(n)
     suffix = "th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
@@ -205,6 +208,8 @@ def canonical_street(street):
     the property's own page for a spelling, not a building."""
     if not street:
         return street
+    # "N.W." / "N. W." / "S.E." are the same quadrant as NW / SE; the dots only break the match below.
+    street = _DOTTED_QUADRANT.sub(lambda m: (m.group(1) + m.group(2)).upper(), street)
     s = _GRID.sub(lambda m: "%s %s" % (_QUADRANT[m.group(1).lower()], _ordinal(m.group(2))), street)
     return _BARE_NUMBERED.sub(lambda m: "%s%s" % (m.group(1), _ordinal(m.group(2))), s)
 

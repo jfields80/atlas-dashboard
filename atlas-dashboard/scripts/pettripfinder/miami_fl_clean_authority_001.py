@@ -44,6 +44,8 @@ _DASH_EARLY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__fil
 if _DASH_EARLY not in sys.path:
     sys.path.insert(0, _DASH_EARLY)
 from scripts.pettripfinder import first_party_binding as FPB  # noqa: E402
+from scripts.pettripfinder.hotel_exclusions import address_key  # noqa: E402
+from scripts.pettripfinder.miami_fl_census_reconciliation_001 import canonical_street  # noqa: E402
 
 _DASH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 if _DASH not in sys.path:
@@ -117,6 +119,10 @@ def _jsonl(path):
     return out
 
 
+#: Two different pages stating one address: the evidence is ambiguous and neither page may publish that row.
+_AMBIGUOUS = object()
+
+
 def _esa_name(name):
     """An Extended Stay America property name reduced to its location words (brand words and punctuation dropped)."""
     n = re.sub(r"[^a-z0-9 ]", " ", (name or "").lower())
@@ -181,7 +187,8 @@ def _transcription_sha(line_obj):
 def build_evidence_index(census_hotels):
     by_code = {}   # (brand, property_code_lower) -> evidence
     by_key = {}    # identity_key -> evidence
-    by_addr = {}   # (house_number, postal5) -> evidence
+    by_addr = {}   # address_key(street, postal5) -> evidence  (house number AND street words; a house number
+    #                alone collides: 3265 NW 87th Ave and 3265 NW 107th Ave are both 3265 in 33172)
 
     def add_code(brand, code, ev):
         if brand and code:
@@ -191,9 +198,13 @@ def build_evidence_index(census_hotels):
         if key:
             by_key[key] = ev
 
-    def add_addr(house, postal, ev):
-        if house and postal:
-            by_addr[(house, postal[:5])] = ev
+    def add_addr(street, postal, ev):
+        key = address_key(canonical_street(street or ""), (postal or "")[:5])
+        if street and postal and key.split("|")[0]:
+            if key in by_addr and by_addr[key].get("source_url") != ev.get("source_url"):
+                by_addr[key] = _AMBIGUOUS       # two different pages claim one address: neither may publish
+            else:
+                by_addr.setdefault(key, ev)
 
     for path, brand in (
         (os.path.join(STAGING, "marriott_browser_rows.jsonl"), "MARRIOTT"),
@@ -227,7 +238,7 @@ def build_evidence_index(census_hotels):
                           ("pets_allowed_claim", pets), ("quote", r["p"]),
                           ("document_sha256", r.get("h") or _transcription_sha(r)),
                           ("captured_via", "the brand's own property-service API (same JSON the overview page renders)")])
-        add_addr(_house_number(r.get("st") or ""), r.get("z") or "", ev)
+        add_addr(r.get("st") or "", r.get("z") or "", ev)
 
     # MIAMI: the Choice / IHG property pages the Firecrawl route-discovery lane found (their own sitemaps refused
     # this client, so these routes never reached the census by name). Bound ONLY on the house number + postal code
@@ -251,7 +262,7 @@ def build_evidence_index(census_hotels):
                           ("document_sha256", r.get("h") or _transcription_sha(r)),
                           ("captured_via", "the brand's own property page (route discovered on the brand's own city "
                                            "page), Firecrawl rendered scrape, existing plan credits")])
-        add_addr(_house_number(r["st"]), r["z"], ev)
+        add_addr(r["st"], r["z"], ev)
 
     # MIAMI: Extended Stay America's own property pages answered this client (Tampa's did not). The operative
     # statement is the property's own FAQ answer ("Is <property> pet friendly?"); the count sentence on the same
@@ -278,7 +289,7 @@ def build_evidence_index(census_hotels):
                           ("document_sha256", r.get("h") or _transcription_sha(r)),
                           ("captured_via", "the brand's own property page FAQ JSON-LD, plain client")])
         if r.get("st") and r.get("z"):
-            add_addr(_house_number(r["st"]), r["z"], ev)
+            add_addr(r["st"], r["z"], ev)
             continue
         qname = re.sub(r"^\s*is\s+|\s+pet friendly\?\s*$", "", r.get("q") or "", flags=re.I)
         keys = esa_census.get(_esa_name(qname), [])
@@ -415,6 +426,34 @@ BROWSER_BLOCKERS = {
 }
 
 
+def _domain(url):
+    host = re.sub(r"^https?://", "", (url or "").strip().lower()).split("/")[0].split(":")[0]
+    host = host[4:] if host.startswith("www.") else host
+    parts = host.split(".")
+    return ".".join(parts[-2:]) if len(parts) >= 2 else host
+
+
+def route_domain_conflict(census_row, ev):
+    """The reason a read may not be published against this identity's bound route, or None.
+
+    The sealed-package contract requires a record to cite the endpoint the census routes the identity to (or the
+    same brand family). A brand-routed identity read on its own separate domain is a real, first-party read and a
+    real conflict at once: both pages are the property's, and this pass is not allowed to repoint a census route.
+    """
+    official = str(census_row.get("official_url") or "")
+    if not official:
+        return None
+    src, dst = _domain(ev.get("source_url")), _domain(official)
+    if not src or not dst or src == dst:
+        return None
+    brand = (census_row.get("brand") or "").lower()
+    if brand and (brand.split()[0][:6] in src or brand.split()[0][:6] in dst) and src.split(".")[0] in dst:
+        return None
+    return ("ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at %r while the census binds the "
+            "identity to %r; the package contract requires the cited page and the bound route to agree, so the "
+            "row is held for a routing decision rather than published against a route it does not cite" % (src, dst))
+
+
 def router_hold_reason(identity_key, routing_by_key, static_by_key, fc_by_key):
     r = routing_by_key.get(identity_key)
     if r is None:
@@ -497,13 +536,25 @@ def build():
         if ev is None:
             ev = by_key.get(key)
         if ev is None:
-            house, postal = _house_number(h.get("street") or ""), (h.get("postal_code") or "")[:5]
-            ev = by_addr.get((house, postal))
+            ev = by_addr.get(address_key(h.get("street") or "", (h.get("postal_code") or "")[:5]))
+            if ev is _AMBIGUOUS:
+                ev = None
 
         row = OrderedDict([
             ("identity_key", key), ("canonical_name", h["canonical_name"]), ("brand", h.get("brand") or ""),
             ("corridor", h.get("corridor", "")), ("street", h.get("street", "")), ("postal_code", h.get("postal_code", "")),
         ])
+        if ev is not None and route_domain_conflict(h, ev):
+            # The read is first-party for the building, but the census binds this identity to another host (a
+            # brand route). The package contract requires the cited page and the bound route to agree, and this
+            # order does not get to repoint a census route from the adjudication pass, so the row is HELD.
+            row["disposition"] = EVIDENCE_HOLD
+            row["hold_reason"] = route_domain_conflict(h, ev)
+            row["evidence"] = ev
+            negation_conflicts.append(OrderedDict([("identity_key", key), ("name", h["canonical_name"]),
+                                                   ("why", "ROUTE_DOMAIN_CONFLICT -- " + row["hold_reason"])]))
+            rows.append(row)
+            continue
         if ev is not None:
             final_pa, conflict = negation_check(ev["quote"], ev["pets_allowed_claim"])
             row["evidence"] = ev

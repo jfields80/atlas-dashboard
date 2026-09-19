@@ -6,26 +6,26 @@
  "what_this_is": "Every admitted Greater Miami census identity in exactly one disposition state, with the order's Phase 20 disposition and, for every unresolved row, its router record.",
  "count": 639,
  "counts_by_state": {
-  "ACCESS_BLOCKED": 112,
-  "AWAITING_ATTENDED_CAPTURE": 115,
-  "AWAITING_OFFICIAL_URL": 122,
-  "AWAITING_POLICY_OBSERVATION": 158,
+  "ACCESS_BLOCKED": 113,
+  "AWAITING_ATTENDED_CAPTURE": 116,
+  "AWAITING_OFFICIAL_URL": 126,
+  "AWAITING_POLICY_OBSERVATION": 161,
   "AWAITING_ROUTING_REPLACEMENT": 38,
-  "PUBLISHED_PET_FRIENDLY": 66,
+  "PUBLISHED_PET_FRIENDLY": 57,
   "VERIFIED_NO_PETS": 28
  },
  "counts_by_disposition": {
-  "ACCESS_BLOCKED": 112,
-  "BROWSER_CAPTURE_NEEDED": 115,
-  "CLEAN_PET_FRIENDLY": 66,
+  "ACCESS_BLOCKED": 113,
+  "BROWSER_CAPTURE_NEEDED": 116,
+  "CLEAN_PET_FRIENDLY": 57,
   "CLEAN_VERIFIED_NO_PETS": 28,
-  "EVIDENCE_HOLD": 34,
+  "EVIDENCE_HOLD": 37,
   "IDENTITY_MISMATCH_HOLD": 38,
-  "ROUTING_HOLD": 122,
+  "ROUTING_HOLD": 126,
   "SOURCE_SILENT": 124
  },
- "resolved": 94,
- "unresolved": 545,
+ "resolved": 85,
+ "unresolved": 554,
  "items": [
   {
    "identity_key": "1 hotel south beach",
@@ -446,23 +446,17 @@
    "canonical_name": "Aloft Miami Doral",
    "corridor": "miami-fl__doral",
    "brand": "MARRIOTT",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": null,
-    "fee_currency": null,
-    "fee_refundable": false,
-    "max_pet_weight_lbs": null,
-    "max_pet_count": null
-   },
-   "evidence": {
-    "lane": "FIRECRAWL",
-    "source_url": "https://www.ihg.com/staybridge/hotels/us/en/miami/miaaw/hoteldetail",
-    "pets_allowed_claim": true,
-    "quote": "Amenities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities VIEW ALL AMENITIES Social Hour Join us for a variety of free appetizers and beverages at our evening reception. Can I bring my pet to Staybridge Suites Miami Doral Area? Pets are welcome at Staybridge Suites Miami Doral Area. There is a pet deposit per stay of 150 USD . Our Pet Policy: Pets allowed with nonrefundable fee of 150. Pet must ",
-    "document_sha256": "f36eb5b7b7c0eb350e806f4a31656bf5a4faf616f2611793a56700cdf813f843",
-    "captured_via": "the brand's own property page (route discovered on the brand's own city page), Firecrawl rendered scrape, existing plan credits"
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "router_record": {
+    "brand_family": "MARRIOTT",
+    "route": "https://www.marriott.com/en-us/hotels/miaal-aloft-miami-doral/overview/",
+    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
+    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
    }
   },
   {
@@ -2240,23 +2234,17 @@
    "canonical_name": "Comfort Inn and Suites Downtown/brickell",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": null,
-    "fee_currency": null,
-    "fee_refundable": null,
-    "max_pet_weight_lbs": null,
-    "max_pet_count": null
-   },
-   "evidence": {
-    "lane": "FIRECRAWL",
-    "source_url": "https://www.ihg.com/intercontinental/hotels/us/en/miami/miaha/hoteldetail",
-    "pets_allowed_claim": true,
-    "quote": "Amenities include a rooftop pool, spa, 24-hour fitness center, and pet services. Hotel packages available Prices shown reflect an average per night stay from Sep 19 - 20, 2026 Pet Getaway Pet Getaway Stay at The World Most Dog Friendly Hotel and enjoy our Pets and Points package with 3000 IHG One Rewards points plus USD10 off your pet fee. Learn more Pet Friendly Stays at InterContinental Miami Named \"Most Pet Friendly Hotel in USA\" by Newsweek 2025, we are a dedicated pet-friendly hotel in Miam",
-    "document_sha256": "da6c0627fe556d9000b446125916827ef1c994ca1c077f2b904ca3678b2e4bbc",
-    "captured_via": "the brand's own property page (route discovered on the brand's own city page), Firecrawl rendered scrape, existing plan credits"
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote refuses pets: 'l 3 mi University of Miami 7 mi Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (305) 677-0947 Children Anyone aged 18), not an operative pet_friendly statement; held rather than published on a disagreement this order does not get to override",
+   "router_record": {
+    "brand_family": "INDEPENDENT",
+    "route": "",
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote refuses pets: 'l 3 mi University of Miami 7 mi Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (305) 677-0947 Children Anyone aged 18), not an operative pet_friendly statement; held rather than published on a disagreement this order does not get to override"
    }
   },
   {
@@ -2827,23 +2815,17 @@
    "canonical_name": "Dolce Miami Beach",
    "corridor": "miami-fl__south-beach",
    "brand": "WYNDHAM",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": null,
-    "fee_currency": null,
-    "fee_refundable": null,
-    "max_pet_weight_lbs": null,
-    "max_pet_count": null
-   },
-   "evidence": {
-    "lane": "PROPERTY_PAGE_STATIC",
-    "source_url": "https://dolcemiamibeach.com/",
-    "pets_allowed_claim": true,
-    "quote": "A magnificent, pet-friendly boutique experience awaits you.",
-    "document_sha256": "abc5fde2a721f7c56287ef4d3de3e340957460eb8d946cad47bb0a53c13f0210",
-    "captured_via": "the independent property's own policy/FAQ page, plain client"
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'dolcemiamibeach.com' while the census binds the identity to 'wyndhamhotels.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite",
+   "router_record": {
+    "brand_family": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/dolce/miami-beach-florida/dolce-miami-beach/overview",
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'dolcemiamibeach.com' while the census binds the identity to 'wyndhamhotels.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
    }
   },
   {
@@ -5002,23 +4984,17 @@
    "canonical_name": "Holiday Inn Express & Suites Miami Intl Airport 36th Street",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": null,
-    "fee_currency": null,
-    "fee_refundable": null,
-    "max_pet_weight_lbs": 65.0,
-    "max_pet_count": null
-   },
-   "evidence": {
-    "lane": "FIRECRAWL",
-    "source_url": "https://www.ihg.com/candlewood/hotels/us/en/virginia-gardens/vgccw/hoteldetail",
-    "pets_allowed_claim": true,
-    "quote": "Pet Friendly Pets allowed. Pet must weigh less than 65 lbs. Pet agreement must be signed at check in. No visitor parking, buses, utility vehicles, trailer hitch or pick-up trucks will not be allowed to park on premises Parking fee: 0 USD per day Parking for registered guests only Parking & transportation details Can I bring my pet to Candlewood Suites Miami Intl Airport - 36th St? Pets are welcome at Candlewood Suites Miami Intl Airport - 36th St. Pet policy description. Pets allowed. Pet fee pe",
-    "document_sha256": "62a5b186433a31c3da83820075d08241410d14b612b6b3dcc06a66fd75b87970",
-    "captured_via": "the brand's own property page (route discovered on the brand's own city page), Firecrawl rendered scrape, existing plan credits"
+   "final_state": "AWAITING_OFFICIAL_URL",
+   "disposition": "ROUTING_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "OTHER_EXPLICIT_REASON -- the website Places names is a brand / OTA / social host that the independents' lane does not read (https://www.ihg.com/holidayinnexpress/hotels/us/en/virginia-gardens/miaac/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-MIAAC)",
+   "router_record": {
+    "brand_family": "INDEPENDENT",
+    "route": "",
+    "disposition_basis": "ROUTING_HOLD",
+    "hold_reason": "OTHER_EXPLICIT_REASON -- the website Places names is a brand / OTA / social host that the independents' lane does not read (https://www.ihg.com/holidayinnexpress/hotels/us/en/virginia-gardens/miaac/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-MIAAC)"
    }
   },
   {
@@ -5421,23 +5397,17 @@
    "canonical_name": "Hotel Indigo Miami and Atwell Suites",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": null,
-    "fee_currency": null,
-    "fee_refundable": null,
-    "max_pet_weight_lbs": 40.0,
-    "max_pet_count": 4
-   },
-   "evidence": {
-    "lane": "FIRECRAWL",
-    "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/miami/miani/hoteldetail",
-    "pets_allowed_claim": true,
-    "quote": "The highlights Best Beaches in the World Nearby Chic Miami Meeting Spaces Pet-Friendly Hotel Mosaico Kitchen + Bar Outdoor Pool & Fitness Center Best Beaches in the World Nearby Within minutes, you will find yourself at Miami's famous and beautiful beaches, including South Beach. Learn more Pet-Friendly Hotel Bring your dog along on your South Florida vacation or business trip to our pet-friendly hotel in the Brickell neighborhood of Miami. We welcome dogs up to 40 pounds in rooms & suites with ",
-    "document_sha256": "17cb4dad34b003016172025856f41a7467d53f5ae4f59ffa42d530af6d066b17",
-    "captured_via": "the brand's own property page (route discovered on the brand's own city page), Firecrawl rendered scrape, existing plan credits"
+   "final_state": "ACCESS_BLOCKED",
+   "disposition": "ACCESS_BLOCKED",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)",
+   "router_record": {
+    "brand_family": "INDEPENDENT",
+    "route": "",
+    "disposition_basis": "ACCESS_BLOCKED",
+    "hold_reason": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)"
    }
   },
   {
@@ -6338,23 +6308,17 @@
    "canonical_name": "La Quinta Inn & Suites Miami Airport West #980",
    "corridor": "miami-fl__doral",
    "brand": "",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": null,
-    "fee_currency": null,
-    "fee_refundable": false,
-    "max_pet_weight_lbs": 75.0,
-    "max_pet_count": 2
-   },
-   "evidence": {
-    "lane": "PROPERTY_PAGE_STATIC",
-    "source_url": "https://www.wyndhamhotels.com/laquinta/miami-florida/la-quinta-miami-airport-west/overview",
-    "pets_allowed_claim": true,
-    "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
-    "document_sha256": "cf2b9fe31655ce04c2a13956d310308028e1a92dfba9920933983a608193f3e0",
-    "captured_via": "the brand's own property-service API (same JSON the overview page renders)"
+   "final_state": "AWAITING_OFFICIAL_URL",
+   "disposition": "ROUTING_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "OTHER_EXPLICIT_REASON -- the website Places names is a brand / OTA / social host that the independents' lane does not read (https://www.wyndhamhotels.com/laquinta/miami-florida/la-quinta-miami-airport-west/overview?CID=LC:6ysy27krtpcrqev:52723&iata=00093796)",
+   "router_record": {
+    "brand_family": "INDEPENDENT",
+    "route": "",
+    "disposition_basis": "ROUTING_HOLD",
+    "hold_reason": "OTHER_EXPLICIT_REASON -- the website Places names is a brand / OTA / social host that the independents' lane does not read (https://www.wyndhamhotels.com/laquinta/miami-florida/la-quinta-miami-airport-west/overview?CID=LC:6ysy27krtpcrqev:52723&iata=00093796)"
    }
   },
   {
@@ -7770,23 +7734,17 @@
    "canonical_name": "Orange - Hotel Suites",
    "corridor": "miami-fl__south-beach",
    "brand": "",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": null,
-    "fee_currency": null,
-    "fee_refundable": null,
-    "max_pet_weight_lbs": 40.0,
-    "max_pet_count": null
-   },
-   "evidence": {
-    "lane": "PROPERTY_PAGE_STATIC",
-    "source_url": "https://www.wyndhamhotels.com/registry-collection/miami-beach-florida/balfour-miami-beach-a-registry-collection-hotel/overview",
-    "pets_allowed_claim": true,
-    "quote": "Service Animals - ADA-defined service animals welcome./Pets allowed - dogs only. 2 dogs max. 40lbs or less per dog./ Fees - 150.00 USD per stay./ Other Information - Contact hotel for additional details and availability.",
-    "document_sha256": "ffc348d2c038fa51c5388fcfcbb5bf97a252190a239ba2911bc64f03c9cfe026",
-    "captured_via": "the brand's own property-service API (same JSON the overview page renders)"
+   "final_state": "AWAITING_OFFICIAL_URL",
+   "disposition": "ROUTING_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website",
+   "router_record": {
+    "brand_family": "INDEPENDENT",
+    "route": "",
+    "disposition_basis": "ROUTING_HOLD",
+    "hold_reason": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website"
    }
   },
   {
@@ -8308,23 +8266,17 @@
    "canonical_name": "Ramada Plaza Marco Polo Beach Resort",
    "corridor": "miami-fl__sunny-isles-beach",
    "brand": "WYNDHAM",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": 5000,
-    "fee_currency": "USD",
-    "fee_refundable": true,
-    "max_pet_weight_lbs": null,
-    "max_pet_count": null
-   },
-   "evidence": {
-    "lane": "PROPERTY_PAGE_STATIC",
-    "source_url": "https://marcopolobeachresort.com/",
-    "pets_allowed_claim": true,
-    "quote": "GENERAL PACKAGES INTERNET PARKING FEES SMOKING PET POLICY AMENITIES AND SERVICES EVENTS / MEETINGS TRANSPORTATION ACCESSIBILITY ACCOMMODATIONS RECREATION / ENTERTAINMENT SOCIAL MEDIA What is the check-in/check-out time? Do you have a pet policy? We are pet-friendly. Limit on pet size. One time charge for a pet in the room: $50 plus $50 damage deposit which is refundable after inspection.",
-    "document_sha256": "e5acdafb1f60ea6b8364f8e7d2a17d673ce7dc6465240b222ac5d007f06dadf4",
-    "captured_via": "the independent property's own policy/FAQ page, plain client"
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'marcopolobeachresort.com' while the census binds the identity to 'wyndhamhotels.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite",
+   "router_record": {
+    "brand_family": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/ramada/sunny-isles-beach-florida/ramada-plaza-marco-polo-beach-resort/overview",
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'marcopolobeachresort.com' while the census binds the identity to 'wyndhamhotels.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
    }
   },
   {
@@ -9382,23 +9334,17 @@
    "canonical_name": "So Fl Villas & Garden",
    "corridor": "miami-fl__south-beach",
    "brand": "",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": null,
-    "fee_currency": null,
-    "fee_refundable": null,
-    "max_pet_weight_lbs": 40.0,
-    "max_pet_count": null
-   },
-   "evidence": {
-    "lane": "PROPERTY_PAGE_STATIC",
-    "source_url": "https://www.wyndhamhotels.com/registry-collection/miami-beach-florida/balfour-miami-beach-a-registry-collection-hotel/overview",
-    "pets_allowed_claim": true,
-    "quote": "Service Animals - ADA-defined service animals welcome./Pets allowed - dogs only. 2 dogs max. 40lbs or less per dog./ Fees - 150.00 USD per stay./ Other Information - Contact hotel for additional details and availability.",
-    "document_sha256": "ffc348d2c038fa51c5388fcfcbb5bf97a252190a239ba2911bc64f03c9cfe026",
-    "captured_via": "the brand's own property-service API (same JSON the overview page renders)"
+   "final_state": "AWAITING_OFFICIAL_URL",
+   "disposition": "ROUTING_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website",
+   "router_record": {
+    "brand_family": "INDEPENDENT",
+    "route": "",
+    "disposition_basis": "ROUTING_HOLD",
+    "hold_reason": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website"
    }
   },
   {
