@@ -1,0 +1,63 @@
+{
+ "market": "columbia-sc",
+ "work_order": "PTF-RELEASE-STORE-LIVE-CONTENT-KEY-CORRECTION-005",
+ "steps": [
+  {
+   "step": "1_promote_staged_documents",
+   "seconds": 0.06,
+   "ok": true,
+   "detail": "copied 5 staged documents into their registered paths"
+  },
+  {
+   "step": "2_market_registration_cli_write",
+   "seconds": 0.26,
+   "ok": true,
+   "detail": "market            : columbia-sc\nseed rows         : 64\nexclusions        : 42\nrouting records   : 0\naffiliate rows    : 0\nauthority total   : 106\nwrote             : launch_packages/pettripfinder/markets/authority/columbia-sc/seed_businesses.csv\nwrote             : launch_packages/pettripfinder/markets/authority/columbia-sc/hotel_exclusions.json\nwrote             : launch_packages/pettripfinder/markets/authority/columbia-sc/identity_routing.json\nwrote             : launch_packages/pettripfinder/markets/authority/columbia-sc/affiliate_destinations.json\n"
+  },
+  {
+   "step": "3a_build_global_authority_write",
+   "seconds": 2.25,
+   "ok": true,
+   "detail": "markets sharded : 32 (asheville-nc, atlanta-ga, augusta-ga, boone-blowing-rock-nc, charleston-sc, charlotte-nc, cincinnati-oh, cleveland-akron-canton-oh, columbia-sc, columbus-oh, dayton-oh, detroit-ann-arbor-mi, fayetteville-nc, grand-rapids-holland-mi, greenville-nc, indianapolis-in, jacksonville-nc, lexington-ky, louisville-ky, milwaukee-wi, nashville-tn, orlando-fl, outer-banks-nc, piedmont-triad-nc, pittsburgh-pa, raleigh-nc, richmond-va, savannah-ga, st-louis-mo, tampa-fl, toledo-oh, wilmington-nc)\nglobal routes   : 292\nglobal exclusions: 1078\nglobal seed rows: 2378\nbuild marker    : sha256:8073dc2b79cb1d5ef8214051c47a59d926845cb931d778836b5bf2480af0344c\nWROTE  launch_packages/pettripfinder/hotel_exclusions.json\nWROTE  launch_packages/pettripfinder/seed_businesses.csv\nWROTE  launch_packages/pettripfinder/ptf_global_authority_manifest.json\n"
+  },
+  {
+   "step": "3b_build_global_authority_check",
+   "seconds": 1.76,
+   "ok": true,
+   "detail": "markets sharded : 32 (asheville-nc, atlanta-ga, augusta-ga, boone-blowing-rock-nc, charleston-sc, charlotte-nc, cincinnati-oh, cleveland-akron-canton-oh, columbia-sc, columbus-oh, dayton-oh, detroit-ann-arbor-mi, fayetteville-nc, grand-rapids-holland-mi, greenville-nc, indianapolis-in, jacksonville-nc, lexington-ky, louisville-ky, milwaukee-wi, nashville-tn, orlando-fl, outer-banks-nc, piedmont-triad-nc, pittsburgh-pa, raleigh-nc, richmond-va, savannah-ga, st-louis-mo, tampa-fl, toledo-oh, wilmington-nc)\nglobal routes   : 292\nglobal exclusions: 1078\nglobal seed rows: 2378\nbuild marker    : sha256:8073dc2b79cb1d5ef8214051c47a59d926845cb931d778836b5bf2480af0344c\nall generated artifacts match the shards\n"
+  },
+  {
+   "step": "4_release_contract",
+   "seconds": 2.28,
+   "ok": true,
+   "detail": "contract written: 64 profiles, 7 corridors, census 125"
+  },
+  {
+   "step": "5_lane_register",
+   "seconds": 4.22,
+   "ok": true,
+   "detail": "participation  : SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH | authorized set unchanged: True\nbuild closure  : added ['deploy/netlify/release_contracts/columbia-sc.json', 'launch_packages/pettripfinder/markets/columbia-sc.json']\nwritten        : launch_packages/pettripfinder/markets/reports/columbia_sc_registration_participation.json\n"
+  },
+  {
+   "step": "6_lane_seal_fast",
+   "seconds": 117.02,
+   "ok": true,
+   "detail": "PetTripFinder Columbus -- AES-SITE-001 public site build\nMarket scope: columbia-sc -- 64 owned inventory rows, 1 category\nBase bundle materialized: 72 files, hash b708ccb24648e11d95e8484f3fee330c964b5a61bcbfef130f99e7199bf86c00\n\nEnrichment complete.\n  hotel profiles enriched: 64\n  park/restaurant profiles enriched: 0\n  /go/ pages: 315\n  corridor pages: ['/pet-friendly-hotels/columbia-sc/downtown-vista-usc/', '/pet-friendly-hotels/columbia-sc/north-columbia-medical/', '/pet-friendly-hotels/columbia-sc/fort-jackson-forest-acres/', '/pet-friendly-hotels/columbia-sc/northeast-two-notch/', '/pet-friendly-hotels/columbia-sc/st-andrews-bush-river/', '/pet-friendly-hotels/columbia-sc/harbison-irmo/', '/pet-friendly-hotels/columbia-sc/west-columbia-cayce/']\n  comparison page: /pet-friendly-hotels/columbia-sc/policy-comparison/\n  warnings: 0\n  broken internal links: 0\n  quality gate failures: 0\n  output path: C:\\t\\cw5\\oa\\.assemble_work\\generated\nPetTripFinder Columbus -- AES-SITE-001 public site build\nMarket scope: columbia-sc -- 64 owned inventory rows, 1 category\nBase bundle materialized: 72 files, hash b708ccb24648e11d95e8484f3fee330c964b5a61bcbfef130f99e7199bf86c00\n\nEnrichment complete.\n  hotel profiles enriched: 64\n  park/restaurant profiles enriched: 0\n  /go/ pages: 315\n  corridor pages: ['/pet-friendly-hotels/columbia-sc/downtown-vista-usc/', '/pet-friendly-hotels/columbia-sc/north-columbia-medical/', '/pet-friendly-hotels/columbia-sc/fort-jackson-forest-acres/', '/pet-friendly-hotels/columbia-sc/northeast-two-notch/', '/pet-friendly-hotels/columbia-sc/st-andrews-bush-river/', '/pet-friendly-hotels/columbia-sc/harbison-irmo/', '/pet-friendly-hotels/columbia-sc/west-columbia-cayce/']\n  comparison page: /pet-friendly-hotels/columbia-sc/policy-comparison/\n  warnings: 0\n  broken internal links: 0\n  quality gate failures: 0\n  output path: C:\\t\\cw5\\ob\\.assemble_work\\generated\nmarket state   : pinned columbia-sc: census 125 / pet-friendly 64 / verified-no-pets 42 / corridor routes 7\npackage        : pkg-columbia-sc-149fd8e7f7aaf507 reproducible YES\nfast lane      : YES | rules passed 15 | unknown [] | failed [] | 78.1s\ncandidate      : 31 markets / 2229 profiles / 2486 routes; reproducible YES\nreceipt        : launch_packages/pettripfinder/markets/receipts/columbia-sc/pkg-columbia-sc-149fd8e7f7aaf507-589a923f4e7fc13f.json\nwritten        : launch_packages/pettripfinder/markets/reports/columbia_sc_registration_release_lane.json | total 113.0s\n"
+  },
+  {
+   "step": "7_commit_registration",
+   "seconds": 14.59,
+   "ok": true,
+   "detail": "warning: in the working copy of 'atlas-dashboard/launch_packages/pettripfinder/markets/packages/columbia-sc/pkg-columbia-sc-149fd8e7f7aaf507.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'atlas-dashboard/launch_packages/pettripfinder/markets/receipts/columbia-sc/pkg-columbia-sc-149fd8e7f7aaf507-589a923f4e7fc13f.json', CRLF will be replaced by LF the next time Git touches it\nwarning: There are too many unreachable loose objects; run 'git prune' to remove them.\n"
+  },
+  {
+   "step": "8_lane_packet_automatic",
+   "seconds": 53.75,
+   "ok": true,
+   "detail": "live source    : 965641991822 | deploy 6aaeb3b7384e1bb712adb084 | base cd8cb3d75631 | 53.3s\nstatus         : AUTHORIZATION_READY | founder: AWAITING_FOUNDER_AUTHORIZATION\nchange class   : COMPOSITE_FRESH_MARKET_DATA_ONLY | broad: NO | remote broad jobs: 0\nwritten        : launch_packages/pettripfinder/markets/reports/columbia_sc_registration_authorization_readiness.json\n"
+  }
+ ],
+ "started_at": "2026-09-19T17:12:08Z",
+ "REGISTRATION_SECONDS": 196.19,
+ "RESULT": "AUTHORIZATION_READY"
+}
