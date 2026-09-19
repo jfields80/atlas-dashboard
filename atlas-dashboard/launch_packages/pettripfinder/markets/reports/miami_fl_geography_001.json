@@ -1,0 +1,679 @@
+{
+ "schema": "ptf-market-geography/1.0",
+ "work_order": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+ "phase": "2 + 3 + 4 + 7 -- Greater Miami travel-market geography, Miami / Miami Beach split test, PortMiami cruise test and corridor model",
+ "market_id": "miami-fl",
+ "as_of": "2026-09-19",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "registration_state": "SHADOW_UNTIL_REGISTERED: the market document is written to markets/proposed/miami-fl.json; the registry's markets/<id>.json is never written by this order.",
+ "membership_rule": "The property's OWN postal code, as its own official page or its Florida DBPR public-lodging licence states it, joined to the corridor registry. Nothing else admits a property.",
+ "classes": {
+  "CORE": "Downtown Miami / Brickell / PortMiami (33128, 33129, 33130, 33131, 33132, 33136); South Beach (33139, 33109); Mid-Beach (33140); North Beach / North Bay Village (33141); Miami International Airport (MIA) / Miami Springs / Virginia Gardens (33142, 33166); Airport West / Blue Lagoon / Flagami (33126, 33144); Doral (33122, 33172, 33178); Coral Gables / South Miami (33134, 33146, 33143); Coconut Grove (33133)",
+  "CORRIDOR": "Edgewater / Wynwood / Midtown / Design District / MiMo (33127, 33137, 33138, 33150); Little Havana / Coral Way (33125, 33135, 33145); Key Biscayne (33149); Bal Harbour / Surfside / Bay Harbor Islands (33154); Sunny Isles Beach (33160); Aventura (33180); North Miami / North Miami Beach (33161, 33162, 33167, 33168, 33179, 33181)",
+  "FRINGE": "Hialeah / Hialeah Gardens / Miami Lakes (33010, 33012, 33013, 33014, 33015, 33016, 33018); Miami Gardens / Opa-locka / Liberty City (33054, 33055, 33056, 33169, 33147); Kendall / Westchester / Tamiami / Cutler Bay (33155, 33156, 33157, 33158, 33165, 33170, 33173, 33174, 33175, 33176, 33177, 33182, 33183, 33184, 33185, 33186, 33187, 33189, 33190, 33193, 33194, 33196); Homestead / Florida City (33030, 33031, 33032, 33033, 33034, 33035, 33039)"
+ },
+ "outside_class": "Everything else, refused by name with its postal codes (and, for the registry lane, by county); future standalone markets named.",
+ "future_standalone_markets": {
+  "fort-lauderdale-fl": "Fort Lauderdale / Hollywood / Hallandale Beach / Dania Beach / Pompano Beach / Deerfield Beach -- Broward County, with its own airport (FLL), its own cruise port (Port Everglades) and its own CVB (Visit Lauderdale)",
+  "west-palm-beach-fl": "West Palm Beach / Palm Beach / Boca Raton -- Palm Beach County, with its own airport (PBI) and CVB (Discover The Palm Beaches)",
+  "florida-keys-fl": "The Florida Keys (Key Largo / Islamorada / Marathon / Key West) -- Monroe County, its own island resort market (possibly split Upper Keys / Key West when built)"
+ },
+ "miami_miami_beach_split_test": {
+  "A. Downtown Miami / Brickell": "CORE, one corridor downtown-brickell (33128, 33129, 33130, 33131, 33132, 33136). Downtown and Brickell are distinct neighbourhoods but ZIP 33131 straddles the Miami River (Brickell Avenue south, the Biscayne Boulevard Way / Chopin Plaza bayfront north), so a postal partition cannot separate them; both are overlays.",
+  "B. Miami Beach": "Inside miami-fl, NOT folded into generic Miami: three CORE corridors along Miami Beach's own postal seams (South Beach 33139+33109, Mid-Beach 33140, North Beach 33141). One airport, one CVB, one county and causeway connectivity make Miami + Miami Beach one travel system; the Beach's distinct identity is carried at corridor level, never flattened.",
+  "C. South Beach": "CORE corridor south-beach (33139, and Fisher Island 33109). The single densest hotel ZIP in the market (213 DBPR hotel/motel/B&B leads).",
+  "D. Mid-Beach / North Beach": "CORE corridors mid-beach (33140) and north-beach (33141, shared with North Bay Village). Separate pages only where each meets the threshold on its own.",
+  "E. MIA Airport": "CORE, two corridors along the airport's real seam: mia-airport-miami-springs (north side, 33142/33166) and airport-west-blue-lagoon (south side, 33126/33144). 'Miami Airport' marketing names never place a hotel.",
+  "F. Doral": "CORE corridor doral (33122, 33172, 33178), its own business / golf cluster -- not 'MIA' even when a Doral hotel's name says 'Miami Airport West'.",
+  "G. Coral Gables / Coconut Grove": "CORE corridors coral-gables (33134, 33146, 33143) and coconut-grove (33133): two distinct neighbourhood hotel clusters with separate ZIPs.",
+  "H. Aventura / Sunny Isles": "STRONG CORRIDOR, two corridors: aventura (33180) and sunny-isles-beach (33160). Both are Miami-Dade and GMCVB 'Beaches' territory; Hallandale Beach (33009) immediately north is Broward and OUTSIDE.",
+  "I. Bal Harbour / Surfside": "STRONG CORRIDOR bal-harbour-surfside (33154, with Bay Harbor Islands): one shared ZIP, one corridor."
+ },
+ "portmiami_cruise_test": {
+  "portmiami_lodging_on_dodge_island": "NONE -- the port island carries terminals, not hotels.",
+  "where_cruise_demand_sleeps": "Downtown / Brickell bayfront (inside downtown-brickell), Miami Beach (south-beach / mid-beach) and MIA.",
+  "portmiami_corridor_created": false,
+  "why": "A PortMiami corridor would claim exactly the ZIPs downtown-brickell already claims (33132 / 33131) -- a duplicate page, not a distinct lodging cluster. Cruise intent is an overlay label (PortMiami) on rows whose own street or pin is at the port, and may inform corridor copy; it never changes premises identity or membership."
+ },
+ "evaluated_inclusions": {
+  "Downtown Miami": "ADMITTED (CORE, downtown-brickell).",
+  "Brickell": "ADMITTED (CORE, downtown-brickell; shares 33131 with downtown).",
+  "Miami Beach / South Beach": "ADMITTED (CORE, south-beach).",
+  "Mid-Beach": "ADMITTED (CORE, mid-beach).",
+  "North Beach": "ADMITTED (CORE, north-beach).",
+  "Miami International Airport": "ADMITTED (CORE, mia-airport-miami-springs + airport-west-blue-lagoon).",
+  "Airport West / Blue Lagoon": "ADMITTED (CORE, airport-west-blue-lagoon).",
+  "Coral Gables": "ADMITTED (CORE, coral-gables).",
+  "Coconut Grove": "ADMITTED (CORE, coconut-grove).",
+  "Doral": "ADMITTED (CORE, doral).",
+  "Miami Springs": "ADMITTED (CORE, mia-airport-miami-springs, 33166) -- strong evaluation.",
+  "Key Biscayne": "ADMITTED (CORRIDOR, key-biscayne) -- strong evaluation.",
+  "Aventura": "ADMITTED (CORRIDOR, aventura) -- strong evaluation.",
+  "Sunny Isles Beach": "ADMITTED (CORRIDOR, sunny-isles-beach) -- strong evaluation.",
+  "Bal Harbour": "ADMITTED (CORRIDOR, bal-harbour-surfside) -- strong evaluation.",
+  "Surfside": "ADMITTED (CORRIDOR, bal-harbour-surfside) -- strong evaluation.",
+  "North Miami": "ADMITTED (CORRIDOR, north-miami) -- strong evaluation.",
+  "North Miami Beach": "ADMITTED (CORRIDOR, north-miami, 33162/33179) -- strong evaluation.",
+  "Wynwood / Edgewater / Design District / MiMo": "ADMITTED (CORRIDOR, midtown-wynwood-edgewater).",
+  "Little Havana": "ADMITTED (CORRIDOR, little-havana).",
+  "Hialeah": "ADMITTED (FRINGE, hialeah-miami-lakes) -- strong evaluation; its lodging on Okeechobee Road and Le Jeune Road sits immediately north of MIA.",
+  "Miami Lakes": "ADMITTED (FRINGE, hialeah-miami-lakes) -- careful evaluation.",
+  "Opa-locka": "ADMITTED (FRINGE, miami-gardens-opa-locka) -- careful evaluation.",
+  "Kendall": "ADMITTED (FRINGE, kendall-south-dade) -- careful evaluation.",
+  "South Miami": "ADMITTED (CORE, coral-gables, 33143) -- adjoins Coral Gables; careful evaluation.",
+  "Cutler Bay": "ADMITTED (FRINGE, kendall-south-dade, 33189) -- careful evaluation.",
+  "Homestead": "ADMITTED (FRINGE, homestead-florida-city) -- careful evaluation.",
+  "Florida City": "ADMITTED (FRINGE, homestead-florida-city, 33034) -- careful evaluation.",
+  "Properties using 'Miami' mainly as marketing": "Never admitted by name: a 'Miami' / 'Miami North' / 'Miami Airport' name whose own address is in Broward, Palm Beach or Monroe County is OUTSIDE by its postal code.",
+  "Fort Lauderdale": "OUTSIDE by name (order) -- future fort-lauderdale-fl.",
+  "Hollywood": "OUTSIDE by name (order) -- future fort-lauderdale-fl.",
+  "Hallandale Beach": "OUTSIDE (Broward) -- future fort-lauderdale-fl.",
+  "Dania Beach": "OUTSIDE by name (order) -- future fort-lauderdale-fl.",
+  "Pompano Beach / Deerfield Beach": "OUTSIDE by name (order) -- future fort-lauderdale-fl.",
+  "Boca Raton": "OUTSIDE by name (order) -- future west-palm-beach-fl.",
+  "West Palm Beach / Palm Beach": "OUTSIDE by name (order) -- future west-palm-beach-fl.",
+  "Florida Keys / Key Largo / Islamorada": "OUTSIDE by name (order) -- future florida-keys-fl."
+ },
+ "nonpublic_names": {},
+ "corridor_registry_is_a_partition": true,
+ "admitted_postal_codes": [
+  "33010",
+  "33012",
+  "33013",
+  "33014",
+  "33015",
+  "33016",
+  "33018",
+  "33030",
+  "33031",
+  "33032",
+  "33033",
+  "33034",
+  "33035",
+  "33039",
+  "33054",
+  "33055",
+  "33056",
+  "33109",
+  "33122",
+  "33125",
+  "33126",
+  "33127",
+  "33128",
+  "33129",
+  "33130",
+  "33131",
+  "33132",
+  "33133",
+  "33134",
+  "33135",
+  "33136",
+  "33137",
+  "33138",
+  "33139",
+  "33140",
+  "33141",
+  "33142",
+  "33143",
+  "33144",
+  "33145",
+  "33146",
+  "33147",
+  "33149",
+  "33150",
+  "33154",
+  "33155",
+  "33156",
+  "33157",
+  "33158",
+  "33160",
+  "33161",
+  "33162",
+  "33165",
+  "33166",
+  "33167",
+  "33168",
+  "33169",
+  "33170",
+  "33172",
+  "33173",
+  "33174",
+  "33175",
+  "33176",
+  "33177",
+  "33178",
+  "33179",
+  "33180",
+  "33181",
+  "33182",
+  "33183",
+  "33184",
+  "33185",
+  "33186",
+  "33187",
+  "33189",
+  "33190",
+  "33193",
+  "33194",
+  "33196"
+ ],
+ "admitted_postal_code_count": 79,
+ "admitted_counties": [
+  "dade",
+  "miami-dade"
+ ],
+ "observed_outside_counties": {
+  "broward": "fort-lauderdale-fl",
+  "palm beach": "west-palm-beach-fl",
+  "monroe": "florida-keys-fl"
+ },
+ "corridors": [
+  {
+   "corridor_id": "miami-fl__downtown-brickell",
+   "name": "Downtown Miami / Brickell / PortMiami",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33128",
+    "33129",
+    "33130",
+    "33131",
+    "33132",
+    "33136"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__south-beach",
+   "name": "South Beach",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33139",
+    "33109"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__mid-beach",
+   "name": "Mid-Beach",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33140"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__north-beach",
+   "name": "North Beach / North Bay Village",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33141"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__mia-airport-miami-springs",
+   "name": "Miami International Airport (MIA) / Miami Springs / Virginia Gardens",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33142",
+    "33166"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__airport-west-blue-lagoon",
+   "name": "Airport West / Blue Lagoon / Flagami",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33126",
+    "33144"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__doral",
+   "name": "Doral",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33122",
+    "33172",
+    "33178"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__coral-gables",
+   "name": "Coral Gables / South Miami",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33134",
+    "33146",
+    "33143"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__coconut-grove",
+   "name": "Coconut Grove",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "33133"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__midtown-wynwood-edgewater",
+   "name": "Edgewater / Wynwood / Midtown / Design District / MiMo",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33127",
+    "33137",
+    "33138",
+    "33150"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__little-havana",
+   "name": "Little Havana / Coral Way",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33125",
+    "33135",
+    "33145"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__key-biscayne",
+   "name": "Key Biscayne",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33149"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__bal-harbour-surfside",
+   "name": "Bal Harbour / Surfside / Bay Harbor Islands",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33154"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__sunny-isles-beach",
+   "name": "Sunny Isles Beach",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33160"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__aventura",
+   "name": "Aventura",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33180"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__north-miami",
+   "name": "North Miami / North Miami Beach",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33161",
+    "33162",
+    "33167",
+    "33168",
+    "33179",
+    "33181"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__hialeah-miami-lakes",
+   "name": "Hialeah / Hialeah Gardens / Miami Lakes",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "33010",
+    "33012",
+    "33013",
+    "33014",
+    "33015",
+    "33016",
+    "33018"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__miami-gardens-opa-locka",
+   "name": "Miami Gardens / Opa-locka / Liberty City",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "33054",
+    "33055",
+    "33056",
+    "33169",
+    "33147"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__kendall-south-dade",
+   "name": "Kendall / Westchester / Tamiami / Cutler Bay",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "33155",
+    "33156",
+    "33157",
+    "33158",
+    "33165",
+    "33170",
+    "33173",
+    "33174",
+    "33175",
+    "33176",
+    "33177",
+    "33182",
+    "33183",
+    "33184",
+    "33185",
+    "33186",
+    "33187",
+    "33189",
+    "33190",
+    "33193",
+    "33194",
+    "33196"
+   ]
+  },
+  {
+   "corridor_id": "miami-fl__homestead-florida-city",
+   "name": "Homestead / Florida City",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "33030",
+    "33031",
+    "33032",
+    "33033",
+    "33034",
+    "33035",
+    "33039"
+   ]
+  }
+ ],
+ "corridor_count": 20,
+ "corridor_count_by_class": {
+  "CORE": 9,
+  "CORRIDOR": 7,
+  "FRINGE": 4
+ },
+ "corridor_page_rule": "A corridor page publishes only when the existing publication threshold (minimum_hotel_count = 5 verified pet-friendly hotels) is met. No thin corridor page is invented for SEO or cruise keywords; every corridor is show_in_navigation / show_in_sitemap false until a registration order publishes it. Downtown, Brickell, PortMiami, Miami Springs, North Bay Village, Surfside and Bay Harbor Islands are overlays.",
+ "coverage_areas": [
+  {
+   "area": "Downtown Miami",
+   "anchor_lat": 25.776,
+   "anchor_lng": -80.19,
+   "radius_km": 1.3
+  },
+  {
+   "area": "Brickell",
+   "anchor_lat": 25.761,
+   "anchor_lng": -80.193,
+   "radius_km": 1.3
+  },
+  {
+   "area": "PortMiami",
+   "anchor_lat": 25.778,
+   "anchor_lng": -80.17,
+   "radius_km": 1.6
+  },
+  {
+   "area": "South Beach",
+   "anchor_lat": 25.78,
+   "anchor_lng": -80.132,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Mid-Beach",
+   "anchor_lat": 25.82,
+   "anchor_lng": -80.123,
+   "radius_km": 2.0
+  },
+  {
+   "area": "North Beach",
+   "anchor_lat": 25.857,
+   "anchor_lng": -80.121,
+   "radius_km": 1.8
+  },
+  {
+   "area": "North Bay Village",
+   "anchor_lat": 25.847,
+   "anchor_lng": -80.152,
+   "radius_km": 1.0
+  },
+  {
+   "area": "Miami International Airport (MIA)",
+   "anchor_lat": 25.7959,
+   "anchor_lng": -80.287,
+   "radius_km": 2.2
+  },
+  {
+   "area": "Miami Springs",
+   "anchor_lat": 25.822,
+   "anchor_lng": -80.2895,
+   "radius_km": 1.8
+  },
+  {
+   "area": "Blue Lagoon",
+   "anchor_lat": 25.78,
+   "anchor_lng": -80.3,
+   "radius_km": 1.8
+  },
+  {
+   "area": "Doral",
+   "anchor_lat": 25.8195,
+   "anchor_lng": -80.3553,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Coral Gables",
+   "anchor_lat": 25.7215,
+   "anchor_lng": -80.2684,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Coconut Grove",
+   "anchor_lat": 25.728,
+   "anchor_lng": -80.243,
+   "radius_km": 1.5
+  },
+  {
+   "area": "Wynwood",
+   "anchor_lat": 25.801,
+   "anchor_lng": -80.199,
+   "radius_km": 1.2
+  },
+  {
+   "area": "Edgewater",
+   "anchor_lat": 25.796,
+   "anchor_lng": -80.188,
+   "radius_km": 1.0
+  },
+  {
+   "area": "Design District",
+   "anchor_lat": 25.813,
+   "anchor_lng": -80.193,
+   "radius_km": 1.0
+  },
+  {
+   "area": "Little Havana",
+   "anchor_lat": 25.765,
+   "anchor_lng": -80.219,
+   "radius_km": 1.5
+  },
+  {
+   "area": "Key Biscayne",
+   "anchor_lat": 25.693,
+   "anchor_lng": -80.1628,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Bal Harbour",
+   "anchor_lat": 25.8918,
+   "anchor_lng": -80.1267,
+   "radius_km": 1.0
+  },
+  {
+   "area": "Surfside",
+   "anchor_lat": 25.8784,
+   "anchor_lng": -80.1256,
+   "radius_km": 1.0
+  },
+  {
+   "area": "Sunny Isles Beach",
+   "anchor_lat": 25.9429,
+   "anchor_lng": -80.1234,
+   "radius_km": 1.8
+  },
+  {
+   "area": "Aventura",
+   "anchor_lat": 25.9565,
+   "anchor_lng": -80.1392,
+   "radius_km": 1.8
+  },
+  {
+   "area": "North Miami",
+   "anchor_lat": 25.8901,
+   "anchor_lng": -80.1867,
+   "radius_km": 2.5
+  }
+ ],
+ "outside_named_and_refused": [
+  {
+   "municipality": "Fort Lauderdale",
+   "state": "FL",
+   "postal_codes": [
+    "33301",
+    "33304",
+    "33305",
+    "33306",
+    "33308",
+    "33309",
+    "33311",
+    "33312",
+    "33315",
+    "33316",
+    "33317",
+    "33334"
+   ],
+   "why": "Broward County; FUTURE_STANDALONE fort-lauderdale-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Hollywood",
+   "state": "FL",
+   "postal_codes": [
+    "33019",
+    "33020",
+    "33021",
+    "33023",
+    "33024"
+   ],
+   "why": "Broward County; FUTURE_STANDALONE fort-lauderdale-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Hallandale Beach",
+   "state": "FL",
+   "postal_codes": [
+    "33009"
+   ],
+   "why": "Broward County, immediately north of Aventura / Sunny Isles; FUTURE_STANDALONE fort-lauderdale-fl; refused -- the county line, not proximity to Aventura, decides."
+  },
+  {
+   "municipality": "Dania Beach",
+   "state": "FL",
+   "postal_codes": [
+    "33004"
+   ],
+   "why": "Broward County (FLL airport south side); FUTURE_STANDALONE fort-lauderdale-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Pompano Beach / Deerfield Beach",
+   "state": "FL",
+   "postal_codes": [
+    "33060",
+    "33062",
+    "33064",
+    "33069",
+    "33441",
+    "33442"
+   ],
+   "why": "Broward County; FUTURE_STANDALONE fort-lauderdale-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Miramar / Pembroke Pines / Davie / Plantation / Sunrise",
+   "state": "FL",
+   "postal_codes": [
+    "33025",
+    "33027",
+    "33028",
+    "33029",
+    "33314",
+    "33324",
+    "33325",
+    "33326",
+    "33327",
+    "33328",
+    "33330",
+    "33331",
+    "33313",
+    "33319",
+    "33321",
+    "33322",
+    "33323",
+    "33351"
+   ],
+   "why": "Broward County suburbs west of Hollywood / Fort Lauderdale; FUTURE_STANDALONE fort-lauderdale-fl; refused."
+  },
+  {
+   "municipality": "Boca Raton",
+   "state": "FL",
+   "postal_codes": [
+    "33431",
+    "33432",
+    "33433",
+    "33434",
+    "33486",
+    "33487",
+    "33496",
+    "33498"
+   ],
+   "why": "Palm Beach County; FUTURE_STANDALONE west-palm-beach-fl; refused by name (order)."
+  },
+  {
+   "municipality": "West Palm Beach / Palm Beach",
+   "state": "FL",
+   "postal_codes": [
+    "33401",
+    "33405",
+    "33406",
+    "33407",
+    "33409",
+    "33411",
+    "33480"
+   ],
+   "why": "Palm Beach County; FUTURE_STANDALONE west-palm-beach-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Florida Keys (Key Largo / Islamorada / Marathon / Key West)",
+   "state": "FL",
+   "postal_codes": [
+    "33037",
+    "33036",
+    "33070",
+    "33050",
+    "33042",
+    "33043",
+    "33040",
+    "33041",
+    "33045"
+   ],
+   "why": "Monroe County; FUTURE_STANDALONE florida-keys-fl; refused by name (order) -- Key Largo and Islamorada are never absorbed as 'south Miami'."
+  }
+ ],
+ "vacation_rental_rule": "The census admits hotels, motels, inns, public resorts, qualifying condo-hotels with a distinct public hotel operation, qualifying extended-stay hotels and other public lodging establishments: bookable nightly rooms or suites sold to the public under one establishment name, with an official property page and an on-site hotel operation. It NEVER admits: individual condominium units (DBPR rank CNDO) or vacation dwellings (DBPR rank DWEL); individual vacation homes or villas; property-management / short-term-rental portfolios; Airbnb / Vrbo listings; ordinary apartments (DBPR NAPT); individual timeshare units; private resort or branded residences; and privately managed units inside hotel-condo towers. A mixed hotel / condo / residence tower is admitted ONLY as the exact hotel premises its public operator sells as a hotel, proved on the operator's own page and the licence's exact premises. Campgrounds, RV parks and hostels are NON_LODGING.",
+ "shared_campus_rule": "Never merged solely by display name, brand, owner, phone, shared address, campus, booking engine, shared amenities or shared entrance. Exact premises identity (its own street address or its own brand property code on its own page) governs; a hotel and the residences above it are two things, and only the hotel is a census row.",
+ "config_written": "scripts/pettripfinder/discovery/config/miami_fl.json",
+ "market_document_written": "launch_packages/pettripfinder/markets/proposed/miami-fl.json",
+ "cells_total": 23,
+ "cells_admitting": 20,
+ "cells_observation_only": 3
+}
