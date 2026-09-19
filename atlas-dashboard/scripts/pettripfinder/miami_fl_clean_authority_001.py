@@ -157,7 +157,19 @@ def negation_check(quote, claimed_pets_allowed):
     return claimed_pets_allowed, None
 
 
+#: A fact is read only from the part of the quote that NAMES pets. A page's own amenity or resort fee sits in the
+#: same captured text ("a $35 nightly amenity fee ... We welcome up to 2 dogs"), and taking the first dollar
+#: amount in the quote published a pet fee the quote contradicts (FAST rule C caught it on Cardozo South Beach).
+_PET_WORD = re.compile(r"\b(pets?|dogs?|cats?|canine|animals?)\b", re.I)
+
+
+def pet_text(quote):
+    parts = [p for p in re.split(r"(?<=[.!?])\s+|\s*\|\s*|\s{2,}", quote or "") if _PET_WORD.search(p)]
+    return " ".join(parts)
+
+
 def extract_facts(quote):
+    quote = pet_text(quote)
     fee = None
     m = _FEE_RX.search(quote or "")
     if m:
