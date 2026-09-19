@@ -4,28 +4,28 @@
  "market_id": "miami-fl",
  "as_of": "2026-09-19",
  "what_this_is": "Every admitted Greater Miami census identity in exactly one disposition state, with the order's Phase 20 disposition and, for every unresolved row, its router record.",
- "count": 639,
+ "count": 637,
  "counts_by_state": {
   "ACCESS_BLOCKED": 113,
-  "AWAITING_ATTENDED_CAPTURE": 116,
+  "AWAITING_ATTENDED_CAPTURE": 49,
   "AWAITING_OFFICIAL_URL": 126,
-  "AWAITING_POLICY_OBSERVATION": 161,
+  "AWAITING_POLICY_OBSERVATION": 164,
   "AWAITING_ROUTING_REPLACEMENT": 38,
-  "PUBLISHED_PET_FRIENDLY": 57,
-  "VERIFIED_NO_PETS": 28
+  "PUBLISHED_PET_FRIENDLY": 101,
+  "VERIFIED_NO_PETS": 46
  },
  "counts_by_disposition": {
   "ACCESS_BLOCKED": 113,
-  "BROWSER_CAPTURE_NEEDED": 116,
-  "CLEAN_PET_FRIENDLY": 57,
-  "CLEAN_VERIFIED_NO_PETS": 28,
-  "EVIDENCE_HOLD": 37,
+  "BROWSER_CAPTURE_NEEDED": 49,
+  "CLEAN_PET_FRIENDLY": 101,
+  "CLEAN_VERIFIED_NO_PETS": 46,
+  "EVIDENCE_HOLD": 38,
   "IDENTITY_MISMATCH_HOLD": 38,
   "ROUTING_HOLD": 126,
-  "SOURCE_SILENT": 124
+  "SOURCE_SILENT": 126
  },
- "resolved": 85,
- "unresolved": 554,
+ "resolved": 147,
+ "unresolved": 490,
  "items": [
   {
    "identity_key": "1 hotel south beach",
@@ -194,17 +194,17 @@
    "canonical_name": "AC Hotel by Marriott Miami Airport West/Doral",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miadr-ac-hotel-miami-airport-west-doral/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miadr-ac-hotel-miami-airport-west-doral/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed",
+    "document_sha256": "7860e8fd43634a02e12d3df3711e84e675e899adba75fc83223e5907184b22ac",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -212,17 +212,24 @@
    "canonical_name": "AC Hotel Miami Aventura",
    "corridor": "miami-fl__aventura",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miaan-ac-hotel-miami-aventura/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaan-ac-hotel-miami-aventura/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome $75 per stay Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "7d5e24ff1772d16048aeda1a2e68d7255545ae214001fba3249c02f718ad7133",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -230,17 +237,24 @@
    "canonical_name": "AC Hotel Miami Beach",
    "corridor": "miami-fl__mid-beach",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miaac-ac-hotel-miami-beach/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaac-ac-hotel-miami-beach/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome Pets allowed up to 50lbs. Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 1",
+    "document_sha256": "c4ad392f3257029a7916379a8030036b1792e24274860b1af312faa5af76b60c",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -248,17 +262,17 @@
    "canonical_name": "AC Hotel Miami Dadeland",
    "corridor": "miami-fl__kendall-south-dade",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miacd-ac-hotel-miami-dadeland/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miacd-ac-hotel-miami-dadeland/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed",
+    "document_sha256": "cab192abb3a533f750cc751c7590997cdb81e5a6b6cc4483916601dcd9c5d47b",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -266,17 +280,24 @@
    "canonical_name": "AC Hotel Miami Wynwood",
    "corridor": "miami-fl__midtown-wynwood-edgewater",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miaaw-ac-hotel-miami-wynwood/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaaw-ac-hotel-miami-wynwood/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome Pets welcome! A $50 per night fee is required, with max of $150 per stay Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "74c319af513ea3e808adadbc062a09652862034ef313e44a59b7cd2df9dd989f",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -374,17 +395,24 @@
    "canonical_name": "Aloft Miami Airport",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miala-aloft-miami-airport/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miala-aloft-miami-airport/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome $50/day Pet Fee Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "9ef75579a1bb90c71df22877a71f230f9d9df3aed9b77e516b52632d7e3f7653",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -410,17 +438,17 @@
    "canonical_name": "Aloft Miami Brickell",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Pets Welcome No pet fee. $250 charge may apply for damage or additional cleaning Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2'), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/miaba-aloft-miami-brickell/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Pets Welcome No pet fee. $250 charge may apply for damage or additional cleaning Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2'), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
    }
   },
   {
@@ -428,17 +456,24 @@
    "canonical_name": "Aloft Miami Dadeland",
    "corridor": "miami-fl__kendall-south-dade",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miamd-aloft-miami-dadeland/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miamd-aloft-miami-dadeland/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome Pet waiver signed at check-in, 40 lbs max, USD 75 non-refundable fee per night . Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "c47acbe870206f3619922c8a8e3ff9b067b51d38e14c8f813a4a321d6832cbe6",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -446,17 +481,24 @@
    "canonical_name": "Aloft Miami Doral",
    "corridor": "miami-fl__doral",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miaal-aloft-miami-doral/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaal-aloft-miami-doral/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome $50.00 pet fee per day (max $150 per stay. Only dogs) Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 1",
+    "document_sha256": "1ce1cbd9f1a6e961beb946472a858d0bab4f94e9405ab51d55e2c133795a5537",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -518,17 +560,24 @@
    "canonical_name": "Andaz Miami Beach",
    "corridor": "miami-fl__mid-beach",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/andaz/miaob-andaz-miami-beach",
+    "pets_allowed_claim": true,
+    "quote": "Pets Are Welcome Fees $100 Weight Limits Maximum number of pets is 2.",
+    "document_sha256": "4458e18826f0081211849a9a468e4d5cf636a48bd840699d2039ec5e042d1dad",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
    }
   },
   {
@@ -1032,17 +1081,17 @@
    "canonical_name": "Best Western Gateway To the Keys",
    "corridor": "miami-fl__homestead-florida-city",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.bestwestern.com/en_US/book/hotels-in-florida-city/best-western-gateway-to-the-keys/propertyCode.10254.html",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets are not accepted.",
+    "document_sha256": "7cda6fe44aa4f771171993953e8021b699cc5f12433e007a69b55b9b90d2f038",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_FULL_STREET"
    }
   },
   {
@@ -1068,17 +1117,17 @@
    "canonical_name": "Best Western Plus Kendall Hotel & Suites",
    "corridor": "miami-fl__kendall-south-dade",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.bestwestern.com/en_US/book/hotels-in-kendall/best-western-plus-kendall-hotel-suites/propertyCode.10354.html",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets are not accepted.",
+    "document_sha256": "7a3fefd3db0578777bcf34b0c22c3f279a57e70867207a253f153e39e08d7b61",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_FULL_STREET"
    }
   },
   {
@@ -2432,17 +2481,24 @@
    "canonical_name": "Courtyard by Marriott Miami Airport West/Doral",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 2000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaca-courtyard-by-marriott-miami-airport-west-doral/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "93eb3c5c544a5fdebacd0d8954da3c94ecbd662ed7373031d2d3e962306361e4",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
    }
   },
   {
@@ -2450,17 +2506,17 @@
    "canonical_name": "Courtyard by Marriott Miami Aventura Mall",
    "corridor": "miami-fl__aventura",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miaav-courtyard-miami-aventura-mall/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaav-courtyard-miami-aventura-mall/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed No, pets are not allowed at Courtyard by Marriott Miami Aventura Mall.",
+    "document_sha256": "9835a0e4b02ebf891a63c59ff0a16eca1ebdc13c7f2957978a97458359ccce78",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -2468,17 +2524,17 @@
    "canonical_name": "Courtyard by Marriott Miami Coconut Grove",
    "corridor": "miami-fl__coconut-grove",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miagv-courtyard-miami-coconut-grove/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miagv-courtyard-miami-coconut-grove/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed No, pets are not allowed at Courtyard by Marriott Miami Coconut Grove.",
+    "document_sha256": "6d754ec73e5141e6e9c1df270be632c8ed87b337b8136e94a0bfee9b35f877c2",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -2486,17 +2542,17 @@
    "canonical_name": "Courtyard by Marriott Miami Coral Gables",
    "corridor": "miami-fl__coral-gables",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miagb-courtyard-miami-coral-gables/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miagb-courtyard-miami-coral-gables/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed No, pets are not allowed at Courtyard by Marriott Miami Coral Gables.",
+    "document_sha256": "b12121d007ebbede35b77d114c95f8002179d03c588b58934b1a37475333605d",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -2540,17 +2596,17 @@
    "canonical_name": "Courtyard by Marriott South Homestead",
    "corridor": "miami-fl__homestead-florida-city",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miahs-courtyard-miami-homestead/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed No, pets are not allowed at Courtyard by Marriott Miami Homestead.",
+    "document_sha256": "0be1d5bb60e12ab485174ea6177dfa8cee3b514f783000302986c68d2839624c",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "FULL_STREET_AND_POSTAL"
    }
   },
   {
@@ -2892,17 +2948,24 @@
    "canonical_name": "Double Tree by Hilton Miami North I-95",
    "corridor": "miami-fl__midtown-wynwood-edgewater",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miantdt-doubletree-miami-north-i-95/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miantdt-doubletree-miami-north-i-95/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee",
+    "document_sha256": "27337cfc15f586e6267f4089409e8bb235166c005179decb26acf0ba496a1617",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -2910,53 +2973,42 @@
    "canonical_name": "DoubleTree by Hilton Grand Hotel Biscayne Bay Miami",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miabsdt-doubletree-grand-hotel-biscayne-bay/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
-   }
-  },
-  {
-   "identity_key": "doubletree by hilton hotel miami airport and convention center",
-   "canonical_name": "DoubleTree by Hilton Hotel Miami Airport & Convention Center",
-   "corridor": "miami-fl__airport-west-blue-lagoon",
-   "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miamadt-doubletree-miami-airport-and-convention-center/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miabsdt-doubletree-grand-hotel-biscayne-bay/",
+    "pets_allowed_claim": false,
+    "quote": "Pets not allowed",
+    "document_sha256": "a562f5ba375ecbb2e1fe9f6555265787db4cb20cb5cd934edd7ce5b34a705480",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
    "identity_key": "doubletree by hilton miami airport and convention center",
    "canonical_name": "DoubleTree by Hilton Miami Airport & Convention Center",
    "corridor": "miami-fl__airport-west-blue-lagoon",
-   "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "brand": "HILTON",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miamadt-doubletree-miami-airport-and-convention-center/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes. $50.00 Non-refundable Fee 50 lbs",
+    "document_sha256": "4272cbddb63c0eb6c73ce04ccb4daa2e710a056f11d194a7f072f64bd3bfe5ef",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -2964,17 +3016,24 @@
    "canonical_name": "Doubletree by Hilton Miami Doral",
    "corridor": "miami-fl__doral",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miadrdt-doubletree-miami-doral/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miadrdt-doubletree-miami-doral/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "fac65e98c9f9774cefdc60295edd5f761dc2f0f465e45d4630104df69d221adf",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -2982,17 +3041,17 @@
    "canonical_name": "DoubleTree by Hilton Ocean Point Resort & Spa",
    "corridor": "miami-fl__sunny-isles-beach",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miaopdt-doubletree-resort-and-spa-ocean-point-north-miami-beach/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miaopdt-doubletree-resort-and-spa-ocean-point-north-miami-beach/",
+    "pets_allowed_claim": false,
+    "quote": "Pets not allowed",
+    "document_sha256": "b6122d363495d7d876a2c7a4b73a90839cff4152982276e12a4bcf0678cc2dbf",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -3222,17 +3281,24 @@
    "canonical_name": "Embassy Suites by Hilton Miami International Airport",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miaspes-embassy-suites-miami-international-airport/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miaspes-embassy-suites-miami-international-airport/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+    "document_sha256": "b4c7fd920fabdaee5aae56852a7d36f1763a4a8988978469ab3ce153aec2d504",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4127,17 +4193,17 @@
    "canonical_name": "Gale South Beach, Curio Collection by Hilton",
    "corridor": "miami-fl__south-beach",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miagsqq-gale-south-beach/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miagsqq-gale-south-beach/",
+    "pets_allowed_claim": false,
+    "quote": "Pets Pets not allowed",
+    "document_sha256": "2b32ee5d6b1ac32e53d8c6a7d437d7903c2863facadd5e5b9a9a5ff22c03de34",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4259,17 +4325,17 @@
    "canonical_name": "Grand Hyatt Miami Beach",
    "corridor": "miami-fl__south-beach",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "SOURCE_SILENT",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)",
+   "next_action": "the brand's own page served and states no pet policy -- only an amenity chip, which is never a policy (Phase 16) (https://www.hyatt.com/grand-hyatt/en-US/miagh-grand-hyatt-miami-beach)",
    "router_record": {
     "brand_family": "INDEPENDENT",
     "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)"
+    "disposition_basis": "SOURCE_SILENT",
+    "hold_reason": "the brand's own page served and states no pet policy -- only an amenity chip, which is never a policy (Phase 16) (https://www.hyatt.com/grand-hyatt/en-US/miagh-grand-hyatt-miami-beach)"
    }
   },
   {
@@ -4312,17 +4378,17 @@
    "canonical_name": "Hampton Inn & Suites by Hilton Miami Airport South Blue Lagoon",
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miahshx-hampton-suites-miami-airport-south-blue-lagoon/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miahshx-hampton-suites-miami-airport-south-blue-lagoon/",
+    "pets_allowed_claim": false,
+    "quote": "Pets not allowed",
+    "document_sha256": "da6446295b42be9a5fe348e87187bfd49baab810e6183e2cb5faa37ad5b82ec2",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4330,35 +4396,24 @@
    "canonical_name": "Hampton Inn and Suites by Hilton Miami Kendall",
    "corridor": "miami-fl__kendall-south-dade",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miakehx-hampton-suites-miami-kendall/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
-   }
-  },
-  {
-   "identity_key": "hampton inn and suites homestead miami south",
-   "canonical_name": "Hampton Inn & Suites Homestead Miami South",
-   "corridor": "miami-fl__homestead-florida-city",
-   "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/hstflhx-hampton-suites-homestead-miami-south/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miakehx-hampton-suites-miami-kendall/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "658d801224c7d3801a177a4db017999186e148fe2187b55d5803022149d49d8a",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4366,17 +4421,17 @@
    "canonical_name": "Hampton Inn & Suites Miami/Brickell-Downtown",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miabvhx-hampton-suites-miami-brickell-downtown/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miabvhx-hampton-suites-miami-brickell-downtown/",
+    "pets_allowed_claim": false,
+    "quote": "Pets not allowed",
+    "document_sha256": "7e88becd46d6854279b33c002136b1db1df3980321d97770540d8f17d8a806cf",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4384,35 +4439,49 @@
    "canonical_name": "Hampton Inn & Suites Miami-Doral/Dolphin Mall",
    "corridor": "miami-fl__doral",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miaflhx-hampton-suites-miami-doral-dolphin-mall/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miaflhx-hampton-suites-miami-doral-dolphin-mall/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "20a903c490621d7c4e9409c9076eac530f2689d34e71f69fbaf9911efd1be664",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
    "identity_key": "hampton inn and suites miami south homestead",
    "canonical_name": "Hampton Inn & Suites Miami-South/homestead",
    "corridor": "miami-fl__homestead-florida-city",
-   "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "brand": "HILTON",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/hstflhx-hampton-suites-homestead-miami-south/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Yes. $75.00 Non-refundable Fee 75 lbs",
+    "document_sha256": "957ac5c57666a8fda207566263d1f61f08115c18ef8b49bb89cc2312e9e2446b",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4420,17 +4489,24 @@
    "canonical_name": "Hampton Inn & Suites Wynwood / Design District",
    "corridor": "miami-fl__midtown-wynwood-edgewater",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miamihx-hampton-suites-miami-wynwood-design-district/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miamihx-hampton-suites-miami-wynwood-design-district/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Other pet information 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+    "document_sha256": "714121a72adcac33a50121bec7a5a33d175c24ab2c5bb7ca8e3d71fc2c215450",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4438,17 +4514,24 @@
    "canonical_name": "Hampton Inn Miami Airport East",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miaaehx-hampton-miami-airport-east/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miaaehx-hampton-miami-airport-east/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 50 lbs",
+    "document_sha256": "14623cc638b0c58cc33a9c49187582bf3e72fd4e06768117d27f079a78eada4b",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4456,17 +4539,24 @@
    "canonical_name": "Hampton Inn Miami - Airport West",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miawehx-hampton-miami-airport-west/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miawehx-hampton-miami-airport-west/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 50 lbs",
+    "document_sha256": "74edb6e4c1c44894785c1d46932e18cd0115f09e798139ac347612fb2fd00ab7",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4474,17 +4564,17 @@
    "canonical_name": "Hampton Inn Miami-Coconut Grove/Coral Gables",
    "corridor": "miami-fl__coconut-grove",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miacghx-hampton-miami-coconut-grove-coral-gables/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miacghx-hampton-miami-coconut-grove-coral-gables/",
+    "pets_allowed_claim": false,
+    "quote": "Pets not allowed",
+    "document_sha256": "52d2bc696f97f3414d666b90f989316528c3287fb6350113c11e7699e50a53a5",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4492,17 +4582,24 @@
    "canonical_name": "Hampton Inn Miami Dadeland",
    "corridor": "miami-fl__coral-gables",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miadlhx-hampton-miami-dadeland/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miadlhx-hampton-miami-dadeland/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee",
+    "document_sha256": "4683adfb7a457496111bffa797f77eb6dd77214f9a62e1886d5629253716f145",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4636,17 +4733,17 @@
    "canonical_name": "Hilton Aventura Miami",
    "corridor": "miami-fl__aventura",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/fllavhh-hilton-miami-aventura/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/fllavhh-hilton-miami-aventura/",
+    "pets_allowed_claim": false,
+    "quote": "Pets not allowed",
+    "document_sha256": "c31f1f4d20cd96d4a766697b26d6e43ab9f31d60ed7b805551ac2648dcac05a3",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4654,17 +4751,24 @@
    "canonical_name": "Hilton Bentley Miami/South Beach",
    "corridor": "miami-fl__south-beach",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miabmhf-hilton-bentley-miami-south-beach/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miabmhf-hilton-bentley-miami-south-beach/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit $150.00 Non-refundable Fee Max weight 50 lbs",
+    "document_sha256": "a99417b123a21da706f85fd72b73c5bcf1b52e619e128810862c09f194b6f90d",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4672,17 +4776,17 @@
    "canonical_name": "Hilton Cabana Miami Beach Resort",
    "corridor": "miami-fl__mid-beach",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "SOURCE_SILENT",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
+   "next_action": "the property's own page served and carries no pet policy section at all (https://www.hilton.com/en/hotels/miambhf-hilton-cabana-miami-beach-resort/)",
    "router_record": {
     "brand_family": "HILTON",
     "route": "https://www.hilton.com/en/hotels/miambhf-hilton-cabana-miami-beach-resort/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+    "disposition_basis": "SOURCE_SILENT",
+    "hold_reason": "the property's own page served and carries no pet policy section at all (https://www.hilton.com/en/hotels/miambhf-hilton-cabana-miami-beach-resort/)"
    }
   },
   {
@@ -4690,17 +4794,24 @@
    "canonical_name": "Hilton Garden Inn Homestead",
    "corridor": "miami-fl__homestead-florida-city",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/hstgigi-garden-inn-homestead/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/hstgigi-garden-inn-homestead/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 40 lbs",
+    "document_sha256": "8aeefe7c899a1e65ca1a5805389499b726daa4bc2830f433a4b7f332f55b944f",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4708,17 +4819,24 @@
    "canonical_name": "Hilton Garden Inn Miami Airport West",
    "corridor": "miami-fl__doral",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miaaigi-hilton-garden-inn-miami-airport-west/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miaaigi-hilton-garden-inn-miami-airport-west/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "67815a2fe8f4d8a29df615b3d8872bd146c4782a8ba084db45406d55076c0091",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4726,17 +4844,24 @@
    "canonical_name": "Hilton Garden Inn Miami Brickell South",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miakbgi-hilton-garden-inn-miami-brickell-south/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miakbgi-hilton-garden-inn-miami-brickell-south/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Yes. $75.00 Non-refundable Fee $75 per pet(1-4n), $150(5+n) 2 pets Max, dog/cat only",
+    "document_sha256": "ec344e8b45d43b4c9a33a82114f00b4efb907196d3e6ddfa204b25450b379796",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4744,17 +4869,24 @@
    "canonical_name": "Hilton Garden Inn Miami Dolphin Mall",
    "corridor": "miami-fl__doral",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miadogi-hilton-garden-inn-miami-dolphin-mall/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miadogi-hilton-garden-inn-miami-dolphin-mall/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "58527f22cdd1723cf64dd1f31c984e87ed0a64c9c7fc708abdda9662f9d5a486",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4762,17 +4894,24 @@
    "canonical_name": "Hilton Garden Inn Miami South Beach",
    "corridor": "miami-fl__mid-beach",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miasbgi-hilton-garden-inn-miami-south-beach/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 9500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miasbgi-hilton-garden-inn-miami-south-beach/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit $95.00 Non-refundable Fee Other pet information $95(1-4n),$145(5+n) 2 pets Max,dog/cat only",
+    "document_sha256": "5ea884f48eb3b8dff7518073a6f40b7b7000fdb4826419d9c92e02bbee3e2401",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4780,17 +4919,17 @@
    "canonical_name": "Hilton Grand Vacations Club McAlpin Ocean Plaza Miami",
    "corridor": "miami-fl__south-beach",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miamsgv-hilton-grand-vacations-club-mcalpin-ocean-plaza-miami/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miamsgv-hilton-grand-vacations-club-mcalpin-ocean-plaza-miami/",
+    "pets_allowed_claim": false,
+    "quote": "Pets not allowed",
+    "document_sha256": "27ddb4c8d9ee05b2a4996a1c5a01993e0bdd4ca02be186de1c848fa7434cb002",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4798,17 +4937,24 @@
    "canonical_name": "Hilton Miami Airport Blue Lagoon",
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miaahhh-hilton-miami-airport-blue-lagoon/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miaahhh-hilton-miami-airport-blue-lagoon/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "cb84e267580cfc463eedb188e0dd7b09577c427f38d06863c04ae962977c4de7",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4816,17 +4962,17 @@
    "canonical_name": "Hilton Miami Beach Hotel",
    "corridor": "miami-fl__south-beach",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miacchh-hilton-miami-beach/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miacchh-hilton-miami-beach/",
+    "pets_allowed_claim": false,
+    "quote": "Pets Pets not allowed",
+    "document_sha256": "df2c8b38142240921fe5c1dee716dba2747a25ac5018422738a4d026bd0812aa",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4834,17 +4980,24 @@
    "canonical_name": "Hilton Miami Dadeland",
    "corridor": "miami-fl__kendall-south-dade",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miadahh-hilton-miami-dadeland/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miadahh-hilton-miami-dadeland/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "c4a08a6074949b50c806104d24b37b3ee7127dbf3c6a8fd9ec708c1f48e11103",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4852,17 +5005,24 @@
    "canonical_name": "Hilton Miami Downtown",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miadthf-hilton-miami-downtown/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miadthf-hilton-miami-downtown/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "e393bc8804c04b600419196b99451040c42f5160440dd9e30da1615867ff7bf8",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -4870,17 +5030,17 @@
    "canonical_name": "Hilton Vacation Club Crescent on South Beach Miami",
    "corridor": "miami-fl__south-beach",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miacrgv-hilton-vacation-club-crescent-on-south-beach-miami/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miacrgv-hilton-vacation-club-crescent-on-south-beach-miami/",
+    "pets_allowed_claim": false,
+    "quote": "Pets not allowed",
+    "document_sha256": "d4ee19a2ae2ab04c9b853850f4d558efb16ae76cc8e462cc992bcb66bde6eaa0",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -5145,17 +5305,24 @@
    "canonical_name": "Home2 Suites by Hilton",
    "corridor": "miami-fl__homestead-florida-city",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miafaht-home2-suites-florida-city-fl/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miafaht-home2-suites-florida-city-fl/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information Pets allowed, $75.00 non-refundable fee, $75(1-4n), $125(5+n). 2 pets Max.",
+    "document_sha256": "43474f7a36bdf41ab97a0128a426b21a0420598a34750f475f8f6edb248670a3",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -5163,17 +5330,24 @@
    "canonical_name": "Home2 Suites by Hilton Miami Doral West Airport",
    "corridor": "miami-fl__doral",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miawaht-home2-suites-miami-doral-west-airport/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miawaht-home2-suites-miami-doral-west-airport/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "46bce47a74b757be5ee667514564f5eaff8f5d05241a093d3bea644556f46a3f",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -5181,17 +5355,24 @@
    "canonical_name": "Homewood Suites by Hilton - Blue Lagoon Drive",
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miablhw-homewood-suites-miami-airport-blue-lagoon/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miablhw-homewood-suites-miami-airport-blue-lagoon/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "7874e274892f5b9c839fe9162e704ca693eaa18c89b2939c9e6b231963cf52a6",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -5199,17 +5380,24 @@
    "canonical_name": "Homewood Suites by Hilton Miami - Airport West",
    "corridor": "miami-fl__doral",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miawthw-homewood-suites-miami-airport-west/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miawthw-homewood-suites-miami-airport-west/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "1da19b9b6b039926ac59dc1c6c3c785bba28bac9f557db66f9f570647c91a7a1",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -5217,17 +5405,24 @@
    "canonical_name": "Homewood Suites by Hilton Miami Downtown/Brickell",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miadbhw-homewood-suites-miami-downtown-brickell/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miadbhw-homewood-suites-miami-downtown-brickell/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+    "document_sha256": "5f5c12a08c82ef247a4fae0862cd4431ac0839da8836d8e01ba7a0ef94c20086",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -5325,17 +5520,24 @@
    "canonical_name": "Hotel Continental Miami Beach, Tapestry by Hilton",
    "corridor": "miami-fl__mid-beach",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miaupup-hotel-continental-miami-beach/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 20.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miaupup-hotel-continental-miami-beach/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $150.00 Non-refundable Fee Max weight 20 lbs",
+    "document_sha256": "846b487a7abde47d5c0f430716c7512398bdb0299ca2945e8efe68255935b08a",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -5631,17 +5833,24 @@
    "canonical_name": "Hyatt House - Miami Airport",
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/en-US/hotel/florida/hyatt-house-miami-airport/miaxm",
+    "pets_allowed_claim": true,
+    "quote": "We Are Pet Friendly Pet Fees $100 Weight Limits Maximum number of pets is 2.",
+    "document_sha256": "719d3f05e2b14e4486e8edb1c3f78813501d273455371488dcd4c4cc177dd253",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
    }
   },
   {
@@ -5649,17 +5858,24 @@
    "canonical_name": "Hyatt Place Miami Airport-East",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/en-US/hotel/florida/hyatt-place-miami-airport-east/miaze",
+    "pets_allowed_claim": true,
+    "quote": "Pets Are Welcome $100 Maximum number of pets is 2.",
+    "document_sha256": "6b73993a734861364908addb2383367f69869f39658fbb62aa7f96340f7234fe",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
    }
   },
   {
@@ -5667,17 +5883,24 @@
    "canonical_name": "Hyatt Place Miami Airport-West/doral",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/en-US/hotel/florida/hyatt-place-miami-airport-west-doral/miazd",
+    "pets_allowed_claim": true,
+    "quote": "Pets Are Welcome Pet Fees $100 $200 Maximum number of pets is 2.",
+    "document_sha256": "6d46c41255aa339491a3e6b11f2e2f649e2c9aebb8748d1911ca66249e8f19b2",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
    }
   },
   {
@@ -5685,17 +5908,24 @@
    "canonical_name": "Hyatt Regency Coral Gables",
    "corridor": "miami-fl__coral-gables",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/en-US/hotel/florida/hyatt-regency-coral-gables/coral",
+    "pets_allowed_claim": true,
+    "quote": "We are Dog Friendly The whole family is welcome at our pet-friendly hotel in Coral Gables. Pet Fees $100 Maximum number of pets is 2.",
+    "document_sha256": "84500245af8d6d846d0f0edf7ac4304399062b020ee76e07fd24c49b06acdefa",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
    }
   },
   {
@@ -5703,17 +5933,24 @@
    "canonical_name": "Hyatt Regency Miami",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/en-US/hotel/florida/hyatt-regency-miami/miarm",
+    "pets_allowed_claim": true,
+    "quote": "We Are Pet Friendly Pet Fees $150 Maximum number of pets is 2.",
+    "document_sha256": "b35a4ebdeb1b88115431ae49725d032af102a34e4daf8f10ef3b7f66bbf1d99b",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
    }
   },
   {
@@ -9095,17 +9332,24 @@
    "canonical_name": "Serena Hotel Aventura Tapestry Collection By Hilton",
    "corridor": "miami-fl__aventura",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/fllitup-serena-hotel-aventura-miami/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 30.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/fllitup-serena-hotel-aventura-miami/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit $150.00 Non-refundable Fee Max weight 30 lbs",
+    "document_sha256": "e19c8917dd506c2e432fb30823c149576338203e1ba8121c96f1359267c0f5a4",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -9541,17 +9785,24 @@
    "canonical_name": "Spark by Hilton Doral",
    "corridor": "miami-fl__doral",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miawspe-spark-miami-doral/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 70.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miawspe-spark-miami-doral/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 70 lbs",
+    "document_sha256": "0f44420582b0ded1a41c4483d966c3320bb9546ee66043f6a06866d2ec3f6000",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -10941,17 +11192,24 @@
    "canonical_name": "Thesis Hotel Miami Coral Gables, Curio Collection by Hilton",
    "corridor": "miami-fl__coral-gables",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/mialtqq-thesis-hotel-miami-coral-gables/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/mialtqq-thesis-hotel-miami-coral-gables/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit Yes. $150.00 Non-refundable Fee Max weight 50 lbs",
+    "document_sha256": "9058c0db8ca2e406abc6caea981b9e04e505c0e935028946b66faa8e2c3d0703",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -11180,17 +11438,24 @@
    "canonical_name": "Tru by Hilton Florida City",
    "corridor": "miami-fl__homestead-florida-city",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miactru-tru-florida-city/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miactru-tru-florida-city/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Yes. $75.00 Non-refundable Fee 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+    "document_sha256": "f2f21d485731094bba8276a1e6d1eacec23b0c21500531588191b9173bc5be30",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -11198,17 +11463,24 @@
    "canonical_name": "Tru by Hilton Miami West Brickell",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "HILTON",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)",
-   "router_record": {
-    "brand_family": "HILTON",
-    "route": "https://www.hilton.com/en/hotels/miaruru-tru-miami-west-brickell/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/miaruru-tru-miami-west-brickell/",
+    "pets_allowed_claim": true,
+    "quote": "Pets allowed Yes Deposit $75.00 Non-refundable Fee Other pet information $75(1-4n) $125(5+n) 2 Pets Max (dog/cat)",
+    "document_sha256": "c04fe85e231dfa9bb2f592c13c921aae38f922429069ec0700bb83b33a426ec3",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
