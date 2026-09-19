@@ -186,6 +186,17 @@ def _ordinal(n):
     return "%d%s" % (n, suffix)
 
 
+#: An ampersand with no spaces around it ("B&B Hotel"). The two shared normalisers disagree on it --
+#: ``site_data.normalize_name`` folds it away ("bandb"), ``ptf_identity_key`` expands it ("b and b") -- and the
+#: shared registration CLI fails closed when a seed row's name and the census key disagree. The census therefore
+#: states the name the way both read it the same, spelled out. Nothing else about the name changes.
+_TIGHT_AMPERSAND = re.compile(r"(?<=[A-Za-z0-9])&(?=[A-Za-z0-9])")
+
+
+def canonical_name(name):
+    return _TIGHT_AMPERSAND.sub(" and ", name or "")
+
+
 def canonical_street(street):
     """MIAMI: the census states a Miami-Dade grid street the way a property's own page writes it ("2601 NW 42nd
     Ave"), whether the licence abbreviated it ("2601 Nw 42 Ave") or the map spelled it out ("2601 Northwest 42nd
@@ -1788,6 +1799,7 @@ def build():
                           if (o.get("name") or "").strip()}
                          | {o["read_for_identity_key"] for o in node.observations
                             if o.get("read_for_identity_key")})
+        node.name = canonical_name(node.name)
         _key = ptf_identity_key(node.name)
         _corridor = explicit.get(_key) or zips.get(z, "")
         _basis = ("explicit" if explicit.get(_key)
