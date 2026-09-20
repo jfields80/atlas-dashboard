@@ -203,7 +203,8 @@ def extract_facts(quote):
     fee = pet_fee_cents(quote)
     weight = None
     m = _WEIGHT_RX.search(quote or "")
-    if m:
+    if m and float(m.group(1)) > 0:
+        # "Maximum Pet Weight: 0.0lbs" on a Marriott page means NO stated limit, never a zero-pound pet.
         weight = float(m.group(1))
     count = None
     m = _COUNT_RX.search(quote or "")

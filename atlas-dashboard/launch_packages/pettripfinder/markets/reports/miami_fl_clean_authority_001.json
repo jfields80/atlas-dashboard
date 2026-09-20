@@ -199,18 +199,18 @@
  ],
  "counts": {
   "ACCESS_BLOCKED": 120,
-  "BROWSER_CAPTURE_NEEDED": 35,
-  "CLEAN_PET_FRIENDLY": 103,
-  "CLEAN_VERIFIED_NO_PETS": 51,
+  "BROWSER_CAPTURE_NEEDED": 33,
+  "CLEAN_PET_FRIENDLY": 104,
+  "CLEAN_VERIFIED_NO_PETS": 52,
   "EVIDENCE_HOLD": 38,
   "IDENTITY_MISMATCH_HOLD": 38,
   "ROUTING_HOLD": 126,
   "SOURCE_SILENT": 126
  },
- "valid_pet_friendly": 103,
- "valid_verified_no_pets": 51,
- "resolved": 154,
- "unresolved": 483,
+ "valid_pet_friendly": 104,
+ "valid_verified_no_pets": 52,
+ "resolved": 156,
+ "unresolved": 481,
  "rows": [
   {
    "identity_key": "1 hotel south beach",
@@ -4826,8 +4826,16 @@
    "corridor": "miami-fl__downtown-brickell",
    "street": "255 Biscayne Blvd Way",
    "postal_code": "33131",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miamj-jw-marriott-marquis-miami/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed No pets allowed-service animals only",
+    "document_sha256": "97e18486d90eeb0c8c2adf6d7a3b0a21bfe39b8dfa77830b4e33fb37c817f297",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "jw marriott miami turnberry resort and spa",
@@ -5702,8 +5710,23 @@
    "corridor": "miami-fl__midtown-wynwood-edgewater",
    "street": "255 NW 25th St",
    "postal_code": "33127",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaon-moxy-miami-wynwood/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome Pets are welcome at the Moxy! Non-Refundable Pet Fee Per Night: ... Maximum Pet Weight: 0.0lbs Maximum Number of Pets in Room: 1",
+    "document_sha256": "3155b25d7ef3e25a0caf6709058f3042850b084e1f8f047f112bae0b7ddda7fe",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "mr c miami coconut grove",
@@ -7975,7 +7998,7 @@
     "pet_fee_cents": 25000,
     "fee_currency": "USD",
     "fee_refundable": false,
-    "max_pet_weight_lbs": 0.0,
+    "max_pet_weight_lbs": null,
     "max_pet_count": null
    }
   },
@@ -7999,7 +8022,7 @@
     "pet_fee_cents": 25000,
     "fee_currency": "USD",
     "fee_refundable": false,
-    "max_pet_weight_lbs": 0.0,
+    "max_pet_weight_lbs": null,
     "max_pet_count": null
    }
   },
