@@ -37,7 +37,7 @@ from scripts.pettripfinder import miami_fl_geography_001 as GEO  # noqa: E402
 WORK_ORDER = "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "miami-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "miami-fl.json")
 ROUTING = os.path.join(REPORTS, "miami_fl_routing_001.json")
 RECON = os.path.join(REPORTS, "miami_fl_competitor_reconciliation_001.json")
 OUT = os.path.join(REPORTS, "miami_fl_places_route_discovery_001.json")

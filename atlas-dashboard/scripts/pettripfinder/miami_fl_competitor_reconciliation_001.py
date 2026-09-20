@@ -36,7 +36,7 @@ from scripts.pettripfinder import miami_fl_census_reconciliation_001 as CR  # no
 WORK_ORDER = "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "miami-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "miami-fl.json")
 COMPETITOR = os.path.join(REPORTS, "miami_fl_competitor_challenge_001.json")
 CLEAN = os.path.join(REPORTS, "miami_fl_clean_authority_001.json")
 OUT = os.path.join(REPORTS, "miami_fl_competitor_reconciliation_001.json")

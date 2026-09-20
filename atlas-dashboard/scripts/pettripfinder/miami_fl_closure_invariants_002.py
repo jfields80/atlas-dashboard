@@ -29,7 +29,7 @@ WORK_ORDER = "PTF-MIAMI-FL-BROWSER-CLOSURE-002"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 RAW = os.path.join(PKG, "markets", "staging", "miami-fl", "raw_captures")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "miami-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "miami-fl.json")
 OUT = os.path.join(REPORTS, "miami_fl_closure_invariants_002.json")
 PUBLISHED = ("CLEAN_PET_FRIENDLY", "CLEAN_VERIFIED_NO_PETS")
 

@@ -33,8 +33,10 @@ WORK_ORDER = "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001"
 MARKET_ID = "miami-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-OUT = os.path.join(PKG, "markets", "staging", "miami-fl", "launch_package", "miami_fl_final_partition_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "miami-fl.json")
+#: REGISTERED by PTF-MIAMI-FL-REGISTRATION-AND-STAGING-004: the package root, where the release contract's
+#: final_partition block references it by path and content digest (the staged copy is history).
+OUT = os.path.join(PKG, "miami_fl_final_partition_001.json")
+CENSUS = os.path.join(PKG, "identity_census", "miami-fl.json")
 CLEAN = os.path.join(REPORTS, "miami_fl_clean_authority_001.json")
 AS_OF = "2026-09-19"
 

@@ -34,14 +34,16 @@ reads as a vacation home community, villa / condo rental, resort residence or va
 no brand's public hotel inventory and no hotel page read reached -- is NON_LODGING with a VACATION_RENTAL /
 TIMESHARE / RESORT_RESIDENCE reason (miami_fl_nonhotel_rulings_001).
 
-SHADOW UNTIL REGISTERED
------------------------
-Written to identity_census_proposed/, never identity_census/.
+REGISTERED
+----------
+Written to identity_census_proposed/ while the market was shadow; REGISTERED by
+PTF-MIAMI-FL-REGISTRATION-AND-STAGING-004, so it is written to identity_census/,
+as every registered market's census is.
 
 Nothing here fetches. Nothing here carries a pet policy.
 
 Outputs:
-  launch_packages/pettripfinder/identity_census_proposed/miami-fl.json
+  launch_packages/pettripfinder/identity_census/miami-fl.json
   launch_packages/pettripfinder/markets/reports/miami_fl_census_reconciliation_001.json
   launch_packages/pettripfinder/markets/reports/miami_fl_competitor_gap_matrix_001.json
 """
@@ -79,7 +81,7 @@ PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 #: SHADOW UNTIL REGISTERED: the census is written to the market zone's proposed census path. The later
 #: registration order copies it into identity_census/.
-CENSUS_DIR = os.path.join(PKG, "identity_census_proposed")
+CENSUS_DIR = os.path.join(PKG, "identity_census")
 CONTRACT_PATH = os.path.join(PKG, "markets", "proposed", "miami-fl.json")
 
 OSM_LANE = os.path.join(REPORTS, "miami_fl_osm_lane_001.json")
@@ -1881,7 +1883,7 @@ def build():
         ("work_order", WORK_ORDER), ("captured_at", "2026-09-19"),
         ("note",
          "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 Miami census, built from zero under the current hardened "
-         "factory, SHADOW UNTIL REGISTERED (identity_census_proposed/). Every row carries the observations that "
+         "factory, REGISTERED by PTF-MIAMI-FL-REGISTRATION-AND-STAGING-004 (identity_census/). Every row carries the observations that "
          "produced it; nothing here carries a pet policy."),
         ("source_authorities", SOURCE_AUTHORITIES),
         ("count", len(confirmed)),

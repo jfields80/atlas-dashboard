@@ -93,7 +93,7 @@ def _jsonl(path):
 
 
 def main():
-    census = json.load(open(os.path.join(PKG, "identity_census_proposed", "miami-fl.json"), encoding="utf-8"))
+    census = json.load(open(os.path.join(PKG, "identity_census", "miami-fl.json"), encoding="utf-8"))
     part = json.load(open(PARTITION, encoding="utf-8"))
     clean = L("miami_fl_clean_authority_001.json", {}) or {}
     fc = L("miami_fl_firecrawl_pass_001.json", {}) or {}

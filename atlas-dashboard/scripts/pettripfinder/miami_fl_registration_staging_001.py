@@ -46,10 +46,11 @@ MARKET_ID = "miami-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 CLEAN = os.path.join(REPORTS, "miami_fl_clean_authority_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "miami-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "miami-fl.json")
 STAGING = os.path.join(PKG, "markets", "staging", "miami-fl")
-PACKAGE_OUT = os.path.join(STAGING, "launch_package", "hotel_policy_facts_miami-fl.json")
-AUTHORITY_OUT = os.path.join(STAGING, "miami_fl_proposed_authority_001.json")
+#: REGISTERED by PTF-MIAMI-FL-REGISTRATION-AND-STAGING-004: the package root, as every registered market.
+PACKAGE_OUT = os.path.join(PKG, "hotel_policy_facts_miami-fl.json")
+AUTHORITY_OUT = os.path.join(PKG, "miami_fl_proposed_authority_001.json")
 OBSERVED_AT = "2026-09-19"
 CAPTURED_AT = "2026-09-19T21:00:00+00:00"
 
@@ -201,7 +202,7 @@ def build():
     package = OrderedDict([
         ("market", "Miami, Florida"), ("schema_version", PS.SCHEMA_VERSION), ("market_id", MARKET_ID),
         ("work_order", WORK_ORDER), ("as_of", OBSERVED_AT),
-        ("note", "Greater Miami's STAGED policy package (shadow until registered). Every record is one first-party "
+        ("note", "Greater Miami's REGISTERED policy package. Every record is one first-party "
                 "read of the property's own page, and every published fact is cited to the quote it rests on. "
                 "Refundability is absent, not false, when the source stated neither refundable nor non-refundable."),
         ("hotels", hotels),
@@ -210,12 +211,14 @@ def build():
 
     authority = OrderedDict([
         ("schema", "ptf-market-proposed-authority/1.0"),
-        ("what_this_is", "Greater Miami's authority as this order proposes it, STAGED and not registered. "
+        ("what_this_is", "Greater Miami's authority as the source-ready order proposed it, REGISTERED by "
+                        "PTF-MIAMI-FL-REGISTRATION-AND-STAGING-004. "
                         "Registration makes the market BUILDABLE; launch_participation.json decides whether it "
-                        "is BUILT into production, and this order leaves that undone. The founder gate in the "
+                        "is BUILT into production, and that stays at "
+                        "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH. The founder gate in the "
                         "modern lane is on the exact candidate digest, not on each row."),
         ("market_id", MARKET_ID), ("work_order", WORK_ORDER),
-        ("registered", False), ("staged_shadow_until_registered", True), ("published", False), ("deployed", False),
+        ("registered", True), ("published", False), ("deployed", False),
         ("built_from", OrderedDict([
             ("source_ledgers", [os.path.relpath(CLEAN, _DASH).replace("\\", "/")]),
             ("decision_ledger", "ptf-market-clean-authority/1.0"), ("decided_by", WORK_ORDER),
