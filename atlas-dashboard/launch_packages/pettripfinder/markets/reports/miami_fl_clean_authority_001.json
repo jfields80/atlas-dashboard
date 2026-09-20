@@ -12,18 +12,8 @@
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Are pets allowed in the hotel? While we love animals, pets are not allowed on the property.'"
   },
   {
-   "identity_key": "aloft miami brickell",
-   "name": "Aloft Miami Brickell",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: 'Pets Welcome No pet fee. $250 charge may apply for damage or additional cleaning Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2'"
-  },
-  {
    "identity_key": "balfour hotel",
    "name": "Balfour Hotel",
-   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
-  },
-  {
-   "identity_key": "bentley south beach",
-   "name": "Bentley South Beach",
    "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
   },
   {
@@ -90,11 +80,6 @@
    "identity_key": "holiday inn miami doral",
    "name": "Holiday Inn Miami-Doral",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: '49 tax included per night Parking fee: 7 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer, Truck Parking & transportation details Can I bring my pet to Holiday Inn Miami-Doral Area? No, pets are not allowed at Holiday Inn Miami-Doral Area.'"
-  },
-  {
-   "identity_key": "intercontinental miami",
-   "name": "InterContinental Miami",
-   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
   },
   {
    "identity_key": "kompose boutique hotel miami airport",
@@ -174,17 +159,12 @@
   {
    "identity_key": "the biltmore hotel miami coral gables",
    "name": "The Biltmore Hotel Miami - Coral Gables",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Do you allow pets? The Biltmore offers luxury accommodations with a pet-friendly attitude. 00 one time deep cleaning fee for your pet’s stay at the Biltmore Hotel. Pets are welcome as long as the pet is 35 pounds or less, fully-trained and properly restrained by the owner. As an exception to the “No Pets Policy,” this act of good faith allows pet owners to keep their pets in their guest room. Discretion must be used in transporting to and from the guest room and the pet must not be visible at an'"
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote FEE_ONLY: a fee, count or weight alone does not establish acceptance: 'Do you allow pets? The Biltmore offers luxury accommodations with a pet-friendly attitude. 00 one time deep cleaning fee for your pet’s stay at the Biltmore Hotel. Pets are welcome as long as the pet is 35 pounds or less, fully-trained and properly restrained by the owner. As an exception to the “No Pets Policy,” this act of good faith allows pet owners to keep their pets in their guest room. Discretion must be used in transporting to and from the guest room and the pet must not be visible at an'"
   },
   {
    "identity_key": "the carmela",
    "name": "The Carmela",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'Pets allowed'"
-  },
-  {
-   "identity_key": "the elser hotel and residences",
-   "name": "The Elser Hotel & Residences",
-   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
   },
   {
    "identity_key": "the vagabond hotel miami",
@@ -199,18 +179,18 @@
  ],
  "counts": {
   "ACCESS_BLOCKED": 119,
-  "BROWSER_CAPTURE_NEEDED": 26,
-  "CLEAN_PET_FRIENDLY": 111,
+  "BROWSER_CAPTURE_NEEDED": 24,
+  "CLEAN_PET_FRIENDLY": 118,
   "CLEAN_VERIFIED_NO_PETS": 53,
-  "EVIDENCE_HOLD": 38,
+  "EVIDENCE_HOLD": 34,
   "IDENTITY_MISMATCH_HOLD": 38,
   "ROUTING_HOLD": 126,
-  "SOURCE_SILENT": 126
+  "SOURCE_SILENT": 125
  },
- "valid_pet_friendly": 111,
+ "valid_pet_friendly": 118,
  "valid_verified_no_pets": 53,
- "resolved": 164,
- "unresolved": 473,
+ "resolved": 171,
+ "unresolved": 466,
  "rows": [
   {
    "identity_key": "1 hotel south beach",
@@ -546,14 +526,20 @@
    "evidence": {
     "lane": "PROPERTY_PAGE_ATTENDED",
     "source_url": "https://www.marriott.com/en-us/hotels/miaba-aloft-miami-brickell/overview/",
-    "pets_allowed_claim": false,
+    "pets_allowed_claim": true,
     "quote": "Pets Welcome No pet fee. $250 charge may apply for damage or additional cleaning Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
     "document_sha256": "515a79ee284193b5c17c29dd7866251c9d68b9de70d7ad013fe6a68fab6e7c58",
     "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
     "binding": "PROPERTY_CODE"
    },
-   "disposition": "EVIDENCE_HOLD",
-   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Pets Welcome No pet fee. $250 charge may apply for damage or additional cleaning Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2'), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 25000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "aloft miami dadeland",
@@ -965,8 +951,14 @@
     "document_sha256": "0c6f79f4e194d38bd7bb296d4431301af0ad04349c20ca3b3f7338500dd51411",
     "captured_via": "the independent property's own policy/FAQ page, plain client"
    },
-   "disposition": "EVIDENCE_HOLD",
-   "negation_conflict": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "best inn",
@@ -4543,8 +4535,23 @@
    "corridor": "miami-fl__downtown-brickell",
    "street": "1102 Brickell Bay Dr",
    "postal_code": "33131",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hyatt.com/en-US/hotel/florida/hyatt-centric-brickell-miami/miact",
+    "pets_allowed_claim": true,
+    "quote": "YOUR PET IS WELCOME, TOO Your dog deserves a Miami escape too! Hyatt Centric Brickell Miami offers dog-friendly stays with stylish accommodations and perks, just steps from scenic parks and waterfront walks-perfect for tail-wagging adventures in the heart of the city. PET FEES Up to six nights: $100 / STAY Seven to 30 nights: $100 / STAY+ $100 Cleaning fee Maximum number of pets is 2.",
+    "document_sha256": "08029c6992cc1eb0ead2ae864dffef65e98dd6c5875b6efc6e896e5bc2479101",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "hyatt centric south beach miami",
@@ -4553,8 +4560,23 @@
    "corridor": "miami-fl__south-beach",
    "street": "1600 Collins Avenue",
    "postal_code": "33139",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://southbeachmiami.centric.hyatt.com",
+    "pets_allowed_claim": true,
+    "quote": "Your Pet Is Welcome, Too $100 Maximum number of pets is 1.",
+    "document_sha256": "b5cad6ffb1b537e5dabe1be13caca706d7f2464f7005f5ade5d2951b9c92aea8",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "hyatt house miami airport",
@@ -4799,8 +4821,14 @@
     "document_sha256": "b51badc69c51fcfebc081cb1699ca9328c42b000100fc3975fe6fc36e7dbdfae",
     "captured_via": "shared direct_http_capture pipeline, plain client"
    },
-   "disposition": "EVIDENCE_HOLD",
-   "negation_conflict": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "international inn on the bay",
@@ -7671,13 +7699,13 @@
    "evidence": {
     "lane": "PROPERTY_PAGE_STATIC",
     "source_url": "https://biltmorehotel.com/",
-    "pets_allowed_claim": false,
+    "pets_allowed_claim": true,
     "quote": "Do you allow pets? The Biltmore offers luxury accommodations with a pet-friendly attitude. 00 one time deep cleaning fee for your pet’s stay at the Biltmore Hotel. Pets are welcome as long as the pet is 35 pounds or less, fully-trained and properly restrained by the owner. As an exception to the “No Pets Policy,” this act of good faith allows pet owners to keep their pets in their guest room. Discretion must be used in transporting to and from the guest room and the pet must not be visible at an",
     "document_sha256": "25f6ff376f5b1b817209bf0c998dab2ad1115bf5a6626ae71357cfd75b18e8e0",
     "captured_via": "the independent property's own policy/FAQ page, plain client"
    },
    "disposition": "EVIDENCE_HOLD",
-   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Do you allow pets? The Biltmore offers luxury accommodations with a pet-friendly attitude. 00 one time deep cleaning fee for your pet’s stay at the Biltmore Hote), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
+   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote FEE_ONLY (a fee, count or weight alone does not establish acceptance: 'Do you allow pets? The Biltmore offers luxury accommodations with a pet-friendly attitude. 00 one time deep cleaning fee for your pet’s sta), not an operative pet_friendly statement; held rather than published on a disagreement this order does not get to override"
   },
   {
    "identity_key": "the broadmore miami beach",
@@ -7824,8 +7852,14 @@
     "document_sha256": "ce57b82cab23cd7920e97187c50775ac10b6c279aed576bd651adca102f8ec71",
     "captured_via": "shared direct_http_capture pipeline, plain client"
    },
-   "disposition": "EVIDENCE_HOLD",
-   "negation_conflict": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "the executive",
@@ -8578,8 +8612,22 @@
    "corridor": "miami-fl__south-beach",
    "street": "300 17th St",
    "postal_code": "33139",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "source_url": "https://thekaskadeshotel.com/",
+    "pets_allowed_claim": true,
+    "quote": "Rooftop jacuzzi and wraparound sundeck Use of portable beach chairs and towels 2 bottles of water per room In-room coffee and tea Unlimited high-speed wireless internet access in guestrooms and public areas Dog-friendly. therwise responsible in any way for allergic reactions to Guest(s) or invitees, caused or permitted to be caused by materials utilized in the manufacture of the Properties and/or its contents, nor from mold and/or airborne spores, nor from pet/animal allergens, nor from chemical",
+    "document_sha256": "dadea887b66028ddb8a74fa29b98e76675ac2b1589adfbd2245580c4b26a0d76",
+    "captured_via": "the independent property's own site (route discovered via Google Places, closure pass), plain client"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "urbanica the meridian hotel",

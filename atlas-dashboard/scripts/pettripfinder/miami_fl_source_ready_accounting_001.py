@@ -115,6 +115,7 @@ def main():
     pp = L("policy_pages_rows.json", {}, base=RAW) or {}
     closure_sites = L("closure_static_rows.json", {}, base=RAW) or {}
     browser = _jsonl(os.path.join(RAW, "browser_attempts.jsonl"))
+    closure_browser = (L("browser_closure_rows.json", {}, base=RAW) or {}).get("rows", [])
     clean_by_key = {r["identity_key"]: r for r in clean.get("rows", [])}
 
     items = part["items"]
@@ -329,9 +330,17 @@ def main():
                                          ("route_discovery", disc.get("credits", {})),
                                          ("brand_page_reads", bpr.get("credits", {}))])),
             ])),
-            ("supported_browser", OrderedDict([("attempted", len(browser)), ("success", 0),
-                                               ("outcomes", OrderedDict(sorted(Counter(b["outcome"] for b in browser).items()))),
-                                               ("by_family", OrderedDict(sorted(browser_fams.items())))])),
+            ("supported_browser", OrderedDict([
+                ("source_ready_001_attempts", len(browser)),
+                ("source_ready_001_outcomes", OrderedDict(sorted(Counter(b["outcome"] for b in browser).items()))),
+                ("closure_002_queue", len(closure_browser)),
+                ("closure_002_outcomes", OrderedDict(sorted(Counter(r["outcome"] for r in closure_browser).items()))),
+                ("closure_002_reads", sum(1 for r in closure_browser if r["outcome"] == "READ")),
+                ("closure_002_bindings", OrderedDict(sorted(Counter(
+                    r["binding"] for r in closure_browser if r.get("binding")).items()))),
+                ("by_family", OrderedDict(sorted(Counter(
+                    r["family"] for r in closure_browser if r["outcome"] == "READ").items()))),
+            ])),
             ("other_paid_providers", OrderedDict([("bright_data", 0), ("other", 0)])),
             ("routing_by_state", (routing.get("counts") or {}).get("by_routing_state", {})),
             ("usd_spent", 0.0), ("new_paid_spend", 0.0), ("new_provider_authorization", "NONE"),

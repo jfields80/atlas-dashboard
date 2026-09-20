@@ -88,11 +88,16 @@ SOURCE_SILENT = "SOURCE_SILENT"
 EVIDENCE_HOLD = "EVIDENCE_HOLD"
 IDENTITY_MISMATCH_HOLD = "IDENTITY_MISMATCH_HOLD"
 
+#: "No pet fee" is an ACCEPTANCE term, not a refusal: the lookahead keeps a charge line from reading as "no pets"
+#: (caught on Aloft Miami Brickell, whose page says "Pets Welcome" and "No pet fee").
 _REFUSAL = re.compile(
-    r"\bpets?\s+(?:are\s+)?not\s+(?:allowed|accepted|permitted)\b|\bno\s+pets?\b|\bpets?\s+prohibited\b"
+    r"\bpets?\s+(?:are\s+)?not\s+(?:allowed|accepted|permitted)\b"
+    r"|\bno\s+pets?\b(?!\s+(?:fee|fees|charge|charges|deposit|policy|policies))|\bpets?\s+prohibited\b"
     r"|\bnot\s+pet[- ]friendly\b|\bpets?\s+not\s+welcome\b", re.I)
-_ACCEPT = re.compile(r"\b(?:pets?|dogs?|cats?)\s+(?:are\s+)?(?:welcome|accepted|permitted)\b|\bpets?\s+allowed\b"
-                     r"|\bpet[- ]friendly\b|\bwe\s+welcome\b.{0,20}\bdogs?\b|\ballow(?:s|ed)?\s+dogs?\b", re.I)
+#: A brand states acceptance in several shapes: "Pets Welcome", "Your pet is welcome, too", "dog-friendly stays".
+_ACCEPT = re.compile(r"\b(?:pets?|dogs?|cats?)\s+(?:is\s+|are\s+)?(?:welcome|accepted|permitted)\b|\bpets?\s+allowed\b"
+                     r"|\b(?:pet|dog)[- ]friendly\b|\bwe\s+welcome\b.{0,20}\b(?:pets?|dogs?)\b"
+                     r"|\ballow(?:s|ed)?\s+dogs?\b", re.I)
 #: Weight-only, fee-only or count-only text is never read as acceptance on its own (Phase 16).
 _WEIGHT_RX = re.compile(r"(\d+(?:\.\d+)?)\s*(?:lbs?|pounds)\b", re.I)
 _FEE_RX = re.compile(r"\$\s*([0-9]+(?:\.[0-9]{1,2})?)", re.I)

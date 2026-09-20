@@ -24,21 +24,21 @@
   "competitor_leads_normalized": 660,
   "graph_nodes": 2332,
   "proposed_census": 637,
-  "valid_pet_friendly": 111,
+  "valid_pet_friendly": 118,
   "valid_verified_no_pets": 53,
-  "resolved": 164,
-  "unresolved": 473,
-  "resolution_rate": 0.2575
+  "resolved": 171,
+  "unresolved": 466,
+  "resolution_rate": 0.2684
  },
  "holds_by_class": {
   "IDENTITY": 38,
   "ROUTING": 126,
   "ACCESS_BLOCKED": 119,
-  "EVIDENCE": 38,
+  "EVIDENCE": 34,
   "NEGATION": 0,
-  "BROWSER_CAPTURE": 26,
+  "BROWSER_CAPTURE": 24,
   "POLICY_NOT_FOUND": 0,
-  "SOURCE_SILENT": 126,
+  "SOURCE_SILENT": 125,
   "MIXED_RESORT": 0,
   "CONDO_HOTEL": 0,
   "PAID": 0,
@@ -61,12 +61,11 @@
   },
   "BROWSER_CAPTURE_NEEDED": {
    "static fetch was ACCESS_DENIED; the router sends Marriott to the atten": 23,
-   "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the comm": 2,
    "static fetch was ACCESS_DENIED; Best Western is an excluded brand in t": 1
   },
   "EVIDENCE_HOLD": {
-   "the shared reader that FAST rule C re-runs at seal time classifies thi": 19,
-   "": 17,
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 18,
+   "": 14,
    "ROUTE_DOMAIN_CONFLICT": 2
   },
   "IDENTITY_MISMATCH_HOLD": {
@@ -79,7 +78,7 @@
   },
   "SOURCE_SILENT": {
    "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 64,
-   "the property's own site (found via Places, bound on its own address/ph": 59,
+   "the property's own site (found via Places, bound on its own address/ph": 58,
    "the brand's own page served and states no pet policy": 1,
    "the property's own page served and carries no pet policy section at al": 1,
    "the page served and stated no operative pet policy (BLOCK_FOUND_BUT_SI": 1
@@ -107,20 +106,20 @@
    "name": "Downtown Miami / Brickell / PortMiami",
    "class": "CORE",
    "census": 46,
-   "pet_friendly": 9,
+   "pet_friendly": 13,
    "no_pets": 3,
-   "unresolved": 34,
-   "resolution_rate": 0.2609,
+   "unresolved": 30,
+   "resolution_rate": 0.3478,
    "page_publishes": true
   },
   "south-beach": {
    "name": "South Beach",
    "class": "CORE",
    "census": 202,
-   "pet_friendly": 18,
+   "pet_friendly": 21,
    "no_pets": 11,
-   "unresolved": 173,
-   "resolution_rate": 0.1436,
+   "unresolved": 170,
+   "resolution_rate": 0.1584,
    "page_publishes": true
   },
   "mid-beach": {
@@ -393,21 +392,21 @@
   },
   "HYATT": {
    "census": 9,
-   "pet_friendly": 6,
+   "pet_friendly": 8,
    "no_pets": 0,
-   "unresolved": 3,
+   "unresolved": 1,
    "firecrawl_attempted": 0,
    "firecrawl_success": 0,
    "access_blocked": 0,
-   "browser_capture_needed": 2,
+   "browser_capture_needed": 0,
    "browser_attempted": 1,
    "browser_success": 0
   },
   "IHG": {
    "census": 27,
-   "pet_friendly": 8,
+   "pet_friendly": 9,
    "no_pets": 5,
-   "unresolved": 14,
+   "unresolved": 13,
    "firecrawl_attempted": 17,
    "firecrawl_success": 9,
    "access_blocked": 5,
@@ -417,9 +416,9 @@
   },
   "INDEPENDENT": {
    "census": 397,
-   "pet_friendly": 27,
+   "pet_friendly": 29,
    "no_pets": 13,
-   "unresolved": 357,
+   "unresolved": 355,
    "firecrawl_attempted": 102,
    "firecrawl_success": 3,
    "access_blocked": 94,
@@ -441,9 +440,9 @@
   },
   "LUXURY_INDEPENDENT": {
    "census": 22,
-   "pet_friendly": 3,
+   "pet_friendly": 4,
    "no_pets": 0,
-   "unresolved": 19,
+   "unresolved": 18,
    "firecrawl_attempted": 5,
    "firecrawl_success": 0,
    "access_blocked": 4,
@@ -453,9 +452,9 @@
   },
   "MARRIOTT": {
    "census": 70,
-   "pet_friendly": 22,
+   "pet_friendly": 23,
    "no_pets": 10,
-   "unresolved": 38,
+   "unresolved": 37,
    "firecrawl_attempted": 7,
    "firecrawl_success": 0,
    "access_blocked": 10,
@@ -651,17 +650,32 @@
    }
   },
   "supported_browser": {
-   "attempted": 5,
-   "success": 0,
-   "outcomes": {
+   "source_ready_001_attempts": 5,
+   "source_ready_001_outcomes": {
     "BOT_CHALLENGE_PAGE": 1,
     "BROWSER_PERMISSION_DENIED": 4
    },
+   "closure_002_queue": 114,
+   "closure_002_outcomes": {
+    "ACCESS_DENIED": 6,
+    "AMENITY_CHIP_ONLY": 1,
+    "NOT_ATTEMPTED": 24,
+    "NO_POLICY_ON_PAGE": 1,
+    "READ": 82
+   },
+   "closure_002_reads": 82,
+   "closure_002_bindings": {
+    "BRAND_PAGE_FULL_STREET_AND_CITY": 1,
+    "BRAND_PAGE_NAME_AND_FULL_STREET": 5,
+    "BRAND_PAGE_NAME_AND_POSTAL": 11,
+    "FULL_STREET_AND_POSTAL": 1,
+    "PROPERTY_CODE": 64
+   },
    "by_family": {
-    "BEST_WESTERN": 1,
-    "HILTON": 1,
-    "HYATT": 1,
-    "MARRIOTT": 2
+    "BEST_WESTERN": 6,
+    "HILTON": 41,
+    "HYATT": 8,
+    "MARRIOTT": 27
    }
   },
   "other_paid_providers": {
@@ -695,7 +709,7 @@
   },
   "excluded_stale_outside": 293,
   "review": 73,
-  "matched_but_policy_unresolved": 131,
+  "matched_but_policy_unresolved": 123,
   "counts": {
    "ALIAS": 57,
    "CONDO_RESIDENCE": 5,
@@ -739,18 +753,8 @@
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Are pets allowed in the hotel? While we love animals, pets are not allowed on the property.'"
   },
   {
-   "identity_key": "aloft miami brickell",
-   "name": "Aloft Miami Brickell",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: 'Pets Welcome No pet fee. $250 charge may apply for damage or additional cleaning Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2'"
-  },
-  {
    "identity_key": "balfour hotel",
    "name": "Balfour Hotel",
-   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
-  },
-  {
-   "identity_key": "bentley south beach",
-   "name": "Bentley South Beach",
    "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
   },
   {
@@ -817,11 +821,6 @@
    "identity_key": "holiday inn miami doral",
    "name": "Holiday Inn Miami-Doral",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: '49 tax included per night Parking fee: 7 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer, Truck Parking & transportation details Can I bring my pet to Holiday Inn Miami-Doral Area? No, pets are not allowed at Holiday Inn Miami-Doral Area.'"
-  },
-  {
-   "identity_key": "intercontinental miami",
-   "name": "InterContinental Miami",
-   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
   },
   {
    "identity_key": "kompose boutique hotel miami airport",
@@ -901,17 +900,12 @@
   {
    "identity_key": "the biltmore hotel miami coral gables",
    "name": "The Biltmore Hotel Miami - Coral Gables",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Do you allow pets? The Biltmore offers luxury accommodations with a pet-friendly attitude. 00 one time deep cleaning fee for your pet’s stay at the Biltmore Hotel. Pets are welcome as long as the pet is 35 pounds or less, fully-trained and properly restrained by the owner. As an exception to the “No Pets Policy,” this act of good faith allows pet owners to keep their pets in their guest room. Discretion must be used in transporting to and from the guest room and the pet must not be visible at an'"
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote FEE_ONLY: a fee, count or weight alone does not establish acceptance: 'Do you allow pets? The Biltmore offers luxury accommodations with a pet-friendly attitude. 00 one time deep cleaning fee for your pet’s stay at the Biltmore Hotel. Pets are welcome as long as the pet is 35 pounds or less, fully-trained and properly restrained by the owner. As an exception to the “No Pets Policy,” this act of good faith allows pet owners to keep their pets in their guest room. Discretion must be used in transporting to and from the guest room and the pet must not be visible at an'"
   },
   {
    "identity_key": "the carmela",
    "name": "The Carmela",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'Pets allowed'"
-  },
-  {
-   "identity_key": "the elser hotel and residences",
-   "name": "The Elser Hotel & Residences",
-   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
   },
   {
    "identity_key": "the vagabond hotel miami",
