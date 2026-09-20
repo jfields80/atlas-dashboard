@@ -197,13 +197,16 @@ def build(reads_paths):
             # ATTEMPT is recorded against every queue row routed to that exact URL.
             hits = [q for q in queue_by_i if _u(q.get("url")) == _u(read.get("url"))]
             for h in hits:
-                read_for_key.setdefault(h["identity_key"], read)
+                # A later successful READ supersedes an earlier challenge on the same row: a page this order did
+                # eventually read is not ACCESS_BLOCKED because an earlier attempt met the challenge.
+                if read_for_key.get(h["identity_key"], {}).get("outcome") != "READ":
+                    read_for_key[h["identity_key"]] = read
             if not hits:
                 unmatched_reads.append(OrderedDict([("url", read.get("url")), ("outcome", read.get("outcome"))]))
             continue
         hits = [q for q in queue_by_i if bind(read, q, census.get(q["identity_key"]) or {})[0]]
         if len(hits) == 1:
-            read_for_key.setdefault(hits[0]["identity_key"], read)
+            read_for_key[hits[0]["identity_key"]] = read
         elif len(hits) > 1:
             for h in hits:
                 read_for_key.setdefault(h["identity_key"], dict(read, outcome="SHARED_PAGE_CENSUS_DUPLICATE",

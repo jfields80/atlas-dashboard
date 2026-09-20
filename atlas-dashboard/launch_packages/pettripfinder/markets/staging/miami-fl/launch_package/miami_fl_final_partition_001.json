@@ -6,26 +6,26 @@
  "what_this_is": "Every admitted Greater Miami census identity in exactly one disposition state, with the order's Phase 20 disposition and, for every unresolved row, its router record.",
  "count": 637,
  "counts_by_state": {
-  "ACCESS_BLOCKED": 121,
-  "AWAITING_ATTENDED_CAPTURE": 30,
+  "ACCESS_BLOCKED": 119,
+  "AWAITING_ATTENDED_CAPTURE": 26,
   "AWAITING_OFFICIAL_URL": 126,
   "AWAITING_POLICY_OBSERVATION": 164,
   "AWAITING_ROUTING_REPLACEMENT": 38,
-  "PUBLISHED_PET_FRIENDLY": 105,
+  "PUBLISHED_PET_FRIENDLY": 111,
   "VERIFIED_NO_PETS": 53
  },
  "counts_by_disposition": {
-  "ACCESS_BLOCKED": 121,
-  "BROWSER_CAPTURE_NEEDED": 30,
-  "CLEAN_PET_FRIENDLY": 105,
+  "ACCESS_BLOCKED": 119,
+  "BROWSER_CAPTURE_NEEDED": 26,
+  "CLEAN_PET_FRIENDLY": 111,
   "CLEAN_VERIFIED_NO_PETS": 53,
   "EVIDENCE_HOLD": 38,
   "IDENTITY_MISMATCH_HOLD": 38,
   "ROUTING_HOLD": 126,
   "SOURCE_SILENT": 126
  },
- "resolved": 158,
- "unresolved": 479,
+ "resolved": 164,
+ "unresolved": 473,
  "items": [
   {
    "identity_key": "1 hotel south beach",
@@ -377,17 +377,24 @@
    "canonical_name": "Aloft Coral Gables",
    "corridor": "miami-fl__coral-gables",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miacl-aloft-coral-gables/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miacl-aloft-coral-gables/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miacl-aloft-coral-gables/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miacl-aloft-coral-gables/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome Dogs allowed (Less than 40 pounds) Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 1",
+    "document_sha256": "f700de58fb7d4551e7f61765b3ddd186a45203bf0483a4d723b1bc84fc0c0712",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -420,17 +427,24 @@
    "canonical_name": "Aloft Miami Aventura",
    "corridor": "miami-fl__aventura",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miaaa-aloft-miami-aventura/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miaaa-aloft-miami-aventura/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miaaa-aloft-miami-aventura/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaaa-aloft-miami-aventura/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome $75 per stay Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "2f63ef36b73b6851c9651ffc43dc77cce968f6fd4879340d4b8a7b2a656ed18c",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -3084,17 +3098,24 @@
    "canonical_name": "Dua Miami, an Autograph Collection Hotel",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miabk-dua-miami-autograph-collection/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miabk-dua-miami-autograph-collection/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miabk-dua-miami-autograph-collection/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miabk-dua-miami-autograph-collection/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "b298fde3d91d10b5736b86d7d1b22441662b3edcbfdd511c92a20962a16624e4",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -6284,17 +6305,24 @@
    "canonical_name": "JW Marriott Miami Turnberry Resort & Spa",
    "corridor": "miami-fl__aventura",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miajt-jw-marriott-miami-turnberry-resort-and-spa/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miajt-jw-marriott-miami-turnberry-resort-and-spa/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miajt-jw-marriott-miami-turnberry-resort-and-spa/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 25000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 25.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miajt-jw-marriott-miami-turnberry-resort-and-spa/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome. Only service animals are permitted in the Restaurants, Lounges, or Tidal Cove. Non-Refundable Pet Fee Per Stay: $250.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "79ee62f5eed96cafb28beb1c73d6897c4661c056581ae5ed3be21c23e7e4897a",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -7069,17 +7097,24 @@
    "canonical_name": "Marriott Stanton South Beach",
    "corridor": "miami-fl__south-beach",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miamb-marriott-stanton-south-beach/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 30.0,
+    "max_pet_count": 2
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miamb-marriott-stanton-south-beach/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome. Up to 2 pets under 30 lbs each, a non refundable $150 pet fee applies Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 30.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "908459993454572ab1f77d2d0e47278580bd6d236319497103cdafc27113de6e",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -7612,17 +7647,17 @@
    "canonical_name": "Moxy Miami South Beach",
    "corridor": "miami-fl__south-beach",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "ACCESS_BLOCKED",
+   "disposition": "ACCESS_BLOCKED",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miaox-moxy-miami-south-beach/overview/)",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/miaox-moxy-miami-south-beach/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "ACCESS_BLOCKED",
+    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miaox-moxy-miami-south-beach/overview/)"
    }
   },
   {
@@ -8718,17 +8753,24 @@
    "canonical_name": "Residence Inn Miami Beach - Surfside",
    "corridor": "miami-fl__bal-harbour-surfside",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miaxb-residence-inn-miami-beach-surfside/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaxb-residence-inn-miami-beach-surfside/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome. 1 pet (dog) per room. Up to 40 pound weight limit. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 1",
+    "document_sha256": "9508c643b3cd5fdae9158ec675706c21d0a3e32751a05dc2140dbd1daf2b360a",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -8754,17 +8796,17 @@
    "canonical_name": "Residence Inn Miami Sunny Isles Beach",
    "corridor": "miami-fl__sunny-isles-beach",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "ACCESS_BLOCKED",
+   "disposition": "ACCESS_BLOCKED",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/mianm-residence-inn-miami-sunny-isles-beach/overview/)",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/mianm-residence-inn-miami-sunny-isles-beach/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "ACCESS_BLOCKED",
+    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/mianm-residence-inn-miami-sunny-isles-beach/overview/)"
    }
   },
   {
