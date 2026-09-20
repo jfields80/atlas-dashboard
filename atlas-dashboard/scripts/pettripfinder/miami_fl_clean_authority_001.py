@@ -677,6 +677,16 @@ def build():
             # finds service-animal wording alongside the acceptance/refusal statement and will not treat that
             # combination as operative -- this order must hold the row here rather than have the seal reject it
             # later. Never modifies the shared reader; only decides whether THIS row may be published.
+            # A THIRD gate, for the same reason: the registration layer refuses to turn an identity with no
+            # address into inventory, and it is right to. Two Miami identities reached the census from a brand
+            # roster that named the property and its code but no street; their own brand page states one, but
+            # writing it into the census is a census edit this order does not make. Held, not published.
+            if row["disposition"] in (CLEAN_PET_FRIENDLY, CLEAN_VERIFIED_NO_PETS) and not (h.get("street") or "").strip():
+                row["disposition"] = EVIDENCE_HOLD
+                row.pop("policy_facts", None)
+                row["hold_reason"] = ("the census states no street for this identity, so it cannot become "
+                                      "inventory; the policy read is sound but a profile without an address is "
+                                      "not publishable, and this order does not write census addresses")
             if row["disposition"] in (CLEAN_PET_FRIENDLY, CLEAN_VERIFIED_NO_PETS):
                 kind = FPB.KIND_PET_FRIENDLY if row["disposition"] == CLEAN_PET_FRIENDLY else FPB.KIND_NO_PETS
                 cls, why = FPB.classify_quote(ev["quote"], kind=kind, context=ev.get("context", ""))

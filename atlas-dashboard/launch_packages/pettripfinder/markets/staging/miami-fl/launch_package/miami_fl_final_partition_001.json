@@ -8,22 +8,22 @@
  "counts_by_state": {
   "ACCESS_BLOCKED": 123,
   "AWAITING_OFFICIAL_URL": 127,
-  "AWAITING_POLICY_OBSERVATION": 161,
+  "AWAITING_POLICY_OBSERVATION": 163,
   "AWAITING_ROUTING_REPLACEMENT": 42,
-  "PUBLISHED_PET_FRIENDLY": 126,
-  "VERIFIED_NO_PETS": 58
+  "PUBLISHED_PET_FRIENDLY": 125,
+  "VERIFIED_NO_PETS": 57
  },
  "counts_by_disposition": {
   "ACCESS_BLOCKED": 123,
-  "CLEAN_PET_FRIENDLY": 126,
-  "CLEAN_VERIFIED_NO_PETS": 58,
-  "EVIDENCE_HOLD": 36,
+  "CLEAN_PET_FRIENDLY": 125,
+  "CLEAN_VERIFIED_NO_PETS": 57,
+  "EVIDENCE_HOLD": 38,
   "IDENTITY_MISMATCH_HOLD": 42,
   "ROUTING_HOLD": 127,
   "SOURCE_SILENT": 125
  },
- "resolved": 184,
- "unresolved": 453,
+ "resolved": 182,
+ "unresolved": 455,
  "items": [
   {
    "identity_key": "1 hotel south beach",
@@ -2725,17 +2725,17 @@
    "canonical_name": "Courtyard Miami West/FL Turnpike",
    "corridor": "miami-fl__doral",
    "brand": "MARRIOTT",
-   "final_state": "VERIFIED_NO_PETS",
-   "disposition": "CLEAN_VERIFIED_NO_PETS",
-   "resolved": true,
-   "evidence": {
-    "lane": "PROPERTY_PAGE_ATTENDED",
-    "source_url": "https://www.marriott.com/en-us/hotels/miafs-courtyard-miami-west-fl-turnpike/overview/",
-    "pets_allowed_claim": false,
-    "quote": "Pet Policy Pets Not Allowed Only service animals No, pets are not allowed at Courtyard by Marriott Miami West/FL Turnpike.",
-    "document_sha256": "824e46803ec4fa503fae219566ad1afd641577aa7c1d18b92ce5ca10074239fa",
-    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
-    "binding": "PROPERTY_CODE"
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "the census states no street for this identity, so it cannot become inventory; the policy read is sound but a profile without an address is not publishable, and this order does not write census addresses",
+   "router_record": {
+    "brand_family": "MARRIOTT",
+    "route": "https://www.marriott.com/en-us/hotels/miafs-courtyard-miami-west-fl-turnpike/overview/",
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "the census states no street for this identity, so it cannot become inventory; the policy read is sound but a profile without an address is not publishable, and this order does not write census addresses"
    }
   },
   {
@@ -8881,24 +8881,17 @@
    "canonical_name": "Residence Inn Miami West/FL Turnpike",
    "corridor": "miami-fl__doral",
    "brand": "MARRIOTT",
-   "final_state": "PUBLISHED_PET_FRIENDLY",
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "resolved": true,
-   "policy_facts": {
-    "pet_fee_cents": 10000,
-    "fee_currency": "USD",
-    "fee_refundable": false,
-    "max_pet_weight_lbs": 85.0,
-    "max_pet_count": null
-   },
-   "evidence": {
-    "lane": "PROPERTY_PAGE_ATTENDED",
-    "source_url": "https://www.marriott.com/en-us/hotels/miarw-residence-inn-miami-west-fl-turnpike/overview/",
-    "pets_allowed_claim": true,
-    "quote": "Pet Policy Pets Welcome Pets up to 85lbs welcome with $100 USD Non-Refundable fee per stay Maximum Pet Weight: 85.0lbs Maximum Number of Pets in Room: 2",
-    "document_sha256": "ced22a80ed6084b2f902e68ab4551a105c22e78a15c27139f295535a712bc46e",
-    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
-    "binding": "PROPERTY_CODE"
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
+   "resolved": false,
+   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
+   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
+   "next_action": "the census states no street for this identity, so it cannot become inventory; the policy read is sound but a profile without an address is not publishable, and this order does not write census addresses",
+   "router_record": {
+    "brand_family": "MARRIOTT",
+    "route": "https://www.marriott.com/en-us/hotels/miarw-residence-inn-miami-west-fl-turnpike/overview/",
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "the census states no street for this identity, so it cannot become inventory; the policy read is sound but a profile without an address is not publishable, and this order does not write census addresses"
    }
   },
   {
