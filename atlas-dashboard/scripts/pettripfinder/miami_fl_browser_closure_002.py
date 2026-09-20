@@ -119,7 +119,10 @@ def page_city(address):
 
 
 def page_postal(address):
-    codes = _POSTAL_RX.findall(address or "")
+    """The postal code the page states, read AFTER the street segment: a Miami house number is five digits too
+    ("12210 Biscayne Boulevard"), and reading it as a ZIP refused two Best Western reads in this pass's first run."""
+    tail = (address or "").split(",", 1)[1] if "," in (address or "") else ""
+    codes = _POSTAL_RX.findall(tail)
     return codes[-1] if codes else ""
 
 
