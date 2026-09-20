@@ -61,6 +61,11 @@ QUEUE = os.path.join(REPORTS, "miami_fl_browser_queue_002.json")
 #: fresh checkout produces is byte-identical to the one this lane writes (a .jsonl has no such attribute)
 OUT_ROWS = os.path.join(RAW, "browser_closure_rows.json")
 OUT_REPORT = os.path.join(REPORTS, "miami_fl_browser_closure_002.json")
+#: The terminal Marriott closure (003) re-enters this lane over the SAME frozen queue. Its report path is
+#: spelled here rather than passed in: a market-local helper whose write target cannot be resolved statically
+#: costs the registration its narrowing, so the lane picks a committed target by PASS NAME, never by path.
+OUT_REPORT_003 = os.path.join(REPORTS, "miami_fl_browser_closure_003.json")
+PASSES = {"002": OUT_REPORT, "003": OUT_REPORT_003}
 CAPTURE_LANE = "SUPPORTED_BROWSER (navigate + accessibility-tree find only; no page script, no relay, no bypass)"
 
 _CODE_RX = (
@@ -177,7 +182,7 @@ def bind(read, queue_row, census_row):
                      (census_row.get("street") or "") + " " + z_census))
 
 
-def build(reads_paths, work_order=WORK_ORDER, out_report=OUT_REPORT):
+def build(reads_paths, work_order=WORK_ORDER, pass_name="002"):
     census = {h["identity_key"]: h for h in _load(CENSUS)["hotels"]}
     clean = {r["identity_key"]: r for r in _load(CLEAN)["rows"]}
     routing = {r["identity_key"]: r for r in _load(ROUTING)["routes"]}
@@ -322,9 +327,14 @@ def build(reads_paths, work_order=WORK_ORDER, out_report=OUT_REPORT):
         ("paid_provider_calls", 0), ("usd_spent", 0.0), ("firecrawl_credits_used", 0),
         ("raw_captures", os.path.relpath(OUT_ROWS, _DASH).replace("\\", "/")),
     ])
-    with open(out_report, "w", encoding="utf-8", newline="\n") as fh:
-        json.dump(report, fh, indent=1, ensure_ascii=False)
-        fh.write("\n")
+    if pass_name == "003":
+        with open(OUT_REPORT_003, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(report, fh, indent=1, ensure_ascii=False)
+            fh.write("\n")
+    else:
+        with open(OUT_REPORT, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(report, fh, indent=1, ensure_ascii=False)
+            fh.write("\n")
     return report
 
 
@@ -332,9 +342,10 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--reads", action="append", required=True, help="a JSON file of this order's browser reads")
     ap.add_argument("--work-order", default=WORK_ORDER, help="the order these reads were taken under")
-    ap.add_argument("--report", default=OUT_REPORT, help="where to write this pass's ingestion report")
+    ap.add_argument("--pass", dest="pass_name", default="002", choices=sorted(PASSES),
+                    help="which committed ingestion report this pass writes")
     args = ap.parse_args(argv)
-    rep = build(args.reads, args.work_order, args.report)
+    rep = build(args.reads, args.work_order, args.pass_name)
     print("queue", rep["queue_total"], dict(rep["queue_by_family"]))
     print("outcomes", dict(rep["outcomes"]))
     print("bindings", dict(rep["bindings"]))

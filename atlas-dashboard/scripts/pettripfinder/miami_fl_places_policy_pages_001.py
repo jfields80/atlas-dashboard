@@ -44,7 +44,7 @@ def targets():
 
 
 def main():
-    PP.read_sites(targets(), OUT)
+    PP.read_sites(targets(), "CLOSURE_STATIC")
     return 0
 
 

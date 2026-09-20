@@ -1,0 +1,97 @@
+{
+ "schema": "ptf-registration-authorization-readiness/1.0",
+ "status": "NOT_AUTHORIZATION_READY",
+ "founder_status": "AWAITING_FOUNDER_AUTHORIZATION",
+ "what_this_is": "A prepared, UNSIGNED readiness document for founder review, written by the registration release lane after Regression V2 classified the registration. It authorizes nothing: no launch-participation flag has moved, no activation flag is enabled, nothing is deployed. The founder's decision, if it comes, is a separate write into deploy/netlify/deployment_authorizations/ that this document never makes.",
+ "market_id": "miami-fl",
+ "prepared_by": "PTF-MIAMI-FL-REGISTRATION-AND-STAGING-004",
+ "prepared_at": "2026-09-20T20:21:46Z",
+ "authorized_by": null,
+ "authorized_at": null,
+ "regression_v2": {
+  "classification_source": "AUTOMATIC",
+  "current_live_source_commit": "9656419918229db7a0eb5ca5a1b4fb514e0e9c34",
+  "registration_base": "0b6ad264e7f2c7e97aca3fd8935b8c33f69a3308",
+  "base": "0b6ad264e7f2c7e97aca3fd8935b8c33f69a3308",
+  "head": "WORKTREE",
+  "change_classes": [
+   "AUTHORITY_CHANGE",
+   "GENERIC_RUNTIME_CHANGE",
+   "SCHEMA_CHANGE",
+   "ROUTING_SEMANTIC_CHANGE",
+   "DEPLOYMENT_CHANGE",
+   "TEST_EXPECTATION_CHANGE",
+   "DOCUMENTATION_ONLY",
+   "GENERATED_REPORT_ONLY",
+   "MARKET_DATA_PACKAGE",
+   "UNCLASSIFIED"
+  ],
+  "release_surfaces": [
+   "MARKET_DATA_PACKAGE",
+   "SHARED_SCHEMA_CHANGE",
+   "SHARED_RUNTIME_CHANGE",
+   "DEPLOYMENT_CHANGE",
+   "CLASSIFIER_TEST_INFRA_CHANGE",
+   "UNKNOWN_MIXED",
+   "NARROW_NON_RELEASE"
+  ],
+  "CHANGE_CLASS": "AUTHORITY_CHANGE/GENERIC_RUNTIME_CHANGE/SCHEMA_CHANGE/ROUTING_SEMANTIC_CHANGE/DEPLOYMENT_CHANGE/TEST_EXPECTATION_CHANGE/DOCUMENTATION_ONLY/GENERATED_REPORT_ONLY/MARKET_DATA_PACKAGE/UNCLASSIFIED",
+  "FULL_REGRESSION_REQUIRED": "YES",
+  "REMOTE_BROAD_JOBS_REQUIRED": null,
+  "plan_modules": 229,
+  "assembly_required": true,
+  "reason": "deploy/netlify/launch_participation.json (DEPLOYMENT_CHANGE): deployment doctrine: what the record claims is served must be what a fresh assembly builds, and nothing narrower proves it; deploy/netlify/release_contracts/miami-fl.json (DEPLOYMENT_CHANGE): deployment doctrine: what the record claims is served must be what a fresh assembly builds, and nothing narrower proves it; launch_packages/pettripfinder/bundle_cache_closure.json (DEPLOYMENT_CHANGE): deployment doctrine: what the record claims is served must be what a fresh assembly builds, and nothing narrower proves it; launch_packages/pettripfinder/hotel_exclusions.json (AUTHORITY_CHANGE): authority is what the site publishes; a wrong row reaches a reader, and the per-market contract rows and cross-market isolation gates are the only proof it did not leak; launch_packages/pettripfinder/hotel_policy_facts_miami-fl.json (AUTHORITY_CHANGE): authority is what the site publishes; a wrong row reaches a reader, and the per-market contract rows and cross-market isolation gates are the only proof it did not leak; launch_packages/pettripfinder/identity_census/miami-fl.json (AUTHORITY_CHANGE): authority is what the site publishes; a wrong row reaches a reader, and the per-market contract rows and cross-market isolation gates are the only proof it did not leak"
+ },
+ "registration_proof": {
+  "proof_version": "ptf-registration-data-only/2.0",
+  "ELIGIBLE": "NO",
+  "checks": {
+   "change_set": "FAIL",
+   "market_local_zone": "FAIL",
+   "discovery_config": "FAIL",
+   "registration_input": "FAIL",
+   "identity_resolutions": "FAIL",
+   "participation": "FAIL",
+   "release_contract": "FAIL",
+   "build_closure": "FAIL",
+   "derived_globals": "FAIL",
+   "sealed_package": "FAIL",
+   "fast_receipt": "FAIL",
+   "expected_release": "FAIL",
+   "identity_routes": "FAIL",
+   "market_state_pin": "FAIL",
+   "release_integrity": "FAIL"
+  },
+  "seconds": 24.275
+ },
+ "the_digests_this_readiness_binds": {
+  "parent_live_deploy_id": null,
+  "parent_release_digest": "sha256:c7998b87f638354ec5db316487f77c089f4351966aad9b0d99b4add74f0dd023",
+  "sealed_package_id": null,
+  "sealed_package_digest": null,
+  "fast_receipt": null,
+  "fast_receipt_digest": "sha256:1d0e0cdffb485af4c72685484104ed0db4173ef39d68819be769ca7dc3fd96c9",
+  "changed_market_bundle_sha256": "0de043c9fa6787a8547761ad5754ec054cec4a17ffda29b5abc851d4656e401a",
+  "expected_candidate_index_digest": null,
+  "actual_candidate_index_digest": null
+ },
+ "projected_live": {
+  "markets": null,
+  "profiles": null,
+  "routes": null,
+  "unexpected_market_changes": null,
+  "unexpected_profile_changes": null,
+  "unexpected_route_changes": null
+ },
+ "lane": {
+  "PACKAGE_REPRODUCIBLE": "YES",
+  "CANDIDATE_REPRODUCIBLE": "YES",
+  "UNCHANGED_MARKETS_REBUILT": 0,
+  "fast_rules_passed": 15
+ },
+ "what_is_not_claimed": [
+  "This document authorizes nothing. Only a founder authorization in deploy/netlify/deployment_authorizations/ admits a market to production.",
+  "The whole-site deployment artifact is built and hashed by the deployment order, under the current-parent guard, the exact-bytes rule and the rollback guard, none of which this lane touches.",
+  "The registration's participation row reads SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH."
+ ]
+}

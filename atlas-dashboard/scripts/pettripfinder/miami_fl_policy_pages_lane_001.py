@@ -37,7 +37,14 @@ from scripts.pettripfinder import miami_fl_brand_inventory_001 as B  # noqa: E40
 B.DOCS = os.path.join(_DASH, "data", "acquisition", "miami_fl_policy_pages_001")
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 ROUTING = os.path.join(PKG, "markets", "reports", "miami_fl_routing_001.json")
-OUT = os.path.join(PKG, "markets", "staging", "miami-fl", "raw_captures", "policy_pages_rows.json")
+RAW = os.path.join(PKG, "markets", "staging", "miami-fl", "raw_captures")
+OUT = os.path.join(RAW, "policy_pages_rows.json")
+#: The SAME reader serves the independents' closure lane (miami_fl_places_policy_pages_001). Both of its write
+#: targets are spelled HERE, and the lane picks one by name, because a path passed in as an argument cannot be
+#: resolved statically and a market-local helper whose write target is dynamic costs the registration its
+#: narrowing (PTF-OUTER-BANKS-NC-...-002).
+CLOSURE_STATIC_OUT = os.path.join(RAW, "closure_static_rows.json")
+LANES = {"POLICY_PAGES": OUT, "CLOSURE_STATIC": CLOSURE_STATIC_OUT}
 BRAND_HOSTS = re.compile(r"(marriott|hilton|ihg|holidayinn|choicehotels|wyndhamhotels|redroof|extendedstayamerica|"
                          r"bestwestern|hyatt|sonesta|motel6|radissonhotels|druryhotels|omnihotels|loewshotels|woodspring|"
                          r"intownsuites|facebook|instagram|google|tripadvisor|"
@@ -66,12 +73,15 @@ def main():
     routing = json.load(open(ROUTING, encoding="utf-8"))
     targets = [r for r in routing["routes"] + routing.get("identity_fill_routes", [])
                if r.get("url") and not BRAND_HOSTS.search(r["url"]) and r.get("street")]
-    read_sites(targets, OUT)
+    read_sites(targets, "POLICY_PAGES")
 
 
-def read_sites(targets, out):
+def read_sites(targets, lane="POLICY_PAGES"):
     """Read each target's own site (home + up to three pet / policy / FAQ pages) and bind it to the identity.
-    ``targets`` rows carry identity_key, canonical_name, url, street, postal_code and phone."""
+    ``targets`` rows carry identity_key, canonical_name, url, street, postal_code and phone. ``lane`` NAMES one
+    of this module's two committed write targets; it is never a path."""
+    if lane not in LANES:
+        raise SystemExit("unknown lane %r: this module writes %s" % (lane, ", ".join(sorted(LANES))))
     st = B.Stats()
     rows, seen = [], set()
     for t in targets:
@@ -131,10 +141,16 @@ def read_sites(targets, out):
             rec["pages"].append(OrderedDict([("url", url), ("sha256", sha), ("bytes", nbytes), ("pet_sentences", sents)]))
         rows.append(rec)
         print(rec["s"], rec["bound"], t["canonical_name"][:40], sum(len(p["pet_sentences"]) for p in rec["pages"]), flush=True)
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    with open(out, "w", encoding="utf-8", newline="\n") as fh:
-        json.dump(OrderedDict([("free_http_requests", st.requests), ("rows", rows)]), fh, indent=1, ensure_ascii=False)
-        fh.write("\n")
+    doc = OrderedDict([("free_http_requests", st.requests), ("rows", rows)])
+    os.makedirs(RAW, exist_ok=True)
+    if lane == "CLOSURE_STATIC":
+        with open(CLOSURE_STATIC_OUT, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(doc, fh, indent=1, ensure_ascii=False)
+            fh.write("\n")
+    else:
+        with open(OUT, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(doc, fh, indent=1, ensure_ascii=False)
+            fh.write("\n")
     print("targets", len(rows), "bound", sum(1 for r in rows if r["bound"]),
           "with pet sentences", sum(1 for r in rows if any(p["pet_sentences"] for p in r["pages"])))
 
