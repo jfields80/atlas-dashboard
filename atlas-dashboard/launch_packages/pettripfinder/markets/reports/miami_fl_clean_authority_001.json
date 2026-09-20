@@ -198,19 +198,19 @@
   }
  ],
  "counts": {
-  "ACCESS_BLOCKED": 113,
-  "BROWSER_CAPTURE_NEEDED": 43,
-  "CLEAN_PET_FRIENDLY": 102,
+  "ACCESS_BLOCKED": 120,
+  "BROWSER_CAPTURE_NEEDED": 35,
+  "CLEAN_PET_FRIENDLY": 103,
   "CLEAN_VERIFIED_NO_PETS": 51,
   "EVIDENCE_HOLD": 38,
   "IDENTITY_MISMATCH_HOLD": 38,
   "ROUTING_HOLD": 126,
   "SOURCE_SILENT": 126
  },
- "valid_pet_friendly": 102,
+ "valid_pet_friendly": 103,
  "valid_verified_no_pets": 51,
- "resolved": 153,
- "unresolved": 484,
+ "resolved": 154,
+ "unresolved": 483,
  "rows": [
   {
    "identity_key": "1 hotel south beach",
@@ -468,8 +468,8 @@
    "corridor": "miami-fl__coral-gables",
    "street": "2524 Le Jeune Rd",
    "postal_code": "33134",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "disposition": "ACCESS_BLOCKED",
+   "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miacl-aloft-coral-gables/overview/)"
   },
   {
    "identity_key": "aloft miami airport",
@@ -503,8 +503,8 @@
    "corridor": "miami-fl__aventura",
    "street": "2910 NE 207th St",
    "postal_code": "33180",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "disposition": "ACCESS_BLOCKED",
+   "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miaaa-aloft-miami-aventura/overview/)"
   },
   {
    "identity_key": "aloft miami brickell",
@@ -2097,8 +2097,8 @@
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "street": "1201 Nw Lejeune Rd",
    "postal_code": "33126",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "disposition": "ACCESS_BLOCKED",
+   "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miacs-courtyard-miami-airport/overview/)"
   },
   {
    "identity_key": "courtyard miami at dolphin mall",
@@ -2107,8 +2107,8 @@
    "corridor": "miami-fl__doral",
    "street": "",
    "postal_code": "33172",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "disposition": "ACCESS_BLOCKED",
+   "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miadm-courtyard-miami-at-dolphin-mall/overview/)"
   },
   {
    "identity_key": "courtyard miami beach south beach",
@@ -2117,8 +2117,8 @@
    "corridor": "miami-fl__south-beach",
    "street": "1530 Washington Ave",
    "postal_code": "33139",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "disposition": "ACCESS_BLOCKED",
+   "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miacb-courtyard-miami-beach-south-beach/overview/)"
   },
   {
    "identity_key": "courtyard miami dadeland",
@@ -2456,8 +2456,8 @@
    "corridor": "miami-fl__downtown-brickell",
    "street": "1300 S Miami Ave",
    "postal_code": "33130",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "disposition": "ACCESS_BLOCKED",
+   "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miabk-dua-miami-autograph-collection/overview/)"
   },
   {
    "identity_key": "dunns josephine hotel",
@@ -2560,8 +2560,23 @@
    "corridor": "miami-fl__doral",
    "street": "3285 NW 107th Ave",
    "postal_code": "33172",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaem-element-miami-doral/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome $50.00 pet fee per day (max $150 per stay. Only dogs) Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 1",
+    "document_sha256": "d0f9f052e6faafb5645b6b352fe90ff3ce5f43a972e51397226776e7490dec3d",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "element miami international airport",
@@ -2570,8 +2585,8 @@
    "corridor": "miami-fl__mia-airport-miami-springs",
    "street": "3525 NW 25th St",
    "postal_code": "33142",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "disposition": "ACCESS_BLOCKED",
+   "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miael-element-miami-international-airport/overview/)"
   },
   {
    "identity_key": "embassy suites by hilton miami international airport",

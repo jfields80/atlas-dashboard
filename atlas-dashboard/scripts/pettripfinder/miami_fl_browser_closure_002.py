@@ -187,12 +187,21 @@ def build(reads_paths):
         reads.extend(_load(p, []) or [])
     # A read is matched to the census row it BINDS to, never to a queue position: the queue is re-derived from the
     # current census, and an exact-premises binding is the only thing allowed to pair a page with an identity.
+    def _u(url):
+        return (url or "").split("?")[0].rstrip("/").lower()
+
     read_for_key, unmatched_reads = {}, []
     for read in reads:
         if read.get("outcome") != "READ":
-            hits = [q for q in queue_by_i if bind(read, q, census.get(q["identity_key"]) or {})[0]]
-        else:
-            hits = [q for q in queue_by_i if bind(read, q, census.get(q["identity_key"]) or {})[0]]
+            # A challenge page carries no name or address to bind on. It attaches no policy either, so the
+            # ATTEMPT is recorded against every queue row routed to that exact URL.
+            hits = [q for q in queue_by_i if _u(q.get("url")) == _u(read.get("url"))]
+            for h in hits:
+                read_for_key.setdefault(h["identity_key"], read)
+            if not hits:
+                unmatched_reads.append(OrderedDict([("url", read.get("url")), ("outcome", read.get("outcome"))]))
+            continue
+        hits = [q for q in queue_by_i if bind(read, q, census.get(q["identity_key"]) or {})[0]]
         if len(hits) == 1:
             read_for_key.setdefault(hits[0]["identity_key"], read)
         elif len(hits) > 1:
