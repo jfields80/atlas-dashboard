@@ -198,19 +198,19 @@
   }
  ],
  "counts": {
-  "ACCESS_BLOCKED": 120,
-  "BROWSER_CAPTURE_NEEDED": 33,
-  "CLEAN_PET_FRIENDLY": 104,
-  "CLEAN_VERIFIED_NO_PETS": 52,
+  "ACCESS_BLOCKED": 121,
+  "BROWSER_CAPTURE_NEEDED": 30,
+  "CLEAN_PET_FRIENDLY": 105,
+  "CLEAN_VERIFIED_NO_PETS": 53,
   "EVIDENCE_HOLD": 38,
   "IDENTITY_MISMATCH_HOLD": 38,
   "ROUTING_HOLD": 126,
   "SOURCE_SILENT": 126
  },
- "valid_pet_friendly": 104,
- "valid_verified_no_pets": 52,
- "resolved": 156,
- "unresolved": 481,
+ "valid_pet_friendly": 105,
+ "valid_verified_no_pets": 53,
+ "resolved": 158,
+ "unresolved": 479,
  "rows": [
   {
    "identity_key": "1 hotel south beach",
@@ -3124,8 +3124,16 @@
    "corridor": "miami-fl__coral-gables",
    "street": "3861 Bird Rd",
    "postal_code": "33146",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/fllfp-four-points-by-sheraton-coral-gables/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed No, pets are not allowed at Four Points by Sheraton Coral Gables.",
+    "document_sha256": "695de3ad8df9206bde4cd59feeccc5b50e922dcb43e59f4f30b70c836138e052",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "four seasons hotel at the surf club",
@@ -4844,8 +4852,8 @@
    "corridor": "miami-fl__aventura",
    "street": "19999 W Country Club Dr",
    "postal_code": "33180",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "disposition": "ACCESS_BLOCKED",
+   "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miajt-jw-marriott-miami-turnberry-resort-and-spa/overview/)"
   },
   {
    "identity_key": "kasa el paseo hotel",
@@ -6415,8 +6423,23 @@
    "corridor": "miami-fl__aventura",
    "street": "19900 W Country Club Dr",
    "postal_code": "33180",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miara-residence-inn-miami-aventura-mall/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome Long term stays pet fee will be $150 every 2 weeks Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "3bd09fec53e64b642e6338bc2f1aabe7a18b78f6da418897e3be1fe6781eec2e",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 25.0,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "residence inn miami airport",
