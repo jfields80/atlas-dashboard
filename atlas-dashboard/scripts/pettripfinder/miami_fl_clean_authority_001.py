@@ -301,14 +301,23 @@ def build_evidence_index(census_hotels):
         elif _ACCEPT.search(quote):
             pets = True
         else:
-            continue
+            # The page's own policy block served and was bound to these premises, but it states only a fee, a
+            # weight or a count -- never the acceptance wording the publication rule requires. That is an
+            # EVIDENCE hold, not a capture that still has to be made: claiming NOTHING here (rather than
+            # skipping the row) keeps the fee/weight/count rule intact AND stops a row whose page this order
+            # did read from being reported as still awaiting the browser.
+            pets = None
         ev = OrderedDict([("lane", "PROPERTY_PAGE_ATTENDED"), ("source_url", r.get("final_url") or r["requested_url"]),
                           ("pets_allowed_claim", pets), ("quote", quote[:500]),
                           ("document_sha256", r["transcription_sha256"]),
                           ("captured_via", "supported browser, accessibility tree (navigate + find only), "
                                            "PTF-MIAMI-FL-BROWSER-CLOSURE-002"),
                           ("binding", r.get("binding"))])
-        add_key(r["identity_key"], ev)
+        if pets is None:
+            # never displaces a lane that DID state a policy for these premises
+            by_key.setdefault(r["identity_key"], ev)
+        else:
+            add_key(r["identity_key"], ev)
 
     # MIAMI: the Choice / IHG property pages the Firecrawl route-discovery lane found (their own sitemaps refused
     # this client, so these routes never reached the census by name). Bound ONLY on the house number + postal code
@@ -589,6 +598,9 @@ BROWSER_OUTCOME_STATE = {
                                       "challenge page, which this order does not bypass"),
     "SHARED_PAGE_CENSUS_DUPLICATE": (IDENTITY_MISMATCH_HOLD, "one brand page bound more than one census row; the "
                                                              "duplicate identity is resolved before either publishes"),
+    "NO_BRAND_PROPERTY_PAGE": (ROUTING_HOLD, "the census routes this identity to a brand HOME page, and the brand "
+                                             "publishes no property page for these premises -- there is nothing "
+                                             "first-party to read, so no browser capture can resolve it"),
 }
 BROWSER_CLOSURE_STATE = {}
 

@@ -6,26 +6,24 @@
  "what_this_is": "Every admitted Greater Miami census identity in exactly one disposition state, with the order's Phase 20 disposition and, for every unresolved row, its router record.",
  "count": 637,
  "counts_by_state": {
-  "ACCESS_BLOCKED": 119,
-  "AWAITING_ATTENDED_CAPTURE": 24,
-  "AWAITING_OFFICIAL_URL": 126,
-  "AWAITING_POLICY_OBSERVATION": 159,
-  "AWAITING_ROUTING_REPLACEMENT": 38,
-  "PUBLISHED_PET_FRIENDLY": 118,
-  "VERIFIED_NO_PETS": 53
+  "ACCESS_BLOCKED": 123,
+  "AWAITING_OFFICIAL_URL": 127,
+  "AWAITING_POLICY_OBSERVATION": 161,
+  "AWAITING_ROUTING_REPLACEMENT": 42,
+  "PUBLISHED_PET_FRIENDLY": 126,
+  "VERIFIED_NO_PETS": 58
  },
  "counts_by_disposition": {
-  "ACCESS_BLOCKED": 119,
-  "BROWSER_CAPTURE_NEEDED": 24,
-  "CLEAN_PET_FRIENDLY": 118,
-  "CLEAN_VERIFIED_NO_PETS": 53,
-  "EVIDENCE_HOLD": 34,
-  "IDENTITY_MISMATCH_HOLD": 38,
-  "ROUTING_HOLD": 126,
+  "ACCESS_BLOCKED": 123,
+  "CLEAN_PET_FRIENDLY": 126,
+  "CLEAN_VERIFIED_NO_PETS": 58,
+  "EVIDENCE_HOLD": 36,
+  "IDENTITY_MISMATCH_HOLD": 42,
+  "ROUTING_HOLD": 127,
   "SOURCE_SILENT": 125
  },
- "resolved": 171,
- "unresolved": 466,
+ "resolved": 184,
+ "unresolved": 453,
  "items": [
   {
    "identity_key": "1 hotel south beach",
@@ -1126,17 +1124,17 @@
    "canonical_name": "Best Western PLUS Atlantic Beach Resort",
    "corridor": "miami-fl__mid-beach",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "AWAITING_OFFICIAL_URL",
+   "disposition": "ROUTING_HOLD",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)",
+   "next_action": "the census routes this identity to a brand HOME page, and the brand publishes no property page for these premises -- there is nothing first-party to read, so no browser capture can resolve it (https://www.bestwestern.com)",
    "router_record": {
     "brand_family": "INDEPENDENT",
     "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)"
+    "disposition_basis": "ROUTING_HOLD",
+    "hold_reason": "the census routes this identity to a brand HOME page, and the brand publishes no property page for these premises -- there is nothing first-party to read, so no browser capture can resolve it (https://www.bestwestern.com)"
    }
   },
   {
@@ -2612,17 +2610,17 @@
    "canonical_name": "Courtyard by Marriott - Miami Downtown/Brickell Area",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miadt-courtyard-miami-downtown-brickell-area/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miadt-courtyard-miami-downtown-brickell-area/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pets Not Allowed",
+    "document_sha256": "1e834df4cbd06af0b40885810d184347fdc71bd078ee07a19c02b70d7333b5fa",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -2648,17 +2646,24 @@
    "canonical_name": "Courtyard Miami Airport",
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miacs-courtyard-miami-airport/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miacs-courtyard-miami-airport/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miacs-courtyard-miami-airport/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miacs-miami-airport-marriott-full-service/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "8ca5e873e9b59179ae6df24a9a5075ad0eec5440baf365b0c0beb034a2792e7d",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -2720,17 +2725,17 @@
    "canonical_name": "Courtyard Miami West/FL Turnpike",
    "corridor": "miami-fl__doral",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miafs-courtyard-miami-west-fl-turnpike/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miafs-courtyard-miami-west-fl-turnpike/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed Only service animals No, pets are not allowed at Courtyard by Marriott Miami West/FL Turnpike.",
+    "document_sha256": "824e46803ec4fa503fae219566ad1afd641577aa7c1d18b92ce5ca10074239fa",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -3809,17 +3814,17 @@
    "canonical_name": "Fairfield by Marriott Inn & Suites Miami Airport West/ Doral",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "AWAITING_ROUTING_REPLACEMENT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "one brand page bound more than one census row; the duplicate identity is resolved before either publishes (https://www.marriott.com/en-us/hotels/miado-fairfield-inn-and-suites-miami-airport-west-doral/overview/)",
    "router_record": {
     "brand_family": "INDEPENDENT",
     "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "IDENTITY_MISMATCH_HOLD",
+    "hold_reason": "one brand page bound more than one census row; the duplicate identity is resolved before either publishes (https://www.marriott.com/en-us/hotels/miado-fairfield-inn-and-suites-miami-airport-west-doral/overview/)"
    }
   },
   {
@@ -3827,17 +3832,24 @@
    "canonical_name": "Fairfield Inn & Suites Homestead Florida City",
    "corridor": "miami-fl__homestead-florida-city",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miafh-fairfield-inn-and-suites-homestead-florida-city/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miafh-fairfield-inn-and-suites-homestead-florida-city/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "7ebff6440dc85e86ab4a8bf8ca8ddb9ff661648489232218e7ab52823c60039f",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -3845,17 +3857,17 @@
    "canonical_name": "Fairfield Inn & Suites Miami Airport South",
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miapt-fairfield-inn-and-suites-miami-airport-south/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miapt-fairfield-inn-and-suites-miami-airport-south/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed No, pets are not allowed at Fairfield by Marriott Inn & Suites Miami Airport South.",
+    "document_sha256": "2b99c802b1402d9f8c80f1d11cc1279d02e5317196bb9992a408c29cf495fc42",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -3863,17 +3875,17 @@
    "canonical_name": "Fairfield Inn & Suites Miami Airport West/Doral",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "AWAITING_ROUTING_REPLACEMENT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "one brand page bound more than one census row; the duplicate identity is resolved before either publishes (https://www.marriott.com/en-us/hotels/miado-fairfield-inn-and-suites-miami-airport-west-doral/overview/)",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/miado-fairfield-inn-and-suites-miami-airport-west-doral/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "IDENTITY_MISMATCH_HOLD",
+    "hold_reason": "one brand page bound more than one census row; the duplicate identity is resolved before either publishes (https://www.marriott.com/en-us/hotels/miado-fairfield-inn-and-suites-miami-airport-west-doral/overview/)"
    }
   },
   {
@@ -4061,17 +4073,24 @@
    "canonical_name": "Found Hotel Miami Beach Series by Marriott",
    "corridor": "miami-fl__mid-beach",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miamf-found-hotels-miami-beach-series/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miamf-found-hotels-miami-beach-series/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $150.00 Yes, pets are welcome at FOUND Hotels, Miami Beach, Series by Marriott. A non-refundable pet fee of...",
+    "document_sha256": "8599e6c9a4d151866807e349b8a30c646fd6ef20d37fbde6847a426590d7715d",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -7156,17 +7175,17 @@
    "canonical_name": "Marriott Vacation Club Pulse, South Beach",
    "corridor": "miami-fl__south-beach",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miamv-marriott-vacation-club-pulse-south-beach/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miamv-marriott-vacation-club-south-beach/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed",
+    "document_sha256": "7e404a267aca651437eca98a8203334d9a2620e4bd6e46c0cb14177822ca9047",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -7268,17 +7287,17 @@
    "canonical_name": "Miami Airport Marriott- Full Service",
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "AWAITING_ROUTING_REPLACEMENT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "one brand page bound more than one census row; the duplicate identity is resolved before either publishes (https://www.marriott.com/en-us/hotels/miaas-residence-inn-miami-airport/overview/)",
    "router_record": {
     "brand_family": "INDEPENDENT",
     "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "IDENTITY_MISMATCH_HOLD",
+    "hold_reason": "one brand page bound more than one census row; the duplicate identity is resolved before either publishes (https://www.marriott.com/en-us/hotels/miaas-residence-inn-miami-airport/overview/)"
    }
   },
   {
@@ -7411,17 +7430,24 @@
    "canonical_name": "Miami Marriott Biscayne Bay",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miabb-miami-marriott-biscayne-bay/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miabb-miami-marriott-biscayne-bay/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome.",
+    "document_sha256": "49dc9f372ca72dd8b554e18be6252ccb6bb4acc51967c9c8e8daa11bcb96fc25",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -7429,17 +7455,17 @@
    "canonical_name": "Miami Marriott Dadeland",
    "corridor": "miami-fl__kendall-south-dade",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miadd-miami-marriott-dadeland/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miadd-miami-marriott-dadeland/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pets Not Allowed No Pets( except for trained service animals)",
+    "document_sha256": "9f73095234dae37d2e3791c269bf755379acc120f3461c67df1ee6bf754ad2e0",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -8733,17 +8759,17 @@
    "canonical_name": "Residence Inn Miami Airport",
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "AWAITING_ROUTING_REPLACEMENT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "one brand page bound more than one census row; the duplicate identity is resolved before either publishes (https://www.marriott.com/en-us/hotels/miaas-residence-inn-miami-airport/overview/)",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/miaas-residence-inn-miami-airport/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "IDENTITY_MISMATCH_HOLD",
+    "hold_reason": "one brand page bound more than one census row; the duplicate identity is resolved before either publishes (https://www.marriott.com/en-us/hotels/miaas-residence-inn-miami-airport/overview/)"
    }
   },
   {
@@ -8751,17 +8777,17 @@
    "canonical_name": "Residence Inn Miami Airport West Doral",
    "corridor": "miami-fl__doral",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "no evidence captured this order",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/miamn-residence-inn-miami-airport-west-doral/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "no evidence captured this order"
    }
   },
   {
@@ -8769,17 +8795,24 @@
    "canonical_name": "Residence Inn Miami Beach South Beach",
    "corridor": "miami-fl__south-beach",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miach-residence-inn-miami-beach-south-beach/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miach-residence-inn-miami-beach-south-beach/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pets Welcome Pets allowed with non-refundable fee of USD 150 per room per stay Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+    "document_sha256": "059f5492fb61743df544172d760be4b701d06107d48ae35cc6b18970ca17dfac",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -8812,17 +8845,17 @@
    "canonical_name": "Residence Inn Miami Northwest",
    "corridor": "miami-fl__doral",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "disposition": "EVIDENCE_HOLD",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "no evidence captured this order",
    "router_record": {
     "brand_family": "INDEPENDENT",
     "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "EVIDENCE_HOLD",
+    "hold_reason": "no evidence captured this order"
    }
   },
   {
@@ -8848,17 +8881,24 @@
    "canonical_name": "Residence Inn Miami West/FL Turnpike",
    "corridor": "miami-fl__doral",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miarw-residence-inn-miami-west-fl-turnpike/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 85.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miarw-residence-inn-miami-west-fl-turnpike/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome Pets up to 85lbs welcome with $100 USD Non-Refundable fee per stay Maximum Pet Weight: 85.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "ced22a80ed6084b2f902e68ab4551a105c22e78a15c27139f295535a712bc46e",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -9515,17 +9555,24 @@
    "canonical_name": "Sheraton Miami Airport Hotel & Executive Meeting Center",
    "corridor": "miami-fl__mia-airport-miami-springs",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/miaes-sheraton-miami-airport-hotel-and-executive-meeting-center/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miaes-sheraton-miami-airport-hotel-and-executive-meeting-center/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome 1 dog 75 pounds max per room Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 1",
+    "document_sha256": "1ca93f8b383ddd25df36720d92de125aa3b596d5a4bd1e1c90112340e7818a3e",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
    }
   },
   {
@@ -9914,17 +9961,17 @@
    "canonical_name": "Springhill Suites Miami Airport South",
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "ACCESS_BLOCKED",
+   "disposition": "ACCESS_BLOCKED",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/mialg-springhill-suites-miami-airport-south-blue-lagoon-area/overview/)",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/mialg-springhill-suites-miami-airport-south-blue-lagoon-area/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "ACCESS_BLOCKED",
+    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/mialg-springhill-suites-miami-airport-south-blue-lagoon-area/overview/)"
    }
   },
   {
@@ -9932,17 +9979,17 @@
    "canonical_name": "SpringHill Suites Miami Downtown/Medical Center",
    "corridor": "miami-fl__downtown-brickell",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "ACCESS_BLOCKED",
+   "disposition": "ACCESS_BLOCKED",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miahd-springhill-suites-miami-downtown-medical-center/overview/)",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/miahd-springhill-suites-miami-downtown-medical-center/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "ACCESS_BLOCKED",
+    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miahd-springhill-suites-miami-downtown-medical-center/overview/)"
    }
   },
   {
@@ -11364,17 +11411,24 @@
    "canonical_name": "TownePlace Suites by Marriott Miami Airport",
    "corridor": "miami-fl__airport-west-blue-lagoon",
    "brand": "",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "resolved": false,
-   "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 25.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miasa-towneplace-suites-miami-airport/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy Pets Welcome $100 per stay for pets. $25 for additional pets. Must sign pet policy agreement. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+    "document_sha256": "cc313e56b5626d0c34644c59f1dd95e10574bc4afe2efdf40d4f210a1b711ad0",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_POSTAL"
    }
   },
   {
@@ -11406,17 +11460,17 @@
    "canonical_name": "TownePlace Suites Miami Homestead",
    "corridor": "miami-fl__homestead-florida-city",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "ACCESS_BLOCKED",
+   "disposition": "ACCESS_BLOCKED",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miatm-towneplace-suites-miami-homestead/overview/)",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/miatm-towneplace-suites-miami-homestead/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "ACCESS_BLOCKED",
+    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miatm-towneplace-suites-miami-homestead/overview/)"
    }
   },
   {
@@ -11424,17 +11478,17 @@
    "canonical_name": "Towneplace Suites Miami Kendall West",
    "corridor": "miami-fl__kendall-south-dade",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "ACCESS_BLOCKED",
+   "disposition": "ACCESS_BLOCKED",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miasw-towneplace-suites-miami-kendall-west/overview/)",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/miasw-towneplace-suites-miami-kendall-west/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "ACCESS_BLOCKED",
+    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miasw-towneplace-suites-miami-kendall-west/overview/)"
    }
   },
   {
@@ -11671,17 +11725,17 @@
    "canonical_name": "UNFRAMED, Autograph Collection Miami Beach",
    "corridor": "miami-fl__south-beach",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_ATTENDED_CAPTURE",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
+   "final_state": "ACCESS_BLOCKED",
+   "disposition": "ACCESS_BLOCKED",
    "resolved": false,
    "next_action_source": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001 acquisition router record",
    "determined_by": "PTF-MIAMI-FL-HARDENED-SOURCE-READY-001",
-   "next_action": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com",
+   "next_action": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miasp-unframed-autograph-collection/overview/)",
    "router_record": {
     "brand_family": "MARRIOTT",
     "route": "https://www.marriott.com/en-us/hotels/miasp-unframed-autograph-collection/overview/",
-    "disposition_basis": "BROWSER_CAPTURE_NEEDED",
-    "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+    "disposition_basis": "ACCESS_BLOCKED",
+    "hold_reason": "the brand answered the authorized browser with an Access Denied / anti-bot challenge page, which this order does not bypass (https://www.marriott.com/en-us/hotels/miasp-unframed-autograph-collection/overview/)"
    }
   },
   {

@@ -46,6 +46,8 @@ if _DASH not in sys.path:
 from scripts.pettripfinder.hotel_exclusions import address_key  # noqa: E402
 from scripts.pettripfinder.miami_fl_census_reconciliation_001 import canonical_street  # noqa: E402
 
+#: the closure lane is re-entered by later orders against the SAME frozen queue (the terminal Marriott closure
+#: is 003), so the order that produced a row's reads is passed in rather than fixed here.
 WORK_ORDER = "PTF-MIAMI-FL-BROWSER-CLOSURE-002"
 MARKET_ID = "miami-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
@@ -175,7 +177,7 @@ def bind(read, queue_row, census_row):
                      (census_row.get("street") or "") + " " + z_census))
 
 
-def build(reads_paths):
+def build(reads_paths, work_order=WORK_ORDER, out_report=OUT_REPORT):
     census = {h["identity_key"]: h for h in _load(CENSUS)["hotels"]}
     clean = {r["identity_key"]: r for r in _load(CLEAN)["rows"]}
     routing = {r["identity_key"]: r for r in _load(ROUTING)["routes"]}
@@ -192,7 +194,7 @@ def build(reads_paths):
     def _u(url):
         return (url or "").split("?")[0].rstrip("/").lower()
 
-    read_for_key, unmatched_reads = {}, []
+    read_for_key, unmatched_reads, contested = {}, [], []
     for read in reads:
         if read.get("outcome") != "READ":
             # A challenge page carries no name or address to bind on. It attaches no policy either, so the
@@ -210,13 +212,30 @@ def build(reads_paths):
         if len(hits) == 1:
             read_for_key[hits[0]["identity_key"]] = read
         elif len(hits) > 1:
-            for h in hits:
-                read_for_key.setdefault(h["identity_key"], dict(read, outcome="SHARED_PAGE_CENSUS_DUPLICATE",
-                                                                shared_with=[x["identity_key"] for x in hits]))
+            contested.append((read, hits))
         else:
             unmatched_reads.append(OrderedDict([("url", read.get("url")), ("name_on_page", read.get("name_on_page")),
                                                 ("address_on_page", read.get("address_on_page")),
                                                 ("outcome", read.get("outcome"))]))
+
+    # A page that binds more than one census row is ambiguous only among the rows that have NO page of their own.
+    # The Miami airport campus is the case this rule exists for: the Residence Inn's page binds both "Residence Inn
+    # Miami Airport" (its property code) and the campus row "Miami Airport Marriott- Full Service" (which states the
+    # same street and carries no code), while the full-service hotel's OWN page binds only the second. A row another
+    # page names exactly is not a claimant on this one. Resolved after every read is placed, so the answer does not
+    # depend on which file a read was written to.
+    for read, hits in contested:
+        def _owns_another_page(h):
+            other = read_for_key.get(h["identity_key"]) or {}
+            return other.get("outcome") == "READ" and _u(other.get("url")) != _u(read.get("url"))
+
+        still = [h for h in hits if not _owns_another_page(h)]
+        if len(still) == 1:
+            read_for_key[still[0]["identity_key"]] = read
+            continue
+        for h in still:
+            read_for_key.setdefault(h["identity_key"], dict(read, outcome="SHARED_PAGE_CENSUS_DUPLICATE",
+                                                            shared_with=[x["identity_key"] for x in still]))
 
     rows, unbound, counts = [], [], Counter()
     bound_pages = {}
@@ -229,7 +248,7 @@ def build(reads_paths):
             ("identity_key", key), ("canonical_name", q["canonical_name"]), ("family", fam),
             ("corridor", q.get("corridor", "")), ("queue_index", i),
             ("requested_url", q.get("url") or (routing.get(key, {}) or {}).get("url", "")),
-            ("capture_lane", CAPTURE_LANE), ("work_order", WORK_ORDER),
+            ("capture_lane", CAPTURE_LANE), ("work_order", work_order),
             ("prior_disposition", "BROWSER_CAPTURE_NEEDED"),
             ("prior_hold_reason", q.get("hold_reason", "")),
         ])
@@ -287,7 +306,7 @@ def build(reads_paths):
         json.dump(OrderedDict([("rows", rows)]), fh, indent=1, ensure_ascii=False)
         fh.write("\n")
     report = OrderedDict([
-        ("schema", "ptf-browser-closure/1.0"), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
+        ("schema", "ptf-browser-closure/1.0"), ("work_order", work_order), ("market_id", MARKET_ID),
         ("lane", CAPTURE_LANE),
         ("authorization", "the founder granted the browser extension read access for marriott.com, hilton.com, "
                           "hyatt.com and bestwestern.com; no bypass of any challenge, CAPTCHA or authentication"),
@@ -303,7 +322,7 @@ def build(reads_paths):
         ("paid_provider_calls", 0), ("usd_spent", 0.0), ("firecrawl_credits_used", 0),
         ("raw_captures", os.path.relpath(OUT_ROWS, _DASH).replace("\\", "/")),
     ])
-    with open(OUT_REPORT, "w", encoding="utf-8", newline="\n") as fh:
+    with open(out_report, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(report, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
     return report
@@ -312,8 +331,10 @@ def build(reads_paths):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--reads", action="append", required=True, help="a JSON file of this order's browser reads")
+    ap.add_argument("--work-order", default=WORK_ORDER, help="the order these reads were taken under")
+    ap.add_argument("--report", default=OUT_REPORT, help="where to write this pass's ingestion report")
     args = ap.parse_args(argv)
-    rep = build(args.reads)
+    rep = build(args.reads, args.work_order, args.report)
     print("queue", rep["queue_total"], dict(rep["queue_by_family"]))
     print("outcomes", dict(rep["outcomes"]))
     print("bindings", dict(rep["bindings"]))
