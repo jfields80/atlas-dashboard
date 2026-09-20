@@ -199,18 +199,18 @@
  ],
  "counts": {
   "ACCESS_BLOCKED": 113,
-  "BROWSER_CAPTURE_NEEDED": 46,
+  "BROWSER_CAPTURE_NEEDED": 43,
   "CLEAN_PET_FRIENDLY": 102,
-  "CLEAN_VERIFIED_NO_PETS": 48,
+  "CLEAN_VERIFIED_NO_PETS": 51,
   "EVIDENCE_HOLD": 38,
   "IDENTITY_MISMATCH_HOLD": 38,
   "ROUTING_HOLD": 126,
   "SOURCE_SILENT": 126
  },
  "valid_pet_friendly": 102,
- "valid_verified_no_pets": 48,
- "resolved": 150,
- "unresolved": 487,
+ "valid_verified_no_pets": 51,
+ "resolved": 153,
+ "unresolved": 484,
  "rows": [
   {
    "identity_key": "1 hotel south beach",
@@ -1039,8 +1039,16 @@
    "corridor": "miami-fl__kendall-south-dade",
    "street": "13700 SW 139th Ct",
    "postal_code": "33186",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.bestwestern.com/en_US/book/hotels-in-miami/best-western-plus-miami-executive-airport-hotel-suites/propertyCode.10398.html",
+    "pets_allowed_claim": false,
+    "quote": "Pets are not accepted.",
+    "document_sha256": "3bae7a1da0a92ebd9d22a27f6376d1c06207db5946e8686035df8acff3b1a8fe",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_FULL_STREET"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "best western plus north miami bal harbour",
@@ -1049,8 +1057,16 @@
    "corridor": "miami-fl__north-miami",
    "street": "12210 Biscayne Blvd",
    "postal_code": "33181",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.bestwestern.com/en_US/book/hotels-in-north-miami/best-western-plus-windsor-inn/propertyCode.10349.html",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets are not accepted.",
+    "document_sha256": "7e4a33f67b31568a35039e5ac8da5d01a2960dafbd658fb10e2be5e98b4cdb90",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "BRAND_PAGE_NAME_AND_FULL_STREET"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "best western premier miami international airport hotel and suites coral gables",
@@ -2111,8 +2127,16 @@
    "corridor": "miami-fl__kendall-south-dade",
    "street": "9075 S Dadeland Blvd",
    "postal_code": "33156",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/miacy-courtyard-miami-dadeland/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy Pets Not Allowed None No, pets are not allowed at Courtyard by Marriott Miami Dadeland.",
+    "document_sha256": "81653e427784fa0fdea62b593bfe7a62450d31d2464a16ef78e512e88410412e",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "PROPERTY_CODE"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "courtyard miami west fl turnpike",
