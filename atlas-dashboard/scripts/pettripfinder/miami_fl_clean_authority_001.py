@@ -287,7 +287,7 @@ def build_evidence_index(census_hotels):
     # PTF-MIAMI-FL-BROWSER-CLOSURE-002: the supported-browser reads of the 114-row browser queue, each already
     # bound to its own premises by miami_fl_browser_closure_002 (property code, or the brand page's own name with
     # its own postal code / full street). The quote is the page's own policy text nodes, joined in page order.
-    for r in _jsonl(os.path.join(STAGING, "browser_closure_rows.jsonl")):
+    for r in (_load(os.path.join(STAGING, "browser_closure_rows.json"), {}) or {}).get("rows", []):
         if r.get("outcome") != "READ" or not r.get("operative_quote"):
             continue
         quote = r["operative_quote"]
@@ -597,7 +597,7 @@ def build():
     for r in (_load(os.path.join(STAGING, "closure_static_rows.json"), {}) or {}).get("rows", []):
         SITES_BY_KEY[r["identity_key"]] = r
     BROWSER_CLOSURE_STATE.clear()
-    for r in _jsonl(os.path.join(STAGING, "browser_closure_rows.jsonl")):
+    for r in (_load(os.path.join(STAGING, "browser_closure_rows.json"), {}) or {}).get("rows", []):
         state = BROWSER_OUTCOME_STATE.get(r.get("outcome"))
         if state:
             BROWSER_CLOSURE_STATE[r["identity_key"]] = (state[0], state[1] + " (%s)" % (r.get("final_url") or r.get("requested_url")))

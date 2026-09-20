@@ -63,7 +63,7 @@ def check_cross_property(clean, census):
         if len(keys) > 1:
             problems.append("%s cited by %d published rows: %s" % (src, len(keys), ", ".join(sorted(keys))))
     bindings = Counter()
-    for r in _jsonl(os.path.join(RAW, "browser_closure_rows.jsonl")):
+    for r in (_load(os.path.join(RAW, "browser_closure_rows.json"), {}) or {}).get("rows", []):
         if r.get("outcome") == "READ":
             bindings[r.get("binding") or "NONE"] += 1
             if (r.get("binding") or "NONE") == "NONE":

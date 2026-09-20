@@ -26,7 +26,7 @@ It decides no policy. The quote goes to the clean authority, where the negation 
 readers and the shared first_party_binding reader judge it exactly as they judge every other lane's evidence.
 
 Output:
-  launch_packages/pettripfinder/markets/staging/miami-fl/raw_captures/browser_closure_rows.jsonl
+  launch_packages/pettripfinder/markets/staging/miami-fl/raw_captures/browser_closure_rows.json
   launch_packages/pettripfinder/markets/reports/miami_fl_browser_closure_002.json
 """
 from __future__ import annotations
@@ -55,7 +55,9 @@ CENSUS = os.path.join(PKG, "identity_census_proposed", "miami-fl.json")
 CLEAN = os.path.join(REPORTS, "miami_fl_clean_authority_001.json")
 ROUTING = os.path.join(REPORTS, "miami_fl_routing_001.json")
 QUEUE = os.path.join(REPORTS, "miami_fl_browser_queue_002.json")
-OUT_JSONL = os.path.join(RAW, "browser_closure_rows.jsonl")
+#: a .json array, not .jsonl: the repository states eol=lf for launch_packages/**/*.json, so the file a
+#: fresh checkout produces is byte-identical to the one this lane writes (a .jsonl has no such attribute)
+OUT_ROWS = os.path.join(RAW, "browser_closure_rows.json")
 OUT_REPORT = os.path.join(REPORTS, "miami_fl_browser_closure_002.json")
 CAPTURE_LANE = "SUPPORTED_BROWSER (navigate + accessibility-tree find only; no page script, no relay, no bypass)"
 
@@ -281,9 +283,9 @@ def build(reads_paths):
             counts["SHARED_PAGE_CENSUS_DUPLICATE"] += 1
 
     os.makedirs(RAW, exist_ok=True)
-    with open(OUT_JSONL, "w", encoding="utf-8", newline="\n") as fh:
-        for r in rows:
-            fh.write(json.dumps(r, ensure_ascii=False) + "\n")
+    with open(OUT_ROWS, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(OrderedDict([("rows", rows)]), fh, indent=1, ensure_ascii=False)
+        fh.write("\n")
     report = OrderedDict([
         ("schema", "ptf-browser-closure/1.0"), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
         ("lane", CAPTURE_LANE),
@@ -299,7 +301,7 @@ def build(reads_paths):
         ("reads_that_bound_no_queue_row", unmatched_reads),
         ("shared_page_census_duplicates", OrderedDict((json.dumps(list(k)), v) for k, v in multi.items())),
         ("paid_provider_calls", 0), ("usd_spent", 0.0), ("firecrawl_credits_used", 0),
-        ("raw_captures", os.path.relpath(OUT_JSONL, _DASH).replace("\\", "/")),
+        ("raw_captures", os.path.relpath(OUT_ROWS, _DASH).replace("\\", "/")),
     ])
     with open(OUT_REPORT, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(report, fh, indent=1, ensure_ascii=False)
