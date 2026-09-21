@@ -188,21 +188,50 @@
    "held": 2
   }
  ],
+ "same_premises_two_identities_held": [
+  {
+   "address_key": "200|ocean|33062",
+   "identities": [
+    "HOME2 SUITES & TRU BY HILTON POMPANO BEACH PIER",
+    "Tru by Hilton Pompano Beach Pier"
+   ],
+   "brand_property_codes": [
+    "fllppru",
+    "fllprht"
+   ],
+   "held": 2,
+   "resolution_a_registration_order_should_add": "same_campus_distinct_entity"
+  },
+  {
+   "address_key": "315|1st|33301",
+   "identities": [
+    "TRU BY HILTON FORT LAUDERDALE DOWNTOWN/FLAGLER VILLAGE",
+    "Tru by Hilton Fort Lauderdale Downtown"
+   ],
+   "brand_property_codes": [
+    "fllhtht",
+    "fllruru"
+   ],
+   "held": 2,
+   "resolution_a_registration_order_should_add": "same_campus_distinct_entity"
+  }
+ ],
+ "same_premises_rule": "Two rows that share one premises publish only when a committed same_campus_distinct_entity resolution for that address_key names both. This order writes no shared document, so both halves of each dual-brand building are HELD and the resolution a registration order should add is named in the hold reason.",
  "one_artifact_many_premises_rule": "A document that is the only policy evidence for more than one census premises establishes a policy for NONE of them. A multi-property operator's shared landing page is the common case in Broward (Hollywood's Richard's Motel family of lodgings). The inverse of the rule that two pages claiming one address publish neither.",
  "counts": {
   "ACCESS_BLOCKED": 91,
   "BROWSER_CAPTURE_NEEDED": 9,
-  "CLEAN_PET_FRIENDLY": 86,
+  "CLEAN_PET_FRIENDLY": 82,
   "CLEAN_VERIFIED_NO_PETS": 51,
   "EVIDENCE_HOLD": 36,
-  "IDENTITY_MISMATCH_HOLD": 34,
+  "IDENTITY_MISMATCH_HOLD": 38,
   "ROUTING_HOLD": 87,
   "SOURCE_SILENT": 66
  },
- "valid_pet_friendly": 86,
+ "valid_pet_friendly": 82,
  "valid_verified_no_pets": 51,
- "resolved": 137,
- "unresolved": 323,
+ "resolved": 133,
+ "unresolved": 327,
  "rows": [
   {
    "identity_key": "4145 by the sea inn and suites",
@@ -3028,14 +3057,15 @@
     "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
     "binding": "BRAND_PROPERTY_CODE fllprht on the brand's own page"
    },
-   "disposition": "CLEAN_PET_FRIENDLY",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
    "policy_facts": {
     "pet_fee_cents": 5000,
     "fee_currency": "USD",
     "fee_refundable": false,
     "max_pet_weight_lbs": null,
     "max_pet_count": null
-   }
+   },
+   "hold_reason": "SAME PREMISES, TWO IDENTITIES (address_key 200|ocean|33062): HOME2 SUITES & TRU BY HILTON POMPANO BEACH PIER / Tru by Hilton Pompano Beach Pier. A dual-brand building is TWO hotels and publishes only once a committed same_campus_distinct_entity resolution for this address_key names both identities; this order writes no shared document, so both halves are held. The split IS proved -- brand property codes fllppru + fllprht, each read on its own first-party page."
   },
   {
    "identity_key": "home2 suites by hilton fort lauderdale airport and cruise port",
@@ -6322,14 +6352,15 @@
     "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
     "binding": "BRAND_PROPERTY_CODE fllruru on the brand's own page"
    },
-   "disposition": "CLEAN_PET_FRIENDLY",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
    "policy_facts": {
     "pet_fee_cents": 7500,
     "fee_currency": "USD",
     "fee_refundable": false,
     "max_pet_weight_lbs": null,
     "max_pet_count": null
-   }
+   },
+   "hold_reason": "SAME PREMISES, TWO IDENTITIES (address_key 315|1st|33301): TRU BY HILTON FORT LAUDERDALE DOWNTOWN/FLAGLER VILLAGE / Tru by Hilton Fort Lauderdale Downtown. A dual-brand building is TWO hotels and publishes only once a committed same_campus_distinct_entity resolution for this address_key names both identities; this order writes no shared document, so both halves are held. The split IS proved -- brand property codes fllhtht + fllruru, each read on its own first-party page."
   },
   {
    "identity_key": "tru by hilton fort lauderdale downtown flagler village",
@@ -6347,14 +6378,15 @@
     "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
     "binding": "BRAND_PROPERTY_CODE fllhtht on the brand's own page"
    },
-   "disposition": "CLEAN_PET_FRIENDLY",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
    "policy_facts": {
     "pet_fee_cents": 7500,
     "fee_currency": "USD",
     "fee_refundable": false,
     "max_pet_weight_lbs": null,
     "max_pet_count": null
-   }
+   },
+   "hold_reason": "SAME PREMISES, TWO IDENTITIES (address_key 315|1st|33301): TRU BY HILTON FORT LAUDERDALE DOWNTOWN/FLAGLER VILLAGE / Tru by Hilton Fort Lauderdale Downtown. A dual-brand building is TWO hotels and publishes only once a committed same_campus_distinct_entity resolution for this address_key names both identities; this order writes no shared document, so both halves are held. The split IS proved -- brand property codes fllhtht + fllruru, each read on its own first-party page."
   },
   {
    "identity_key": "tru by hilton miramar",
@@ -6397,14 +6429,15 @@
     "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
     "binding": "BRAND_PROPERTY_CODE fllppru on the brand's own page"
    },
-   "disposition": "CLEAN_PET_FRIENDLY",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
    "policy_facts": {
     "pet_fee_cents": 5000,
     "fee_currency": "USD",
     "fee_refundable": false,
     "max_pet_weight_lbs": null,
     "max_pet_count": null
-   }
+   },
+   "hold_reason": "SAME PREMISES, TWO IDENTITIES (address_key 200|ocean|33062): HOME2 SUITES & TRU BY HILTON POMPANO BEACH PIER / Tru by Hilton Pompano Beach Pier. A dual-brand building is TWO hotels and publishes only once a committed same_campus_distinct_entity resolution for this address_key names both identities; this order writes no shared document, so both halves are held. The split IS proved -- brand property codes fllppru + fllprht, each read on its own first-party page."
   },
   {
    "identity_key": "vacation inn motel",

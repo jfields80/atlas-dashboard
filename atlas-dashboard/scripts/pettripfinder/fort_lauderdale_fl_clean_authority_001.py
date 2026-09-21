@@ -735,6 +735,57 @@ def build():
             ("held", len(sharing)),
         ]))
 
+    # BROWARD: TWO ROWS, ONE PREMISES. A dual-brand building is TWO hotels (standing rule) and publishes only
+    # once a committed same-campus resolution in the SHARED identity_resolutions.json says the two identities
+    # at that address are distinct. This order writes no shared document, so both halves are HELD and the
+    # resolution a registration order should add is named in the reason. Left unheld, the site generator folds
+    # the pair into one profile and the release gates refuse the build.
+    same_premises = []
+    _census_by_key = {h["identity_key"]: h for h in hotels}
+    resolved_keys = set()
+    try:
+        _res = _load(os.path.join(PKG, "identity_resolutions.json"), {}) or {}
+        for _r in _res.get("resolutions") or []:
+            if _r.get("market_id") == MARKET_ID and _r.get("address_key"):
+                resolved_keys.add(_r["address_key"])
+    except Exception:                                            # noqa: BLE001 - absence is not a resolution
+        resolved_keys = set()
+    by_premises = {}
+    for row in rows:
+        if row["disposition"] not in (CLEAN_PET_FRIENDLY, CLEAN_VERIFIED_NO_PETS):
+            continue
+        h = _census_by_key.get(row["identity_key"]) or {}
+        street, postal = (h.get("street") or ""), (h.get("postal_code") or "")[:5]
+        m = re.match(r"\s*(\d+)", street)
+        if not (m and postal):
+            continue
+        token = ""
+        for word in street.split()[1:]:
+            w = re.sub(r"[^a-z0-9]", "", word.lower())
+            if w and w not in ("n", "s", "e", "w", "ne", "nw", "se", "sw", "north", "south", "east", "west"):
+                token = w
+                break
+        by_premises.setdefault("%s|%s|%s" % (m.group(1), token, postal), []).append(row)
+    for _akey, sharing in sorted(by_premises.items()):
+        if len(sharing) < 2 or _akey in resolved_keys:
+            continue
+        codes = sorted({(_census_by_key.get(r["identity_key"]) or {}).get("property_code") or "" for r in sharing})
+        names = sorted((_census_by_key.get(r["identity_key"]) or {}).get("canonical_name") or r["identity_key"]
+                       for r in sharing)
+        for row in sharing:
+            row["disposition"] = IDENTITY_MISMATCH_HOLD
+            row["hold_reason"] = (
+                "SAME PREMISES, TWO IDENTITIES (address_key %s): %s. A dual-brand building is TWO hotels and "
+                "publishes only once a committed same_campus_distinct_entity resolution for this address_key "
+                "names both identities; this order writes no shared document, so both halves are held. The "
+                "split IS proved -- brand property codes %s, each read on its own first-party page."
+                % (_akey, " / ".join(names), " + ".join(c for c in codes if c)))
+        same_premises.append(OrderedDict([
+            ("address_key", _akey), ("identities", names),
+            ("brand_property_codes", [c for c in codes if c]), ("held", len(sharing)),
+            ("resolution_a_registration_order_should_add", "same_campus_distinct_entity"),
+        ]))
+
     counts = Counter(r["disposition"] for r in rows)
     pf = [r for r in rows if r["disposition"] == CLEAN_PET_FRIENDLY]
     np_ = [r for r in rows if r["disposition"] == CLEAN_VERIFIED_NO_PETS]
@@ -750,6 +801,12 @@ def build():
          "net that this run's own captures did not need to exercise except as a guard."),
         ("negation_conflicts_caught", negation_conflicts),
         ("one_artifact_many_premises_held", shared_documents),
+        ("same_premises_two_identities_held", same_premises),
+        ("same_premises_rule",
+         "Two rows that share one premises publish only when a committed same_campus_distinct_entity "
+         "resolution for that address_key names both. This order writes no shared document, so both "
+         "halves of each dual-brand building are HELD and the resolution a registration order should "
+         "add is named in the hold reason."),
         ("one_artifact_many_premises_rule",
          "A document that is the only policy evidence for more than one census premises establishes a "
          "policy for NONE of them. A multi-property operator's shared landing page is the common case "
