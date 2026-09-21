@@ -181,14 +181,27 @@ def main():
         t["firecrawl_success"] += i["identity_key"] in fc_ok_by_key
         t["access_blocked"] += i["disposition"] == "ACCESS_BLOCKED"
         t["browser_capture_needed"] += i["disposition"] == "BROWSER_CAPTURE_NEEDED"
+    # BROWARD: the attended-browser lane this order actually exercised (fort_lauderdale_fl_browser_lane_001),
+    # counted per brand family so the brand table reports reads and denials, not a placeholder zero.
+    _blp = os.path.join(R, "fort_lauderdale_fl_browser_lane_001.json")
+    _bl = json.load(open(_blp, encoding="utf-8")) if os.path.exists(_blp) else {}
+    _browser_attempts, _browser_reads, _browser_denied = Counter(), Counter(), Counter()
+    for _r in _bl.get("rows", []):
+        _fam = _r.get("family") or ""
+        _browser_attempts[_fam] += 1
+        if _r.get("outcome") == "READ":
+            _browser_reads[_fam] += 1
+        elif _r.get("outcome") == "CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED":
+            _browser_denied[_fam] += 1
     brand_tbl = OrderedDict()
     for fam in sorted(fam_tbl):
         t = fam_tbl[fam]
         brand_tbl[fam] = OrderedDict([(k, int(t[k])) for k in (
             "census", "pet_friendly", "no_pets", "unresolved", "firecrawl_attempted", "firecrawl_success",
             "access_blocked", "browser_capture_needed")])
-        brand_tbl[fam]["browser_attempted"] = browser_fams.get(fam, 0)
-        brand_tbl[fam]["browser_success"] = 0
+        brand_tbl[fam]["browser_attempted"] = _browser_attempts.get(fam, 0) or browser_fams.get(fam, 0)
+        brand_tbl[fam]["browser_read"] = _browser_reads.get(fam, 0)
+        brand_tbl[fam]["browser_challenge_denied"] = _browser_denied.get(fam, 0)
 
     fc_class = Counter(r.get("firecrawl_class") for r in fc_rows)
     fc_cohort = Counter(r.get("cohort") for r in fc_rows)
@@ -200,28 +213,49 @@ def main():
         if r["classification"] != "OUTSIDE_MARKET":
             continue
         txt = ((r.get("city") or "") + " " + (r.get("classification_reason") or "")).lower()
-        for label, rx in (("FORT_LAUDERDALE", r"fort lauderdale|ft lauderdale"), ("HOLLYWOOD", r"hollywood"),
-                          ("DANIA_BEACH", r"dania"), ("HALLANDALE", r"hallandale"),
-                          ("WEST_PALM_PALM_BEACH", r"palm beach|boca raton"),
+        for label, rx in (("MIAMI_DADE", r"miami|aventura|sunny isles|hialeah|doral|coral gables|homestead|"
+                                        r"key biscayne|bal harbour|surfside|opa.?locka|miami-dade|miami-fl"),
+                          ("BOCA_RATON", r"boca raton"), ("DELRAY_BEACH", r"delray"),
+                          ("BOYNTON_BEACH", r"boynton"),
+                          ("WEST_PALM_PALM_BEACH", r"palm beach|jupiter|lake worth|wellington"),
                           ("FLORIDA_KEYS", r"key largo|islamorada|marathon|key west|florida keys|florida-keys")):
             if re.search(rx, txt):
                 boundary_nodes[label] += 1
                 break
     by_county = dbpr.get("south_florida_boundary_by_county", {}) or {}
-    broward = by_county.get("broward", {})
+    _dade = {}
+    for _k in ("dade", "miami-dade"):
+        _c = by_county.get(_k) or {}
+        if _c:
+            _dade = _c if not _dade else _dade
+    _dade_cities = (_dade.get("by_city") or {})
+    _pb = by_county.get("palm beach") or {}
+    _pb_cities = (_pb.get("by_city") or {})
+    _admitted_outside = sum(1 for h in census["hotels"]
+                            if GEO.classify_postal(h.get("postal_code"), h.get("city"))[0] == "OUTSIDE")
     boundary = OrderedDict([
-        ("method", "DBPR licences counted by the licence's own county (HOTL/MOTL/BNB/TAPT ranks); graph nodes refused by "
-                   "the geography whose own city or reason names the place. Admission is by the corridor registry only."),
-        ("fort_lauderdale_discovered_dbpr", (broward.get("by_city") or {}).get("FORT LAUDERDALE", 0)),
-        ("hollywood_discovered_dbpr", (broward.get("by_city") or {}).get("HOLLYWOOD", 0)),
-        ("dania_beach_discovered_dbpr", sum((broward.get("by_city") or {}).get(c, 0) for c in ("DANIA", "DANIA BEACH"))),
-        ("hallandale_discovered_dbpr", sum((broward.get("by_city") or {}).get(c, 0) for c in ("HALLANDALE", "HALLANDALE BEACH"))),
-        ("broward_county_discovered_dbpr", broward.get("hotel_rank_licences", 0)),
-        ("west_palm_palm_beach_county_discovered_dbpr", (by_county.get("palm beach") or {}).get("hotel_rank_licences", 0)),
+        ("method", "DBPR licences counted by the licence's OWN county (HOTL/MOTL/BNB/TAPT ranks); graph nodes "
+                   "refused by the geography whose own city or reason names the place. Admission is by the "
+                   "corridor registry over the property's own postal code, and by nothing else."),
+        ("miami_dade_discovered_dbpr", _dade.get("hotel_rank_licences", 0)),
+        ("miami_dade_admitted", 0),
+        ("miami_dade_owner", "miami-fl (LIVE market #31)"),
+        ("palm_beach_county_discovered_dbpr", _pb.get("hotel_rank_licences", 0)),
+        ("palm_beach_county_admitted", 0),
+        ("boca_raton_discovered_dbpr", _pb_cities.get("BOCA RATON", 0)),
+        ("boca_raton_admitted", 0),
+        ("delray_beach_discovered_dbpr", _pb_cities.get("DELRAY BEACH", 0)),
+        ("delray_beach_admitted", 0),
+        ("boynton_beach_discovered_dbpr", _pb_cities.get("BOYNTON BEACH", 0)),
+        ("boynton_beach_admitted", 0),
+        ("west_palm_beach_discovered_dbpr", _pb_cities.get("WEST PALM BEACH", 0)),
+        ("west_palm_beach_admitted", 0),
         ("florida_keys_monroe_discovered_dbpr", (by_county.get("monroe") or {}).get("hotel_rank_licences", 0)),
+        ("florida_keys_admitted", 0),
         ("outside_graph_nodes_by_place", OrderedDict(sorted(boundary_nodes.items()))),
-        ("fort_lauderdale_market_included_from_those_areas",
-         sum(1 for h in census["hotels"] if GEO.classify_postal(h.get("postal_code"), h.get("city"))[0] == "OUTSIDE")),
+        ("fort_lauderdale_market_included_from_those_areas", _admitted_outside),
+        ("no_south_florida_sprawl", _admitted_outside == 0),
+        ("existing_live_markets_named", list(GEO.EXISTING_LIVE_MARKETS)),
         ("future_standalone_markets", list(GEO.FUTURE_MARKETS)),
     ])
 
