@@ -1,0 +1,87 @@
+{
+ "schema": "ptf-registration-authorization-readiness/1.0",
+ "status": "AUTHORIZATION_READY",
+ "founder_status": "AWAITING_FOUNDER_AUTHORIZATION",
+ "what_this_is": "A prepared, UNSIGNED readiness document for founder review, written by the registration release lane after Regression V2 classified the registration. It authorizes nothing: no launch-participation flag has moved, no activation flag is enabled, nothing is deployed. The founder's decision, if it comes, is a separate write into deploy/netlify/deployment_authorizations/ that this document never makes.",
+ "market_id": "fort-lauderdale-fl",
+ "prepared_by": "PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002",
+ "prepared_at": "2026-09-21T15:12:11Z",
+ "authorized_by": null,
+ "authorized_at": null,
+ "regression_v2": {
+  "classification_source": "AUTOMATIC",
+  "current_live_source_commit": "fbaf6f73a8e4ed7fa5cf3d81588219d513743bcd",
+  "registration_base": "327c6fd05548f964f53b5054e9600ef17a048198",
+  "base": "327c6fd05548f964f53b5054e9600ef17a048198",
+  "head": "WORKTREE",
+  "change_classes": [
+   "DOCUMENTATION_ONLY",
+   "GENERATED_REPORT_ONLY",
+   "MARKET_DATA_PACKAGE",
+   "COMPOSITE_FRESH_MARKET_DATA_ONLY"
+  ],
+  "release_surfaces": [
+   "MARKET_DATA_PACKAGE",
+   "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+   "NARROW_NON_RELEASE"
+  ],
+  "CHANGE_CLASS": "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+  "FULL_REGRESSION_REQUIRED": "NO",
+  "REMOTE_BROAD_JOBS_REQUIRED": 0,
+  "plan_modules": 118,
+  "assembly_required": false,
+  "reason": "every changed file classifies into a narrow class (COMPOSITE_FRESH_MARKET_DATA_ONLY, DOCUMENTATION_ONLY, GENERATED_REPORT_ONLY, MARKET_DATA_PACKAGE); no row of the matrix makes a broad regression mandatory"
+ },
+ "registration_proof": {
+  "proof_version": "ptf-registration-data-only/2.0",
+  "ELIGIBLE": "YES",
+  "checks": {
+   "change_set": "PASS",
+   "market_local_zone": "PASS",
+   "discovery_config": "PASS",
+   "registration_input": "PASS",
+   "identity_resolutions": "PASS",
+   "participation": "PASS",
+   "release_contract": "PASS",
+   "build_closure": "PASS",
+   "derived_globals": "PASS",
+   "sealed_package": "PASS",
+   "fast_receipt": "PASS",
+   "expected_release": "PASS",
+   "identity_routes": "PASS",
+   "market_state_pin": "PASS",
+   "release_integrity": "PASS"
+  },
+  "seconds": 62.706
+ },
+ "the_digests_this_readiness_binds": {
+  "parent_live_deploy_id": "6ab071a5b7561c33aff6c17b",
+  "parent_release_digest": "sha256:1bbcb59d60b999065fe9be1f140cf544026a431c15d30c5049d7d23c25eaeac7",
+  "sealed_package_id": "pkg-fort-lauderdale-fl-398ca08f89a75b8a",
+  "sealed_package_digest": "sha256:398ca08f89a75b8aab47af83a8a56ad4300075b37fa7f10c9ec31df4fdda0518",
+  "fast_receipt": "launch_packages/pettripfinder/markets/receipts/fort-lauderdale-fl/pkg-fort-lauderdale-fl-398ca08f89a75b8a-c90d906337683ff0.json",
+  "fast_receipt_digest": "sha256:c90d906337683ff09711bcf0d0028df5b042f00cfc497f3666364993f52deee3",
+  "changed_market_bundle_sha256": "e823657e4e620abe552c3298976ad4a9d618e07bfac69d1819bf1bff2db0d37b",
+  "expected_candidate_index_digest": "sha256:e68857b4c564b2ed6984e227bb16e56d976595f88a5b7ac31e8b285907bb2587",
+  "actual_candidate_index_digest": "sha256:74c368f237a64e9f8816cfabe51e61c7d6e1f09db033ebe78a0ddc23acc1b7d7"
+ },
+ "projected_live": {
+  "markets": 32,
+  "profiles": 2375,
+  "routes": 2646,
+  "unexpected_market_changes": 0,
+  "unexpected_profile_changes": 0,
+  "unexpected_route_changes": 0
+ },
+ "lane": {
+  "PACKAGE_REPRODUCIBLE": "YES",
+  "CANDIDATE_REPRODUCIBLE": "YES",
+  "UNCHANGED_MARKETS_REBUILT": 0,
+  "fast_rules_passed": 15
+ },
+ "what_is_not_claimed": [
+  "This document authorizes nothing. Only a founder authorization in deploy/netlify/deployment_authorizations/ admits a market to production.",
+  "The whole-site deployment artifact is built and hashed by the deployment order, under the current-parent guard, the exact-bytes rule and the rollback guard, none of which this lane touches.",
+  "The registration's participation row reads SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH."
+ ]
+}
