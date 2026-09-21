@@ -1,0 +1,953 @@
+{
+ "schema": "ptf-source-ready-accounting/1.0",
+ "work_order": "PTF-FORT-LAUDERDALE-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "fort-lauderdale-fl",
+ "headline": {
+  "total_raw_observations": 3466,
+  "raw_observations_by_lane": {
+   "REGISTRY_FL_DBPR": 1512,
+   "OSM_OVERPASS": 465,
+   "BRAND_INVENTORY_OWNED": 52,
+   "BRAND_INVENTORY_CITY_PAGE": 74,
+   "BRAND_INVENTORY_STATE_SITEMAP": 1,
+   "BRAND_INVENTORY_SITEMAP": 63,
+   "DESTINATION_ORGANIZATION": 376,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 921,
+   "IDENTITY_VERIFIED_PLACES": 2,
+   "PROPERTY_PAGE": 0
+  },
+  "dbpr_licensed_lodging_leads": 1512,
+  "osm_lodging_elements": 548,
+  "brand_inventory_leads": 186,
+  "destination_roster_listings": null,
+  "competitor_leads_normalized": 921,
+  "graph_nodes": 2558,
+  "proposed_census": 464,
+  "valid_pet_friendly": 81,
+  "valid_verified_no_pets": 51,
+  "resolved": 132,
+  "unresolved": 332,
+  "resolution_rate": 0.2845
+ },
+ "holds_by_class": {
+  "IDENTITY": 34,
+  "ROUTING": 88,
+  "ACCESS_BLOCKED": 91,
+  "EVIDENCE": 34,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 19,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 66,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "router exhausted on every free/authorized lane attempted this order (s": 40,
+   "router exhausted: static NAVIGATION_FAILED, Firecrawl FIRECRAWL_FAILED": 14,
+   "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED": 9,
+   "router exhausted: static ACCESS_DENIED, Firecrawl FIRECRAWL_MISMATCH": 8,
+   "router exhausted: static UNHYDRATED, Firecrawl FIRECRAWL_MISMATCH": 5,
+   "the property's own site (found via Places) did not serve to the plain ": 5,
+   "router exhausted: static ACCESS_DENIED, Firecrawl FIRECRAWL_FAILED": 3,
+   "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_MISMATCH": 2,
+   "router exhausted: static UNHYDRATED, Firecrawl FIRECRAWL_FAILED": 2,
+   "router exhausted: static BLANK_PAGE, Firecrawl FIRECRAWL_MISMATCH": 1,
+   "router exhausted: static BLANK_PAGE, Firecrawl FIRECRAWL_FAILED": 1,
+   "router exhausted: static NAVIGATION_FAILED, Firecrawl FIRECRAWL_MISMAT": 1
+  },
+  "BROWSER_CAPTURE_NEEDED": {
+   "static fetch was ACCESS_DENIED; the router sends Marriott to the atten": 8,
+   "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the comm": 5,
+   "static fetch was ACCESS_DENIED; the router sends Hilton to the attende": 3,
+   "static fetch was ACCESS_DENIED; the router's Firecrawl rung did not re": 2,
+   "static fetch was ACCESS_DENIED; Best Western is an excluded brand in t": 1
+  },
+  "EVIDENCE_HOLD": {
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 22,
+   "": 10,
+   "the census states no street for this identity, so it cannot become inv": 1,
+   "ROUTE_DOMAIN_CONFLICT": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "the fetched page's own identity did not confirm this census row": 21,
+   "the site Places names never stated this row's house number + ZIP, phon": 13
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 68,
+   "OTHER_EXPLICIT_REASON": 20
+  },
+  "SOURCE_SILENT": {
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 53,
+   "the property's own site (found via Places, bound on its own address/ph": 11,
+   "the page served and stated no operative pet policy (SOURCE_SILENT_STAT": 1,
+   "the page served and stated no operative pet policy (BLOCK_FOUND_BUT_SI": 1
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 103,
+  "timeshare": 2,
+  "resort_residence": 0,
+  "non_hotel": 143,
+  "closed": 0,
+  "outside": 1087,
+  "duplicate_listing": 0,
+  "name_only_unresolved_graph_residue": 598,
+  "identity_review_required_graph_residue": 149,
+  "same_campus_distinct_entity": 12,
+  "dbpr_cndo_condo_units_never_admitted": 4526,
+  "dbpr_dwel_vacation_dwellings_never_admitted": 6195,
+  "dbpr_napt_apartments_never_admitted": 2347,
+  "dbpr_tapt_apartment_named_refused": 367,
+  "closed_note": "No row was classified CLOSED: DBPR extracts carry only active licences, and no first-party read in this order stated a closure."
+ },
+ "corridor_coverage": {
+  "downtown-las-olas": {
+   "name": "Downtown Fort Lauderdale / Las Olas",
+   "class": "CORE",
+   "census": 11,
+   "pet_friendly": 3,
+   "no_pets": 1,
+   "unresolved": 7,
+   "resolution_rate": 0.3636,
+   "page_publishes": false
+  },
+  "fort-lauderdale-beach": {
+   "name": "Fort Lauderdale Beach",
+   "class": "CORE",
+   "census": 59,
+   "pet_friendly": 5,
+   "no_pets": 2,
+   "unresolved": 52,
+   "resolution_rate": 0.1186,
+   "page_publishes": true
+  },
+  "port-everglades-17th-street": {
+   "name": "Port Everglades / 17th Street Causeway / Harbor Beach",
+   "class": "CORE",
+   "census": 32,
+   "pet_friendly": 4,
+   "no_pets": 7,
+   "unresolved": 21,
+   "resolution_rate": 0.3438,
+   "page_publishes": false
+  },
+  "fll-airport-sr84": {
+   "name": "Fort Lauderdale-Hollywood International Airport (FLL) north / State Road 84",
+   "class": "CORE",
+   "census": 14,
+   "pet_friendly": 4,
+   "no_pets": 1,
+   "unresolved": 9,
+   "resolution_rate": 0.3571,
+   "page_publishes": false
+  },
+  "dania-beach": {
+   "name": "Dania Beach",
+   "class": "CORE",
+   "census": 30,
+   "pet_friendly": 8,
+   "no_pets": 5,
+   "unresolved": 17,
+   "resolution_rate": 0.4333,
+   "page_publishes": true
+  },
+  "hollywood-beach": {
+   "name": "Hollywood Beach",
+   "class": "CORE",
+   "census": 75,
+   "pet_friendly": 5,
+   "no_pets": 4,
+   "unresolved": 66,
+   "resolution_rate": 0.12,
+   "page_publishes": true
+  },
+  "hollywood": {
+   "name": "Hollywood",
+   "class": "CORE",
+   "census": 39,
+   "pet_friendly": 6,
+   "no_pets": 1,
+   "unresolved": 32,
+   "resolution_rate": 0.1795,
+   "page_publishes": true
+  },
+  "plantation-davie": {
+   "name": "Plantation / Davie / Cooper City",
+   "class": "CORE",
+   "census": 23,
+   "pet_friendly": 8,
+   "no_pets": 2,
+   "unresolved": 13,
+   "resolution_rate": 0.4348,
+   "page_publishes": true
+  },
+  "hallandale-beach": {
+   "name": "Hallandale Beach",
+   "class": "CORE",
+   "census": 7,
+   "pet_friendly": 1,
+   "no_pets": 2,
+   "unresolved": 4,
+   "resolution_rate": 0.4286,
+   "page_publishes": false
+  },
+  "galt-ocean-lauderdale-by-the-sea": {
+   "name": "Galt Ocean Mile / Lauderdale-by-the-Sea",
+   "class": "CORRIDOR",
+   "census": 42,
+   "pet_friendly": 3,
+   "no_pets": 6,
+   "unresolved": 33,
+   "resolution_rate": 0.2143,
+   "page_publishes": false
+  },
+  "oakland-park-wilton-manors": {
+   "name": "Oakland Park / Wilton Manors / Coral Ridge",
+   "class": "CORRIDOR",
+   "census": 15,
+   "pet_friendly": 1,
+   "no_pets": 1,
+   "unresolved": 13,
+   "resolution_rate": 0.1333,
+   "page_publishes": false
+  },
+  "cypress-creek": {
+   "name": "Cypress Creek / Northwest Fort Lauderdale",
+   "class": "CORRIDOR",
+   "census": 17,
+   "pet_friendly": 4,
+   "no_pets": 3,
+   "unresolved": 10,
+   "resolution_rate": 0.4118,
+   "page_publishes": false
+  },
+  "pompano-beach": {
+   "name": "Pompano Beach / Lighthouse Point / Hillsboro Beach",
+   "class": "CORRIDOR",
+   "census": 32,
+   "pet_friendly": 6,
+   "no_pets": 4,
+   "unresolved": 22,
+   "resolution_rate": 0.3125,
+   "page_publishes": true
+  },
+  "deerfield-beach": {
+   "name": "Deerfield Beach",
+   "class": "CORRIDOR",
+   "census": 27,
+   "pet_friendly": 7,
+   "no_pets": 4,
+   "unresolved": 16,
+   "resolution_rate": 0.4074,
+   "page_publishes": true
+  },
+  "sunrise-tamarac-lauderhill": {
+   "name": "Sunrise / Tamarac / Lauderhill",
+   "class": "FRINGE",
+   "census": 11,
+   "pet_friendly": 2,
+   "no_pets": 3,
+   "unresolved": 6,
+   "resolution_rate": 0.4545,
+   "page_publishes": false
+  },
+  "weston-southwest-ranches": {
+   "name": "Weston / Southwest Ranches",
+   "class": "FRINGE",
+   "census": 5,
+   "pet_friendly": 2,
+   "no_pets": 1,
+   "unresolved": 2,
+   "resolution_rate": 0.6,
+   "page_publishes": false
+  },
+  "pembroke-pines-miramar": {
+   "name": "Pembroke Pines / Miramar / West Park",
+   "class": "FRINGE",
+   "census": 16,
+   "pet_friendly": 7,
+   "no_pets": 4,
+   "unresolved": 5,
+   "resolution_rate": 0.6875,
+   "page_publishes": true
+  },
+  "coral-springs-coconut-creek": {
+   "name": "Coral Springs / Coconut Creek / Margate / Parkland",
+   "class": "FRINGE",
+   "census": 9,
+   "pet_friendly": 5,
+   "no_pets": 0,
+   "unresolved": 4,
+   "resolution_rate": 0.5556,
+   "page_publishes": true
+  }
+ },
+ "uncorridored_rows": 0,
+ "corridor_count": 18,
+ "corridors_publishing": [
+  "fort-lauderdale-beach",
+  "dania-beach",
+  "hollywood-beach",
+  "hollywood",
+  "plantation-davie",
+  "pompano-beach",
+  "deerfield-beach",
+  "pembroke-pines-miramar",
+  "coral-springs-coconut-creek"
+ ],
+ "brand_by_brand": {
+  "ACCOR": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "BEST_WESTERN": {
+   "census": 6,
+   "pet_friendly": 0,
+   "no_pets": 4,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 1,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "CHOICE": {
+   "census": 15,
+   "pet_friendly": 4,
+   "no_pets": 0,
+   "unresolved": 11,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 4,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "EXTENDED_STAY_AMERICA": {
+   "census": 10,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 10,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 4,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "FOUR_SEASONS": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "HILTON": {
+   "census": 35,
+   "pet_friendly": 29,
+   "no_pets": 2,
+   "unresolved": 4,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 3,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "HYATT": {
+   "census": 5,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 5,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 5,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "IHG": {
+   "census": 15,
+   "pet_friendly": 4,
+   "no_pets": 7,
+   "unresolved": 4,
+   "firecrawl_attempted": 5,
+   "firecrawl_success": 2,
+   "access_blocked": 2,
+   "browser_capture_needed": 2,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "INDEPENDENT": {
+   "census": 238,
+   "pet_friendly": 11,
+   "no_pets": 14,
+   "unresolved": 213,
+   "firecrawl_attempted": 48,
+   "firecrawl_success": 0,
+   "access_blocked": 52,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "LUXURY_INDEPENDENT": {
+   "census": 15,
+   "pet_friendly": 1,
+   "no_pets": 1,
+   "unresolved": 13,
+   "firecrawl_attempted": 5,
+   "firecrawl_success": 0,
+   "access_blocked": 4,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "MARRIOTT": {
+   "census": 48,
+   "pet_friendly": 21,
+   "no_pets": 14,
+   "unresolved": 13,
+   "firecrawl_attempted": 3,
+   "firecrawl_success": 0,
+   "access_blocked": 2,
+   "browser_capture_needed": 8,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "MOTEL6_STUDIO6": {
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 2,
+   "firecrawl_success": 0,
+   "access_blocked": 2,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "OMNI": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "RED_ROOF": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "RESORT_INDEPENDENT": {
+   "census": 46,
+   "pet_friendly": 1,
+   "no_pets": 6,
+   "unresolved": 39,
+   "firecrawl_attempted": 14,
+   "firecrawl_success": 0,
+   "access_blocked": 14,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "SONESTA": {
+   "census": 3,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 3,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  },
+  "WYNDHAM": {
+   "census": 22,
+   "pet_friendly": 10,
+   "no_pets": 3,
+   "unresolved": 9,
+   "firecrawl_attempted": 13,
+   "firecrawl_success": 2,
+   "access_blocked": 4,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_success": 0
+  }
+ },
+ "providers": {
+  "static_capture": {
+   "targets": 351,
+   "free_http_requests": 1,
+   "outcomes": {
+    "ACCESS_DENIED": 147,
+    "BLANK_PAGE": 4,
+    "IDENTITY_MISMATCH": 99,
+    "NAVIGATION_FAILED": 29,
+    "POLICY_NOT_FOUND": 21,
+    "UNEXPECTED_PAGE": 26,
+    "UNHYDRATED": 20,
+    "VALID": 5
+   }
+  },
+  "wyndham_property_service": {
+   "selected": null,
+   "read": 26,
+   "retired": 12
+  },
+  "extended_stay_america": {
+   "routes": 10,
+   "served": 2,
+   "faq_pet_answer": 2
+  },
+  "independents_policy_pages": {
+   "targets": 219,
+   "bound": 118,
+   "free_http_requests": 353
+  },
+  "places_route_discovery": {
+   "requests": 174,
+   "route_discovery_bound": 124,
+   "with_website": 83,
+   "gap_verdicts": {
+    "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 9,
+    "OUTSIDE_MARKET": 6,
+    "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 7,
+    "NO_LODGING_RESULT": 1
+   },
+   "cost_basis": "existing GOOGLE_PLACES_API_KEY capacity; no new key, no new authorization, no plan purchase"
+  },
+  "places_discovered_sites": {
+   "targets": 56,
+   "bound": 37,
+   "free_http_requests": 104
+  },
+  "firecrawl": {
+   "eligible_planned": 112,
+   "attempted": 143,
+   "property_page_attempts": 135,
+   "first_pass_attempted": 112,
+   "retry_pass_attempted": 0,
+   "probe2_pass_attempted": 0,
+   "route_discovery_pages": 8,
+   "route_discovery_routes": 66,
+   "brand_page_reads": {
+    "attempted": 23,
+    "answered": 23,
+    "with_own_address": 21,
+    "by_family": {
+     "CHOICE": 9,
+     "IHG": 14
+    }
+   },
+   "retry_pass_why": "first-pass FIRECRAWL_MISMATCH rows re-attempted once after the census restated Broward grid streets in the ordinal spelling the pages use",
+   "distinct_identities_attempted": 112,
+   "by_cohort": {
+    "DISCOVERED": 9,
+    "PROBE": 82,
+    "ROUTED": 19,
+    "WALL_REPROBE": 2
+   },
+   "publication_grade": 4,
+   "policy_found": 2,
+   "failed": 108,
+   "class_counts": {
+    "FIRECRAWL_BLOCKED": 36,
+    "FIRECRAWL_FAILED": 46,
+    "FIRECRAWL_MISMATCH": 26,
+    "FIRECRAWL_PUBLICATION_GRADE": 4
+   },
+   "credits": {
+    "first_pass": {
+     "before": 1315,
+     "after": 1235,
+     "delta": 80,
+     "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+    },
+    "retry_pass": {},
+    "probe2_pass": {},
+    "route_discovery": {
+     "before": 1346,
+     "after": 1338,
+     "delta": 8
+    },
+    "brand_page_reads": {
+     "before": 1338,
+     "after": 1315,
+     "delta": 23
+    }
+   }
+  },
+  "supported_browser": {
+   "source_ready_001_attempts": 0,
+   "source_ready_001_outcomes": {},
+   "closure_002_queue": 81,
+   "closure_002_outcomes": {
+    "AMENITY_CHIP_ONLY_NOT_OPERATIVE": 1,
+    "CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED": 2,
+    "IDENTITY_BOUND_POLICY_SOURCE_SILENT": 1,
+    "NAVIGATION_FAILED_ERROR_PAGE": 1,
+    "READ": 75,
+    "REJECTED_STALE_DOM_ADDRESS_MISMATCH": 1
+   },
+   "closure_002_reads": 75,
+   "closure_002_bindings": {
+    "BRAND_PROPERTY_CODE fllaa on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllacht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllad on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllanhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllaphx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllarhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllaw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllbmdt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllbr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllcc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllcchx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllco on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllcp on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllcs on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllcyhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE flldb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE flldhsa on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE flldnhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllewhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllfhgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllfn on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllfshh on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllftru on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllgr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllhdhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllhtht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllipup on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE flllc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllld on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllmc on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE fllmiru on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllmmhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllmp on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllmr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllmrht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllmtht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllof on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllpb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllpe on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllpm on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllppru on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllprht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllpt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllpthx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllra on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllrp on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllruru on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllsb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllsc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllsmdt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllsoes on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllswgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE flltmhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE flltsdt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE flltw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllwc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllwehx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllwm on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllwt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fllxb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE hwofldt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbife on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE ppmpbhx on the brand's own page": 1,
+    "the page's own street number 100 + postal code 33301": 1,
+    "the page's own street number 100 + postal code 33441": 1,
+    "the page's own street number 154 + postal code 33004": 1,
+    "the page's own street number 1800 + postal code 33316": 1,
+    "the page's own street number 1851 + postal code 33316": 1,
+    "the page's own street number 1900 + postal code 33004": 1,
+    "the page's own street number 660 + postal code 33441": 1,
+    "the page's own street number 7780 + postal code 33324": 1,
+    "the page's own street number 8530 + postal code 33324": 1,
+    "the page's own street number 90 + postal code 33004": 1,
+    "the page's own street number 91 + postal code 33004": 1,
+    "the queue row's street number 101 + postal code 33009, with the page's own address agreeing": 1,
+    "the queue row's street number 1040 + postal code 33442, with the page's own address agreeing": 1,
+    "the queue row's street number 1050 + postal code 33442, with the page's own address agreeing": 1,
+    "the queue row's street number 1180 + postal code 33316, with the page's own address agreeing": 1,
+    "the queue row's street number 4800 + postal code 33309, with the page's own address agreeing": 1
+   },
+   "by_family": {
+    "BEST_WESTERN": 4,
+    "HILTON": 32,
+    "HYATT": 4,
+    "MARRIOTT": 35
+   }
+  },
+  "other_paid_providers": {
+   "bright_data": 0,
+   "other": 0
+  },
+  "routing_by_state": {
+   "FREE_LANE_EXHAUSTED": 22,
+   "INDEPENDENT_REVIEW": 128,
+   "ROUTED_MAP_WEBSITE": 18,
+   "ROUTED_OFFICIAL_DESTINATION": 221,
+   "ROUTED_OFFICIAL_INVENTORY": 74,
+   "ROUTE_BRAND_MISMATCH": 1
+  },
+  "usd_spent": 0.0,
+  "new_paid_spend": 0.0,
+  "new_provider_authorization": "NONE"
+ },
+ "competitor_reconciliation": {
+  "competitor": "BringFido",
+  "cities_challenged": 29,
+  "competitor_raw_discovery": 1148,
+  "normalized_unique": 921,
+  "matched_to_census": 249,
+  "matched_distinct_identities": 128,
+  "true_missing_qualifying_candidates": 22,
+  "true_missing_verified_by_places": {
+   "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 9,
+   "OUTSIDE_MARKET": 6,
+   "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 7,
+   "NO_LODGING_RESULT": 1
+  },
+  "excluded_stale_outside": 463,
+  "review": 187,
+  "matched_but_policy_unresolved": 128,
+  "counts": {
+   "ALIAS": 36,
+   "DUPLICATE": 121,
+   "EXACT_ATLAS_MATCH": 92,
+   "OUTSIDE": 104,
+   "REVIEW": 187,
+   "TRUE_MISSING": 22,
+   "VACATION_RENTAL": 359
+  }
+ },
+ "south_florida_boundary": {
+  "method": "DBPR licences counted by the licence's own county (HOTL/MOTL/BNB/TAPT ranks); graph nodes refused by the geography whose own city or reason names the place. Admission is by the corridor registry only.",
+  "fort_lauderdale_discovered_dbpr": 0,
+  "hollywood_discovered_dbpr": 0,
+  "dania_beach_discovered_dbpr": 0,
+  "hallandale_discovered_dbpr": 0,
+  "broward_county_discovered_dbpr": 0,
+  "west_palm_palm_beach_county_discovered_dbpr": 222,
+  "florida_keys_monroe_discovered_dbpr": 319,
+  "outside_graph_nodes_by_place": {
+   "FLORIDA_KEYS": 221,
+   "FORT_LAUDERDALE": 62,
+   "WEST_PALM_PALM_BEACH": 99
+  },
+  "fort_lauderdale_market_included_from_those_areas": 0,
+  "future_standalone_markets": [
+   "west-palm-beach-fl",
+   "florida-keys-fl"
+  ]
+ },
+ "negation_and_parser_conflicts": [
+  {
+   "identity_key": "beach gardens hotel",
+   "name": "BEACH GARDENS HOTEL",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "blue wave",
+   "name": "BLUE WAVE",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "cambria hotel fort lauderdale airport south and cruise port",
+   "name": "CAMBRIA HOTEL FORT LAUDERDALE AIRPORT SOUTH & CRUISE PORT",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote refuses pets: 'TA 2 mi Wartsila 3 mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (954) 889-2600 Children Anyone aged 18 and under, at time of booking, stay for free Fax (954) 889-2601 Pets Pets Allowed: No General: Only service animals are permitted, free of charge.'"
+  },
+  {
+   "identity_key": "casa pellegrino",
+   "name": "Casa Pellegrino",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "comfort inn and suites fort lauderdale west turnpike",
+   "name": "COMFORT INN & SUITES FORT LAUDERDALE WEST TURNPIKE",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'eiser University 4 mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (954) 315-2900 Children Anyone aged 18 and under, at time of booking, stay for free Fax (954) 733-1557 Pets Pets Allowed: No General: Only service animals are permitted, free of charge. View Terms $115 USD /night Per Night View package Amenities Hotel Amenities Family & Pet Services No Pets Allowed Only service animals are permitted, free of charge.'"
+  },
+  {
+   "identity_key": "downtown hollywood boutique hotel",
+   "name": "Downtown Hollywood Boutique Hotel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'com No smoking of any kind in the room($500 Fee) No pets - Must be 21 and up to checkin We do have cribs - Additional Twins or Queen beds upon request before midnight No Handicap - We are not setup for it.'"
+  },
+  {
+   "identity_key": "hampton inn weston fort lauderdale",
+   "name": "HAMPTON INN WESTON FORT LAUDERDALE",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'PETS | Pets allowed: Yes'"
+  },
+  {
+   "identity_key": "hollywood beach hotels flamingo",
+   "name": "Hollywood Beach Hotels- Flamingo",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "hollywood beach suites hotel",
+   "name": "Hollywood Beach Suites + Hotel",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "hollywood by the sea hotel",
+   "name": "Hollywood by the Sea Hotel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "la casa fort lauderdale",
+   "name": "LA CASA FORT LAUDERDALE",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "la mer suites",
+   "name": "LA MER SUITES",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Most rooms provide a private backyard area, some with a private barbecue, and most rooms are pet-friendly for pets under 25 pounds. Extra fees A Pet Fee of $100 is required for all pets staying at the hotel. Pets are limited to 25 pounds, and larger pets are not allowed.'"
+  },
+  {
+   "identity_key": "margaritaville hollywood beach resort",
+   "name": "MARGARITAVILLE HOLLYWOOD BEACH RESORT",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "merriweather resort",
+   "name": "MERRIWEATHER RESORT",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "ocean mile inn",
+   "name": "OCEAN MILE INN",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Is the Ocean Mile Hotel Fort Lauderdale pet-friendly? No, pets are not allowed at Ocean Mile Hotel Fort Lauderdale. Pets Pets are not allowed.'"
+  },
+  {
+   "identity_key": "ocean villas",
+   "name": "Ocean Villas",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "paradise",
+   "name": "Paradise",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "pelican by the sea",
+   "name": "Pelican by the Sea",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no acceptance the reader will interpret: \"Pets (Including ESA's) The Pelican By The Sea Motel is NOT a pet friendly motel. Any pet (including ESA's) found on the property will constitute an immediate forfeiture of any monies owed or already paid.\""
+  },
+  {
+   "identity_key": "pelican grand beach resort",
+   "name": "PELICAN GRAND BEACH RESORT",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: 'Pets Are pets allowed? Yes, we are pleased to welcome up to two pet dogs per room weighing 50 pounds or less with a non-refundable deposit of $175 per pet, per stay which covers pet amenities and cleaning. If you are traveling with pets, please notify the front desk at the time of booking or upon arrival. A Pet Registration Form is required, which includes details about the pet (name, breed, weight) and emergency contact information. Are pets allowed in the restaurant, pool, and hotel beach? Pet'"
+  },
+  {
+   "identity_key": "red carpet inn",
+   "name": "RED CARPET INN",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "richard s pet friendly motel",
+   "name": "Richard's Pet Friendly Motel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: '’s Hotel Richard’s Motel Courtyard Richard’s Apartments Green Seas Motel Pages About us Our rooms Gallery Rooms pictures Contact us Sun Shuttle Français Español Richard’s Pet Friendly Motel 1743 Wiley St Hollywood FL, 33020 About Richard’s Pet Friendly Motel “AniMOTEL” (Motel accepting pets) The new expansion coincides with the introduction of a new concept purely suited to people who wish to spend the winter season with their pet under the hot Florida sun. Terms and Policy At all time, dogs mus'"
+  },
+  {
+   "identity_key": "royal palms resort and spa",
+   "name": "ROYAL PALMS RESORT & SPA",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "sea angel",
+   "name": "Sea Angel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "seaside",
+   "name": "SEASIDE",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "seminole hard rock hotel and casino",
+   "name": "Seminole Hard Rock Hotel and Casino",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "shore view hotel",
+   "name": "Shore View Hotel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Is Shore View Hotel pet-friendly? No, pets are not allowed at this property.'"
+  },
+  {
+   "identity_key": "silver spray hollywood beach hotels",
+   "name": "Silver Spray Hollywood Beach Hotels",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "sunbeach",
+   "name": "Sunbeach",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "tara hotel",
+   "name": "TARA HOTEL",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "the delmar hotel",
+   "name": "The Delmar Hotel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: \"Pets Pets are NOT allowed and there is a penalty of $250. 00 for bringing pets onto the property. Are pets allowed? Pets aren't allowed, and there's a $250 fee if one is brought onto the property.\""
+  },
+  {
+   "identity_key": "the guitar hotel at seminole hard rock hotel and casino",
+   "name": "The Guitar Hotel at Seminole Hard Rock Hotel & Casino",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'pets are welcome'"
+  },
+  {
+   "identity_key": "victoria park hotel",
+   "name": "VICTORIA PARK HOTEL",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "wyndham deerfield beach resort",
+   "name": "WYNDHAM DEERFIELD BEACH RESORT",
+   "why": "ROUTE_DOMAIN_CONFLICT -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'wyndhamdeerfieldresort.com' while the census binds the identity to 'wyndhamhotels.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
+  }
+ ],
+ "remaining_unresolved_root_causes": {
+  "BROWSER_CAPTURE_NEEDED": "Marriott / Hilton / Hyatt / Best Western rows whose static fetch was refused. The router sends Marriott and Hilton to the attended browser (Firecrawl is a measured wall) and excludes Hyatt and Best Western from its paid lanes; this session's browser met an Akamai challenge on marriott.com and extension read-permission refusals on marriott.com, hilton.com, hyatt.com and bestwestern.com. Next action: grant the extension read permission for those four domains and run a closure browser pass.",
+  "ROUTING_HOLD": "no first-party route: the routing pass found no brand, bureau or map website, and Places route discovery either bound no place at the row's own street number + ZIP, or bound one whose card names no website (NO_OFFICIAL_WEB_PRESENCE_FOUND), or names a brand/OTA host.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible or probe-eligible) was refused or failed.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a fee / weight / count sentence with no explicit acceptance wording, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "the fetched page or site never confirmed this census row's address, phone or code."
+ }
+}
