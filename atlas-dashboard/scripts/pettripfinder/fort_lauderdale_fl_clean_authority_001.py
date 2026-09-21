@@ -707,6 +707,34 @@ def build():
             row["hold_reason"] = why
         rows.append(row)
 
+    # BROWARD: ONE ARTIFACT, MANY PREMISES. A multi-property operator can serve one landing page for every
+    # building it runs (Hollywood's Richard's Motel family of lodgings runs six licensed premises behind one
+    # site). A document bound to more than one census identity cannot say which building it is about, so it
+    # establishes a policy for NONE of them -- the inverse of the rule that two pages claiming one address
+    # publish neither. Held on the document, never resolved by preferring one row.
+    shared_documents = []
+    by_document = {}
+    for row in rows:
+        ev = row.get("evidence") or {}
+        doc = (ev.get("document_sha256") or "").strip()
+        if doc and row["disposition"] in (CLEAN_PET_FRIENDLY, CLEAN_VERIFIED_NO_PETS):
+            by_document.setdefault(doc, []).append(row)
+    for doc, sharing in sorted(by_document.items()):
+        if len(sharing) < 2:
+            continue
+        keys = sorted(r["identity_key"] for r in sharing)
+        for row in sharing:
+            row["disposition"] = EVIDENCE_HOLD
+            row["hold_reason"] = (
+                "one artifact (sha256:%s) is the ONLY policy evidence for %d different premises (%s); a "
+                "document bound to more than one building cannot say which building it is about, so it "
+                "establishes a policy for none of them" % (doc[:16], len(sharing), ", ".join(keys)))
+        shared_documents.append(OrderedDict([
+            ("document_sha256", doc), ("identity_keys", keys),
+            ("source_url", (sharing[0].get("evidence") or {}).get("source_url", "")),
+            ("held", len(sharing)),
+        ]))
+
     counts = Counter(r["disposition"] for r in rows)
     pf = [r for r in rows if r["disposition"] == CLEAN_PET_FRIENDLY]
     np_ = [r for r in rows if r["disposition"] == CLEAN_VERIFIED_NO_PETS]
@@ -721,6 +749,12 @@ def build():
          "directly from a 'Pets allowed: Yes' / 'Pets Welcome' field or FAQ sentence, so this rule is a safety "
          "net that this run's own captures did not need to exercise except as a guard."),
         ("negation_conflicts_caught", negation_conflicts),
+        ("one_artifact_many_premises_held", shared_documents),
+        ("one_artifact_many_premises_rule",
+         "A document that is the only policy evidence for more than one census premises establishes a "
+         "policy for NONE of them. A multi-property operator's shared landing page is the common case "
+         "in Broward (Hollywood's Richard's Motel family of lodgings). The inverse of the rule that two "
+         "pages claiming one address publish neither."),
         ("counts", OrderedDict(sorted(counts.items()))),
         ("valid_pet_friendly", len(pf)), ("valid_verified_no_pets", len(np_)),
         ("resolved", len(pf) + len(np_)), ("unresolved", len(hotels) - len(pf) - len(np_)),
