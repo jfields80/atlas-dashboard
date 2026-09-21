@@ -59,7 +59,7 @@ MARKET_ID = "fort-lauderdale-fl"
 SCHEMA = "ptf-free-static-capture/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "fort-lauderdale-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "fort-lauderdale-fl.json")
 ROUTING = os.path.join(REPORTS, "fort_lauderdale_fl_routing_001.json")
 SPACING_SECONDS = 1.2
 

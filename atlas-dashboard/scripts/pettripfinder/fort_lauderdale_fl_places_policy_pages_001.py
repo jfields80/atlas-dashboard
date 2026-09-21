@@ -23,7 +23,7 @@ from scripts.pettripfinder import fort_lauderdale_fl_policy_pages_lane_001 as PP
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "fort_lauderdale_fl_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "fort-lauderdale-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "fort-lauderdale-fl.json")
 OUT = os.path.join(PKG, "markets", "staging", "fort-lauderdale-fl", "raw_captures", "closure_static_rows.json")
 
 

@@ -70,12 +70,12 @@ Fort Lauderdale Beach Boulevard, Galt Ocean Mile) is admitted ONLY as the exact 
 operator sells as a hotel, proved on the operator's own page and on the licence's exact premises (a DBPR HOTL
 licence at that street, not a CNDO rental programme).
 
-Nothing here fetches, spends or deploys. The market document goes to the PROPOSED path (shadow until registered);
-the registry's markets/<id>.json is never written by this order.
+Nothing here fetches, spends or deploys. The market document goes to the registry's markets/<id>.json, as every
+registered market's does.
 
 Outputs:
   scripts/pettripfinder/discovery/config/fort_lauderdale_fl.json
-  launch_packages/pettripfinder/markets/proposed/fort-lauderdale-fl.json
+  launch_packages/pettripfinder/markets/fort-lauderdale-fl.json
   launch_packages/pettripfinder/markets/reports/fort_lauderdale_fl_geography_001.json
   launch_packages/pettripfinder/markets/reports/fort_lauderdale_fl_corridor_registry_001.json
 """
@@ -98,8 +98,9 @@ MARKET_ID = "fort-lauderdale-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 CONFIG_OUT = os.path.join(_DASH, "scripts", "pettripfinder", "discovery", "config", "fort_lauderdale_fl.json")
-#: SHADOW_UNTIL_REGISTERED: the source-ready order writes markets/proposed/, never markets/<id>.json.
-SHARD_OUT = os.path.join(PKG, "markets", "proposed", "fort-lauderdale-fl.json")
+#: REGISTERED by PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002: the market document is written to the
+#: registry's markets/<id>.json. The source-ready order's markets/proposed/ copy is history.
+SHARD_OUT = os.path.join(PKG, "markets", "fort-lauderdale-fl.json")
 REPORT_OUT = os.path.join(REPORTS, "fort_lauderdale_fl_geography_001.json")
 REGISTRY_OUT = os.path.join(REPORTS, "fort_lauderdale_fl_corridor_registry_001.json")
 AS_OF = "2026-09-20"
@@ -606,8 +607,9 @@ def build():
         ("as_of", AS_OF),
         ("paid_provider_calls", 0), ("usd_spent", 0.0), ("free_http_requests", 0),
         ("registration_state",
-         "SHADOW_UNTIL_REGISTERED: the market document is written to markets/proposed/fort-lauderdale-fl.json. "
-         "The registry's markets/fort-lauderdale-fl.json is NOT written by this order."),
+         "REGISTERED: the market document is written to the registry's markets/fort-lauderdale-fl.json by "
+         "PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002. The source-ready order's markets/proposed/ "
+         "copy is history."),
         ("membership_rule",
          "The property's OWN postal code, as its own official page or its Florida DBPR public-lodging licence states "
          "it, joined to the corridor registry. Nothing else admits a property."),

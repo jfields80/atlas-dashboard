@@ -58,7 +58,7 @@ PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 STAGING = os.path.join(PKG, "markets", "staging", "fort-lauderdale-fl", "raw_captures")
 READS = os.path.join(STAGING, "browser_reads_001.jsonl")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "fort-lauderdale-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "fort-lauderdale-fl.json")
 ROWS_OUT = os.path.join(STAGING, "browser_closure_rows.json")
 REPORT_OUT = os.path.join(REPORTS, "fort_lauderdale_fl_browser_lane_001.json")
 

@@ -1,4 +1,4 @@
-"""PTF-FORT-LAUDERDALE-FL-HARDENED-SOURCE-READY-001 -- Phase 27: STAGE Fort Lauderdale's authority (shadow until registered).
+"""PTF-FORT-LAUDERDALE-FL-HARDENED-SOURCE-READY-001 -- Phase 3: REGISTER Fort Lauderdale's authority.
 
 Turns this order's clean-authority adjudication into the two documents a registered market is built from, and
 validates both against the contracts that own them:
@@ -8,8 +8,8 @@ validates both against the contracts that own them:
   2. the PROPOSED AUTHORITY     markets/staging/fort-lauderdale-fl/fort_lauderdale_fl_proposed_authority_001.json
      -- the ptf-market-proposed-authority/1.0 shape `market_registration_cli` reads to write the shard.
 
-SHADOW UNTIL REGISTERED. This order writes nothing at the package root and registers nothing: both documents
-are staged inside the market's own zone.
+REGISTERED. PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002 writes both documents to the package root,
+where every registered market's live. The source-ready order's staged copies stay as history.
 
 NOT A FOUNDER SIGNATURE
 ------------------------
@@ -46,12 +46,13 @@ MARKET_ID = "fort-lauderdale-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 CLEAN = os.path.join(REPORTS, "fort_lauderdale_fl_clean_authority_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "fort-lauderdale-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "fort-lauderdale-fl.json")
 STAGING = os.path.join(PKG, "markets", "staging", "fort-lauderdale-fl")
-#: SHADOW_UNTIL_REGISTERED: both documents are staged inside the market's OWN zone. This order never writes
-#: the package root.
-PACKAGE_OUT = os.path.join(STAGING, "launch_package", "hotel_policy_facts_fort-lauderdale-fl.json")
-AUTHORITY_OUT = os.path.join(STAGING, "fort_lauderdale_fl_proposed_authority_001.json")
+#: REGISTERED by PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002: the package root, as every registered
+#: market. `registration_data_only` recognises the registration input by its ROLE NAME there --
+#: `<market_us>_proposed_authority_*.json` -- and naming it anything else fails all fifteen checks.
+PACKAGE_OUT = os.path.join(PKG, "hotel_policy_facts_fort-lauderdale-fl.json")
+AUTHORITY_OUT = os.path.join(PKG, "fort_lauderdale_fl_proposed_authority_001.json")
 OBSERVED_AT = "2026-09-21"
 CAPTURED_AT = "2026-09-21T08:00:00+00:00"
 
@@ -203,7 +204,7 @@ def build():
     package = OrderedDict([
         ("market", "Fort Lauderdale, Florida"), ("schema_version", PS.SCHEMA_VERSION), ("market_id", MARKET_ID),
         ("work_order", WORK_ORDER), ("as_of", OBSERVED_AT),
-        ("note", "Greater Fort Lauderdale's STAGED policy package (SHADOW_UNTIL_REGISTERED). Every record is "
+        ("note", "Greater Fort Lauderdale's REGISTERED policy package. Every record is "
                 "one first-party read of the property's own page, and every published fact is cited to the quote "
                 "it rests on. Refundability is absent, not false, when the source stated neither refundable nor "
                 "non-refundable."),
@@ -213,14 +214,13 @@ def build():
 
     authority = OrderedDict([
         ("schema", "ptf-market-proposed-authority/1.0"),
-        ("what_this_is", "Greater Fort Lauderdale's authority as this source-ready order proposes it, STAGED "
-                        "and NOT registered. Registration would make the market BUILDABLE; this order performs "
-                        "no registration, creates no founder authorization and no deployment authorization, and "
-                        "leaves launch_participation.json untouched. The founder gate in the modern lane is on "
-                        "the exact candidate digest, which is never created here."),
+        ("what_this_is", "Greater Fort Lauderdale's authority as the source-ready order proposed it, REGISTERED "
+                        "by PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002. Registration makes the market "
+                        "BUILDABLE; launch_participation.json decides whether it is BUILT into production, and "
+                        "that stays at SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH. The founder gate in "
+                        "the modern lane is on the exact candidate digest, which is never created here."),
         ("market_id", MARKET_ID), ("work_order", WORK_ORDER),
-        ("registered", False), ("staged_shadow_until_registered", True),
-        ("published", False), ("deployed", False),
+        ("registered", True), ("published", False), ("deployed", False),
         ("built_from", OrderedDict([
             ("source_ledgers", [os.path.relpath(CLEAN, _DASH).replace("\\", "/")]),
             ("decision_ledger", "ptf-market-clean-authority/1.0"), ("decided_by", WORK_ORDER),

@@ -33,11 +33,11 @@ WORK_ORDER = "PTF-FORT-LAUDERDALE-FL-HARDENED-SOURCE-READY-001"
 MARKET_ID = "fort-lauderdale-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-#: SHADOW_UNTIL_REGISTERED: the market's own staging launch_package, where the shadow package and the
-#: source-ready accounting read it. This order never writes the registered package root.
-OUT = os.path.join(PKG, "markets", "staging", "fort-lauderdale-fl", "launch_package",
-                   "fort_lauderdale_fl_final_partition_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "fort-lauderdale-fl.json")
+#: REGISTERED by PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002: the package root, where the release
+#: contract's final_partition block references it by path and content digest. The source-ready order's staged
+#: copy under markets/staging/ is kept as history.
+OUT = os.path.join(PKG, "fort_lauderdale_fl_final_partition_001.json")
+CENSUS = os.path.join(PKG, "identity_census", "fort-lauderdale-fl.json")
 CLEAN = os.path.join(REPORTS, "fort_lauderdale_fl_clean_authority_001.json")
 AS_OF = "2026-09-20"
 

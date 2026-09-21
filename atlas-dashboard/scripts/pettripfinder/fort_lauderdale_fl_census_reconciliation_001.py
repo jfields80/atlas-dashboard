@@ -36,15 +36,16 @@ reads as a vacation home community, villa / condo rental, resort residence or va
 no brand's public hotel inventory and no hotel page read reached -- is NON_LODGING with a VACATION_RENTAL /
 TIMESHARE / RESORT_RESIDENCE reason (fort_lauderdale_fl_nonhotel_rulings_001).
 
-SHADOW_UNTIL_REGISTERED
------------------------
-Written to identity_census_proposed/. The registered path identity_census/fort-lauderdale-fl.json is NOT
-written by this order; a later registration order copies the proposed census there.
+REGISTERED
+----------
+Written to identity_census_proposed/ while the market was shadow; REGISTERED by
+PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002, so it is written to identity_census/,
+as every registered market's census is.
 
 Nothing here fetches. Nothing here carries a pet policy.
 
 Outputs:
-  launch_packages/pettripfinder/identity_census_proposed/fort-lauderdale-fl.json
+  launch_packages/pettripfinder/identity_census/fort-lauderdale-fl.json
   launch_packages/pettripfinder/markets/reports/fort_lauderdale_fl_census_reconciliation_001.json
   launch_packages/pettripfinder/markets/reports/fort_lauderdale_fl_competitor_gap_matrix_001.json
 """
@@ -80,10 +81,10 @@ GAP_SCHEMA = "ptf-competitor-gap-matrix/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 
 REPORTS = os.path.join(PKG, "markets", "reports")
-#: SHADOW UNTIL REGISTERED: the census is written to the market zone's PROPOSED census path. The later
-#: registration order copies it into identity_census/. This order never writes the registered path.
-CENSUS_DIR = os.path.join(PKG, "identity_census_proposed")
-CONTRACT_PATH = os.path.join(PKG, "markets", "proposed", "fort-lauderdale-fl.json")
+#: REGISTERED by PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002: the census is written to the
+#: registry's own path, as every registered market's census is.
+CENSUS_DIR = os.path.join(PKG, "identity_census")
+CONTRACT_PATH = os.path.join(PKG, "markets", "fort-lauderdale-fl.json")
 
 OSM_LANE = os.path.join(REPORTS, "fort_lauderdale_fl_osm_lane_001.json")
 BRAND = os.path.join(REPORTS, "fort_lauderdale_fl_brand_inventory_001.json")
@@ -1100,6 +1101,53 @@ def attach_name_only(nodes, node_corridor_municipality=None):
     return hard, bound, ambiguous, unbound
 
 
+#: BROWARD: chain flags that a Florida DBPR licence sometimes carries with NO place word. A bare flag is not a
+#: premises identity, and because the shared exclusion registry matches on the normalised canonical name across
+#: every market, a bare-flag row in one market bars an identically named hotel in another (caught by
+#: release_contracts.verify_all on Cleveland's Holiday Inn Express & Suites).
+_BARE_CHAIN_FLAG = re.compile(
+    r"^(holiday inn express( hotel)?( (and|&) suites)?|holiday inn|hampton inn( (and|&) suites)?|"
+    r"courtyard by marriott|residence inn( by marriott)?|fairfield inn( (and|&) suites)?|"
+    r"springhill suites|towneplace suites|home2 suites|homewood suites|embassy suites|doubletree|"
+    r"hilton garden inn|candlewood suites|staybridge suites|comfort inn( (and|&) suites)?|"
+    r"comfort suites|quality inn( (and|&) suites)?|best western( plus)?|la quinta inn( (and|&) suites)?|"
+    r"days inn|super 8|motel 6|red roof inn|extended stay america|wyndham garden|tru by hilton|"
+    r"aloft|element|sonesta|woodspring suites)$", re.I)
+
+
+def name_bare_chain_flags(nodes):
+    """A node whose chosen name is a BARE chain flag takes a longer name from its own observations that starts
+    with that flag and adds a place. Returns the rulings, each citing the lane that supplied the fuller name."""
+    rulings = []
+    for n in nodes:
+        chosen = " ".join((n.name or "").split())
+        if not chosen or not _BARE_CHAIN_FLAG.match(normalize_name(chosen)):
+            continue
+        flag = normalize_name(chosen)
+        better = []
+        for o in n.observations:
+            cand = " ".join((o.get("name") or "").split())
+            cn = normalize_name(cand)
+            if cand and cn != flag and cn.startswith(flag) and len(_listing_slug(cand)) <= 80:
+                better.append((cand, o.get("lane"), o.get("source_url")))
+        if not better:
+            continue
+        names = sorted({b[0] for b in better})
+        if len(names) != 1:
+            continue                      # two different fuller names is a review, never a coin flip
+        picked = names[0]
+        rulings.append(OrderedDict([
+            ("was", chosen), ("now", picked),
+            ("lanes", sorted({b[1] for b in better if b[1]})),
+            ("sources", sorted({b[2] for b in better if b[2]})[:3]),
+            ("why", "the chosen name was a BARE CHAIN FLAG with no place; a bare flag is not a premises "
+                    "identity and collides with identically named hotels in other markets through the shared "
+                    "exclusion registry"),
+        ]))
+        n.name = picked
+    return rulings
+
+
 def merge_zipless(nodes):
     """A second pass for rows whose source printed a street but no postal code."""
     with_zip = [n for n in nodes if n.street and n.postal]
@@ -1820,6 +1868,7 @@ def build():
                 if fits:
                     n.name = fits[0]
                     break
+    bare_flag_renamed = name_bare_chain_flags(nodes)
 
     code_detached = []
     for n in nodes:
@@ -1930,9 +1979,9 @@ def build():
         ("work_order", WORK_ORDER), ("captured_at", "2026-09-20"),
         ("note",
          "PTF-FORT-LAUDERDALE-FL-HARDENED-SOURCE-READY-001 Greater Fort Lauderdale / Broward County census, "
-         "built from zero under the current hardened factory on the Miami-live lineage. SHADOW_UNTIL_REGISTERED: "
-         "written to identity_census_proposed/, never to identity_census/. Every row carries the observations "
-         "that produced it; nothing here carries a pet policy."),
+         "built from zero under the current hardened factory on the Miami-live lineage, REGISTERED by "
+         "PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002 (identity_census/). Every row carries the "
+         "observations that produced it; nothing here carries a pet policy."),
         ("source_authorities", SOURCE_AUTHORITIES),
         ("count", len(confirmed)),
         ("total_candidates", len(rows)),
@@ -1982,6 +2031,13 @@ def build():
         ])),
         ("classification_counts", OrderedDict(sorted(counts.items()))),
         ("corridor_counts", OrderedDict(sorted(by_corridor.items()))),
+        ("bare_chain_flag_renamed", bare_flag_renamed),
+        ("bare_chain_flag_rule",
+         "A census name that is a BARE CHAIN FLAG is not a premises identity. Because the shared "
+         "exclusion registry matches on the normalised canonical name across every market, a bare-flag "
+         "row bars identically named hotels elsewhere. Such a row takes the one longer name its own "
+         "observations agree on that starts with the flag and adds a place; two different fuller names "
+         "are a review, never a coin flip."),
         ("first_party_naming", OrderedDict([
             ("what_it_is",
              "A bare brand label is not an identity. Each such row takes the property's OWN name "
