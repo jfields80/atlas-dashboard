@@ -601,6 +601,26 @@ BROWSER_OUTCOME_STATE = {
     "NO_BRAND_PROPERTY_PAGE": (ROUTING_HOLD, "the census routes this identity to a brand HOME page, and the brand "
                                              "publishes no property page for these premises -- there is nothing "
                                              "first-party to read, so no browser capture can resolve it"),
+    # BROWARD -- the outcomes this market's own attended-browser lane records. Phase 11 rule 7: a page this
+    # order DID read never stays labelled as still awaiting the browser.
+    "IDENTITY_BOUND_POLICY_SOURCE_SILENT": (
+        SOURCE_SILENT, "the property's own pages served, bound these exact premises, and state no operative pet "
+                       "policy anywhere the reader reached; silence is never a refusal (Phase 17)"),
+    "AMENITY_CHIP_ONLY_NOT_OPERATIVE": (
+        SOURCE_SILENT, "the brand's own page served and bound these premises, and the only pet wording on it is "
+                       "an amenity chip, which is never acceptance (Phase 17)"),
+    "CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED": (
+        ACCESS_BLOCKED, "the brand answered the authorized attended browser with an Akamai Access Denied page "
+                        "across paced windows; the challenge was never bypassed"),
+    "REJECTED_STALE_DOM_ADDRESS_MISMATCH": (
+        IDENTITY_MISMATCH_HOLD, "the browser read returned the PREVIOUS property's address, so the page never "
+                                "bound these premises; a route/premises mismatch is never valid evidence"),
+    "NAVIGATION_FAILED_ERROR_PAGE": (
+        ROUTING_HOLD, "the route the census carries is a dead vanity domain and no route on the brand's own host "
+                      "was proved for these premises"),
+    "IDENTITY_READ_ROW_EXCLUDED_AS_TIMESHARE": (
+        SOURCE_SILENT, "the brand's own page named these premises a vacation-ownership resort; the row is "
+                       "excluded before any policy applies and publishes nothing"),
 }
 BROWSER_CLOSURE_STATE = {}
 
@@ -638,7 +658,10 @@ def build():
         if ev is None:
             ev = by_key.get(key)
         if ev is None:
-            ev = by_addr.get(address_key(h.get("street") or "", (h.get("postal_code") or "")[:5]))
+            # BROWARD: the census row's street is canonicalised on the SAME path the evidence index used
+            # (line ~251), or "1120 W SR 84" and "1120 W. State Road 84" build two keys for one building.
+            ev = by_addr.get(address_key(canonical_street(h.get("street") or ""),
+                                         (h.get("postal_code") or "")[:5]))
             if ev is _AMBIGUOUS:
                 ev = None
 

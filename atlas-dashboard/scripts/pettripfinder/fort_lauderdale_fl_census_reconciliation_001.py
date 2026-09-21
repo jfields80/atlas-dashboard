@@ -206,6 +206,18 @@ def canonical_name(name):
     return _TIGHT_AMPERSAND.sub(" and ", name or "")
 
 
+#: BROWARD: "SR 84" (the Florida DBPR's spelling) and "State Road 84" (the brands' spelling) are ONE street,
+#: and State Road 84 / Marina Mile is the spine of the FLL airport corridor. Folded to the state's own short
+#: form BEFORE any key is built, or a brand page read never reaches the licence row it belongs to.
+_STATE_ROAD = re.compile(r"\bs(?:tate)?[ .\-]*r(?:oa)?d?\.?[ .\-]*(\d+)\b", re.I)
+
+
+def fold_state_road(street):
+    """"State Road 84" / "State Rd 84" / "SR-84" / "S.R. 84" -> "SR 84". Reporting and keying only."""
+    if not street:
+        return street
+    return _STATE_ROAD.sub(lambda m: "SR %s" % m.group(1), street)
+
 def canonical_street(street):
     """BROWARD: the census states a Broward grid street the way a property's own page writes it ("2301 SE 17th
     Ave"), whether the licence abbreviated it ("2601 Nw 42 Ave") or the map spelled it out ("2601 Northwest 42nd
@@ -215,6 +227,7 @@ def canonical_street(street):
     if not street:
         return street
     # "N.W." / "N. W." / "S.E." are the same quadrant as NW / SE; the dots only break the match below.
+    street = fold_state_road(street)
     street = _DOTTED_QUADRANT.sub(lambda m: (m.group(1) + m.group(2)).upper(), street)
     s = _GRID.sub(lambda m: "%s %s" % (_QUADRANT[m.group(1).lower()], _ordinal(m.group(2))), street)
     return _BARE_NUMBERED.sub(lambda m: "%s%s" % (m.group(1), _ordinal(m.group(2))), s)

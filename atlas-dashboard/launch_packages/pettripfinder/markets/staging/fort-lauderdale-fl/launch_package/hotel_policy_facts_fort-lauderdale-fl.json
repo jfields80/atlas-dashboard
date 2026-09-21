@@ -113,6 +113,35 @@
    ]
   },
   {
+   "key": "candlewood suites ft lauderdale airport cruise",
+   "identity_key": "candlewood suites ft lauderdale airport cruise",
+   "name": "CANDLEWOOD SUITES FT. LAUDERDALE AIRPORT/CRUISE",
+   "market_id": "fort-lauderdale-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true
+   },
+   "computation_class": "NOT_COMPUTABLE",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-FORT-LAUDERDALE-FL-HARDENED-SOURCE-READY-001",
+   "reviewed_at": "2026-09-21",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pet Friendly Pet fee at our hotel is a non refundable 75 dollars per pet. Parking fee: 10 USD per day In and out privileges Parking for registered guests only Parking & transportation details Can I bring my pet to Candlewood Suites Ft. Pets are welcome at Candlewood Suites Ft. Pet policy description. Pet fee at our hotel is a non refundable 75 dollars per pet. Pet fee per night: 0 USD Pet damage deposit: 75 USD Pet policy Does Candlewood Suites Ft.",
+     "source_url": "https://www.ihg.com/candlewood/hotels/us/en/fort-lauderdale/fllfl/hoteldetail",
+     "value": "true",
+     "evidence_ref": "ev:a532babeb0de6ce3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:015e8395b7df1f5bdc6f9e83725423166f9da8a94cae26d441028404551d2199",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-21T08:00:00+00:00",
+     "capture_method": "direct_static_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
    "key": "courtyard by marriott coral springs",
    "identity_key": "courtyard by marriott coral springs",
    "name": "COURTYARD BY MARRIOTT - CORAL SPRINGS",
@@ -4503,6 +4532,105 @@
    ]
   },
   {
+   "key": "sheraton suites plantation ft lauderdale",
+   "identity_key": "sheraton suites plantation ft lauderdale",
+   "name": "SHERATON SUITES PLANTATION/FT. LAUDERDALE",
+   "market_id": "fort-lauderdale-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 10000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable": false
+    },
+    "species": {
+     "dog": "accepted"
+    },
+    "species_source_grade": {
+     "dog": "PT2_BRAND"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-FORT-LAUDERDALE-FL-HARDENED-SOURCE-READY-001",
+   "reviewed_at": "2026-09-21",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pet Policy | Pets Welcome | Dogs only welcome with non-refundable pet fee of $100 per stay (every 5 days). | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 1",
+     "source_url": "https://www.marriott.com/en-us/hotels/fllsi-sheraton-suites-fort-lauderdale-west/overview/",
+     "value": "true",
+     "evidence_ref": "ev:6d9efb72964210a5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13b249004d25d129e806dcd362568369e384a3f19ab21887b277e749b5a5e3a2",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-21T08:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "Pet Policy | Pets Welcome | Dogs only welcome with non-refundable pet fee of $100 per stay (every 5 days). | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 1",
+     "source_url": "https://www.marriott.com/en-us/hotels/fllsi-sheraton-suites-fort-lauderdale-west/overview/",
+     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 40.0}",
+     "evidence_ref": "ev:93d9e05a8ac396dd",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13b249004d25d129e806dcd362568369e384a3f19ab21887b277e749b5a5e3a2",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-21T08:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Pet Policy | Pets Welcome | Dogs only welcome with non-refundable pet fee of $100 per stay (every 5 days). | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 1",
+     "source_url": "https://www.marriott.com/en-us/hotels/fllsi-sheraton-suites-fort-lauderdale-west/overview/",
+     "value": "{\"amount_cents\": 10000, \"basis\": \"per_stay\", \"currency\": \"USD\", \"refundable\": false}",
+     "evidence_ref": "ev:bd56148d97fa937b",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13b249004d25d129e806dcd362568369e384a3f19ab21887b277e749b5a5e3a2",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-21T08:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species",
+     "quote": "Pet Policy | Pets Welcome | Dogs only welcome with non-refundable pet fee of $100 per stay (every 5 days). | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 1",
+     "source_url": "https://www.marriott.com/en-us/hotels/fllsi-sheraton-suites-fort-lauderdale-west/overview/",
+     "value": "{\"dog\": \"accepted\"}",
+     "evidence_ref": "ev:41201437ccf7341f",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13b249004d25d129e806dcd362568369e384a3f19ab21887b277e749b5a5e3a2",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-21T08:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species_source_grade",
+     "quote": "Pet Policy | Pets Welcome | Dogs only welcome with non-refundable pet fee of $100 per stay (every 5 days). | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 1",
+     "source_url": "https://www.marriott.com/en-us/hotels/fllsi-sheraton-suites-fort-lauderdale-west/overview/",
+     "value": "{\"dog\": \"PT2_BRAND\"}",
+     "evidence_ref": "ev:474dde5b26951ddd",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13b249004d25d129e806dcd362568369e384a3f19ab21887b277e749b5a5e3a2",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-21T08:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
    "key": "stay inn boutique hotel",
    "identity_key": "stay inn boutique hotel",
    "name": "Stay Inn Boutique Hotel",
@@ -4917,6 +5045,73 @@
      "evidence_ref": "ev:1017594073b413e8",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:73088c571b7b3853cc33bcbc2d632a84a6af2253fc717865a1bb8c44835b5a29",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-21T08:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    }
+   ]
+  },
+  {
+   "key": "westin fort lauderdale",
+   "identity_key": "westin fort lauderdale",
+   "name": "WESTIN FORT LAUDERDALE",
+   "market_id": "fort-lauderdale-fl",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_night",
+     "refundable": false
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "reviewer_id": "PTF-FORT-LAUDERDALE-FL-HARDENED-SOURCE-READY-001",
+   "reviewed_at": "2026-09-21",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pet Policy | Pets Welcome. | Breed restrictions apply. A $50.00 fee applies per stay. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "source_url": "https://www.marriott.com/en-us/hotels/fllwi-the-westin-fort-lauderdale/overview/",
+     "value": "true",
+     "evidence_ref": "ev:0286da956680f0e5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:e9003a1f37451813197cde972fba92d3338b5d5ef896396d0b6dde6b8f8b82a4",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-21T08:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "Pet Policy | Pets Welcome. | Breed restrictions apply. A $50.00 fee applies per stay. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "source_url": "https://www.marriott.com/en-us/hotels/fllwi-the-westin-fort-lauderdale/overview/",
+     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 40.0}",
+     "evidence_ref": "ev:709bcc14ebd59dbb",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:e9003a1f37451813197cde972fba92d3338b5d5ef896396d0b6dde6b8f8b82a4",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-21T08:00:00+00:00",
+     "capture_method": "attended_browser",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Pet Policy | Pets Welcome. | Breed restrictions apply. A $50.00 fee applies per stay. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "source_url": "https://www.marriott.com/en-us/hotels/fllwi-the-westin-fort-lauderdale/overview/",
+     "value": "{\"amount_cents\": 5000, \"basis\": \"per_night\", \"currency\": \"USD\", \"refundable\": false}",
+     "evidence_ref": "ev:78713f198a8f452e",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:e9003a1f37451813197cde972fba92d3338b5d5ef896396d0b6dde6b8f8b82a4",
      "artifact_kind": "rendered_html",
      "captured_at": "2026-09-21T08:00:00+00:00",
      "capture_method": "attended_browser",

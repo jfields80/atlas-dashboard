@@ -37,6 +37,11 @@
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'com No smoking of any kind in the room($500 Fee) No pets - Must be 21 and up to checkin We do have cribs - Additional Twins or Queen beds upon request before midnight No Handicap - We are not setup for it.'"
   },
   {
+   "identity_key": "embassy suites by hilton deerfield beach resort and spa",
+   "name": "EMBASSY SUITES BY HILTON DEERFIELD BEACH RESORT & SPA",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'PETS | Pets allowed: Yes'"
+  },
+  {
    "identity_key": "hampton inn weston fort lauderdale",
    "name": "HAMPTON INN WESTON FORT LAUDERDALE",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'PETS | Pets allowed: Yes'"
@@ -219,19 +224,18 @@
  "same_premises_rule": "Two rows that share one premises publish only when a committed same_campus_distinct_entity resolution for that address_key names both. This order writes no shared document, so both halves of each dual-brand building are HELD and the resolution a registration order should add is named in the hold reason.",
  "one_artifact_many_premises_rule": "A document that is the only policy evidence for more than one census premises establishes a policy for NONE of them. A multi-property operator's shared landing page is the common case in Broward (Hollywood's Richard's Motel family of lodgings). The inverse of the rule that two pages claiming one address publish neither.",
  "counts": {
-  "ACCESS_BLOCKED": 91,
-  "BROWSER_CAPTURE_NEEDED": 9,
-  "CLEAN_PET_FRIENDLY": 82,
-  "CLEAN_VERIFIED_NO_PETS": 51,
-  "EVIDENCE_HOLD": 36,
+  "ACCESS_BLOCKED": 89,
+  "CLEAN_PET_FRIENDLY": 85,
+  "CLEAN_VERIFIED_NO_PETS": 53,
+  "EVIDENCE_HOLD": 37,
   "IDENTITY_MISMATCH_HOLD": 38,
-  "ROUTING_HOLD": 87,
-  "SOURCE_SILENT": 66
+  "ROUTING_HOLD": 89,
+  "SOURCE_SILENT": 69
  },
- "valid_pet_friendly": 82,
- "valid_verified_no_pets": 51,
- "resolved": 133,
- "unresolved": 327,
+ "valid_pet_friendly": 85,
+ "valid_verified_no_pets": 53,
+ "resolved": 138,
+ "unresolved": 322,
  "rows": [
   {
    "identity_key": "4145 by the sea inn and suites",
@@ -343,7 +347,7 @@
    "canonical_name": "Amble Inn",
    "brand": "",
    "corridor": "fort-lauderdale-fl__plantation-davie",
-   "street": "790 S Sr 7",
+   "street": "790 S SR 7",
    "postal_code": "33317",
    "disposition": "ROUTING_HOLD",
    "hold_reason": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website"
@@ -523,8 +527,8 @@
    "corridor": "fort-lauderdale-fl__fort-lauderdale-beach",
    "street": "505 N Ft Lauderdale Beach Blvd",
    "postal_code": "33304",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "disposition": "SOURCE_SILENT",
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.hilton.com/en/hotels/fllfshh-beach-house-fort-lauderdale/)"
   },
   {
    "identity_key": "beach tide motel",
@@ -588,7 +592,7 @@
    "canonical_name": "BELVEDERE INN",
    "brand": "",
    "corridor": "fort-lauderdale-fl__pembroke-pines-miramar",
-   "street": "2550 S Sr 7",
+   "street": "2550 S SR 7",
    "postal_code": "33023",
    "disposition": "ACCESS_BLOCKED",
    "hold_reason": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
@@ -628,10 +632,10 @@
    "canonical_name": "BEST WESTERN FORT LAUDERDALE AIRPORT/CRUISE PORT",
    "brand": "",
    "corridor": "fort-lauderdale-fl__fll-airport-sr84",
-   "street": "1221 Sr 84",
+   "street": "1221 SR 84",
    "postal_code": "33315",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; Best Western is an excluded brand in the committed route table; the browser extension refused to read bestwestern.com pages this session (domain permission not granted)"
+   "disposition": "ROUTING_HOLD",
+   "hold_reason": "the census routes this identity to a brand HOME page, and the brand publishes no property page for these premises -- there is nothing first-party to read, so no browser capture can resolve it (https://www.bestwestern.com/en_US/hotels/destinations/united-states/southeast/florida.html?iata=00173440&ssob=INFMFL099G&cid=INFMFL099G:co-op:florida:site-def)"
   },
   {
    "identity_key": "best western ft lauderdale i 95 inn",
@@ -658,8 +662,8 @@
    "corridor": "fort-lauderdale-fl__port-everglades-17th-street",
    "street": "1180 Seabreeze Blvd",
    "postal_code": "33316",
-   "disposition": "ACCESS_BLOCKED",
-   "hold_reason": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+   "disposition": "ROUTING_HOLD",
+   "hold_reason": "the route the census carries is a dead vanity domain and no route on the brand's own host was proved for these premises (http://www.bwfortlauderdale.com/)"
   },
   {
    "identity_key": "best western plus deerfield beach hotel and suites",
@@ -886,10 +890,24 @@
    "canonical_name": "CANDLEWOOD SUITES FT. LAUDERDALE AIRPORT/CRUISE",
    "brand": "",
    "corridor": "fort-lauderdale-fl__fll-airport-sr84",
-   "street": "1120 W Sr 84",
+   "street": "1120 W SR 84",
    "postal_code": "33315",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router's Firecrawl rung did not reach this row"
+   "evidence": {
+    "lane": "FIRECRAWL",
+    "source_url": "https://www.ihg.com/candlewood/hotels/us/en/fort-lauderdale/fllfl/hoteldetail",
+    "pets_allowed_claim": true,
+    "quote": "Pet Friendly Pet fee at our hotel is a non refundable 75 dollars per pet. Parking fee: 10 USD per day In and out privileges Parking for registered guests only Parking & transportation details Can I bring my pet to Candlewood Suites Ft. Pets are welcome at Candlewood Suites Ft. Pet policy description. Pet fee at our hotel is a non refundable 75 dollars per pet. Pet fee per night: 0 USD Pet damage deposit: 75 USD Pet policy Does Candlewood Suites Ft.",
+    "document_sha256": "015e8395b7df1f5bdc6f9e83725423166f9da8a94cae26d441028404551d2199",
+    "captured_via": "the brand's own property page (route discovered on the brand's own city page), Firecrawl rendered scrape, existing plan credits"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": true,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "caribbean resort by the ocean",
@@ -1327,10 +1345,17 @@
    "canonical_name": "CROWNE PLAZA FORT LAUDERDALE AIRPORT/CRUISE PORT",
    "brand": "",
    "corridor": "fort-lauderdale-fl__port-everglades-17th-street",
-   "street": "455 Sr 84",
+   "street": "455 SR 84",
    "postal_code": "33316",
-   "disposition": "ACCESS_BLOCKED",
-   "hold_reason": "router exhausted: static ACCESS_DENIED, Firecrawl FIRECRAWL_MISMATCH"
+   "evidence": {
+    "lane": "FIRECRAWL",
+    "source_url": "https://www.ihg.com/crowneplaza/hotels/us/en/fort-lauderdale/fllhi/hoteldetail",
+    "pets_allowed_claim": false,
+    "quote": "Parking fee: 20 USD per day In and out privileges Parking for registered guests only Parking & transportation details Can I bring my pet to Crowne Plaza Ft. No, pets are not allowed at Crowne Plaza Ft.",
+    "document_sha256": "9e4033727b5975c319507ee0ba3de84af1737c4a0ca1489c973c84d145749ed1",
+    "captured_via": "the brand's own property page (route discovered on the brand's own city page), Firecrawl rendered scrape, existing plan credits"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "curtis inn and suites",
@@ -1455,7 +1480,7 @@
    "canonical_name": "Dolce by Wyndham Hollywood",
    "brand": "WYNDHAM",
    "corridor": "fort-lauderdale-fl__plantation-davie",
-   "street": "5530 S State Road 7",
+   "street": "5530 S SR 7",
    "postal_code": "33314",
    "disposition": "ROUTING_HOLD",
    "hold_reason": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- no first-party route, and Places route discovery returned no place with this row's own street number and ZIP"
@@ -1677,8 +1702,17 @@
    "corridor": "fort-lauderdale-fl__deerfield-beach",
    "street": "950 SE 20th Ave",
    "postal_code": "33441",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hilton.com/en/hotels/deefles-embassy-suites-deerfield-beach-resort-and-spa/hotel-info/",
+    "pets_allowed_claim": true,
+    "quote": "PETS | Pets allowed: Yes",
+    "document_sha256": "439123b168db30cd3c7818d12a373466912ad9f9c7965d2c29126ec1d5a5f07e",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "the page's own street number 950 + postal code 33441"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'PETS | Pets allowed: Yes'), not an operative pet_friendly statement; held rather than published on a disagreement this order does not get to override"
   },
   {
    "identity_key": "embassy suites by hilton fort lauderdale 17th street",
@@ -2302,7 +2336,7 @@
    "canonical_name": "HAMPTON INN & SUITES COCONUT CREEK",
    "brand": "HILTON",
    "corridor": "fort-lauderdale-fl__coral-springs-coconut-creek",
-   "street": "5740 N State Road 7",
+   "street": "5740 N SR 7",
    "postal_code": "33073",
    "evidence": {
     "lane": "PROPERTY_PAGE_ATTENDED",
@@ -2621,7 +2655,7 @@
    "canonical_name": "Haven Motel",
    "brand": "",
    "corridor": "fort-lauderdale-fl__plantation-davie",
-   "street": "1001 S Sr 7",
+   "street": "1001 S SR 7",
    "postal_code": "33317",
    "disposition": "ROUTING_HOLD",
    "hold_reason": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website"
@@ -2846,10 +2880,17 @@
    "canonical_name": "HOLIDAY INN EXPRESS HOTEL & SUITES FORT LAUDERDALE AIRPORT/CRUISE PORT",
    "brand": "",
    "corridor": "fort-lauderdale-fl__fll-airport-sr84",
-   "street": "1150 Sr 84",
+   "street": "1150 SR 84",
    "postal_code": "33315",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router's Firecrawl rung did not reach this row"
+   "evidence": {
+    "lane": "FIRECRAWL",
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fort-lauderdale/fllsr/hoteldetail",
+    "pets_allowed_claim": false,
+    "quote": "Parking fee: 10 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Bus, Truck, Rv Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Ft. No, pets are not allowed at Holiday Inn Express & Suites Ft.",
+    "document_sha256": "a45bb0eb1d866601dccf202a8a7498fa58a977aeec55d466bbed999fc5eedbf0",
+    "captured_via": "the brand's own property page (route discovered on the brand's own city page), Firecrawl rendered scrape, existing plan credits"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "holiday inn express hotel and suites fort lauderdale plantation",
@@ -3273,8 +3314,8 @@
    "corridor": "fort-lauderdale-fl__downtown-las-olas",
    "street": "100 E Las Olas Blvd",
    "postal_code": "33301",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; Hyatt is an excluded brand in the committed route table; the browser extension refused to read hyatt.com pages this session (domain permission not granted)"
+   "disposition": "SOURCE_SILENT",
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.hyatt.com/hyatt-centric/en-US/fllct-hyatt-centric-las-olas-fort-lauderdale)"
   },
   {
    "identity_key": "hyatt house fort lauderdale airport and cruise port",
@@ -3622,7 +3663,7 @@
    "canonical_name": "LA QUINTA INN & SUITES FORT LAUDERDALE TAMARAC",
    "brand": "",
    "corridor": "fort-lauderdale-fl__sunrise-tamarac-lauderhill",
-   "street": "5070 N State Rd 7",
+   "street": "5070 N SR 7",
    "postal_code": "33319",
    "disposition": "ACCESS_BLOCKED",
    "hold_reason": "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED"
@@ -4118,7 +4159,7 @@
    "canonical_name": "Melrose Inn",
    "brand": "",
    "corridor": "fort-lauderdale-fl__plantation-davie",
-   "street": "1010 S. State Rd 7",
+   "street": "1010 S. SR 7",
    "postal_code": "33317",
    "disposition": "ROUTING_HOLD",
    "hold_reason": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website"
@@ -4540,7 +4581,7 @@
    "canonical_name": "Plantation Motel",
    "brand": "",
    "corridor": "fort-lauderdale-fl__plantation-davie",
-   "street": "950 S Sr 7",
+   "street": "950 S SR 7",
    "postal_code": "33317",
    "disposition": "ROUTING_HOLD",
    "hold_reason": "OTHER_EXPLICIT_REASON -- the website Places names is a brand / OTA / social host that the independents' lane does not read (https://www.facebook.com/MotelinPlantation/?ref=your_pages)"
@@ -4550,7 +4591,7 @@
    "canonical_name": "PLAZA HOTEL FORT LAUDERDALE",
    "brand": "",
    "corridor": "fort-lauderdale-fl__sunrise-tamarac-lauderhill",
-   "street": "5100 N Sr 7",
+   "street": "5100 N SR 7",
    "postal_code": "33319",
    "disposition": "ACCESS_BLOCKED",
    "hold_reason": "router exhausted: static NAVIGATION_FAILED, Firecrawl FIRECRAWL_FAILED"
@@ -4702,7 +4743,7 @@
    "canonical_name": "RED CARPET INN",
    "brand": "",
    "corridor": "fort-lauderdale-fl__fll-airport-sr84",
-   "street": "2460 W Sr 84",
+   "street": "2460 W SR 84",
    "postal_code": "33312",
    "evidence": {
     "lane": "PROPERTY_PAGE_STATIC",
@@ -4788,7 +4829,7 @@
    "canonical_name": "RESIDENCE INN BY MARRIOTT FORT LAUDERDALE - COCONUT CREEK",
    "brand": "",
    "corridor": "fort-lauderdale-fl__coral-springs-coconut-creek",
-   "street": "5730 N Sr 7",
+   "street": "5730 N SR 7",
    "postal_code": "33073",
    "evidence": {
     "lane": "PROPERTY_PAGE_ATTENDED",
@@ -5076,7 +5117,7 @@
    "canonical_name": "RODEWAY INN & SUITES FORT LAUDERDALE AIRPORT & CRUISEPORT",
    "brand": "",
    "corridor": "fort-lauderdale-fl__fll-airport-sr84",
-   "street": "2440 W Sr 84",
+   "street": "2440 W SR 84",
    "postal_code": "33312",
    "evidence": {
     "lane": "PROPERTY_PAGE_STATIC",
@@ -5359,7 +5400,7 @@
    "canonical_name": "Seton Villas Motel",
    "brand": "",
    "corridor": "fort-lauderdale-fl__coral-springs-coconut-creek",
-   "street": "1311 N Sr 7",
+   "street": "1311 N SR 7",
    "postal_code": "33063",
    "disposition": "ROUTING_HOLD",
    "hold_reason": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website"
@@ -5429,8 +5470,23 @@
    "corridor": "fort-lauderdale-fl__plantation-davie",
    "street": "311 N University Dr",
    "postal_code": "33324",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/fllsi-sheraton-suites-fort-lauderdale-west/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | Dogs only welcome with non-refundable pet fee of $100 per stay (every 5 days). | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 1",
+    "document_sha256": "13b249004d25d129e806dcd362568369e384a3f19ab21887b277e749b5a5e3a2",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "the page's own street number 311 + postal code 33324"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "shore haven resort inn",
@@ -5497,8 +5553,8 @@
    "corridor": "fort-lauderdale-fl__hollywood-beach",
    "street": "3555 S Ocean Dr",
    "postal_code": "33019",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Hilton to the attended browser (Firecrawl is a measured wall); the browser extension refused to read hilton.com pages this session (domain permission not granted)"
+   "disposition": "SOURCE_SILENT",
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.hilton.com/en/hotels/flldhsa-signia-diplomat-beach-resort/)"
   },
   {
    "identity_key": "silver spray hollywood beach hotels",
@@ -6249,7 +6305,7 @@
    "canonical_name": "Trio Motel",
    "brand": "",
    "corridor": "fort-lauderdale-fl__pembroke-pines-miramar",
-   "street": "2501 S State Rd 7",
+   "street": "2501 S SR 7",
    "postal_code": "33023",
    "disposition": "ROUTING_HOLD",
    "hold_reason": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website"
@@ -6561,8 +6617,23 @@
    "corridor": "fort-lauderdale-fl__oakland-park-wilton-manors",
    "street": "400 Corporate Dr",
    "postal_code": "33334",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "hold_reason": "static fetch was ACCESS_DENIED; the router sends Marriott to the attended browser (Firecrawl is a measured wall); this session's browser met an Akamai challenge page and then an extension read-permission refusal on marriott.com"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/fllwi-the-westin-fort-lauderdale/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome. | Breed restrictions apply. A $50.00 fee applies per stay. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "e9003a1f37451813197cde972fba92d3338b5d5ef896396d0b6dde6b8f8b82a4",
+    "captured_via": "supported browser, accessibility tree (navigate + find only), PTF-MIAMI-FL-BROWSER-CLOSURE-002",
+    "binding": "the page's own street number 400 + postal code 33334"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "westin fort lauderdale beach resort",
@@ -6760,7 +6831,7 @@
    "canonical_name": "YACHT HAVEN PARK & MARINA",
    "brand": "",
    "corridor": "fort-lauderdale-fl__fll-airport-sr84",
-   "street": "2323 W State Rd 84",
+   "street": "2323 W SR 84",
    "postal_code": "33312",
    "disposition": "SOURCE_SILENT",
    "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
