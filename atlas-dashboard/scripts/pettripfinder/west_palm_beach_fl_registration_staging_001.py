@@ -1,4 +1,4 @@
-"""PTF-WEST-PALM-BEACH-FL-HARDENED-SOURCE-READY-001 -- Phase 25A: STAGE Fort Lauderdale's authority.
+"""PTF-WEST-PALM-BEACH-FL-HARDENED-SOURCE-READY-001 -- Phase 25A: STAGE The Palm Beaches' authority.
 
 Turns this order's clean-authority adjudication into the two documents a registered market is built from, and
 validates both against the contracts that own them:
@@ -8,8 +8,10 @@ validates both against the contracts that own them:
   2. the PROPOSED AUTHORITY     markets/staging/west-palm-beach-fl/west_palm_beach_fl_proposed_authority_001.json
      -- the ptf-market-proposed-authority/1.0 shape `market_registration_cli` reads to write the shard.
 
-REGISTERED. PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002 writes both documents to the package root,
-where every registered market's live. The source-ready order's staged copies stay as history.
+REGISTERED. PTF-WEST-PALM-BEACH-FL-REGISTRATION-AND-STAGING-002 writes both documents to the package root,
+where every registered market's live. The source-ready order's staged copies stay as history. The registration
+input MUST be named `<market_us>_proposed_authority_NNN.json` AT THE PACKAGE ROOT: the classifier recognises the
+ROLE by that name, and Orlando lost all fifteen checks to calling it anything else.
 
 NOT A FOUNDER SIGNATURE
 ------------------------
@@ -46,14 +48,14 @@ MARKET_ID = "west-palm-beach-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 CLEAN = os.path.join(REPORTS, "west_palm_beach_fl_clean_authority_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "west-palm-beach-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "west-palm-beach-fl.json")
 STAGING = os.path.join(PKG, "markets", "staging", "west-palm-beach-fl")
-#: REGISTERED by PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002: the package root, as every registered
+#: REGISTERED by PTF-WEST-PALM-BEACH-FL-REGISTRATION-AND-STAGING-002: the package root, as every registered
 #: market. `registration_data_only` recognises the registration input by its ROLE NAME there --
 #: `<market_us>_proposed_authority_*.json` -- and naming it anything else fails all fifteen checks.
-PACKAGE_OUT = os.path.join(STAGING, "launch_package", "hotel_policy_facts_west-palm-beach-fl.json")
-AUTHORITY_OUT = os.path.join(STAGING, "west_palm_beach_fl_proposed_authority_001.json")
-OBSERVED_AT = "2026-09-21"
+PACKAGE_OUT = os.path.join(PKG, "hotel_policy_facts_west-palm-beach-fl.json")
+AUTHORITY_OUT = os.path.join(PKG, "west_palm_beach_fl_proposed_authority_001.json")
+OBSERVED_AT = "2026-09-22"   # the day this market's own first-party reads were taken
 CAPTURED_AT = "2026-09-21T08:00:00+00:00"
 
 LANE_GRADE = {
@@ -202,9 +204,9 @@ def build():
             ]))
 
     package = OrderedDict([
-        ("market", "Fort Lauderdale, Florida"), ("schema_version", PS.SCHEMA_VERSION), ("market_id", MARKET_ID),
+        ("market", "West Palm Beach, Florida"), ("schema_version", PS.SCHEMA_VERSION), ("market_id", MARKET_ID),
         ("work_order", WORK_ORDER), ("as_of", OBSERVED_AT),
-        ("note", "Greater Fort Lauderdale's REGISTERED policy package. Every record is "
+        ("note", "The Palm Beaches' REGISTERED policy package. Every record is "
                 "one first-party read of the property's own page, and every published fact is cited to the quote "
                 "it rests on. Refundability is absent, not false, when the source stated neither refundable nor "
                 "non-refundable."),
@@ -214,8 +216,8 @@ def build():
 
     authority = OrderedDict([
         ("schema", "ptf-market-proposed-authority/1.0"),
-        ("what_this_is", "Greater Fort Lauderdale's authority as the source-ready order proposed it, REGISTERED "
-                        "by PTF-FORT-LAUDERDALE-FL-REGISTRATION-AND-STAGING-002. Registration makes the market "
+        ("what_this_is", "The Palm Beaches' authority as the source-ready order proposed it, REGISTERED "
+                        "by PTF-WEST-PALM-BEACH-FL-REGISTRATION-AND-STAGING-002. Registration makes the market "
                         "BUILDABLE; launch_participation.json decides whether it is BUILT into production, and "
                         "that stays at SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH. The founder gate in "
                         "the modern lane is on the exact candidate digest, which is never created here."),

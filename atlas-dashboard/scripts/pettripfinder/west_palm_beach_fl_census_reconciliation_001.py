@@ -41,15 +41,15 @@ reads as a vacation home community, villa / condo rental, resort residence or va
 no brand's public hotel inventory and no hotel page read reached -- is NON_LODGING with a VACATION_RENTAL /
 TIMESHARE / RESORT_RESIDENCE reason (west_palm_beach_fl_nonhotel_rulings_001).
 
-UNREGISTERED
-------------
-SHADOW_UNTIL_REGISTERED. Written to identity_census_proposed/, as every unregistered market's census is.
-Nothing is registered, participated, authorized, pinned or deployed by this order.
+REGISTERED
+----------
+Written to identity_census_proposed/ while the market was shadow; REGISTERED by PTF-WEST-PALM-BEACH-FL-REGISTRATION-AND-STAGING-002,
+so it is written to identity_census/, as every registered market's census is.
 
 Nothing here fetches. Nothing here carries a pet policy.
 
 Outputs:
-  launch_packages/pettripfinder/identity_census_proposed/west-palm-beach-fl.json
+  launch_packages/pettripfinder/identity_census/west-palm-beach-fl.json
   launch_packages/pettripfinder/markets/reports/west_palm_beach_fl_census_reconciliation_001.json
   launch_packages/pettripfinder/markets/reports/west_palm_beach_fl_competitor_gap_matrix_001.json
 """
@@ -129,10 +129,11 @@ GAP_SCHEMA = "ptf-competitor-gap-matrix/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 
 REPORTS = os.path.join(PKG, "markets", "reports")
-#: UNREGISTERED. SHADOW_UNTIL_REGISTERED: the census is written to identity_census_proposed/ and the market
-#: contract is read from markets/proposed/, as every unregistered market's is. A registration order moves both.
-CENSUS_DIR = os.path.join(PKG, "identity_census_proposed")
-CONTRACT_PATH = os.path.join(PKG, "markets", "proposed", "west-palm-beach-fl.json")
+#: REGISTERED by PTF-WEST-PALM-BEACH-FL-REGISTRATION-AND-STAGING-002: the census is written to the registry's own
+#: identity_census/ and the contract is read from markets/<id>.json, as every registered market's is. The
+#: source-ready order's proposed/ copies are history.
+CENSUS_DIR = os.path.join(PKG, "identity_census")
+CONTRACT_PATH = os.path.join(PKG, "markets", "west-palm-beach-fl.json")
 
 OSM_LANE = os.path.join(REPORTS, "west_palm_beach_fl_osm_lane_001.json")
 BRAND = os.path.join(REPORTS, "west_palm_beach_fl_brand_inventory_001.json")
@@ -1182,6 +1183,45 @@ _BARE_CHAIN_FLAG = re.compile(
     r"aloft|element|sonesta|woodspring suites)$", re.I)
 
 
+#: BARE CHAIN FLAGS THIS ORDER READ FIRST-PARTY, where no census lane carried the fuller name.
+#:
+#: Keyed on (normalised bare flag, postal code). A bare flag is not a premises identity, and because the shared
+#: exclusion registry matches on the normalised canonical name ACROSS EVERY MARKET, a bare-flag row here bars an
+#: identically named hotel everywhere else -- Tampa already holds a bare "Best Western", and the global
+#: authority build refuses with `duplicate excluded identity`. The standing rule is to fix it AT THE SOURCE and
+#: never by superseding the other market's exclusion, so the name comes from the brand's OWN page, read by this
+#: order, and never from anything this order invented.
+FIRST_PARTY_BARE_FLAG_NAMES = {
+    ("best western", "33477"): (
+        "Best Western Intracoastal Inn",
+        "the DBPR licence carries only the bare flag 'BEST WESTERN'. The brand's OWN hotel-search page named "
+        "this premises 'Best Western Intracoastal Inn' at property code 10267, and the brand's own property "
+        "page for 10267 states the premises as '810 S US Highway 1, Jupiter, Florida United States' and the "
+        "policy 'Pets are not accepted.' -- both read by this order's attended browser on 2026-09-22. The "
+        "census row's own street (810 US 1, 33477) is that premises."),
+}
+
+
+def _place_from_route_slug(url):
+    """The municipality a brand's OWN route states, when this market's geography admits it.
+
+    Returns "" unless exactly one path segment of the URL normalises to a municipality this market admits, so
+    a slug this function does not understand can never name a property after somewhere the market does not
+    contain. Reporting and naming only -- it never admits or places a property; the postal code does that.
+    """
+    if not url:
+        return ""
+    segs = [seg for seg in re.split(r"[/?#]", str(url)) if seg]
+    hits = []
+    for seg in segs:
+        cand = " ".join(seg.replace("-", " ").replace("_", " ").split()).lower()
+        if cand in _IN_MARKET_MUNICIPALITIES and cand not in hits:
+            hits.append(cand)
+    if len(hits) != 1:
+        return ""
+    return " ".join(w.capitalize() for w in hits[0].split())
+
+
 def name_bare_chain_flags(nodes):
     """A node whose chosen name is a BARE chain flag takes a longer name from its own observations that starts
     with that flag and adds a place. Returns the rulings, each citing the lane that supplied the fuller name."""
@@ -1191,6 +1231,18 @@ def name_bare_chain_flags(nodes):
         if not chosen or not _BARE_CHAIN_FLAG.match(normalize_name(chosen)):
             continue
         flag = normalize_name(chosen)
+        # A first-party read of the brand's own page outranks the census lanes' silence.
+        fp = FIRST_PARTY_BARE_FLAG_NAMES.get((flag, (n.postal or "")[:5]))
+        if fp:
+            rulings.append(OrderedDict([
+                ("was", chosen), ("now", fp[0]),
+                ("lanes", ["PROPERTY_PAGE_ATTENDED"]),
+                ("sources", ["https://www.bestwestern.com/en_US/book/hotels-in-jupiter/"
+                             "best-western-intracoastal-inn/propertyCode.10267.html"]),
+                ("why", "FIRST-PARTY NAMING: " + fp[1]),
+            ]))
+            n.name = fp[0]
+            continue
         better = []
         for o in n.observations:
             cand = " ".join((o.get("name") or "").split())
@@ -1198,6 +1250,43 @@ def name_bare_chain_flags(nodes):
             if cand and cn != flag and cn.startswith(flag) and len(_listing_slug(cand)) <= 80:
                 better.append((cand, o.get("lane"), o.get("source_url")))
         if not better:
+            # FALLBACK: the place the BRAND'S OWN ROUTE states.
+            #
+            # This is the rule this module's own report already describes -- "each such row takes the
+            # property's OWN name from its brand's route slug, never a name this order invents" -- and it was
+            # not implemented. Measured here: "Comfort Inn & Suites" at 1221 Hypoluxo Rd 33462 carries Choice's
+            # own route /florida/lantana/comfort-inn-hotels/fl056. No observation name STARTS WITH the flag
+            # (the row's own alias is "comfort inn lantana", which starts with the shorter "comfort inn"), so
+            # the observation search above finds nothing and the row stayed a bare flag -- and a bare flag
+            # collides with every identically named hotel in every other market through the shared exclusion
+            # registry. Lexington already holds a bare "Comfort Inn & Suites", and the global authority build
+            # refuses with `duplicate excluded identity`.
+            #
+            # The place is taken from the brand's own URL, never invented, and only when that place is one this
+            # market's own geography admits -- so a mis-parsed slug cannot name a property after a town the
+            # market does not contain.
+            # the node's own route, else any website a lane recorded for it -- both first-party URLs
+            _urls = [n.route or ""] + [str(o.get("website_url") or o.get("route") or o.get("source_url") or "")
+                                       for o in n.observations]
+            place = ""
+            for _u in _urls:
+                place = _place_from_route_slug(_u)
+                if place:
+                    break
+            if not place:
+                continue
+            picked = "%s %s" % (chosen, place)
+            if len(_listing_slug(picked)) > 80:
+                continue
+            rulings.append(OrderedDict([
+                ("was", chosen), ("now", picked),
+                ("lanes", ["BRAND_ROUTE_SLUG"]),
+                ("sources", [next((u for u in _urls if u), "")]),
+                ("why", "the chosen name was a BARE CHAIN FLAG with no place and no observation carried a "
+                        "fuller one; the place comes from the BRAND'S OWN route slug, which is first-party, "
+                        "and is admitted by this market's own geography"),
+            ]))
+            n.name = picked
             continue
         names = sorted({b[0] for b in better})
         if len(names) != 1:
@@ -2067,7 +2156,7 @@ def build():
         ("note",
          "PTF-WEST-PALM-BEACH-FL-HARDENED-SOURCE-READY-001 West Palm Beach / Palm Beach County census, "
          "built from zero under the current hardened factory on the Miami-live lineage, REGISTERED by "
-         "this order (identity_census_proposed/, SHADOW_UNTIL_REGISTERED). Every row carries the "
+         "PTF-WEST-PALM-BEACH-FL-REGISTRATION-AND-STAGING-002 (identity_census/). Every row carries the "
          "observations that produced it; nothing here carries a pet policy."),
         ("source_authorities", SOURCE_AUTHORITIES),
         ("count", len(confirmed)),

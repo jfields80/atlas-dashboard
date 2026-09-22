@@ -101,12 +101,12 @@ condo-hotel towers, and PGA National's villa programme. A mixed property is admi
 premises its public hotel operator sells as a hotel, proved on the operator's own page and on the licence's exact
 premises (a DBPR HOTL licence at that street, not a CNDO rental programme).
 
-Nothing here fetches, spends or deploys. The market document goes to markets/proposed/<id>.json, as an
-UNREGISTERED market's does.
+Nothing here fetches, spends or deploys. The market document goes to the registry's markets/<id>.json, as
+every REGISTERED market's does.
 
 Outputs:
   scripts/pettripfinder/discovery/config/west_palm_beach_fl.json
-  launch_packages/pettripfinder/markets/proposed/west-palm-beach-fl.json
+  launch_packages/pettripfinder/markets/west-palm-beach-fl.json
   launch_packages/pettripfinder/markets/reports/west_palm_beach_fl_geography_001.json
   launch_packages/pettripfinder/markets/reports/west_palm_beach_fl_corridor_registry_001.json
 """
@@ -129,8 +129,9 @@ MARKET_ID = "west-palm-beach-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 CONFIG_OUT = os.path.join(_DASH, "scripts", "pettripfinder", "discovery", "config", "west_palm_beach_fl.json")
-#: UNREGISTERED: a source-ready order writes the proposed market document, never the registry's markets/<id>.json.
-SHARD_OUT = os.path.join(PKG, "markets", "proposed", "west-palm-beach-fl.json")
+#: REGISTERED by PTF-WEST-PALM-BEACH-FL-REGISTRATION-AND-STAGING-002: the market document is written to the
+#: registry's markets/<id>.json. The source-ready order's markets/proposed/ copy is history.
+SHARD_OUT = os.path.join(PKG, "markets", "west-palm-beach-fl.json")
 REPORT_OUT = os.path.join(REPORTS, "west_palm_beach_fl_geography_001.json")
 REGISTRY_OUT = os.path.join(REPORTS, "west_palm_beach_fl_corridor_registry_001.json")
 AS_OF = "2026-09-22"
@@ -790,9 +791,8 @@ def build():
         ("as_of", AS_OF),
         ("paid_provider_calls", 0), ("usd_spent", 0.0), ("free_http_requests", 0),
         ("registration_state",
-         "UNREGISTERED. SHADOW_UNTIL_REGISTERED: the proposed market document is written to "
-         "markets/proposed/west-palm-beach-fl.json. Nothing is written to the registry's markets/<id>.json, "
-         "no participation row is created and no authority shard is built."),
+         "REGISTERED: the market document is written to the registry's markets/west-palm-beach-fl.json by "
+         "PTF-WEST-PALM-BEACH-FL-REGISTRATION-AND-STAGING-002. The source-ready order's markets/proposed/ copy is history."),
         ("membership_rule",
          "The property's OWN postal code, as its own official page or its Florida DBPR public-lodging licence states "
          "it, joined to the corridor registry. Nothing else admits a property."),

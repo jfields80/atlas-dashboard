@@ -23,7 +23,7 @@ from scripts.pettripfinder import west_palm_beach_fl_policy_pages_lane_001 as PP
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "west_palm_beach_fl_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "west-palm-beach-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "west-palm-beach-fl.json")
 OUT = os.path.join(PKG, "markets", "staging", "west-palm-beach-fl", "raw_captures", "closure_static_rows.json")
 
 

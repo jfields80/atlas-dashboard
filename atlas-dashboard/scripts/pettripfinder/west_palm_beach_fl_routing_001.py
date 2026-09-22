@@ -41,7 +41,7 @@ MARKET_ID = "west-palm-beach-fl"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "west-palm-beach-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "west-palm-beach-fl.json")
 OUT = os.path.join(REPORTS, "west_palm_beach_fl_routing_001.json")
 
 _NAME_FAMILY = [

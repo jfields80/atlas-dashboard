@@ -36,7 +36,7 @@ from scripts.pettripfinder import west_palm_beach_fl_census_reconciliation_001 a
 WORK_ORDER = "PTF-WEST-PALM-BEACH-FL-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "west-palm-beach-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "west-palm-beach-fl.json")
 COMPETITOR = os.path.join(REPORTS, "west_palm_beach_fl_competitor_challenge_001.json")
 CLEAN = os.path.join(REPORTS, "west_palm_beach_fl_clean_authority_001.json")
 OUT = os.path.join(REPORTS, "west_palm_beach_fl_competitor_reconciliation_001.json")

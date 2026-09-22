@@ -37,7 +37,7 @@ from scripts.pettripfinder import west_palm_beach_fl_geography_001 as GEO  # noq
 WORK_ORDER = "PTF-WEST-PALM-BEACH-FL-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "west-palm-beach-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "west-palm-beach-fl.json")
 ROUTING = os.path.join(REPORTS, "west_palm_beach_fl_routing_001.json")
 RECON = os.path.join(REPORTS, "west_palm_beach_fl_competitor_reconciliation_001.json")
 OUT = os.path.join(REPORTS, "west_palm_beach_fl_places_route_discovery_001.json")

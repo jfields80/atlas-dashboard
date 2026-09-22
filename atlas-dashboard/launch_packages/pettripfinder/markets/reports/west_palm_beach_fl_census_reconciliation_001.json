@@ -29,7 +29,7 @@
   "bindings": [
    {
     "observation_name": "Best Western",
-    "bound_to": "Best Western",
+    "bound_to": "Best Western Intracoastal Inn",
     "score": 1.0
    },
    {
@@ -394,7 +394,7 @@
    },
    {
     "observation_name": "Comfort Inn Lantana",
-    "bound_to": "Comfort Inn & Suites",
+    "bound_to": "Comfort Inn & Suites Lantana",
     "score": 1.0
    },
    {
@@ -1380,7 +1380,7 @@
     ]
    },
    {
-    "name": "Woodspring Suites",
+    "name": "Woodspring Suites Palm Springs",
     "candidates": [
      "Woodspring Suites Miramar",
      "Woodspring Suites Doral",
@@ -16212,6 +16212,28 @@
    "why": "the chosen name was a BARE CHAIN FLAG with no place; a bare flag is not a premises identity and collides with identically named hotels in other markets through the shared exclusion registry"
   },
   {
+   "was": "Comfort Inn & Suites",
+   "now": "Comfort Inn & Suites Lantana",
+   "lanes": [
+    "BRAND_ROUTE_SLUG"
+   ],
+   "sources": [
+    "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056"
+   ],
+   "why": "the chosen name was a BARE CHAIN FLAG with no place and no observation carried a fuller one; the place comes from the BRAND'S OWN route slug, which is first-party, and is admitted by this market's own geography"
+  },
+  {
+   "was": "Best Western",
+   "now": "Best Western Intracoastal Inn",
+   "lanes": [
+    "PROPERTY_PAGE_ATTENDED"
+   ],
+   "sources": [
+    "https://www.bestwestern.com/en_US/book/hotels-in-jupiter/best-western-intracoastal-inn/propertyCode.10267.html"
+   ],
+   "why": "FIRST-PARTY NAMING: the DBPR licence carries only the bare flag 'BEST WESTERN'. The brand's OWN hotel-search page named this premises 'Best Western Intracoastal Inn' at property code 10267, and the brand's own property page for 10267 states the premises as '810 S US Highway 1, Jupiter, Florida United States' and the policy 'Pets are not accepted.' -- both read by this order's attended browser on 2026-09-22. The census row's own street (810 US 1, 33477) is that premises."
+  },
+  {
    "was": "Comfort Suites",
    "now": "Comfort Suites Stuart",
    "lanes": [
@@ -16221,6 +16243,17 @@
     "https://www.choicehotels.com/florida/stuart/comfort-suites-hotels/fld73"
    ],
    "why": "the chosen name was a BARE CHAIN FLAG with no place; a bare flag is not a premises identity and collides with identically named hotels in other markets through the shared exclusion registry"
+  },
+  {
+   "was": "Woodspring Suites",
+   "now": "Woodspring Suites Palm Springs",
+   "lanes": [
+    "BRAND_ROUTE_SLUG"
+   ],
+   "sources": [
+    "https://www.woodspring.com/extended-stay-hotels/locations/florida/palm-springs/woodspring-suites"
+   ],
+   "why": "the chosen name was a BARE CHAIN FLAG with no place and no observation carried a fuller one; the place comes from the BRAND'S OWN route slug, which is first-party, and is admitted by this market's own geography"
   }
  ],
  "bare_chain_flag_rule": "A census name that is a BARE CHAIN FLAG is not a premises identity. Because the shared exclusion registry matches on the normalised canonical name across every market, a bare-flag row bars identically named hotels elsewhere. Such a row takes the one longer name its own observations agree on that starts with the flag and adds a place; two different fuller names are a review, never a coin flip.",
@@ -20171,8 +20204,8 @@
    ]
   },
   {
-   "identity_key": "woodspring suites",
-   "slug": "woodspring-suites",
+   "identity_key": "woodspring suites palm springs",
+   "slug": "woodspring-suites-palm-springs",
    "market_id": "west-palm-beach-fl",
    "identity_state": "IDENTITY_UNRESOLVED",
    "lodging_state": "NEEDS_REVIEW",
@@ -20180,7 +20213,7 @@
    "identity_key_aliases": [
     "woodspring suites"
    ],
-   "canonical_name": "Woodspring Suites",
+   "canonical_name": "Woodspring Suites Palm Springs",
    "classification": "IDENTITY_REVIEW_REQUIRED",
    "classification_reason": "a name-only observation that matches more than one established building equally well (Woodspring Suites Miramar, Woodspring Suites Doral, Woodspring Suites Miami Southwest, Woodspring Suites Tamarac); a tie is a review, never a coin flip",
    "street": "",
@@ -134101,8 +134134,8 @@
    ]
   },
   {
-   "identity_key": "best western",
-   "slug": "best-western",
+   "identity_key": "best western intracoastal inn",
+   "slug": "best-western-intracoastal-inn",
    "market_id": "west-palm-beach-fl",
    "identity_state": "IDENTITY_CONFIRMED",
    "lodging_state": "LODGING_CONFIRMED",
@@ -134110,7 +134143,7 @@
    "identity_key_aliases": [
     "best western"
    ],
-   "canonical_name": "Best Western",
+   "canonical_name": "Best Western Intracoastal Inn",
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "810 US 1",
@@ -135381,99 +135414,6 @@
    ]
   },
   {
-   "identity_key": "comfort inn and suites",
-   "slug": "comfort-inn-and-suites",
-   "market_id": "west-palm-beach-fl",
-   "identity_state": "IDENTITY_CONFIRMED",
-   "lodging_state": "LODGING_CONFIRMED",
-   "collision_state": "NONE",
-   "identity_key_aliases": [
-    "comfort inn and suites",
-    "comfort inn lantana"
-   ],
-   "canonical_name": "Comfort Inn & Suites",
-   "classification": "TRUE_HOTEL_IDENTITY",
-   "classification_reason": "",
-   "street": "1221 Hypoluxo Rd",
-   "city": "Lantana",
-   "state": "FL",
-   "postal_code": "33462",
-   "phone": "561.582.7878",
-   "phone_key": "5615827878",
-   "street_identity": "1221|hypoluxo|33462",
-   "brand": "CHOICE",
-   "property_code": "fl056",
-   "official_url": "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056",
-   "latitude": 26.572726,
-   "longitude": -80.063357,
-   "corridor": "west-palm-beach-fl__lantana-manalapan-hypoluxo",
-   "assignment_basis": "postal_code",
-   "assignment_value": "33462",
-   "lanes": [
-    "BRAND_INVENTORY_SITEMAP",
-    "OSM_OVERPASS",
-    "REGISTRY_FL_DBPR"
-   ],
-   "best_tier": 1,
-   "policy_state": "POLICY_NOT_VERIFIED",
-   "policy_note": "Identity evidence never establishes a pet policy.",
-   "evidence": [
-    {
-     "lane": "REGISTRY_FL_DBPR",
-     "tier": 2,
-     "source_url": "https://www2.myfloridalicense.com/sto/file_download/extracts/hrlodge2.csv#row=1978",
-     "name": "Comfort Inn Lantana",
-     "street": "1221 Hypoluxo Rd",
-     "city": "Lantana",
-     "region": "FL",
-     "postal": "33462",
-     "phone": "561.582.7878",
-     "license_number": "HOT6012308",
-     "rank_code": "HOTL",
-     "rental_units": 60,
-     "county": "Palm Beach",
-     "licensee_name": "C & N OF PALM BEACH INC",
-     "snapshot_sha256": "84f8af08b1f5051f828c214049d8beba361e601d31e0be47f7c6b10a79e1e603"
-    },
-    {
-     "lane": "OSM_OVERPASS",
-     "tier": 3,
-     "source_url": "https://www.openstreetmap.org/way/934742988",
-     "name": "Comfort Inn & Suites",
-     "street": "1221 Hypoluxo Road",
-     "city": "Lantana",
-     "region": "FL",
-     "postal": "33462",
-     "phone": "+1 561-582-7878",
-     "lat": 26.572726,
-     "lng": -80.063357,
-     "osm_element": "way/934742988",
-     "osm_categories": [
-      "hotel"
-     ],
-     "website_url": "https://www.choicehotels.com/florida/west-palm-beach/rodeway-inn-hotels",
-     "non_hotel_name": false
-    },
-    {
-     "lane": "BRAND_INVENTORY_SITEMAP",
-     "tier": 1,
-     "source_url": "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056",
-     "name": "Comfort Inn Lantana",
-     "brand": "CHOICE",
-     "route": "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056",
-     "merge_alias": "comfort inn lantana",
-     "property_code": "fl056",
-     "admitted_by": "ROUTE_READ_FROM_THE_BRAND_OWN_SITEMAP",
-     "seen_in": "https://www.choicehotels.com/florida/west-palm-beach/hotels",
-     "document_sha256": "aac649658380f47c165ab8dc7281deb252eda5b0d5d2797e0fb1d85303f4bbd2",
-     "binding": "NAME_MATCH_UNCONFIRMED",
-     "binding_score": 1.0,
-     "binding_reason": "brand 1.00, town ['lantana'], area ['lantana']",
-     "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
-    }
-   ]
-  },
-  {
    "identity_key": "comfort inn and suites jupiter i 95",
    "slug": "comfort-inn-and-suites-jupiter-i-95",
    "market_id": "west-palm-beach-fl",
@@ -135588,6 +135528,99 @@
      "binding": "NAME_MATCH_UNCONFIRMED",
      "binding_score": 1.0,
      "binding_reason": "brand 1.00, town ['jupiter'], area ['jupiter']",
+     "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
+    }
+   ]
+  },
+  {
+   "identity_key": "comfort inn and suites lantana",
+   "slug": "comfort-inn-and-suites-lantana",
+   "market_id": "west-palm-beach-fl",
+   "identity_state": "IDENTITY_CONFIRMED",
+   "lodging_state": "LODGING_CONFIRMED",
+   "collision_state": "NONE",
+   "identity_key_aliases": [
+    "comfort inn and suites",
+    "comfort inn lantana"
+   ],
+   "canonical_name": "Comfort Inn & Suites Lantana",
+   "classification": "TRUE_HOTEL_IDENTITY",
+   "classification_reason": "",
+   "street": "1221 Hypoluxo Rd",
+   "city": "Lantana",
+   "state": "FL",
+   "postal_code": "33462",
+   "phone": "561.582.7878",
+   "phone_key": "5615827878",
+   "street_identity": "1221|hypoluxo|33462",
+   "brand": "CHOICE",
+   "property_code": "fl056",
+   "official_url": "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056",
+   "latitude": 26.572726,
+   "longitude": -80.063357,
+   "corridor": "west-palm-beach-fl__lantana-manalapan-hypoluxo",
+   "assignment_basis": "postal_code",
+   "assignment_value": "33462",
+   "lanes": [
+    "BRAND_INVENTORY_SITEMAP",
+    "OSM_OVERPASS",
+    "REGISTRY_FL_DBPR"
+   ],
+   "best_tier": 1,
+   "policy_state": "POLICY_NOT_VERIFIED",
+   "policy_note": "Identity evidence never establishes a pet policy.",
+   "evidence": [
+    {
+     "lane": "REGISTRY_FL_DBPR",
+     "tier": 2,
+     "source_url": "https://www2.myfloridalicense.com/sto/file_download/extracts/hrlodge2.csv#row=1978",
+     "name": "Comfort Inn Lantana",
+     "street": "1221 Hypoluxo Rd",
+     "city": "Lantana",
+     "region": "FL",
+     "postal": "33462",
+     "phone": "561.582.7878",
+     "license_number": "HOT6012308",
+     "rank_code": "HOTL",
+     "rental_units": 60,
+     "county": "Palm Beach",
+     "licensee_name": "C & N OF PALM BEACH INC",
+     "snapshot_sha256": "84f8af08b1f5051f828c214049d8beba361e601d31e0be47f7c6b10a79e1e603"
+    },
+    {
+     "lane": "OSM_OVERPASS",
+     "tier": 3,
+     "source_url": "https://www.openstreetmap.org/way/934742988",
+     "name": "Comfort Inn & Suites",
+     "street": "1221 Hypoluxo Road",
+     "city": "Lantana",
+     "region": "FL",
+     "postal": "33462",
+     "phone": "+1 561-582-7878",
+     "lat": 26.572726,
+     "lng": -80.063357,
+     "osm_element": "way/934742988",
+     "osm_categories": [
+      "hotel"
+     ],
+     "website_url": "https://www.choicehotels.com/florida/west-palm-beach/rodeway-inn-hotels",
+     "non_hotel_name": false
+    },
+    {
+     "lane": "BRAND_INVENTORY_SITEMAP",
+     "tier": 1,
+     "source_url": "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056",
+     "name": "Comfort Inn Lantana",
+     "brand": "CHOICE",
+     "route": "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056",
+     "merge_alias": "comfort inn lantana",
+     "property_code": "fl056",
+     "admitted_by": "ROUTE_READ_FROM_THE_BRAND_OWN_SITEMAP",
+     "seen_in": "https://www.choicehotels.com/florida/west-palm-beach/hotels",
+     "document_sha256": "aac649658380f47c165ab8dc7281deb252eda5b0d5d2797e0fb1d85303f4bbd2",
+     "binding": "NAME_MATCH_UNCONFIRMED",
+     "binding_score": 1.0,
+     "binding_reason": "brand 1.00, town ['lantana'], area ['lantana']",
      "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
     }
    ]

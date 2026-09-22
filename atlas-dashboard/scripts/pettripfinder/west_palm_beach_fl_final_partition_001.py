@@ -33,12 +33,11 @@ WORK_ORDER = "PTF-WEST-PALM-BEACH-FL-HARDENED-SOURCE-READY-001"
 MARKET_ID = "west-palm-beach-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-#: SHADOW_UNTIL_REGISTERED: the package root under this market's staging zone, where the release
+#: REGISTERED by PTF-WEST-PALM-BEACH-FL-REGISTRATION-AND-STAGING-002: the package root, where the release
 #: contract's final_partition block references it by path and content digest. The source-ready order's staged
 #: copy under markets/staging/ is kept as history.
-OUT = os.path.join(PKG, "markets", "staging", "west-palm-beach-fl", "launch_package",
-                   "west_palm_beach_fl_final_partition_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "west-palm-beach-fl.json")
+OUT = os.path.join(PKG, "west_palm_beach_fl_final_partition_001.json")
+CENSUS = os.path.join(PKG, "identity_census", "west-palm-beach-fl.json")
 CLEAN = os.path.join(REPORTS, "west_palm_beach_fl_clean_authority_001.json")
 AS_OF = "2026-09-20"
 
