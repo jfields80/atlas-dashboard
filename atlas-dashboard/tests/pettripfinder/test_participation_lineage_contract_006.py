@@ -247,11 +247,18 @@ class TestTheCommittedRecordAndItsOneDocumentedException:
     def test_the_committed_record_loads_and_its_chain_is_reachable(self):
         doc = LP.load_participation()
         chain = LP.decision_chain(doc)
-        assert chain["supersedes"]["work_order"] == \
-            "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005"
+        # supersedes NAMED the Nashville launch, which was the newest ancestor
+        # when this was written and has been twenty-one records back for a long
+        # time. PTF-PARTICIPATION-GUARD-REPAIR-001 asserts the PROPERTY instead:
+        # supersedes is the newest ancestor, whichever order that now is.
+        assert chain["supersedes"]["work_order"] == chain["records"][-1]["work_order"]
+        assert chain["supersedes"]["sha256"] == chain["records"][-1]["sha256"]
+        assert chain["supersedes"]["sha256"] != LP.participation_sha256()
         assert len(chain["records"]) >= 9
+        # The oldest ancestor is fixed history and stays named.
         assert chain["records"][0]["work_order"] == \
             "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046"
+        assert LP.decision_problems(doc) == []
 
     def test_the_record_carries_its_own_chain_again(self):
         """Honest about where the chain lives -- and it lives at home again."""
@@ -280,14 +287,26 @@ class TestTheCommittedRecordAndItsOneDocumentedException:
     def test_the_repair_names_the_block_the_next_write_must_carry(self):
         repair = json.loads(LP.LINEAGE_REPAIR_PATH.read_text(encoding="utf-8-sig"))
         nxt = repair["what_the_next_participation_write_must_carry"]
-        # The record it prescribed FOR is the one the next write superseded, so
-        # the sha it names is now the newest ancestor rather than the current
-        # file. That is the prescription being spent, not being wrong.
-        assert nxt["supersedes"]["sha256"] == \
-            LP.decision_chain()["records"][-1]["sha256"]
+        chain = LP.decision_chain()
+        shas = [r["sha256"] for r in chain["records"]]
+        # THE PRESCRIPTION IS SPENT, AND SPENT IS NOT THE SAME AS NEWEST.
+        #
+        # This asserted the prescribed sha was the newest ancestor, which was
+        # true for exactly one write -- the one that consumed it. Twenty reissues
+        # later the prescribed lineage is a PREFIX of the chain, not its tail,
+        # and asserting otherwise froze this test at a window that had closed.
+        # Asserted by content, the way 046 walks to Indianapolis: the block the
+        # repair prescribed is still exactly the front of the chain.
+        prescribed = [r["sha256"] for r in nxt["lineage"]["records"]]
+        assert prescribed == shas[:len(prescribed)], "the prescribed lineage is not the chain's prefix"
+        assert nxt["supersedes"]["sha256"] == prescribed[-1]
         assert nxt["supersedes"]["sha256"] != LP.participation_sha256()
         assert nxt["supersedes"]["work_order"] == \
             "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005"
+        # The repair covered one exact sha256, and that sha is the record it
+        # prescribed for -- which is what makes the cover per-record history
+        # rather than a standing licence.
+        assert repair["current_participation_sha256"] == prescribed[-1]
         records = nxt["lineage"]["records"]
         assert records[-1] == nxt["supersedes"]
         assert [r["sha256"] for r in records] == sorted(
@@ -295,22 +314,38 @@ class TestTheCommittedRecordAndItsOneDocumentedException:
         counts = [len(r["founder_authorized"]) for r in records]
         assert counts == sorted(counts)
 
-    def test_the_next_write_would_produce_exactly_that_block(self):
-        """The committed decision agrees with the repair's prescription.
+    def test_the_write_that_closed_the_exception_carried_exactly_that_block(self):
+        """The write that consumed the prescription agrees with it.
 
         The two were derived independently -- the repair from git, the write
         from ``extend_decision`` reading the contract -- so agreeing is evidence
-        rather than a tautology. This ASSERTED A PREDICTION until the write
-        happened; it now asserts the outcome, which is the stronger claim: the
-        chain that came back is the chain that was lost, and not merely a
-        well-formed one.
+        rather than a tautology.
+
+        This compared the prescription against the CURRENT decision, which was
+        right for exactly one write. Twenty reissues later the current decision
+        is Fort Lauderdale's and has nothing to do with the repair, so the
+        comparison had become a claim that the record had never moved. What is
+        permanently true, and what this asserts now, is WHICH write closed the
+        exception: the record immediately after the prescribed lineage in the
+        chain. That is fixed history and cannot go stale again.
         """
-        decision = LP.load_participation()["decision"]
         expected = json.loads(LP.LINEAGE_REPAIR_PATH.read_text(
             encoding="utf-8-sig"))["what_the_next_participation_write_must_carry"]
-        assert decision["supersedes"] == expected["supersedes"]
-        assert decision["lineage"]["records"] == expected["lineage"]["records"]
-        # The write that carried it was a registration, not a launch: it is
-        # named, and it moved no authorization.
-        assert decision["work_order"] == "PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001"
-        assert LP.authorized_market_ids() == decision["supersedes"]["founder_authorized"]
+        prescribed = expected["lineage"]["records"]
+        chain = LP.decision_chain()
+        records = chain["records"]
+        assert records[:len(prescribed)] == prescribed, \
+            "the chain no longer carries the block the repair prescribed"
+        # The very next record is the write that carried it, and it was a
+        # REGISTRATION, not a launch: it moved no authorization.
+        carrier = records[len(prescribed)]
+        assert carrier["work_order"] == "PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001"
+        assert carrier["founder_authorized"] == \
+            expected["supersedes"]["founder_authorized"]
+        # And no repair record covers the current file, which is what closed
+        # means -- the cover was per-sha256 and the record has moved on since.
+        assert LP._repair_covers(LP.PARTICIPATION_PATH) is None
+        # The current decision inherits the set it was handed, whatever it is.
+        decision = LP.load_participation()["decision"]
+        assert set(decision["supersedes"]["founder_authorized"]) <= \
+            set(LP.authorized_market_ids())

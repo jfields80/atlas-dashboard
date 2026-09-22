@@ -104,8 +104,12 @@ FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 #: the participation record, the composed manifest and what production serves --
 #: without rendering a site. FIVE stays below because the 046 assertions about
 #: the ORIGINAL five-market candidate are about that cohort, not about today.
+#: PTF-PARTICIPATION-GUARD-REPAIR-001: the withheld set comes from there too,
+#: so this module stops carrying a second copy of it that nobody remembered to
+#: move. LIVE is now a read of the deployment pin; REVIEWED_WITHHELD stays the
+#: one explicit founder judgement.
 from pettripfinder.test_release_composition_contract_006 import (  # noqa: E402
-    REVIEWED_MARKETS as LIVE)
+    REVIEWED_MARKETS as LIVE, REVIEWED_WITHHELD)
 assert set(FIVE) < set(LIVE), "the original five must still be live"
 # indianapolis 56 -> 67 and pittsburgh 26 -> 53 at PTF-INDIANAPOLIS-
 # DEPLOYMENT-AUTHORIZATION-015; cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-
@@ -162,7 +166,15 @@ WITHHELD_BY_046 = "indianapolis-in"
 #: it. Detroit's exclusion is unchanged across every one of these moves, which
 #: is the half of this assertion that says a registration disturbed no old
 #: market.
-NOT_READY = ("charlotte-nc", "detroit-ann-arbor-mi")
+#: charlotte-nc LEFT at PTF-CHARLOTTE-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003,
+#: by founder decision like every market above it, and nobody moved this tuple --
+#: so it claimed Charlotte was excluded from the bundle for nineteen launches
+#: while Charlotte was live. PTF-PARTICIPATION-GUARD-REPAIR-001 stopped
+#: restating the withheld set here: it is REVIEWED_WITHHELD, the one explicit
+#: founder judgement, imported from the module that owns it. Detroit carries the
+#: role alone, and the tuple now moves when that decision moves rather than when
+#: somebody remembers.
+NOT_READY = REVIEWED_WITHHELD
 #: Genuinely cannot assemble: a configured market with no policy package.
 #: EMPTY as of PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030. Detroit
 #: left this list the way Grand Rapids did: not by gaining data, but
@@ -204,7 +216,15 @@ NOT_ASSEMBLABLE = ()
 #: assemblable, source-ready, publishing 106 of 268 identities because 121 are
 #: held by the evidence and provenance gates, and NOT authorized, because the
 #: benchmark that built it is not a founder decision and may not be read as one.
-SOURCE_READY_UNAUTHORIZED = ("charlotte-nc", "detroit-ann-arbor-mi")
+#: charlotte-nc left here too, at its launch, and for the same reason: a founder
+#: decision, not a change in its data. PTF-PARTICIPATION-GUARD-REPAIR-001 derives
+#: it instead of restating it -- the withheld markets that ARE assemblable, which
+#: while NOT_ASSEMBLABLE is empty is every withheld market. The distinction the
+#: tests below draw is unchanged and is now impossible to leave stale: if a
+#: withheld market ever stops assembling it moves to NOT_ASSEMBLABLE and drops
+#: out of here by itself.
+SOURCE_READY_UNAUTHORIZED = tuple(
+    m for m in REVIEWED_WITHHELD if m not in NOT_ASSEMBLABLE)
 
 #: The five-market production candidate, reproduced twice in the work order
 #: and DEPLOYED by PTF-047. Superseded by
@@ -300,10 +320,35 @@ def test_the_record_is_committed_and_names_its_decision():
         assert decision["founder_authorized_set_unchanged"] is True
         assert sorted(LP.authorized_market_ids(doc)) == \
             sorted(decision["supersedes"]["founder_authorized"])
-    # The CURRENT decision is the Charlotte registration. Each reissue moves
-    # these lines and nothing else in this module: the lineage assertions below
-    # keep proving every ancestor, including the one this replaced.
-    assert "Charlotte" in decision["reason"]
+    # WHAT THE CURRENT DECISION MUST SAY ABOUT ITSELF.
+    #
+    # This block pinned the literal string "Charlotte" and the Charlotte work
+    # order, under a comment promising "each reissue moves these lines". Nineteen
+    # reissues went past and nobody moved them, so for nineteen launches this
+    # guard asserted a city that had been live for months -- and failed, and the
+    # failure was recorded as pre-existing each time. PTF-PARTICIPATION-GUARD-
+    # REPAIR-001 replaced the name with the CLAIM the name was standing in for,
+    # which is assertable for whatever market is current and cannot go stale:
+    # an authorizing decision must NAME, in the reason a human reads, every
+    # market it admits.
+    chain = epochs.participation_decision_chain()
+    inherited = set(chain["supersedes"]["founder_authorized"])
+    authorized = set(LP.authorized_market_ids(doc))
+    # A decision may never drop a market the one before it authorized. This is
+    # the rule LP.decision_problems enforces in production; asserted here
+    # against the committed record rather than a synthetic one.
+    assert not (inherited - authorized), sorted(inherited - authorized)
+    admitted = sorted(authorized - inherited)
+    reason = decision["reason"].lower()
+    for market_id in admitted:
+        # the trailing state code is not a word anybody writes in prose
+        for token in [t for t in market_id.split("-") if len(t) > 2]:
+            assert token in reason, (market_id, token, decision["reason"])
+    # And the set this decision hands on IS what production serves. THIS is the
+    # assertion whose absence let the record drift unnoticed: a participation
+    # decision that no longer describes current live lineage is stale by
+    # definition, and now says so.
+    assert sorted(authorized) == sorted(LIVE)
     # supersedes names the IMMEDIATE predecessor, and the flat lineage list
     # carries every ancestor with its sha256. Both are needed: an authorization
     # signed two reissues back can only be matched through the lineage, which
@@ -315,18 +360,19 @@ def test_the_record_is_committed_and_names_its_decision():
     # cannot be edited until the next participation write, so until then the
     # chain is read from the repair record that launch committed beside it. The
     # assertions are the same ones; only the file holding the chain moved.
-    assert decision["work_order"] == \
-        "PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001"
-    chain = epochs.participation_decision_chain()
-    # And the chain is back in the record itself: this write is the one the
-    # repair record beside it prescribed, so the exception it documented is
-    # closed. test_participation_lineage_contract_006 proves that in full.
+    # The decision names itself, and is not its own ancestor.
+    assert decision["work_order"]
+    assert LP.participation_sha256() not in [r["sha256"] for r in chain["records"]]
+    # And the chain is in the record itself: the repair record's documented
+    # exception is closed. test_participation_lineage_contract_006 proves that
+    # in full, including WHICH write closed it.
     assert chain["carried_by"] == LP.PARTICIPATION_PATH.name
-    assert chain["supersedes"]["work_order"] == \
-        "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005"
-    # The set the registration inherited, which is the set live today: a
-    # registration adds a WITHHELD market and moves no lever.
-    assert chain["supersedes"]["founder_authorized"] == sorted(LIVE)
+    # supersedes is the newest ancestor -- asserted by identity with the lineage
+    # rather than by naming an order, which is what went stale.
+    assert chain["supersedes"]["work_order"] == chain["records"][-1]["work_order"]
+    assert chain["supersedes"]["sha256"] == chain["records"][-1]["sha256"]
+    # The whole committed chain verifies under the production rule.
+    assert LP.decision_problems(doc) == []
 
     records = chain["records"]
     # 046 is still the oldest ancestor and its withholding is still walkable
@@ -337,14 +383,24 @@ def test_the_record_is_committed_and_names_its_decision():
     assert all(re.fullmatch(r"[0-9a-f]{64}", r["sha256"]) for r in records)
     assert records[-1]["work_order"] == chain["supersedes"]["work_order"]
     assert records[-1]["sha256"] == chain["supersedes"]["sha256"]
-    # A launch set only ever grew, and every ancestor is a subset of the set
+    # A launch set only ever GREW, and every ancestor is a subset of the set
     # live today.
+    #
+    # This read `a < b` -- STRICT growth at every link -- which was true while
+    # every reissue was a launch. It stopped being true structurally, not just
+    # numerically: registering a market reissues the record and authorizes
+    # nothing, so equal consecutive sets are now normal and four pairs in the
+    # committed chain are equal. The rule that actually holds, and the one
+    # LP.decision_problems enforces in production, is that a set may never
+    # SHRINK.
     seen = [set(r["founder_authorized"]) for r in records]
-    assert all(a < b for a, b in zip(seen, seen[1:]))
-    # Strictly smaller than today's set while the newest ancestor was a launch
-    # the founder had already superseded. The newest ancestor is now the
-    # Nashville launch itself, because the reissue after it authorized nothing.
-    assert seen[-1] == set(LIVE)
+    assert all(a <= b for a, b in zip(seen, seen[1:]))
+    # The newest ancestor is the set this decision inherited, and the chain has
+    # grown since its first record -- so "never shrinks" is not being satisfied
+    # by a chain that never moved.
+    assert seen[-1] == inherited
+    assert seen[-1] <= authorized
+    assert seen[0] < authorized
 
 
 def test_every_registered_market_has_an_explicit_status():
@@ -593,8 +649,15 @@ def test_no_held_or_refused_indianapolis_row_reached_the_bundle(production):
     canonical reader and its fee WITHHELD. The Home2 bare-brand key stays out."""
     _manifest, site = production
     sitemap = (site / "sitemap.xml").read_text(encoding="utf-8")
-    assert "home2-suites-by-hilton/" not in sitemap
-    assert "extended-stay-america-indianapolis-airport-w-southern-ave" in sitemap
+    # SCOPED TO INDIANAPOLIS. This was a bare substring, which was unambiguous
+    # while the bundle held one market's hotels and stopped being so when Miami
+    # published its own Home2 Suites at /miami-fl/home2-suites-by-hilton/ -- a
+    # legitimate profile the guard then read as the held Indianapolis row. The
+    # claim was always about an Indianapolis route, so it now says so, and it is
+    # a sharper assertion than before rather than a looser one.
+    assert "/indianapolis-in/home2-suites-by-hilton/" not in sitemap
+    assert "/indianapolis-in/extended-stay-america-indianapolis-airport-w-southern-ave" \
+        in sitemap
 
 
 def test_every_required_gate_ran_and_passed(production):

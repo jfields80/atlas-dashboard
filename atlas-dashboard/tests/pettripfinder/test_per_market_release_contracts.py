@@ -128,10 +128,21 @@ CHARLOTTE = "charlotte-nc"
 # hardened market onto this lineage: 121 published, 81 verified no-pets, a
 # release contract verifying with zero disagreements. It is releasable and
 # NOT launch-authorized -- two different facts, and this tuple is the first.
-#: PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001 added CHARLOTTE.
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
-           ST_LOUIS, LOUISVILLE, GRAND_RAPIDS, CINCINNATI, DETROIT, TOLEDO,
-           LEXINGTON, NASHVILLE, CHARLOTTE)
+#: PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001 added CHARLOTTE -- and then
+#: eighteen further markets registered and nobody added any of them, so this
+#: tuple named fifteen of thirty-three and the eighteen newest markets had NO
+#: per-market contract coverage at all: not the reconciliation check, not the
+#: cross-market reuse matrix, not the per-market assembly. The invariant the
+#: registry test states -- "every market that CAN release has a contract" --
+#: was failing for that reason alone.
+#:
+#: PTF-PARTICIPATION-GUARD-REPAIR-001 derives the set from the market REGISTRY,
+#: which is what "every market that can release" actually means. Nothing is
+#: weakened by this: every expectation below is still an independent reviewed
+#: figure read from pins/market_state.json, which describes all thirty-three.
+#: The names above stay because tests elsewhere in this module name them
+#: directly.
+MARKETS = tuple(sorted(m.market_id for m in load_markets()))
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -333,6 +344,20 @@ EXPECTED_RECONCILIATION = {
     ST_LOUIS: _pinned_reconciliation(ST_LOUIS),
 }
 
+# PTF-PARTICIPATION-GUARD-REPAIR-001. Every market registered since Charlotte
+# gets the same treatment the fifteen above already have: its reconciliation is
+# read from pins/market_state.json, the reviewed document, and compared against
+# BOTH the committed contract and the independent derivation. The entries above
+# keep their own review commentary; these have theirs in their market's work
+# order and in the pin's own last_moved_by. Written as a fill rather than by
+# hand because the alternative is thirty-three restatements of a number that
+# already has one reviewed home -- which is the tax this whole order exists to
+# remove.
+for _market_id in sorted(m.market_id for m in load_markets()):
+    EXPECTED_RECONCILIATION.setdefault(
+        _market_id, _pinned_reconciliation(_market_id))
+del _market_id
+
 #: Columbus's published-profile count. The single number this whole sprint
 #: exists to stop leaking into another market's release gates.
 COLUMBUS_PROFILE_COUNT = 88
@@ -524,7 +549,7 @@ class TestContractAgreesWithItsOwnAuthority:
         # PITTSBURGH 17 -> 21 at PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002
         # (4 first-party refusals applied); every other market's number is
         # unchanged, which is the half of this assertion that proves the scoping.
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 51, DAYTON: 24,
+        reviewed_explicit = {COLUMBUS: 14, CLEVELAND: 51, DAYTON: 24,
                              PITTSBURGH: 21, INDIANAPOLIS: 44, MILWAUKEE: 27,
                              ST_LOUIS: 37,
                              # PTF-LOUISVILLE-PUBLICATION-008 wrote 17.
@@ -622,6 +647,19 @@ class TestContractAgreesWithItsOwnAuthority:
                              # unchanged, which is the half of this assertion
                              # that proves the scoping.
                              CHARLOTTE: 41}
+        # PTF-PARTICIPATION-GUARD-REPAIR-001. The fifteen markets that carried
+        # explicit numbers KEEP them -- the commentary above is the review trail
+        # for each move and is not thrown away. The eighteen registered since are
+        # held to pins/market_state.json, a reviewed document independent of the
+        # authority under test, exactly as _pinned_reconciliation already is.
+        expected = {mid: reviewed_explicit.get(
+                             mid, pinned_state(mid).verified_no_pets)
+                    for mid in MARKETS}
+        assert by_market == expected
+        # And the two reviewed records must agree with each other on the
+        # fifteen, or one of them is wrong and the scoping claim rests on it.
+        assert {mid: pinned_state(mid).verified_no_pets
+                for mid in reviewed_explicit} == reviewed_explicit
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
