@@ -16,6 +16,7 @@ expected side of every assertion is the pin; the actual side is the source.
 
 from __future__ import annotations
 
+import dataclasses
 import json
 from pathlib import Path
 
@@ -136,6 +137,200 @@ class TestMarketPinsAgreeWithTheSource:
 
 
 # --------------------------------------------------------------------------- #
+# PTF-DEPLOYMENT-RECORD-WORK-ORDER-SEMANTICS-001 -- a deployment record names
+# TWO orders, and they are not the same fact.
+#
+#   record["work_order"]                  the order that AUTHORIZED the release.
+#                                         build_deployment_record() copies it
+#                                         straight off the consumed
+#                                         authorization -- it can be nothing
+#                                         else by construction.
+#   record["deployer"]["work_order"]      the order that PERFORMED the deploy.
+#   record["deployer"]["authorizing_work_order"]
+#                                         that deploy's own echo of the
+#                                         authorizing order, written when the
+#                                         two differ so neither is lost.
+#   deployment_state live.deployed_by     the order that performed the CURRENT
+#                                         live deploy.
+#
+# For the first thirty-three launches one order did both, so nothing
+# distinguished them and `work_order == deployed_by` held by accident. It
+# stopped holding at Fayetteville, where a host 403 split the launch and
+# PTF-FAYETTEVILLE-NC-RESUME-HOST-DEPLOY-004 shipped what -002 had authorized,
+# and again at Miami and Fort Lauderdale. Three records, not one.
+#
+# The old assertion `record["work_order"] == live.deployed_by` asked the
+# authorizing order to be the deploying one. That is not a property of the
+# record and never was, so the guard reported a defect that did not exist while
+# checking neither fact against the document that defines it. Both are now
+# checked, separately and against different documents.
+# --------------------------------------------------------------------------- #
+
+def deploying_work_order(record):
+    """The order that performed ``record``'s deployment.
+
+    ``deployer.work_order`` when the record carries it. Before that field
+    existed the deploying and authorizing order were by convention the same
+    one, and the top-level ``work_order`` is the only order the record names --
+    so that is what it deployed under. This is a READ of the record, never a
+    default: a record that is supposed to carry the field and does not is
+    caught by ``record_problems``, not quietly excused here.
+    """
+    return (record.get("deployer") or {}).get("work_order") or record.get("work_order")
+
+
+def authorizing_work_order(record):
+    """The order that authorized ``record``'s release, as the record states it."""
+    return record.get("work_order")
+
+
+def first_record_naming_its_deployer(records):
+    """The deploy at which ``deployer.work_order`` entered the schema.
+
+    Derived, not pinned to a market name: the earliest record that carries the
+    field. Every record from there on owes it -- that is what stops the field
+    being silently dropped by a future deploy -- and no record before it does.
+    """
+    for record in sorted(records, key=lambda r: r["deployed_at"]):
+        if (record.get("deployer") or {}).get("work_order"):
+            return record
+    return None
+
+
+def record_problems(records, authorizations):
+    """Every way the committed records fail the two-order contract.
+
+    ``authorizations`` is keyed by authorization id. Both sides of every
+    comparison come from a different document: the record from
+    ``deployment_records``, the order it claims from ``deployment_authorizations``.
+    """
+    problems = []
+    by_id = dict(authorizations)
+    ordered = sorted(records, key=lambda r: r["deployed_at"])
+    first_named = first_record_naming_its_deployer(ordered)
+    owes_deployer = False
+
+    for record in ordered:
+        rid = record["deployment_record_id"]
+        deployer = record.get("deployer") or {}
+
+        # 1 -- the authorizing order is the authorization's own.
+        auth = by_id.get(record.get("authorization_id"))
+        if auth is None:
+            problems.append(
+                "%s: authorization %r is unreachable, so the order it was "
+                "released under cannot be confirmed"
+                % (rid, record.get("authorization_id")))
+        elif authorizing_work_order(record) != auth.get("work_order"):
+            problems.append(
+                "%s: work_order is %r but authorization %s was signed by %r; "
+                "the record's work_order IS the authorizing order"
+                % (rid, authorizing_work_order(record), auth["authorization_id"],
+                   auth.get("work_order")))
+        if not epochs.is_work_order(authorizing_work_order(record)):
+            problems.append("%s: work_order %r does not name a work order"
+                            % (rid, authorizing_work_order(record)))
+
+        # 2 -- the deploying order, once the schema carries it, stays carried.
+        if first_named is not None and record is first_named:
+            owes_deployer = True
+        if owes_deployer and not deployer.get("work_order"):
+            problems.append(
+                "%s: deployed at %s, after %s introduced deployer.work_order, "
+                "but names no deploying order"
+                % (rid, record["deployed_at"], first_named["deployment_record_id"]))
+        if deployer.get("work_order") and \
+                not epochs.is_work_order(deployer["work_order"]):
+            problems.append("%s: deployer.work_order %r does not name a work order"
+                            % (rid, deployer["work_order"]))
+
+        # 3 -- and the two are never conflated. Where a record echoes the
+        #      authorizing order inside its deployer block it must echo the
+        #      real one, and where the two orders differ the record must say
+        #      so explicitly rather than leave the difference to be inferred.
+        echo = deployer.get("authorizing_work_order")
+        if echo is not None and echo != authorizing_work_order(record):
+            problems.append(
+                "%s: deployer.authorizing_work_order is %r but the record was "
+                "released under %r"
+                % (rid, echo, authorizing_work_order(record)))
+        if deployer.get("work_order") and \
+                deployer["work_order"] != authorizing_work_order(record) and \
+                echo is None:
+            problems.append(
+                "%s: deployed by %r under a different authorizing order %r "
+                "without recording deployer.authorizing_work_order"
+                % (rid, deployer["work_order"], authorizing_work_order(record)))
+    return problems
+
+
+def live_lineage_problems(live, records, authorizations):
+    """Every way the live pin fails to describe the deployment production runs.
+
+    Identity, not arithmetic: the latest record by deployment time IS the live
+    one, it carries the live bundle and site, and its two orders are the two
+    the pin names.
+    """
+    problems = []
+    by_record_id = {r["deployment_record_id"]: r for r in records}
+    record = by_record_id.get(live.deployment_record_id)
+    if record is None:
+        problems.append("the live pin names deployment record %r, which does not exist"
+                        % live.deployment_record_id)
+        return problems
+
+    latest = max(records, key=lambda r: r["deployed_at"])
+    if latest["deployment_record_id"] != record["deployment_record_id"]:
+        problems.append(
+            "the latest deployment record is %s (%s) but the live pin names %s"
+            % (latest["deployment_record_id"], latest["deployed_at"],
+               record["deployment_record_id"]))
+
+    if record["deployment_id"] != live.deploy_id:
+        problems.append("live deploy id is %r; record %s deployed %r"
+                        % (live.deploy_id, record["deployment_record_id"],
+                           record["deployment_id"]))
+    if record["bundle_sha256"] != live.bundle_sha256:
+        problems.append("live bundle is %r; record %s shipped %r"
+                        % (live.bundle_sha256, record["deployment_record_id"],
+                           record["bundle_sha256"]))
+    if record["sitemap_sha256"] != live.sitemap_sha256:
+        problems.append("live sitemap is %r; record %s shipped %r"
+                        % (live.sitemap_sha256, record["deployment_record_id"],
+                           record["sitemap_sha256"]))
+    if record["target_site"] != LIVE_TARGET_SITE:
+        problems.append("record %s deployed to site %r, not %r"
+                        % (record["deployment_record_id"], record["target_site"],
+                           LIVE_TARGET_SITE))
+
+    # The two orders, each against the document that defines it.
+    if deploying_work_order(record) != live.deployed_by:
+        problems.append(
+            "live.deployed_by is %r but deployment record %s was deployed by %r"
+            % (live.deployed_by, record["deployment_record_id"],
+               deploying_work_order(record)))
+    auth = {a["authorization_id"]: a for a in authorizations}.get(live.authorization_id)
+    if auth is None:
+        problems.append("the live authorization %r is unreachable"
+                        % live.authorization_id)
+    elif authorizing_work_order(record) != auth.get("work_order"):
+        problems.append(
+            "the live record was released under %r but its authorization %s was "
+            "signed by %r"
+            % (authorizing_work_order(record), auth["authorization_id"],
+               auth.get("work_order")))
+    if not epochs.is_work_order(live.deployed_by):
+        problems.append("live.deployed_by %r does not name a work order"
+                        % live.deployed_by)
+    return problems
+
+
+#: Every committed record deployed here, so the live one deploying anywhere
+#: else is a finding rather than a passing comparison against itself.
+LIVE_TARGET_SITE = "pettripfinder-prod"
+
+
+# --------------------------------------------------------------------------- #
 # Deployment pins against the manifest and the records.
 # --------------------------------------------------------------------------- #
 
@@ -146,7 +341,12 @@ class TestDeploymentPinsAgreeWithTheSource:
         record = DA._read_json(DA.record_path(live.deployment_record_id))
         assert record["deployment_id"] == live.deploy_id
         assert record["authorization_id"] == live.authorization_id
-        assert record["work_order"] == live.deployed_by
+        # `record["work_order"]` is the AUTHORIZING order and `live.deployed_by`
+        # is the DEPLOYING one; they are different facts and are allowed to
+        # differ. Comparing them here conflated the two and failed for three
+        # launches. Each is now held to the document that actually defines it,
+        # by TestTheDeploymentRecordSeparatesAuthorizingFromDeploying below.
+        assert deploying_work_order(record) == live.deployed_by
         assert record["source_commit"] == live.source_commit
         assert record["bundle_sha256"] == live.bundle_sha256
         assert record["sitemap_sha256"] == live.sitemap_sha256
@@ -528,3 +728,283 @@ class TestTheSupersessionContractFailsClosed:
         with pytest.raises(AssertionError):
             TestTheSupersessionChainReachesProduction()\
                 .test_no_withheld_market_is_treated_as_live_or_excused()
+
+
+# --------------------------------------------------------------------------- #
+# PTF-DEPLOYMENT-RECORD-WORK-ORDER-SEMANTICS-001 -- the two-order contract.
+#
+# The positive tests hold every committed record to it. The negative tests hand
+# the same guards records that are wrong in each way that matters and require
+# each one to be caught, so the guards cannot pass by asserting nothing.
+#
+# Every fixture below is a deep copy of committed bytes, mutated in memory and
+# never written back. No committed deployment record, authorization or pin is
+# modified by this module.
+# --------------------------------------------------------------------------- #
+
+class TestTheDeploymentRecordSeparatesAuthorizingFromDeploying:
+
+    def _records(self):
+        return DA.list_records()
+
+    def _authorizations(self):
+        return {a["authorization_id"]: a for a in DA.list_authorizations()}
+
+    def test_every_record_was_released_under_its_authorizations_own_order(self):
+        """Contract 1: ``work_order`` IS the authorizing order, for all of them.
+
+        That is what ``build_deployment_record`` writes -- it copies
+        ``auth["work_order"]`` -- so a record disagreeing with the
+        authorization it names was not built by the factory.
+        """
+        records, auths = self._records(), self._authorizations()
+        assert records, "a contract about deployment records needs some"
+        disagreeing = [
+            r["deployment_record_id"] for r in records
+            if authorizing_work_order(r) != auths[r["authorization_id"]]["work_order"]
+        ]
+        assert disagreeing == [], disagreeing
+
+    def test_every_record_names_a_reachable_authorization(self):
+        records, auths = self._records(), self._authorizations()
+        unreachable = [r["deployment_record_id"] for r in records
+                       if r.get("authorization_id") not in auths]
+        assert unreachable == [], unreachable
+
+    def test_every_record_since_the_field_existed_names_its_deploying_order(self):
+        """Contract 2: once a record carried ``deployer.work_order``, every
+        later one does. Derived from the records, so no market is named."""
+        records = self._records()
+        first = first_record_naming_its_deployer(records)
+        assert first is not None, "no record names its deploying order"
+        later = [r for r in records if r["deployed_at"] >= first["deployed_at"]]
+        silent = [r["deployment_record_id"] for r in later
+                  if not (r.get("deployer") or {}).get("work_order")]
+        assert silent == [], silent
+
+    def test_the_two_orders_are_allowed_to_differ_and_some_really_do(self):
+        """Contract 5, stated positively: these are two facts, not one.
+
+        If no committed record ever separated them the repaired guard would be
+        indistinguishable from the broken one and this module would prove
+        nothing. Production really does hold releases whose deploying order is
+        not the order that authorized them -- and each records BOTH, so neither
+        fact was lost when they diverged.
+        """
+        diverged = [r for r in self._records()
+                    if (r.get("deployer") or {}).get("work_order")
+                    and r["deployer"]["work_order"] != authorizing_work_order(r)]
+        assert diverged, (
+            "no record separates the authorizing from the deploying order; "
+            "the repaired guard would be untested")
+        for record in diverged:
+            assert record["deployer"]["authorizing_work_order"] == \
+                authorizing_work_order(record), record["deployment_record_id"]
+            assert epochs.is_work_order(record["deployer"]["work_order"])
+
+    def test_the_committed_records_satisfy_the_whole_contract(self):
+        assert record_problems(self._records(), self._authorizations()) == []
+
+    def test_the_live_pin_describes_the_deployment_production_runs(self):
+        """Contracts 3 and 4: the live pin's lineage, identity and both orders."""
+        assert live_lineage_problems(
+            MS.live(), self._records(), DA.list_authorizations()) == []
+
+    def test_the_live_pins_two_orders_are_each_the_record_they_come_from(self):
+        """Named explicitly, because this is the pair the old guard conflated."""
+        live = MS.live()
+        record = DA._read_json(DA.record_path(live.deployment_record_id))
+        auth = DA.load_authorization(live.authorization_id)
+        assert deploying_work_order(record) == live.deployed_by
+        assert authorizing_work_order(record) == auth["work_order"]
+        assert epochs.is_work_order(live.deployed_by)
+        assert epochs.is_work_order(auth["work_order"])
+
+
+class TestTheTwoOrderContractFailsClosed:
+    """Each way a record or pin can be wrong, and the guard that catches it."""
+
+    @staticmethod
+    def _copy(records):
+        return [json.loads(json.dumps(r)) for r in records]
+
+    def _fixture(self):
+        """A deep copy of the committed records and authorizations."""
+        records = self._copy(DA.list_records())
+        auths = {a["authorization_id"]: json.loads(json.dumps(a))
+                 for a in DA.list_authorizations()}
+        return records, auths
+
+    @staticmethod
+    def _live_record(records):
+        return max(records, key=lambda r: r["deployed_at"])
+
+    # 1 -- the record's work_order disagrees with its authorization.
+    def test_a_record_that_disagrees_with_its_authorization_is_caught(self):
+        records, auths = self._fixture()
+        victim = self._live_record(records)
+        victim["work_order"] = "PTF-SOME-OTHER-ORDER-001"
+        problems = record_problems(records, auths)
+        assert any("the record's work_order IS the authorizing order" in p
+                   for p in problems), problems
+        assert any(victim["deployment_record_id"] in p for p in problems), problems
+
+    def test_a_disagreeing_record_also_fails_the_positive_guard(self, monkeypatch):
+        records = self._copy(DA.list_records())
+        self._live_record(records)["work_order"] = "PTF-SOME-OTHER-ORDER-001"
+        monkeypatch.setattr(DA, "list_records", lambda: records)
+        with pytest.raises(AssertionError):
+            TestTheDeploymentRecordSeparatesAuthorizingFromDeploying()\
+                .test_every_record_was_released_under_its_authorizations_own_order()
+
+    # 2 -- deployer.work_order missing after the field existed.
+    def test_a_record_that_drops_its_deploying_order_is_caught(self):
+        records, auths = self._fixture()
+        self._live_record(records)["deployer"].pop("work_order")
+        problems = record_problems(records, auths)
+        assert any("names no deploying order" in p for p in problems), problems
+
+    def test_a_dropped_deploying_order_also_fails_the_positive_guard(self, monkeypatch):
+        records = self._copy(DA.list_records())
+        self._live_record(records)["deployer"].pop("work_order")
+        monkeypatch.setattr(DA, "list_records", lambda: records)
+        with pytest.raises(AssertionError):
+            TestTheDeploymentRecordSeparatesAuthorizingFromDeploying()\
+                .test_every_record_since_the_field_existed_names_its_deploying_order()
+
+    # 3 -- deployer.work_order is wrong: not an order at all, or it diverges
+    #      while the record hides the divergence, or it echoes the wrong
+    #      authorizing order.
+    def test_a_deploying_order_that_is_not_a_work_order_is_caught(self):
+        records, auths = self._fixture()
+        self._live_record(records)["deployer"]["work_order"] = "deployed by hand"
+        problems = record_problems(records, auths)
+        assert any("deployer.work_order" in p and "does not name a work order" in p
+                   for p in problems), problems
+
+    def test_a_divergence_recorded_with_the_wrong_authorizing_order_is_caught(self):
+        records, auths = self._fixture()
+        victim = self._live_record(records)
+        victim["deployer"]["authorizing_work_order"] = "PTF-NOT-THE-AUTHORIZER-001"
+        problems = record_problems(records, auths)
+        assert any("but the record was released under" in p for p in problems), problems
+
+    def test_an_undeclared_divergence_is_caught(self):
+        records, auths = self._fixture()
+        victim = self._live_record(records)
+        victim["deployer"].pop("authorizing_work_order", None)
+        victim["deployer"]["work_order"] = "PTF-SOME-DEPLOYING-ORDER-009"
+        problems = record_problems(records, auths)
+        assert any("without recording deployer.authorizing_work_order" in p
+                   for p in problems), problems
+
+    # 4 -- live.deployed_by points at a different deployment action.
+    def test_a_live_deployed_by_naming_another_action_is_caught(self):
+        records, auths = self._fixture()
+        moved = dataclasses.replace(MS.live(), deployed_by="PTF-A-DIFFERENT-DEPLOY-002")
+        problems = live_lineage_problems(moved, records, list(auths.values()))
+        assert any("live.deployed_by is" in p for p in problems), problems
+
+    def test_a_live_deployed_by_that_is_not_a_work_order_is_caught(self):
+        records, auths = self._fixture()
+        moved = dataclasses.replace(MS.live(), deployed_by="whoever ran it")
+        problems = live_lineage_problems(moved, records, list(auths.values()))
+        assert any("live.deployed_by" in p and "does not name a work order" in p
+                   for p in problems), problems
+
+    def test_the_repaired_live_guard_catches_a_moved_deployed_by(self, monkeypatch):
+        """And the guard the old assertion lived in still fails closed."""
+        doc = json.loads(MS.DEPLOYMENT_STATE_PATH.read_text(encoding="utf-8"))
+        doc["live"]["deployed_by"] = "PTF-A-DIFFERENT-DEPLOY-002"
+        monkeypatch.setattr(MS, "deployment_state_document", lambda: doc)
+        with pytest.raises(AssertionError):
+            TestDeploymentPinsAgreeWithTheSource()\
+                .test_live_block_is_the_latest_deployment_record()
+
+    def test_the_repaired_live_guard_still_accepts_the_committed_pin(self):
+        """It is repaired, not weakened: unmutated, it passes on the real pin."""
+        TestDeploymentPinsAgreeWithTheSource()\
+            .test_live_block_is_the_latest_deployment_record()
+
+    # 5 -- the latest record is not the live one.
+    def test_a_latest_record_that_is_not_the_live_one_is_caught(self):
+        records, auths = self._fixture()
+        newer = json.loads(json.dumps(self._live_record(records)))
+        newer["deployment_record_id"] = "ptf-deploy-nowhere-001-ffffffffffffffffffffffff"
+        newer["deployment_id"] = "ffffffffffffffffffffffff"
+        newer["deployed_at"] = "2099-01-01T00:00:00Z"
+        records.append(newer)
+        problems = live_lineage_problems(MS.live(), records, list(auths.values()))
+        assert any("the latest deployment record is" in p for p in problems), problems
+
+    def test_a_live_pin_naming_no_record_at_all_is_caught(self):
+        records, auths = self._fixture()
+        moved = dataclasses.replace(
+            MS.live(), deployment_record_id="ptf-deploy-nowhere-001")
+        problems = live_lineage_problems(moved, records, list(auths.values()))
+        assert any("which does not exist" in p for p in problems), problems
+
+    def test_a_live_deploy_id_the_record_never_shipped_is_caught(self):
+        records, auths = self._fixture()
+        moved = dataclasses.replace(MS.live(), deploy_id="ffffffffffffffffffffffff")
+        problems = live_lineage_problems(moved, records, list(auths.values()))
+        assert any("live deploy id is" in p for p in problems), problems
+
+    # 6 -- bundle / sitemap / site identity differs.
+    def test_a_live_bundle_that_the_record_never_shipped_is_caught(self):
+        records, auths = self._fixture()
+        moved = dataclasses.replace(MS.live(), bundle_sha256="00" * 32)
+        problems = live_lineage_problems(moved, records, list(auths.values()))
+        assert any("live bundle is" in p for p in problems), problems
+
+    def test_a_live_sitemap_that_the_record_never_shipped_is_caught(self):
+        records, auths = self._fixture()
+        moved = dataclasses.replace(MS.live(), sitemap_sha256="00" * 32)
+        problems = live_lineage_problems(moved, records, list(auths.values()))
+        assert any("live sitemap is" in p for p in problems), problems
+
+    def test_a_record_deployed_to_another_site_is_caught(self):
+        records, auths = self._fixture()
+        self._live_record(records)["target_site"] = "pettripfinder-staging"
+        problems = live_lineage_problems(MS.live(), records, list(auths.values()))
+        assert any("not %r" % LIVE_TARGET_SITE in p for p in problems), problems
+
+    # 7 -- authorization lineage unreachable.
+    def test_a_record_whose_authorization_is_unreachable_is_caught(self):
+        records, auths = self._fixture()
+        self._live_record(records)["authorization_id"] = "ptf-auth-000-000000000000"
+        problems = record_problems(records, auths)
+        assert any("is unreachable" in p for p in problems), problems
+
+    def test_a_live_authorization_that_is_unreachable_is_caught(self):
+        records, auths = self._fixture()
+        moved = dataclasses.replace(
+            MS.live(), authorization_id="ptf-auth-000-000000000000")
+        problems = live_lineage_problems(moved, records, list(auths.values()))
+        assert any("the live authorization" in p and "unreachable" in p
+                   for p in problems), problems
+
+    def test_an_unreachable_authorization_also_fails_the_positive_guard(
+            self, monkeypatch):
+        records = self._copy(DA.list_records())
+        self._live_record(records)["authorization_id"] = "ptf-auth-000-000000000000"
+        monkeypatch.setattr(DA, "list_records", lambda: records)
+        with pytest.raises(AssertionError):
+            TestTheDeploymentRecordSeparatesAuthorizingFromDeploying()\
+                .test_every_record_names_a_reachable_authorization()
+
+    # 8 -- and the guards are not vacuous: unmutated, they report nothing.
+    def test_the_unmutated_fixture_reports_no_problems(self):
+        records, auths = self._fixture()
+        assert record_problems(records, auths) == []
+        assert live_lineage_problems(MS.live(), records, list(auths.values())) == []
+
+    def test_the_committed_records_are_not_touched_by_these_fixtures(self):
+        """A fixture is a copy. Whatever the tests above did to theirs, the
+        bytes on disk still say what the live pin was built from."""
+        live = MS.live()
+        on_disk = DA._read_json(DA.record_path(live.deployment_record_id))
+        assert on_disk["bundle_sha256"] == live.bundle_sha256
+        assert on_disk["deployment_id"] == live.deploy_id
+        assert on_disk["work_order"] == \
+            DA.load_authorization(live.authorization_id)["work_order"]
