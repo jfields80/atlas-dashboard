@@ -1,0 +1,1536 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-WEST-PALM-BEACH-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "west-palm-beach-fl",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "west_palm_beach_fl_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 150,
+  "credit_floor": 400,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 92,
+  "static_to_attended": 86,
+  "firecrawl_candidates": 6,
+  "share_static_to_attended": 0.9348,
+  "share_firecrawl_candidates": 0.0652,
+  "threshold": 0.2,
+  "warning": false,
+  "message": ""
+ },
+ "planned_rows": 19,
+ "attempted_rows": 19,
+ "stopped_by": "",
+ "credits": {
+  "before": 1211,
+  "after": 1199,
+  "delta": 12,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "holiday inn boca raton north": {
+    "identity_key": "holiday inn boca raton north",
+    "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail?cm_mmc=GoogleMaps-_-HI-_-US-_-BCTHI",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express and suites boynton beach west": {
+    "identity_key": "holiday inn express and suites boynton beach west",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/boynton-beach/boyhi/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express and suites lantana": {
+    "identity_key": "holiday inn express and suites lantana",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lantana/pbila/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express west palm beach metrocentre": {
+    "identity_key": "holiday inn express west palm beach metrocentre",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-palm-beach/pbimb/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "super 8 beach west palm beach",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "travelodge riviera beach west palm",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "choice-route::fl657",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "choice-route::fl056",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "choice-route::flb76",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "ac hotel fort lauderdale beach",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "apple ten hospitality management inc",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "boca inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "canopy by hilton west palm beach downtown",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "eau palm beach resort and spa",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "gulfstream hotel lake worth beach a tribute portfolio hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "seagate hotels and spa",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the belgrove resort and spa west palm beach autograph collection",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the ben autograph collection",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "vistana beach club",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 19,
+  "results": 19
+ },
+ "class_counts": {
+  "FIRECRAWL_BLOCKED": 7,
+  "FIRECRAWL_FAILED": 4,
+  "FIRECRAWL_MISMATCH": 4,
+  "FIRECRAWL_PUBLICATION_GRADE": 4
+ },
+ "outcome_counts": {
+  "ACCESS_DENIED": 7,
+  "IDENTITY_MISMATCH": 4,
+  "UNEXPECTED_PAGE": 4,
+  "VALID": 4
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "holiday inn boca raton north",
+   "canonical_name": "Holiday Inn - Boca Raton North",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail?cm_mmc=GoogleMaps-_-HI-_-US-_-BCTHI",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn &amp; Suites Boca Raton - North",
+     "address_on_page": "701 NW 53rd Street",
+     "postal_code": "33487",
+     "phone_on_page": "1-561-9979500",
+     "property_code_on_page": "bcthi",
+     "canonical_url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "5619979500"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '1-561-9979500' is not the census number '3125452169'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33487",
+   "expected_street": "701 NW 53rd St",
+   "captured_at": "2026-09-22T15:42:35.660062+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail?cm_mmc=GoogleMaps-_-HI-_-US-_-BCTHI"
+    },
+    "envelope_sha256": "ae2c1ce69f8e13e45be221f9c31e47eb5e764c126ffd2bce93e096a2a4467cd3"
+   },
+   "page_sha256": "415704e86b837bf8a9ce4d665fd98426050c67e8da13d6466738284c5090eb5f",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\holiday-inn-boca-raton-north\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 7500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 75 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 75 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "2 pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "dogs and cats allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "weight_limit": "SOURCE_AMBIGUOUS"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "species_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "west_palm_beach_fl_firecrawl_001::holiday inn boca raton north::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "415704e86b837bf8a9ce4d665fd98426050c67e8da13d6466738284c5090eb5f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-22",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "west_palm_beach_fl_firecrawl_001::holiday inn boca raton north::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "415704e86b837bf8a9ce4d665fd98426050c67e8da13d6466738284c5090eb5f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-22",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "west_palm_beach_fl_firecrawl_001::holiday inn boca raton north::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "415704e86b837bf8a9ce4d665fd98426050c67e8da13d6466738284c5090eb5f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-22",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "west_palm_beach_fl_firecrawl_001::holiday inn boca raton north::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "415704e86b837bf8a9ce4d665fd98426050c67e8da13d6466738284c5090eb5f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-22",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "west_palm_beach_fl_firecrawl_001::holiday inn boca raton north::pet_count_limit::3",
+       "field": "pet_count_limit",
+       "quote": "2 pets allowed",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "415704e86b837bf8a9ce4d665fd98426050c67e8da13d6466738284c5090eb5f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-22",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "west_palm_beach_fl_firecrawl_001::holiday inn boca raton north::species_allowed::4",
+       "field": "species_allowed",
+       "quote": "dogs and cats allowed",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/boca-raton/bcthi/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "415704e86b837bf8a9ce4d665fd98426050c67e8da13d6466738284c5090eb5f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-22",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "cecfcd3d471437d24ce3e219b2f622a11bbb7d9453a9ebc7db4f9e5d7550a46c",
+     "document_sha256": "415704e86b837bf8a9ce4d665fd98426050c67e8da13d6466738284c5090eb5f"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express and suites boynton beach west",
+   "canonical_name": "Holiday Inn Express & Suites Boynton Beach West",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/boynton-beach/boyhi/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/boynton-beach/boyhi/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Boynton Beach West",
+     "address_on_page": "2001 Ocean Drive",
+     "postal_code": "33426",
+     "phone_on_page": "1-561-7362634",
+     "property_code_on_page": "boyhi",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/boynton-beach/boyhi/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "5617362634"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page street '2001 Ocean Drive' and expected '2001 W Ocean Dr' are one address: the directional 'w' is stated on one side and omitted on the other",
+     "page telephone '1-561-7362634' is not the census number '6192981291'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33426",
+   "expected_street": "2001 W Ocean Dr",
+   "captured_at": "2026-09-22T15:42:48.092121+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/boynton-beach/boyhi/hoteldetail"
+    },
+    "envelope_sha256": "f09f6be106ec0322628884f3ea0ef8ade85e8d7fd8a6e145e17f49da32d37455"
+   },
+   "page_sha256": "eaa3950895220f4eb47399a80792d9c9c5711ae0f7605fd441d484c6a0b1fb87",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\holiday-inn-express-and-suites-boynton-beach-west\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets are not allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "west_palm_beach_fl_firecrawl_001::holiday inn express and suites boynton beach west::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/boynton-beach/boyhi/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "eaa3950895220f4eb47399a80792d9c9c5711ae0f7605fd441d484c6a0b1fb87",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-22",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "f02eb87a33b08b0157c2a8886b11ad087c9ce601878f15e4ac3201633efe3eb1",
+     "document_sha256": "eaa3950895220f4eb47399a80792d9c9c5711ae0f7605fd441d484c6a0b1fb87"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express and suites lantana",
+   "canonical_name": "Holiday Inn Express & Suites Lantana",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lantana/pbila/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lantana/pbila/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Lantana",
+     "address_on_page": "1251 Hypoluxo Road",
+     "postal_code": "33462",
+     "phone_on_page": "1-561-5829304",
+     "property_code_on_page": "pbila",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lantana/pbila/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "5615829304"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '1-561-5829304' is not the census number '6192981291'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33462",
+   "expected_street": "1251 Hypoluxo Rd",
+   "captured_at": "2026-09-22T15:43:01.242449+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lantana/pbila/hoteldetail"
+    },
+    "envelope_sha256": "82e9228c2fa30dd9e071b43586f554ee591f55e1427218a76d889ca21761c878"
+   },
+   "page_sha256": "bf823608959e88cdfb3526eb43b5a475377fc5d9b2e67031851059cef5dbec9c",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\holiday-inn-express-and-suites-lantana\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets are not allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "west_palm_beach_fl_firecrawl_001::holiday inn express and suites lantana::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lantana/pbila/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "bf823608959e88cdfb3526eb43b5a475377fc5d9b2e67031851059cef5dbec9c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-22",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "bc8d5c323da3b8e63dee6a86d21542298704b8610930081b93e17dfccd279cb6",
+     "document_sha256": "bf823608959e88cdfb3526eb43b5a475377fc5d9b2e67031851059cef5dbec9c"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express west palm beach metrocentre",
+   "canonical_name": "Holiday Inn Express West Palm Beach Metrocentre",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-palm-beach/pbimb/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-palm-beach/pbimb/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express West Palm Beach Metrocentre",
+     "address_on_page": "2485 Metrocentre Blvd.",
+     "postal_code": "33407",
+     "phone_on_page": "1-561-4727020",
+     "property_code_on_page": "pbimb",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-palm-beach/pbimb/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "5614727020"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "33407",
+   "expected_street": "2485 Metrocentre Blvd",
+   "captured_at": "2026-09-22T15:43:14.114892+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-palm-beach/pbimb/hoteldetail"
+    },
+    "envelope_sha256": "636207457d7fb36b80ce8ec2266748c2abb5c2c642d51b766b09b5bfe6ead483"
+   },
+   "page_sha256": "58fc036b6dfef1f3ed4576231435c000c3e4d4f400abb62fcf4d981bb6ffef72",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\holiday-inn-express-west-palm-beach-metrocentre\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets are not allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "west_palm_beach_fl_firecrawl_001::holiday inn express west palm beach metrocentre::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-palm-beach/pbimb/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "58fc036b6dfef1f3ed4576231435c000c3e4d4f400abb62fcf4d981bb6ffef72",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-22",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "08c9279190d8c27a51f42b2757878e0cf8f91a74b76d0542d29174e2024160b8",
+     "document_sha256": "58fc036b6dfef1f3ed4576231435c000c3e4d4f400abb62fcf4d981bb6ffef72"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "super 8 beach west palm beach",
+   "canonical_name": "Super 8 Beach West Palm Beach",
+   "family": "WYNDHAM",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "http://www.super8.com/hotels/florida/riviera-beach/super-8-riviera-beach-west-palm-beach/hotel-overview",
+   "final_url": "https://www.wyndhamhotels.com/super-8/riviera-beach-florida/super-8-riviera-beach-west-palm-beach/overview",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33404",
+   "expected_street": "4112 W Blue Heron Blvd",
+   "captured_at": "2026-09-22T15:43:26.379866+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.super8.com/hotels/florida/riviera-beach/super-8-riviera-beach-west-palm-beach/hotel-overview"
+    },
+    "envelope_sha256": "4f3416115d9282267769d06faed8d7c0784d80ddd9db8daa65b2d5480c2374d0"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\super-8-beach-west-palm-beach\\attempt-01",
+   "ladder_reason": "static channel failure (UNEXPECTED_PAGE) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "travelodge riviera beach west palm",
+   "canonical_name": "Travelodge Riviera Beach/West Palm",
+   "family": "WYNDHAM",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "http://www.travelodge.com/hotels/florida/riviera-beach/travelodge-riviera-beach-west-palm/hotel-overview",
+   "final_url": "https://www.wyndhamhotels.com/travelodge/search-results",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33404",
+   "expected_street": "3651 Blue Heron Blvd",
+   "captured_at": "2026-09-22T15:43:38.071642+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.travelodge.com/hotels/florida/riviera-beach/travelodge-riviera-beach-west-palm/hotel-overview"
+    },
+    "envelope_sha256": "6be4b629d83852dc2421d18c67a174bd26d0e228f7659ec0b724f592d6fc6e07"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\travelodge-riviera-beach-west-palm\\attempt-01",
+   "ladder_reason": "static channel failure (UNEXPECTED_PAGE) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "choice-route::fl657",
+   "canonical_name": "choice-route::fl657",
+   "family": "CHOICE",
+   "cohort": "DISCOVERED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/florida/jupiter/comfort-inn-hotels/fl657",
+   "final_url": "https://www.choicehotels.com/florida/jupiter/comfort-inn-hotels/fl657",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Comfort Inn & Suites Jupiter I-95', which does not agree with 'choice-route::fl657'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Comfort Inn & Suites Jupiter I-95",
+     "address_on_page": "6752 West Indiantown Road",
+     "postal_code": "33458-3978",
+     "phone_on_page": "(561) 745-7997",
+     "property_code_on_page": "fl657",
+     "canonical_url": "https://www.choicehotels.com/florida/jupiter/comfort-inn-hotels/fl657",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5617457997",
+      "5617680022",
+      "8887706800",
+      "8669999999",
+      "8002242826",
+      "5167474462",
+      "8776342826",
+      "8777342826",
+      "8774246423",
+      "8002285050",
+      "8003008800",
+      "8663513033",
+      "8005444444",
+      "8553253180",
+      "8662231911",
+      "8008920395",
+      "8884899290",
+      "8005212121",
+      "8662331911",
+      "8882888889"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Comfort Inn & Suites Jupiter I-95', which does not agree with 'choice-route::fl657'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-22T15:43:49.682042+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/florida/jupiter/comfort-inn-hotels/fl657"
+    },
+    "envelope_sha256": "72aa7ab4dcb22d5acfd99792fa9433268309372c1f5248a2f71d19d648e3f845"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\choice-route-fl657\\attempt-01",
+   "ladder_reason": "CHOICE_DISCOVERED_ROUTE_IDENTITY_FILL",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "choice-route::fl056",
+   "canonical_name": "choice-route::fl056",
+   "family": "CHOICE",
+   "cohort": "DISCOVERED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056",
+   "final_url": "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Comfort Inn & Suites Lantana - West Palm Beach South', which does not agree with 'choice-route::fl056'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Comfort Inn & Suites Lantana - West Palm Beach South",
+     "address_on_page": "1221 Hypoluxo Road",
+     "postal_code": "33462",
+     "phone_on_page": "(561) 582-7878",
+     "property_code_on_page": "fl056",
+     "canonical_url": "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5615827878",
+      "5615828878",
+      "8887706800",
+      "8669999999",
+      "8002242826",
+      "5167474462",
+      "8776342826",
+      "8777342826",
+      "8774246423",
+      "8002285050",
+      "8003008800",
+      "8663513033",
+      "8005444444",
+      "8553253180",
+      "8662231911",
+      "8008920395",
+      "8884899290",
+      "8005212121",
+      "8662331911",
+      "8882888889"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Comfort Inn & Suites Lantana - West Palm Beach South', which does not agree with 'choice-route::fl056'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-22T15:43:53.461782+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/florida/lantana/comfort-inn-hotels/fl056"
+    },
+    "envelope_sha256": "02858e862b08045a80ebea665c8baf58cb328a3ff2cf7c2cc027ae39db5f2a62"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\choice-route-fl056\\attempt-01",
+   "ladder_reason": "CHOICE_DISCOVERED_ROUTE_IDENTITY_FILL",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "choice-route::flb76",
+   "canonical_name": "choice-route::flb76",
+   "family": "CHOICE",
+   "cohort": "DISCOVERED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/florida/west-palm-beach/quality-inn-hotels/flb76",
+   "final_url": "https://www.choicehotels.com/florida/west-palm-beach/quality-inn-hotels/flb76",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Quality Inn Palm Beach International Airport', which does not agree with 'choice-route::flb76'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Quality Inn Palm Beach International Airport",
+     "address_on_page": "1505 Belvedere Road",
+     "postal_code": "33406",
+     "phone_on_page": "(561) 232-2740",
+     "property_code_on_page": "flb76",
+     "canonical_url": "https://www.choicehotels.com/florida/west-palm-beach/quality-inn-hotels/flb76",
+     "pets_allowed_structured": "True",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5612322740",
+      "5616897385",
+      "8887706800",
+      "8669999999",
+      "8002242826",
+      "5167474462",
+      "8776342826",
+      "8777342826",
+      "8774246423",
+      "8002285050",
+      "8003008800",
+      "8663513033",
+      "8005444444",
+      "8553253180",
+      "8662231911",
+      "8008920395",
+      "8884899290",
+      "8005212121",
+      "8662331911",
+      "8882888889"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Quality Inn Palm Beach International Airport', which does not agree with 'choice-route::flb76'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-22T15:43:57.142198+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/florida/west-palm-beach/quality-inn-hotels/flb76"
+    },
+    "envelope_sha256": "9ada2ea2a8fba2fd3cd0b3d404a856f665fc6f837162d2e4ab41afa98bdb1622"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\choice-route-flb76\\attempt-01",
+   "ladder_reason": "CHOICE_DISCOVERED_ROUTE_IDENTITY_FILL",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "ac hotel fort lauderdale beach",
+   "canonical_name": "AC Hotel Fort Lauderdale Beach",
+   "family": "MARRIOTT",
+   "cohort": "WALL_REPROBE",
+   "property_code": "FLLAW",
+   "requested_url": "https://www.marriott.com/en-us/hotels/fllaw-ac-hotel-fort-lauderdale-beach/overview/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-22T15:44:00.882955+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.marriott.com/en-us/hotels/fllaw-ac-hotel-fort-lauderdale-beach/overview/"
+    },
+    "envelope_sha256": "b3b349a2755e6a75c4a4467840756e2de43434d94b36aa038bc03fd8c7aeb587"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\ac-hotel-fort-lauderdale-beach\\attempt-01",
+   "ladder_reason": "FIRECRAWL_WALL_REPROBE_DIAGNOSTIC_ONLY",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-HARD-LANES-003",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "apple ten hospitality management inc",
+   "canonical_name": "Apple Ten Hospitality Management Inc",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "BCTBRGI",
+   "requested_url": "https://www.hilton.com/en/hotels/bctbrgi-hilton-garden-inn-boca-raton/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33487",
+   "expected_street": "8201 Congress Ave",
+   "captured_at": "2026-09-22T15:44:17.054279+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hilton.com/en/hotels/bctbrgi-hilton-garden-inn-boca-raton/"
+    },
+    "envelope_sha256": "f177674728370e89d9180dc09b48aff0b747c8b1eea7f8a9687b425dab6eb8ca"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\apple-ten-hospitality-management-inc\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "boca inn",
+   "canonical_name": "Boca Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.bocainn.xyz/",
+   "final_url": "https://www.bocainn.xyz/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'home', which does not agree with 'Boca Inn'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "home",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "5613957500",
+      "4743096808",
+      "2018788483",
+      "6951158212"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'home', which does not agree with 'Boca Inn'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "33432",
+   "expected_street": "1801 N Federal Hwy",
+   "captured_at": "2026-09-22T15:44:42.064535+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.bocainn.xyz/"
+    },
+    "envelope_sha256": "52eaff79c51931914974ea2ca22b4abac34c12c91eb3d9ae11ca1097f0fecaff"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\boca-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "canopy by hilton west palm beach downtown",
+   "canonical_name": "Canopy by Hilton West Palm Beach Downtown",
+   "family": "HILTON",
+   "cohort": "WALL_REPROBE",
+   "property_code": "PBICPPY",
+   "requested_url": "https://www.hilton.com/en/hotels/pbicppy-canopy-west-palm-beach-downtown/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33401",
+   "expected_street": "380 Trinity Pl",
+   "captured_at": "2026-09-22T15:44:53.086776+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hilton.com/en/hotels/pbicppy-canopy-west-palm-beach-downtown/"
+    },
+    "envelope_sha256": "609e43e0669fa51e50d86b56bc7cf8ceebd97e3a717a8e5748f6b7c0a9eddef9"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\canopy-by-hilton-west-palm-beach-downtown\\attempt-01",
+   "ladder_reason": "FIRECRAWL_WALL_REPROBE_DIAGNOSTIC_ONLY",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-HARD-LANES-003",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "eau palm beach resort and spa",
+   "canonical_name": "Eau Palm Beach Resort & Spa",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.eaupalmbeach.com/",
+   "final_url": "https://www.eauresortandspa.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33462",
+   "expected_street": "100 S. Ocean Boulevard",
+   "captured_at": "2026-09-22T15:45:38.403880+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.eaupalmbeach.com/"
+    },
+    "envelope_sha256": "3607b813e5013171bf651f899e102518195dd3895cbfbab47a2fcf6ff556a0e3"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\eau-palm-beach-resort-and-spa\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "gulfstream hotel lake worth beach a tribute portfolio hotel",
+   "canonical_name": "Gulfstream Hotel Lake Worth Beach A Tribute Portfolio Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "PBILW",
+   "requested_url": "https://www.marriott.com/en-us/hotels/pbilw-gulfstream-hotel-lake-worth-beach-a-tribute-portfolio-hotel/overview/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-22T15:45:49.043058+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.marriott.com/en-us/hotels/pbilw-gulfstream-hotel-lake-worth-beach-a-tribute-portfolio-hotel/overview/"
+    },
+    "envelope_sha256": "3b4244e88dacf776e56ca490416bee7accd7820f4198b2c0beecd4f0d346e98e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\gulfstream-hotel-lake-worth-beach-a-tribute-portfolio-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "seagate hotels and spa",
+   "canonical_name": "Seagate Hotels & Spa",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "PBIDB",
+   "requested_url": "https://www.marriott.com/en-us/hotels/pbidb-the-seagate-hotel-golf-and-beach-club-autograph-collection/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/pbidb-the-seagate-hotel-golf-and-beach-club-autograph-collection/overview/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33483",
+   "expected_street": "1000 E Atlantic Ave",
+   "captured_at": "2026-09-22T15:46:04.580270+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.marriott.com/en-us/hotels/pbidb-the-seagate-hotel-golf-and-beach-club-autograph-collection/overview/"
+    },
+    "envelope_sha256": "ebdcd52d7c3efd8e36c1c9e34023a7626e9fc443893e6974257d727a9e94f55c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\seagate-hotels-and-spa\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "the belgrove resort and spa west palm beach autograph collection",
+   "canonical_name": "The Belgrove Resort & Spa, West Palm Beach, Autograph Collection",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "PBIWK",
+   "requested_url": "https://www.marriott.com/en-us/hotels/pbiwk-the-belgrove-resort-and-spa-west-palm-beach-autograph-collection/overview/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33401",
+   "expected_street": "2020 Banyan Resort Way",
+   "captured_at": "2026-09-22T15:46:17.595870+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.marriott.com/en-us/hotels/pbiwk-the-belgrove-resort-and-spa-west-palm-beach-autograph-collection/overview/"
+    },
+    "envelope_sha256": "3c4a71106c399791566ea4b099332af3cb000963db3bafb2be47ca233bdf8945"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\the-belgrove-resort-and-spa-west-palm-beach-autograph-collection\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "the ben autograph collection",
+   "canonical_name": "The Ben, Autograph Collection",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "PBIAK",
+   "requested_url": "https://www.marriott.com/en-us/hotels/pbiak-the-ben-autograph-collection/overview/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "33401",
+   "expected_street": "215 North Narcissus Avenue",
+   "captured_at": "2026-09-22T15:46:33.343681+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.marriott.com/en-us/hotels/pbiak-the-ben-autograph-collection/overview/"
+    },
+    "envelope_sha256": "95a867b9b90864fec736b6bf1e2016fc74c36170c000e43a5147a96ccc2cdb0c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\the-ben-autograph-collection\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "vistana beach club",
+   "canonical_name": "Vistana Beach Club",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "PBISV",
+   "requested_url": "https://www.marriott.com/en-us/hotels/pbisv-vistana-beach-club/overview/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-22T15:46:48.531732+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.marriott.com/en-us/hotels/pbisv-vistana-beach-club/overview/"
+    },
+    "envelope_sha256": "04bd663d0dc07941b6b50741329adb70f2b8552a94e55f8aa96b13618a808c59"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\west_palm_beach_fl_firecrawl_001\\vistana-beach-club\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  }
+ ]
+}

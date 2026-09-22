@@ -1,0 +1,717 @@
+{
+ "schema": "ptf-source-ready-accounting/1.0",
+ "work_order": "PTF-WEST-PALM-BEACH-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "west-palm-beach-fl",
+ "headline": {
+  "total_raw_observations": 2895,
+  "raw_observations_by_lane": {
+   "REGISTRY_FL_DBPR": 1588,
+   "OSM_OVERPASS": 176,
+   "BRAND_INVENTORY_OWNED": 34,
+   "BRAND_INVENTORY_CITY_PAGE": 70,
+   "BRAND_INVENTORY_STATE_SITEMAP": 51,
+   "BRAND_INVENTORY_SITEMAP": 30,
+   "DESTINATION_ORGANIZATION": 199,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 747,
+   "IDENTITY_VERIFIED_PLACES": 0,
+   "PROPERTY_PAGE": 0
+  },
+  "dbpr_licensed_lodging_leads": 1588,
+  "osm_lodging_elements": 239,
+  "brand_inventory_leads": 177,
+  "destination_roster_listings": null,
+  "competitor_leads_normalized": 747,
+  "graph_nodes": 2455,
+  "proposed_census": 190,
+  "valid_pet_friendly": 49,
+  "valid_verified_no_pets": 25,
+  "resolved": 74,
+  "unresolved": 116,
+  "resolution_rate": 0.3895
+ },
+ "holds_by_class": {
+  "IDENTITY": 4,
+  "ROUTING": 58,
+  "ACCESS_BLOCKED": 24,
+  "EVIDENCE": 4,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 26,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "the brand answered the authorized attended browser with an Akamai Acce": 10,
+   "the property's own site (found via Places) did not serve to the plain ": 8,
+   "router exhausted on every free/authorized lane attempted this order (s": 3,
+   "router exhausted: static UNHYDRATED, Firecrawl FIRECRAWL_MISMATCH": 1,
+   "router exhausted: static ACCESS_DENIED, Firecrawl FIRECRAWL_FAILED": 1,
+   "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED": 1
+  },
+  "EVIDENCE_HOLD": {
+   "one artifact (sha256:dd2297dad03f5b50) is the ONLY policy evidence for": 2,
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 1,
+   "the census states no street for this identity, so it cannot become inv": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "the site Places names never stated this row's house number + ZIP, phon": 4
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 34,
+   "OTHER_EXPLICIT_REASON": 24
+  },
+  "SOURCE_SILENT": {
+   "the property's own site (found via Places, bound on its own address/ph": 25,
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 1
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 80,
+  "timeshare": 3,
+  "resort_residence": 0,
+  "non_hotel": 142,
+  "closed": 0,
+  "outside": 1429,
+  "duplicate_listing": 0,
+  "name_only_unresolved_graph_residue": 531,
+  "identity_review_required_graph_residue": 80,
+  "same_campus_distinct_entity": 0,
+  "dbpr_cndo_condo_units_never_admitted": 855,
+  "dbpr_dwel_vacation_dwellings_never_admitted": 1849,
+  "dbpr_napt_apartments_never_admitted": 1113,
+  "dbpr_tapt_apartment_named_refused": 381,
+  "closed_note": "No row was classified CLOSED: DBPR extracts carry only active licences, and no first-party read in this order stated a closure."
+ },
+ "corridor_coverage": {
+  "downtown-west-palm-beach": {
+   "name": "Downtown West Palm Beach",
+   "class": "CORE",
+   "census": 18,
+   "pet_friendly": 7,
+   "no_pets": 2,
+   "unresolved": 9,
+   "resolution_rate": 0.5,
+   "page_publishes": true
+  },
+  "palm-beach-worth-avenue": {
+   "name": "Palm Beach / Worth Avenue",
+   "class": "CORE",
+   "census": 11,
+   "pet_friendly": 0,
+   "no_pets": 2,
+   "unresolved": 9,
+   "resolution_rate": 0.1818,
+   "page_publishes": false
+  },
+  "northwood-metrocentre": {
+   "name": "Northwood / Metrocentre / 45th Street",
+   "class": "CORE",
+   "census": 12,
+   "pet_friendly": 2,
+   "no_pets": 2,
+   "unresolved": 8,
+   "resolution_rate": 0.3333,
+   "page_publishes": false
+  },
+  "riviera-beach-singer-island": {
+   "name": "Riviera Beach / Singer Island / Lake Park",
+   "class": "CORE",
+   "census": 12,
+   "pet_friendly": 1,
+   "no_pets": 2,
+   "unresolved": 9,
+   "resolution_rate": 0.25,
+   "page_publishes": false
+  },
+  "palm-beach-gardens": {
+   "name": "Palm Beach Gardens",
+   "class": "CORE",
+   "census": 10,
+   "pet_friendly": 5,
+   "no_pets": 1,
+   "unresolved": 4,
+   "resolution_rate": 0.6,
+   "page_publishes": true
+  },
+  "jupiter-tequesta": {
+   "name": "Jupiter / Tequesta / Jupiter Island approach",
+   "class": "CORE",
+   "census": 12,
+   "pet_friendly": 1,
+   "no_pets": 3,
+   "unresolved": 8,
+   "resolution_rate": 0.3333,
+   "page_publishes": false
+  },
+  "palm-beach-international-airport": {
+   "name": "Palm Beach International Airport / Southern & Okeechobee",
+   "class": "CORE",
+   "census": 18,
+   "pet_friendly": 7,
+   "no_pets": 2,
+   "unresolved": 9,
+   "resolution_rate": 0.5,
+   "page_publishes": true
+  },
+  "lake-worth-beach": {
+   "name": "Lake Worth Beach / Greenacres",
+   "class": "CORE",
+   "census": 25,
+   "pet_friendly": 2,
+   "no_pets": 1,
+   "unresolved": 22,
+   "resolution_rate": 0.12,
+   "page_publishes": false
+  },
+  "delray-beach": {
+   "name": "Delray Beach",
+   "class": "CORE",
+   "census": 15,
+   "pet_friendly": 7,
+   "no_pets": 0,
+   "unresolved": 8,
+   "resolution_rate": 0.4667,
+   "page_publishes": true
+  },
+  "boca-raton": {
+   "name": "Boca Raton / Highland Beach",
+   "class": "CORE",
+   "census": 25,
+   "pet_friendly": 8,
+   "no_pets": 4,
+   "unresolved": 13,
+   "resolution_rate": 0.48,
+   "page_publishes": true
+  },
+  "boynton-beach": {
+   "name": "Boynton Beach / Ocean Ridge",
+   "class": "CORE",
+   "census": 10,
+   "pet_friendly": 3,
+   "no_pets": 1,
+   "unresolved": 6,
+   "resolution_rate": 0.4,
+   "page_publishes": false
+  },
+  "lantana-manalapan-hypoluxo": {
+   "name": "Lantana / Manalapan / Hypoluxo",
+   "class": "CORRIDOR",
+   "census": 7,
+   "pet_friendly": 1,
+   "no_pets": 3,
+   "unresolved": 3,
+   "resolution_rate": 0.5714,
+   "page_publishes": false
+  },
+  "north-palm-beach-juno-beach": {
+   "name": "North Palm Beach / Juno Beach",
+   "class": "CORRIDOR",
+   "census": 4,
+   "pet_friendly": 1,
+   "no_pets": 1,
+   "unresolved": 2,
+   "resolution_rate": 0.5,
+   "page_publishes": false
+  },
+  "western-communities": {
+   "name": "Wellington / Royal Palm Beach / Loxahatchee",
+   "class": "FRINGE",
+   "census": 7,
+   "pet_friendly": 4,
+   "no_pets": 1,
+   "unresolved": 2,
+   "resolution_rate": 0.7143,
+   "page_publishes": false
+  },
+  "the-glades": {
+   "name": "Belle Glade / Pahokee / South Bay",
+   "class": "FRINGE",
+   "census": 4,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 4,
+   "resolution_rate": 0.0,
+   "page_publishes": false
+  }
+ },
+ "uncorridored_rows": 0,
+ "corridor_count": 15,
+ "corridors_publishing": [
+  "downtown-west-palm-beach",
+  "palm-beach-gardens",
+  "palm-beach-international-airport",
+  "delray-beach",
+  "boca-raton"
+ ],
+ "brand_by_brand": {
+  "BEST_WESTERN": {
+   "census": 4,
+   "pet_friendly": 1,
+   "no_pets": 1,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "browser_attempted": 2,
+   "browser_read": 2,
+   "browser_challenge_denied": 0
+  },
+  "CHOICE": {
+   "census": 6,
+   "pet_friendly": 1,
+   "no_pets": 3,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "EXTENDED_STAY_AMERICA": {
+   "census": 3,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "FOUR_SEASONS": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "HILTON": {
+   "census": 27,
+   "pet_friendly": 24,
+   "no_pets": 3,
+   "unresolved": 0,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 28,
+   "browser_read": 28,
+   "browser_challenge_denied": 0
+  },
+  "HYATT": {
+   "census": 3,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 3,
+   "browser_read": 3,
+   "browser_challenge_denied": 0
+  },
+  "IHG": {
+   "census": 7,
+   "pet_friendly": 1,
+   "no_pets": 3,
+   "unresolved": 3,
+   "firecrawl_attempted": 4,
+   "firecrawl_success": 4,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "INDEPENDENT": {
+   "census": 86,
+   "pet_friendly": 4,
+   "no_pets": 2,
+   "unresolved": 80,
+   "firecrawl_attempted": 3,
+   "firecrawl_success": 0,
+   "access_blocked": 10,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "LUXURY_INDEPENDENT": {
+   "census": 8,
+   "pet_friendly": 2,
+   "no_pets": 1,
+   "unresolved": 5,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "MARRIOTT": {
+   "census": 28,
+   "pet_friendly": 9,
+   "no_pets": 6,
+   "unresolved": 13,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 10,
+   "browser_capture_needed": 0,
+   "browser_attempted": 28,
+   "browser_read": 17,
+   "browser_challenge_denied": 10
+  },
+  "MOTEL6_STUDIO6": {
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "RED_ROOF": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "RESORT_INDEPENDENT": {
+   "census": 5,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 3,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "SONESTA": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "WYNDHAM": {
+   "census": 8,
+   "pet_friendly": 0,
+   "no_pets": 6,
+   "unresolved": 2,
+   "firecrawl_attempted": 2,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  }
+ },
+ "providers": {
+  "static_capture": {
+   "targets": 102,
+   "free_http_requests": 102,
+   "outcomes": {
+    "ACCESS_DENIED": 87,
+    "IDENTITY_MISMATCH": 8,
+    "UNEXPECTED_PAGE": 4,
+    "UNHYDRATED": 1,
+    "VALID": 2
+   }
+  },
+  "wyndham_property_service": {
+   "selected": null,
+   "read": 9,
+   "retired": 3
+  },
+  "extended_stay_america": {
+   "routes": 3,
+   "served": 3,
+   "faq_pet_answer": 3
+  },
+  "independents_policy_pages": {
+   "targets": 10,
+   "bound": 8,
+   "free_http_requests": 22
+  },
+  "places_route_discovery": {
+   "requests": 126,
+   "route_discovery_bound": 110,
+   "with_website": 81,
+   "gap_verdicts": {
+    "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 3,
+    "OUTSIDE_MARKET": 2,
+    "NO_LODGING_RESULT": 5
+   },
+   "cost_basis": "existing GOOGLE_PLACES_API_KEY capacity; no new key, no new authorization, no plan purchase"
+  },
+  "places_discovered_sites": {
+   "targets": 46,
+   "bound": 34,
+   "free_http_requests": 70
+  },
+  "firecrawl": {
+   "eligible_planned": 19,
+   "attempted": 30,
+   "property_page_attempts": 22,
+   "first_pass_attempted": 19,
+   "retry_pass_attempted": 0,
+   "probe2_pass_attempted": 0,
+   "route_discovery_pages": 8,
+   "route_discovery_routes": 15,
+   "brand_page_reads": {
+    "attempted": 3,
+    "answered": 3,
+    "with_own_address": 3,
+    "by_family": {
+     "CHOICE": 3
+    }
+   },
+   "retry_pass_why": "first-pass FIRECRAWL_MISMATCH rows re-attempted once after the census restated Palm Beach County grid streets in the ordinal spelling the pages use",
+   "distinct_identities_attempted": 19,
+   "by_cohort": {
+    "DISCOVERED": 3,
+    "PROBE": 8,
+    "ROUTED": 6,
+    "WALL_REPROBE": 2
+   },
+   "publication_grade": 4,
+   "policy_found": 4,
+   "failed": 15,
+   "class_counts": {
+    "FIRECRAWL_BLOCKED": 7,
+    "FIRECRAWL_FAILED": 4,
+    "FIRECRAWL_MISMATCH": 4,
+    "FIRECRAWL_PUBLICATION_GRADE": 4
+   },
+   "credits": {
+    "first_pass": {
+     "before": 1211,
+     "after": 1199,
+     "delta": 12,
+     "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+    },
+    "retry_pass": {},
+    "probe2_pass": {},
+    "route_discovery": {
+     "before": 1222,
+     "after": 1214,
+     "delta": 8
+    },
+    "brand_page_reads": {
+     "before": 1214,
+     "after": 1211,
+     "delta": 3
+    }
+   }
+  },
+  "supported_browser": {
+   "source_ready_001_attempts": 0,
+   "source_ready_001_outcomes": {},
+   "closure_002_queue": 61,
+   "closure_002_outcomes": {
+    "CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED": 10,
+    "IDENTITY_READ_ROW_EXCLUDED_AS_TIMESHARE": 1,
+    "READ": 50
+   },
+   "closure_002_reads": 50,
+   "closure_002_bindings": {
+    "BRAND_PROPERTY_CODE bctbrgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE bctbuqq on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE bctflhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE bcthshf on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE bctnwes on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE boybhhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbiaadt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbiahhf on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbiap on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbiarht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbiay on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbibb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbibr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbibres on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbicahx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbicd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbich on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbicppy on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbicthw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbicy on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbide on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbidlhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbifd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbiff on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbifp on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbigdgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbigigi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbihhhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbihwhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbija on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbijbhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbijp on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbilwhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbimpdt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbipb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbipbgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbipg on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbipges on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbirh on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbisg on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbish on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbisiqq on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbitb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbitrqq on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbits on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbivchx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbiwi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbiwk on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE pbiwphh on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE welflhx on the brand's own page": 1,
+    "UNBOUND": 2,
+    "street number 1800 + postal code 33401, disambiguated by the street name the page itself states ('1800 beach lakes palm'); more than one census row shares that house number and postal code": 1,
+    "the page's own street number 100 + postal code 33432": 1,
+    "the page's own street number 104 + postal code 33444": 1,
+    "the page's own street number 295 + postal code 33401": 1,
+    "the page's own street number 455 + postal code 33401": 1,
+    "the queue row's street number 10616 + postal code 33414, with the page's own address agreeing": 1,
+    "the queue row's street number 4250 + postal code 33410, with the page's own address agreeing": 1,
+    "the queue row's street number 525 + postal code 33487, with the page's own address agreeing": 1,
+    "the queue row's street number 810 + postal code 33477, with the page's own address agreeing": 1
+   },
+   "by_family": {
+    "BEST_WESTERN": 2,
+    "HILTON": 28,
+    "HYATT": 3,
+    "MARRIOTT": 17
+   }
+  },
+  "other_paid_providers": {
+   "bright_data": 0,
+   "other": 0
+  },
+  "routing_by_state": {
+   "FREE_LANE_EXHAUSTED": 24,
+   "INDEPENDENT_REVIEW": 92,
+   "ROUTED_MAP_WEBSITE": 25,
+   "ROUTED_OFFICIAL_INVENTORY": 55
+  },
+  "usd_spent": 0.0,
+  "new_paid_spend": 0.0,
+  "new_provider_authorization": "NONE"
+ },
+ "competitor_reconciliation": {
+  "competitor": "BringFido",
+  "cities_challenged": 37,
+  "competitor_raw_discovery": 972,
+  "normalized_unique": 747,
+  "matched_to_census": 146,
+  "matched_distinct_identities": 69,
+  "true_missing_qualifying_candidates": 10,
+  "true_missing_verified_by_places": {
+   "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 3,
+   "OUTSIDE_MARKET": 2,
+   "NO_LODGING_RESULT": 5
+  },
+  "excluded_stale_outside": 415,
+  "review": 176,
+  "matched_but_policy_unresolved": 69,
+  "counts": {
+   "ALIAS": 20,
+   "DUPLICATE": 77,
+   "EXACT_ATLAS_MATCH": 49,
+   "NON_HOTEL": 3,
+   "OUTSIDE": 44,
+   "REVIEW": 176,
+   "TRUE_MISSING": 10,
+   "VACATION_RENTAL": 368
+  }
+ },
+ "south_florida_boundary": {
+  "method": "DBPR licences counted by the licence's OWN county (HOTL/MOTL/BNB/TAPT ranks); graph nodes refused by the geography whose own city or reason names the place. Admission is by the corridor registry over the property's own postal code, and by nothing else.",
+  "miami_dade_discovered_dbpr": 0,
+  "miami_dade_admitted": 0,
+  "miami_dade_owner": "miami-fl (LIVE market #31)",
+  "palm_beach_county_discovered_dbpr": 0,
+  "palm_beach_county_admitted": 0,
+  "boca_raton_discovered_dbpr": 0,
+  "boca_raton_admitted": 0,
+  "delray_beach_discovered_dbpr": 0,
+  "delray_beach_admitted": 0,
+  "boynton_beach_discovered_dbpr": 0,
+  "boynton_beach_admitted": 0,
+  "west_palm_beach_discovered_dbpr": 0,
+  "west_palm_beach_admitted": 0,
+  "florida_keys_monroe_discovered_dbpr": 0,
+  "florida_keys_admitted": 0,
+  "outside_graph_nodes_by_place": {
+   "BOCA_RATON": 24,
+   "FLORIDA_KEYS": 221,
+   "MIAMI_DADE": 611,
+   "WEST_PALM_PALM_BEACH": 28
+  },
+  "west_palm_beach_market_included_from_those_areas": 0,
+  "no_south_florida_sprawl": true,
+  "existing_live_markets_named": [
+   "fort-lauderdale-fl",
+   "miami-fl"
+  ],
+  "future_standalone_markets": [
+   "treasure-coast-fl",
+   "florida-keys-fl"
+  ]
+ },
+ "negation_and_parser_conflicts": [
+  {
+   "identity_key": "casa grandview bed and breakfast",
+   "name": "Casa Grandview Bed & Breakfast",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: \"Pets Bona fide ADA Service animals are welcome. Pets are not permitted in the inn and accommodations to ensure the quiet enjoyment of other guests. We're happy to provide information about loving care for your pet nearby. Any guest who violates this policy agrees to pay an additional fee of $250 on the credit card used for the reservation if the guest brings a pet into an accommodation.\""
+  }
+ ],
+ "remaining_unresolved_root_causes": {
+  "BROWSER_CAPTURE_NEEDED": "ZERO in this market. The committed route table sends Marriott and Hilton to a paid browser provider and excludes Hyatt and Best Western from its paid lanes; this order exercised the SUPPORTED ATTENDED BROWSER instead -- 90 paced attempts, 81 first-party reads, no paid provider, no relay, no browser-JS exfiltration and no Akamai bypass. Every browser-required row is read or terminally classified.",
+  "ROUTING_HOLD": "no first-party route: the routing pass found no brand, bureau or map website, and Places route discovery either bound no place at the row's own street number + ZIP, or bound one whose card names no website (NO_OFFICIAL_WEB_PRESENCE_FOUND), or names a brand/OTA host.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible or probe-eligible) was refused or failed.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a fee / weight / count sentence with no explicit acceptance wording, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "the fetched page or site never confirmed this census row's address, phone or code."
+ }
+}

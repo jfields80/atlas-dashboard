@@ -1,0 +1,1648 @@
+{
+ "schema": "ptf-destination-roster/1.0",
+ "work_order": "PTF-WEST-PALM-BEACH-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "west-palm-beach-fl",
+ "phase": "7C -- Discover The Palm Beaches, the county destination marketing organisation (NAME-ONLY lane)",
+ "host": "https://www.thepalmbeaches.com",
+ "lane_class": "NAME_ONLY_DISCOVERY",
+ "platform": "WordPress with the REST API disabled (/wp-json/wp/v2/types -> rest_no_route), a Simpleview CRM behind it (images served from assets.simpleviewinc.com/.../crm/palmbeach/) that this order has no authorization to call, and a bot wall that refuses a plain client with HTTP 403 on every path",
+ "robots": "robots.txt allows every agent except /wp-login.php, /search/*, /feed/*, /tag/*, /wp-admin/ and /*? (any query string). This lane reads ONLY path URLs published in the bureau's own sitemap and never constructs a query string, so no disallowed path is requested.",
+ "plain_client_result": "HTTP 403 on every path, including /sitemap_index.xml which robots.txt allows",
+ "access_lane": "FIRECRAWL (existing authorized capacity, existing plan credits; no new provider, no new key, no new plan, USD 0.00)",
+ "why_name_only": {
+  "finding": "The bureau's individual listing pages carry NO street address, NO postal code, NO telephone and NO outbound website link in any document this lane can read. It renders all four client-side from its Simpleview CRM.",
+  "profiles_attempted": [
+   {
+    "profile": "rawHtml, waitFor 6000, timeout 90000 (the committed ROUTED profile)",
+    "listings_attempted": 3,
+    "outcome": "HTTP 408 SCRAPE_TIMEOUT on every attempt",
+    "credits_charged": 0,
+    "note": "Firecrawl cost is bimodal: a refused scrape charges nothing."
+   },
+   {
+    "profile": "rawHtml, waitFor 0, timeout 60000",
+    "listings_attempted": 1,
+    "outcome": "HTTP 408 SCRAPE_TIMEOUT",
+    "credits_charged": 0,
+    "note": ""
+   },
+   {
+    "profile": "markdown, waitFor 0, timeout 45000, onlyMainContent",
+    "listings_attempted": 2,
+    "outcome": "HTTP 200 -- but the document carries NO street, NO postal code, NO telephone and NO outbound website link; the bureau renders all four client-side from its Simpleview CRM",
+    "credits_charged": 2,
+    "note": "This is why the lane is name-only: 624 further credits would buy 0 premises data."
+   }
+  ],
+  "cost_of_reading_all_624_listing_pages": "624 credits for 0 streets, 0 postal codes, 0 phones and 0 websites -- not a bounded cost for a real gain",
+  "decision": "NOT DONE. The lane contributes NAMES, which is what the bureau actually publishes that this order can read.",
+  "contrast_with_fort_lauderdale": "Visit Lauderdale (Simpleview CMS, public listings REST service) returned 376 listings with 360 websites and was that build's biggest routing win. The difference between the two bureaus was MEASURED here, not assumed, and the routing gap is covered instead by Google Places route discovery on the existing key."
+ },
+ "a_bureau_tag_is_not_a_policy": "The bureau tags many listings 'Pet-Friendly'. That amenity chip is not read into any policy field, is not evidence, and is never published. No bureau pet text is stored by this lane at all.",
+ "a_roster_name_is_not_an_admission": "Tier-3 discovery evidence, the same standing as a competitor lead. Every name must be confirmed by this market's own lanes -- the DBPR licensed premises, a brand's own inventory, a map row or a first-party read -- before it can become a census row.",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "firecrawl_credits_used_this_run": 0,
+ "firecrawl_credits_used_total_for_this_lane": 5,
+ "cache_dir": "data/acquisition/west_palm_beach_fl_roster_001",
+ "sitemaps_from_cache": 3,
+ "sitemaps_fetched": 0,
+ "listing_urls_in_sitemaps": 3125,
+ "english_listings": 624,
+ "lodging_named_leads": 199,
+ "leads": [
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "88 Palms Hotel Event Center",
+   "slug": "88-palms-hotel-event-center",
+   "listing_url": "https://www.thepalmbeaches.com/listing/88-palms-hotel-event-center",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Aloft Delray Beach",
+   "slug": "aloft-delray-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/aloft-delray-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Amrit Ocean Resort",
+   "slug": "amrit-ocean-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/amrit-ocean-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Amrit Ocean Wellness Spa",
+   "slug": "amrit-ocean-wellness-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/amrit-ocean-wellness-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Angle at Eau Resort Spa",
+   "slug": "angle-at-eau-resort-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/angle-at-eau-resort-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Apollo Inn",
+   "slug": "apollo-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/apollo-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Aqua Motel",
+   "slug": "aqua-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/aqua-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Barefoot Mailman Inn Suites",
+   "slug": "barefoot-mailman-inn-suites",
+   "listing_url": "https://www.thepalmbeaches.com/listing/barefoot-mailman-inn-suites",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Best Western Intracoastal Inn",
+   "slug": "best-western-intracoastal-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/best-western-intracoastal-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Best Western Palm Beach Lakes",
+   "slug": "best-western-palm-beach-lakes",
+   "listing_url": "https://www.thepalmbeaches.com/listing/best-western-palm-beach-lakes",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Best Western Plus Palm Beach Gardens Hotel Suites and Conference Center",
+   "slug": "best-western-plus-palm-beach-gardens-hotel-suites-and-conference-center",
+   "listing_url": "https://www.thepalmbeaches.com/listing/best-western-plus-palm-beach-gardens-hotel-suites-and-conference-center",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Best Western University Inn",
+   "slug": "best-western-university-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/best-western-university-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Boca Inn Hotel",
+   "slug": "boca-inn-hotel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/boca-inn-hotel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Boca Raton Marriott at Boca Center",
+   "slug": "boca-raton-marriott-at-boca-center",
+   "listing_url": "https://www.thepalmbeaches.com/listing/boca-raton-marriott-at-boca-center",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Boca Raton Plaza Hotel Suites",
+   "slug": "boca-raton-plaza-hotel-suites",
+   "listing_url": "https://www.thepalmbeaches.com/listing/boca-raton-plaza-hotel-suites",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Brandons on the Beach at Tideline Ocean Resort",
+   "slug": "brandons-on-the-beach-at-tideline-ocean-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/brandons-on-the-beach-at-tideline-ocean-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Breakers West Country Club",
+   "slug": "breakers-west-country-club",
+   "listing_url": "https://www.thepalmbeaches.com/listing/breakers-west-country-club",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Budget Inn Delray Beach",
+   "slug": "budget-inn-delray-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/budget-inn-delray-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Budget Inn Lake Worth",
+   "slug": "budget-inn-lake-worth",
+   "listing_url": "https://www.thepalmbeaches.com/listing/budget-inn-lake-worth",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Camelot Motor Lodge",
+   "slug": "camelot-motor-lodge",
+   "listing_url": "https://www.thepalmbeaches.com/listing/camelot-motor-lodge",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Canopy by Hilton West Palm Beach Downtown",
+   "slug": "canopy-by-hilton-west-palm-beach-downtown",
+   "listing_url": "https://www.thepalmbeaches.com/listing/canopy-by-hilton-west-palm-beach-downtown",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Casa Grandview",
+   "slug": "casa-grandview",
+   "listing_url": "https://www.thepalmbeaches.com/listing/casa-grandview",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Colonial Village Motel",
+   "slug": "colonial-village-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/colonial-village-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Comfort Inn Suites Jupiter",
+   "slug": "comfort-inn-suites-jupiter",
+   "listing_url": "https://www.thepalmbeaches.com/listing/comfort-inn-suites-jupiter",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Comfort Inn Suites Jupiter I 95",
+   "slug": "comfort-inn-suites-jupiter-i-95",
+   "listing_url": "https://www.thepalmbeaches.com/listing/comfort-inn-suites-jupiter-i-95",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Comfort Inn Suites Lantana West Palm Beach South",
+   "slug": "comfort-inn-suites-lantana-west-palm-beach-south",
+   "listing_url": "https://www.thepalmbeaches.com/listing/comfort-inn-suites-lantana-west-palm-beach-south",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Congress Motel Apts",
+   "slug": "congress-motel-apts",
+   "listing_url": "https://www.thepalmbeaches.com/listing/congress-motel-apts",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Courtyard by Marriott Boynton Beach",
+   "slug": "courtyard-by-marriott-boynton-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/courtyard-by-marriott-boynton-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Courtyard by Marriott Delray Beach",
+   "slug": "courtyard-by-marriott-delray-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/courtyard-by-marriott-delray-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Courtyard by Marriott Palm Beach Jupiter",
+   "slug": "courtyard-by-marriott-palm-beach-jupiter",
+   "listing_url": "https://www.thepalmbeaches.com/listing/courtyard-by-marriott-palm-beach-jupiter",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Courtyard by Marriott West Palm Beach",
+   "slug": "courtyard-by-marriott-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/courtyard-by-marriott-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Courtyard by Marriott West Palm Beach Airport",
+   "slug": "courtyard-by-marriott-west-palm-beach-airport",
+   "listing_url": "https://www.thepalmbeaches.com/listing/courtyard-by-marriott-west-palm-beach-airport",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Cranes Beach House Boutique Hotel Luxury Villas",
+   "slug": "cranes-beach-house-boutique-hotel-luxury-villas",
+   "listing_url": "https://www.thepalmbeaches.com/listing/cranes-beach-house-boutique-hotel-luxury-villas",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Delray Breakers on the Ocean",
+   "slug": "delray-breakers-on-the-ocean",
+   "listing_url": "https://www.thepalmbeaches.com/listing/delray-breakers-on-the-ocean",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Delray Sands Resort",
+   "slug": "delray-sands-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/delray-sands-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Delta Hotels by Marriott West Palm Beach",
+   "slug": "delta-hotels-by-marriott-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/delta-hotels-by-marriott-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Doubletree by Hilton Hotel and Executive Meeting Center Palm Beach Gardens",
+   "slug": "doubletree-by-hilton-hotel-and-executive-meeting-center-palm-beach-gardens",
+   "listing_url": "https://www.thepalmbeaches.com/listing/doubletree-by-hilton-hotel-and-executive-meeting-center-palm-beach-gardens",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Doubletree by Hilton Hotel West Palm Beach Airport",
+   "slug": "doubletree-by-hilton-hotel-west-palm-beach-airport",
+   "listing_url": "https://www.thepalmbeaches.com/listing/doubletree-by-hilton-hotel-west-palm-beach-airport",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Drift at Opal Grand Oceanfront Resort Spa",
+   "slug": "drift-at-opal-grand-oceanfront-resort-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/drift-at-opal-grand-oceanfront-resort-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Eau Resort Spa",
+   "slug": "eau-resort-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/eau-resort-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Eau Spa at Eau Resort Spa",
+   "slug": "eau-spa-at-eau-resort-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/eau-spa-at-eau-resort-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Economy Inn Lake Worth",
+   "slug": "economy-inn-lake-worth",
+   "listing_url": "https://www.thepalmbeaches.com/listing/economy-inn-lake-worth",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Economy Inn West Palm Beach",
+   "slug": "economy-inn-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/economy-inn-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Embassy Suites by Hilton Boca Raton",
+   "slug": "embassy-suites-by-hilton-boca-raton",
+   "listing_url": "https://www.thepalmbeaches.com/listing/embassy-suites-by-hilton-boca-raton",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Embassy Suites by Hilton Palm Beach Gardens PGA Boulevard",
+   "slug": "embassy-suites-by-hilton-palm-beach-gardens-pga-boulevard",
+   "listing_url": "https://www.thepalmbeaches.com/listing/embassy-suites-by-hilton-palm-beach-gardens-pga-boulevard",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Embassy Suites by Hilton West Palm Beach Central",
+   "slug": "embassy-suites-by-hilton-west-palm-beach-central",
+   "listing_url": "https://www.thepalmbeaches.com/listing/embassy-suites-by-hilton-west-palm-beach-central",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Everglades Holiday Park",
+   "slug": "everglades-holiday-park",
+   "listing_url": "https://www.thepalmbeaches.com/listing/everglades-holiday-park",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Evernia Hotel",
+   "slug": "evernia-hotel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/evernia-hotel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Extended Stay America Boca Raton Commerce",
+   "slug": "extended-stay-america-boca-raton-commerce",
+   "listing_url": "https://www.thepalmbeaches.com/listing/extended-stay-america-boca-raton-commerce",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Extended Stay America Select Suites",
+   "slug": "extended-stay-america-select-suites",
+   "listing_url": "https://www.thepalmbeaches.com/listing/extended-stay-america-select-suites",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Extended Stay Deluxe",
+   "slug": "extended-stay-deluxe",
+   "listing_url": "https://www.thepalmbeaches.com/listing/extended-stay-deluxe",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Fairfield by Marriott Inn Suites Wellington West Palm Beach",
+   "slug": "fairfield-by-marriott-inn-suites-wellington-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/fairfield-by-marriott-inn-suites-wellington-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Fairfield Inn Suites by Marriott Boca Raton",
+   "slug": "fairfield-inn-suites-by-marriott-boca-raton",
+   "listing_url": "https://www.thepalmbeaches.com/listing/fairfield-inn-suites-by-marriott-boca-raton",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Fairfield Inn Suites by Marriott Delray Beach I 95",
+   "slug": "fairfield-inn-suites-by-marriott-delray-beach-i-95",
+   "listing_url": "https://www.thepalmbeaches.com/listing/fairfield-inn-suites-by-marriott-delray-beach-i-95",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Fairfield Inn Suites by Marriott Palm Beach",
+   "slug": "fairfield-inn-suites-by-marriott-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/fairfield-inn-suites-by-marriott-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Fairfield Inn Suites by Marriott West Palm Beach",
+   "slug": "fairfield-inn-suites-by-marriott-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/fairfield-inn-suites-by-marriott-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Fairfield Inn Suites by Marriott West Palm Beach Jupiter",
+   "slug": "fairfield-inn-suites-by-marriott-west-palm-beach-jupiter",
+   "listing_url": "https://www.thepalmbeaches.com/listing/fairfield-inn-suites-by-marriott-west-palm-beach-jupiter",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Fairfield Inn Suites by Marriott West Palm Beach Jupiter 2",
+   "slug": "fairfield-inn-suites-by-marriott-west-palm-beach-jupiter-2",
+   "listing_url": "https://www.thepalmbeaches.com/listing/fairfield-inn-suites-by-marriott-west-palm-beach-jupiter-2",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Flories Four Seasons Resort Palm Beach",
+   "slug": "flories-four-seasons-resort-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/flories-four-seasons-resort-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Four Seasons Resort Palm Beach",
+   "slug": "four-seasons-resort-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/four-seasons-resort-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Friends of Jupiter Beach",
+   "slug": "friends-of-jupiter-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/friends-of-jupiter-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Galley at Hilton West Palm Beach",
+   "slug": "galley-at-hilton-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/galley-at-hilton-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Golden Sands Inn",
+   "slug": "golden-sands-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/golden-sands-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hampton Inn by Hilton Boca Raton",
+   "slug": "hampton-inn-by-hilton-boca-raton",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hampton-inn-by-hilton-boca-raton",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hampton Inn by Hilton Delray Beach",
+   "slug": "hampton-inn-by-hilton-delray-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hampton-inn-by-hilton-delray-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hampton Inn by Hilton Jupiter Juno Beach",
+   "slug": "hampton-inn-by-hilton-jupiter-juno-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hampton-inn-by-hilton-jupiter-juno-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hampton Inn by Hilton Palm Beach Gardens",
+   "slug": "hampton-inn-by-hilton-palm-beach-gardens",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hampton-inn-by-hilton-palm-beach-gardens",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hampton Inn by Hilton West Palm Beach Central Airport",
+   "slug": "hampton-inn-by-hilton-west-palm-beach-central-airport",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hampton-inn-by-hilton-west-palm-beach-central-airport",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hampton Inn by Hilton West Palm Beach Florida Turnpike",
+   "slug": "hampton-inn-by-hilton-west-palm-beach-florida-turnpike",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hampton-inn-by-hilton-west-palm-beach-florida-turnpike",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hampton Inn Suites by Hilton Boynton Beach",
+   "slug": "hampton-inn-suites-by-hilton-boynton-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hampton-inn-suites-by-hilton-boynton-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hampton Inn Suites by Hilton Wellington",
+   "slug": "hampton-inn-suites-by-hilton-wellington",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hampton-inn-suites-by-hilton-wellington",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hampton Inn West Palm Beach Lake Worth Turnpike",
+   "slug": "hampton-inn-west-palm-beach-lake-worth-turnpike",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hampton-inn-west-palm-beach-lake-worth-turnpike",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hawthorn Extended Stay by Wyndham West Palm Beach Airport",
+   "slug": "hawthorn-extended-stay-by-wyndham-west-palm-beach-airport",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hawthorn-extended-stay-by-wyndham-west-palm-beach-airport",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Helen Apartments Motel",
+   "slug": "helen-apartments-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/helen-apartments-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hilton Boca Raton Suites",
+   "slug": "hilton-boca-raton-suites",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hilton-boca-raton-suites",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hilton Garden Inn Boca Raton",
+   "slug": "hilton-garden-inn-boca-raton",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hilton-garden-inn-boca-raton",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hilton Garden Inn Palm Beach Gardens",
+   "slug": "hilton-garden-inn-palm-beach-gardens",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hilton-garden-inn-palm-beach-gardens",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hilton Garden Inn West Palm Beach Airport",
+   "slug": "hilton-garden-inn-west-palm-beach-airport",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hilton-garden-inn-west-palm-beach-airport",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hilton Garden Inn West Palm Beach I95 Outlets",
+   "slug": "hilton-garden-inn-west-palm-beach-i95-outlets",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hilton-garden-inn-west-palm-beach-i95-outlets",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hilton Palm Beach Pbi",
+   "slug": "hilton-palm-beach-pbi",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hilton-palm-beach-pbi",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hilton West Palm Beach",
+   "slug": "hilton-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hilton-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hmf at the Breakers",
+   "slug": "hmf-at-the-breakers",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hmf-at-the-breakers",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Holiday Inn Express Boca Raton West by Ihg",
+   "slug": "holiday-inn-express-boca-raton-west-by-ihg",
+   "listing_url": "https://www.thepalmbeaches.com/listing/holiday-inn-express-boca-raton-west-by-ihg",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Holiday Inn Express North Palm Beach Oceanview by Ihg",
+   "slug": "holiday-inn-express-north-palm-beach-oceanview-by-ihg",
+   "listing_url": "https://www.thepalmbeaches.com/listing/holiday-inn-express-north-palm-beach-oceanview-by-ihg",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Holiday Inn Express Suites Boynton Beach West by Ihg",
+   "slug": "holiday-inn-express-suites-boynton-beach-west-by-ihg",
+   "listing_url": "https://www.thepalmbeaches.com/listing/holiday-inn-express-suites-boynton-beach-west-by-ihg",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Holiday Inn Express Suites Lantana by Ihg",
+   "slug": "holiday-inn-express-suites-lantana-by-ihg",
+   "listing_url": "https://www.thepalmbeaches.com/listing/holiday-inn-express-suites-lantana-by-ihg",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Holiday Inn Express West Palm Beach Metrocentre by Ihg",
+   "slug": "holiday-inn-express-west-palm-beach-metrocentre-by-ihg",
+   "listing_url": "https://www.thepalmbeaches.com/listing/holiday-inn-express-west-palm-beach-metrocentre-by-ihg",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Holiday Inn Suites Boca Raton North by Ihg",
+   "slug": "holiday-inn-suites-boca-raton-north-by-ihg",
+   "listing_url": "https://www.thepalmbeaches.com/listing/holiday-inn-suites-boca-raton-north-by-ihg",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Home2 Suites by Hilton West Palm Beach Airport",
+   "slug": "home2-suites-by-hilton-west-palm-beach-airport",
+   "listing_url": "https://www.thepalmbeaches.com/listing/home2-suites-by-hilton-west-palm-beach-airport",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Homewood Suites by Hilton Palm Beach Gardens",
+   "slug": "homewood-suites-by-hilton-palm-beach-gardens",
+   "listing_url": "https://www.thepalmbeaches.com/listing/homewood-suites-by-hilton-palm-beach-gardens",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Homing Inn",
+   "slug": "homing-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/homing-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Horizon Inn Suites",
+   "slug": "horizon-inn-suites",
+   "listing_url": "https://www.thepalmbeaches.com/listing/horizon-inn-suites",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hotel AKA West Palm",
+   "slug": "hotel-aka-west-palm",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hotel-aka-west-palm",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hotel AKA West Palm 2",
+   "slug": "hotel-aka-west-palm-2",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hotel-aka-west-palm-2",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hotel Evernia",
+   "slug": "hotel-evernia",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hotel-evernia",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hotel Home Stays",
+   "slug": "hotel-home-stays",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hotel-home-stays",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hyatt Place Boca Raton Downtown",
+   "slug": "hyatt-place-boca-raton-downtown",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hyatt-place-boca-raton-downtown",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hyatt Place Delray Beach",
+   "slug": "hyatt-place-delray-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hyatt-place-delray-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Hyatt Place West Palm Beach Downtown",
+   "slug": "hyatt-place-west-palm-beach-downtown",
+   "listing_url": "https://www.thepalmbeaches.com/listing/hyatt-place-west-palm-beach-downtown",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Inn of America",
+   "slug": "inn-of-america",
+   "listing_url": "https://www.thepalmbeaches.com/listing/inn-of-america",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Inn of America Palm Beach Gardens",
+   "slug": "inn-of-america-palm-beach-gardens",
+   "listing_url": "https://www.thepalmbeaches.com/listing/inn-of-america-palm-beach-gardens",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Intown Suites",
+   "slug": "intown-suites",
+   "listing_url": "https://www.thepalmbeaches.com/listing/intown-suites",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Ixora Motel",
+   "slug": "ixora-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/ixora-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Jupiter Beach Park",
+   "slug": "jupiter-beach-park",
+   "listing_url": "https://www.thepalmbeaches.com/listing/jupiter-beach-park",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Jupiter Beach Resort Spa",
+   "slug": "jupiter-beach-resort-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/jupiter-beach-resort-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Jupiter Waterfront Inn",
+   "slug": "jupiter-waterfront-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/jupiter-waterfront-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "La Quinta Inn by Wyndham Jupiter",
+   "slug": "la-quinta-inn-by-wyndham-jupiter",
+   "listing_url": "https://www.thepalmbeaches.com/listing/la-quinta-inn-by-wyndham-jupiter",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "La Quinta Inn by Wyndham West Palm Beach Florida Turnpike",
+   "slug": "la-quinta-inn-by-wyndham-west-palm-beach-florida-turnpike",
+   "listing_url": "https://www.thepalmbeaches.com/listing/la-quinta-inn-by-wyndham-west-palm-beach-florida-turnpike",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "La Quinta Inn Suites by Wyndham West Palm Beach Airport",
+   "slug": "la-quinta-inn-suites-by-wyndham-west-palm-beach-airport",
+   "listing_url": "https://www.thepalmbeaches.com/listing/la-quinta-inn-suites-by-wyndham-west-palm-beach-airport",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Mango Inn Bed Breakfast",
+   "slug": "mango-inn-bed-breakfast",
+   "listing_url": "https://www.thepalmbeaches.com/listing/mango-inn-bed-breakfast",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Marriotts Ocean Pointe",
+   "slug": "marriotts-ocean-pointe",
+   "listing_url": "https://www.thepalmbeaches.com/listing/marriotts-ocean-pointe",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Marriotts Oceana Palms",
+   "slug": "marriotts-oceana-palms",
+   "listing_url": "https://www.thepalmbeaches.com/listing/marriotts-oceana-palms",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Mizu at Tideline Ocean Resort",
+   "slug": "mizu-at-tideline-ocean-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/mizu-at-tideline-ocean-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Moody Tongue Sushi at Hilton West Palm Beach",
+   "slug": "moody-tongue-sushi-at-hilton-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/moody-tongue-sushi-at-hilton-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Motel 6",
+   "slug": "motel-6",
+   "listing_url": "https://www.thepalmbeaches.com/listing/motel-6",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Motel 6 2",
+   "slug": "motel-6-2",
+   "listing_url": "https://www.thepalmbeaches.com/listing/motel-6-2",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "New England Motor Lodge",
+   "slug": "new-england-motor-lodge",
+   "listing_url": "https://www.thepalmbeaches.com/listing/new-england-motor-lodge",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "New Sungate Motel",
+   "slug": "new-sungate-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/new-sungate-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Ocean Lodge Motel",
+   "slug": "ocean-lodge-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/ocean-lodge-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Okeechobee Inn",
+   "slug": "okeechobee-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/okeechobee-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Opal Grand Oceanfront Resort Spa",
+   "slug": "opal-grand-oceanfront-resort-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/opal-grand-oceanfront-resort-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Opal Spa at Jupiter Beach Resort",
+   "slug": "opal-spa-at-jupiter-beach-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/opal-spa-at-jupiter-beach-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Palm Beach Gardens Marriott",
+   "slug": "palm-beach-gardens-marriott",
+   "listing_url": "https://www.thepalmbeaches.com/listing/palm-beach-gardens-marriott",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Palm Beach Historic Inn",
+   "slug": "palm-beach-historic-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/palm-beach-historic-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Palm Beach Hotel Condominium",
+   "slug": "palm-beach-hotel-condominium",
+   "listing_url": "https://www.thepalmbeaches.com/listing/palm-beach-hotel-condominium",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Palm Beach Marriott Singer Island Beach Resort Spa",
+   "slug": "palm-beach-marriott-singer-island-beach-resort-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/palm-beach-marriott-singer-island-beach-resort-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Palm Beach Shores Resort Vacation Villas",
+   "slug": "palm-beach-shores-resort-vacation-villas",
+   "listing_url": "https://www.thepalmbeaches.com/listing/palm-beach-shores-resort-vacation-villas",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Palm Breeze Hotel",
+   "slug": "palm-breeze-hotel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/palm-breeze-hotel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Parkview Motor Lodge",
+   "slug": "parkview-motor-lodge",
+   "listing_url": "https://www.thepalmbeaches.com/listing/parkview-motor-lodge",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Pauls Motel",
+   "slug": "pauls-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/pauls-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Pelican Club",
+   "slug": "pelican-club",
+   "listing_url": "https://www.thepalmbeaches.com/listing/pelican-club",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "PGA National Resort",
+   "slug": "pga-national-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/pga-national-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Pioneer Inn",
+   "slug": "pioneer-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/pioneer-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Quality Inn Boca Raton University Area",
+   "slug": "quality-inn-boca-raton-university-area",
+   "listing_url": "https://www.thepalmbeaches.com/listing/quality-inn-boca-raton-university-area",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Quality Inn Palm Beach International Airport",
+   "slug": "quality-inn-palm-beach-international-airport",
+   "listing_url": "https://www.thepalmbeaches.com/listing/quality-inn-palm-beach-international-airport",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Queens Lodge Motel Apartments",
+   "slug": "queens-lodge-motel-apartments",
+   "listing_url": "https://www.thepalmbeaches.com/listing/queens-lodge-motel-apartments",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Red Roof Inn",
+   "slug": "red-roof-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/red-roof-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Renaissance Boca Raton Hotel",
+   "slug": "renaissance-boca-raton-hotel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/renaissance-boca-raton-hotel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Residence Inn by Marriott Palm Beach Gardens",
+   "slug": "residence-inn-by-marriott-palm-beach-gardens",
+   "listing_url": "https://www.thepalmbeaches.com/listing/residence-inn-by-marriott-palm-beach-gardens",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Residence Inn by Marriott West Palm Beach",
+   "slug": "residence-inn-by-marriott-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/residence-inn-by-marriott-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Residence Inn by Marriott West Palm Beach Downtown",
+   "slug": "residence-inn-by-marriott-west-palm-beach-downtown",
+   "listing_url": "https://www.thepalmbeaches.com/listing/residence-inn-by-marriott-west-palm-beach-downtown",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Royal Inn Royal Palm Beach",
+   "slug": "royal-inn-royal-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/royal-inn-royal-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Sailfish Marina Resort",
+   "slug": "sailfish-marina-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/sailfish-marina-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Sailfish Restaurant at Sailfish Marina",
+   "slug": "sailfish-restaurant-at-sailfish-marina",
+   "listing_url": "https://www.thepalmbeaches.com/listing/sailfish-restaurant-at-sailfish-marina",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Sand Dune Shores Resort",
+   "slug": "sand-dune-shores-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/sand-dune-shores-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Sea Grape Motel",
+   "slug": "sea-grape-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/sea-grape-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Seaspray Inn Beach Resort",
+   "slug": "seaspray-inn-beach-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/seaspray-inn-beach-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Silver Palm Lodge",
+   "slug": "silver-palm-lodge",
+   "listing_url": "https://www.thepalmbeaches.com/listing/silver-palm-lodge",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Sispa at Palm Beach Marriott Singer Island Beach Resort Spa",
+   "slug": "sispa-at-palm-beach-marriott-singer-island-beach-resort-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/sispa-at-palm-beach-marriott-singer-island-beach-resort-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Sonesta Select Boca Raton Town Center",
+   "slug": "sonesta-select-boca-raton-town-center",
+   "listing_url": "https://www.thepalmbeaches.com/listing/sonesta-select-boca-raton-town-center",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Southern Pines Motel",
+   "slug": "southern-pines-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/southern-pines-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Southgate Motel",
+   "slug": "southgate-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/southgate-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Springhill Suites by Marriott Boca Raton",
+   "slug": "springhill-suites-by-marriott-boca-raton",
+   "listing_url": "https://www.thepalmbeaches.com/listing/springhill-suites-by-marriott-boca-raton",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Springhill Suites by Marriott West Palm Beach I 95",
+   "slug": "springhill-suites-by-marriott-west-palm-beach-i-95",
+   "listing_url": "https://www.thepalmbeaches.com/listing/springhill-suites-by-marriott-west-palm-beach-i-95",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Starling Motel",
+   "slug": "starling-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/starling-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Stay Inn Motel",
+   "slug": "stay-inn-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/stay-inn-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Sunshine Shores Resort Apartments",
+   "slug": "sunshine-shores-resort-apartments",
+   "listing_url": "https://www.thepalmbeaches.com/listing/sunshine-shores-resort-apartments",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Super 8 by Wyndham North Palm Beach",
+   "slug": "super-8-by-wyndham-north-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/super-8-by-wyndham-north-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Super 8 Motel Lantana",
+   "slug": "super-8-motel-lantana",
+   "listing_url": "https://www.thepalmbeaches.com/listing/super-8-motel-lantana",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Super 8 Motel Riviera Beach",
+   "slug": "super-8-motel-riviera-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/super-8-motel-riviera-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Tequesta Palms Inn",
+   "slug": "tequesta-palms-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/tequesta-palms-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Atlantic Suites on the Ave",
+   "slug": "the-atlantic-suites-on-the-ave",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-atlantic-suites-on-the-ave",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Belgrove Resort Spa",
+   "slug": "the-belgrove-resort-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-belgrove-resort-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Brazilian Court Hotel",
+   "slug": "the-brazilian-court-hotel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-brazilian-court-hotel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Brazilian Court Salon",
+   "slug": "the-brazilian-court-salon",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-brazilian-court-salon",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Breakers Ocean Course",
+   "slug": "the-breakers-ocean-course",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-breakers-ocean-course",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Breakers Palm Beach",
+   "slug": "the-breakers-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-breakers-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Breakers Rees Jones Course",
+   "slug": "the-breakers-rees-jones-course",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-breakers-rees-jones-course",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Colony Hotel Cabana Club",
+   "slug": "the-colony-hotel-cabana-club",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-colony-hotel-cabana-club",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Colony Palm Beach",
+   "slug": "the-colony-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-colony-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Inlet Inn",
+   "slug": "the-inlet-inn",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-inlet-inn",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Pointe Hotel",
+   "slug": "the-pointe-hotel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-pointe-hotel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Ray Hotel",
+   "slug": "the-ray-hotel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-ray-hotel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Seagate",
+   "slug": "the-seagate",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-seagate",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Seagate Golf Club",
+   "slug": "the-seagate-golf-club",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-seagate-golf-club",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Seagate Hotel Golf Beach Club Autograph Collection",
+   "slug": "the-seagate-hotel-golf-beach-club-autograph-collection",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-seagate-hotel-golf-beach-club-autograph-collection",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Singer Oceanfront Resort",
+   "slug": "the-singer-oceanfront-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-singer-oceanfront-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Spa at the Breakers",
+   "slug": "the-spa-at-the-breakers",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-spa-at-the-breakers",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Spa at Tideline",
+   "slug": "the-spa-at-tideline",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-spa-at-tideline",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "The Vineta Hotel",
+   "slug": "the-vineta-hotel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/the-vineta-hotel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Tideline Palm Beach Ocean Resort and Spa",
+   "slug": "tideline-palm-beach-ocean-resort-and-spa",
+   "listing_url": "https://www.thepalmbeaches.com/listing/tideline-palm-beach-ocean-resort-and-spa",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Tiki Hut Motel",
+   "slug": "tiki-hut-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/tiki-hut-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Towneplace Suites Boynton Beach",
+   "slug": "towneplace-suites-boynton-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/towneplace-suites-boynton-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Towneplace Suites by Marriott Boca Raton",
+   "slug": "towneplace-suites-by-marriott-boca-raton",
+   "listing_url": "https://www.thepalmbeaches.com/listing/towneplace-suites-by-marriott-boca-raton",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Towneplace Suites by Marriott Boynton Beach",
+   "slug": "towneplace-suites-by-marriott-boynton-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/towneplace-suites-by-marriott-boynton-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Travelers Motor Lodge",
+   "slug": "travelers-motor-lodge",
+   "listing_url": "https://www.thepalmbeaches.com/listing/travelers-motor-lodge",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Treetops Motel",
+   "slug": "treetops-motel",
+   "listing_url": "https://www.thepalmbeaches.com/listing/treetops-motel",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Trendtea at Wyndham Boca Raton",
+   "slug": "trendtea-at-wyndham-boca-raton",
+   "listing_url": "https://www.thepalmbeaches.com/listing/trendtea-at-wyndham-boca-raton",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Vacation Inn Resort",
+   "slug": "vacation-inn-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/vacation-inn-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Waterstone Resort Marina",
+   "slug": "waterstone-resort-marina",
+   "listing_url": "https://www.thepalmbeaches.com/listing/waterstone-resort-marina",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Waterstone Resort Marina Boca Raton",
+   "slug": "waterstone-resort-marina-boca-raton",
+   "listing_url": "https://www.thepalmbeaches.com/listing/waterstone-resort-marina-boca-raton",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "West Jupiter Camping Resort",
+   "slug": "west-jupiter-camping-resort",
+   "listing_url": "https://www.thepalmbeaches.com/listing/west-jupiter-camping-resort",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "West Palm Beach Marriott",
+   "slug": "west-palm-beach-marriott",
+   "listing_url": "https://www.thepalmbeaches.com/listing/west-palm-beach-marriott",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "White Elephant Palm Beach",
+   "slug": "white-elephant-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/white-elephant-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Woodspring Suites Palm Springs West Palm Beach",
+   "slug": "woodspring-suites-palm-springs-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/woodspring-suites-palm-springs-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Woodspring Suites West Palm Beach",
+   "slug": "woodspring-suites-west-palm-beach",
+   "listing_url": "https://www.thepalmbeaches.com/listing/woodspring-suites-west-palm-beach",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Wyndham Boca Raton",
+   "slug": "wyndham-boca-raton",
+   "listing_url": "https://www.thepalmbeaches.com/listing/wyndham-boca-raton",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Wyndham Grand Jupiter at Harbourside Place",
+   "slug": "wyndham-grand-jupiter-at-harbourside-place",
+   "listing_url": "https://www.thepalmbeaches.com/listing/wyndham-grand-jupiter-at-harbourside-place",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  },
+  {
+   "lane": "DESTINATION_ROSTER_NAME_ONLY",
+   "name": "Yacht Hampton",
+   "slug": "yacht-hampton",
+   "listing_url": "https://www.thepalmbeaches.com/listing/yacht-hampton",
+   "evidence_tier": 3,
+   "what_this_is": "A NAME and the bureau's own listing URL. No street, no postal code, no phone, no website -- the bureau publishes none of them in any document this lane can read. A name proposes an identity and never decides one."
+  }
+ ]
+}
