@@ -120,7 +120,16 @@ def _cache_path(url):
 
 
 def _read_sitemap(url, allow_fetch):
-    """Cached Firecrawl read of ONE sitemap. Returns (text, from_cache, credits_used)."""
+    """Cached Firecrawl read of ONE sitemap. Returns (text, from_cache, credits_used).
+
+    The cache path is joined INLINE from this module's own DOCS constant on the WRITE side rather than taken
+    from ``_cache_path``, because the market-local isolation prover must resolve every write target
+    STATICALLY. A path that arrives from a function call is "a bare root plus a dynamic tail", which it
+    refuses -- and that single unresolvable write cost this registration its narrowing on the first packet
+    run: the whole 94-path change set fell back to a broad classification over it. Reads are not proven, so
+    the helper is still used above. ``west_palm_beach_fl_brand_inventory_001.persist`` already writes this
+    way, which is why that module classified MARKET_LOCAL and this one did not.
+    """
     p = _cache_path(url)
     if os.path.exists(p):
         return open(p, "r", encoding="utf-8", errors="replace").read(), True, 0
@@ -130,7 +139,8 @@ def _read_sitemap(url, allow_fetch):
     os.makedirs(DOCS, exist_ok=True)
     r = FC.fetch(url)
     h = r.get("html") or ""
-    with open(p, "w", encoding="utf-8", newline="\n") as fh:
+    out_path = os.path.join(DOCS, hashlib.sha256(url.encode("utf-8")).hexdigest() + ".html")
+    with open(out_path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(h)
     return h, False, (r.get("credits_used") or 0)
 
