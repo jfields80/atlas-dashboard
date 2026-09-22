@@ -222,38 +222,41 @@ def main():
             if re.search(rx, txt):
                 boundary_nodes[label] += 1
                 break
-    by_county = dbpr.get("south_florida_boundary_by_county", {}) or {}
-    _dade = {}
-    for _k in ("dade", "miami-dade"):
-        _c = by_county.get(_k) or {}
-        if _c:
-            _dade = _c if not _dade else _dade
-    _dade_cities = (_dade.get("by_city") or {})
-    _pb = by_county.get("palm beach") or {}
-    _pb_cities = (_pb.get("by_city") or {})
+    # PHASE 22 -- the county boundary audit, framed for THIS market.
+    #
+    # Fort Lauderdale's accounting asked "how much Palm Beach did we refuse?". Here Palm Beach is the HOME
+    # county, so that frame would report this market's own inventory as discovered 0 / admitted 0, which is
+    # false. The audit is therefore rebuilt from this market's own registry lane, which counts every
+    # hotel-rank licence by the licence's OWN county and reports how many of each this market admitted.
+    by_county = dbpr.get("county_boundary_audit", {}) or {}
     _admitted_outside = sum(1 for h in census["hotels"]
                             if GEO.classify_postal(h.get("postal_code"), h.get("city"))[0] == "OUTSIDE")
+    _live_admissions = sum(v.get("admitted_into_west_palm_beach", 0) for k, v in by_county.items()
+                           if v.get("preserved_or_live_market") in GEO.EXISTING_LIVE_MARKETS)
+    _pb_ranks = dbpr.get("rank_counts_in_admitted_postal_codes", {}) or {}
     boundary = OrderedDict([
-        ("method", "DBPR licences counted by the licence's OWN county (HOTL/MOTL/BNB/TAPT ranks); graph nodes "
-                   "refused by the geography whose own city or reason names the place. Admission is by the "
-                   "corridor registry over the property's own postal code, and by nothing else."),
-        ("miami_dade_discovered_dbpr", _dade.get("hotel_rank_licences", 0)),
-        ("miami_dade_admitted", 0),
-        ("miami_dade_owner", "miami-fl (LIVE market #31)"),
-        ("palm_beach_county_discovered_dbpr", _pb.get("hotel_rank_licences", 0)),
-        ("palm_beach_county_admitted", 0),
-        ("boca_raton_discovered_dbpr", _pb_cities.get("BOCA RATON", 0)),
-        ("boca_raton_admitted", 0),
-        ("delray_beach_discovered_dbpr", _pb_cities.get("DELRAY BEACH", 0)),
-        ("delray_beach_admitted", 0),
-        ("boynton_beach_discovered_dbpr", _pb_cities.get("BOYNTON BEACH", 0)),
-        ("boynton_beach_admitted", 0),
-        ("west_palm_beach_discovered_dbpr", _pb_cities.get("WEST PALM BEACH", 0)),
-        ("west_palm_beach_admitted", 0),
-        ("florida_keys_monroe_discovered_dbpr", (by_county.get("monroe") or {}).get("hotel_rank_licences", 0)),
-        ("florida_keys_admitted", 0),
+        ("method", "DBPR licences counted by the licence's OWN county (HOTL / MOTL / BNB / TAPT ranks). "
+                   "Admission is by the corridor registry over the property's own postal code, and by "
+                   "nothing else -- never by the county field, which is the LICENSING county."),
+        ("home_county", "Palm Beach"),
+        ("home_county_hotel_rank_licences_in_admitted_postal_codes",
+         sum(_pb_ranks.get(r, 0) for r in ("HOTL", "MOTL", "BNB"))),
+        ("neighbour_counties", OrderedDict(
+            (k, OrderedDict([
+                ("hotel_rank_licences", v.get("hotel_rank_licences", 0)),
+                ("admitted_into_west_palm_beach", v.get("admitted_into_west_palm_beach", 0)),
+                ("owner", v.get("preserved_or_live_market", "")),
+                ("owner_is_live", v.get("preserved_or_live_market") in GEO.EXISTING_LIVE_MARKETS),
+            ])) for k, v in sorted(by_county.items()))),
+        ("live_market_inventory_admitted", _live_admissions),
+        ("no_live_market_inventory_admitted", _live_admissions == 0),
+        ("why_that_matters", "Broward belongs to the LIVE fort-lauderdale-fl market and Miami-Dade to the LIVE "
+                             "miami-fl market. Admitting one of their postal codes would publish the same "
+                             "hotel in two markets, so a non-zero count here is a defect, not a judgement."),
+        ("martin_county_border_rule", GEO.MARTIN_BORDER_RULE),
+        ("cross_county_rows_admitted", dbpr.get("cross_county_admitted_rows", [])),
         ("outside_graph_nodes_by_place", OrderedDict(sorted(boundary_nodes.items()))),
-        ("west_palm_beach_market_included_from_those_areas", _admitted_outside),
+        ("rows_admitted_from_a_refused_postal_code", _admitted_outside),
         ("no_south_florida_sprawl", _admitted_outside == 0),
         ("existing_live_markets_named", list(GEO.EXISTING_LIVE_MARKETS)),
         ("future_standalone_markets", list(GEO.FUTURE_MARKETS)),
@@ -262,8 +265,8 @@ def main():
     root = OrderedDict([
         ("BROWSER_CAPTURE_NEEDED", "ZERO in this market. The committed route table sends Marriott and Hilton to a "
                                    "paid browser provider and excludes Hyatt and Best Western from its paid "
-                                   "lanes; this order exercised the SUPPORTED ATTENDED BROWSER instead -- 90 "
-                                   "paced attempts, 81 first-party reads, no paid provider, no relay, no "
+                                   "lanes; this order exercised the SUPPORTED ATTENDED BROWSER instead -- 61 "
+                                   "paced attempts, 49 first-party reads, no paid provider, no relay, no "
                                    "browser-JS exfiltration and no Akamai bypass. Every browser-required row "
                                    "is read or terminally classified."),
         ("ROUTING_HOLD", "no first-party route: the routing pass found no brand, bureau or map website, and Places route "

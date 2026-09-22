@@ -666,29 +666,91 @@
   }
  },
  "south_florida_boundary": {
-  "method": "DBPR licences counted by the licence's OWN county (HOTL/MOTL/BNB/TAPT ranks); graph nodes refused by the geography whose own city or reason names the place. Admission is by the corridor registry over the property's own postal code, and by nothing else.",
-  "miami_dade_discovered_dbpr": 0,
-  "miami_dade_admitted": 0,
-  "miami_dade_owner": "miami-fl (LIVE market #31)",
-  "palm_beach_county_discovered_dbpr": 0,
-  "palm_beach_county_admitted": 0,
-  "boca_raton_discovered_dbpr": 0,
-  "boca_raton_admitted": 0,
-  "delray_beach_discovered_dbpr": 0,
-  "delray_beach_admitted": 0,
-  "boynton_beach_discovered_dbpr": 0,
-  "boynton_beach_admitted": 0,
-  "west_palm_beach_discovered_dbpr": 0,
-  "west_palm_beach_admitted": 0,
-  "florida_keys_monroe_discovered_dbpr": 0,
-  "florida_keys_admitted": 0,
+  "method": "DBPR licences counted by the licence's OWN county (HOTL / MOTL / BNB / TAPT ranks). Admission is by the corridor registry over the property's own postal code, and by nothing else -- never by the county field, which is the LICENSING county.",
+  "home_county": "Palm Beach",
+  "home_county_hotel_rank_licences_in_admitted_postal_codes": 197,
+  "neighbour_counties": {
+   "broward": {
+    "hotel_rank_licences": 609,
+    "admitted_into_west_palm_beach": 0,
+    "owner": "fort-lauderdale-fl",
+    "owner_is_live": true
+   },
+   "dade": {
+    "hotel_rank_licences": 737,
+    "admitted_into_west_palm_beach": 0,
+    "owner": "miami-fl",
+    "owner_is_live": true
+   },
+   "martin": {
+    "hotel_rank_licences": 29,
+    "admitted_into_west_palm_beach": 3,
+    "owner": "treasure-coast-fl",
+    "owner_is_live": false
+   },
+   "monroe": {
+    "hotel_rank_licences": 319,
+    "admitted_into_west_palm_beach": 0,
+    "owner": "florida-keys-fl",
+    "owner_is_live": false
+   },
+   "st. lucie": {
+    "hotel_rank_licences": 58,
+    "admitted_into_west_palm_beach": 0,
+    "owner": "treasure-coast-fl",
+    "owner_is_live": false
+   }
+  },
+  "live_market_inventory_admitted": 0,
+  "no_live_market_inventory_admitted": true,
+  "why_that_matters": "Broward belongs to the LIVE fort-lauderdale-fl market and Miami-Dade to the LIVE miami-fl market. Admitting one of their postal codes would publish the same hotel in two markets, so a non-zero count here is a defect, not a judgement.",
+  "martin_county_border_rule": {
+   "postal_code": "33469",
+   "postal_code_county": "Palm Beach (Tequesta) -- 45 of its 51 lodging licences are Palm Beach County",
+   "spills_into": "Martin County -- 6 lodging licences, 2 of them hotel-rank, on the SE Federal Highway / US-1 approach north of the county line, every one of them addressed 'TEQUESTA FL 33469'",
+   "ruling": "ADMITTED WHOLE. The governing rule of this market is the property's OWN postal code; the DBPR 'county' field is the LICENSING county, not the premises' postal geography. Splitting 33469 would be a per-property judgement, which is exactly what the corridor registry exists to forbid, and would contradict the shared-postal-code rule applied to every other corridor.",
+   "reported_as": "MARTIN COUNTY ADMITTED in the Phase 22 county boundary audit, with each row named.",
+   "every_other_martin_code": "REFUSED by name: 33455 (Hobe Sound) and the 349xx Stuart / Jensen Beach / Palm City / Indiantown codes."
+  },
+  "cross_county_rows_admitted": [
+   {
+    "county": "Martin",
+    "license_number": "MOT5300982",
+    "rank_code": "MOTL",
+    "name": "JUPITER WATERFRONT INN",
+    "street": "18903 SE US 1",
+    "city": "TEQUESTA",
+    "postal_code": "33469",
+    "why_admitted": "Its OWN postal code 33469 is claimed by this market's corridor registry, which covers a shared postal code WHOLE. The DBPR 'county' field is the licensing county, not the premises' postal geography."
+   },
+   {
+    "county": "Martin",
+    "license_number": "HOT5301456",
+    "rank_code": "HOTL",
+    "name": "POINTE HOTEL, LLC",
+    "street": "18701 SE FEDERAL HWY",
+    "city": "TEQUESTA",
+    "postal_code": "33469",
+    "why_admitted": "Its OWN postal code 33469 is claimed by this market's corridor registry, which covers a shared postal code WHOLE. The DBPR 'county' field is the licensing county, not the premises' postal geography."
+   },
+   {
+    "county": "Martin",
+    "license_number": "BNB5301459",
+    "rank_code": "BNB",
+    "name": "CYPRESS LODGE",
+    "street": "18681 SW CONNERS HWY",
+    "city": "CANAL POINT",
+    "postal_code": "33438",
+    "why_admitted": "Its OWN postal code 33438 is claimed by this market's corridor registry, which covers a shared postal code WHOLE. The DBPR 'county' field is the licensing county, not the premises' postal geography."
+   }
+  ],
   "outside_graph_nodes_by_place": {
    "BOCA_RATON": 24,
    "FLORIDA_KEYS": 221,
    "MIAMI_DADE": 611,
    "WEST_PALM_PALM_BEACH": 28
   },
-  "west_palm_beach_market_included_from_those_areas": 0,
+  "rows_admitted_from_a_refused_postal_code": 0,
   "no_south_florida_sprawl": true,
   "existing_live_markets_named": [
    "fort-lauderdale-fl",
@@ -707,7 +769,7 @@
   }
  ],
  "remaining_unresolved_root_causes": {
-  "BROWSER_CAPTURE_NEEDED": "ZERO in this market. The committed route table sends Marriott and Hilton to a paid browser provider and excludes Hyatt and Best Western from its paid lanes; this order exercised the SUPPORTED ATTENDED BROWSER instead -- 90 paced attempts, 81 first-party reads, no paid provider, no relay, no browser-JS exfiltration and no Akamai bypass. Every browser-required row is read or terminally classified.",
+  "BROWSER_CAPTURE_NEEDED": "ZERO in this market. The committed route table sends Marriott and Hilton to a paid browser provider and excludes Hyatt and Best Western from its paid lanes; this order exercised the SUPPORTED ATTENDED BROWSER instead -- 61 paced attempts, 49 first-party reads, no paid provider, no relay, no browser-JS exfiltration and no Akamai bypass. Every browser-required row is read or terminally classified.",
   "ROUTING_HOLD": "no first-party route: the routing pass found no brand, bureau or map website, and Places route discovery either bound no place at the row's own street number + ZIP, or bound one whose card names no website (NO_OFFICIAL_WEB_PRESENCE_FOUND), or names a brand/OTA host.",
   "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible or probe-eligible) was refused or failed.",
   "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
