@@ -1,0 +1,122 @@
+{
+  "ai_task_definitions": [
+    {
+      "description": "Generate SEO meta titles/descriptions for all listing pages",
+      "task_id": "seo_meta_generation"
+    },
+    {
+      "description": "Draft initial city guide content for top 20 launch cities",
+      "task_id": "city_guide_drafts"
+    }
+  ],
+  "business_schema": {
+    "entity_type": "directory_listing",
+    "relationships": [
+      "listing_belongs_to_category",
+      "listing_belongs_to_city",
+      "listing_has_many_amenities"
+    ]
+  },
+  "content_strategy": {
+    "content_types": [
+      "city_guides",
+      "category_landing_pages",
+      "seasonal_travel_guides"
+    ],
+    "publishing_cadence": "weekly"
+  },
+  "database_blueprint": {
+    "listing_fields": [
+      "name",
+      "category",
+      "city",
+      "state",
+      "address",
+      "pet_policy",
+      "amenities",
+      "rating",
+      "source_url"
+    ],
+    "primary_tables": [
+      "listings",
+      "categories",
+      "cities",
+      "amenities",
+      "reviews"
+    ]
+  },
+  "directory_architecture": {
+    "categories": [
+      "pet-friendly-hotels",
+      "pet-friendly-restaurants",
+      "pet-friendly-parks",
+      "pet-friendly-beaches",
+      "pet-friendly-activities"
+    ],
+    "core_entity": "listing",
+    "geographic_scope": "United States",
+    "navigation_model": "category_then_city"
+  },
+  "monetization_plan": {
+    "primary_model": "affiliate_booking_links",
+    "secondary_models": [
+      "featured_listing_upgrades",
+      "display_advertising"
+    ],
+    "status": "not_yet_activated"
+  },
+  "project_profile": {
+    "domain": "pettripfinder.com",
+    "niche": "Pet-friendly travel directory",
+    "project_name": "PetTripFinder",
+    "project_slug": "pettripfinder",
+    "stage": "live_unmonetized",
+    "target_audience": "Pet owners planning travel with dogs/cats"
+  },
+  "project_roadmap": {
+    "phases": [
+      "data_seeding",
+      "monetization_activation",
+      "content_buildout",
+      "traffic_growth"
+    ]
+  },
+  "project_scorecard": {
+    "confidence_tag": "ESTIMATED",
+    "notes": "Live but unmonetized; verified revenue data not yet available.",
+    "opportunity_score": 71
+  },
+  "risk_analysis": {
+    "key_risks": [
+      "affiliate program approval delays",
+      "duplicate/low-quality listing data",
+      "thin content at launch hurting SEO"
+    ]
+  },
+  "search_experience": {
+    "primary_filters": [
+      "category",
+      "city",
+      "state",
+      "pet_type"
+    ],
+    "secondary_filters": [
+      "amenities",
+      "rating"
+    ],
+    "sort_options": [
+      "rating_desc",
+      "name_asc",
+      "distance"
+    ]
+  },
+  "seo_blueprint": {
+    "meta_title_pattern": "{listing_name} - Pet Friendly {category} in {city}, {state}",
+    "target_keyword_clusters": [
+      "pet friendly hotels near me",
+      "dog friendly restaurants [city]",
+      "pet friendly beaches [state]"
+    ],
+    "url_pattern": "/{category}/{state}/{city}"
+  }
+}

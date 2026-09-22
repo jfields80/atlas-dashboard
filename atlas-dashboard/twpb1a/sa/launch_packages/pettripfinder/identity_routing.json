@@ -1,0 +1,12 @@
+{
+ "schema": "ptf-identity-routing/1.0",
+ "contract": "ptf-identity-routing/1.0",
+ "note": "Official property endpoints for CONFIRMED hotel identities that are not publication inventory. A record here says WHERE a property speaks for itself. It is not publication, not policy, and not a second identity system: nothing in the publication path reads this file, and the join key remains hotel_ref.normalized_name + market_id. Adding a record here cannot create a hotel profile, a route, a sitemap entry, or a held-inventory count -- held inventory is derived from seed_businesses.csv alone. identity_context exists solely so the capture queue can satisfy its own required fields without a seed row, and is read by nothing that publishes.",
+ "binding_method_note": "binding_method is per-record and categorical, never a confidence score and never upgraded merely because a record became authoritative. Most records are BRAND_INDEX_BINDING: the brand refused automated requests, so identity was bound through brand-domain index content, property codes read from discovered links, and explicit same-brand disambiguation. A record is PAGE_RENDERED only where the property's own page actually served its content to us on re-probe -- in this authority that is the independent first-party B&B/motel sites and Drury.",
+ "source_batches": [
+  "sealed package pkg-west-palm-beach-fl-eb802c414bf12396"
+ ],
+ "count": 0,
+ "routes": [],
+ "identity_key_contract": "ptf_identity_key/1.0"
+}
