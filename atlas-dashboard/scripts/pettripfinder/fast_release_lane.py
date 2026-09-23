@@ -20,6 +20,12 @@ map with a direct check instead of a broad regression:
     N  rollback / current live valid   parent live state == live records (H11, H12)
     O  paid provenance                 reservation key per paid capture (H13)
 
+Rule J proves the build PRODUCED something: a bundle with no files, no HTML,
+or no output root at all is a FAIL (EMPTY_BUNDLE, NO_HTML_OUTPUT,
+MISSING_BUILD_OUTPUT), and rule K is then UNKNOWN -- two empty bundles are
+trivially identical, so determinism is never claimed from them
+(PTF-FAST-NONEMPTY-BUNDLE-GUARD-001).
+
 A rule is PASS, FAIL or UNKNOWN. UNKNOWN means the rule could not be
 established -- a live state the records disagree on, a build that was not
 run -- and it makes the package NOT ELIGIBLE exactly as a FAIL does. The
@@ -38,6 +44,7 @@ proof is a separate, closed decision: ``fast_release_activation.json``
 
 from __future__ import annotations
 
+import hashlib
 import json
 import platform
 import shutil
@@ -104,6 +111,56 @@ _E_CODES = frozenset({"INVALID_ROUTE", "ROUTING_CONTRACT", "ROUTE_IDENTITY_NOT_I
 _F_CODES = frozenset({"ORPHAN_PARTITION", "UNRESOLVED_PROMOTED_CLEAN", "NO_DISPLAY_ROW",
                       "AMBIGUOUS_DISPLAY_ROW", "SEED_COLUMNS"})
 _L_CODES = frozenset({"MISSING_EVIDENCE_BINDING", "POLICY_EVIDENCE_IDENTITY_MISMATCH", "DUPLICATE_REF"})
+
+
+#: Rule J output diagnostics (PTF-FAST-NONEMPTY-BUNDLE-GUARD-001).
+EMPTY_BUNDLE = "EMPTY_BUNDLE"
+NO_HTML_OUTPUT = "NO_HTML_OUTPUT"
+MISSING_BUILD_OUTPUT = "MISSING_BUILD_OUTPUT"
+
+#: ``assemble_production_site.bundle_digest`` over zero files: the sha256 of
+#: the empty string. A bundle with this identity collected nothing.
+EMPTY_BUNDLE_SHA256 = hashlib.sha256(b"").hexdigest()
+
+
+def _positive_count(value: Any) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and value > 0
+
+
+def bundle_output_defects(build: Mapping, *, require_html: bool = True) -> List[str]:
+    """Why ``build`` does not prove a non-empty market artifact, or [].
+
+    Rule J's job is to prove the changed market PRODUCED a bundle; a build
+    whose collector saw nothing (a missing output root, a work path the
+    assembler resolved somewhere else) otherwise reads as a clean build of
+    zero files. Fail closed: a count that is absent or not a positive integer
+    is a defect. ``require_html`` is False only for a cached bundle, whose
+    record carries no HTML count. Each problem starts with its code; the
+    order is fixed so the diagnostics are deterministic.
+    """
+    defects: List[str] = []
+    if build.get("output_present") is False:
+        defects.append("%s: the build wrote no site/ output root where the bundle is collected"
+                       % MISSING_BUILD_OUTPUT)
+    digest = str(build.get("bundle_sha256") or "").split(":", 1)[-1]
+    if not _positive_count(build.get("file_count")) or digest == EMPTY_BUNDLE_SHA256:
+        defects.append("%s: the bundle contains no files (file_count %r, bundle %s)"
+                       % (EMPTY_BUNDLE, build.get("file_count"), digest[:16] or None))
+    if require_html and not _positive_count(build.get("html_count")):
+        defects.append("%s: the bundle contains no HTML (html_count %r)" % (NO_HTML_OUTPUT, build.get("html_count")))
+    return defects
+
+
+def _defect_codes(defects: Sequence[str]) -> List[str]:
+    return [d.split(":", 1)[0] for d in defects]
+
+
+def _k_blocked_by_j(t: float, defects: Sequence[str]) -> RuleResult:
+    """Rule K when rule J did not prove a non-empty artifact: not evaluated."""
+    return _result("K", UNKNOWN, t,
+                   detail=(("blocked_by", "J"), ("j_output_defects", _defect_codes(defects))),
+                   problems=["rule J did not prove a non-empty build output (%s); determinism not evaluated"
+                             % ", ".join(_defect_codes(defects))])
 
 
 def _owner_rule(code: str) -> str:
@@ -407,6 +464,7 @@ def run_fast_lane(package: Mapping, *, work_dir: Path,
     t = time.perf_counter()
     build_a: Optional[Mapping] = None
     cached: Optional[Mapping] = None
+    j_output_defects: List[str] = []
     if build and bundle_cache is not None:
         try:
             cached = bundle_cache.build_or_reuse(package, work_dir=work / "bc", cold_required=False,
@@ -418,12 +476,15 @@ def run_fast_lane(package: Mapping, *, work_dir: Path,
         reused = cached["cache_status"] in ("HIT", "HIT_AFTER_WAIT", "REVALIDATE")
         j_problems = [] if reused or cached.get("trust_state") == "TRUSTED" else \
             ["cached build not trusted: %s" % cached.get("untrusted_because")]
+        j_output_defects = bundle_output_defects(cached, require_html="html_count" in cached)
+        j_problems += j_output_defects
         results["J"] = _result("J", PASS if not j_problems else FAIL, t,
                                detail=(("MARKET_BUILD_REQUIRED", "NO" if reused else "YES"),
                                        ("cache_status", cached["cache_status"]),
                                        ("build_input_key", cached["build_input_key"]),
                                        ("bundle_sha256", cached["bundle_sha256"]),
                                        ("file_count", cached.get("file_count")),
+                                       ("output_defects", _defect_codes(j_output_defects)),
                                        ("receipt_digest", cached.get("receipt_digest")),
                                        ("builder_invocations", cached.get("builder_invocations")),
                                        ("build_seconds", cached.get("build_seconds")),
@@ -435,14 +496,17 @@ def run_fast_lane(package: Mapping, *, work_dir: Path,
             receipt_doc = bundle_cache.read_receipt(str(cached.get("receipt_digest") or "")) or {}
             determinism_result = ((receipt_doc.get("results") or {}).get("determinism") or {}).get("result")
         k_ok = determinism and determinism_result == "BYTE_IDENTICAL"
-        results["K"] = _result("K", PASS if k_ok else (UNKNOWN if not determinism else FAIL), t,
-                               detail=(("result", determinism_result or UNKNOWN),
-                                       ("inherited_from_bundle_receipt", bool(reused)),
-                                       ("output_digest_a", cached["bundle_sha256"]),
-                                       ("output_digest_b", cached["bundle_sha256"] if determinism_result == "BYTE_IDENTICAL" else None),
-                                       ("cold_builds_executed", cached.get("builder_invocations")),
-                                       ("reuse_hits", 1 if reused else 0)),
-                               problems=[] if k_ok else ["determinism %s" % (determinism_result or "not proven")])
+        if j_output_defects:
+            results["K"] = _k_blocked_by_j(t, j_output_defects)
+        else:
+            results["K"] = _result("K", PASS if k_ok else (UNKNOWN if not determinism else FAIL), t,
+                                   detail=(("result", determinism_result or UNKNOWN),
+                                           ("inherited_from_bundle_receipt", bool(reused)),
+                                           ("output_digest_a", cached["bundle_sha256"]),
+                                           ("output_digest_b", cached["bundle_sha256"] if determinism_result == "BYTE_IDENTICAL" else None),
+                                           ("cold_builds_executed", cached.get("builder_invocations")),
+                                           ("reuse_hits", 1 if reused else 0)),
+                                   problems=[] if k_ok else ["determinism %s" % (determinism_result or "not proven")])
     elif not build:
         results["J"] = _result("J", UNKNOWN, t, problems=["changed-market build not executed (build=False)"])
     elif "J" in results:
@@ -456,10 +520,14 @@ def run_fast_lane(package: Mapping, *, work_dir: Path,
             problems = list(build_a["gates_failing"])
             if not executed or any(e["verdict"] != "BUILD_EXECUTED" for e in executed):
                 problems.append("the market bundle was not built cold: %s" % executed)
+            j_output_defects = bundle_output_defects(build_a)
+            problems += j_output_defects
             results["J"] = _result("J", PASS if not problems else FAIL, t,
                                    detail=(("bundle_sha256", build_a["bundle_sha256"]),
                                            ("file_count", build_a["file_count"]),
                                            ("html_count", build_a["html_count"]),
+                                           ("output_present", build_a.get("output_present")),
+                                           ("output_defects", _defect_codes(j_output_defects)),
                                            ("staged_input_digest", build_a["staged_input_digest"]),
                                            ("contract_sha256", build_a["contract_sha256"]),
                                            ("release_name", build_a["release_name"]),
@@ -475,6 +543,10 @@ def run_fast_lane(package: Mapping, *, work_dir: Path,
         results["K"] = _result("K", UNKNOWN, t,
                                problems=["determinism not executed" if determinism else
                                          "determinism proof not executed (determinism=False)"])
+    elif j_output_defects:
+        # Two empty bundles are trivially byte-identical: never build the
+        # second one to "prove" it.
+        results["K"] = _k_blocked_by_j(t, j_output_defects)
     else:
         try:
             build_b = STAGING.build_changed_market(package, work / "sb", work / "ob", cold=True)
@@ -487,6 +559,7 @@ def run_fast_lane(package: Mapping, *, work_dir: Path,
             if build_b["bundle_sha256"] != build_a["bundle_sha256"]:
                 problems.append("bundle digests differ: %s vs %s"
                                 % (build_a["bundle_sha256"][:16], build_b["bundle_sha256"][:16]))
+            problems += ["second build: %s" % d for d in bundle_output_defects(build_b)]
             results["K"] = _result("K", PASS if not problems else FAIL, t,
                                    detail=(("input_digest", build_a["staged_input_digest"]),
                                            ("output_digest_a", build_a["bundle_sha256"]),
@@ -743,6 +816,7 @@ def eligible_receipts(market_id: str, package_digest: str,
 __all__ = [
     "LANE", "LANE_VERSION", "RECEIPT_SCHEMA", "RULES", "PASS", "FAIL", "UNKNOWN", "YES", "NO",
     "EVIDENCE_MAX_AGE_DAYS", "ACTIVATION_PATH", "REVOCATIONS_PATH", "RuleResult",
+    "EMPTY_BUNDLE", "NO_HTML_OUTPUT", "MISSING_BUILD_OUTPUT", "EMPTY_BUNDLE_SHA256", "bundle_output_defects",
     "load_activation", "production_activation_allowed", "load_revocations",
     "inputs_from_package", "revalidate", "run_fast_lane", "dependency_digest",
     "receipt_dir", "write_receipt", "eligible_receipts",
