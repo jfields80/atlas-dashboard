@@ -4,7 +4,7 @@
  "base_sha": "efd22bc7efeceb6a875e3b4a4228dc7da0f1b6ab",
  "head": "WORKTREE",
  "head_sha": "WORKTREE",
- "changed_file_count": 106,
+ "changed_file_count": 107,
  "narrowing_blockers": [
   "launch_packages/pettripfinder/bundle_cache_closure.json",
   "tests/pettripfinder/pins/market_state.json"
@@ -1474,6 +1474,20 @@
    "release_surface": "SHARED_RUNTIME_CHANGE"
   },
   {
+   "path": "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py",
+   "status": "A",
+   "renamed_from": null,
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE"
+   ],
+   "rule": "prefix:scripts/pettripfinder/",
+   "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches launch_packages/pettripfinder/bundle_cache_closure.json, tests/pettripfinder/pins/market_state.json",
+   "shared_test_state": false,
+   "markets": [],
+   "market_local_proof": null,
+   "release_surface": "SHARED_RUNTIME_CHANGE"
+  },
+  {
    "path": "scripts/pettripfinder/west_palm_beach_fl_wyndham_lane_001.py",
    "status": "A",
    "renamed_from": null,
@@ -1803,34 +1817,36 @@
     "deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json",
     "scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py",
     "scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py",
-    "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py"
+    "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py",
+    "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py"
    ],
    "UNKNOWN": [
     "deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json"
    ]
   },
   "accounting": {
-   "TOTAL_CHANGED_PATHS": 106,
+   "TOTAL_CHANGED_PATHS": 107,
    "MARKET_LOCAL_ACQUISITION_PATHS": 30,
    "REGISTRATION_DATA_PATHS": 13,
    "DERIVED_PATHS": 58,
-   "SHARED_BEHAVIOR_PATHS": 4,
+   "SHARED_BEHAVIOR_PATHS": 5,
    "UNKNOWN_PATHS": 1,
-   "sum_of_buckets": 106,
+   "sum_of_buckets": 107,
    "sum_equals_total": true
   },
   "checks": {
    "change_set": {
     "status": "FAIL",
     "pass": false,
-    "why": "deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json is protected release state; deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json is not a registration path for west-palm-beach-fl (['DEPLOYMENT_CHANGE']); scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed); scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py is not market-local: imports, writes failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed; line 131 open:w: deploy/netlify/global_deployment_manifest_candidate_west_p); scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically)",
+    "why": "deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json is protected release state; deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json is not a registration path for west-palm-beach-fl (['DEPLOYMENT_CHANGE']); scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed); scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py is not market-local: imports, writes failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed; line 131 open:w: deploy/netlify/global_deployment_manifest_candidate_west_p); scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically); scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed)",
     "detail": {
      "problems": [
       "deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json is protected release state",
       "deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json is not a registration path for west-palm-beach-fl (['DEPLOYMENT_CHANGE'])",
       "scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed)",
       "scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py is not market-local: imports, writes failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed; line 131 open:w: deploy/netlify/global_deployment_manifest_candidate_west_p)",
-      "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically)"
+      "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically)",
+      "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed)"
      ],
      "registered_at_base": 33,
      "registered_at_head": 34,
@@ -2050,6 +2066,7 @@
       "scripts/pettripfinder/west_palm_beach_fl_source_ready_accounting_001.py": "MARKET_LOCAL_ACQUISITION",
       "scripts/pettripfinder/west_palm_beach_fl_south_florida_reuse_001.py": "MARKET_LOCAL_ACQUISITION",
       "scripts/pettripfinder/west_palm_beach_fl_static_rulings_001.py": "MARKET_LOCAL_ACQUISITION",
+      "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py": "SHARED_BEHAVIOR_CHANGE",
       "scripts/pettripfinder/west_palm_beach_fl_wyndham_lane_001.py": "MARKET_LOCAL_ACQUISITION",
       "tests/pettripfinder/pins/market_state.json": "NEW_MARKET_REGISTRATION_DATA_ONLY"
      },
@@ -2158,6 +2175,7 @@
       "scripts/pettripfinder/west_palm_beach_fl_source_ready_accounting_001.py": "isolation proof passed in registration mode (zone west-palm-beach-fl)",
       "scripts/pettripfinder/west_palm_beach_fl_south_florida_reuse_001.py": "isolation proof passed in registration mode (zone west-palm-beach-fl)",
       "scripts/pettripfinder/west_palm_beach_fl_static_rulings_001.py": "isolation proof passed in registration mode (zone west-palm-beach-fl)",
+      "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py": "rejected by the isolation proof on imports: scripts.pettripfinder.deployment_authorization: not allow-listed",
       "scripts/pettripfinder/west_palm_beach_fl_wyndham_lane_001.py": "isolation proof passed in registration mode (zone west-palm-beach-fl)",
       "tests/pettripfinder/pins/market_state.json": "registration role market_state_pin"
      },
@@ -2273,20 +2291,21 @@
        "deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json",
        "scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py",
        "scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py",
-       "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py"
+       "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py",
+       "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py"
       ],
       "UNKNOWN": [
        "deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json"
       ]
      },
      "accounting": {
-      "TOTAL_CHANGED_PATHS": 106,
+      "TOTAL_CHANGED_PATHS": 107,
       "MARKET_LOCAL_ACQUISITION_PATHS": 30,
       "REGISTRATION_DATA_PATHS": 13,
       "DERIVED_PATHS": 58,
-      "SHARED_BEHAVIOR_PATHS": 4,
+      "SHARED_BEHAVIOR_PATHS": 5,
       "UNKNOWN_PATHS": 1,
-      "sum_of_buckets": 106,
+      "sum_of_buckets": 107,
       "sum_equals_total": true
      },
      "market_local_proofs": {
@@ -3193,6 +3212,36 @@
         }
        }
       },
+      "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py": {
+       "passed": false,
+       "mode": "registration",
+       "zone": "west-palm-beach-fl",
+       "failed_conditions": [
+        "imports"
+       ],
+       "conditions": {
+        "namespace": {
+         "pass": true,
+         "why": "owned by the registering market's zone west-palm-beach-fl (FRESH_MARKET_REGISTRATION)"
+        },
+        "imports": {
+         "pass": false,
+         "why": "scripts.pettripfinder.deployment_authorization: not allow-listed"
+        },
+        "writes": {
+         "pass": true,
+         "why": "every write target resolves inside the zone's roots"
+        },
+        "reachability": {
+         "pass": true,
+         "why": "nothing outside the zone names it; subprocesses are allow-listed"
+        },
+        "registration": {
+         "pass": true,
+         "why": "west-palm-beach-fl is unregistered at efd22bc7efeceb6a875e3b4a4228dc7da0f1b6ab and registered at WORKTREE by this change set (registration mode)"
+        }
+       }
+      },
       "scripts/pettripfinder/west_palm_beach_fl_wyndham_lane_001.py": {
        "passed": true,
        "mode": "registration",
@@ -3417,8 +3466,8 @@
   "receipt": null,
   "live_deploy_id": null,
   "expected_release": null,
-  "seconds": 34.265,
-  "why": "change_set: deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json is protected release state; deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json is not a registration path for west-palm-beach-fl (['DEPLOYMENT_CHANGE']); scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed); scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py is not market-local: imports, writes failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed; line 131 open:w: deploy/netlify/global_deployment_manifest_candidate_west_p); scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically)"
+  "seconds": 24.41,
+  "why": "change_set: deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json is protected release state; deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json is not a registration path for west-palm-beach-fl (['DEPLOYMENT_CHANGE']); scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed); scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py is not market-local: imports, writes failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed; line 131 open:w: deploy/netlify/global_deployment_manifest_candidate_west_p); scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically); scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed)"
  },
  "plan": {
   "lanes": [
@@ -3955,34 +4004,36 @@
      "deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json",
      "scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py",
      "scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py",
-     "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py"
+     "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py",
+     "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py"
     ],
     "UNKNOWN": [
      "deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json"
     ]
    },
    "accounting": {
-    "TOTAL_CHANGED_PATHS": 106,
+    "TOTAL_CHANGED_PATHS": 107,
     "MARKET_LOCAL_ACQUISITION_PATHS": 30,
     "REGISTRATION_DATA_PATHS": 13,
     "DERIVED_PATHS": 58,
-    "SHARED_BEHAVIOR_PATHS": 4,
+    "SHARED_BEHAVIOR_PATHS": 5,
     "UNKNOWN_PATHS": 1,
-    "sum_of_buckets": 106,
+    "sum_of_buckets": 107,
     "sum_equals_total": true
    },
    "checks": {
     "change_set": {
      "status": "FAIL",
      "pass": false,
-     "why": "deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json is protected release state; deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json is not a registration path for west-palm-beach-fl (['DEPLOYMENT_CHANGE']); scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed); scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py is not market-local: imports, writes failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed; line 131 open:w: deploy/netlify/global_deployment_manifest_candidate_west_p); scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically)",
+     "why": "deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json is protected release state; deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json is not a registration path for west-palm-beach-fl (['DEPLOYMENT_CHANGE']); scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed); scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py is not market-local: imports, writes failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed; line 131 open:w: deploy/netlify/global_deployment_manifest_candidate_west_p); scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically); scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed)",
      "detail": {
       "problems": [
        "deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json is protected release state",
        "deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json is not a registration path for west-palm-beach-fl (['DEPLOYMENT_CHANGE'])",
        "scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed)",
        "scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py is not market-local: imports, writes failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed; line 131 open:w: deploy/netlify/global_deployment_manifest_candidate_west_p)",
-       "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically)"
+       "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically)",
+       "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed)"
       ],
       "registered_at_base": 33,
       "registered_at_head": 34,
@@ -4202,6 +4253,7 @@
        "scripts/pettripfinder/west_palm_beach_fl_source_ready_accounting_001.py": "MARKET_LOCAL_ACQUISITION",
        "scripts/pettripfinder/west_palm_beach_fl_south_florida_reuse_001.py": "MARKET_LOCAL_ACQUISITION",
        "scripts/pettripfinder/west_palm_beach_fl_static_rulings_001.py": "MARKET_LOCAL_ACQUISITION",
+       "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py": "SHARED_BEHAVIOR_CHANGE",
        "scripts/pettripfinder/west_palm_beach_fl_wyndham_lane_001.py": "MARKET_LOCAL_ACQUISITION",
        "tests/pettripfinder/pins/market_state.json": "NEW_MARKET_REGISTRATION_DATA_ONLY"
       },
@@ -4310,6 +4362,7 @@
        "scripts/pettripfinder/west_palm_beach_fl_source_ready_accounting_001.py": "isolation proof passed in registration mode (zone west-palm-beach-fl)",
        "scripts/pettripfinder/west_palm_beach_fl_south_florida_reuse_001.py": "isolation proof passed in registration mode (zone west-palm-beach-fl)",
        "scripts/pettripfinder/west_palm_beach_fl_static_rulings_001.py": "isolation proof passed in registration mode (zone west-palm-beach-fl)",
+       "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py": "rejected by the isolation proof on imports: scripts.pettripfinder.deployment_authorization: not allow-listed",
        "scripts/pettripfinder/west_palm_beach_fl_wyndham_lane_001.py": "isolation proof passed in registration mode (zone west-palm-beach-fl)",
        "tests/pettripfinder/pins/market_state.json": "registration role market_state_pin"
       },
@@ -4425,20 +4478,21 @@
         "deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json",
         "scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py",
         "scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py",
-        "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py"
+        "scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py",
+        "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py"
        ],
        "UNKNOWN": [
         "deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json"
        ]
       },
       "accounting": {
-       "TOTAL_CHANGED_PATHS": 106,
+       "TOTAL_CHANGED_PATHS": 107,
        "MARKET_LOCAL_ACQUISITION_PATHS": 30,
        "REGISTRATION_DATA_PATHS": 13,
        "DERIVED_PATHS": 58,
-       "SHARED_BEHAVIOR_PATHS": 4,
+       "SHARED_BEHAVIOR_PATHS": 5,
        "UNKNOWN_PATHS": 1,
-       "sum_of_buckets": 106,
+       "sum_of_buckets": 107,
        "sum_equals_total": true
       },
       "market_local_proofs": {
@@ -5345,6 +5399,36 @@
          }
         }
        },
+       "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py": {
+        "passed": false,
+        "mode": "registration",
+        "zone": "west-palm-beach-fl",
+        "failed_conditions": [
+         "imports"
+        ],
+        "conditions": {
+         "namespace": {
+          "pass": true,
+          "why": "owned by the registering market's zone west-palm-beach-fl (FRESH_MARKET_REGISTRATION)"
+         },
+         "imports": {
+          "pass": false,
+          "why": "scripts.pettripfinder.deployment_authorization: not allow-listed"
+         },
+         "writes": {
+          "pass": true,
+          "why": "every write target resolves inside the zone's roots"
+         },
+         "reachability": {
+          "pass": true,
+          "why": "nothing outside the zone names it; subprocesses are allow-listed"
+         },
+         "registration": {
+          "pass": true,
+          "why": "west-palm-beach-fl is unregistered at efd22bc7efeceb6a875e3b4a4228dc7da0f1b6ab and registered at WORKTREE by this change set (registration mode)"
+         }
+        }
+       },
        "scripts/pettripfinder/west_palm_beach_fl_wyndham_lane_001.py": {
         "passed": true,
         "mode": "registration",
@@ -5569,8 +5653,8 @@
    "receipt": null,
    "live_deploy_id": null,
    "expected_release": null,
-   "seconds": 34.265,
-   "why": "change_set: deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json is protected release state; deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json is not a registration path for west-palm-beach-fl (['DEPLOYMENT_CHANGE']); scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed); scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py is not market-local: imports, writes failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed; line 131 open:w: deploy/netlify/global_deployment_manifest_candidate_west_p); scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically)"
+   "seconds": 24.41,
+   "why": "change_set: deploy/netlify/deployment_authorizations/ptf-auth-west-palm-beach-003-217f87eeba72.json is protected release state; deploy/netlify/global_deployment_manifest_candidate_west_palm_beach_003.json is not a registration path for west-palm-beach-fl (['DEPLOYMENT_CHANGE']); scripts/pettripfinder/west_palm_beach_fl_candidate_accounting_003.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed); scripts/pettripfinder/west_palm_beach_fl_deployment_authorization_003.py is not market-local: imports, writes failed (scripts.pettripfinder.deployment_authorization: not allow-listed; scripts.pettripfinder.global_deployment: not allow-listed; line 131 open:w: deploy/netlify/global_deployment_manifest_candidate_west_p); scripts/pettripfinder/west_palm_beach_fl_launch_participation_003.py is not market-local: writes failed (line 213 path.write_bytes: write target cannot be resolved statically); scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py is not market-local: imports failed (scripts.pettripfinder.deployment_authorization: not allow-listed)"
   },
   "reasons": [
    {
@@ -6351,6 +6435,13 @@
     "why": "one edit changes what ELEVEN markets derive; the blast radius is the suite by definition, so the broad regression is the proof rather than the discovery"
    },
    {
+    "path": "scripts/pettripfinder/west_palm_beach_fl_withdraw_authorization_004.py",
+    "change_class": "GENERIC_RUNTIME_CHANGE",
+    "full_regression": "required",
+    "assembly": "required",
+    "why": "one edit changes what ELEVEN markets derive; the blast radius is the suite by definition, so the broad regression is the proof rather than the discovery"
+   },
+   {
     "path": "scripts/pettripfinder/west_palm_beach_fl_wyndham_lane_001.py",
     "change_class": "GENERIC_RUNTIME_CHANGE",
     "full_regression": "required",
@@ -6378,18 +6469,22 @@
   "sitemap_sha256": "e81961ae76454ce608fcb39624d5147c8779f52b269faab9449138397cb8fa3d",
   "total_profiles": 2375,
   "sitemap_route_count": 2711,
-  "head_commit": "a07ccc1c78d9999b3e1b1f0037c680755339d13b",
+  "head_commit": "9cf163b1cbd03e1c90774f472af5d4566af950ca",
   "head_contains_live": true,
   "origin_main_contains_live": false,
   "origin_main_stale": true,
   "refs_scanned": 225,
-  "seconds": 2.367
+  "seconds": 2.348
  },
  "registration_base": {
   "base": "efd22bc7efeceb6a875e3b4a4228dc7da0f1b6ab",
   "live_lineage_commit": "e82120cce7e48c62d3c1057a6c82785bed920485",
   "rule": "newest first-parent ancestor of HEAD that contains the live lineage commit, names no path of the registering market, and carries the live lineage commit's live-truth files",
   "commits_walked": [
+   {
+    "commit": "9cf163b1cbd03e1c90774f472af5d4566af950ca",
+    "market_paths": 96
+   },
    {
     "commit": "a07ccc1c78d9999b3e1b1f0037c680755339d13b",
     "market_paths": 95
@@ -6470,5 +6565,5 @@
    }
   ]
  },
- "automatic_classification_seconds": 40.53
+ "automatic_classification_seconds": 30.72
 }
