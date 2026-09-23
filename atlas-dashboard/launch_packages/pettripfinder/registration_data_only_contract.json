@@ -510,5 +510,57 @@
   "reaches": "AUTHORIZATION_READY",
   "does_not": "authorize deployment, move a live pin, enable activation, or relax the current-parent, exact-bytes or rollback guards"
  },
- "fallback": "any UNKNOWN or failed check leaves every path in its path class; the existing DEPLOYMENT_CHANGE / AUTHORITY_CHANGE rows then require the broad regression"
+ "fallback": "any UNKNOWN or failed check leaves every path in its path class; the existing DEPLOYMENT_CHANGE / AUTHORITY_CHANGE rows then require the broad regression",
+ "reregistration": {
+  "added_by": "PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001",
+  "change_class": "AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY",
+  "what_this_is": "A market registered and FOUNDER-AUTHORIZED at the base, never deployed, whose pre-deploy correction replaced the package the founder was shown. Proven against its OWN prior registration (the base is the commit that wrote the authorizing decision): the participation record moves exactly that row back to SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH with one package-bound founder_authorization_superseded entry, every deployment authorization of the old bytes is terminally SUPERSEDED, and a NEW founder authorization is owed before any deployment. A live or ever-deployed market never qualifies.",
+  "detected_by": "the registry is unchanged and the head participation decision supersedes exactly one market's founder authorization",
+  "role_statuses": {
+   "build_closure": [],
+   "market_document": [
+    "M"
+   ],
+   "registration_input": [
+    "A",
+    "M"
+   ],
+   "release_contract": [
+    "M"
+   ]
+  },
+  "required_roles": [
+   "participation_row"
+  ],
+  "protected_path_permitted": "deploy/netlify/deployment_authorizations/<id>.json, status M, only as the SUPERSEDED transition of an authorization of the market's old bytes",
+  "decision_keys": [
+   "decided_by",
+   "decided_on",
+   "founder_authorization_superseded",
+   "lineage",
+   "reason",
+   "supersedes",
+   "work_order"
+  ],
+  "supersession_entry_keys": [
+   "market_id",
+   "authorizing_decision",
+   "superseded_package_digest",
+   "corrected_package_digest",
+   "deployment_authorizations",
+   "market_live",
+   "reauthorization_required"
+  ],
+  "additional_checks": [
+   "authorization_supersession",
+   "live_veto"
+  ],
+  "isolation_condition_5": "registered at BOTH the base and the head (re-registration mode)",
+  "verdict": {
+   "ELIGIBLE": "YES only when all seventeen checks are PASS",
+   "FULL_REGRESSION_REQUIRED": "NO when eligible",
+   "reaches": "AUTHORIZATION_READY",
+   "founder_status": "AWAITING_FOUNDER_AUTHORIZATION -- the old founder and deployment authorizations authorize nothing for the corrected package"
+  }
+ }
 }

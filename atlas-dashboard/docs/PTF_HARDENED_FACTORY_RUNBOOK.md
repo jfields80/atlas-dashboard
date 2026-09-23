@@ -240,6 +240,7 @@ the export drifts from the module).
 | `MARKET_AUTHORITY_DATA_ONLY` | required | conditional — a whole change set that is ONE registered market's authority data and nothing else; **not required ONLY** when a committed `FAST_DATA_ONLY_RELEASE` receipt says ELIGIBLE = YES for a sealed package covering the exact bytes AND `fast_release_activation.json` enables the market (it is DISABLED); otherwise exactly `AUTHORITY_CHANGE` |
 | `NEW_MARKET_REGISTRATION_DATA_ONLY` | not required | conditional — a whole change set that is exactly ONE previously absent market's registration and nothing else; **not required ONLY** when `registration_data_only.evaluate` passes every check of the bounded registration safety union below; otherwise every path keeps its path class, and three of them are `DEPLOYMENT_CHANGE` |
 | `COMPOSITE_FRESH_MARKET_DATA_ONLY` | not required | conditional — a whole change set that is exactly ONE previously absent market's FIRST registration: its own helpers, discovery config, typed inputs and registration artifacts, every changed path in exactly one of five buckets; **not required ONLY** when the partition has `SHARED_BEHAVIOR_CHANGE = 0` and `UNKNOWN = 0`, every market-local path passes the five isolation conditions in registration mode, every typed input passes its field check, and all eleven registration checks pass; otherwise every path keeps its path class |
+| `AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY` | not required | conditional — a whole change set that re-registers exactly ONE market registered and founder-authorized at the base and NEVER deployed, after a pre-deploy correction replaced the package its founder authorization was bound to; **not required ONLY** when `registration_data_only.evaluate` proves it in re-registration mode against the market's own authorizing commit (all seventeen checks, including `authorization_supersession` and `live_veto`); otherwise every path keeps its path class |
 
 ### NEW_MARKET_REGISTRATION_DATA_ONLY (PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001)
 
@@ -416,6 +417,37 @@ unresolvable scratch path, one writes an unresolvable path) — which is why the
 participation helper, the release-lane helper and the readiness-packet helper
 of every earlier market are replaced by the generic `register`, `seal` and
 `packet` commands above.
+
+### AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY (PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001)
+
+For a market that was registered and FOUNDER-AUTHORIZED, was never deployed,
+and needs a market-local correction before it ships (West Palm Beach 004).
+Nothing about it authorizes the corrected bytes; a new founder decision is owed.
+
+1. The founder's order SUPERSEDES every deployment authorization of the old
+   bytes (`deployment_authorization.transition(..., SUPERSEDED)`; terminal).
+   Keep that helper OUT of the tree you re-register: a module importing
+   `deployment_authorization` is not market-local.
+2. Correct the market's own data; `registration_release_lane seal --market <id>`
+   (no `--work-order`) commits the corrected package and receipt.
+3. `registration_release_lane reregister --market <id> --work-order <ORDER>`
+   reissues the participation record FROM the authorizing decision: the row back
+   to `SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH` and one package-bound
+   `founder_authorization_superseded` entry (authorizing decision, superseded
+   and corrected package digests, every SUPERSEDED authorization,
+   `market_live: false`, `reauthorization_required: true`); it re-derives the
+   market's own pin block. It refuses a live or ever-deployed market, any
+   authorization not SUPERSEDED, and a record that is not the market's
+   package-bound founder authorization.
+4. `registration_release_lane packet --market <id>` classifies against
+   `derive_reregistration_base`: the commit that WROTE the authorizing decision
+   (the market's own prior registered state), never a pre-market commit.
+
+`launch_participation.decision_problems` still refuses any decision that drops
+an authorized market WITHOUT such an entry; an entry must name a market the
+predecessor authorized and the head no longer does. A live market never
+qualifies (`live_veto`: not in CURRENT_VERIFIED_LIVE, named by no deployment
+record).
 
 ### FAST_DATA_ONLY_RELEASE (ATLAS-THROUGHPUT-003)
 

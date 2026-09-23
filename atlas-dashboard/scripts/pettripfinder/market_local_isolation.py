@@ -54,6 +54,12 @@ by shared code or by another market, a market registered at the BASE -- all
 still fail. The context is a claim the composite proof must itself prove
 (exactly one market joined the registry, every path accounted for); a helper
 cannot supply it.
+
+RE-REGISTRATION MODE (PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001): the same
+context with ``"reregistration": True`` changes condition 5 only -- the market
+must be registered at BOTH the base (its own prior registration) and the head.
+It is supplied only for a market the composite proof shows is not live and
+whose founder authorization is superseded, package-bound, in the change set.
 """
 
 from __future__ import annotations
@@ -965,6 +971,22 @@ def prove(relpath: str, base: str, head: str, status: str = "M",
     # 5 -- registration / production reachability
     if zone.production_runtime_included:
         conditions["registration"] = _fail("zone declares production_runtime_included = YES")
+    elif reg_market and (registration or {}).get("reregistration") is True:
+        # PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: re-registration mode.
+        # The market was registered at the base (its own prior registration IS
+        # the base) and stays registered; the composite proof has itself shown
+        # it is not live, that every authorization of its old bytes is
+        # SUPERSEDED, and that its outputs re-derive from a sealed package.
+        at_base = registered_market_ids_at(base)
+        at_head = registered_market_ids_at(head if status != "D" else base)
+        if zone.market_id != reg_market:
+            conditions["registration"] = _fail("zone %s is not the re-registering market %s" % (zone.market_id, reg_market))
+        elif zone.market_id not in at_base or zone.market_id not in at_head:
+            conditions["registration"] = _fail("%s must be registered at both the base %s and the head %s to be "
+                                               "re-registered" % (zone.market_id, base, head))
+        else:
+            conditions["registration"] = _ok("%s is registered at %s and re-registered at %s by this change set "
+                                             "(re-registration mode)" % (zone.market_id, base, head))
     elif reg_market:
         # Registration mode: the market must be ABSENT at the base and present
         # at the head -- registered by this change set and nothing earlier.

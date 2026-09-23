@@ -87,6 +87,31 @@ _CLAIMS_SOURCE_READY = {
 }
 
 
+#: PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: the ONE way a decision may
+#: leave a market out of the founder-authorized set its predecessor carried.
+#: A founder authorization is bound to the package bytes it was shown
+#: (``decision_basis.registered_package_digest``); when a pre-deploy correction
+#: replaces those bytes, the authorization no longer describes anything that
+#: can ship, and the chain has to be able to say so without pretending the
+#: decision was never made. Each entry names the market, the decision that
+#: authorized it (which must be an ancestor in the lineage), the superseded and
+#: corrected package digests, and every deployment authorization bound to the
+#: old bytes, each terminally SUPERSEDED. The market is not live and is not
+#: authorized for the corrected bytes: a new founder decision is owed. This is
+#: not a withdrawal lever -- a decision that drops a market WITHOUT an entry
+#: here is still refused, and an entry that does not drop its market is too.
+FOUNDER_AUTHORIZATION_SUPERSEDED = "founder_authorization_superseded"
+SUPERSESSION_ENTRY_KEYS = (
+    "market_id", "authorizing_decision", "superseded_package_digest", "corrected_package_digest",
+    "deployment_authorizations", "market_live", "reauthorization_required",
+)
+SUPERSESSION_AUTHORIZATION_KEYS = ("authorization_id", "bundle_sha256", "authorization_status")
+#: The only deployment-authorization status an entry may record: terminal and
+#: never deployed. (deployment_authorization.SUPERSEDED; not imported, so this
+#: module stays free of the deployment surface.)
+SUPERSEDED_AUTHORIZATION_STATUS = "SUPERSEDED"
+
+
 class LaunchParticipationError(RuntimeError):
     """The record is missing, malformed, or names a market nobody registered."""
 
@@ -152,12 +177,104 @@ def decision_record(doc: Mapping, sha256: str) -> "OrderedDict[str, object]":
     The sha is the hash of the participation file AS THAT DECISION WROTE IT,
     which is what a deployment authorization signed. It is never recomputed
     from a later state of the file.
+
+    A decision that superseded a founder authorization carries the market ids
+    it superseded, so every LATER decision's lineage can tell a recorded,
+    package-bound supersession from a silent drop. Every other record is
+    exactly the three keys it always was.
     """
-    return OrderedDict((
+    record = OrderedDict((
         ("work_order", doc["decision"]["work_order"]),
         ("sha256", sha256),
         ("founder_authorized", _authorized_of(doc)),
     ))
+    superseded = superseded_market_ids(doc)
+    if superseded:
+        record[FOUNDER_AUTHORIZATION_SUPERSEDED] = superseded
+    return record
+
+
+def superseded_market_ids(doc: Mapping) -> List[str]:
+    """The markets whose founder authorization ``doc``'s decision supersedes."""
+    entries = (doc.get("decision") or {}).get(FOUNDER_AUTHORIZATION_SUPERSEDED) or ()
+    return sorted(str(e.get("market_id")) for e in entries if isinstance(e, Mapping))
+
+
+def _digest(value: object) -> bool:
+    text = str(value or "")
+    return text.startswith("sha256:") and len(text) == 71 and all(c in "0123456789abcdef" for c in text[7:])
+
+
+def supersession_problems(doc: Mapping) -> List[str]:
+    """Everything wrong with ``doc``'s ``founder_authorization_superseded``
+    block, or an empty list (also when there is none).
+
+    Shape and chain only: that the named deployment authorizations really are
+    SUPERSEDED on disk and that the market is not live is proven by the
+    re-registration proof, which can read both; this module reads neither."""
+    decision = doc.get("decision") or {}
+    if FOUNDER_AUTHORIZATION_SUPERSEDED not in decision:
+        return []
+    entries = decision[FOUNDER_AUTHORIZATION_SUPERSEDED]
+    problems: List[str] = []
+    if not isinstance(entries, list) or not entries:
+        return ["decision.%s must be a non-empty list" % FOUNDER_AUTHORIZATION_SUPERSEDED]
+    records = (decision.get("lineage") or {}).get("records") or []
+    predecessor = set((decision.get("supersedes") or {}).get("founder_authorized") or ())
+    authorized = set(_authorized_of(doc))
+    rows = {row["market_id"]: row["launch_status"] for row in doc.get("markets") or ()}
+    seen = set()
+    for i, entry in enumerate(entries):
+        where = "decision.%s[%d]" % (FOUNDER_AUTHORIZATION_SUPERSEDED, i)
+        if not isinstance(entry, Mapping) or list(entry.keys()) != list(SUPERSESSION_ENTRY_KEYS):
+            problems.append("%s must carry exactly %s, in order" % (where, list(SUPERSESSION_ENTRY_KEYS)))
+            continue
+        mid = entry["market_id"]
+        if mid in seen:
+            problems.append("%s repeats %s" % (where, mid))
+        seen.add(mid)
+        if mid not in predecessor:
+            problems.append("%s: %s was not founder-authorized by the previous decision" % (where, mid))
+        if mid in authorized:
+            problems.append("%s: %s is still FOUNDER_AUTHORIZED_FOR_LAUNCH; a superseded authorization "
+                            "admits nothing" % (where, mid))
+        if rows.get(mid) != SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH:
+            problems.append("%s: %s must read %s, not %r" % (where, mid, SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH,
+                                                             rows.get(mid)))
+        ref = entry["authorizing_decision"]
+        if not isinstance(ref, Mapping) or set(ref) != {"work_order", "sha256"}:
+            problems.append("%s.authorizing_decision must be {work_order, sha256}" % where)
+        else:
+            match = [r for r in records if r.get("sha256") == ref.get("sha256")
+                     and r.get("work_order") == ref.get("work_order")]
+            if not match:
+                problems.append("%s.authorizing_decision is not a record of this decision's lineage" % where)
+            elif mid not in (match[0].get("founder_authorized") or ()):
+                problems.append("%s.authorizing_decision did not authorize %s" % (where, mid))
+        old, new = entry["superseded_package_digest"], entry["corrected_package_digest"]
+        if not _digest(old) or not _digest(new):
+            problems.append("%s: both package digests must be sha256:<64 hex>" % where)
+        elif old == new:
+            problems.append("%s: the corrected package is the superseded one" % where)
+        auths = entry["deployment_authorizations"]
+        if not isinstance(auths, list) or not auths:
+            problems.append("%s.deployment_authorizations must name every authorization bound to the old "
+                            "bytes (at least one)" % where)
+        else:
+            for auth in auths:
+                if not isinstance(auth, Mapping) or list(auth.keys()) != list(SUPERSESSION_AUTHORIZATION_KEYS):
+                    problems.append("%s: an authorization must carry exactly %s"
+                                    % (where, list(SUPERSESSION_AUTHORIZATION_KEYS)))
+                elif auth["authorization_status"] != SUPERSEDED_AUTHORIZATION_STATUS:
+                    problems.append("%s: authorization %s is %r, not %s" % (
+                        where, auth["authorization_id"], auth["authorization_status"], SUPERSEDED_AUTHORIZATION_STATUS))
+                elif not isinstance(auth["bundle_sha256"], str) or len(auth["bundle_sha256"]) != 64:
+                    problems.append("%s: authorization %s names no bundle_sha256" % (where, auth["authorization_id"]))
+        if entry["market_live"] is not False:
+            problems.append("%s.market_live must be false; a live market is never corrected this way" % where)
+        if entry["reauthorization_required"] is not True:
+            problems.append("%s.reauthorization_required must be true" % where)
+    return problems
 
 
 def extend_decision(previous: Mapping, previous_sha256: str, *, work_order: str,
@@ -278,8 +395,17 @@ def decision_problems(doc: Mapping, path: Optional[Path] = None) -> List[str]:
         problems.append("decision.lineage repeats a record")
     if any(not isinstance(s, str) or len(s) != 64 for s in shas):
         problems.append("decision.lineage has a record with no sha256")
+    # A record that superseded founder authorizations may shrink the set by
+    # exactly the markets it names; the running total of authorized-or-
+    # superseded markets must still never shrink. With no such record this
+    # is the plain count check it always was.
     counts = [len(r.get("founder_authorized") or []) for r in records]
-    if counts != sorted(counts):
+    carried = 0
+    adjusted = []
+    for r, count in zip(records, counts):
+        carried += len(r.get(FOUNDER_AUTHORIZATION_SUPERSEDED) or ())
+        adjusted.append(count + carried)
+    if adjusted != sorted(adjusted):
         problems.append("decision.lineage shrinks the authorized set: %s" % counts)
     if path.is_file() and participation_sha256(path) in shas:
         problems.append("decision.lineage contains the CURRENT record; a decision "
@@ -288,9 +414,11 @@ def decision_problems(doc: Mapping, path: Optional[Path] = None) -> List[str]:
         problems.append("decision.supersedes names %r but the newest ancestor is %r"
                         % (supersedes.get("sha256"), shas[-1]))
     lost = set(supersedes.get("founder_authorized") or []) - set(_authorized_of(doc))
+    lost -= set(superseded_market_ids(doc))
     if lost:
         problems.append("this decision drops market(s) the previous one authorized: %s"
                         % sorted(lost))
+    problems.extend(supersession_problems(doc))
     return problems
 
 
