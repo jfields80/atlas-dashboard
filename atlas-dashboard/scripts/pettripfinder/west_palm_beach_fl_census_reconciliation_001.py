@@ -340,15 +340,35 @@ def directional_conflict(a, b):
     return bool(da) and bool(db) and da != db
 
 
+def _is_licensee_identity(obs):
+    """True when this DBPR observation names the LICENSEE rather than the premises.
+
+    The lodging extract's Business Name and Licensee Name are separate columns. When they are
+    identical the state is holding no trade name for that premises, so the observation's ``name``
+    is a legal/operating entity -- never a traveler-facing hotel name. Decided from the record's
+    own two fields; nothing is inferred from how the string reads.
+    """
+    if str(obs.get("lane") or "") != "REGISTRY_FL_DBPR":
+        return False
+    licensee = obs.get("licensee_name")
+    if not licensee:
+        return False
+    return normalize_name(obs.get("name") or "") == normalize_name(licensee)
+
+
 class Node:
     """One proposed building identity and every observation attached to it."""
 
     __slots__ = ("name", "street", "city", "region", "postal", "phone", "brand",
                  "property_code", "route", "lat", "lng", "observations", "keys",
-                 "ambiguous_matches", "rejections")
+                 "ambiguous_matches", "rejections", "name_tier", "name_is_licensee")
 
     def __init__(self):
         self.name = ""
+        #: where the CHOSEN name came from -- see ``absorb``. Not evidence; bookkeeping for the
+        #: name contest only, and never written to the census.
+        self.name_tier = 99
+        self.name_is_licensee = False
         self.street = ""
         self.city = ""
         self.region = ""
@@ -378,9 +398,48 @@ class Node:
                 setattr(self, field, obs[field])
         if obs.get("lat") is not None and self.lat is None:
             self.lat, self.lng = obs.get("lat"), obs.get("lng")
-        # The longest name wins.
-        if len(obs.get("name") or "") > len(self.name):
-            self.name = obs["name"]
+
+        # THE LONGEST NAME WINS -- EXCEPT THAT A LICENSEE IDENTITY IS NOT A HOTEL NAME.
+        #
+        # PTF-WEST-PALM-BEACH-FL-PREDEPLOY-IDENTITY-CORRECTION-004. The contest below was decided
+        # purely on string LENGTH and never consulted the observation's tier, which is correct for
+        # the ordinary case -- a fuller name usually is the better name -- and wrong for exactly one
+        # kind of observation.
+        #
+        # A DBPR lodging record carries a Business Name and a Licensee Name in separate columns.
+        # Usually they differ, and the Business Name is the premises' trade name:
+        #     HOT1620879  business "RESIDENCE INN FORT LAUDERDALE AIRPORT & CRUISE PORT"
+        #                 licensee "APPLE TEN FLORIDA SERVICES INC"
+        # When the two are IDENTICAL the state holds no trade name for that premises and the row
+        # names the operating company instead:
+        #     HOT6013438  business "APPLE TEN HOSPITALITY MANAGEMENT INC"
+        #                 licensee "APPLE TEN HOSPITALITY MANAGEMENT INC"
+        # That measured this market one published profile titled after a management company --
+        # 8201 Congress Ave, Boca Raton 33487 is Hilton Garden Inn Boca Raton (bctbrgi), whose own
+        # brand page states the name at tier 1. "Apple Ten Hospitality Management Inc" is 36
+        # characters and "Hilton Garden Inn Boca Raton" is 28, so length alone handed the traveler
+        # the wrong one.
+        #
+        # So the rule gains ONE exception and no more: a licensee identity never outranks a tier-1
+        # first-party name for the same premises, in either arrival order. It is deliberately NOT
+        # "the tier-1 name always wins" -- measured over this market that would rename 20 of 190
+        # rows, several of them worse, because a tier-1 name derived from a route slug loses
+        # punctuation and sometimes tokens ("Comfort Inn & Suites Jupiter I-95" -> "Comfort Inn
+        # Jupiter"). Stylistic variants are left exactly alone.
+        #
+        # Nothing is discarded: the licensee name stays on its own observation in the row's
+        # evidence, which is where a legal/licensing fact belongs, and the superseded spelling is
+        # kept as an identity alias.
+        name = obs.get("name") or ""
+        if name:
+            tier = obs.get("tier") or 99
+            licensee = _is_licensee_identity(obs)
+            if licensee and self.name and self.name_tier == 1:
+                pass                      # a licensee identity may not displace a first-party name
+            elif tier == 1 and not licensee and self.name_is_licensee:
+                self.name, self.name_tier, self.name_is_licensee = name, tier, False
+            elif len(name) > len(self.name):
+                self.name, self.name_tier, self.name_is_licensee = name, tier, licensee
 
 
 def _decode_entities(text):
