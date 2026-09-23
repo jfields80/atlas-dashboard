@@ -1,0 +1,712 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-west-palm-beach-fl-94d6f4115daa9b88",
+ "PACKAGE_DIGEST": "sha256:94d6f4115daa9b88a8773d2b73b49593c5de4a4757125def52b7ba17c25ec086",
+ "MARKET_ID": "west-palm-beach-fl",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6ab1a035c7ef3b14a23a4ec6",
+  "rollback_target": "6ab071a5b7561c33aff6c17b",
+  "source_commit": "0cc2817b536eda2b62e59f9b05e8da38ae6ecc85",
+  "live_index_digest": "sha256:97ec0244d157683a50ddb57f9d55ce50ba15e61a96f6c42b9118bba1cf578c7f"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:de6a2bc3b8db3e3654c3f2bf37db3bead4522742320e9223021c4f12ef694ca2",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.103,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-west-palm-beach-fl-94d6f4115daa9b88",
+    "package_digest": "sha256:94d6f4115daa9b88a8773d2b73b49593c5de4a4757125def52b7ba17c25ec086"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.343,
+   "detail": {
+    "identity_records": 190,
+    "census_count": 190,
+    "declared_relations": 0,
+    "writer_seconds": 0.342
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.185,
+   "detail": {
+    "records_evaluated": 74,
+    "eligible": 74,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 49,
+    "verified_no_pets_records": 25,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 62
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 190,
+    "unresolved_rows": 116,
+    "counts_by_partition_state": {
+     "ACCESS_BLOCKED": 24,
+     "AWAITING_OFFICIAL_URL": 58,
+     "AWAITING_POLICY_OBSERVATION": 30,
+     "AWAITING_ROUTING_REPLACEMENT": 4,
+     "PUBLISHED_PET_FRIENDLY": 49,
+     "VERIFIED_NO_PETS": 25
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.196,
+   "detail": {
+    "live_digest": "sha256:97ec0244d157683a50ddb57f9d55ce50ba15e61a96f6c42b9118bba1cf578c7f",
+    "proposed_digest": "sha256:91373ef9e7d55ca686e9f55e3ca0fd3e571d0304782921fc62116fc78490278e",
+    "proposed_participating": [
+     "asheville-nc",
+     "atlanta-ga",
+     "augusta-ga",
+     "boone-blowing-rock-nc",
+     "charleston-sc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "fayetteville-nc",
+     "fort-lauderdale-fl",
+     "grand-rapids-holland-mi",
+     "greenville-nc",
+     "indianapolis-in",
+     "jacksonville-nc",
+     "lexington-ky",
+     "louisville-ky",
+     "miami-fl",
+     "milwaukee-wi",
+     "nashville-tn",
+     "orlando-fl",
+     "outer-banks-nc",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "richmond-va",
+     "savannah-ga",
+     "st-louis-mo",
+     "tampa-fl",
+     "toledo-oh",
+     "west-palm-beach-fl",
+     "wilmington-nc"
+    ],
+    "proposed_total_profiles": 2424,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.1893
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.196,
+   "detail": {
+    "live_participating": [
+     "asheville-nc",
+     "atlanta-ga",
+     "augusta-ga",
+     "boone-blowing-rock-nc",
+     "charleston-sc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "fayetteville-nc",
+     "fort-lauderdale-fl",
+     "grand-rapids-holland-mi",
+     "greenville-nc",
+     "indianapolis-in",
+     "jacksonville-nc",
+     "lexington-ky",
+     "louisville-ky",
+     "miami-fl",
+     "milwaukee-wi",
+     "nashville-tn",
+     "orlando-fl",
+     "outer-banks-nc",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "richmond-va",
+     "savannah-ga",
+     "st-louis-mo",
+     "tampa-fl",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "live_total_profiles": 2375,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.196,
+   "detail": {
+    "intended_delta": {
+     "market_id": "west-palm-beach-fl",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/west-palm-beach-fl/",
+      "/pet-friendly-hotels/west-palm-beach-fl/aka-west-palm/",
+      "/pet-friendly-hotels/west-palm-beach-fl/aloft-delray-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/best-western-palm-bch-lakes/",
+      "/pet-friendly-hotels/west-palm-beach-fl/boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/canopy-by-hilton-west-palm-beach-downtown/",
+      "/pet-friendly-hotels/west-palm-beach-fl/colony-hotel-cabana-club/",
+      "/pet-friendly-hotels/west-palm-beach-fl/courtyard-by-marriott-boynton-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/courtyard-palm-beach-jupiter/",
+      "/pet-friendly-hotels/west-palm-beach-fl/courtyard-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/delray-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/delta-hotels-by-marriott-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/downtown-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/eau-palm-beach-resort-spa/",
+      "/pet-friendly-hotels/west-palm-beach-fl/embassy-suites-by-hilton-boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/embassy-suites-by-hilton-palm-beach-gardens-pga-boulevard/",
+      "/pet-friendly-hotels/west-palm-beach-fl/embassy-suites-by-hilton-west-palm-beach-central/",
+      "/pet-friendly-hotels/west-palm-beach-fl/extended-stay-america-boca-raton-commerce/",
+      "/pet-friendly-hotels/west-palm-beach-fl/extended-stay-america-select-suites-8020/",
+      "/pet-friendly-hotels/west-palm-beach-fl/fairfield-by-marriott-inn-suites-wellington-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/fairfield-inn-suites-boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/fairfield-inn-suites-delray-beach-i-95/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-and-suites-wellington/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-delray-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-jupiter-juno-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-palm-beach-gardens/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-suites-boynton-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-west-palm-beach-central-airport/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-west-palm-beach-florida-turnpike/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-west-palm-beach-lake-worth-turnpike/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-garden-inn-boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-garden-inn-palm-beach-gardens/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-garden-inn-west-palm-beach-195-outlets/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-garden-inn-west-palm-beach-airport/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-palm-beach-airport/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/holiday-inn-boca-raton-north/",
+      "/pet-friendly-hotels/west-palm-beach-fl/home2-suites-by-hilton-west-palm-beach-airport/",
+      "/pet-friendly-hotels/west-palm-beach-fl/homewood-suites-by-hilton-palm-beach-gardens/",
+      "/pet-friendly-hotels/west-palm-beach-fl/homewood-suites-by-hilton-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hyatt-place-boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hyatt-place-delray-beach-pineapple-grove/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hyatt-place-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/nova-inn-resort/",
+      "/pet-friendly-hotels/west-palm-beach-fl/opal-grand-ocean-front-resort-spa/",
+      "/pet-friendly-hotels/west-palm-beach-fl/palm-beach-gardens/",
+      "/pet-friendly-hotels/west-palm-beach-fl/palm-beach-international-airport/",
+      "/pet-friendly-hotels/west-palm-beach-fl/pga-national-resort/",
+      "/pet-friendly-hotels/west-palm-beach-fl/residence-inn-west-palm-beach-downtown-rosemary-square-area/",
+      "/pet-friendly-hotels/west-palm-beach-fl/royal-inn/",
+      "/pet-friendly-hotels/west-palm-beach-fl/the-ray-hotel-delray-beach-curio-collection-by-hilton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/the-singer-oceanfront-resort-curio-collection-by-hilton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/waterstone-resort-marina-boca-raton-curio-collection-by-hilton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/woodspring-suites-west-palm-beach/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 0,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "west-palm-beach-fl",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/west-palm-beach-fl/",
+      "/pet-friendly-hotels/west-palm-beach-fl/aka-west-palm/",
+      "/pet-friendly-hotels/west-palm-beach-fl/aloft-delray-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/best-western-palm-bch-lakes/",
+      "/pet-friendly-hotels/west-palm-beach-fl/boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/canopy-by-hilton-west-palm-beach-downtown/",
+      "/pet-friendly-hotels/west-palm-beach-fl/colony-hotel-cabana-club/",
+      "/pet-friendly-hotels/west-palm-beach-fl/courtyard-by-marriott-boynton-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/courtyard-palm-beach-jupiter/",
+      "/pet-friendly-hotels/west-palm-beach-fl/courtyard-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/delray-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/delta-hotels-by-marriott-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/downtown-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/eau-palm-beach-resort-spa/",
+      "/pet-friendly-hotels/west-palm-beach-fl/embassy-suites-by-hilton-boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/embassy-suites-by-hilton-palm-beach-gardens-pga-boulevard/",
+      "/pet-friendly-hotels/west-palm-beach-fl/embassy-suites-by-hilton-west-palm-beach-central/",
+      "/pet-friendly-hotels/west-palm-beach-fl/extended-stay-america-boca-raton-commerce/",
+      "/pet-friendly-hotels/west-palm-beach-fl/extended-stay-america-select-suites-8020/",
+      "/pet-friendly-hotels/west-palm-beach-fl/fairfield-by-marriott-inn-suites-wellington-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/fairfield-inn-suites-boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/fairfield-inn-suites-delray-beach-i-95/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-and-suites-wellington/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-delray-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-jupiter-juno-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-palm-beach-gardens/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-suites-boynton-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-west-palm-beach-central-airport/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-west-palm-beach-florida-turnpike/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hampton-inn-west-palm-beach-lake-worth-turnpike/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-garden-inn-boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-garden-inn-palm-beach-gardens/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-garden-inn-west-palm-beach-195-outlets/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-garden-inn-west-palm-beach-airport/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-palm-beach-airport/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hilton-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/holiday-inn-boca-raton-north/",
+      "/pet-friendly-hotels/west-palm-beach-fl/home2-suites-by-hilton-west-palm-beach-airport/",
+      "/pet-friendly-hotels/west-palm-beach-fl/homewood-suites-by-hilton-palm-beach-gardens/",
+      "/pet-friendly-hotels/west-palm-beach-fl/homewood-suites-by-hilton-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hyatt-place-boca-raton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hyatt-place-delray-beach-pineapple-grove/",
+      "/pet-friendly-hotels/west-palm-beach-fl/hyatt-place-west-palm-beach/",
+      "/pet-friendly-hotels/west-palm-beach-fl/nova-inn-resort/",
+      "/pet-friendly-hotels/west-palm-beach-fl/opal-grand-ocean-front-resort-spa/",
+      "/pet-friendly-hotels/west-palm-beach-fl/palm-beach-gardens/",
+      "/pet-friendly-hotels/west-palm-beach-fl/palm-beach-international-airport/",
+      "/pet-friendly-hotels/west-palm-beach-fl/pga-national-resort/",
+      "/pet-friendly-hotels/west-palm-beach-fl/residence-inn-west-palm-beach-downtown-rosemary-square-area/",
+      "/pet-friendly-hotels/west-palm-beach-fl/royal-inn/",
+      "/pet-friendly-hotels/west-palm-beach-fl/the-ray-hotel-delray-beach-curio-collection-by-hilton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/the-singer-oceanfront-resort-curio-collection-by-hilton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/waterstone-resort-marina-boca-raton-curio-collection-by-hilton/",
+      "/pet-friendly-hotels/west-palm-beach-fl/woodspring-suites-west-palm-beach/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 0,
+     "verified_no_pets_delta": 0,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 24.928,
+   "detail": {
+    "bundle_sha256": "711760f09faddc8022b5d55a681c0ccd0937151a2d61be34d67cbdd0c934ef45",
+    "file_count": 320,
+    "html_count": 304,
+    "staged_input_digest": "sha256:cd9f8109f1d9de4088514b4346527fea8fa2a449fb4d6b123ba384c89291a451",
+    "contract_sha256": "sha256:0087614bb2530449f3b9b733e3337c70217e02b22226d1276c42bbe38241ddc3",
+    "release_name": "package-west-palm-beach-fl-nogit-fdb1beed-04635e6c",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "1c9439e360d41b8f6543ab9deca4193d8be9d5fafc58a771ec98f8178404dcbc",
+      "seconds": 6.778
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "52bdb27d9277decd2ecb54e2de524afd4333d55f8962980ce80772faa8d64097",
+      "seconds": 16.016
+     }
+    ],
+    "build_seconds": 24.557
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 22.176,
+   "detail": {
+    "input_digest": "sha256:cd9f8109f1d9de4088514b4346527fea8fa2a449fb4d6b123ba384c89291a451",
+    "output_digest_a": "711760f09faddc8022b5d55a681c0ccd0937151a2d61be34d67cbdd0c934ef45",
+    "output_digest_b": "711760f09faddc8022b5d55a681c0ccd0937151a2d61be34d67cbdd0c934ef45",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 22.176
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "package_digest": "sha256:94d6f4115daa9b88a8773d2b73b49593c5de4a4757125def52b7ba17c25ec086",
+    "rederived_digest": "sha256:94d6f4115daa9b88a8773d2b73b49593c5de4a4757125def52b7ba17c25ec086",
+    "evidence_references": 74,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:de6a2bc3b8db3e3654c3f2bf37db3bead4522742320e9223021c4f12ef694ca2"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "max_age_days": 365,
+    "references": 74,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-21T08:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.034,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6ab1a035c7ef3b14a23a4ec6",
+     "previous_deploy_id": "6ab071a5b7561c33aff6c17b",
+     "rollback_target": "6ab071a5b7561c33aff6c17b",
+     "source_commit": "0cc2817b536eda2b62e59f9b05e8da38ae6ecc85",
+     "bundle_sha256": "0ec5c6557d79eaf77a4065b6700c0a5807e9bfe282408dd4779804b33af3a40f",
+     "sitemap_sha256": "e81961ae76454ce608fcb39624d5147c8779f52b269faab9449138397cb8fa3d",
+     "participating_markets": [
+      "asheville-nc",
+      "atlanta-ga",
+      "augusta-ga",
+      "boone-blowing-rock-nc",
+      "charleston-sc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "fayetteville-nc",
+      "fort-lauderdale-fl",
+      "grand-rapids-holland-mi",
+      "greenville-nc",
+      "indianapolis-in",
+      "jacksonville-nc",
+      "lexington-ky",
+      "louisville-ky",
+      "miami-fl",
+      "milwaukee-wi",
+      "nashville-tn",
+      "orlando-fl",
+      "outer-banks-nc",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "richmond-va",
+      "savannah-ga",
+      "st-louis-mo",
+      "tampa-fl",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "profile_counts": {
+      "asheville-nc": 41,
+      "atlanta-ga": 244,
+      "augusta-ga": 14,
+      "boone-blowing-rock-nc": 11,
+      "charleston-sc": 84,
+      "charlotte-nc": 106,
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "fayetteville-nc": 26,
+      "fort-lauderdale-fl": 85,
+      "grand-rapids-holland-mi": 43,
+      "greenville-nc": 8,
+      "indianapolis-in": 82,
+      "jacksonville-nc": 16,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "miami-fl": 125,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "orlando-fl": 201,
+      "outer-banks-nc": 26,
+      "piedmont-triad-nc": 54,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "richmond-va": 93,
+      "savannah-ga": 99,
+      "st-louis-mo": 82,
+      "tampa-fl": 148,
+      "toledo-oh": 17,
+      "wilmington-nc": 29
+     },
+     "total_profiles": 2375,
+     "sitemap_route_count": 2711,
+     "deployment_record": "ptf-deploy-fort-lauderdale-004-6ab1a035c7ef3b14a23a4ec6.json",
+     "authorization_id": "ptf-auth-fort-lauderdale-003-0ec5c6557d79",
+     "rollback_record": "ptf-deploy-miami-006-6ab071a5b7561c33aff6c17b.json",
+     "rollback_markets": [
+      "asheville-nc",
+      "atlanta-ga",
+      "augusta-ga",
+      "boone-blowing-rock-nc",
+      "charleston-sc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "fayetteville-nc",
+      "grand-rapids-holland-mi",
+      "greenville-nc",
+      "indianapolis-in",
+      "jacksonville-nc",
+      "lexington-ky",
+      "louisville-ky",
+      "miami-fl",
+      "milwaukee-wi",
+      "nashville-tn",
+      "orlando-fl",
+      "outer-banks-nc",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "richmond-va",
+      "savannah-ga",
+      "st-louis-mo",
+      "tampa-fl",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-23T00:41:08Z",
+  "finished_at": "2026-09-23T00:41:56Z",
+  "seconds": 48.119
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "711760f09faddc8022b5d55a681c0ccd0937151a2d61be34d67cbdd0c934ef45",
+  "changed_market_bundle_sha256_b": "711760f09faddc8022b5d55a681c0ccd0937151a2d61be34d67cbdd0c934ef45",
+  "staged_input_digest": "sha256:cd9f8109f1d9de4088514b4346527fea8fa2a449fb4d6b123ba384c89291a451",
+  "staged_contract_sha256": "sha256:0087614bb2530449f3b9b733e3337c70217e02b22226d1276c42bbe38241ddc3"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:97ec0244d157683a50ddb57f9d55ce50ba15e61a96f6c42b9118bba1cf578c7f",
+  "proposed": "sha256:91373ef9e7d55ca686e9f55e3ca0fd3e571d0304782921fc62116fc78490278e"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:baf7d781eea822319a7d1db4df5fae411c901350db07c387b05e87276e1b8cee",
+ "INTENDED_DELTA_DIGEST": "sha256:4adee1b9ef1e085bb21b57f6be5a27e135496ef7835791a4096047731c8a6c0e",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "0fec75a9cba946663d02b0df92f5e6011a6f551c",
+  "peak_working_set_mb": 147.8
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6ab1a035c7ef3b14a23a4ec6",
+   "the live index digest is sha256:97ec0244d157683a50ddb57f9d55ce50ba15e61a96f6c42b9118bba1cf578c7f",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-21T08:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 48.119,
+  "per_rule_seconds": {
+   "A": 0.103,
+   "B": 0.343,
+   "C": 0.185,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.196,
+   "H": 0.196,
+   "I": 0.196,
+   "J": 24.928,
+   "K": 22.176,
+   "L": 0.001,
+   "M": 0.001,
+   "N": 0.034,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 24.557,
+  "determinism_build_seconds": 22.176
+ },
+ "RECEIPT_DIGEST": "sha256:5aaf1cb212b2f493e1aaea9faca2ac039758ea973ef163d3cc48004143e73150"
+}
