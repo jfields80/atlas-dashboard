@@ -222,6 +222,123 @@ def test_the_participation_record_it_bound_is_the_one_it_named(auth):
     assert lineage[-1]["sha256"] != LP.participation_sha256()
 
 
+#: PTF-LINEAGE-TEST-047-SEMANTICS-REPAIR-001. This test used to assert that the
+#: RAW founder-authorized count never shrinks. That stopped being the contract
+#: at PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001, which gave the chain ONE
+#: way to leave out a market its predecessor authorized: a package-bound
+#: ``founder_authorization_superseded`` entry for a market that is NOT live,
+#: whose deployment authorizations are terminally SUPERSEDED, and which owes a
+#: NEW founder decision (``launch_participation.supersession_problems``;
+#: ``decision_problems`` counts authorized-plus-superseded). West Palm Beach
+#: used it: 003 authorized 33, the 005 re-registration superseded WPB (32), and
+#: the 006 founder decision authorized the corrected package (33).
+#:
+#: The rule asserted below is that contract, applied to EVERY transition of the
+#: lineage and at the level of market SETS, not counts -- which is stricter
+#: than a count: a decision may drop exactly the markets it records as
+#: superseded, each of which its predecessor authorized, none of which was live
+#: when it was superseded, every authorization of whose old decision is
+#: terminal and was never deployed, and which only a LATER decision that names
+#: it again, under a different bundle, may serve.
+SUPERSEDED_KEY = LP.FOUNDER_AUTHORIZATION_SUPERSEDED
+
+
+def _live_markets(deployments):
+    """The markets the newest DEPLOYED record serves (empty when none)."""
+    deployed = [r for r in deployments if r["final_status"] == DA.DEPLOYED]
+    if not deployed:
+        return frozenset()
+    return frozenset(max(deployed, key=lambda r: r["deployed_at"])["participating_markets"])
+
+
+def _superseded_market_problems(market, at, records, authorizations, deployments):
+    """What is wrong with record ``at`` superseding ``market``'s founder
+    authorization, judged against every committed deployment authorization and
+    record. An authorization is placed in time by the participation record it
+    signed; one that cannot be placed counts as OLD, which fails closed."""
+    problems = []
+    name = records[at]["work_order"]
+    position = {r["sha256"]: i for i, r in enumerate(records)}
+    placed = {a["authorization_id"]: position.get(a["launch_participation_sha256"])
+              for a in authorizations}
+
+    def before(authorization_id):
+        where = placed.get(authorization_id)
+        return where is None or where < at
+
+    for record in deployments:
+        if market in record["participating_markets"] and before(record["authorization_id"]):
+            problems.append("%s supersedes %s, which was LIVE: deployment %s served it under %s"
+                            % (name, market, record["deployment_id"], record["authorization_id"]))
+    old = [a for a in authorizations
+           if market in a["participating_markets"] and before(a["authorization_id"])]
+    if not old:
+        problems.append("%s supersedes %s but no deployment authorization bound the decision "
+                        "it supersedes" % (name, market))
+    for a in old:
+        history = [h["status"] for h in a["status_history"]]
+        if a["authorization_status"] != DA.SUPERSEDED or DA.DEPLOYED in history:
+            problems.append("%s: the old authorization %s of %s is %s (history %s), not terminally "
+                            "SUPERSEDED and never deployed"
+                            % (name, a["authorization_id"], market, a["authorization_status"], history))
+    old_bundles = {a["bundle_sha256"] for a in old}
+    for a in authorizations:
+        if market not in a["participating_markets"] or before(a["authorization_id"]):
+            continue
+        signed = records[placed[a["authorization_id"]]]
+        if market not in signed["founder_authorized"]:
+            problems.append("authorization %s serves %s under %s, which did not authorize it: "
+                            "the superseded founder authorization was inherited"
+                            % (a["authorization_id"], market, signed["work_order"]))
+        if a["bundle_sha256"] in old_bundles:
+            problems.append("authorization %s serves %s from the superseded bundle %s"
+                            % (a["authorization_id"], market, a["bundle_sha256"]))
+    return problems
+
+
+def _lineage_problems(chain, current, authorizations, deployments):
+    """Everything wrong with the decision lineage ``chain`` ending in the
+    ``current`` decision's own record, or ``[]``."""
+    problems = []
+    ancestors = list(chain["records"])
+    records = ancestors + [current]
+    shas = [r["sha256"] for r in records]
+    if len(shas) != len(set(shas)):
+        problems.append("the lineage repeats a record")
+    if not ancestors or chain["supersedes"] != ancestors[-1]:
+        problems.append("the current decision's predecessor is not the newest ancestor")
+    for at in range(1, len(records)):
+        name = records[at]["work_order"]
+        was = set(records[at - 1]["founder_authorized"])
+        now = set(records[at]["founder_authorized"])
+        superseded = set(records[at].get(SUPERSEDED_KEY) or ())
+        silent = (was - now) - superseded
+        if silent:
+            problems.append("%s drops %s with no founder-authorization supersession"
+                            % (name, sorted(silent)))
+        if superseded - was:
+            problems.append("%s supersedes %s, which its predecessor did not authorize"
+                            % (name, sorted(superseded - was)))
+        if superseded & now:
+            problems.append("%s supersedes %s but still authorizes it" % (name, sorted(superseded & now)))
+        for market in sorted(superseded & (was - now)):
+            problems.extend(_superseded_market_problems(market, at, records, authorizations, deployments))
+    unauthorized_live = _live_markets(deployments) - set(current["founder_authorized"])
+    if unauthorized_live:
+        problems.append("the current decision does not authorize live market(s) %s"
+                        % sorted(unauthorized_live))
+    return problems
+
+
+def _committed_lineage():
+    """``(chain, current, authorizations, deployments)``, all deep copies."""
+    doc = LP.load_participation()
+    return (copy.deepcopy(epochs.participation_decision_chain()),
+            LP.decision_record(doc, LP.participation_sha256()),
+            copy.deepcopy(DA.list_authorizations()),
+            copy.deepcopy(DA.list_records()))
+
+
 def test_the_lineage_is_ordered_and_ends_before_the_current_record(auth):
     chain = epochs.participation_decision_chain()
     lineage = chain["records"]
@@ -229,8 +346,224 @@ def test_the_lineage_is_ordered_and_ends_before_the_current_record(auth):
     assert len(shas) == len(set(shas)), "a lineage may not repeat a record"
     assert LP.participation_sha256() not in shas
     assert chain["supersedes"]["sha256"] == shas[-1]
-    counts = [len(r["founder_authorized"]) for r in lineage]
-    assert counts == sorted(counts), "the authorized set only ever grew"
+    # The canonical writer's own verdict on the current decision ...
+    assert LP.decision_problems(LP.load_participation()) == []
+    # ... and the set-level rule across every transition, against every
+    # committed deployment authorization and record.
+    assert _lineage_problems(*_committed_lineage()) == []
+    # The raw set shrinks ONLY where a record carries a supersession, and by
+    # exactly the markets it names: the old "only ever grew" is not the rule.
+    shrinks = [(r["work_order"], sorted(set(p["founder_authorized"]) - set(r["founder_authorized"])),
+                r.get(SUPERSEDED_KEY))
+               for p, r in zip(lineage, lineage[1:])
+               if set(p["founder_authorized"]) - set(r["founder_authorized"])]
+    assert all(dropped == superseded for _, dropped, superseded in shrinks), shrinks
+
+
+# --------------------------------------------------------------------------- #
+# The West Palm Beach 003 -> 005 -> 006 transition, pinned, and every way the
+# lineage rule must refuse. In-memory copies only: no committed file changes.
+# --------------------------------------------------------------------------- #
+
+WPB = "west-palm-beach-fl"
+WPB_003 = "19328995fd21e288f59d39ed826f461461a34739bd98dd8a76acff22575b5d08"
+WPB_005 = "c3f5fc9447778ea990a72cf00846cacefdb454b9c83138a5593278f62767a931"
+WPB_006 = "837d37d324d7694a142a4e3cd0402ab76577ae4b00533967dcc4d8ac9228b5ad"
+WPB_OLD_AUTH = "ptf-auth-west-palm-beach-003-217f87eeba72"
+WPB_NEW_AUTH = "ptf-auth-west-palm-beach-006-23728b4bff71"
+FTL = "fort-lauderdale-fl"
+
+
+def _index(records, sha):
+    return next(i for i, r in enumerate(records) if r["sha256"] == sha)
+
+
+def _by_id(authorizations, authorization_id):
+    return next(a for a in authorizations if a["authorization_id"] == authorization_id)
+
+
+@pytest.fixture()
+def lineage():
+    chain, current, authorizations, deployments = _committed_lineage()
+    return {"chain": chain, "current": current, "authorizations": authorizations,
+            "deployments": deployments}
+
+
+def _problems_of(lineage):
+    return _lineage_problems(lineage["chain"], lineage["current"],
+                             lineage["authorizations"], lineage["deployments"])
+
+
+def _refused(lineage, needle):
+    problems = _problems_of(lineage)
+    assert any(needle in p for p in problems), problems
+    return problems
+
+
+def test_the_west_palm_beach_supersession_is_33_32_33(lineage):
+    """003 authorized 33, 005 superseded exactly WPB (32), 006 authorized it
+    again (33), and each link names its predecessor."""
+    records = lineage["chain"]["records"] + [lineage["current"]]
+    i = _index(records, WPB_005)
+    before, superseding, after = records[i - 1], records[i], records[i + 1]
+    assert before["sha256"] == WPB_003
+    counts = [len(r["founder_authorized"]) for r in (before, superseding, after)]
+    assert counts == [33, 32, 33]
+    assert set(before["founder_authorized"]) - set(superseding["founder_authorized"]) == {WPB}
+    assert superseding[SUPERSEDED_KEY] == [WPB]
+    assert set(after["founder_authorized"]) - set(superseding["founder_authorized"]) == {WPB}
+    assert SUPERSEDED_KEY not in after
+    old = _by_id(lineage["authorizations"], WPB_OLD_AUTH)
+    assert old["authorization_status"] == DA.SUPERSEDED
+    assert old["authorization_status"] not in DA.DEPLOYABLE_STATUSES
+    assert DA.TRANSITIONS[DA.SUPERSEDED] == ()
+    assert DA.DEPLOYED not in [h["status"] for h in old["status_history"]]
+    assert old["launch_participation_sha256"] == WPB_003
+    assert not [r for r in lineage["deployments"] if r["authorization_id"] == WPB_OLD_AUTH]
+    new = _by_id(lineage["authorizations"], WPB_NEW_AUTH)
+    assert new["launch_participation_sha256"] == WPB_006 == after["sha256"]
+    assert new["bundle_sha256"] != old["bundle_sha256"]
+
+
+# 1. An ordinary decision drops one authorized market.
+def test_refuses_an_ordinary_decision_that_drops_a_market(lineage):
+    records = lineage["chain"]["records"]
+    i = _index(records, WPB_003) - 3
+    records[i]["founder_authorized"].remove("miami-fl")
+    _refused(lineage, "%s drops ['miami-fl'] with no founder-authorization supersession"
+             % records[i]["work_order"])
+
+
+# 2. The supersession metadata is missing.
+def test_refuses_a_supersession_with_no_metadata(lineage):
+    del lineage["chain"]["records"][_index(lineage["chain"]["records"], WPB_005)][SUPERSEDED_KEY]
+    _refused(lineage, "drops ['west-palm-beach-fl'] with no founder-authorization supersession")
+
+
+# 3. The supersession names the wrong market.
+def test_refuses_a_supersession_that_names_the_wrong_market(lineage):
+    lineage["chain"]["records"][_index(lineage["chain"]["records"], WPB_005)][SUPERSEDED_KEY] = [FTL]
+    problems = _refused(lineage, "drops ['west-palm-beach-fl'] with no founder-authorization supersession")
+    assert any("supersedes ['fort-lauderdale-fl'] but still authorizes it" in p for p in problems)
+
+
+# 4. The supersession drops two markets.
+def test_refuses_a_supersession_that_drops_a_second_market(lineage):
+    rec = lineage["chain"]["records"][_index(lineage["chain"]["records"], WPB_005)]
+    rec["founder_authorized"].remove(FTL)
+    _refused(lineage, "drops ['fort-lauderdale-fl'] with no founder-authorization supersession")
+
+
+def test_refuses_a_supersession_that_names_a_second_live_market(lineage):
+    rec = lineage["chain"]["records"][_index(lineage["chain"]["records"], WPB_005)]
+    rec["founder_authorized"].remove(FTL)
+    rec[SUPERSEDED_KEY] = sorted([WPB, FTL])
+    problems = _refused(lineage, "supersedes fort-lauderdale-fl, which was LIVE")
+    assert any("old authorization ptf-auth-fort-lauderdale-003" in p for p in problems)
+
+
+# 5. The superseded market was live.
+def test_refuses_superseding_a_live_market(lineage):
+    ftl = next(r for r in lineage["deployments"]
+               if r["authorization_id"].startswith("ptf-auth-fort-lauderdale-003"))
+    served = copy.deepcopy(ftl)
+    served["participating_markets"] = sorted(served["participating_markets"] + [WPB])
+    lineage["deployments"].append(served)
+    _refused(lineage, "supersedes west-palm-beach-fl, which was LIVE: deployment %s"
+             % ftl["deployment_id"])
+
+
+# 6. The old deployment authorization remains deployable (or was consumed, or is gone).
+@pytest.mark.parametrize("status,history", [
+    (DA.AUTHORIZED, [DA.PREPARED, DA.AUTHORIZED]),
+    (DA.PREPARED, [DA.PREPARED]),
+    (DA.SUPERSEDED, [DA.PREPARED, DA.AUTHORIZED, DA.DEPLOYED, DA.SUPERSEDED]),
+])
+def test_refuses_an_old_authorization_that_is_not_terminal(lineage, status, history):
+    old = _by_id(lineage["authorizations"], WPB_OLD_AUTH)
+    old["authorization_status"] = status
+    old["status_history"] = [{"status": s} for s in history]
+    _refused(lineage, "the old authorization %s of west-palm-beach-fl is %s" % (WPB_OLD_AUTH, status))
+
+
+def test_refuses_a_supersession_with_no_old_authorization(lineage):
+    lineage["authorizations"] = [a for a in lineage["authorizations"]
+                                 if a["authorization_id"] != WPB_OLD_AUTH]
+    _refused(lineage, "no deployment authorization bound the decision it supersedes")
+
+
+# 7. The corrected package inherits the old founder authorization.
+def test_refuses_a_superseding_decision_that_keeps_the_market_authorized(lineage):
+    rec = lineage["chain"]["records"][_index(lineage["chain"]["records"], WPB_005)]
+    rec["founder_authorized"] = sorted(rec["founder_authorized"] + [WPB])
+    _refused(lineage, "supersedes ['west-palm-beach-fl'] but still authorizes it")
+
+
+def test_refuses_a_new_authorization_bound_to_the_superseding_decision(lineage):
+    _by_id(lineage["authorizations"], WPB_NEW_AUTH)["launch_participation_sha256"] = WPB_005
+    _refused(lineage, "the superseded founder authorization was inherited")
+
+
+def test_refuses_a_new_authorization_bound_to_the_old_founder_decision(lineage):
+    _by_id(lineage["authorizations"], WPB_NEW_AUTH)["launch_participation_sha256"] = WPB_003
+    problems = _refused(lineage, "the old authorization %s of west-palm-beach-fl is DEPLOYED" % WPB_NEW_AUTH)
+    assert any("which was LIVE" in p for p in problems)
+
+
+def test_refuses_a_new_authorization_that_rebinds_the_old_bundle(lineage):
+    old = _by_id(lineage["authorizations"], WPB_OLD_AUTH)
+    _by_id(lineage["authorizations"], WPB_NEW_AUTH)["bundle_sha256"] = old["bundle_sha256"]
+    _refused(lineage, "from the superseded bundle %s" % old["bundle_sha256"])
+
+
+# 8. The lineage order is reversed.
+def test_refuses_a_reversed_lineage(lineage):
+    lineage["chain"]["records"].reverse()
+    lineage["chain"]["supersedes"] = lineage["chain"]["records"][-1]
+    _refused(lineage, "with no founder-authorization supersession")
+
+
+# 9. A predecessor link is broken.
+def test_refuses_a_current_decision_whose_predecessor_is_not_the_newest_ancestor(lineage):
+    lineage["chain"]["supersedes"] = copy.deepcopy(lineage["chain"]["records"][-2])
+    _refused(lineage, "the current decision's predecessor is not the newest ancestor")
+
+
+def test_refuses_a_lineage_with_the_authorizing_decision_cut_out(lineage):
+    records = lineage["chain"]["records"]
+    del records[_index(records, WPB_003)]
+    _refused(lineage, "supersedes ['west-palm-beach-fl'], which its predecessor did not authorize")
+
+
+def test_refuses_a_repeated_record(lineage):
+    records = lineage["chain"]["records"]
+    records.insert(1, copy.deepcopy(records[0]))
+    _refused(lineage, "the lineage repeats a record")
+
+
+# 10. The current decision does not reconcile to the current authorized state.
+def test_refuses_a_current_decision_that_drops_a_live_market(lineage):
+    lineage["current"]["founder_authorized"].remove("tampa-fl")
+    problems = _refused(lineage, "does not authorize live market(s) ['tampa-fl']")
+    assert any("drops ['tampa-fl'] with no founder-authorization supersession" in p for p in problems)
+
+
+def test_refuses_a_next_decision_that_supersedes_the_now_live_market(lineage):
+    """WPB is live now, so the mechanism that removed it at 005 must refuse it
+    in any later decision."""
+    now = lineage["current"]
+    lineage["chain"]["records"].append(now)
+    lineage["chain"]["supersedes"] = now
+    following = copy.deepcopy(now)
+    following["work_order"] = "PTF-SYNTHETIC-NEXT-DECISION-001"
+    following["sha256"] = "e" * 64
+    following["founder_authorized"].remove(WPB)
+    following[SUPERSEDED_KEY] = [WPB]
+    lineage["current"] = following
+    problems = _refused(lineage, "supersedes west-palm-beach-fl, which was LIVE")
+    assert any("the old authorization %s of west-palm-beach-fl is DEPLOYED" % WPB_NEW_AUTH in p
+               for p in problems)
+    assert any("does not authorize live market(s) ['west-palm-beach-fl']" in p for p in problems)
 
 
 def test_the_live_target_check_accepts_the_authorized_site(auth):
