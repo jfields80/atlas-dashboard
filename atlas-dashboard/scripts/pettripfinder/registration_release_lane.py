@@ -826,6 +826,117 @@ def derive_reregistration_base(market_id: str, live_commit: str, *, head: str = 
     ))
 
 
+FACTORY_BASELINE_NOT_DERIVABLE = "FACTORY_BASELINE_NOT_DERIVABLE"
+#: What a factory lineage may never carry: a market's data, a release's
+#: deployment state, or any path naming a market. Those belong to a market's
+#: own order, and a lineage that carries one is not a factory lineage.
+_NOT_FACTORY_CLASSES = ("AUTHORITY_CHANGE", "MARKET_DATA_PACKAGE", "DEPLOYMENT_CHANGE")
+
+
+def _rel_from_git_path(git_path: str, prefix: str) -> str:
+    return git_path[len(prefix):] if git_path.startswith(prefix) else "../" + git_path
+
+
+def _refuse_factory(detail: str) -> None:
+    raise LaneRefusal(FACTORY_BASELINE_NOT_DERIVABLE, detail)
+
+
+def prove_factory_lineage(candidate: str, market_id: str, base: str, live_commit: str, *,
+                          head: str = "HEAD", git_root: Optional[Path] = None,
+                          prefix: Optional[str] = None) -> "OrderedDict[str, Any]":
+    """One merged lineage tip, proven a TRUSTED FACTORY lineage -- or refused.
+
+    It must (a) be an ancestor of ``head`` and not contain the market's
+    authorizing commit ``base``; (b) name no path of the market; (c) contain
+    the live lineage commit and carry its live-truth files byte-for-byte;
+    (d) be published independently -- some branch or remote ref contains it
+    that does not contain ``base`` (the lineage exists on its own, not only
+    inside this market's branch); and (e) change, since it left the market
+    line, only factory paths: no market data, no deployment state, no path
+    naming any market."""
+    from scripts.pettripfinder import regression_delta as RD
+    prefix = prefix if prefix is not None else _DASH.name + "/"
+    root = git_root or _DASH.parent
+    if not RI._is_ancestor(root, candidate, head):
+        _refuse_factory("factory lineage %s is not an ancestor of %s" % (candidate[:12], head))
+    if RI._is_ancestor(root, base, candidate):
+        _refuse_factory("lineage %s contains the market's authorizing commit %s: it is the market's line, not a "
+                        "factory lineage" % (candidate[:12], base[:12]))
+    naming = _paths_naming(candidate, market_id, prefix, git_root)
+    if naming:
+        _refuse_factory("lineage %s carries %d path(s) naming %s: %s" % (candidate[:12], len(naming), market_id,
+                                                                         naming[:3]))
+    if not RI._is_ancestor(root, live_commit, candidate):
+        _refuse_factory("lineage %s does not contain the live lineage commit %s" % (candidate[:12], live_commit[:12]))
+    if _truth_ids(candidate, prefix, git_root) != _truth_ids(live_commit, prefix, git_root):
+        _refuse_factory("lineage %s moved live-truth files the live lineage commit %s carries"
+                        % (candidate[:12], live_commit[:12]))
+    refs = [line.strip() for line in _git_text("for-each-ref", "--contains", candidate, "--format=%(refname)",
+                                               "refs/heads", "refs/remotes", git_root=git_root).splitlines()
+            if line.strip() and not line.strip().endswith("/HEAD")]
+    independent = [ref for ref in refs if not RI._is_ancestor(root, base, ref)]
+    if not independent:
+        _refuse_factory("lineage %s is published by no ref of its own (every ref containing it is the market's "
+                        "line): an unproven lineage is not a trusted factory baseline" % candidate[:12])
+    merge_base = _git_text("merge-base", base, candidate, git_root=git_root).strip()
+    changed = [_rel_from_git_path(line.strip(), prefix)
+               for line in _git_text("diff", "--name-only", "%s..%s" % (merge_base, candidate), "--",
+                                     git_root=git_root).splitlines() if line.strip()]
+    foreign = []
+    for rel in changed:
+        classes, _rule = RD.classify_path(rel)
+        if RD._markets_named(rel) or market_id in rel.lower() or market_id.replace("-", "_") in rel.lower() \
+                or any(c in _NOT_FACTORY_CLASSES for c in classes):
+            foreign.append("%s (%s)" % (rel, "/".join(classes)))
+    if foreign:
+        _refuse_factory("lineage %s changes %d non-factory path(s): %s" % (candidate[:12], len(foreign), foreign[:3]))
+    return OrderedDict((("commit", candidate), ("merge_base", merge_base), ("independent_refs", independent),
+                        ("factory_paths", changed)))
+
+
+def derive_trusted_factory_baseline(market_id: str, base: str, live_commit: str, *, head: str = "HEAD",
+                                    git_root: Optional[Path] = None,
+                                    prefix: Optional[str] = None) -> Optional["OrderedDict[str, Any]"]:
+    """PTF-REREGISTRATION-TRUSTED-FACTORY-BASELINE-CORRECTION-002: the second
+    lineage of a re-registration, mechanically.
+
+    A re-registration is classified against the market's OWN authorizing
+    commit ``base``. Factory repairs proven in their own orders and merged
+    into the market line AFTER ``base`` would otherwise reappear as shared
+    drift. The trusted factory baseline is found, never named: every
+    non-first parent of a first-parent merge between ``base`` and ``head``
+    that ``base`` does not already contain is a merged lineage, and EVERY one
+    must pass :func:`prove_factory_lineage` (one unproven merge refuses the
+    whole baseline). The proven tips must be ordered by ancestry; the newest,
+    which contains all the others, is the baseline. None when nothing was
+    merged -- the classification is then exactly the old one."""
+    root = git_root or _DASH.parent
+    merges = _git_text("rev-list", "--first-parent", "--merges", "%s..%s" % (base, head),
+                       git_root=git_root).split()
+    tips: List[str] = []
+    for merge in reversed(merges):
+        parents = _git_text("rev-list", "--parents", "-n", "1", merge, git_root=git_root).split()[2:]
+        for parent in parents:
+            if not RI._is_ancestor(root, parent, base) and parent not in tips:
+                tips.append(parent)
+    if not tips:
+        return None
+    proven = [prove_factory_lineage(tip, market_id, base, live_commit, head=head, git_root=git_root,
+                                    prefix=prefix) for tip in tips]
+    newest = [p for p in proven if all(RI._is_ancestor(root, q["commit"], p["commit"]) for q in proven)]
+    if len(newest) != 1:
+        _refuse_factory("the merged factory lineages %s are not one line of descent: the trusted factory baseline "
+                        "cannot be resolved uniquely" % [p["commit"][:12] for p in proven])
+    baseline = newest[0]
+    baseline["merges"] = merges
+    baseline["lineage_tips"] = tips
+    baseline["rule"] = ("the newest of the lineages merged into the market line after its authorizing commit, each "
+                        "proven: an ancestor of the head not containing the authorizing commit, naming no market "
+                        "path, containing live and its live-truth files, published by a ref of its own, and changing "
+                        "only factory paths")
+    return baseline
+
+
 def classify_automatically(market_id: str, *, out: Path, git_root: Optional[Path] = None,
                            resolution: Optional[Mapping] = None) -> "OrderedDict[str, Any]":
     """Resolve live, derive the base, run the existing classifier on the
@@ -841,11 +952,18 @@ def classify_automatically(market_id: str, *, out: Path, git_root: Optional[Path
     # PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: a head that supersedes
     # this market's founder authorization is a RE-registration, proven
     # against the market's own authorizing commit.
+    factory = None
     if reregistration_market_at("HEAD", git_root=git_root) == market_id:
         base = derive_reregistration_base(market_id, live["CURRENT_LIVE_SOURCE_COMMIT"], git_root=git_root)
+        # PTF-REREGISTRATION-TRUSTED-FACTORY-BASELINE-CORRECTION-002: factory
+        # lineages merged after the authorizing commit are compared against
+        # their own proven tip, by bytes; the market against its base.
+        factory = derive_trusted_factory_baseline(market_id, base["base"], live["CURRENT_LIVE_SOURCE_COMMIT"],
+                                                  git_root=git_root)
+        base["trusted_factory_baseline"] = factory
     else:
         base = derive_registration_base(market_id, live["CURRENT_LIVE_SOURCE_COMMIT"], git_root=git_root)
-    doc = RD.classify_document(base["base"], RD.WORKTREE)
+    doc = RD.classify_document(base["base"], RD.WORKTREE, factory_baseline=factory)
     doc["classification_source"] = CLASSIFICATION_SOURCE_AUTOMATIC
     doc["live_resolution"] = OrderedDict((k, live.get(k)) for k in (
         "CURRENT_LIVE_SOURCE_COMMIT", "built_from_commit", "live_deploy_id", "deployment_record",
@@ -886,6 +1004,11 @@ def packet(market_id: str, *, classification_path: Path, lane_report: Path, out:
             ("classification_source", classification.get("classification_source") or CLASSIFICATION_SOURCE_SUPPLIED),
             ("current_live_source_commit", (classification.get("live_resolution") or {}).get("CURRENT_LIVE_SOURCE_COMMIT")),
             ("registration_base", (classification.get("registration_base") or {}).get("base")),
+            ("trusted_factory_baseline", (classification.get("trusted_factory_baseline") or {}).get("commit")),
+            ("inherited_factory_paths", len((classification.get("trusted_factory_baseline") or {}).get(
+                "inherited_paths") or ())),
+            ("SHARED_FACTORY_DELTA", (classification.get("trusted_factory_baseline") or {}).get(
+                "SHARED_FACTORY_DELTA")),
             ("base", classification.get("base_sha")), ("head", classification.get("head_sha")),
             ("change_classes", classification.get("change_classes")),
             ("release_surfaces", classification.get("release_surfaces")),

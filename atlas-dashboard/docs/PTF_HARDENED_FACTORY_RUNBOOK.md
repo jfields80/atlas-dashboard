@@ -449,6 +449,24 @@ predecessor authorized and the head no longer does. A live market never
 qualifies (`live_veto`: not in CURRENT_VERIFIED_LIVE, named by no deployment
 record).
 
+**Two lineages (PTF-REREGISTRATION-TRUSTED-FACTORY-BASELINE-CORRECTION-002).**
+A factory repair proven in its own order and merged into the market line AFTER
+the authorizing commit is not the market's change. `packet` derives a TRUSTED
+FACTORY BASELINE (`derive_trusted_factory_baseline`, never named by hand):
+every non-first parent of a first-parent merge after the authorizing commit
+must be proven a factory lineage by `prove_factory_lineage`. That means it is an
+ancestor of HEAD that does not contain the authorizing commit, names no market
+path, contains live and its live-truth files, is published by a ref of its own,
+and changes only factory paths. The proven tips must be one line of descent,
+and the newest is the baseline. A path leaves the change set only when its
+HEAD bytes ARE the baseline's, the authorizing commit left it as the merge base
+had it, and the lineage changed it (`regression_delta.factory_baseline_delta`,
+by git blob id). Every other path is still compared against the authorizing
+commit. A factory path the market line edits again is put back in the change
+set as a narrowing blocker (`SHARED_FACTORY_DELTA`), so it fails closed. The
+consequence is that a repair to the lane itself must be committed on its own
+factory branch and merged, never committed on the market branch.
+
 ### FAST_DATA_ONLY_RELEASE (ATLAS-THROUGHPUT-003)
 
 A data-only change to one market's authority owes fifteen direct checks

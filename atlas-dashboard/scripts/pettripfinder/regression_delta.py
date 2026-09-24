@@ -92,7 +92,7 @@ import sys
 import time
 from collections import OrderedDict
 from pathlib import Path
-from typing import Dict, List, Mapping, Optional, Sequence, Tuple
+from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TESTS_DIR = REPO_ROOT / "tests"
@@ -1229,6 +1229,88 @@ def read_at(rev: str, relpath: str) -> Optional[str]:
 
 
 # --------------------------------------------------------------------------- #
+# PTF-REREGISTRATION-TRUSTED-FACTORY-BASELINE-CORRECTION-002: the two
+# lineages of a re-registration.
+# --------------------------------------------------------------------------- #
+
+def _git_path(relpath: str) -> str:
+    """``relpath`` as git names it from the git root (``../X`` is ``X``)."""
+    rel = _posix(relpath)
+    return rel[3:] if rel.startswith("../") else _repo_prefix() + rel
+
+
+def blob_id_at(rev: str, relpath: str) -> Optional[str]:
+    """The git blob id of ``relpath`` at ``rev``, or ``None`` when absent.
+
+    At :data:`WORKTREE` the file on disk is hashed through git's own clean
+    filters, so a CRLF checkout of an LF blob compares equal to the blob --
+    identity is judged on committed bytes, never on the checkout's line
+    endings."""
+    git_path = _git_path(relpath)
+    if rev == WORKTREE:
+        if not (REPO_ROOT.parent / git_path).is_file():
+            return None
+        proc = subprocess.run(["git", "hash-object", "--", git_path], cwd=str(REPO_ROOT.parent),
+                              capture_output=True, text=True)
+    else:
+        proc = subprocess.run(["git", "rev-parse", "--verify", "--quiet", "%s:%s" % (rev, git_path)],
+                              cwd=str(REPO_ROOT.parent), capture_output=True, text=True)
+    if proc.returncode != 0:
+        return None
+    return proc.stdout.strip() or None
+
+
+def factory_baseline_delta(files: Mapping[str, str], base: str, head: str,
+                           baseline: Mapping[str, Any]) -> "OrderedDict[str, Any]":
+    """Split a re-registration's change set into the paths the TRUSTED FACTORY
+    BASELINE brought and everything else.
+
+    ``baseline`` is what ``registration_release_lane.derive_trusted_factory_
+    baseline`` proved: ``commit`` (the factory lineage merged into the market
+    line after the market's authorizing commit ``base``), ``merge_base`` (where
+    that lineage left the market line) and ``factory_paths`` (every path the
+    lineage changed since then).
+
+    A path is INHERITED -- compared against the factory baseline instead of the
+    market base -- only when all three hold, by git blob id:
+
+      * its bytes at ``head`` ARE its bytes at the factory baseline;
+      * its bytes at ``base`` are its bytes at the merge base (the market line
+        never touched it, so the whole change is the factory's);
+      * the factory lineage itself changed it.
+
+    Nothing is inherited by path, class or list. Every factory path whose head
+    bytes differ from the factory baseline is RE-EDITED -- the market line
+    changed a shared file after the merge -- and is returned so the caller
+    keeps it in the change set, where the shared-path prohibition refuses it.
+    """
+    commit, merge_base = str(baseline["commit"]), str(baseline["merge_base"])
+    factory_paths = [_posix(p) for p in baseline.get("factory_paths") or ()]
+    inherited: "OrderedDict[str, OrderedDict]" = OrderedDict()
+    re_edited: "OrderedDict[str, OrderedDict]" = OrderedDict()
+    for relpath in factory_paths:
+        at_head, at_factory = blob_id_at(head, relpath), blob_id_at(commit, relpath)
+        at_base, at_merge_base = blob_id_at(base, relpath), blob_id_at(merge_base, relpath)
+        ids = OrderedDict((("head", at_head), ("factory_baseline", at_factory), ("market_base", at_base),
+                           ("merge_base", at_merge_base)))
+        if at_head != at_factory:
+            re_edited[relpath] = ids
+        elif relpath in files and at_base == at_merge_base and at_factory != at_base:
+            inherited[relpath] = ids
+    return OrderedDict((
+        ("commit", commit),
+        ("merge_base", merge_base),
+        ("rule", "a path is compared against the trusted factory baseline only when its head bytes ARE the "
+                 "baseline's, the market base left it as the merge base had it, and the factory lineage changed "
+                 "it; every other path is compared against the market's own authorizing commit"),
+        ("factory_path_count", len(factory_paths)),
+        ("inherited_paths", inherited),
+        ("re_edited_paths", re_edited),
+        ("SHARED_FACTORY_DELTA", len(re_edited)),
+    ))
+
+
+# --------------------------------------------------------------------------- #
 # Whole-change classification.
 # --------------------------------------------------------------------------- #
 
@@ -1581,12 +1663,33 @@ def release_surface_of(row: Mapping) -> str:
 
 
 def classify_change(base: str, head: str = WORKTREE,
-                    paths: Optional[Mapping[str, str]] = None) -> Dict:
+                    paths: Optional[Mapping[str, str]] = None,
+                    factory_baseline: Optional[Mapping[str, Any]] = None) -> Dict:
     """Classify every changed path, refining test files by syntax tree and
-    market-local paths by the five-condition isolation proof."""
+    market-local paths by the five-condition isolation proof.
+
+    ``factory_baseline`` is given ONLY by the re-registration lane, from
+    ``derive_trusted_factory_baseline``: paths the trusted factory lineage
+    brought, byte-identical at the head, leave the change set
+    (:func:`factory_baseline_delta`); a factory path the market line edited
+    again is put back in AND named a narrowing blocker, so the shared-path
+    prohibition refuses it whatever its class."""
     files = OrderedDict(paths) if paths is not None else changed_files(base, head)
     renamed = dict(RENAMED_FROM) if paths is None else {}
+    factory: Optional[Dict] = None
+    if factory_baseline is not None and paths is None:
+        factory = factory_baseline_delta(files, base, head, factory_baseline)
+        for relpath in factory["inherited_paths"]:
+            files.pop(relpath, None)
+            renamed.pop(relpath, None)
+        for relpath in factory["re_edited_paths"]:
+            files.setdefault(relpath, "M")
+        files = OrderedDict(sorted(files.items()))
     blockers = [p for p in files if is_narrowing_blocker(p)]
+    if factory is not None:
+        # A factory path the market line edited again after the merge is
+        # never the registration's own, whatever its class: it blocks.
+        blockers.extend(p for p in factory["re_edited_paths"] if p not in blockers)
     rows: List[Dict] = []
     for relpath, status in files.items():
         classes, rule = classify_path(relpath)
@@ -1706,7 +1809,7 @@ def classify_change(base: str, head: str = WORKTREE,
                 classes_seen.append(cls)
     ordered = [c for c in CHANGE_CLASSES if c in classes_seen]
     surfaces = [s for s in RELEASE_SURFACES if any(r["release_surface"] == s for r in rows)]
-    return OrderedDict((
+    doc = OrderedDict((
         ("schema", SCHEMA_CLASSIFICATION),
         ("base", base),
         ("base_sha", resolve_sha(base)),
@@ -1721,6 +1824,9 @@ def classify_change(base: str, head: str = WORKTREE,
         ("fast_data_only_release", fast_block),
         ("new_market_registration_data_only", registration_block),
     ))
+    if factory is not None:
+        doc["trusted_factory_baseline"] = factory
+    return doc
 
 
 # --------------------------------------------------------------------------- #
@@ -2321,11 +2427,13 @@ def _print_matrix(doc: Mapping) -> None:
           % ", ".join(doc["safe_narrow_classes"]))
 
 
-def classify_document(base: str, head: str = WORKTREE) -> Dict:
+def classify_document(base: str, head: str = WORKTREE,
+                      factory_baseline: Optional[Mapping[str, Any]] = None) -> Dict:
     """The ``classify`` verdict as one document: the classification, its plan,
     ``FULL_REGRESSION_REQUIRED`` and the reason. The CLI and the registration
-    release lane both write exactly this."""
-    doc = classify_change(base, head)
+    release lane both write exactly this. ``factory_baseline``: see
+    :func:`classify_change` (re-registration lane only)."""
+    doc = classify_change(base, head, factory_baseline=factory_baseline)
     plan = plan_for(doc)
     doc["plan"] = plan
     doc["FULL_REGRESSION_REQUIRED"] = "YES" if plan["full_regression_required"] else "NO"
