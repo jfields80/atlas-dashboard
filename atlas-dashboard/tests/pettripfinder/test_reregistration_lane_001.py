@@ -243,7 +243,7 @@ def _stub_market_authority(monkeypatch) -> None:
     monkeypatch.setattr(MA, "load_markets", lambda: [SimpleNamespace(market_id=m) for m in ids])
 
 
-def _build(root: Path, *, auth_rewrites_live_manifest: bool = False) -> "OrderedDict[str, str]":
+def _build(root: Path, *, auth_rewrites_live_manifest: bool = False, after_auth=None) -> "OrderedDict[str, str]":
     root.mkdir(parents=True)
     dash = root / "atlas-dashboard"
     _git(root, "init", "-q", "-b", "main")
@@ -302,6 +302,10 @@ def _build(root: Path, *, auth_rewrites_live_manifest: bool = False) -> "Ordered
     if auth_rewrites_live_manifest:
         _put(dash, "deploy/netlify/global_deployment_manifest.json", OrderedDict((("bundle_sha256", BUNDLE_A),)))
     commits["AUTH"] = _commit(root, "AUTH founder authorizes gamma package A (not deployed)")
+    if after_auth is not None:
+        # PTF-REREGISTRATION-TRUSTED-FACTORY-BASELINE-CORRECTION-002: a factory
+        # lineage merged into the market line after the authorizing commit.
+        after_auth(root, dash, commits)
 
     # CORR -- a market-local correction and the corrected package B.
     _put(dash, "launch_packages/pettripfinder/markets/authority/%s/seed_businesses.csv" % MARKET,
@@ -352,6 +356,10 @@ def pristine(tmp_path_factory):
 def repo(pristine, tmp_path, monkeypatch):
     """A private copy of the lifecycle repository, the classifier's git seams
     pointed at it, and the unchanged audited checks stubbed."""
+    return _attach(pristine, tmp_path, monkeypatch)
+
+
+def _attach(pristine, tmp_path, monkeypatch):
     src, commits = pristine
     root = tmp_path / "repo"
     shutil.copytree(src, root)
@@ -829,3 +837,224 @@ class TestTheClass:
         for rel in (REG.PARTICIPATION_PATH, AUTH_REL, CONTRACT_REL):
             classes, _rule = RD.classify_path(rel)
             assert RD.AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY not in classes
+
+
+# --------------------------------------------------------------------------- #
+# PTF-REREGISTRATION-TRUSTED-FACTORY-BASELINE-CORRECTION-002: the two
+# lineages. A factory repair proven in its own order and merged into the
+# market line AFTER the authorizing commit is compared against its own proven
+# tip, by bytes; the market is still compared against its authorizing commit.
+# --------------------------------------------------------------------------- #
+
+FACTORY_MODULE = "scripts/pettripfinder/factory_repair_zz.py"
+FACTORY_TEST = "tests/pettripfinder/test_factory_repair_zz.py"
+FACTORY_DOC = "README.md"
+
+
+def _merge_lineage(root: Path, dash: Path, branch: str, start: str, files, message: str):
+    """Branch ``branch`` from ``start``, commit ``files``, merge it into main
+    with an explicit merge commit. Returns (lineage tip, merge commit)."""
+    _git(root, "checkout", "-q", "-b", branch, start)
+    for rel, content in files.items():
+        _put(dash, rel, content)
+    tip = _commit(root, message)
+    _git(root, "checkout", "-q", "main")
+    _git(root, "merge", "-q", "--no-ff", "-m", "merge %s into the market line" % branch, branch)
+    return tip, _git(root, "rev-parse", "HEAD")
+
+
+def _factory_after_auth(root: Path, dash: Path, commits) -> None:
+    commits["FACTORY"], commits["MERGE"] = _merge_lineage(
+        root, dash, "worker/factory-repair-zz", commits["L"],
+        OrderedDict(((FACTORY_MODULE, '"""a proven factory repair."""\nX = 2\n'),
+                     (FACTORY_TEST, "def test_x():\n    assert True\n"),
+                     (FACTORY_DOC, "synthetic factory, repaired\n"))),
+        "FACTORY a repair proven in its own order")
+
+
+@pytest.fixture(scope="module")
+def pristine_factory(tmp_path_factory):
+    root = tmp_path_factory.mktemp("rereg_factory") / "repo"
+    return root, _build(root, after_auth=_factory_after_auth)
+
+
+@pytest.fixture
+def frepo(pristine_factory, tmp_path, monkeypatch):
+    return _attach(pristine_factory, tmp_path, monkeypatch)
+
+
+def _baseline(frepo, head: str = "HEAD"):
+    return LANE.derive_trusted_factory_baseline(MARKET, frepo.commits["AUTH"], frepo.commits["L"], head=head,
+                                                git_root=frepo.root, prefix=PREFIX)
+
+
+def _fclassify(frepo, baseline=None) -> dict:
+    RD.RENAMED_FROM.clear()
+    return RD.classify_document(frepo.commits["AUTH"], RD.WORKTREE,
+                                factory_baseline=baseline if baseline is not None else _baseline(frepo))
+
+
+def _fineligible(frepo, baseline=None) -> dict:
+    doc = _fclassify(frepo, baseline)
+    proof = doc["new_market_registration_data_only"]
+    assert proof["ELIGIBLE"] == "NO"
+    assert doc["FULL_REGRESSION_REQUIRED"] == "YES"
+    assert RD.AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY not in doc["change_classes"]
+    return doc
+
+
+def _refused(callable_, *args, **kwargs) -> str:
+    with pytest.raises(LANE.LaneRefusal) as exc:
+        callable_(*args, **kwargs)
+    assert exc.value.code == LANE.FACTORY_BASELINE_NOT_DERIVABLE
+    return exc.value.detail
+
+
+class TestTheTrustedFactoryBaseline:
+    def test_the_merged_factory_reproduces_the_refusal_without_a_baseline(self, frepo):
+        RD.RENAMED_FROM.clear()
+        doc = RD.classify_document(frepo.commits["AUTH"], RD.WORKTREE)
+        proof = doc["new_market_registration_data_only"]
+        assert proof["ELIGIBLE"] == "NO" and doc["FULL_REGRESSION_REQUIRED"] == "YES"
+        assert proof["checks"]["change_set"]["status"] == REG.FAIL
+        assert "trusted_factory_baseline" not in doc
+
+    def test_the_baseline_is_derived_mechanically(self, frepo):
+        baseline = _baseline(frepo)
+        assert baseline["commit"] == frepo.commits["FACTORY"]
+        assert baseline["merge_base"] == frepo.commits["L"]
+        assert baseline["merges"] == [frepo.commits["MERGE"]]
+        assert baseline["independent_refs"] == ["refs/heads/worker/factory-repair-zz"]
+        assert sorted(baseline["factory_paths"]) == sorted([FACTORY_DOC, FACTORY_MODULE, FACTORY_TEST])
+
+    def test_the_correction_is_the_narrow_class_against_both_lineages(self, frepo):
+        doc = _fclassify(frepo)
+        proof = doc["new_market_registration_data_only"]
+        assert proof["ELIGIBLE"] == "YES", (proof["why"], proof["failed_checks"])
+        assert proof["CHANGE_CLASS"] == RD.AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY
+        assert doc["FULL_REGRESSION_REQUIRED"] == "NO"
+        assert doc["base"] == frepo.commits["AUTH"], "the market is still compared against its authorizing commit"
+        assert proof["accounting"]["SHARED_BEHAVIOR_PATHS"] == 0 and proof["accounting"]["UNKNOWN_PATHS"] == 0
+        factory = doc["trusted_factory_baseline"]
+        assert sorted(factory["inherited_paths"]) == sorted([FACTORY_DOC, FACTORY_MODULE, FACTORY_TEST])
+        assert factory["SHARED_FACTORY_DELTA"] == 0
+        changed = [row["path"] for row in doc["changed_files"]]
+        assert not set(changed) & {FACTORY_DOC, FACTORY_MODULE, FACTORY_TEST}
+        assert HELPER_REL in changed and AUTH_REL in changed
+
+    def test_an_ordinary_lifecycle_has_no_factory_baseline(self, repo):
+        assert LANE.derive_trusted_factory_baseline(MARKET, repo.commits["AUTH"], repo.commits["L"],
+                                                    git_root=repo.root, prefix=PREFIX) is None
+
+    def test_the_lane_wires_both_lineages(self, frepo, monkeypatch, tmp_path):
+        monkeypatch.setattr(RI, "current_verified_live", lambda: LIVE_STATE)
+        resolution = OrderedDict((("RESOLVED", "YES"), ("head_contains_live", True),
+                                  ("live_deploy_id", LIVE_STATE.deploy_id),
+                                  ("CURRENT_LIVE_SOURCE_COMMIT", frepo.commits["L"])))
+        RD.RENAMED_FROM.clear()
+        doc = LANE.classify_automatically(MARKET, out=tmp_path / "c.json", git_root=frepo.root, resolution=resolution)
+        assert doc["registration_base"]["base"] == frepo.commits["AUTH"]
+        assert doc["registration_base"]["trusted_factory_baseline"]["commit"] == frepo.commits["FACTORY"]
+        assert doc["new_market_registration_data_only"]["ELIGIBLE"] == "YES"
+        packet = LANE.packet(MARKET, classification_path=tmp_path / "c.json", lane_report=tmp_path / "absent.json",
+                             out=tmp_path / "p.json", prepared_by="test")
+        assert packet["status"] == "AUTHORIZATION_READY"
+        assert packet["regression_v2"]["trusted_factory_baseline"] == frepo.commits["FACTORY"]
+        assert packet["regression_v2"]["SHARED_FACTORY_DELTA"] == 0
+        assert packet["authorized_by"] is None
+
+    # ---- hard negatives: each breaks one thing and must fail closed. ---- #
+
+    def test_1_a_shared_file_that_differs_from_the_baseline_is_refused(self, frepo):
+        _put(frepo.dash, FACTORY_MODULE, '"""a proven factory repair."""\nX = 3\n')
+        doc = _fineligible(frepo)
+        assert doc["trusted_factory_baseline"]["SHARED_FACTORY_DELTA"] == 1
+        assert FACTORY_MODULE in doc["trusted_factory_baseline"]["re_edited_paths"]
+        assert FACTORY_MODULE in [row["path"] for row in doc["changed_files"]]
+        assert doc["new_market_registration_data_only"]["checks"]["change_set"]["status"] == REG.FAIL
+
+    def test_2_a_correction_that_edits_a_shared_module_after_the_merge_is_refused(self, frepo):
+        _put(frepo.dash, FACTORY_DOC, "synthetic factory, repaired, then edited by the market\n")
+        _commit(frepo.root, "the market line edits a factory file after the merge")
+        doc = _fineligible(frepo)
+        assert FACTORY_DOC in doc["trusted_factory_baseline"]["re_edited_paths"]
+        assert FACTORY_DOC in doc["narrowing_blockers"], "a re-edited factory path blocks whatever its class"
+
+    def test_2b_reverting_a_factory_change_on_the_market_line_is_refused(self, frepo):
+        (frepo.dash / FACTORY_MODULE).unlink()
+        _commit(frepo.root, "the market line drops the factory module")
+        doc = _fineligible(frepo)
+        assert FACTORY_MODULE in doc["trusted_factory_baseline"]["re_edited_paths"]
+        assert FACTORY_MODULE in [row["path"] for row in doc["changed_files"]]
+
+    def test_3_a_baseline_that_is_not_an_ancestor_is_refused(self, frepo):
+        _git(frepo.root, "checkout", "-q", "-b", "worker/unmerged-zz", frepo.commits["L"])
+        _put(frepo.dash, "scripts/pettripfinder/unmerged_zz.py", "Y = 1\n")
+        tip = _commit(frepo.root, "a lineage never merged")
+        _git(frepo.root, "checkout", "-q", "main")
+        detail = _refused(LANE.prove_factory_lineage, tip, MARKET, frepo.commits["AUTH"], frepo.commits["L"],
+                          git_root=frepo.root, prefix=PREFIX)
+        assert "is not an ancestor of HEAD" in detail
+
+    def test_4_two_unrelated_lineages_are_not_resolvable_uniquely(self, frepo):
+        _merge_lineage(frepo.root, frepo.dash, "worker/second-repair-zz", frepo.commits["L"],
+                       {"scripts/pettripfinder/second_repair_zz.py": "Z = 1\n"}, "a second, unrelated repair")
+        assert "cannot be resolved uniquely" in _refused(_baseline, frepo)
+
+    def test_4b_a_later_lineage_that_contains_the_first_is_the_baseline(self, frepo):
+        tip, _merge = _merge_lineage(frepo.root, frepo.dash, "worker/repair-on-repair-zz", frepo.commits["FACTORY"],
+                                     {"scripts/pettripfinder/second_repair_zz.py": "Z = 1\n"}, "a repair on the repair")
+        baseline = _baseline(frepo)
+        assert baseline["commit"] == tip and len(baseline["merges"]) == 2
+        assert _fclassify(frepo, baseline)["new_market_registration_data_only"]["ELIGIBLE"] == "YES"
+
+    def test_5_a_lineage_published_by_no_ref_of_its_own_is_refused(self, frepo):
+        _git(frepo.root, "branch", "-q", "-D", "worker/factory-repair-zz")
+        assert "published by no ref of its own" in _refused(_baseline, frepo)
+
+    def test_5b_a_merged_lineage_carrying_market_data_is_refused(self, frepo):
+        _merge_lineage(frepo.root, frepo.dash, "worker/not-a-factory-zz", frepo.commits["L"],
+                       {"launch_packages/pettripfinder/markets/authority/alpha-zz/seed_businesses.csv":
+                        "name\nalpha hotel\nalpha annex\n"}, "market data dressed as a factory lineage")
+        assert "non-factory path" in _refused(_baseline, frepo)
+
+    def test_5c_a_merged_lineage_naming_the_market_is_refused(self, frepo):
+        _merge_lineage(frepo.root, frepo.dash, "worker/gamma-helper-zz", frepo.commits["L"],
+                       {"scripts/pettripfinder/%s_helper_zz.py" % US: "W = 1\n"}, "a helper naming the market")
+        assert "naming %s" % MARKET in _refused(_baseline, frepo)
+
+    def test_5d_an_unproven_shared_commit_on_the_market_line_is_refused(self, frepo):
+        _put(frepo.dash, "scripts/pettripfinder/site_data.py", "X = 1\n")
+        _commit(frepo.root, "an arbitrary shared change committed straight onto the market line")
+        doc = _fineligible(frepo)
+        assert "scripts/pettripfinder/site_data.py" in [row["path"] for row in doc["changed_files"]]
+
+    def test_6_an_unknown_path_is_refused(self, frepo):
+        _put(frepo.dash, "launch_packages/pettripfinder/gamma_zz_loose_099.json", "{}\n")
+        _fineligible(frepo)
+
+    def test_7_another_market_changing_is_refused(self, frepo):
+        _put(frepo.dash, "launch_packages/pettripfinder/markets/authority/alpha-zz/seed_businesses.csv",
+             "name\nalpha hotel\nalpha annex\n")
+        _fineligible(frepo)
+
+    def test_8_a_live_market_is_refused(self, frepo, monkeypatch):
+        live = dataclasses.replace(LIVE_STATE, participating_markets=LIVE_MARKETS + (MARKET,))
+        monkeypatch.setattr(REG, "live_index", lambda: (RI.ReleaseIndex(label="LIVE"), live, []))
+        doc = _fineligible(frepo)
+        assert doc["new_market_registration_data_only"]["checks"]["live_veto"]["status"] == REG.FAIL
+
+    def test_9_a_still_deployable_old_authorization_is_refused(self, frepo):
+        _set_auth_status(frepo, DA.AUTHORIZED)
+        doc = _fineligible(frepo)
+        assert "still deployable" in doc["new_market_registration_data_only"]["checks"][
+            "authorization_supersession"]["why"]
+
+    def test_10_authorization_inheritance_is_refused(self, frepo):
+        head = _load((frepo.dash / REG.PARTICIPATION_PATH).read_bytes())
+        for row in head["markets"]:
+            if row["market_id"] == MARKET:
+                row["launch_status"] = LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
+        _put(frepo.dash, REG.PARTICIPATION_PATH, head)
+        doc = _fineligible(frepo)
+        assert doc["new_market_registration_data_only"]["checks"]["participation"]["status"] == REG.FAIL
