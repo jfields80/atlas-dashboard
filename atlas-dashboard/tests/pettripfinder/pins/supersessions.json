@@ -1,7 +1,7 @@
 {
  "schema": "ptf-supersession-registry/1.0",
  "what_this_is": "Which later work orders moved a market out from under a CONSUMED historical deployment authorization. An authorization is immutable evidence of what was authorized and deployed at the time; later legitimate source growth must NOT make its historical hash read as corrupt. So a test that re-verifies a historical authorization skips exactly the markets named here -- named, never blanket -- and still binds every market that was not moved. A market may only be listed with the work order that moved it.",
- "reviewed_by": "PTF-SUPERSESSIONS-LINEAGE-REPAIR-001",
+ "reviewed_by": "PTF-WEST-PALM-BEACH-FL-PRODUCTION-DEPLOYMENT-007",
  "authorizations": {
   "ptf-auth-047-a324b1bf5023": {
    "work_order": "PTF-FIRST-MULTI-MARKET-AUTHORIZATION-AND-DEPLOYMENT-047",
@@ -156,7 +156,12 @@
   "ptf-auth-fort-lauderdale-003-0ec5c6557d79": {
    "work_order": "PTF-FORT-LAUDERDALE-FL-FOUNDER-LAUNCH-AUTHORIZATION-003",
    "moved_by_later_work": {},
-   "note": "The CURRENT live authorization. It binds all 32 release contracts exactly, because production was authorized against what source holds and no application order has moved a market since. Registered with an EMPTY moved list rather than left unregistered: an unregistered authorization binds everything by default, so the two read alike today, and only the explicit entry says that emptiness was checked. The next application order that re-authors a market lists it here."
+   "note": "Historical. It was the live authorization until deploy 6ab599163f833ab7f48b395d published west-palm-beach-fl under ptf-auth-west-palm-beach-006-23728b4bff71, authorized by PTF-WEST-PALM-BEACH-FL-FOUNDER-LAUNCH-AUTHORIZATION-006. Nothing moved out from under it: west-palm-beach-fl was REGISTERED after this authorization was signed and is absent from both its release contracts and its participating markets, so admitting it disturbed no pin this authorization bound. All 32 release contracts it bound still hash exactly."
+  },
+  "ptf-auth-west-palm-beach-006-23728b4bff71": {
+   "work_order": "PTF-WEST-PALM-BEACH-FL-FOUNDER-LAUNCH-AUTHORIZATION-006",
+   "moved_by_later_work": {},
+   "note": "The CURRENT live authorization. It binds all 33 release contracts exactly, because production was authorized against what source holds and no application order has moved a market since. Registered with an EMPTY moved list rather than left unregistered: an unregistered authorization binds everything by default, so the two read alike today, and only the explicit entry says that emptiness was checked. The next application order that re-authors a market lists it here. Lineage it rests on, recorded here because it is not a chain entry: west-palm-beach-fl was first founder-authorized by PTF-WEST-PALM-BEACH-FL-FOUNDER-LAUNCH-AUTHORIZATION-003 (package sha256:789c0187e366abe8, deployment authorization ptf-auth-west-palm-beach-003-217f87eeba72, bundle 217f87ee); a pre-deploy identity correction replaced that package with sha256:94d6f4115daa9b88 and PTF-WEST-PALM-BEACH-FL-CORRECTED-REREGISTRATION-005 recorded the supersession. ptf-auth-west-palm-beach-003-217f87eeba72 is SUPERSEDED and was NEVER consumed, so it is absent from this chain, which lists only authorizations production consumed; this authorization is the founder's NEW decision (006) for the corrected bytes and inherits nothing from it."
   }
  }
 }
