@@ -879,6 +879,10 @@ class TestRegressionV2Extension:
         eligible["FAST_DATA_ONLY_RELEASE_ELIGIBLE"] = FL.YES
         eligible["UNKNOWN_RULES"] = []
         eligible["FAILED_RULES"] = []
+        # PTF-FAST-RECEIPT-READER-GUARD-001: the reader re-checks rule J's
+        # output, so the fixture carries a non-empty build as a real one does.
+        eligible["RESULTS"]["J"]["detail"] = OrderedDict((("bundle_sha256", "5" * 64), ("file_count", 3),
+                                                          ("html_count", 2)))
         eligible["RECEIPT_DIGEST"] = "sha256:" + "9" * 64
         FL.write_receipt(eligible, tmp_path / "receipts")
         block = RD.fast_data_only_release("dayton-oh", rows, RD.WORKTREE)

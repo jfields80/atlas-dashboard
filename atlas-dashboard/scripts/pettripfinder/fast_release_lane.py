@@ -795,9 +795,29 @@ def write_receipt(receipt: Mapping, receipts_dir: Optional[Path] = None) -> Path
     return path
 
 
+def receipt_output_defects(receipt: Mapping) -> List[str]:
+    """:func:`bundle_output_defects` over a stored receipt's rule J detail.
+
+    PTF-FAST-RECEIPT-READER-GUARD-001. A receipt written before f182cc08 can
+    say J PASS / ELIGIBLE YES over a bundle of zero files. Its stored verdict
+    stays as it was written (it may be bound by an authorization); this is
+    the reader's CURRENT judgement of it. A cached-bundle J detail
+    (``cache_status``) records no HTML count, exactly as the writer's cache
+    path does not require one; every other J detail must carry it.
+    """
+    j = (receipt.get("RESULTS") or {}).get("J")
+    detail = (j.get("detail") if isinstance(j, Mapping) else None) or {}
+    if not isinstance(detail, Mapping):
+        detail = {}
+    return bundle_output_defects(detail, require_html="cache_status" not in detail)
+
+
 def eligible_receipts(market_id: str, package_digest: str,
                       receipts_dir: Optional[Path] = None) -> List[Path]:
-    """Committed receipts that say ELIGIBLE = YES for exactly this package."""
+    """Committed receipts that say ELIGIBLE = YES for exactly this package AND
+    whose rule J proved a non-empty bundle by today's rule
+    (:func:`receipt_output_defects`). CURRENT eligibility only: a historical
+    reference to a receipt is checked by its bytes and digest, not here."""
     out: List[Path] = []
     directory = receipt_dir(market_id, receipts_dir)
     if not directory.is_dir():
@@ -808,7 +828,8 @@ def eligible_receipts(market_id: str, package_digest: str,
         except ValueError:
             continue
         if doc.get("schema") == RECEIPT_SCHEMA and doc.get("PACKAGE_DIGEST") == package_digest \
-                and doc.get("FAST_DATA_ONLY_RELEASE_ELIGIBLE") == YES and not doc.get("UNKNOWN_RULES"):
+                and doc.get("FAST_DATA_ONLY_RELEASE_ELIGIBLE") == YES and not doc.get("UNKNOWN_RULES") \
+                and not receipt_output_defects(doc):
             out.append(path)
     return out
 
@@ -819,5 +840,5 @@ __all__ = [
     "EMPTY_BUNDLE", "NO_HTML_OUTPUT", "MISSING_BUILD_OUTPUT", "EMPTY_BUNDLE_SHA256", "bundle_output_defects",
     "load_activation", "production_activation_allowed", "load_revocations",
     "inputs_from_package", "revalidate", "run_fast_lane", "dependency_digest",
-    "receipt_dir", "write_receipt", "eligible_receipts",
+    "receipt_dir", "write_receipt", "receipt_output_defects", "eligible_receipts",
 ]
