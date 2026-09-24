@@ -63,7 +63,12 @@ ONLY-POLICY-001, exactly one previously absent market's registration, every
 changed field of the four shared documents proven by
 :mod:`registration_data_only`). Neither is selected by a filename, a market
 name, a count or a request; anything the proof cannot establish leaves every
-path in its path class.
+path in its path class. PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001 added a
+third registration-family class,
+:data:`AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY`: one market that
+was registered and founder-authorized but never deployed, re-registered
+against its own prior registration after a pre-deploy correction, with every
+authorization of its old bytes terminally SUPERSEDED.
 
 WHAT THIS MODULE MAY NEVER DO
 -----------------------------
@@ -163,6 +168,17 @@ NEW_MARKET_REGISTRATION_DATA_ONLY = "NEW_MARKET_REGISTRATION_DATA_ONLY"
 #: UNKNOWN = 0. Granted to a whole change set, never to a path; CONDITIONAL on
 #: the composite proof; UNKNOWN leaves every path in its path class.
 COMPOSITE_FRESH_MARKET_DATA_ONLY = "COMPOSITE_FRESH_MARKET_DATA_ONLY"
+#: PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: a change set that re-registers
+#: ONE market that is registered and founder-authorized at the base, was never
+#: deployed, and whose pre-deploy correction replaced the package its founder
+#: authorization was bound to -- proven by ``registration_data_only`` in
+#: RE-REGISTRATION mode against the market's OWN prior registration: the old
+#: deployment authorizations terminally SUPERSEDED, the participation row moved
+#: back to SOURCE_READY with one package-bound supersession entry, the market
+#: absent from live and from every deployment record. Granted to a whole
+#: change set, never to a path; CONDITIONAL on that proof; it reaches
+#: AUTHORIZATION_READY and a NEW founder authorization is owed.
+AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY = "AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY"
 UNCLASSIFIED = "UNCLASSIFIED"
 
 CHANGE_CLASSES: Tuple[str, ...] = (
@@ -172,6 +188,7 @@ CHANGE_CLASSES: Tuple[str, ...] = (
     GENERATED_REPORT_ONLY, BASELINE_MANIFEST_ONLY, MARKET_LOCAL_TOOLING,
     MARKET_DATA_PACKAGE, MARKET_AUTHORITY_DATA_ONLY,
     NEW_MARKET_REGISTRATION_DATA_ONLY, COMPOSITE_FRESH_MARKET_DATA_ONLY,
+    AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY,
     UNCLASSIFIED,
 )
 
@@ -183,6 +200,7 @@ SURFACE_MARKET_DATA_PACKAGE = "MARKET_DATA_PACKAGE"
 SURFACE_MARKET_AUTHORITY_DATA_ONLY = "MARKET_AUTHORITY_DATA_ONLY"
 SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY = "NEW_MARKET_REGISTRATION_DATA_ONLY"
 SURFACE_COMPOSITE_FRESH_MARKET_DATA_ONLY = "COMPOSITE_FRESH_MARKET_DATA_ONLY"
+SURFACE_AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY = "AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY"
 SURFACE_SHARED_SCHEMA_CHANGE = "SHARED_SCHEMA_CHANGE"
 SURFACE_SHARED_RUNTIME_CHANGE = "SHARED_RUNTIME_CHANGE"
 SURFACE_ASSEMBLER_CHANGE = "ASSEMBLER_CHANGE"
@@ -194,6 +212,7 @@ RELEASE_SURFACES: Tuple[str, ...] = (
     SURFACE_MARKET_LOCAL_TOOLING, SURFACE_MARKET_DATA_PACKAGE,
     SURFACE_MARKET_AUTHORITY_DATA_ONLY, SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY,
     SURFACE_COMPOSITE_FRESH_MARKET_DATA_ONLY,
+    SURFACE_AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY,
     SURFACE_SHARED_SCHEMA_CHANGE,
     SURFACE_SHARED_RUNTIME_CHANGE, SURFACE_ASSEMBLER_CHANGE, SURFACE_DEPLOYMENT_CHANGE,
     SURFACE_CLASSIFIER_TEST_INFRA_CHANGE, SURFACE_UNKNOWN_MIXED, SURFACE_NARROW_NON_RELEASE,
@@ -532,6 +551,43 @@ VALIDATION_MATRIX: "OrderedDict[str, OrderedDict]" = OrderedDict((
                 "market is two independently provable zones plus derived outputs; this "
                 "row proves each path by its owning proof and narrows only the exact "
                 "union"),
+    ))),
+    (AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY, OrderedDict((
+        ("surface", "a change set that re-registers exactly ONE market registered and "
+                    "founder-authorized at the base and never deployed: its market-local "
+                    "correction, its corrected authority, contract instance and pin block, "
+                    "its sealed package and receipt, the SUPERSEDED transition of every "
+                    "deployment authorization of its old bytes, and a participation reissue "
+                    "moving its row back to SOURCE_READY with one package-bound supersession "
+                    "entry -- partitioned into the same five buckets, the last two empty"),
+        ("lanes", ()),
+        ("owning_modules", True),
+        ("owning_directory", False),
+        ("reverse_dependents", False),
+        ("market_targeted", False),
+        ("assembly", NOT_REQUIRED),
+        ("full_regression", CONDITIONAL),
+        ("condition", "not required ONLY when registration_data_only.evaluate answers "
+                      "ELIGIBLE = YES with CHANGE_CLASS = "
+                      "AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY: the base is the "
+                      "market's own authorizing commit; every changed path is in a narrow "
+                      "bucket (SHARED_BEHAVIOR_CHANGE = 0, UNKNOWN = 0); the market is not in "
+                      "CURRENT_VERIFIED_LIVE and no deployment record names it; every "
+                      "deployment authorization naming it is bound to its base registration "
+                      "and terminally SUPERSEDED (none consumed, none deployable); the "
+                      "founder-authorized set loses exactly that market and gains nothing; the "
+                      "superseded package was committed at the base and the corrected one "
+                      "covers the head bytes; and all fifteen registration checks pass in "
+                      "re-registration mode. Required otherwise -- every path then keeps its "
+                      "path class"),
+        ("why", "PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: West Palm Beach, "
+                "corrected after its founder authorization and before any deployment, "
+                "could not be re-registered without a 229-module broad run: the "
+                "registration proof demanded a brand-new row and an unchanged authorized "
+                "set, the monotone decision chain could not record the authorization's "
+                "supersession, and the base could not include the market's own prior "
+                "registration. The correction is still one market's data proven by field; "
+                "this row narrows exactly that and owes a new founder authorization"),
     ))),
     (UNCLASSIFIED, OrderedDict((
         ("surface", "unknown -- no rule claims this path"),
@@ -1501,6 +1557,8 @@ def release_surface_of(row: Mapping) -> str:
         return SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY
     if COMPOSITE_FRESH_MARKET_DATA_ONLY in classes:
         return SURFACE_COMPOSITE_FRESH_MARKET_DATA_ONLY
+    if AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY in classes:
+        return SURFACE_AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY
     if is_narrowing_blocker(path) or is_shared_test_state(path):
         return SURFACE_CLASSIFIER_TEST_INFRA_CHANGE
     if MARKET_LOCAL_TOOLING in classes:
@@ -1604,7 +1662,8 @@ def classify_change(base: str, head: str = WORKTREE,
         if registration_block["ELIGIBLE"] == "YES":
             market_id = registration_block["market_id"]
             whole_set_class = registration_block.get("CHANGE_CLASS") or NEW_MARKET_REGISTRATION_DATA_ONLY
-            if whole_set_class not in (NEW_MARKET_REGISTRATION_DATA_ONLY, COMPOSITE_FRESH_MARKET_DATA_ONLY):
+            if whole_set_class not in (NEW_MARKET_REGISTRATION_DATA_ONLY, COMPOSITE_FRESH_MARKET_DATA_ONLY,
+                                       AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY):
                 whole_set_class = NEW_MARKET_REGISTRATION_DATA_ONLY
             narrowed = set(registration_block.get("narrowed_paths") or registration_block["registration_paths"])
             buckets = ((registration_block.get("checks") or {}).get("change_set") or {}).get("detail", {}).get("buckets") or {}
@@ -1756,7 +1815,8 @@ def plan_for(classification: Mapping) -> Dict:
                 detail = block.get("why") or ("no FAST_DATA_ONLY_RELEASE proof recorded for %s"
                                               % row["path"])
             elif decision == CONDITIONAL and cls in (NEW_MARKET_REGISTRATION_DATA_ONLY,
-                                                    COMPOSITE_FRESH_MARKET_DATA_ONLY):
+                                                    COMPOSITE_FRESH_MARKET_DATA_ONLY,
+                                                    AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY):
                 # PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: conditional
                 # on the registration proof having passed every check. The
                 # class is only ever assigned after that proof, so a row that
@@ -1846,6 +1906,10 @@ def plan_for(classification: Mapping) -> Dict:
         ("NEW_MARKET_REGISTRATION_DATA_ONLY", "YES" if registration_proven else "NO"),
         ("COMPOSITE_FRESH_MARKET_DATA_ONLY",
          "YES" if registration_proven and registration_block.get("CHANGE_CLASS") == COMPOSITE_FRESH_MARKET_DATA_ONLY else "NO"),
+        # PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001.
+        (AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY,
+         "YES" if registration_proven and registration_block.get("CHANGE_CLASS")
+         == AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY else "NO"),
         ("REGISTRATION_CHANGE_CLASS", registration_block.get("CHANGE_CLASS") if registration_proven else None),
         ("REMOTE_BROAD_JOBS_REQUIRED", 0 if registration_proven else None),
         ("new_market_registration_data_only", registration_block),
@@ -2160,6 +2224,11 @@ def matrix_document() -> Dict:
                  "buckets (SHARED_BEHAVIOR_CHANGE = 0, UNKNOWN = 0), proves each market-local path on all five "
                  "isolation conditions in registration mode, each typed input by field, and every registration "
                  "check; YES otherwise, in the path classes"),
+                (SURFACE_AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY, "CONDITIONAL",
+                 "NO only when registration_data_only.evaluate proves, in re-registration mode against the market's "
+                 "own authorizing commit, that the market is not and never was live, every authorization of its "
+                 "old bytes is terminally SUPERSEDED, the authorized set loses exactly that market, and every "
+                 "changed path is in a narrow bucket; YES otherwise, in the path classes"),
                 (SURFACE_SHARED_SCHEMA_CHANGE, "YES", "a contract change moves what every market derives"),
                 (SURFACE_SHARED_RUNTIME_CHANGE, "YES", "shared runtime every market executes"),
                 (SURFACE_ASSEMBLER_CHANGE, "YES", "the assembler is the proof the fast lane's rule J relies on"),

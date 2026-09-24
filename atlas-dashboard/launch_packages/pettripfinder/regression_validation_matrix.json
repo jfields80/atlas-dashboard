@@ -17,6 +17,7 @@
   "MARKET_AUTHORITY_DATA_ONLY",
   "NEW_MARKET_REGISTRATION_DATA_ONLY",
   "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+  "AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY",
   "UNCLASSIFIED"
  ],
  "mandatory_full_regression": [
@@ -259,6 +260,19 @@
    "full_regression": "conditional",
    "condition": "not required ONLY when registration_data_only.evaluate answers ELIGIBLE = YES with CHANGE_CLASS = COMPOSITE_FRESH_MARKET_DATA_ONLY: the partition accounts for every changed path (sum of buckets == changed paths, SHARED_BEHAVIOR_CHANGE = 0, UNKNOWN = 0); every market-local path passes namespace, imports, writes, reachability and registration in registration mode (a helper importing or running site runtime, writing outside its zone and the set's own registration data, named by shared code, or belonging to a market registered at the base is REJECTED for that reason); the discovery config loads for exactly the new market and the OSM registry gains exactly one row with every existing row identical; the registration input is the CLI's own schema for exactly the new market and binds to the written shard; every co-location ruling is additive, for the new market, DISTINCT under the exclusion contract and collides with nothing; and all eleven registration checks pass unchanged. Required otherwise -- every path then keeps its path class",
    "why": "PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: Raleigh, built from zero with nothing shared changed, was charged a full regression because its helpers were code by prefix, its configs runtime by prefix, its input and ruling unclassified, and the market-local proof was switched off by the registration's own blocker before it ran. A fresh market is two independently provable zones plus derived outputs; this row proves each path by its owning proof and narrows only the exact union"
+  },
+  {
+   "change_class": "AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY",
+   "surface": "a change set that re-registers exactly ONE market registered and founder-authorized at the base and never deployed: its market-local correction, its corrected authority, contract instance and pin block, its sealed package and receipt, the SUPERSEDED transition of every deployment authorization of its old bytes, and a participation reissue moving its row back to SOURCE_READY with one package-bound supersession entry -- partitioned into the same five buckets, the last two empty",
+   "required_lanes": [],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": false,
+   "market_targeted": false,
+   "assembly": "not_required",
+   "full_regression": "conditional",
+   "condition": "not required ONLY when registration_data_only.evaluate answers ELIGIBLE = YES with CHANGE_CLASS = AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY: the base is the market's own authorizing commit; every changed path is in a narrow bucket (SHARED_BEHAVIOR_CHANGE = 0, UNKNOWN = 0); the market is not in CURRENT_VERIFIED_LIVE and no deployment record names it; every deployment authorization naming it is bound to its base registration and terminally SUPERSEDED (none consumed, none deployable); the founder-authorized set loses exactly that market and gains nothing; the superseded package was committed at the base and the corrected one covers the head bytes; and all fifteen registration checks pass in re-registration mode. Required otherwise -- every path then keeps its path class",
+   "why": "PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: West Palm Beach, corrected after its founder authorization and before any deployment, could not be re-registered without a 229-module broad run: the registration proof demanded a brand-new row and an unchanged authorized set, the monotone decision chain could not record the authorization's supersession, and the base could not include the market's own prior registration. The correction is still one market's data proven by field; this row narrows exactly that and owes a new founder authorization"
   },
   {
    "change_class": "UNCLASSIFIED",
@@ -922,6 +936,7 @@
   "MARKET_AUTHORITY_DATA_ONLY",
   "NEW_MARKET_REGISTRATION_DATA_ONLY",
   "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+  "AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY",
   "SHARED_SCHEMA_CHANGE",
   "SHARED_RUNTIME_CHANGE",
   "ASSEMBLER_CHANGE",
@@ -960,6 +975,12 @@
    "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
    "FULL_REGRESSION_REQUIRED": "CONDITIONAL",
    "why": "NO only when registration_data_only.evaluate partitions every changed path into the three narrow buckets (SHARED_BEHAVIOR_CHANGE = 0, UNKNOWN = 0), proves each market-local path on all five isolation conditions in registration mode, each typed input by field, and every registration check; YES otherwise, in the path classes"
+  },
+  {
+   "release_surface": "AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "CONDITIONAL",
+   "why": "NO only when registration_data_only.evaluate proves, in re-registration mode against the market's own authorizing commit, that the market is not and never was live, every authorization of its old bytes is terminally SUPERSEDED, the authorized set loses exactly that market, and every changed path is in a narrow bucket; YES otherwise, in the path classes"
   },
   {
    "release_surface": "SHARED_SCHEMA_CHANGE",

@@ -121,6 +121,52 @@ class is COMPOSITE_FRESH_MARKET_DATA_ONLY; when it is a bare re-registration
 the class is NEW_MARKET_REGISTRATION_DATA_ONLY, exactly as before. Four checks
 were added -- market_local_zone, discovery_config, registration_input,
 identity_resolutions -- and none of the eleven was weakened.
+
+RE-REGISTRATION (PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001)
+--------------------------------------------------------------
+PTF-WEST-PALM-BEACH-FL-PREDEPLOY-IDENTITY-CORRECTION-004 corrected a market
+that was registered and founder-authorized but never deployed, superseded the
+old deployment authorization, sealed the corrected package -- and could not
+re-register it without a broad run. The participation check demanded a NEW
+row at SOURCE_READY, release_integrity demanded an unchanged authorized set,
+and the market's own authorization could not be undone because the decision
+chain is monotone. Both rules are right for a registration; neither had a
+state for "authorized, never live, old bytes superseded, new founder decision
+owed".
+
+AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY is that state. The gate
+enters RE-REGISTRATION mode only when the registry is unchanged and the head
+participation decision records exactly one ``founder_authorization_superseded``
+entry (launch_participation). The base is the market's OWN prior registered
+state -- the commit that wrote its authorizing decision -- never a pre-market
+commit, so the diff is the correction and nothing that was already proven.
+The fifteen checks run with these differences, and two more are owed:
+
+  participation       the base decision is a package-bound founder
+                      authorization of the market; the head moves exactly
+                      that row back to SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_
+                      FOR_LAUNCH, names the base as the authorizing decision
+                      and its registered_package_digest as superseded; the
+                      authorized set loses exactly that market
+  release_contract,   the market's own contract / pin block may be MODIFIED to
+  market_state_pin    what the corrected package derives; every other market's
+                      stays byte-identical
+  build_closure       may not move at all
+  release_integrity   the only protected paths allowed are the proven
+                      SUPERSEDED transitions below
+  authorization_      every deployment authorization naming the market is
+  supersession        bound to its registration at the base and terminally
+                      SUPERSEDED (never consumed, never deployable); a changed
+                      one moved only its status and one history entry; the
+                      superseded package was committed at the base and the
+                      corrected one covers the head bytes
+  live_veto           the market is not in CURRENT_VERIFIED_LIVE and no
+                      deployment record names it -- a live or ever-deployed
+                      market never qualifies
+
+Nothing here authorizes the corrected package: the row reads SOURCE_READY, the
+old authorizations are terminal and bound to the old bundle, and the founder's
+decision for the new bytes is a separate write.
 """
 
 from __future__ import annotations
@@ -224,9 +270,34 @@ BUCKETS: Tuple[str, ...] = (BUCKET_MARKET_LOCAL, BUCKET_REGISTRATION, BUCKET_DER
                             BUCKET_SHARED, BUCKET_UNKNOWN)
 NARROW_BUCKETS = frozenset({BUCKET_MARKET_LOCAL, BUCKET_REGISTRATION, BUCKET_DERIVED})
 
-#: The two whole-set classes this proof can grant.
+#: The whole-set classes this proof can grant.
 CLASS_REGISTRATION = "NEW_MARKET_REGISTRATION_DATA_ONLY"
 CLASS_COMPOSITE = "COMPOSITE_FRESH_MARKET_DATA_ONLY"
+#: PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: a market registered and
+#: founder-authorized at the base, never deployed, whose old authorization is
+#: superseded and whose market-local correction is re-registered against its
+#: own prior registration. See REREGISTRATION below.
+CLASS_REREGISTRATION = "AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY"
+
+#: PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001. In re-registration mode a
+#: role may carry these statuses instead of its registration ones; a role
+#: absent here keeps its registration statuses, and the build closure may not
+#: change at all (the market's two inputs were declared by its registration).
+ROLE_AUTHORIZATION_SUPERSESSION = "authorization_supersession"
+REREGISTRATION_ROLE_STATUSES: Dict[str, Tuple[str, ...]] = {
+    ROLE_RELEASE_CONTRACT: ("M",),
+    ROLE_BUILD_CLOSURE: (),
+    ROLE_MARKET_DOCUMENT: ("M",),
+    ROLE_REGISTRATION_INPUT: ("A", "M"),
+}
+AUTHORIZATIONS_PREFIX = "deploy/netlify/deployment_authorizations/"
+DEPLOYMENT_RECORDS_PREFIX = "deploy/netlify/deployment_records/"
+#: The keys a re-registration's decision block may carry.
+REREGISTRATION_DECISION_KEYS = frozenset({
+    "work_order", "decided_by", "decided_on", "reason", LP.FOUNDER_AUTHORIZATION_SUPERSEDED,
+    "supersedes", "lineage"})
+#: The two checks only a re-registration owes, run after the fifteen.
+REREGISTRATION_CHECKS: Tuple[str, ...] = ("authorization_supersession", "live_veto")
 
 #: Change classes that may travel beside a registration without widening it.
 #: A companion under markets/{packages,receipts,staging}/ must be the
@@ -390,6 +461,23 @@ def release_contract_ids_at(rev: str) -> Tuple[str, ...]:
 
 def live_index() -> Tuple[RI.ReleaseIndex, RI.LiveState, List[str]]:
     return RI.live_index()
+
+
+def json_docs_at(rev: str, prefix: str) -> "OrderedDict[str, Any]":
+    """relpath -> parsed JSON for every ``*.json`` directly under ``prefix``
+    at ``rev`` (the deployment authorizations or records)."""
+    if rev == WORKTREE:
+        names = sorted(p.name for p in (REPO_ROOT / prefix).glob("*.json"))
+    else:
+        from scripts.pettripfinder.regression_delta import _git, _repo_prefix
+        listing = _git("ls-tree", "--name-only", rev, _repo_prefix() + prefix)
+        names = sorted(Path(line.strip()).name for line in listing.splitlines() if line.strip().endswith(".json"))
+    out: "OrderedDict[str, Any]" = OrderedDict()
+    for name in names:
+        data = bytes_at(rev, prefix + name)
+        if data is not None:
+            out[prefix + name] = _json(data.decode("utf-8-sig"))
+    return out
 
 
 # --------------------------------------------------------------------------- #
@@ -579,10 +667,37 @@ def prove_paid_ledger_append(base: str, head: str, market_id: str, status: str,
     return _done(len(appended))
 
 
+def reregistering_market(head: str) -> Tuple[Optional[str], str]:
+    """PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: the ONE market whose
+    founder authorization the head participation decision supersedes, or
+    ``(None, why)``. The claim is only a candidate: every check below must
+    still prove it."""
+    data = bytes_at(head, PARTICIPATION_PATH)
+    if data is None:
+        return None, "no participation record at %s" % head
+    try:
+        doc = _json(data.decode("utf-8-sig"))
+    except ValueError as exc:
+        return None, "the participation record does not parse: %s" % str(exc)[:80]
+    markets = LP.superseded_market_ids(doc)
+    if len(markets) != 1:
+        return None, ("the head participation decision supersedes %s founder authorization(s); a re-registration "
+                      "supersedes exactly one" % (markets or "no"))
+    return markets[0], "the head decision supersedes %s's founder authorization" % markets[0]
+
+
 def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
                         blockers: Sequence[str]) -> "OrderedDict[str, Any]":
     """Which market, if any, this change set registers -- by the registry
-    delta and by every path's role. Path-level only; the field checks follow."""
+    delta and by every path's role. Path-level only; the field checks follow.
+
+    PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: when the registry is
+    unchanged and the head participation decision supersedes exactly one
+    market's founder authorization, the set is read in RE-REGISTRATION mode
+    for that market: its own prior registration is the base, its roles may be
+    modified rather than added, the build closure may not move, and the only
+    protected path it may carry is the SUPERSEDED transition of an
+    authorization of its old bytes (proven by ``authorization_supersession``)."""
     try:
         registered_base = set(registered_market_ids_at(base))
         registered_head = set(registered_market_ids_at(head))
@@ -599,11 +714,25 @@ def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
     if removed:
         return OrderedDict((("market_id", None), ("roles", OrderedDict()),
                             ("result", _result(False, "a registration removes no market; removed %s" % removed, **detail))))
+    reregistration = False
+    if not added:
+        candidate, candidate_why = reregistering_market(head)
+        detail["reregistration_candidate"] = OrderedDict((("market_id", candidate), ("why", candidate_why)))
+        if candidate is None or candidate not in registered_base:
+            return OrderedDict((("market_id", None), ("roles", OrderedDict()),
+                                ("result", _result(False, "exactly one previously absent market must be registered; "
+                                                          "the registry gained nothing, and this is no re-registration: "
+                                                          "%s" % (candidate_why if candidate is None else
+                                                                  "%s is not registered at the base" % candidate),
+                                                   **detail))))
+        added = [candidate]
+        reregistration = True
     if len(added) != 1:
         return OrderedDict((("market_id", None), ("roles", OrderedDict()),
                             ("result", _result(False, "exactly one previously absent market must be registered; "
                                                       "the registry gained %s" % (added or "nothing"), **detail))))
     market_id = added[0]
+    detail["mode"] = "reregistration" if reregistration else "registration"
     foreign = [b for b in blockers if _posix(b) not in REGISTRATION_OWNED_BLOCKERS]
     if foreign:
         return OrderedDict((("market_id", market_id), ("roles", OrderedDict()),
@@ -633,6 +762,14 @@ def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
         rel = _posix(row["path"])
         status = str(row.get("status") or "")[:1]
         classes = set(row.get("classes") or ())
+        if reregistration and rel.startswith(AUTHORIZATIONS_PREFIX) and "/" not in rel[len(AUTHORIZATIONS_PREFIX):] \
+                and rel.endswith(".json") and status == "M":
+            # The one protected write a re-registration may carry, and only
+            # as a claim: authorization_supersession proves it field by field.
+            roles[rel] = ROLE_AUTHORIZATION_SUPERSESSION
+            buckets[rel] = BUCKET_REGISTRATION
+            reasons[rel] = "re-registration role %s (proven by field)" % ROLE_AUTHORIZATION_SUPERSESSION
+            continue
         if any(rel.startswith(p) for p in PROTECTED_PREFIXES):
             buckets[rel] = BUCKET_SHARED
             reasons[rel] = "protected release state"
@@ -641,6 +778,8 @@ def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
         found = role_of(rel, market_id)
         if found is not None:
             role, _required, statuses = found
+            if reregistration:
+                statuses = REREGISTRATION_ROLE_STATUSES.get(role, statuses)
             if status not in statuses:
                 buckets[rel] = BUCKET_SHARED
                 reasons[rel] = "status %r is not a registration write (%s)" % (status, "/".join(statuses))
@@ -705,6 +844,8 @@ def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
     proven_paths = sorted(set(rel for rel, b in buckets.items() if b in NARROW_BUCKETS and not rel.endswith(".py"))
                           | set(rel for rel, _s in candidates if not rel.endswith(".py")))
     context = OrderedDict((("market_id", market_id), ("proven_paths", proven_paths)))
+    if reregistration:
+        context["reregistration"] = True
     for rel, status in candidates:
         try:
             proof = ISO.prove(rel, base, head, status=status or "M", registry=registry, registration=context)
@@ -722,7 +863,8 @@ def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
         if proof.get("passed"):
             roles.setdefault(rel, ROLE_MARKET_LOCAL)
             buckets[rel] = BUCKET_MARKET_LOCAL
-            reasons[rel] = "isolation proof passed in registration mode (zone %s)" % proof.get("zone")
+            reasons[rel] = "isolation proof passed in %s mode (zone %s)" % (
+                "re-registration" if reregistration else "registration", proof.get("zone"))
         else:
             failed = ", ".join(proof.get("failed_conditions") or ["unknown"])
             why = "; ".join(str((proof.get("conditions") or {}).get(c, {}).get("why", ""))[:160]
@@ -732,7 +874,8 @@ def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
             reasons[rel] = "rejected by the isolation proof on %s: %s" % (failed, why)
             problems.append("%s is not market-local: %s failed (%s)" % (rel, failed, why[:200]))
     present = {role for role in roles.values()}
-    missing = [role for role, _p, required, _s in ROLE_PATTERNS if required and role not in present]
+    missing = [role for role, _p, required, _s in ROLE_PATTERNS if required and role not in present
+               and (not reregistration or role == ROLE_PARTICIPATION)]
     if missing:
         problems.append("required registration output(s) absent from the change set: %s" % sorted(set(missing)))
     counts = OrderedDict((b, sum(1 for v in buckets.values() if v == b)) for b in BUCKETS)
@@ -760,7 +903,7 @@ def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
     ))
     detail["market_local_proofs"] = proofs
     detail["proven_paths"] = proven_paths
-    detail["change_class"] = CLASS_COMPOSITE if fresh else CLASS_REGISTRATION
+    detail["change_class"] = CLASS_REREGISTRATION if reregistration else (CLASS_COMPOSITE if fresh else CLASS_REGISTRATION)
     detail["zone"] = OrderedDict((("market_id", zone.market_id), ("execution_zone", zone.execution_zone)))if zone else None
     if problems:
         return OrderedDict((("market_id", market_id), ("roles", roles),
@@ -926,7 +1069,8 @@ def _newest_input_at(head: str, market_id: str) -> Optional[str]:
     return ("launch_packages/pettripfinder/" + names[-1]) if names else None
 
 
-def check_registration_input(rows: Sequence[Mapping], head: str, market_id: str) -> "OrderedDict[str, Any]":
+def check_registration_input(rows: Sequence[Mapping], head: str, market_id: str,
+                             *, reregistration: bool = False) -> "OrderedDict[str, Any]":
     """NEW_MARKET_REGISTRATION_INPUT: the ptf-market-proposed-authority/1.0
     document market_registration_cli reads is DATA when it belongs to exactly
     one new market, carries the schema the CLI's own loader accepts, reconciles
@@ -941,7 +1085,7 @@ def check_registration_input(rows: Sequence[Mapping], head: str, market_id: str)
     if len(in_set) > 1:
         problems.append("more than one registration input in the change set: %s" % [p for p, _s in in_set])
     for rel, status in in_set:
-        if status != "A":
+        if status not in (REREGISTRATION_ROLE_STATUSES[ROLE_REGISTRATION_INPUT] if reregistration else ("A",)):
             problems.append("%s: status %r; a registration input is created, never edited" % (rel, status))
     other_inputs = [_posix(r["path"]) for r in rows
                     if _glob_match("launch_packages/pettripfinder/*_proposed_authority_*.json", _posix(r["path"]))
@@ -1261,6 +1405,142 @@ def check_participation(base_bytes: bytes, head_bytes: bytes, market_id: str) ->
                          "carried forward exactly", **detail)
 
 
+def check_reregistration_participation(base_bytes: bytes, head_bytes: bytes, market_id: str) -> "OrderedDict[str, Any]":
+    """PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: the record is a REISSUE of
+    the market's own authorizing decision (the base) that moves exactly one
+    row, ``market_id``, from FOUNDER_AUTHORIZED_FOR_LAUNCH back to
+    SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, and records why in one
+    package-bound ``founder_authorization_superseded`` entry: the authorizing
+    decision is the base record itself, the package it names is the one that
+    decision's ``decision_basis`` was shown, and a new founder decision is
+    owed. Every other row byte-identical, the writer names itself and is not
+    the founder, and the chain comes forward whole."""
+    base = _json(base_bytes.decode("utf-8-sig"))
+    head = _json(head_bytes.decode("utf-8-sig"))
+    problems: List[str] = []
+    for key in ("schema", "what_this_is", "launch_statuses"):
+        if base.get(key) != head.get(key):
+            problems.append("top-level %s changed" % key)
+    if set(head) - set(base):
+        problems.append("unknown top-level key(s) added: %s" % sorted(set(head) - set(base)))
+
+    base_rows = OrderedDict((r["market_id"], r) for r in base.get("markets") or ())
+    head_rows = OrderedDict((r["market_id"], r) for r in head.get("markets") or ())
+    if set(head_rows) != set(base_rows):
+        problems.append("a re-registration adds and removes no row; changed %s" % sorted(set(head_rows) ^ set(base_rows)))
+    for mid, row in base_rows.items():
+        if mid != market_id and head_rows.get(mid) != row:
+            problems.append("existing row %s changed" % mid)
+    old_row = base_rows.get(market_id) or {}
+    new_row = head_rows.get(market_id) or {}
+    if old_row.get("launch_status") != LP.FOUNDER_AUTHORIZED_FOR_LAUNCH:
+        problems.append("%s was %r at the base; only a FOUNDER_AUTHORIZED_FOR_LAUNCH market is re-registered here"
+                        % (market_id, old_row.get("launch_status")))
+    if set(new_row) - PARTICIPATION_ROW_KEYS:
+        problems.append("the row carries unknown key(s) %s" % sorted(set(new_row) - PARTICIPATION_ROW_KEYS))
+    if new_row.get("launch_status") != LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH:
+        problems.append("%s reads %r; a re-registration may only write %s -- the old founder authorization does "
+                        "not carry over to corrected bytes" % (market_id, new_row.get("launch_status"),
+                                                               LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH))
+    ids = [r["market_id"] for r in head.get("markets") or ()]
+    if ids != sorted(ids):
+        problems.append("rows are not sorted by market_id")
+
+    authorized_base = sorted(r["market_id"] for r in base_rows.values()
+                             if r.get("launch_status") == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
+    authorized_head = sorted(r["market_id"] for r in head_rows.values()
+                             if r.get("launch_status") == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
+    removed = sorted(set(authorized_base) - set(authorized_head))
+    added = sorted(set(authorized_head) - set(authorized_base))
+    if removed != [market_id] or added:
+        problems.append("the founder-authorized set may lose exactly %s and gain nothing; it lost %s and gained %s"
+                        % (market_id, removed, added))
+
+    decision = head.get("decision") or {}
+    base_decision = base.get("decision") or {}
+    if set(decision) - REREGISTRATION_DECISION_KEYS:
+        problems.append("decision carries unknown key(s) %s" % sorted(set(decision) - REREGISTRATION_DECISION_KEYS))
+    for key in LP.DECISION_REQUIRED:
+        if not decision.get(key):
+            problems.append("decision.%s is missing" % key)
+    if not _work_order_id(decision.get("work_order")):
+        problems.append("decision.work_order %r is not a work-order id" % decision.get("work_order"))
+    if _is_founder(decision.get("decided_by")):
+        problems.append("decision.decided_by names the founder; a re-registration writer must name itself")
+    if decision.get("decided_by") != decision.get("work_order"):
+        problems.append("decision.decided_by %r is not the writing work order %r"
+                        % (decision.get("decided_by"), decision.get("work_order")))
+
+    base_sha = _sha256(base_bytes)
+    entries = decision.get(LP.FOUNDER_AUTHORIZATION_SUPERSEDED) or []
+    entry = entries[0] if isinstance(entries, list) and len(entries) == 1 and isinstance(entries[0], Mapping) else {}
+    if not entry or entry.get("market_id") != market_id:
+        problems.append("decision.%s must be exactly one entry, for %s" % (LP.FOUNDER_AUTHORIZATION_SUPERSEDED, market_id))
+    basis = base_decision.get("decision_basis") if isinstance(base_decision.get("decision_basis"), Mapping) else {}
+    authorized_package = basis.get("registered_package_digest")
+    if not _is_founder(base_decision.get("decided_by")) or basis.get("market_id") != market_id or not authorized_package:
+        problems.append("the base decision is not a package-bound founder authorization of %s (decided_by %r, "
+                        "decision_basis.market_id %r, registered_package_digest %r)"
+                        % (market_id, base_decision.get("decided_by"), basis.get("market_id"), authorized_package))
+    if entry:
+        ref = entry.get("authorizing_decision") or {}
+        if ref.get("sha256") != base_sha or ref.get("work_order") != base_decision.get("work_order"):
+            problems.append("authorizing_decision names %s/%s; the base record -- the decision that authorized %s -- "
+                            "is %s/%s" % (ref.get("work_order"), str(ref.get("sha256"))[:12], market_id,
+                                          base_decision.get("work_order"), base_sha[:12]))
+        if entry.get("superseded_package_digest") != authorized_package:
+            problems.append("superseded_package_digest %r is not the package the founder was shown (%r)"
+                            % (entry.get("superseded_package_digest"), authorized_package))
+
+    predecessor = decision.get("supersedes") or {}
+    if predecessor.get("sha256") != base_sha:
+        problems.append("decision.supersedes names %s, the base record is %s"
+                        % (str(predecessor.get("sha256"))[:12], base_sha[:12]))
+    if predecessor.get("work_order") != base_decision.get("work_order"):
+        problems.append("decision.supersedes.work_order is not the base decision's")
+    if sorted(predecessor.get("founder_authorized") or ()) != authorized_base:
+        problems.append("decision.supersedes.founder_authorized is not the base authorized set")
+
+    with tempfile.TemporaryDirectory() as scratch:
+        base_path = Path(scratch) / "base.json"
+        head_path = Path(scratch) / "head.json"
+        base_path.write_bytes(base_bytes)
+        head_path.write_bytes(head_bytes)
+        try:
+            base_chain = LP.decision_chain(base, base_path)["records"]
+        except LP.LaunchParticipationError as exc:
+            base_chain = None
+            problems.append("the base record's chain is unreachable: %s" % str(exc)[:120])
+        records = (decision.get("lineage") or {}).get("records") or []
+        if base_chain is not None:
+            expected_records = [_plain(r) for r in base_chain] + [_plain(LP.decision_record(base, base_sha))]
+            if _plain(records) != expected_records:
+                problems.append("decision.lineage.records is not the base chain plus the base record "
+                                "(%d records, expected %d)" % (len(records), len(expected_records)))
+        problems.extend("decision chain: %s" % p for p in LP.decision_problems(head, path=head_path))
+
+    detail = OrderedDict((
+        ("market_id", market_id), ("mode", "reregistration"),
+        ("rows_base", len(base_rows)), ("rows_head", len(head_rows)),
+        ("status_base", old_row.get("launch_status")), ("status_head", new_row.get("launch_status")),
+        ("decided_by", decision.get("decided_by")), ("work_order", decision.get("work_order")),
+        ("founder_authorized", authorized_head), ("founder_authorized_unchanged", False),
+        ("founder_authorized_change", OrderedDict((("removed", removed), ("added", added)))),
+        ("authorizing_decision", _plain(entry.get("authorizing_decision")) if entry else None),
+        ("superseded_package_digest", entry.get("superseded_package_digest") if entry else None),
+        ("corrected_package_digest", entry.get("corrected_package_digest") if entry else None),
+        ("deployment_authorizations", _plain(entry.get("deployment_authorizations")) if entry else None),
+        ("lineage_records", len((decision.get("lineage") or {}).get("records") or ())),
+        ("base_sha256", base_sha), ("head_sha256", _sha256(head_bytes)),
+    ))
+    if problems:
+        return _result(False, "; ".join(problems[:5]), problems=problems, **detail)
+    return _result(True, "one row moved FOUNDER_AUTHORIZED_FOR_LAUNCH -> SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_"
+                         "LAUNCH by a non-founder writer, recorded as one package-bound supersession of the base "
+                         "decision; every other row, the rest of the authorized set and the chain are carried "
+                         "forward exactly; a new founder decision is owed", **detail)
+
+
 # --------------------------------------------------------------------------- #
 # 3. The release contract instance.
 # --------------------------------------------------------------------------- #
@@ -1283,7 +1563,8 @@ def _shared_block_values(base_contracts: Mapping[str, bytes]) -> Dict[str, List[
 
 
 def check_release_contract(head_bytes: bytes, market_id: str, base_contracts: Mapping[str, bytes],
-                           *, verify: Optional[Callable[[str], List[str]]] = None) -> "OrderedDict[str, Any]":
+                           *, verify: Optional[Callable[[str], List[str]]] = None,
+                           reregistration: bool = False) -> "OrderedDict[str, Any]":
     doc = _json(head_bytes.decode("utf-8-sig"))
     problems: List[str] = []
     expected_keys = contract_key_order(doc.keys())
@@ -1304,7 +1585,13 @@ def check_release_contract(head_bytes: bytes, market_id: str, base_contracts: Ma
         problems.append("release_name_prefix must be a non-empty string")
     if not isinstance(doc.get("description"), str):
         problems.append("description must be a string")
-    if market_id in base_contracts:
+    if reregistration:
+        # The market's own prior contract is part of the base it is proven
+        # against: its behaviour-bearing blocks must still equal the one value
+        # every base contract -- its own included -- carries.
+        if market_id not in base_contracts:
+            problems.append("%s had no release contract at the base; there is nothing to re-register" % market_id)
+    elif market_id in base_contracts:
         problems.append("%s already had a release contract at the base" % market_id)
     if not base_contracts:
         problems.append("no base contract exists to prove the shared release rules against")
@@ -1384,8 +1671,10 @@ def check_release_contract(head_bytes: bytes, market_id: str, base_contracts: Ma
     ))
     if problems:
         return _result(False, "; ".join(problems[:5]), problems=problems, **detail)
-    return _result(True, "a new contract instance: shared release rules identical to every base contract, "
-                         "data fields recognized, numbers agree with derive_authority", **detail)
+    return _result(True, "%s: shared release rules identical to every base contract, "
+                         "data fields recognized, numbers agree with derive_authority"
+                   % ("the market's own contract instance, corrected" if reregistration else "a new contract instance"),
+                   **detail)
 
 
 # --------------------------------------------------------------------------- #
@@ -1442,6 +1731,26 @@ def check_build_closure(base_bytes: bytes, head_bytes: bytes, market_id: str,
         return _result(False, "; ".join(problems[:5]), problems=problems, **detail)
     return _result(True, "the closure gains exactly the market's two declared inputs and one note; "
                          "code modules, per-market inputs and every build control are unchanged", **detail)
+
+
+def check_reregistration_build_closure(rows: Sequence[Mapping], base_bytes: bytes, head_bytes: bytes,
+                                       market_id: str) -> "OrderedDict[str, Any]":
+    """PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: the market's registration
+    already declared its two inputs; a re-registration moves no build input."""
+    problems: List[str] = []
+    in_set = [r["path"] for r in rows if _posix(r["path"]) == CLOSURE_PATH]
+    if in_set:
+        problems.append("a re-registration never moves the build closure")
+    if base_bytes != head_bytes:
+        problems.append("the closure bytes differ between the base and the head")
+    declared = list((_json(base_bytes.decode("utf-8-sig")).get("shared_data_inputs") or ()))
+    missing = [p for p in closure_inputs_for(market_id) if p not in declared]
+    if missing:
+        problems.append("the market's registration never declared %s" % missing)
+    detail = OrderedDict((("in_change_set", bool(in_set)), ("inputs_declared_at_base", not missing)))
+    if problems:
+        return _result(False, "; ".join(problems), problems=problems, **detail)
+    return _result(True, "the closure is byte-identical and already declares the market's two inputs", **detail)
 
 
 # --------------------------------------------------------------------------- #
@@ -1876,7 +2185,7 @@ def expected_pin_block(package: Mapping) -> "OrderedDict[str, int]":
 
 
 def check_market_state_pin(base_bytes: bytes, head_bytes: bytes, market_id: str, package: Optional[Mapping],
-                           contract_bytes: Optional[bytes]) -> "OrderedDict[str, Any]":
+                           contract_bytes: Optional[bytes], *, reregistration: bool = False) -> "OrderedDict[str, Any]":
     base = _json(base_bytes.decode("utf-8-sig"))
     head = _json(head_bytes.decode("utf-8-sig"))
     problems: List[str] = []
@@ -1893,9 +2202,16 @@ def check_market_state_pin(base_bytes: bytes, head_bytes: bytes, market_id: str,
     head_markets = head.get("markets") or {}
     if set(head_markets) != set(base_markets) | {market_id}:
         problems.append("pinned markets must be the base set plus %s" % market_id)
-    if market_id in base_markets:
+    if reregistration:
+        # The market's own block may move to what the corrected package
+        # derives; every OTHER block stays byte-identical.
+        if market_id not in base_markets:
+            problems.append("%s was not pinned at the base; there is nothing to re-register" % market_id)
+    elif market_id in base_markets:
         problems.append("%s was already pinned at the base" % market_id)
     for mid, block in base_markets.items():
+        if reregistration and mid == market_id:
+            continue
         if _plain(head_markets.get(mid)) != _plain(block):
             problems.append("existing pin block %s changed" % mid)
     if list(head_markets) != sorted(head_markets):
@@ -1941,9 +2257,9 @@ def check_market_state_pin(base_bytes: bytes, head_bytes: bytes, market_id: str,
                           ("blocks_head", len(head_markets))))
     if problems:
         return _result(False, "; ".join(problems[:5]), problems=problems, **detail)
-    return _result(True, "the pin gains exactly one block whose eight counts equal what the sealed package "
-                         "derives, agrees with the release contract, and every other block is byte-identical",
-                   **detail)
+    return _result(True, "the pin %s exactly one block whose eight counts equal what the sealed package "
+                         "derives, agrees with the release contract, and every other block is byte-identical"
+                   % ("re-derives" if reregistration else "gains"), **detail)
 
 
 # --------------------------------------------------------------------------- #
@@ -1951,22 +2267,188 @@ def check_market_state_pin(base_bytes: bytes, head_bytes: bytes, market_id: str,
 # --------------------------------------------------------------------------- #
 
 def check_release_integrity(rows: Sequence[Mapping], live_state: RI.LiveState,
-                            participation_result: Mapping) -> "OrderedDict[str, Any]":
+                            participation_result: Mapping, *,
+                            supersession_result: Optional[Mapping] = None) -> "OrderedDict[str, Any]":
+    """Nothing an authorization protects moved. In re-registration mode
+    (``supersession_result`` given) exactly two things may differ, each proven
+    elsewhere and re-checked here: the SUPERSEDED transition of the
+    authorizations of the market's old bytes, and the founder-authorized set
+    losing exactly that market -- never gaining one."""
     problems: List[str] = []
     touched = [r["path"] for r in rows if any(_posix(r["path"]).startswith(p) for p in PROTECTED_PREFIXES)]
-    if touched:
-        problems.append("protected release state changed: %s" % touched[:3])
+    participation_detail = participation_result.get("detail") or {}
+    if supersession_result is None:
+        if touched:
+            problems.append("protected release state changed: %s" % touched[:3])
+        if not participation_detail.get("founder_authorized_unchanged", False):
+            problems.append("the founder-authorized set is not proven unchanged")
+    else:
+        proven = set((supersession_result.get("detail") or {}).get("transitions_proven") or ())
+        unproven = [p for p in touched if _posix(p) not in proven]
+        if unproven:
+            problems.append("protected release state changed beyond the proven supersession: %s" % unproven[:3])
+        if touched and not supersession_result.get("pass"):
+            problems.append("the authorization supersession is not proven")
+        change = participation_detail.get("founder_authorized_change") or {}
+        market_id = participation_detail.get("market_id")
+        if not participation_result.get("pass") or list(change.get("removed") or ()) != [market_id] \
+                or list(change.get("added") or ()):
+            problems.append("the founder-authorized set is not proven to lose exactly the re-registering market")
     if live_state.problems:
         problems.append("the live release is not verified: %s" % list(live_state.problems)[:2])
-    if not (participation_result.get("detail") or {}).get("founder_authorized_unchanged", False):
-        problems.append("the founder-authorized set is not proven unchanged")
     detail = OrderedDict((("live_deploy_id", live_state.deploy_id), ("live_verified", not live_state.problems),
-                          ("protected_paths_touched", touched)))
+                          ("protected_paths_touched", touched),
+                          ("mode", "reregistration" if supersession_result is not None else "registration")))
     if problems:
         return _result(False, "; ".join(problems), problems=problems, **detail)
+    if supersession_result is not None:
+        return _result(True, "the only protected paths that moved are the proven SUPERSEDED transitions of the "
+                             "market's old authorizations; the live parent is verified and the authorized set "
+                             "lost exactly the re-registering market and gained nothing", **detail)
     return _result(True, "no deployment authorization, record, manifest, activation flag, production gate or "
                          "deployment pin moved; the live parent is verified and the authorized set is unchanged",
                    **detail)
+
+
+# --------------------------------------------------------------------------- #
+# 12-13. PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: what only a
+# re-registration owes.
+# --------------------------------------------------------------------------- #
+
+def _names_market(auth: Mapping, market_id: str) -> bool:
+    return (market_id in (auth.get("participating_markets") or ())
+            or market_id in (auth.get("founder_authorized_markets") or ())
+            or any(isinstance(c, Mapping) and c.get("market_id") == market_id
+                   for c in auth.get("release_contracts") or ()))
+
+
+def package_path_for_digest(market_id: str, digest: str) -> str:
+    """Where the registration release lane commits the package ``digest``."""
+    return "launch_packages/pettripfinder/markets/packages/%s/pkg-%s-%s.json" % (
+        market_id, market_id, str(digest)[len("sha256:"):len("sha256:") + 16])
+
+
+def check_authorization_supersession(rows: Sequence[Mapping], base: str, head: str, market_id: str,
+                                     package: Optional[Mapping], participation_result: Mapping) -> "OrderedDict[str, Any]":
+    """Every deployment authorization that names the market is bound to its
+    OLD registration and is terminally SUPERSEDED at the head -- never
+    consumed (DEPLOYED / ROLLED_BACK / FAILED), never still deployable
+    (PREPARED / AUTHORIZED). A changed authorization is exactly its base
+    document moved to SUPERSEDED with one history entry appended; none is
+    added or deleted. The participation entry lists exactly these
+    authorizations; the package it supersedes was committed at the base and
+    the package it names as corrected is the one covering the head bytes."""
+    problems: List[str] = []
+    base_auths = json_docs_at(base, AUTHORIZATIONS_PREFIX)
+    head_auths = json_docs_at(head, AUTHORIZATIONS_PREFIX)
+    base_contract = bytes_at(base, "deploy/netlify/release_contracts/%s.json" % market_id)
+    base_contract_sha = _sha256(base_contract) if base_contract is not None else None
+    naming = OrderedDict((rel, doc) for rel, doc in head_auths.items() if _names_market(doc, market_id))
+    if not naming:
+        problems.append("no deployment authorization names %s; there is no authorization to supersede" % market_id)
+    for rel, doc in naming.items():
+        status = doc.get("authorization_status")
+        if status in ("DEPLOYED", "ROLLED_BACK", "FAILED"):
+            problems.append("%s is %s: the authorization was consumed; a deployed market is never corrected "
+                            "through this lane" % (doc.get("authorization_id"), status))
+        elif status != LP.SUPERSEDED_AUTHORIZATION_STATUS:
+            problems.append("%s is %s: an authorization of the old bytes is still deployable"
+                            % (doc.get("authorization_id"), status))
+        bound = [c for c in doc.get("release_contracts") or () if isinstance(c, Mapping) and c.get("market_id") == market_id]
+        if not bound or bound[0].get("sha256") != base_contract_sha:
+            problems.append("%s is not bound to the market's registration at the base (release contract %s, base %s)"
+                            % (doc.get("authorization_id"), (bound[0].get("sha256") if bound else None),
+                               base_contract_sha))
+        if not isinstance(doc.get("bundle_sha256"), str) or len(doc.get("bundle_sha256")) != 64:
+            problems.append("%s binds no bundle_sha256" % doc.get("authorization_id"))
+    transitions: List[str] = []
+    for row in rows:
+        rel = _posix(row["path"])
+        if not rel.startswith(AUTHORIZATIONS_PREFIX):
+            continue
+        status = str(row.get("status") or "")[:1]
+        before, after = base_auths.get(rel), head_auths.get(rel)
+        if status != "M" or before is None or after is None:
+            problems.append("%s: status %r; a re-registration adds and deletes no authorization" % (rel, status))
+            continue
+        if not _names_market(before, market_id):
+            problems.append("%s does not name %s; another market's authorization moved" % (rel, market_id))
+            continue
+        history_before = list(before.get("status_history") or ())
+        history_after = list(after.get("status_history") or ())
+        last = history_after[-1] if history_after else {}
+        same = all(_plain(before.get(k)) == _plain(after.get(k)) for k in set(before) | set(after)
+                   if k not in ("authorization_status", "status_history"))
+        if not same or list(before) != list(after):
+            problems.append("%s: a field other than its status and history changed" % rel)
+        elif before.get("authorization_status") not in ("PREPARED", "AUTHORIZED"):
+            problems.append("%s: the base status %r cannot move to SUPERSEDED" % (rel, before.get("authorization_status")))
+        elif after.get("authorization_status") != LP.SUPERSEDED_AUTHORIZATION_STATUS:
+            problems.append("%s: the head status is %r, not SUPERSEDED" % (rel, after.get("authorization_status")))
+        elif _plain(history_after[:len(history_before)]) != _plain(history_before) \
+                or len(history_after) != len(history_before) + 1 \
+                or not isinstance(last, Mapping) or last.get("status") != LP.SUPERSEDED_AUTHORIZATION_STATUS:
+            problems.append("%s: the history must be the base history plus one SUPERSEDED entry" % rel)
+        else:
+            transitions.append(rel)
+    detail_in = participation_result.get("detail") or {}
+    recorded = _plain(detail_in.get("deployment_authorizations"))
+    expected = [OrderedDict((("authorization_id", d.get("authorization_id")), ("bundle_sha256", d.get("bundle_sha256")),
+                             ("authorization_status", d.get("authorization_status"))))
+                for _rel, d in sorted(naming.items(), key=lambda kv: str(kv[1].get("authorization_id")))]
+    if recorded != _plain(expected):
+        problems.append("the participation entry records %s; the authorizations naming %s are %s"
+                        % ([a.get("authorization_id") for a in recorded or ()], market_id,
+                           [a["authorization_id"] for a in expected]))
+    old_digest = detail_in.get("superseded_package_digest")
+    new_digest = detail_in.get("corrected_package_digest")
+    if not old_digest or bytes_at(base, package_path_for_digest(market_id, old_digest)) is None:
+        problems.append("the superseded package %s was not committed at the base" % old_digest)
+    if package is None:
+        problems.append("no sealed package covers the corrected head bytes")
+    elif new_digest != package.get("package_digest"):
+        problems.append("the participation entry names corrected package %s; the package covering the head is %s"
+                        % (new_digest, package.get("package_digest")))
+    if old_digest and old_digest == new_digest:
+        problems.append("the corrected package is the superseded one")
+    detail = OrderedDict((
+        ("authorizations_naming_market", [d.get("authorization_id") for d in naming.values()]),
+        ("statuses", OrderedDict((d.get("authorization_id"), d.get("authorization_status")) for d in naming.values())),
+        ("transitions_proven", transitions),
+        ("superseded_package_digest", old_digest), ("corrected_package_digest", new_digest),
+        ("base_release_contract_sha256", base_contract_sha),
+    ))
+    if problems:
+        return _result(False, "; ".join(problems[:5]), problems=problems, **detail)
+    return _result(True, "every authorization naming %s is bound to its registration at the base and terminally "
+                         "SUPERSEDED, never consumed; %d transition(s) in the set moved only status and history; "
+                         "the old package was committed at the base and the corrected package covers the head"
+                   % (market_id, len(transitions)), **detail)
+
+
+def check_live_veto(market_id: str, live_state: RI.LiveState, head: str) -> "OrderedDict[str, Any]":
+    """The hard veto: a market that is, or ever was, in production is never
+    corrected through this lane. Not in CURRENT_VERIFIED_LIVE, and named by no
+    deployment record."""
+    problems: List[str] = []
+    if live_state.problems:
+        problems.append("CURRENT_VERIFIED_LIVE is not verified: %s" % list(live_state.problems)[:2])
+    if market_id in live_state.participating_markets:
+        problems.append("%s is LIVE (deploy %s); a live market is never re-registered through this lane"
+                        % (market_id, live_state.deploy_id))
+    records = json_docs_at(head, DEPLOYMENT_RECORDS_PREFIX)
+    deployed = [d.get("deployment_record_id") or rel for rel, d in records.items()
+                if market_id in (d.get("participating_markets") or ())]
+    if deployed:
+        problems.append("%s was deployed by %s; a market that was ever live is never re-registered through this lane"
+                        % (market_id, deployed[:3]))
+    detail = OrderedDict((("live_deploy_id", live_state.deploy_id),
+                          ("live_markets", len(live_state.participating_markets)),
+                          ("deployment_records_read", len(records)), ("records_naming_market", deployed)))
+    if problems:
+        return _result(False, "; ".join(problems), problems=problems, **detail)
+    return _result(True, "%s is not in CURRENT_VERIFIED_LIVE (deploy %s) and no deployment record names it"
+                   % (market_id, live_state.deploy_id), **detail)
 
 
 # --------------------------------------------------------------------------- #
@@ -2000,6 +2482,7 @@ def evaluate(rows: Sequence[Mapping], base: str, head: str = WORKTREE, *,
                           if role not in (ROLE_COMPANION, ROLE_MARKET_LOCAL, ROLE_DISCOVERY_MARKET_CONFIG)]
     market_local_paths = list(partition.get(BUCKET_MARKET_LOCAL) or ())
     change_class = gate_detail.get("change_class") or CLASS_REGISTRATION
+    reregistration = gate_detail.get("mode") == "reregistration"
 
     package: Optional[Mapping] = None
     live_idx: Optional[RI.ReleaseIndex] = None
@@ -2016,10 +2499,12 @@ def evaluate(rows: Sequence[Mapping], base: str, head: str = WORKTREE, *,
 
         checks["market_local_zone"] = _run("market_local_zone", lambda: check_market_local_zone(gate))
         checks["discovery_config"] = _run("discovery_config", lambda: check_discovery_config(rows, base, head, market_id))
-        checks["registration_input"] = _run("registration_input", lambda: check_registration_input(rows, head, market_id))
+        checks["registration_input"] = _run("registration_input", lambda: check_registration_input(
+            rows, head, market_id, reregistration=reregistration))
         checks["identity_resolutions"] = _run("identity_resolutions", lambda: check_identity_resolutions(
             rows, base, head, market_id))
-        checks["participation"] = _run("participation", lambda: check_participation(
+        checks["participation"] = _run("participation", lambda: (
+            check_reregistration_participation if reregistration else check_participation)(
             _read(base, PARTICIPATION_PATH), _read(head, PARTICIPATION_PATH), market_id))
 
         def _contracts() -> "OrderedDict[str, bytes]":
@@ -2032,10 +2517,14 @@ def evaluate(rows: Sequence[Mapping], base: str, head: str = WORKTREE, *,
 
         checks["release_contract"] = _run("release_contract", lambda: check_release_contract(
             _read(head, contract_rel), market_id, _contracts(),
-            verify=(RC.verify_contract if head == WORKTREE else None)))
-        checks["build_closure"] = _run("build_closure", lambda: check_build_closure(
-            _read(base, CLOSURE_PATH), _read(head, CLOSURE_PATH), market_id,
-            exists=lambda rel: bytes_at(head, rel) is not None))
+            verify=(RC.verify_contract if head == WORKTREE else None), reregistration=reregistration))
+        if reregistration:
+            checks["build_closure"] = _run("build_closure", lambda: check_reregistration_build_closure(
+                rows, _read(base, CLOSURE_PATH), _read(head, CLOSURE_PATH), market_id))
+        else:
+            checks["build_closure"] = _run("build_closure", lambda: check_build_closure(
+                _read(base, CLOSURE_PATH), _read(head, CLOSURE_PATH), market_id,
+                exists=lambda rel: bytes_at(head, rel) is not None))
         checks["derived_globals"] = _run("derived_globals", lambda: check_derived_globals(rows, market_id, head))
 
         def _live() -> Tuple[RI.ReleaseIndex, RI.LiveState]:
@@ -2049,7 +2538,7 @@ def evaluate(rows: Sequence[Mapping], base: str, head: str = WORKTREE, *,
         except Exception as exc:
             live_failure = _result(None, "%s: %s" % (type(exc).__name__, str(exc)[:200]))
             for name in ("sealed_package", "fast_receipt", "expected_release", "identity_routes",
-                         "market_state_pin", "release_integrity"):
+                         "market_state_pin", "release_integrity") + (REREGISTRATION_CHECKS if reregistration else ()):
                 checks[name] = live_failure
         else:
             if head == WORKTREE:
@@ -2071,10 +2560,18 @@ def evaluate(rows: Sequence[Mapping], base: str, head: str = WORKTREE, *,
                 package, market_id, live_idx, releases))
             checks["market_state_pin"] = _run("market_state_pin", lambda: check_market_state_pin(
                 _read(base, MARKET_STATE_PIN_PATH), _read(head, MARKET_STATE_PIN_PATH), market_id, package,
-                bytes_at(head, contract_rel)))
-            checks["release_integrity"] = _run("release_integrity", lambda: check_release_integrity(
-                rows, live_state, checks["participation"]))
-    for name in CHECKS:
+                bytes_at(head, contract_rel), reregistration=reregistration))
+            if reregistration:
+                supersession = _run("authorization_supersession", lambda: check_authorization_supersession(
+                    rows, base, head, market_id, package, checks["participation"]))
+                checks["release_integrity"] = _run("release_integrity", lambda: check_release_integrity(
+                    rows, live_state, checks["participation"], supersession_result=supersession))
+                checks["authorization_supersession"] = supersession
+                checks["live_veto"] = _run("live_veto", lambda: check_live_veto(market_id, live_state, head))
+            else:
+                checks["release_integrity"] = _run("release_integrity", lambda: check_release_integrity(
+                    rows, live_state, checks["participation"]))
+    for name in CHECKS + (REREGISTRATION_CHECKS if reregistration else ()):
         if name not in checks:
             checks[name] = _result(False, "not evaluated: the change set is not a registration")
 
@@ -2087,7 +2584,10 @@ def evaluate(rows: Sequence[Mapping], base: str, head: str = WORKTREE, *,
                "committed candidate matches as complete sets"
                % (change_class, market_id,
                   "first registration (market-local zone + registration zone + derived outputs)"
-                  if change_class == CLASS_COMPOSITE else "registration"))
+                  if change_class == CLASS_COMPOSITE else
+                  "re-registration against its own prior registration (old authorization SUPERSEDED, never "
+                  "live, a new founder authorization owed)" if change_class == CLASS_REREGISTRATION
+                  else "registration"))
     else:
         first = failed[0] if failed else (unknown[0] if unknown else "change_set")
         why = "%s: %s" % (first, checks[first]["why"])
@@ -2270,6 +2770,35 @@ def contract_document() -> "OrderedDict[str, Any]":
                                               "relax the current-parent, exact-bytes or rollback guards")))),
         ("fallback", "any UNKNOWN or failed check leaves every path in its path class; the existing "
                      "DEPLOYMENT_CHANGE / AUTHORITY_CHANGE rows then require the broad regression"),
+        ("reregistration", OrderedDict((
+            ("added_by", "PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001"),
+            ("change_class", CLASS_REREGISTRATION),
+            ("what_this_is", "A market registered and FOUNDER-AUTHORIZED at the base, never deployed, whose "
+                             "pre-deploy correction replaced the package the founder was shown. Proven against its "
+                             "OWN prior registration (the base is the commit that wrote the authorizing decision): "
+                             "the participation record moves exactly that row back to "
+                             "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH with one package-bound "
+                             "founder_authorization_superseded entry, every deployment authorization of the old "
+                             "bytes is terminally SUPERSEDED, and a NEW founder authorization is owed before any "
+                             "deployment. A live or ever-deployed market never qualifies."),
+            ("detected_by", "the registry is unchanged and the head participation decision supersedes exactly one "
+                            "market's founder authorization"),
+            ("role_statuses", OrderedDict((role, list(statuses))
+                                          for role, statuses in sorted(REREGISTRATION_ROLE_STATUSES.items()))),
+            ("required_roles", [ROLE_PARTICIPATION]),
+            ("protected_path_permitted", "%s<id>.json, status M, only as the SUPERSEDED transition of an "
+                                         "authorization of the market's old bytes" % AUTHORIZATIONS_PREFIX),
+            ("decision_keys", sorted(REREGISTRATION_DECISION_KEYS)),
+            ("supersession_entry_keys", list(LP.SUPERSESSION_ENTRY_KEYS)),
+            ("additional_checks", list(REREGISTRATION_CHECKS)),
+            ("isolation_condition_5", "registered at BOTH the base and the head (re-registration mode)"),
+            ("verdict", OrderedDict((("ELIGIBLE", "YES only when all seventeen checks are PASS"),
+                                     ("FULL_REGRESSION_REQUIRED", "NO when eligible"),
+                                     ("reaches", "AUTHORIZATION_READY"),
+                                     ("founder_status", "AWAITING_FOUNDER_AUTHORIZATION -- the old founder and "
+                                                        "deployment authorizations authorize nothing for the "
+                                                        "corrected package")))),
+        ))),
     ))
 
 

@@ -419,6 +419,9 @@ def build_changed_market(package: Mapping, stage_root: Path, output_root: Path, 
         ("bundle_sha256", bundle_digest(hashes)),
         ("file_count", len(hashes)),
         ("html_count", sum(1 for k in hashes if k.endswith(".html"))),
+        # Whether the collected root exists at all: a work path the assembler
+        # resolved elsewhere leaves it absent and the bundle empty (FAST rule J).
+        ("output_present", site_dir.is_dir()),
         ("release_name", manifest.get("release_name") if isinstance(manifest, Mapping) else None),
         ("gates_failing", [g for g, r in (manifest.get("gates") or {}).items()
                            if isinstance(r, Mapping) and not r.get("pass")]

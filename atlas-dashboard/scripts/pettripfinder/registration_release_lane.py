@@ -6,6 +6,18 @@ classifier has answered -- prepare the UNSIGNED authorization-readiness packet.
     python -m scripts.pettripfinder.registration_release_lane register --market <id> --work-order <ORDER>
     python -m scripts.pettripfinder.registration_release_lane seal --market <id> --work-order <ORDER>
     python -m scripts.pettripfinder.registration_release_lane packet --market <id>
+    python -m scripts.pettripfinder.registration_release_lane reregister --market <id> --work-order <ORDER>
+
+PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: ``reregister`` is the one step
+for a market that was registered and FOUNDER-AUTHORIZED, never deployed, and
+corrected before deployment. After the founder's order has SUPERSEDED every
+deployment authorization of the old bytes and ``seal`` (no ``--work-order``)
+has committed the corrected package, it reissues the participation record
+from the authorizing decision with the market back at SOURCE_READY and one
+package-bound ``founder_authorization_superseded`` entry, and re-derives the
+market's own pin block. ``packet`` then classifies against the market's own
+authorizing commit (:func:`derive_reregistration_base`) and the packet says
+which authorization the corrected bytes do NOT inherit.
 
 PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: ``register`` and ``seal``
 refuse a tree that does not contain CURRENT_LIVE_SOURCE_COMMIT
@@ -184,15 +196,21 @@ def pin_block_from_package(package: Mapping, market_id: str, work_order: str) ->
     return block
 
 
-def write_pin_block(market_id: str, block: Mapping, work_order: str, pin_path: Optional[Path] = None) -> str:
-    """Add ONE market block to the reviewed pin; refuse to move an existing one."""
+def write_pin_block(market_id: str, block: Mapping, work_order: str, pin_path: Optional[Path] = None,
+                    *, replace: bool = False) -> str:
+    """Add ONE market block to the reviewed pin; refuse to move an existing one.
+    ``replace`` (re-registration only) re-derives the market's OWN existing
+    block and refuses when there is none."""
     path = pin_path or PIN_PATH
     doc = _read(path)
-    if market_id in (doc.get("markets") or {}):
+    pinned = market_id in (doc.get("markets") or {})
+    if pinned and not replace:
         raise SystemExit("%s is already pinned; a registration adds a block and never moves one" % market_id)
+    if replace and not pinned:
+        raise SystemExit("%s is not pinned; a re-registration re-derives an existing block" % market_id)
     doc["reviewed_by"] = work_order
     markets: "OrderedDict[str, Any]" = OrderedDict()
-    for key in sorted(list(doc["markets"]) + [market_id]):
+    for key in sorted(set(doc["markets"]) | {market_id}):
         markets[key] = OrderedDict(block) if key == market_id else doc["markets"][key]
     doc["markets"] = markets
     _write(path, doc)
@@ -304,6 +322,139 @@ def register(market_id: str, *, work_order: str, out: Path, decided_on: Optional
     print("participation  :", row["launch_status"], "| authorized set unchanged:", before == after)
     print("build closure  : added", added or "nothing (already declared)")
     print("written        :", out.relative_to(_DASH).as_posix() if str(out).startswith(str(_DASH)) else out)
+    return report
+
+
+def reregister(market_id: str, *, work_order: str, out: Path, decided_on: Optional[str] = None,
+               live: Optional[Any] = None, participation_path: Optional[Path] = None,
+               pin_path: Optional[Path] = None, package: Optional[Mapping] = None) -> Dict:
+    """PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: re-register a market that
+    was registered and FOUNDER-AUTHORIZED, was never deployed, and whose
+    corrected package is sealed and committed (``seal`` without
+    ``--work-order``). Writes two things and nothing else:
+
+      * the participation record, REISSUED from the market's authorizing
+        decision: its row back to SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_
+        LAUNCH, and one package-bound ``founder_authorization_superseded``
+        entry naming the authorizing decision, both package digests and every
+        deployment authorization of the old bytes;
+      * the market's OWN market-state pin block, re-derived from the corrected
+        sealed package and held to the release contract.
+
+    Refuses -- writing nothing -- when the market is live or was ever
+    deployed, when any authorization of it is not SUPERSEDED (still
+    deployable, or consumed), when the current participation record is not the
+    market's package-bound founder authorization, or when no committed package
+    covers the corrected bytes. It never supersedes an authorization itself
+    and never authorizes anything: the founder's decision for the corrected
+    bytes is a separate write."""
+    from scripts.pettripfinder import launch_participation as LP
+    from scripts.pettripfinder import registration_data_only as REG
+    from scripts.pettripfinder.market_authority import load_markets
+    _require_work_order(work_order)
+    if market_id not in {m.market_id for m in load_markets()}:
+        raise SystemExit("%s is not registered; there is nothing to re-register" % market_id)
+    live = live if live is not None else RI.live_index()
+    _idx, state, live_problems = live
+    if live_problems or state.problems:
+        raise SystemExit("CURRENT_VERIFIED_LIVE could not be established: %s" % (live_problems or state.problems)[:3])
+    veto = REG.check_live_veto(market_id, state, REG.WORKTREE)
+    if not veto["pass"]:
+        raise SystemExit("REFUSED (live veto): %s" % veto["why"])
+
+    path = participation_path or LP.PARTICIPATION_PATH
+    prior_bytes = path.read_bytes()
+    prior = json.loads(prior_bytes.decode("utf-8-sig"), object_pairs_hook=OrderedDict)
+    prior_sha = LP.participation_sha256(path)
+    decision = prior.get("decision") or {}
+    basis = decision.get("decision_basis") if isinstance(decision.get("decision_basis"), Mapping) else {}
+    if LP.launch_status(market_id, prior) != LP.FOUNDER_AUTHORIZED_FOR_LAUNCH:
+        raise SystemExit("%s reads %s; only a FOUNDER_AUTHORIZED_FOR_LAUNCH market is re-registered this way"
+                         % (market_id, LP.launch_status(market_id, prior)))
+    if basis.get("market_id") != market_id or not basis.get("registered_package_digest") \
+            or str(decision.get("decided_by") or "").strip().lower() != "founder":
+        raise SystemExit("the current participation record is not %s's package-bound founder authorization "
+                         "(decided_by %r, decision_basis.market_id %r); re-register from the authorizing decision"
+                         % (market_id, decision.get("decided_by"), basis.get("market_id")))
+    old_digest = basis["registered_package_digest"]
+
+    auths = [doc for _rel, doc in REG.json_docs_at(REG.WORKTREE, REG.AUTHORIZATIONS_PREFIX).items()
+             if REG._names_market(doc, market_id)]
+    if not auths:
+        raise SystemExit("no deployment authorization names %s; there is nothing to supersede" % market_id)
+    live_auths = [(a.get("authorization_id"), a.get("authorization_status")) for a in auths
+                  if a.get("authorization_status") != LP.SUPERSEDED_AUTHORIZATION_STATUS]
+    if live_auths:
+        raise SystemExit("REFUSED: authorization(s) of %s's old bytes are not SUPERSEDED: %s -- supersede them "
+                         "(founder order) before re-registering; a consumed one can never be" % (market_id, live_auths))
+
+    if package is None:
+        package, lookup = REG.find_covering_package(market_id, REG.WORKTREE)
+        if package is None:
+            raise SystemExit("no committed sealed package covers %s's corrected bytes: %s"
+                             % (market_id, lookup.get("packages_seen")))
+    if package["package_digest"] == old_digest:
+        raise SystemExit("the package covering the head is the one the founder authorized; nothing was corrected")
+
+    entry = OrderedDict((
+        ("market_id", market_id),
+        ("authorizing_decision", OrderedDict((("work_order", decision["work_order"]), ("sha256", prior_sha)))),
+        ("superseded_package_digest", old_digest),
+        ("corrected_package_digest", package["package_digest"]),
+        ("deployment_authorizations", [OrderedDict((("authorization_id", a["authorization_id"]),
+                                                    ("bundle_sha256", a["bundle_sha256"]),
+                                                    ("authorization_status", a["authorization_status"])))
+                                       for a in sorted(auths, key=lambda a: str(a["authorization_id"]))]),
+        ("market_live", False),
+        ("reauthorization_required", True),
+    ))
+    doc = json.loads(json.dumps(prior), object_pairs_hook=OrderedDict)
+    for row in doc["markets"]:
+        if row["market_id"] == market_id:
+            row["launch_status"] = LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
+            row["note"] = ("Re-registered by %s after a pre-deploy correction: the founder authorization of %s "
+                           "(%s, package %s) is SUPERSEDED together with every deployment authorization of those "
+                           "bytes. Corrected package %s is source-ready and awaiting a NEW founder launch decision."
+                           % (work_order, market_id, decision["work_order"], old_digest[:23],
+                              package["package_digest"][:23]))
+    doc["decision"] = LP.extend_decision(
+        prior, prior_sha, work_order=work_order, decided_by=work_order,
+        decided_on=decided_on or time.strftime("%Y-%m-%d", time.gmtime()),
+        reason=("%s's founder authorization was bound to package %s, which a pre-deploy correction replaced with "
+                "%s. Every deployment authorization of the old bytes is SUPERSEDED and none was consumed; the "
+                "market was never live. This write records that the old authorization admits nothing and returns "
+                "the market to SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH. The founder's decision for the "
+                "corrected bytes, if it comes, is a separate write."
+                % (market_id, old_digest[:23], package["package_digest"][:23])),
+        path=path, **{LP.FOUNDER_AUTHORIZATION_SUPERSEDED: [entry]})
+    text = json.dumps(doc, indent=1, ensure_ascii=False) + "\n"
+    new_bytes = text.encode("utf-8")
+    proof = REG.check_reregistration_participation(prior_bytes, new_bytes, market_id)
+    if not proof["pass"]:
+        raise SystemExit("the reissued participation record fails the re-registration proof: %s" % proof["why"])
+    block = pin_block_from_package(package, market_id, work_order)
+    path.write_bytes(new_bytes)
+    pinned = write_pin_block(market_id, block, work_order, pin_path, replace=True)
+    report = OrderedDict((
+        ("schema", "ptf-reregistration-participation/1.0"),
+        ("work_order", work_order), ("market_id", market_id), ("as_of", _now()),
+        ("participation", OrderedDict((
+            ("prior_sha256", prior_sha), ("new_sha256", LP.participation_sha256(path)),
+            ("status_before", LP.FOUNDER_AUTHORIZED_FOR_LAUNCH),
+            ("status_after", LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH),
+            ("founder_authorization_superseded", entry),
+            ("proof", proof["status"])))),
+        ("market_state_pin", pinned),
+        ("live_veto", veto["why"]),
+        ("nothing_deployed", True), ("nothing_authorized", True),
+        ("new_founder_authorization_required", True),
+    ))
+    _write(out, report)
+    print("participation  :", market_id, LP.FOUNDER_AUTHORIZED_FOR_LAUNCH, "->",
+          LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, "| proof", proof["status"])
+    print("superseded     :", old_digest[:23], "->", package["package_digest"][:23], "| authorizations",
+          [a["authorization_id"] for a in entry["deployment_authorizations"]])
+    print("market state   :", pinned)
     return report
 
 
@@ -554,6 +705,127 @@ def derive_registration_base(market_id: str, live_commit: str, *, head: str = "H
     raise LaneRefusal(BASE_NOT_DERIVABLE, "no base within %d first-parent commits" % _BASE_WALK_LIMIT)
 
 
+_PARTICIPATION_REL = "deploy/netlify/launch_participation.json"
+_AUTHORIZATIONS_REL = "deploy/netlify/deployment_authorizations"
+
+
+def _blob(commit: str, relpath: str, git_root: Optional[Path]) -> Optional[bytes]:
+    import subprocess
+    proc = subprocess.run(["git", "show", "%s:%s" % (commit, relpath)], cwd=str(git_root or _DASH.parent),
+                          capture_output=True)
+    return proc.stdout if proc.returncode == 0 else None
+
+
+def _tree_listing(commit: str, relpath: str, git_root: Optional[Path]) -> "OrderedDict[str, str]":
+    listing = _git_text("ls-tree", commit, "--", relpath, git_root=git_root)
+    out: "OrderedDict[str, str]" = OrderedDict()
+    for line in listing.splitlines():
+        meta, _tab, name = line.partition("\t")
+        if meta.split()[1:2] == ["blob"]:
+            out[name.rsplit("/", 1)[-1]] = meta.split()[2]
+    return out
+
+
+def reregistration_market_at(commit: str, *, git_root: Optional[Path] = None,
+                             prefix: Optional[str] = None) -> Optional[str]:
+    """The one market whose founder authorization ``commit``'s participation
+    decision supersedes, or None (an ordinary registration)."""
+    from scripts.pettripfinder import launch_participation as LP
+    prefix = prefix if prefix is not None else _DASH.name + "/"
+    data = _blob(commit, prefix + _PARTICIPATION_REL, git_root)
+    if data is None:
+        return None
+    markets = LP.superseded_market_ids(json.loads(data.decode("utf-8-sig")))
+    return markets[0] if len(markets) == 1 else None
+
+
+def derive_reregistration_base(market_id: str, live_commit: str, *, head: str = "HEAD",
+                               git_root: Optional[Path] = None,
+                               prefix: Optional[str] = None) -> "OrderedDict[str, Any]":
+    """PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: the classification base of
+    a RE-registration is the market's OWN prior registered state -- the
+    first-parent commit that WROTE the authorizing decision the head's
+    ``founder_authorization_superseded`` entry names (the oldest commit of the
+    contiguous run whose participation record hashes to it). Its tree holds
+    the registered package, the contract and the pin the founder authorized,
+    so the diff is exactly the correction, the supersession and the reissue;
+    nothing already proven reappears as drift and nothing earlier escapes.
+
+    Refuses unless the base (a) descends from the live lineage commit, (b)
+    registers the market, and (c) carries live's deployment records, manifest
+    and deployment pin byte-for-byte and every live authorization unchanged,
+    its only extra authorizations naming this market and never DEPLOYED."""
+    from scripts.pettripfinder import launch_participation as LP
+    import hashlib
+    prefix = prefix if prefix is not None else _DASH.name + "/"
+    head_bytes = _blob(head, prefix + _PARTICIPATION_REL, git_root)
+    if head_bytes is None:
+        raise LaneRefusal(BASE_NOT_DERIVABLE, "no participation record at %s" % head)
+    entries = [e for e in (json.loads(head_bytes.decode("utf-8-sig")).get("decision") or {}).get(
+        LP.FOUNDER_AUTHORIZATION_SUPERSEDED) or () if isinstance(e, Mapping)]
+    if len(entries) != 1 or entries[0].get("market_id") != market_id:
+        raise LaneRefusal(BASE_NOT_DERIVABLE, "the head participation decision does not supersede exactly %s's "
+                                              "founder authorization" % market_id)
+    authorizing = entries[0].get("authorizing_decision") or {}
+    target = str(authorizing.get("sha256") or "")
+    chain = _git_text("rev-list", "--first-parent", "--max-count=%d" % _BASE_WALK_LIMIT, head,
+                      git_root=git_root).split()
+    walked: List["OrderedDict[str, Any]"] = []
+    base: Optional[str] = None
+    for commit in chain:
+        data = _blob(commit, prefix + _PARTICIPATION_REL, git_root)
+        digest = hashlib.sha256(data).hexdigest() if data is not None else None
+        walked.append(OrderedDict((("commit", commit), ("participation_sha256", digest))))
+        if digest == target:
+            base = commit
+        elif base is not None:
+            break
+    if base is None:
+        raise LaneRefusal(BASE_NOT_DERIVABLE, "no first-parent commit carries the authorizing decision %s (%s)"
+                                              % (authorizing.get("work_order"), target[:12]))
+    if not RI._is_ancestor(git_root or _DASH.parent, live_commit, base):
+        raise LaneRefusal(BASE_NOT_DERIVABLE, "the authorizing commit %s does not contain the live lineage commit "
+                                              "%s: the authorization predates live" % (base[:12], live_commit[:12]))
+    if _blob(base, prefix + "launch_packages/pettripfinder/markets/%s.json" % market_id, git_root) is None:
+        raise LaneRefusal(BASE_NOT_DERIVABLE, "%s is not registered at its authorizing commit %s" % (market_id, base[:12]))
+    live_truth, base_truth = _truth_ids(live_commit, prefix, git_root), _truth_ids(base, prefix, git_root)
+    for i, rel in enumerate(RI._LIVE_TRUTH_PATHS):
+        if rel == _AUTHORIZATIONS_REL:
+            continue
+        if live_truth[i] != base_truth[i]:
+            raise LaneRefusal(BASE_NOT_DERIVABLE, "%s differs between the authorizing commit %s and live %s"
+                                                  % (rel, base[:12], live_commit[:12]))
+    live_auths = _tree_listing(live_commit, prefix + _AUTHORIZATIONS_REL + "/", git_root)
+    base_auths = _tree_listing(base, prefix + _AUTHORIZATIONS_REL + "/", git_root)
+    changed = [n for n, blob in live_auths.items() if base_auths.get(n) != blob]
+    if changed:
+        raise LaneRefusal(BASE_NOT_DERIVABLE, "live authorization(s) differ at the authorizing commit: %s" % changed[:3])
+    extras = []
+    for name in (n for n in base_auths if n not in live_auths):
+        doc = json.loads((_blob(base, "%s%s/%s" % (prefix, _AUTHORIZATIONS_REL, name), git_root) or b"{}")
+                         .decode("utf-8-sig"))
+        names_market = market_id in (doc.get("participating_markets") or ()) or market_id in (
+            doc.get("founder_authorized_markets") or ())
+        if not names_market or doc.get("authorization_status") not in ("PREPARED", "AUTHORIZED"):
+            raise LaneRefusal(BASE_NOT_DERIVABLE, "authorization %s at the authorizing commit is not an undeployed "
+                                                  "authorization of %s (%s)" % (name, market_id,
+                                                                                doc.get("authorization_status")))
+        extras.append(name)
+    between = _git_text("log", "--format=%H %s", "%s..%s" % (live_commit, base), git_root=git_root).splitlines()
+    return OrderedDict((
+        ("base", base), ("live_lineage_commit", live_commit), ("mode", "reregistration"),
+        ("rule", "the first-parent commit that wrote the authorizing decision the head's "
+                 "founder_authorization_superseded entry names: the market's own prior registered state, "
+                 "containing the live lineage commit and live's deployment records, manifest, deployment pin and "
+                 "authorizations, plus only the undeployed authorization(s) of this market"),
+        ("authorizing_decision", OrderedDict((("work_order", authorizing.get("work_order")), ("sha256", target)))),
+        ("authorizations_of_the_market_at_base", extras),
+        ("commits_walked", walked),
+        ("factory_commits_since_live", [OrderedDict((("commit", line[:40]), ("subject", line[41:])))
+                                        for line in between if line.strip()]),
+    ))
+
+
 def classify_automatically(market_id: str, *, out: Path, git_root: Optional[Path] = None,
                            resolution: Optional[Mapping] = None) -> "OrderedDict[str, Any]":
     """Resolve live, derive the base, run the existing classifier on the
@@ -566,7 +838,13 @@ def classify_automatically(market_id: str, *, out: Path, git_root: Optional[Path
     if dirty:
         raise LaneRefusal(DIRTY_WORKTREE, "commit the registration first; the classifier proves committed "
                           "bytes: %s" % dirty.splitlines()[:3])
-    base = derive_registration_base(market_id, live["CURRENT_LIVE_SOURCE_COMMIT"], git_root=git_root)
+    # PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: a head that supersedes
+    # this market's founder authorization is a RE-registration, proven
+    # against the market's own authorizing commit.
+    if reregistration_market_at("HEAD", git_root=git_root) == market_id:
+        base = derive_reregistration_base(market_id, live["CURRENT_LIVE_SOURCE_COMMIT"], git_root=git_root)
+    else:
+        base = derive_registration_base(market_id, live["CURRENT_LIVE_SOURCE_COMMIT"], git_root=git_root)
     doc = RD.classify_document(base["base"], RD.WORKTREE)
     doc["classification_source"] = CLASSIFICATION_SOURCE_AUTOMATIC
     doc["live_resolution"] = OrderedDict((k, live.get(k)) for k in (
@@ -654,6 +932,22 @@ def packet(market_id: str, *, classification_path: Path, lane_report: Path, out:
             "The registration's participation row reads SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH.",
         ]),
     ))
+    # PTF-CANONICAL-REREGISTRATION-LANE-REPAIR-001: a re-registration packet
+    # states which authorization it does NOT inherit.
+    participation = ((proof.get("checks") or {}).get("participation") or {}).get("detail") or {}
+    if proof.get("CHANGE_CLASS") == "AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY" \
+            or participation.get("mode") == "reregistration":
+        doc["reregistration"] = OrderedDict((
+            ("superseded_founder_decision", participation.get("authorizing_decision")),
+            ("superseded_package_digest", participation.get("superseded_package_digest")),
+            ("corrected_package_digest", participation.get("corrected_package_digest")),
+            ("superseded_deployment_authorizations", participation.get("deployment_authorizations")),
+            ("old_authorizations_authorize_the_corrected_package", False),
+            ("new_founder_authorization_required", True),
+        ))
+        doc["what_is_not_claimed"].append(
+            "The superseded founder decision and every deployment authorization of the old bytes authorize "
+            "NOTHING for the corrected package; a new founder authorization of these exact bytes is owed.")
     _write(out, doc)
     print("status         :", doc["status"], "| founder:", doc["founder_status"])
     print("change class   :", doc["regression_v2"]["CHANGE_CLASS"], "| broad:", doc["regression_v2"]["FULL_REGRESSION_REQUIRED"],
@@ -682,6 +976,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     s.add_argument("--work-order", required=True)
     s.add_argument("--decided-on", default=None)
     s.add_argument("--out", default=None)
+    s = sub.add_parser("reregister", help="re-register an authorized, never-deployed market after a correction "
+                                          "(participation reissue + its own pin block)")
+    s.add_argument("--market", required=True)
+    s.add_argument("--work-order", required=True)
+    s.add_argument("--decided-on", default=None)
+    s.add_argument("--out", default=None)
     s = sub.add_parser("packet", help="write the UNSIGNED authorization-readiness packet")
     s.add_argument("--market", required=True)
     s.add_argument("--classification", default=None,
@@ -701,10 +1001,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
 
 def _run(args: Any, us: str) -> int:
-    if args.command in ("register", "seal"):
+    if args.command in ("register", "seal", "reregister"):
         # PTF-RELEASE-FACTORY-EFFICIENCY-BOUNDED-REPAIR-002: never register or
         # seal on a tree that is not built on current live.
         require_current_live()
+    if args.command == "reregister":
+        reregister(args.market, work_order=args.work_order, decided_on=args.decided_on,
+                   out=Path(args.out) if args.out else REPORTS / ("%s_reregistration_participation.json" % us))
+        return 0
     if args.command == "register":
         register(args.market, work_order=args.work_order, decided_on=args.decided_on,
                  out=Path(args.out) if args.out else REPORTS / ("%s_registration_participation.json" % us))
