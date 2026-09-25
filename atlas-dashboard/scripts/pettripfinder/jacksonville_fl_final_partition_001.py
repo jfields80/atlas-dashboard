@@ -13,7 +13,7 @@ Two vocabularies on every row:
 
 Nothing here fetches or publishes.
 
-Output: launch_packages/pettripfinder/markets/staging/jacksonville-fl/launch_package/jacksonville_fl_final_partition_001.json
+Output: launch_packages/pettripfinder/jacksonville_fl_final_partition_001.json
 """
 from __future__ import annotations
 
@@ -33,13 +33,12 @@ WORK_ORDER = "PTF-JACKSONVILLE-FL-HARDENED-SOURCE-READY-001"
 MARKET_ID = "jacksonville-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-#: SHADOW_UNTIL_REGISTERED: a shadow market's partition belongs INSIDE its own staging launch_package, never at
-#: the registry package root -- the root is where a REGISTERED market's release contract references it, and
-#: writing there would put an unregistered market's document into shared space. The shadow seal reads it from
-#: the staging tree.
-OUT = os.path.join(PKG, "markets", "staging", MARKET_ID, "launch_package",
-                   "jacksonville_fl_final_partition_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "jacksonville-fl.json")
+#: REGISTERED by PTF-JACKSONVILLE-FL-REGISTRATION-AND-STAGING-002: the partition lives at the PACKAGE ROOT,
+#: where the market package writer globs `<market_us>_final_partition_*` and a registered market's release
+#: contract references it. The source-ready order kept it inside the staging launch_package because writing to
+#: the root would have put an unregistered market's document into shared space.
+OUT = os.path.join(PKG, "jacksonville_fl_final_partition_001.json")
+CENSUS = os.path.join(PKG, "identity_census", "jacksonville-fl.json")
 CLEAN = os.path.join(REPORTS, "jacksonville_fl_clean_authority_001.json")
 AS_OF = "2026-09-25"
 

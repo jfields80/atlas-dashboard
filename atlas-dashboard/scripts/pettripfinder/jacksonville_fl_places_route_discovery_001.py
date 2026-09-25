@@ -37,7 +37,7 @@ from scripts.pettripfinder import jacksonville_fl_geography_001 as GEO  # noqa: 
 WORK_ORDER = "PTF-JACKSONVILLE-FL-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "jacksonville-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "jacksonville-fl.json")
 ROUTING = os.path.join(REPORTS, "jacksonville_fl_routing_001.json")
 RECON = os.path.join(REPORTS, "jacksonville_fl_competitor_reconciliation_001.json")
 OUT = os.path.join(REPORTS, "jacksonville_fl_places_route_discovery_001.json")

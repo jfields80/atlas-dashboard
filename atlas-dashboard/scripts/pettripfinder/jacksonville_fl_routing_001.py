@@ -42,7 +42,7 @@ MARKET_ID = "jacksonville-fl"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "jacksonville-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "jacksonville-fl.json")
 OUT = os.path.join(REPORTS, "jacksonville_fl_routing_001.json")
 
 _NAME_FAMILY = [

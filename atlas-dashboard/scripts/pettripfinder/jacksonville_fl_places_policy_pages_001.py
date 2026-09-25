@@ -23,7 +23,7 @@ from scripts.pettripfinder import jacksonville_fl_policy_pages_lane_001 as PP  #
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "jacksonville_fl_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "jacksonville-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "jacksonville-fl.json")
 OUT = os.path.join(PKG, "markets", "staging", "jacksonville-fl", "raw_captures", "closure_static_rows.json")
 
 

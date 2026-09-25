@@ -3,7 +3,7 @@
 Turns this order's clean-authority adjudication into the two documents a registered market is built from, and
 validates both against the contracts that own them:
 
-  1. the staged POLICY PACKAGE  markets/staging/jacksonville-fl/launch_package/hotel_policy_facts_jacksonville-fl.json
+  1. the registered POLICY PACKAGE  hotel_policy_facts_jacksonville-fl.json (package root)
      -- schema-1.3 facts, every published fact cited to the quote it rests on.
   2. the PROPOSED AUTHORITY     markets/staging/jacksonville-fl/jacksonville_fl_proposed_authority_001.json
      -- the ptf-market-proposed-authority/1.0 shape `market_registration_cli` reads to write the shard.
@@ -50,13 +50,16 @@ MARKET_ID = "jacksonville-fl"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 CLEAN = os.path.join(REPORTS, "jacksonville_fl_clean_authority_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "jacksonville-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "jacksonville-fl.json")
 STAGING = os.path.join(PKG, "markets", "staging", "jacksonville-fl")
 #: SHADOW: the policy package goes inside the staged launch_package (where the shadow seal reads it) and the
 #: proposed authority beside it in the market's own staging root. The ROLE NAME is already the one a later
 #: registration order needs at the package root.
-PACKAGE_OUT = os.path.join(STAGING, "launch_package", "hotel_policy_facts_jacksonville-fl.json")
-AUTHORITY_OUT = os.path.join(STAGING, "jacksonville_fl_proposed_authority_001.json")
+#: REGISTERED: both documents move to the PACKAGE ROOT, where a registered market's live. The registration
+#: input keeps its ROLE NAME -- `<market_us>_proposed_authority_NNN.json` -- because the classifier
+#: recognises the role by that name and Orlando lost all fifteen checks to calling it anything else.
+PACKAGE_OUT = os.path.join(PKG, "hotel_policy_facts_jacksonville-fl.json")
+AUTHORITY_OUT = os.path.join(PKG, "jacksonville_fl_proposed_authority_001.json")
 OBSERVED_AT = "2026-09-25"   # the day this market's own first-party reads were taken
 CAPTURED_AT = "2026-09-25T02:00:00+00:00"
 

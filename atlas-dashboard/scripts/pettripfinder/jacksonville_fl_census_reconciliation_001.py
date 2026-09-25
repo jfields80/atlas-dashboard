@@ -61,13 +61,15 @@ NON_LODGING with a VACATION_RENTAL / TIMESHARE / RESORT_RESIDENCE reason
 
 SHADOW
 ------
-NOT REGISTERED. The census is written to identity_census_proposed/ and the contract is read from
-markets/proposed/jacksonville-fl.json. This order registers nothing.
+REGISTERED by PTF-JACKSONVILLE-FL-REGISTRATION-AND-STAGING-002. The census is written to
+identity_census/jacksonville-fl.json and the contract is read from markets/jacksonville-fl.json, where
+every registered market's documents live. The source-ready order wrote both into the proposed/shadow
+zone because a market registered nowhere may not occupy the registered name.
 
 Nothing here fetches. Nothing here carries a pet policy.
 
 Outputs:
-  launch_packages/pettripfinder/identity_census_proposed/jacksonville-fl.json
+  launch_packages/pettripfinder/identity_census/jacksonville-fl.json
   launch_packages/pettripfinder/markets/reports/jacksonville_fl_census_reconciliation_001.json
   launch_packages/pettripfinder/markets/reports/jacksonville_fl_competitor_gap_matrix_001.json
 """
@@ -120,10 +122,13 @@ GAP_SCHEMA = "ptf-competitor-gap-matrix/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 
 REPORTS = os.path.join(PKG, "markets", "reports")
-#: SHADOW_UNTIL_REGISTERED: the census goes to identity_census_proposed/ and the contract is read from
+#: REGISTERED: the census goes to identity_census/ and the contract is read from
 #: markets/proposed/<id>.json. A registration order moves both; this order moves neither.
-CENSUS_DIR = os.path.join(PKG, "identity_census_proposed")
-CONTRACT_PATH = os.path.join(PKG, "markets", "proposed", "jacksonville-fl.json")
+#: REGISTERED by PTF-JACKSONVILLE-FL-REGISTRATION-AND-STAGING-002: the census lives where every registered
+#: market's does. The source-ready order wrote it to `identity_census_proposed/` because a market that is
+#: registered nowhere may not occupy the registered name.
+CENSUS_DIR = os.path.join(PKG, "identity_census")
+CONTRACT_PATH = os.path.join(PKG, "markets", "jacksonville-fl.json")
 
 OSM_LANE = os.path.join(REPORTS, "jacksonville_fl_osm_lane_001.json")
 BRAND = os.path.join(REPORTS, "jacksonville_fl_brand_inventory_001.json")
@@ -2502,7 +2507,7 @@ def build():
         ("note",
          "PTF-JACKSONVILLE-FL-HARDENED-SOURCE-READY-001 Jacksonville / Northeast Florida census, built from "
          "zero under the current hardened factory on the West-Palm-Beach-live lineage. NOT REGISTERED: this "
-         "document is SHADOW_UNTIL_REGISTERED and lives in identity_census_proposed/. Every row carries the "
+         "document is REGISTERED and lives in identity_census/. Every row carries the "
          "observations that produced it; nothing here carries a pet policy."),
         ("source_authorities", SOURCE_AUTHORITIES),
         ("count", len(confirmed)),
