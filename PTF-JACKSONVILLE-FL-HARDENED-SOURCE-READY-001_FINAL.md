@@ -555,3 +555,11 @@ repository and the non-empty-bundle guard refused to build there. The standing r
 the missing half is that on Windows it must be written with **forward slashes** (`C:/t/jax1a`) so no shell layer
 can read `\t` as a tab. Rule K reported `determinism not executed` purely as a consequence: with no build there
 was nothing to compare.
+
+**And the mangled path did real damage before it was noticed.** Building into `atlas-dashboard/tjax1a/` left **44
+files of OTHER markets' data** inside the repository — every live market's document, the global authority manifest,
+the shared `hotel_exclusions.json` and `identity_resolutions.json` — and a blanket `git add -A` swept them into
+the repairs commit. They were removed and the commit amended before anything was pushed, so the final history
+contains **0 non-Jacksonville paths**, proved by `git diff --name-only bf7a54c3 HEAD`. The lesson is not only the
+path: **a build directory that lands inside the repository turns the next `git add -A` into a cross-market
+change**, and the isolation check has to be run again *after* every commit, not once at the start.
