@@ -371,3 +371,187 @@ graph came from a competitor.
 Disposition: VACATION_RENTAL 251 · REVIEW 229 · EXACT_ATLAS_MATCH 95 · DUPLICATE 45 · OUTSIDE 44 · ALIAS 28 ·
 NON_HOTEL 3 · TRUE_MISSING 4. The four TRUE_MISSING rows are carried as challenges with their exact source, not
 as inventory.
+
+**The census's own competitor accounting agrees: 589 competitor-only nodes, of which TRUE HOTELS = 0.**
+
+## 13. Phases 19–22 — the census, the graph and the 268
+
+| | |
+|---|---:|
+| Raw observations | **2,906** |
+| Graph nodes (hard key) | **2,007** |
+| Name attachment | bound 229 · ambiguous 26 · unbound 697 |
+| Merge conflicts caught | **44** |
+| **Confirmed identities (TRUE_HOTEL_IDENTITY)** | **268** |
+
+Lane yields: DBPR 1,168 · OSM 412 · brand owned 48 · brand city page 50 · brand sitemap 60 ·
+destination organisation 391 · competitor leads 699 · **first-party PROPERTY_PAGE 78**.
+
+Classification of the 2,007 nodes: OUTSIDE_MARKET **1,031** · NAME_ONLY_UNRESOLVED 458 · NON_LODGING 217 ·
+IDENTITY_REVIEW_REQUIRED 33 · **TRUE_HOTEL_IDENTITY 268**. That a clear majority of nodes classify OUTSIDE is the
+geography working: the DBPR extract and the OSM extract both reach far past this market's box, and the postal
+code sends them back.
+
+### Routing — 268 rows, every one with a state
+
+| Routing state | Rows |
+|---|---:|
+| ROUTED_OFFICIAL_DESTINATION | 110 |
+| ROUTED_OFFICIAL_INVENTORY | 76 |
+| INDEPENDENT_REVIEW | 50 |
+| FREE_LANE_EXHAUSTED | 26 |
+| ROUTED_MAP_WEBSITE | 5 |
+| ROUTE_BRAND_MISMATCH | 1 |
+
+By family: INDEPENDENT 116 · MARRIOTT 41 · HILTON 36 · IHG 22 · CHOICE 14 · WYNDHAM 13 · ESA 6 · BEST_WESTERN 5 ·
+HYATT 4 · MOTEL6 4 · OMNI 2 · RADISSON 2 · RED_ROOF 2 · SONESTA 1. 14 routes were filled from the owned corpus
+(MARRIOTT 13, INDEPENDENT 1) at zero requests.
+
+**A late defect worth recording.** Eight Marriott census rows reached through the destination organisation carry
+an EMPTY `property_code` — a bureau never publishes one — while their route is still Marriott's own property page,
+which spells the code in its path. The read-to-census rebind indexed only the explicit field, so those rows saw
+none of their own attempts, and the adjudicator reported **SpringHill Suites Jacksonville Airport** as
+`BROWSER_CAPTURE_NEEDED` — awaiting a read it had already been denied three times. Fixed by reading the MARSHA
+code off **both** sides' URLs, which is the brand's own identifier and not a name. `BROWSER_CAPTURE_NEEDED` went
+from 1 to **0** and the row took its correct terminal state, `ACCESS_BLOCKED`.
+
+## 14. Phase 23 — adjudication: 95 publishable, 18 no-pets, 155 held
+
+| Disposition | Rows |
+|---|---:|
+| **CLEAN_PET_FRIENDLY** | **95** |
+| **CLEAN_VERIFIED_NO_PETS** | **18** |
+| ACCESS_BLOCKED | 53 |
+| ROUTING_HOLD | 43 |
+| SOURCE_SILENT | 25 |
+| EVIDENCE_HOLD | 22 |
+| IDENTITY_MISMATCH_HOLD | 12 |
+| **BROWSER_CAPTURE_NEEDED** | **0** |
+| **RESOLVED / rate** | **113 of 268 — 42.2 %** |
+
+**Negation conflicts caught: 20.** Twenty rows where one source's phrasing would have published a hotel that its
+own page contradicts. Silence never became a "no", and an amenity chip never became a policy: both rules are
+asserted as fields in the adjudication artifact (`no_inference_from_silence`,
+`no_inference_from_amenity_alone`).
+
+Every one of the 155 held rows carries an exact reason, and **not one is actionable** (§16).
+
+### The dual-brand hold this order deliberately did NOT resolve
+
+1201 Kings Avenue carries two Hilton property codes — `jaxsbgi` and `jaxdnhw`. By the standing rule that is
+**TWO hotels**, not one, and resolving it means writing `identity_resolutions.json`. That file is **shared,
+multi-market data** and its contract requires `reviewer_id` and `reviewed_at` — a *reviewed* decision. Signing a
+review in the operator's name is forbidden, and editing a shared file is outside this order. So the pair is left
+as a founder-reviewable `IDENTITY_MISMATCH_HOLD` with both codes, the address and the reasoning recorded.
+**CROSS-MARKET FILE CHANGES = 0** is preserved, and a registration order can resolve it in one edit.
+
+## 15. Phase 24 — the partition, and what it publishes
+
+`contract issues = 0`.
+
+| Publication state | Rows |
+|---|---:|
+| **PUBLISHED_PET_FRIENDLY** | **95** |
+| **VERIFIED_NO_PETS** | **18** |
+| ACCESS_BLOCKED | 53 |
+| AWAITING_POLICY_OBSERVATION | 47 |
+| AWAITING_OFFICIAL_URL | 43 |
+| AWAITING_ROUTING_REPLACEMENT | 12 |
+
+**10 of the 17 corridors publish**: jax-airport-northside, westside-i10-i295, southside-university-boulevard,
+st-johns-town-center-gate-parkway, deerwood-baymeadows, mandarin-bartram-julington-creek, jacksonville-beach,
+atlantic-neptune-beach-mayport, orange-park-fleming-island, amelia-island-fernandina-beach. Seven corridors
+publish nothing yet and are held rather than deleted — a corridor with no publishable row is a coverage fact, not
+a geography error.
+
+Staged authority: **95 policy records, 0 refused, 0 package issues**; pet-fee computability
+`COMPUTATION_SAFE_ONE_PET_ONLY 53 / NOT_COMPUTABLE 42` — the fee is computed only where the page states enough to
+compute it, and 42 rows publish the policy without a computed fee rather than guess one.
+
+Both documents were written **inside the market's own staging tree**, not at the package root, because the root is
+where a REGISTERED market's documents live. The staged name is already the role name a later registration order
+needs (`jacksonville_fl_proposed_authority_001.json`), so that step is a move and not a rename — the mistake that
+cost Orlando all fifteen checks.
+
+## 16. Phase 28 — ACTIONABLE UNRESOLVED = 0, each class on its own terms
+
+| Hold class | Rows | **Actionable** | Why not actionable |
+|---|---:|---:|---|
+| ACCESS_BLOCKED | 53 | **0** | Akamai / DataDome walls; every row attempted, bypass prohibited |
+| ROUTING_HOLD | 43 | **0** | no first-party route exists in any authorized free lane |
+| SOURCE_SILENT | 25 | **0** | the property's own page states no pet policy — UNKNOWN is a valid answer |
+| EVIDENCE_HOLD | 22 | **0** | two readers disagree, or only an amenity chip exists |
+| IDENTITY_MISMATCH_HOLD | 12 | **0** | needs a *reviewed* shared-data decision, outside this order |
+| **TOTAL** | **155** | **0** | |
+
+Conditions measured, not asserted: `actionable_unresolved_is_zero` ✅ · `no_material_identity_gap` ✅ ·
+`no_material_unexplained_policy_gap` ✅ · `authorized_acquisition_lanes_exhausted` ✅ ·
+`marriott_queue_terminally_resolved_or_exhausted` ✅ · `browser_required_brands_processed_or_bounded` ✅ ·
+`publication_set_safe` ✅.
+
+## 17. Phase 26 — the shadow seal, and the THREE REAL DEFECTS the first FAST run caught
+
+The first seal produced `pkg-jacksonville-fl-aa0fe302`, reproducible in process, and FAST refused it: **C FAIL, G FAIL,
+J FAIL, K UNKNOWN**. Every one of the three was a genuine data defect in this market's own modules, and the most
+serious would have published a row belonging to a LIVE market. They are recorded here because a guard that fires
+is the guard working.
+
+### RULE G — a bare CHAIN label claimed an identity that **miami-fl already publishes**
+
+> `identity 'home2 suites by hilton' is published by jacksonville-fl and miami-fl`
+> `identity 'home2 suites by hilton' moves from miami-fl to jacksonville-fl`
+
+The row is **Home2 Suites by Hilton Fernandina Beach / Amelia Island** (`jaxfbht`, 2246 Sadler Rd, 32034). Its
+own tier-1 brand page names it in full — the full name was even sitting in its own alias list — but the canonical
+name came out as the bare chain "Home2 Suites by Hilton". Published, it would have **taken Miami's identity**.
+
+The census already had a repair pass for exactly this (`name_bare_identities`, for a map source that leaves a
+property named after its chain). It skipped this row because its bareness test was a **token count**: more than
+two words and the name was assumed specific. Four words of pure chain walked through.
+
+**The test is now on what the tokens ARE**, not how many there are: a name built only from chain words and words
+that distinguish nothing ("by", "suites", "inn", "stay", "america") names a **chain**, however long it is.
+Self-tested on 13 cases — `Home2 Suites by Hilton`, `Hampton Inn & Suites`, `Extended Stay America`,
+`Four Points by Sheraton`, `Holiday Inn Express`, `Courtyard by Marriott` all read as chains, while
+`Home2 Suites by Hilton Jacksonville Airport`, `Hampton Inn & Suites Middleburg`, `Omni Amelia Island Resort`,
+`Florida House Inn`, `Sea Cottages of Amelia` and `Casa Marina Hotel` all read as properties.
+
+**This is the §4 hazard arriving from the direction nobody watched.** The collision guard this order built watches
+Florida rows against *jacksonville-nc's* names. This collision came the other way: a Florida row with no place in
+its name colliding with *miami-fl's* row of the same bare name. The guard that caught it was the shared release
+lane's, and it earned its place.
+
+### RULE C — a campaign link is not a route (2 rows), and a TIERED fee is not one number (2 rows)
+
+> `hyatt place jacksonville st johns town center: WRONG_PROPERTY — page carries HYATT property code 'jaxzs', the identity is 'hotel'`
+
+The identity's own `official_url` ended `?src=vanity_hyattplacejacksonvillestjohnstowncenter.com`. The **shared**
+`brand_scoped_property_identity` reader cannot see a property code past a query string, so it read the code as the
+literal word **"hotel"** out of `/en-US/hotel/florida/…` — and the identity then disagreed with its own page.
+**15 census routes carried campaign or session query strings** (`?src=`, `utm_*`, `gclid`, `iata=`, `cid=`,
+`_ga=`, a bare `?`) and **3 still carried `&amp;`** from the source's HTML, because a Google Business Profile and a
+bureau publish the campaign URL rather than the page.
+
+The repair is on **this market's data, never on the shared reader**: a route is the property's page, so tracking
+parameters are stripped and entities unescaped, while a parameter a page actually needs
+(`?propertyCode=AHB`) survives. Self-tested on 7 URLs; after the repair the shared reader reads `jaxzs` and
+`jaxrj` correctly.
+
+> `hampton inn and suites middleburg: FACT_CONTRADICTED — pet_fee 7500 cents, cited quote reads [12500]`
+
+Hilton states **"1-4nts $75, 5+nts $125 per stay"**. Publishing 7500 cents asserts a fee the page does not state
+for a five-night stay, and the binding was right to refuse it. A quote naming **more than one distinct amount** is
+now **NOT COMPUTABLE**: acceptance, weight limit, count and species still publish from the same quote — the page
+states each of those exactly once — and the fee does not. A quote that repeats the *same* amount
+("1-6 nights: $100 / STAY | 7-30 nights (includes $100 cleaning fee)") is not tiered and still computes, which is
+why Hyatt Place Jacksonville Airport passed on the first run and still does.
+
+### RULE J — the work directory, and a Windows path that ate itself
+
+> `build failed: in-repo output must live under the gitignored data/ tree … : tjax1a/oa`
+
+`C:\t\jax1a` reached Python as `C:` + a TAB character, so `Path` produced the **relative** `tjax1a` inside the
+repository and the non-empty-bundle guard refused to build there. The standing rule is a SHORT ABSOLUTE work path;
+the missing half is that on Windows it must be written with **forward slashes** (`C:/t/jax1a`) so no shell layer
+can read `\t` as a tab. Rule K reported `determinism not executed` purely as a consequence: with no build there
+was nothing to compare.

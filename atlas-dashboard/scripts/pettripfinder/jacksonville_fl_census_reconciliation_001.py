@@ -74,6 +74,7 @@ Outputs:
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import os
 import re
@@ -1776,6 +1777,27 @@ _BRAND_WORDS = {
 }
 
 
+#: WORDS THAT DISTINGUISH NOTHING. A name built only from these and chain words names a CHAIN. "Home2 Suites by
+#: Hilton" is four words and none of them is a property: the token COUNT was the wrong test, and it let a bare
+#: chain label reach the release, where it claimed an identity miami-fl already publishes.
+_GENERIC_NAME_WORDS = frozenset("""
+by and the a of at on in
+inn inns suite suites hotel hotels motel motels resort resorts lodge lodging house hostel
+place plaza tower towers garden gardens studios studio residence residences club
+express stay stays extended select simply collection brand america s
+""".split())
+
+
+def _names_a_chain_not_a_property(name):
+    """True when every word of a name is a chain word or a word that distinguishes nothing."""
+    toks = [t for t in normalize_name(name).split() if t]
+    if not toks:
+        return False
+    if not any(t in _BRAND_WORDS for t in toks):
+        return False
+    return all(t in _BRAND_WORDS or t in _GENERIC_NAME_WORDS for t in toks)
+
+
 def name_bare_identities(rows):
     """Give a bare brand label its own brand's name for the property."""
     named = []
@@ -1792,7 +1814,9 @@ def name_bare_identities(rows):
         if len(sigs) > 1:
             continue
         toks = [t for t in normalize_name(r["canonical_name"]).split() if t]
-        if len(toks) > 2 or any(t in _ALL_PLACES or t in _DIRECTIONALS for t in toks):
+        if any(t in _ALL_PLACES or t in _DIRECTIONALS for t in toks):
+            continue
+        if not _names_a_chain_not_a_property(r["canonical_name"]):
             continue
         route = ""
         for o in r.get("evidence", []):
@@ -1822,6 +1846,34 @@ def name_bare_identities(rows):
         r["identity_key_aliases"] = sorted(a for a in aliases if a)
         r["canonical_name_basis"] = named[-1]["basis"]
     return named
+
+
+#: A ROUTE IS THE PROPERTY'S PAGE, NOT A CAMPAIGN LINK. Fifteen of this market's routes arrived with tracking
+#: or session query strings and three with `&amp;` still in them, because a Google Business Profile and a bureau
+#: publish the campaign URL rather than the page. The shared brand reader cannot see a property code past a query
+#: string -- it read Hyatt's code as the literal word "hotel" out of "/en-US/hotel/florida/..." -- so an identity
+#: disagreed with its own page and the first-party binding refused it. The repair belongs on this market's data.
+_TRACKING_PARAMS = frozenset("""
+src utm_source utm_medium utm_campaign utm_content utm_term utm_id gclid gbraid wbraid fbclid msclkid dclid
+yclid ttclid twclid igshid mc_cid mc_eid _ga _gl ncr iata ssob cid corp_id hwi ref referrer source campaignid
+adgroupid keyword device gad_source gad_campaignid sceid scmid trackingid clickid cmpid
+""".split())
+
+
+def route_not_campaign_link(url):
+    """Strip HTML entities and tracking/session parameters from a route; keep everything a page needs."""
+    u = html.unescape(html.unescape((url or "").strip()))
+    if "?" not in u:
+        return u
+    base, _, query = u.partition("?")
+    kept = []
+    for part in query.split("&"):
+        if not part:
+            continue
+        key = part.split("=", 1)[0].strip().lower()
+        if key and key not in _TRACKING_PARAMS:
+            kept.append(part)
+    return base + ("?" + "&".join(kept) if kept else "")
 
 
 ADMITTED_STATES = frozenset({"FL", "FLORIDA"})
@@ -2412,7 +2464,7 @@ def build():
             ("street_identity", address_key(canonical_street(node.street), node.postal)
              if (node.street or "").strip() else ""),
             ("brand", node.brand), ("property_code", node.property_code),
-            ("official_url", node.route),
+            ("official_url", route_not_campaign_link(node.route)),
             ("latitude", node.lat), ("longitude", node.lng),
             ("corridor", _corridor),
             ("assignment_basis", _basis),

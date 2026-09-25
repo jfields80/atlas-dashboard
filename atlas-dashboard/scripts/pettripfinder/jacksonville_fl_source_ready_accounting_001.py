@@ -316,7 +316,10 @@ def main():
             ("dbpr_licensed_lodging_leads", dbpr.get("lead_count")),
             ("osm_lodging_elements", osm.get("element_count")),
             ("brand_inventory_leads", brand.get("lead_count")),
-            ("destination_roster_listings", roster.get("listing_count_total")),
+            # this market's roster names the count `row_count`; the parent's named it `listing_count_total`, and
+            # reading only the parent's name published a null into the accounting artifact.
+            ("destination_roster_listings", roster.get("row_count", roster.get("listing_count_total"))),
+            ("destination_roster_rows_in_admitted_codes", roster.get("rows_in_admitted_postal_codes")),
             ("competitor_leads_normalized", comp.get("normalized_unique")),
             ("graph_nodes", n_census + len(non)),
             ("proposed_census", n_census), ("valid_pet_friendly", pf), ("valid_verified_no_pets", npets),

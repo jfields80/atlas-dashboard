@@ -67,6 +67,19 @@ LANE_GRADE = {
 }
 _WEIGHT_RX = re.compile(r"(\d+(?:\.\d+)?)\s*(?:lbs?|pounds)\b", re.I)
 
+#: A TIERED FEE IS NOT ONE NUMBER. Hilton states "1-4nts $75, 5+nts $125 per stay" at three Northeast Florida
+#: properties, and writing 7500 cents asserts a fee the page does not state for a five-night stay -- the shared
+#: first-party binding caught it as FACT_CONTRADICTED, correctly. When a quote names more than one DISTINCT
+#: amount the fee is NOT COMPUTABLE: the acceptance, the weight limit, the count and the species still publish
+#: from the same quote, because the page states each of those exactly once. A quote that repeats the SAME amount
+#: ("1-6 nights: $100 / STAY | 7-30 nights (includes $100 cleaning fee)") is not tiered and still computes.
+_DOLLAR_RX = re.compile(r"\$\s*(\d+(?:\.\d{1,2})?)")
+TIERED_FEES_OMITTED = []
+
+
+def _stated_amounts(quote):
+    return {float(m.group(1)) for m in _DOLLAR_RX.finditer(quote or "")}
+
 
 def _load(path):
     with open(path, encoding="utf-8") as fh:
@@ -86,7 +99,16 @@ def _facts(pets_allowed, pf, quote):
     if weight is not None and float(weight) > 0:
         out["weight_limit"] = OrderedDict([("value", float(weight)), ("unit", "lb"), ("operator", "lte"),
                                            ("scope", "per_pet")])
-    if pf.get("pet_fee_cents") is not None:
+    tiered = _stated_amounts(quote)
+    if pf.get("pet_fee_cents") is not None and len(tiered) > 1:
+        TIERED_FEES_OMITTED.append(OrderedDict([
+            ("stated_amounts_usd", sorted(tiered)),
+            ("fee_the_reader_computed_cents", int(pf["pet_fee_cents"])),
+            ("quote", quote),
+            ("why", "the page states a different fee for a different stay length; one number would assert a "
+                    "price the page does not state, so the fee is omitted and the row publishes without one"),
+        ]))
+    elif pf.get("pet_fee_cents") is not None:
         fee = OrderedDict([("amount_cents", int(pf["pet_fee_cents"])), ("currency", pf.get("fee_currency") or "USD"),
                            ("basis", "per_night" if re.search(r"per\s+night|nightly|per\s+day|/day", quote, re.I)
                             else "per_stay")])
@@ -257,6 +279,9 @@ def main(argv=None):
     for i in issues[:10]:
         print("   !", str(i)[:200])
     print("computation      :", dict(Counter(h["computation_class"] for h in package["hotels"])))
+    print("tiered fees omitted:", len(TIERED_FEES_OMITTED))
+    for t in TIERED_FEES_OMITTED:
+        print("   ", t["stated_amounts_usd"], "|", t["quote"][:96])
     if issues:
         print("NOT WRITTEN -- the package must validate before it is committed")
         return 1
