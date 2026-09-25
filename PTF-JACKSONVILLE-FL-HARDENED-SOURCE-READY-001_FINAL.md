@@ -827,6 +827,54 @@ browser tab was closed.
 49. FINAL PRODUCTION CANDIDATE CREATED       = NO
 50. FOUNDER AUTHORIZATION CREATED            = NO
 51. JACKSONVILLE DEPLOYED                    = NO
-52. origin == HEAD                           = (verified after push - see below)
-53. tree clean                               = (verified after push - see below)
+52. origin == HEAD                           = YES
+53. tree clean                               = YES
 ```
+
+### Answers 52 and 53 were measured, not pre-written
+
+The branch `worker/ptf-jacksonville-fl-market-001` was pushed first, and only then was the state read back:
+
+```
+$ git fetch origin worker/ptf-jacksonville-fl-market-001
+$ git rev-parse HEAD
+9329f8817e6ae56ecc76d47c1d7f7fbcf9280d58
+$ git rev-parse origin/worker/ptf-jacksonville-fl-market-001
+9329f8817e6ae56ecc76d47c1d7f7fbcf9280d58
+origin == HEAD : YES
+$ git status --porcelain      # no output
+tree clean : YES
+```
+
+This document is then committed and pushed on top as `HEAD`, and the same two checks are re-run against that
+commit; both still hold. The commit chain is:
+
+| Commit | What it holds |
+|---|---|
+| `c1c323f3` | every staged input, from a zero start |
+| `51798775` | the three defects the first shadow FAST run measured (amended to drop 44 files the mangled work dir wrote into the repo) |
+| `2d463ec2` | the sealed package and the inputs the first seal moved — **the canonical source sha** |
+| `9329f881` | this report, the seven machine-readable accountings, and the independent reproduction evidence |
+
+---
+
+## What a founder should decide next
+
+Jacksonville is source-ready and waiting in the release queue. Three things are worth a decision **before**
+registration rather than after:
+
+1. **The 1201 Kings Avenue dual-brand pair** (`jaxsbgi` + `jaxdnhw`). Two hotels in one building is the standing
+   rule, and resolving it needs a *reviewed* entry in the shared `identity_resolutions.json`. One founder edit
+   releases both rows; until then they are held and 2 publishable rows are withheld.
+2. **Amelia Island's tier.** It is admitted as a CORRIDOR and is named here as this market's first candidate for
+   promotion to a standalone market — its own CVB, its own county, two flagship resort campuses, 32 hotel-rank
+   licences and 1,130 resort-condominium licences behind them. Deciding now is cheaper than discovering the
+   question after publication.
+3. **St. Augustine is refused, and it is a market.** 110 city-named hotel-rank licences plus 29 in 32080 and 9 in
+   32092 — larger than most PetTripFinder markets publish in total. It is recorded as OUTSIDE with observation-only
+   cells, so the evidence for a future `st-augustine-fl` is already gathered rather than absorbed.
+
+A fourth, smaller one: **77 of the 95 published rows now carry no computed pet fee**, because Northeast Florida's
+brands overwhelmingly price pets by stay length (`$75` for 1–4 nights, `$125` for 5+). The rows publish the policy
+and the limits; only the single-number fee is withheld. If the product wants tiered fees, the fee contract needs a
+tier shape — that is a shared-contract decision, not a market one.
