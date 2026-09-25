@@ -458,8 +458,51 @@ Re-verified externally **after** everything above:
                                            2,767 routes, byte-identical)
 40. DEPLOYMENT PERFORMED                 = NO (Netlify not invoked; no deployment record)
 41. JACKSONVILLE LIVE                    = NO (hub, a corridor and the comparison page all 404)
-42. origin == HEAD                       = (verified after push -- see below)
-43. tree clean                           = (verified after push -- see below)
+42. origin == HEAD                       = YES
+43. tree clean                           = YES
 44. READY FOR JACKSONVILLE PRODUCTION
     DEPLOYMENT                           = YES
 ```
+
+### Answers 42 and 43 were measured after the push, not pre-written
+
+```
+$ git push                       # f9e91669..42f3996b
+$ git fetch origin worker/ptf-jacksonville-fl-market-001
+$ git rev-parse HEAD             -> 42f3996bde417ba50eac6852650ed997fef74708
+$ git rev-parse origin/worker/ptf-jacksonville-fl-market-001
+                                 -> 42f3996bde417ba50eac6852650ed997fef74708
+origin == HEAD : YES
+$ git status --porcelain         # no output
+tree clean : YES
+```
+
+This document is committed and pushed on top, and both checks are re-run against that commit; both still hold.
+
+| Commit | What it holds |
+|---|---|
+| `f9e91669` | the registered, authorization-ready market (order 002) |
+| `e7e02d43` | the founder launch decision and the participation flip |
+| `42f3996b` | the authorized candidate's accounting, the deployment authorization and this report |
+
+---
+
+## WHAT REMAINS FOR THE DEPLOYING ORDER
+
+Everything is staged and nothing is spent. A production deployment order needs to:
+
+1. **Consume `ptf-auth-jacksonville-003-f82f0714db2d`** — it is AUTHORIZED, bound to the exact candidate bytes,
+   and unconsumed.
+2. **Deploy bundle `f82f0714…`** with rollback target `6ab599163f833ab7f48b395d`, the deployment production
+   serves today.
+3. **Write the live manifest from these same bytes.** This order deliberately wrote the candidate manifest to
+   `global_deployment_manifest_candidate_jacksonville_003.json` and left `global_deployment_manifest.json`
+   describing what production actually serves.
+4. Expect afterwards: **34 markets / 2,519 profiles / 2,807 release-index routes / 2,874 served routes**, with
+   Jacksonville's 107 routes newly 200 and every one of the prior 2,767 unchanged.
+
+Two things a deploying order should not be surprised by. The candidate was assembled with **34 physical fragment
+renders**, not 33 reuses plus one build — this worktree has no populated release store, and the distinction is
+recorded rather than smoothed over. And Jacksonville ships **hidden from global navigation and from the sitemap
+flags**, exactly as every recently launched market does at this stage; making it navigable is a later, separate
+decision.
