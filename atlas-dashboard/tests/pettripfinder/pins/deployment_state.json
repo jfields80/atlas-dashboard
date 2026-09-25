@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-WEST-PALM-BEACH-FL-PRODUCTION-DEPLOYMENT-007",
+ "reviewed_by": "PTF-JACKSONVILLE-FL-PRODUCTION-DEPLOYMENT-004",
  "live": {
-  "deploy_id": "6ab599163f833ab7f48b395d",
-  "deployed_by": "PTF-WEST-PALM-BEACH-FL-PRODUCTION-DEPLOYMENT-007",
-  "authorization_id": "ptf-auth-west-palm-beach-006-23728b4bff71",
-  "deployment_record_id": "ptf-deploy-west-palm-beach-007-6ab599163f833ab7f48b395d",
-  "previous_deploy_id": "6ab1a035c7ef3b14a23a4ec6",
-  "source_commit": "ff6b506d6e6311b686e974cf3aea6cff110af262",
-  "bundle_sha256": "23728b4bff71c66d0a9a063de3882d744f92465f5f568f72b3caf16ca8641d78",
-  "sitemap_sha256": "8ae34cea1c7e384f0f4c8499066c5ff2f9ca841d099c344a5860041b4b6c7546",
+  "deploy_id": "6ab6c8798bd9daf5038ae3e5",
+  "deployed_by": "PTF-JACKSONVILLE-FL-PRODUCTION-DEPLOYMENT-004",
+  "authorization_id": "ptf-auth-jacksonville-003-f82f0714db2d",
+  "deployment_record_id": "ptf-deploy-jacksonville-004-6ab6c8798bd9daf5038ae3e5",
+  "previous_deploy_id": "6ab599163f833ab7f48b395d",
+  "source_commit": "e7e02d4394dde29e949c13cf06732f3f7d69dc5f",
+  "bundle_sha256": "f82f0714db2dd4d714b6b789c68492f60de8a1f3287a11b1e6f1afd680cf0c4e",
+  "sitemap_sha256": "d34b0e5d7d5ed045a3f727e49f18e2fe61de3df108e9ef0666c5413d1bb48e4f",
   "participating_markets": [
    "asheville-nc",
    "atlanta-ga",
@@ -27,6 +27,7 @@
    "grand-rapids-holland-mi",
    "greenville-nc",
    "indianapolis-in",
+   "jacksonville-fl",
    "jacksonville-nc",
    "lexington-ky",
    "louisville-ky",
@@ -62,6 +63,7 @@
    "grand-rapids-holland-mi": 43,
    "greenville-nc": 8,
    "indianapolis-in": 82,
+   "jacksonville-fl": 95,
    "jacksonville-nc": 16,
    "lexington-ky": 20,
    "louisville-ky": 53,
@@ -81,19 +83,19 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 2424,
-  "sitemap_route_count": 2767,
-  "total_html_pages": 14742,
-  "total_files": 14760,
-  "rollback_target": "6ab1a035c7ef3b14a23a4ec6",
-  "note": "The Palm Beaches joined as the THIRTY-THIRD market at 49 published pet-friendly profiles over 5 publishing corridors (boca-raton, delray-beach, downtown-west-palm-beach, palm-beach-gardens, palm-beach-international-airport), on the CORRECTED package pkg-west-palm-beach-fl-94d6f4115daa9b88. A pre-deploy identity correction publishes Hilton Garden Inn Boca Raton (bctbrgi) where the first authorized candidate carried a DBPR licensee name; that candidate and its authorization (ptf-auth-west-palm-beach-003-217f87eeba72) were SUPERSEDED before any deployment and never shipped. Re-registered as AUTHORIZED_NONLIVE_MARKET_REREGISTRATION_DATA_ONLY with 0 broad regression runs and founder-authorized anew (PTF-WEST-PALM-BEACH-FL-FOUNDER-LAUNCH-AUTHORIZATION-006). The exact authorized artifact was deployed with no rebuild; the live sitemap hashes to the authorized candidate, all 2767 live routes return 200, every West Palm Beach page is byte-identical to the artifact, and the Apple Ten identity and all 141 unpublished census rows return 404. The other 10 corridors stay below their own publication minimum and were not forced. Rollback is the deployment West Palm Beach replaced (Fort-Lauderdale-live, 32 markets).",
-  "rollback_record": "ptf-deploy-fort-lauderdale-004-6ab1a035c7ef3b14a23a4ec6.json"
+  "total_profiles": 2519,
+  "sitemap_route_count": 2874,
+  "total_html_pages": 15324,
+  "total_files": 15342,
+  "rollback_target": "6ab599163f833ab7f48b395d",
+  "note": "Jacksonville / Northeast Florida joined as the THIRTY-FOURTH market at 95 published pet-friendly profiles over 10 publishing corridors (amelia-island-fernandina-beach, atlantic-neptune-beach-mayport, deerwood-baymeadows, jacksonville-beach, jax-airport-northside, mandarin-bartram-julington-creek, orange-park-fleming-island, southside-university-boulevard, st-johns-town-center-gate-parkway, westside-i10-i295), on package pkg-jacksonville-fl-60ba2edccd4882b3. Built from zero on the West-Palm-Beach-live lineage, registered as COMPOSITE_FRESH_MARKET_DATA_ONLY with 0 broad regression runs, and founder-authorized once (PTF-JACKSONVILLE-FL-FOUNDER-LAUNCH-AUTHORIZATION-003) -- this market's FIRST authorization and FIRST deployment, so nothing was superseded. The exact authorized artifact was deployed with no rebuild: the served sitemap hashes to the authorized candidate, the served route SET is identical to it, all 2767 parent routes refetched 200 with 0 lost, all 107 Jacksonville routes are live, and every probed unpublished census row returns 404 -- including both halves of the 1201 Kings Avenue dual-brand Hilton building, which the founder deliberately withheld and for which no identity_resolutions.json ruling was written. Amelia Island is served as a CORRIDOR of this market and was not promoted to a standalone market; every St. Augustine postal code remains refused. The city name JACKSONVILLE decides nothing here: jacksonville-nc is a separate LIVE market in Onslow County, North Carolina, and its 19 served routes and 99 files are byte-identical across this deploy. The other 7 corridors stay below their own publication minimum and were not forced. Rollback is the deployment Jacksonville replaced (West-Palm-Beach-live, 33 markets).",
+  "rollback_record": "ptf-deploy-west-palm-beach-007-6ab599163f833ab7f48b395d.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "23728b4bff71c66d0a9a063de3882d744f92465f5f568f72b3caf16ca8641d78",
-  "sitemap_sha256": "8ae34cea1c7e384f0f4c8499066c5ff2f9ca841d099c344a5860041b4b6c7546",
+  "bundle_sha256": "f82f0714db2dd4d714b6b789c68492f60de8a1f3287a11b1e6f1afd680cf0c4e",
+  "sitemap_sha256": "d34b0e5d7d5ed045a3f727e49f18e2fe61de3df108e9ef0666c5413d1bb48e4f",
   "participating_markets": [
    {
     "market_id": "asheville-nc",
@@ -198,6 +200,13 @@
     "published_profiles": 82,
     "release_contract": "deploy/netlify/release_contracts/indianapolis-in.json",
     "release_contract_sha256": "b874a950f5c71e6c4a72c101ad3a0d5e9d0649c7a17793b373fe6203b2b9d2fd",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "jacksonville-fl",
+    "published_profiles": 95,
+    "release_contract": "deploy/netlify/release_contracts/jacksonville-fl.json",
+    "release_contract_sha256": "38d0a66409a5ea15bf2b2f746fc9940f02f6ec1e972f11aa19e8aeaf0494db40",
     "contract_disagreements": []
    },
    {
@@ -343,6 +352,7 @@
    "grand-rapids-holland-mi": 43,
    "greenville-nc": 8,
    "indianapolis-in": 82,
+   "jacksonville-fl": 95,
    "jacksonville-nc": 16,
    "lexington-ky": 20,
    "louisville-ky": 53,
@@ -362,9 +372,9 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 2424,
-  "sitemap_route_count": 2767,
-  "total_html_pages": 14742,
-  "total_files": 14760
+  "total_profiles": 2519,
+  "sitemap_route_count": 2874,
+  "total_html_pages": 15324,
+  "total_files": 15342
  }
 }
