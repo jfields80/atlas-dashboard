@@ -280,6 +280,32 @@ order's own browser recording**, documented in the module rather than papered ov
 
 ## 9. Phase 15 — brand-family closure, including the one the order forbids postponing
 
+Every family, closed on its own numbers. `b_att` / `b_read` / `b_den` are attended-browser attempts, reads and
+challenge denials.
+
+| Family | Census | PF | NP | Unresolved | Blocked | b_att | b_read | b_den |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| MARRIOTT | 42 | 18 | 5 | 19 | 18 | 65 | 24 | **41** |
+| INDEPENDENT | 101 | 16 | 2 | 83 | 25 | 0 | 0 | 0 |
+| HILTON | 36 | **29** | 1 | 6 | 0 | 36 | **36** | 0 |
+| IHG | 22 | 13 | 7 | 2 | 0 | 0 | 0 | 0 |
+| LUXURY_INDEPENDENT | 14 | 1 | 0 | 13 | 2 | 0 | 0 | 0 |
+| CHOICE | 14 | 5 | 0 | 9 | 1 | 0 | 0 | 0 |
+| WYNDHAM | 13 | 4 | 3 | 6 | 0 | 0 | 0 | 0 |
+| **EXTENDED_STAY_AMERICA** | 6 | **0** | 0 | **6** | **6** | 0 | 0 | 0 |
+| BEST_WESTERN | 5 | 3 | 0 | 2 | 0 | 4 | 3 | 0 |
+| HYATT | 4 | 3 | 0 | 1 | 0 | 4 | 4 | 0 |
+| MOTEL6_STUDIO6 | 4 | 1 | 0 | 3 | 1 | 0 | 0 | 0 |
+| RED_ROOF | 2 | **2** | 0 | **0** | 0 | 5 | 5 | 0 |
+| OMNI | 2 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| RADISSON | 2 | 0 | 0 | 2 | 0 | 1 | 0 | 1 |
+| SONESTA | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+
+**Hilton is the market's spine: 36 of 36 read, 29 publishable.** Red Roof closed completely (2 of 2). IHG answered
+Firecrawl (10 attempted, 9 succeeded) with no browser at all. The 101 INDEPENDENT rows are where the unresolved
+cohort lives, and that is a property of independent lodging, not of this order's effort: 83 unresolved, of which 25
+are ACCESS_BLOCKED after every authorized lane was refused and the rest have no first-party route in existence.
+
 ### MARRIOTT — closed, and the ceiling is measured, not asserted
 
 The order says Marriott closure may not be postponed and that every Marriott row must end RESOLVED or
@@ -556,6 +582,12 @@ the missing half is that on Windows it must be written with **forward slashes** 
 can read `\t` as a tab. Rule K reported `determinism not executed` purely as a consequence: with no build there
 was nothing to compare.
 
+**A fourth defect the tiered-fee rule caught that FAST had not named.** Of the 35 rows whose fee is now omitted,
+one — **Comfort Suites Airport** (`fl793`) — had its "pet fee" computed from Choice's own booking panel, whose only
+dollar amounts are the **room rates** `Strikethrough Rate: $119 / Discounted rate: $111 USD /night`. The row would
+have published a nightly room rate as a pet fee. It now publishes acceptance with no fee at all, which is what the
+page actually supports.
+
 **And the mangled path did real damage before it was noticed.** Building into `atlas-dashboard/tjax1a/` left **44
 files of OTHER markets' data** inside the repository — every live market's document, the global authority manifest,
 the shared `hotel_exclusions.json` and `identity_resolutions.json` — and a blanket `git add -A` swept them into
@@ -563,3 +595,238 @@ the repairs commit. They were removed and the commit amended before anything was
 contains **0 non-Jacksonville paths**, proved by `git diff --name-only bf7a54c3 HEAD`. The lesson is not only the
 path: **a build directory that lands inside the repository turns the next `git add -A` into a cross-market
 change**, and the isolation check has to be run again *after* every commit, not once at the start.
+
+### SEAL TWICE — because the first seal moves its own inputs
+
+The helper stages a repository-shaped launch package inside the market's own zone and seals from it with a
+**COMMITTED** source sha. The first seal therefore changes the tree it just sealed (the staged shard documents and
+the staged census copy), so the digest it produced was bound to a commit that no longer described the tree:
+
+| Seal | Source sha | Package | Staged inputs moved? |
+|---|---|---|---|
+| 1 | `c1c323f3` | `aa0fe302` (FAST refused: C, G, J) | yes |
+| 2 | `51798775` | `fe34a11d` (**FAST 15/15**) | yes — `seed_businesses.csv`, staged census |
+| **3** | **`2d463ec2`** | **`e9cbc9ab`** (**FAST 15/15**) | **no — idempotent** |
+
+**Seal 3 is the canonical one**: its inputs did not move, so the digest is bound to a tree that still exists.
+And the seals agree where it matters — seal 2 and seal 3 produced the **identical site bundle**
+`a98efbea86c38a268bfa489354add4a700a0d4bc0ab13df740a5ae35ee842636`. The package digests differ only because a
+package digest binds its source commit, which is exactly what it is for.
+
+### The canonical seal: FAST = YES, fifteen of fifteen
+
+| | |
+|---|---|
+| PACKAGE_ID | `pkg-jacksonville-fl-e9cbc9abbb727694` |
+| PACKAGE_DIGEST | `sha256:e9cbc9abbb727694ca8446ef3d00b3d75853710fe31c19b24ea214e6c9b2d108` |
+| SOURCE SHA (committed) | `2d463ec280aef7b51f9c1cf7166a52f336fba9b2` |
+| BUNDLE SHA256 | `a98efbea86c38a268bfa489354add4a700a0d4bc0ab13df740a5ae35ee842636` |
+| CHANGE_CLASS | `MARKET_AUTHORITY_DATA_ONLY` |
+| **FAST** | **YES — A–O all PASS, UNKNOWN 0, FAILED 0**, in 196.9 s |
+| Reproducible in process | YES (the helper seals twice and refuses unless the digests agree) |
+| FAST_DATA_ONLY_RELEASE_ELIGIBLE | YES |
+| **PRODUCTION_ACTIVATION_ALLOWED** | **NO** — `FAST_PATH_PRODUCTION_ACTIVATION = DISABLED` |
+| Parent | live deploy `6ab599163f833ab7f48b395d`, source `ff6b506d`, rollback `6ab1a035c7ef3b14a23a4ec6` |
+
+**RULE J IS NON-VACUOUS ON ITS OWN EVIDENCE** — the guard that once passed on an empty bundle:
+
+| | |
+|---|---:|
+| `file_count` | **603** |
+| `html_count` | **587** |
+| `output_present` | **true** |
+| `output_defects` | **0** |
+| bundle sha256 | `a98efbea86c38a268bfa489354add4a700a0d4bc0ab13df740a5ae35ee842636` |
+| staged input digest | `sha256:0aa6f6a26529a8ca01032fb8bfb212762fd3a5974110ecacb2b1783d6072ada6` |
+
+**RULE K IS NON-VACUOUS AND MEASURED**: `BYTE_IDENTICAL`, `output_digest_a == output_digest_b`, **4 cold builds
+executed, 0 reuse hits**. A determinism claim from a cached build is not a determinism claim.
+
+The other rules, on their own numbers: **C** 113 records evaluated, 113 eligible, **0 ineligible** (it was 4 on the
+first run); **G** no forbidden collision against live digest `ccb56e37`; **M** 113 evidence references, max age 365
+days, earliest expiry 2027-09-25, revoked registry empty; **O** **0 paid references** — nothing in this package was
+bought.
+
+The build itself: 95 hotel profiles, **475 `/go/` pages**, 10 corridor pages, 1 policy-comparison page,
+**0 warnings, 0 broken internal links, 0 quality-gate failures**.
+
+## 18. Phase 27 — INDEPENDENT REPRODUCTION: DIFFERING FILES = 0
+
+Reproduced in a **detached git worktree** (`C:/t/jax1b-wt`, detached at `2d463ec2`), by a **separate OS process**
+(the working directory was recorded to disk before the process started, so the independence is on the record and
+not inferred), into a **separate work directory** (`C:/t/jax1b`).
+
+| | Sealed here | Reproduced independently |
+|---|---|---|
+| PACKAGE_ID | `pkg-jacksonville-fl-e9cbc9abbb727694` | **identical** |
+| PACKAGE_DIGEST | `sha256:e9cbc9ab…d108` | **identical** |
+| package document sha256 | `77ec9164287073befcd71aa4da5375d5681588570dfc100c683e45c085a5e7c1` | **identical** |
+| BUNDLE_SHA256 | `a98efbea…2636` | **identical** |
+| GLOBAL / PACKAGE / INTENDED-DELTA index digests | `ccb56e37` / `0bddb385` / `14cc9b16` | **identical** |
+| FAST | 15/15 PASS, 0 UNKNOWN, 0 FAILED | **identical** |
+| DETERMINISM / COLLISION / FIRST_PARTY_BINDING | BYTE_IDENTICAL / PASS / PASS | **identical** |
+| ELIGIBLE / PRODUCTION_ACTIVATION_ALLOWED | YES / **NO** | **identical** |
+| Python / platform | 3.13.5 / Windows-10-10.0.19045-SP0 | **identical** |
+
+**Staged launch-package tree compared file by file: FILES COMPARED = 8, DIFFERING FILES = 0.**
+
+The two receipts were also diffed field by field. Everything semantic agrees. The **only** fields that differ are:
+
+* wall-clock durations (`J.build_seconds` 157.5 vs 63.1 — the second machine-state had a warm filesystem cache;
+  `K.build_seconds` 37.9 vs 40.8; `G.compare_seconds` 0.183 vs 0.190),
+* `ENVIRONMENT.peak_working_set_mb` (213.0 vs 214.4),
+* the build-cache `input_key` in `J.cache_events`, which hashes the work-directory path — and **both runs recorded
+  `verdict: BUILD_EXECUTED`**, so neither reused a cache.
+
+A reproduction that agreed on timings would be the suspicious one. Every digest, every count and every verdict is
+the same.
+
+## 19. Cost, and what was NOT bought
+
+| Lane | Free HTTP requests |
+|---|---:|
+| Destination roster (4 bureaux) | 2,788 |
+| Brand inventory (rung 2) | 288 |
+| Static plain client | 210 |
+| Independents' policy pages | 112 |
+| Google Places (existing key, existing capacity) | 82 |
+| Places-discovered sites | 34 |
+| Florida DBPR register | 7 |
+| ESA probe (403 at both levels) | 6 |
+| **TOTAL FREE HTTP** | **3,527** |
+
+| | |
+|---|---:|
+| **Firecrawl credits** | **122** (1,196 → 1,074: discovery 8, brand pages 44, policy pass 70) |
+| **USD SPENT** | **$0.00** |
+| **PAID PROVIDER CALLS** | **0** |
+| NEW PROVIDERS AUTHORIZED | **0** |
+| Rule O paid references in the package | **0** |
+
+Firecrawl was drawn from **already-authorized capacity** and, per the standing rule, capped on **ATTEMPTS** rather
+than on the balance, because the balance settles late. The credit delta is the meter; the adapter asserts no
+per-call price and none was inferred. The attended browser is not a paid provider: the committed route table sends
+Marriott and Hilton to a paid browser provider, and this order used the **supported attended browser** instead —
+**0 paid calls**, no relay, no browser-JS exfiltration, no Akamai bypass, no CAPTCHA interaction.
+
+## 20. Phases 29–33 — isolation, and the boundaries this order did not cross
+
+| Boundary | State |
+|---|---|
+| Registered | **NO** — census in `identity_census_proposed/`, market doc in `markets/proposed/`, everything else under `markets/staging/jacksonville-fl/` |
+| Founder authorization created | **NO** |
+| Deployment authorization created | **NO** |
+| Final production candidate created | **NO** |
+| Deployed | **NO** |
+| Current live modified | **NO** — West Palm Beach `6ab5991…` untouched |
+| Another market modified | **NO** — `git diff --name-only bf7a54c3 HEAD` → **0** non-Jacksonville paths |
+| Broad regression run | **NO — 0 runs** |
+| Shared factory architecture modified | **NO** — `first_party_binding.py`, `hotel_exclusions.py`, `contracts/`, `fast_release_lane.py`, `market_package_writer.py`, `registration_release_lane.py`, `market_authority.py`, `release_index.py` all byte-identical to the base |
+| Participation flipped / pinned / superseded | **NO** |
+| `identity_resolutions.json` written | **NO** — the 1201 Kings Avenue dual-brand pair is left as a founder-reviewable hold rather than self-signed |
+
+Every one of the three defects FAST found was repaired **inside this market's own modules**. Not one was repaired
+by relaxing a shared guard, and the temptation was real: the easiest fix for the Hyatt `WRONG_PROPERTY` failure
+would have been to teach the shared reader to ignore a query string. That would have been a shared-module change,
+outside this order, and it would have hidden a data defect behind a code change.
+
+### Background work terminated
+
+Every detached job this order started was launched with an explicit log file and watched by a monitor that exits on
+its own completion condition; no `sleep`-loop completion timer, browser pacing timer, tail-watch, temporary HTTP
+server or child worker remains. The one stray process this order created — the reproduction started before its
+working directory could be proved — was stopped and relaunched with the directory recorded to disk. The attended
+browser tab was closed.
+
+---
+
+## FINAL ANSWERS
+
+```
+ 1. START TIMESTAMP                          = 2026-09-25T00:56:49Z (order received)
+ 2. ZERO_TO_SOURCE_READY                     = 3h23m
+ 3. ZERO_TO_COVERAGE_READY                   = 3h23m (both flipped on the same measurement)
+ 4. CURRENT LIVE DEPLOYMENT                  = 6ab599163f833ab7f48b395d (west-palm-beach-fl),
+                                               source e3efa2210f759886aaad830b07fa241231a8f734,
+                                               bundle 23728b4b..., sitemap 8ae34cea...,
+                                               HOST VERIFIED = true
+ 5. CURRENT LIVE MARKETS                     = 33 (2,424 profiles / 2,767 served routes /
+                                               2,701 release-index routes); Detroit withheld
+ 6. TOTAL DISCOVERED                         = 2,906 raw observations over 11 lanes
+ 7. NORMALIZED IDENTITIES                    = 2,007 graph nodes (hard key)
+ 8. QUALIFYING CENSUS                        = 268 TRUE_HOTEL_IDENTITY
+ 9. PET-FRIENDLY                             = 95
+10. VERIFIED NO-PETS                         = 18
+11. RESOLVED                                 = 113
+12. UNRESOLVED                               = 155
+13. RESOLUTION RATE                          = 42.16 %
+14. ACTIONABLE UNRESOLVED                    = 0
+15. HOLDS BY CLASS                           = ACCESS_BLOCKED 53, ROUTING 43, SOURCE_SILENT 25,
+                                               EVIDENCE 22, IDENTITY 12;
+                                               NEGATION 0, BROWSER_CAPTURE 0, POLICY_NOT_FOUND 0,
+                                               MIXED_RESORT 0, CONDO_HOTEL 0, PAID 0,
+                                               GEOGRAPHY 0, FOUNDER 0, OTHER 0
+16. EXCLUSIONS BY CLASS                      = OUTSIDE 1,031; NON_HOTEL 130; VACATION_RENTAL 87;
+                                               name-only graph residue 458;
+                                               identity-review graph residue 33;
+                                               DBPR never admitted: CNDO 1,349, DWEL 1,920,
+                                               NAPT 959, TAPT refused by name 60;
+                                               TIMESHARE 0, RESORT_RESIDENCE 0, CLOSED 0,
+                                               DUPLICATE_LISTING 0, SAME_CAMPUS 0
+17. PUBLISHING CORRIDORS                     = 10 of 17 (0 uncorridored rows)
+18. DUVAL ADMITTED                           = 193 of 193 hotel-rank licences (admitted whole)
+19. ST JOHNS ADMITTED                        = 6 of 124 (Ponte Vedra Beach + Fruit Cove only)
+20. CLAY ADMITTED                            = 19 of 20 (Keystone Heights refused)
+21. NASSAU ADMITTED                          = 42 of 42 (Amelia Island CORRIDOR, mainland FRINGE)
+22. ST AUGUSTINE ADMITTED                    = 0 (110 city-named + 29 in 32080 + 9 in 32092 refused)
+23. COMPETITOR RAW / NORMALIZED / MATCHED
+    / TRUE MISSING                           = 915 / 699 / 168 (123 distinct) / 4
+                                               VERIFIED from a competitor = 0
+24. MATERIAL IDENTITY GAP                    = NONE (measured: no_material_identity_gap = true)
+25. MATERIAL POLICY GAP                      = NONE unexplained; 155 held rows each carry an exact
+                                               reason and 0 are actionable
+26. FIRECRAWL ATTEMPTED / SUCCESS            = 133 attempted (policy pass 81, brand pages 44,
+                                               discovery 8) / 70 answered
+                                               (18 publication-grade policy reads, 44 brand pages,
+                                               8 discovery pages -> 54 routes)
+27. MARRIOTT CENSUS                          = 42 rows / 43 in-market property codes
+28. MARRIOTT BROWSER ATTEMPTED               = 65 attempts across all 43 codes
+29. MARRIOTT READ SUCCESS                    = 24
+30. MARRIOTT CHALLENGE DENIED                = 41
+31. MARRIOTT ACTIONABLE REMAINING            = 0
+32. OTHER BROWSER ATTEMPTED / SUCCESS        = 55 / 51 (Hilton 36/36, Red Roof 5/5, Hyatt 4/4,
+                                               Best Western 4/3, Motel 6 4/3, ESA 1/0, Radisson 1/0)
+33. ACCESS_BLOCKED AFTER ROUTER EXHAUSTION   = 36 of 53 (the other 17 are attended-browser
+                                               Akamai denials)
+34. EXISTING PROVIDER CREDITS USED           = 122 Firecrawl credits (1,196 -> 1,074)
+35. NEW PAID SPEND                           = NONE
+36. PROVIDER COST                            = USD 0.00; paid provider calls 0;
+                                               new providers authorized 0;
+                                               rule O paid references in the package 0
+37. RULE J NONEMPTY                          = PASS (file_count 603, html_count 587,
+                                               output_present true, output_defects 0)
+38. RULE K NONVACUOUS                        = PASS (BYTE_IDENTICAL, output_digest_a ==
+                                               output_digest_b, 4 cold builds, 0 reuse hits)
+39. FAST RECEIPT CURRENTLY ELIGIBLE          = YES (FAST_DATA_ONLY_RELEASE_ELIGIBLE = YES;
+                                               PRODUCTION_ACTIVATION_ALLOWED = NO)
+40. SHADOW PACKAGE CREATED                   = YES - pkg-jacksonville-fl-e9cbc9abbb727694,
+                                               execution zone SHADOW_UNTIL_REGISTERED
+41. PACKAGE REPRODUCIBLE                     = YES - independently in a detached worktree by a
+                                               separate process: same digest, same bundle,
+                                               FILES COMPARED 8, DIFFERING FILES = 0
+42. PACKAGE DIGEST                           = sha256:e9cbc9abbb727694ca8446ef3d00b3d75853710fe
+                                               31c19b24ea214e6c9b2d108
+                                               (bundle a98efbea86c38a268bfa489354add4a700a0d4bc
+                                               0ab13df740a5ae35ee842636)
+43. FAST                                     = YES - 15/15 PASS (A-O), UNKNOWN 0, FAILED 0
+44. TECHNICAL SOURCE READY                   = YES
+45. COVERAGE READY                           = YES
+46. CROSS-MARKET FILE CHANGES                = 0
+47. FACTORY CODE CHANGED                     = NO
+48. BROAD REGRESSION RUNS                    = 0
+49. FINAL PRODUCTION CANDIDATE CREATED       = NO
+50. FOUNDER AUTHORIZATION CREATED            = NO
+51. JACKSONVILLE DEPLOYED                    = NO
+52. origin == HEAD                           = (verified after push - see below)
+53. tree clean                               = (verified after push - see below)
+```

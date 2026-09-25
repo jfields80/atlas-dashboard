@@ -426,7 +426,11 @@ def main():
             ("matched_but_policy_unresolved", recon.get("matched_but_policy_unresolved")),
             ("counts", recon.get("counts")),
         ])),
-        ("south_florida_boundary", boundary),
+        # the boundary accounting the order names. The parent market called this key
+        # `south_florida_boundary`; this market is NORTHEAST Florida and its neighbours are Alachua, Baker,
+        # Flagler, Putnam and Volusia, so carrying the parent's key name would file a correct measurement under
+        # the wrong region.
+        ("northeast_florida_boundary", boundary),
         ("negation_and_parser_conflicts", clean.get("negation_conflicts_caught", [])),
         ("remaining_unresolved_root_causes", root),
     ])
