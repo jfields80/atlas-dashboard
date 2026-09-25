@@ -1,0 +1,785 @@
+{
+ "schema": "ptf-owned-data-first/1.0",
+ "work_order": "PTF-JACKSONVILLE-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "jacksonville-fl",
+ "phase": "8 -- owned data first: every Atlas-owned artifact that could already know Northeast Florida, measured before one external request",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "headline": "ZERO owned identities in this market's admitted geography. Every committed market graph was scanned row by row and not one of the 33 live markets holds a node in any of the 47 admitted postal codes. This market is a genuine cold start for identity.",
+ "owned_identities_in_admitted_postal_codes": 0,
+ "owned_valid_policy_evidence": 0,
+ "owned_policy_rows_imported": 0,
+ "owned_routes_in_admitted_geography": 53,
+ "owned_rebrands_or_closures_applicable": 0,
+ "owned_collisions_found": 3,
+ "prior_graph_scan": {
+  "graphs_scanned": 25,
+  "graphs_with_any_relevant_node": 6,
+  "per_market": {
+   "greenville-nc": {
+    "source_report": "greenville_nc_census_reconciliation_001.json",
+    "source_graph_nodes": 75,
+    "nodes_in_jacksonville_admitted_postal_codes": 0,
+    "nodes_in_postal_codes_this_market_names_OUTSIDE": 2,
+    "their_rulings_on_the_outside_nodes": {
+     "OUTSIDE_MARKET": 2
+    }
+   },
+   "jacksonville-nc": {
+    "source_report": "jacksonville_nc_census_reconciliation_001.json",
+    "source_graph_nodes": 69,
+    "nodes_in_jacksonville_admitted_postal_codes": 0,
+    "nodes_in_postal_codes_this_market_names_OUTSIDE": 29,
+    "their_rulings_on_the_outside_nodes": {
+     "TRUE_HOTEL_IDENTITY": 27,
+     "SAME_IDENTITY_REBRAND_SUCCESSOR": 2
+    }
+   },
+   "miami-fl": {
+    "source_report": "miami_fl_census_reconciliation_001.json",
+    "source_graph_nodes": 2332,
+    "nodes_in_jacksonville_admitted_postal_codes": 0,
+    "nodes_in_postal_codes_this_market_names_OUTSIDE": 1,
+    "their_rulings_on_the_outside_nodes": {
+     "OUTSIDE_MARKET": 1
+    }
+   },
+   "orlando-fl": {
+    "source_report": "orlando_fl_v2_census_reconciliation_001.json",
+    "source_graph_nodes": 1103,
+    "nodes_in_jacksonville_admitted_postal_codes": 0,
+    "nodes_in_postal_codes_this_market_names_OUTSIDE": 760,
+    "their_rulings_on_the_outside_nodes": {
+     "TRUE_HOTEL_IDENTITY": 520,
+     "NON_LODGING": 159,
+     "IDENTITY_REVIEW_REQUIRED": 51,
+     "OUTSIDE_MARKET": 24,
+     "SAME_IDENTITY_REBRAND_SUCCESSOR": 4,
+     "NAME_ONLY_UNRESOLVED": 2
+    }
+   },
+   "savannah-ga": {
+    "source_report": "savannah_ga_census_reconciliation_001.json",
+    "source_graph_nodes": 291,
+    "nodes_in_jacksonville_admitted_postal_codes": 0,
+    "nodes_in_postal_codes_this_market_names_OUTSIDE": 237,
+    "their_rulings_on_the_outside_nodes": {
+     "TRUE_HOTEL_IDENTITY": 187,
+     "OUTSIDE_MARKET": 27,
+     "NON_LODGING": 15,
+     "IDENTITY_REVIEW_REQUIRED": 4,
+     "SAME_CAMPUS_DISTINCT_ENTITY": 3,
+     "SAME_IDENTITY_REBRAND_SUCCESSOR": 1
+    }
+   },
+   "tampa-fl": {
+    "source_report": "tampa_fl_v2_census_reconciliation_001.json",
+    "source_graph_nodes": 1817,
+    "nodes_in_jacksonville_admitted_postal_codes": 0,
+    "nodes_in_postal_codes_this_market_names_OUTSIDE": 3,
+    "their_rulings_on_the_outside_nodes": {
+     "OUTSIDE_MARKET": 3
+    }
+   }
+  },
+  "nodes_in_admitted_postal_codes": [],
+  "policy_import_assertion": {
+   "assertion": "No prior-market row inside a Jacksonville admitted postal code carries a verified pet policy. Trivially true here, because there are no such rows at all; the helper aborts if that ever changes.",
+   "violations_found": 0,
+   "policy_rows_imported": 0
+  },
+  "membership_assertion": "Nothing in this lane admits a property. Membership is decided only by GEO.classify_postal on a property's OWN postal code, as its own page or its own state licence states it."
+ },
+ "national_brand_corpus": {
+  "source_report": "dayton_oh_brand_directory_harvest_001.json",
+  "source_work_order": "PTF-DAYTON-OH-HARDENED-REVALIDATION-001",
+  "as_of": "2026-09-02",
+  "total_routes_in_corpus": 17928,
+  "market_independent": true,
+  "free_http_requests": 0
+ },
+ "a_brand_prefix_is_not_a_market": "Marriott's MARSHA prefix JAX covers this market AND St. Augustine (Casa Monica, World Golf Village, the historic-downtown Renaissance, two Courtyards, a Fairfield, an AC, a City Express and a Tribute hotel) AND Waycross, GEORGIA. A route carries no postal code, so every route below is a LEAD with a PRESUMED disposition read off the brand's own slug. The property's own page decides membership.",
+ "owned_brand_routes_by_presumption": {
+  "PRESUMED_IN_MARKET": 43,
+  "PRESUMED_OUTSIDE": 10
+ },
+ "owned_brand_routes": [
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxae",
+   "brand_slug": "ac-hotel-jacksonville-st-johns-town-center",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxae-ac-hotel-jacksonville-st-johns-town-center/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxak",
+   "brand_slug": "casa-monica-resort-and-spa-autograph-collection",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxak-casa-monica-resort-and-spa-autograph-collection/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_OUTSIDE",
+   "presumption_reason": "Casa Monica Resort, downtown St. Augustine -- refused, future st-augustine-fl",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxal",
+   "brand_slug": "aloft-jacksonville-airport",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxal-aloft-jacksonville-airport/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxap",
+   "brand_slug": "fairfield-inn-and-suites-jacksonville-airport",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxap-fairfield-inn-and-suites-jacksonville-airport/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxar",
+   "brand_slug": "residence-inn-amelia-island",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxar-residence-inn-amelia-island/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxat",
+   "brand_slug": "towneplace-suites-jacksonville-mayport",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxat-towneplace-suites-jacksonville-mayport/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxbb",
+   "brand_slug": "fairfield-inn-and-suites-jacksonville-butler-boulevard",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxbb-fairfield-inn-and-suites-jacksonville-butler-boulevard/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxbf",
+   "brand_slug": "four-points-jacksonville-beachfront",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxbf-four-points-jacksonville-beachfront/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxbh",
+   "brand_slug": "springhill-suites-jacksonville-baymeadows",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxbh-springhill-suites-jacksonville-baymeadows/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxbr",
+   "brand_slug": "world-golf-village-renaissance-st-augustine-resort",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxbr-world-golf-village-renaissance-st-augustine-resort/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_OUTSIDE",
+   "presumption_reason": "St. Augustine -- refused, future st-augustine-fl",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxbs",
+   "brand_slug": "springhill-suites-jacksonville-beach-oceanfront",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxbs-springhill-suites-jacksonville-beach-oceanfront/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxca",
+   "brand_slug": "courtyard-jacksonville-airport-northeast",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxca-courtyard-jacksonville-airport-northeast/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxcb",
+   "brand_slug": "courtyard-st-augustine-beach",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxcb-courtyard-st-augustine-beach/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_OUTSIDE",
+   "presumption_reason": "St. Augustine -- refused, future st-augustine-fl",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxch",
+   "brand_slug": "courtyard-jacksonville-butler-boulevard",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxch-courtyard-jacksonville-butler-boulevard/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxco",
+   "brand_slug": "courtyard-jacksonville-orange-park",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxco-courtyard-jacksonville-orange-park/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxcp",
+   "brand_slug": "fairfield-inn-and-suites-jacksonville-west-chaffee-point",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxcp-fairfield-inn-and-suites-jacksonville-west-chaffee-point/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxcs",
+   "brand_slug": "courtyard-st-augustine-i-95",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxcs-courtyard-st-augustine-i-95/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_OUTSIDE",
+   "presumption_reason": "St. Augustine -- refused, future st-augustine-fl",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxcy",
+   "brand_slug": "courtyard-amelia-island",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxcy-courtyard-amelia-island/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxde",
+   "brand_slug": "delta-hotels-jacksonville-deerwood",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxde-delta-hotels-jacksonville-deerwood/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxdo",
+   "brand_slug": "southbank-hotel-jacksonville-riverwalk",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxdo-southbank-hotel-jacksonville-riverwalk/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxeb",
+   "brand_slug": "element-jacksonville-beach",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxeb-element-jacksonville-beach/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxfl",
+   "brand_slug": "marriott-jacksonville",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxfl-marriott-jacksonville/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxfp",
+   "brand_slug": "four-points-jacksonville-baymeadows",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxfp-four-points-jacksonville-baymeadows/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxfw",
+   "brand_slug": "fairfield-inn-and-suites-waycross",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxfw-fairfield-inn-and-suites-waycross/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_OUTSIDE",
+   "presumption_reason": "Waycross, GEORGIA -- out of state, refused",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxil",
+   "brand_slug": "springhill-suites-amelia-island",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxil-springhill-suites-amelia-island/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxjb",
+   "brand_slug": "fairfield-inn-and-suites-jacksonville-beach",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxjb-fairfield-inn-and-suites-jacksonville-beach/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxjk",
+   "brand_slug": "springhill-suites-jacksonville-north-i-95-area",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxjk-springhill-suites-jacksonville-north-i-95-area/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxjs",
+   "brand_slug": "courtyard-jacksonville-flagler-center",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxjs-courtyard-jacksonville-flagler-center/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxjv",
+   "brand_slug": "courtyard-jacksonville-beach-oceanfront",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxjv-courtyard-jacksonville-beach-oceanfront/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxmc",
+   "brand_slug": "courtyard-jacksonville-at-the-mayo-clinic-campus-beaches",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxmc-courtyard-jacksonville-at-the-mayo-clinic-campus-beaches/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxmd",
+   "brand_slug": "marriott-jacksonville-downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxmd-marriott-jacksonville-downtown/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxmt",
+   "brand_slug": "towneplace-suites-middleburg",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxmt-towneplace-suites-middleburg/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxne",
+   "brand_slug": "courtyard-jacksonville-i-295-east-beltway",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxne-courtyard-jacksonville-i-295-east-beltway/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxop",
+   "brand_slug": "fairfield-inn-and-suites-jacksonville-orange-park",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxop-fairfield-inn-and-suites-jacksonville-orange-park/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxra",
+   "brand_slug": "residence-inn-jacksonville-airport",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxra-residence-inn-jacksonville-airport/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxrd",
+   "brand_slug": "residence-inn-jacksonville-downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxrd-residence-inn-jacksonville-downtown/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxri",
+   "brand_slug": "residence-inn-jacksonville-butler-boulevard",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxri-residence-inn-jacksonville-butler-boulevard/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxrj",
+   "brand_slug": "renaissance-st-augustine-historic-downtown-hotel",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxrj-renaissance-st-augustine-historic-downtown-hotel/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_OUTSIDE",
+   "presumption_reason": "St. Augustine -- refused, future st-augustine-fl",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxrs",
+   "brand_slug": "studiores-jacksonville-orange-park",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxrs-studiores-jacksonville-orange-park/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxrv",
+   "brand_slug": "residence-inn-jacksonville-mayo-clinic-area",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxrv-residence-inn-jacksonville-mayo-clinic-area/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxsc",
+   "brand_slug": "ac-hotel-st-augustine-downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxsc-ac-hotel-st-augustine-downtown/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_OUTSIDE",
+   "presumption_reason": "St. Augustine -- refused, future st-augustine-fl",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxse",
+   "brand_slug": "towneplace-suites-jacksonville-east",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxse-towneplace-suites-jacksonville-east/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxsh",
+   "brand_slug": "springhill-suites-jacksonville",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxsh-springhill-suites-jacksonville/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxsi",
+   "brand_slug": "sheraton-jacksonville-hotel",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxsi-sheraton-jacksonville-hotel/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxst",
+   "brand_slug": "fairfield-inn-and-suites-st-augustine-i-95",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxst-fairfield-inn-and-suites-st-augustine-i-95/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_OUTSIDE",
+   "presumption_reason": "St. Augustine -- refused, future st-augustine-fl",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxsw",
+   "brand_slug": "sawgrass-marriott-golf-resort-and-spa",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxsw-sawgrass-marriott-golf-resort-and-spa/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxsx",
+   "brand_slug": "city-express-st-augustine",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxsx-city-express-st-augustine/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_OUTSIDE",
+   "presumption_reason": "St. Augustine -- refused, future st-augustine-fl",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxtl",
+   "brand_slug": "aloft-jacksonville-tapestry-park",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxtl-aloft-jacksonville-tapestry-park/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxtp",
+   "brand_slug": "towneplace-suites-jacksonville-airport",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxtp-towneplace-suites-jacksonville-airport/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxts",
+   "brand_slug": "towneplace-suites-jacksonville-butler-boulevard",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxts-towneplace-suites-jacksonville-butler-boulevard/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxtx",
+   "brand_slug": "hotel-amalga-st-augustine-a-tribute-portfolio-hotel",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxtx-hotel-amalga-st-augustine-a-tribute-portfolio-hotel/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_OUTSIDE",
+   "presumption_reason": "St. Augustine -- refused, future st-augustine-fl",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxvs",
+   "brand_slug": "residence-inn-jacksonville-south-bartram-park",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxvs-residence-inn-jacksonville-south-bartram-park/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  },
+  {
+   "lane": "BRAND_INVENTORY_OWNED",
+   "family": "MARRIOTT",
+   "brand_property_code": "jaxyx",
+   "brand_slug": "city-express-yulee",
+   "official_url": "https://www.marriott.com/en-us/hotels/jaxyx-city-express-yulee/overview/",
+   "selected_by": "MARSHA_PREFIX_JAX",
+   "presumed_membership": "PRESUMED_IN_MARKET",
+   "presumption_reason": "the brand's own slug names a place this market admits",
+   "membership_decided_by": "the property's OWN postal code on its OWN page -- never this slug"
+  }
+ ],
+ "owned_brand_routes_by_place_token": [],
+ "cross_market_name_collision_guard": {
+  "shared_exclusion_file": "launch_packages/pettripfinder/hotel_exclusions.json",
+  "active_exclusions": 1171,
+  "exclusions_with_no_premises": 0,
+  "bare_chain_flags_found": 0,
+  "foreign_jacksonville_named_exclusions": [
+   {
+    "exclusion_id": "jacksonville-nc--courtyard-by-marriott-jacksonville",
+    "normalized_name": "courtyard by marriott jacksonville",
+    "canonical_name": "Courtyard by Marriott Jacksonville",
+    "premises": "5046 Henderson Drive, Jacksonville NC 28546",
+    "exclusion_state": "VERIFIED_NO_PETS",
+    "hazard": "hotel_exclusions.exclusion_for matches normalized_name FIRST and returns a hit regardless of address. A Florida census row whose own name normalises to this string would be silently excluded by another market's premises."
+   },
+   {
+    "exclusion_id": "jacksonville-nc--fairfield-by-marriott-inn-and-suites-jacksonville",
+    "normalized_name": "fairfield by marriott inn and suites jacksonville",
+    "canonical_name": "Fairfield by Marriott Inn & Suites Jacksonville",
+    "premises": "121 Circuit Lane, Jacksonville NC 28546",
+    "exclusion_state": "VERIFIED_NO_PETS",
+    "hazard": "hotel_exclusions.exclusion_for matches normalized_name FIRST and returns a hit regardless of address. A Florida census row whose own name normalises to this string would be silently excluded by another market's premises."
+   },
+   {
+    "exclusion_id": "jacksonville-nc--microtel-inn-and-suites-by-wyndham-camp-lejeune-jacksonville",
+    "normalized_name": "microtel inn and suites by wyndham camp lejeune jacksonville",
+    "canonical_name": "Microtel Inn & Suites by Wyndham Camp Lejeune/Jacksonville",
+    "premises": "2411 Commerce Rd, Jacksonville NC 28546",
+    "exclusion_state": "VERIFIED_NO_PETS",
+    "hazard": "hotel_exclusions.exclusion_for matches normalized_name FIRST and returns a hit regardless of address. A Florida census row whose own name normalises to this string would be silently excluded by another market's premises."
+   }
+  ],
+  "foreign_jacksonville_named_exclusion_count": 3,
+  "collision_strings_to_guard": [
+   "courtyard by marriott jacksonville",
+   "fairfield by marriott inn and suites jacksonville",
+   "microtel inn and suites by wyndham camp lejeune jacksonville"
+  ],
+  "what_this_order_does_about_it": "MEASURES it and hands the collision strings to the census reconciliation as a named guard, which checks every admitted-postal census row against them and HOLDS rather than silently drops any hit. This order does NOT edit the shared exclusion file and does NOT supersede another market's row: that is a cross-market change and a founder decision.",
+  "name_twin_market": {
+   "source_report": "jacksonville_nc_census_reconciliation_001.json",
+   "read": true,
+   "source_market": "jacksonville-nc",
+   "source_graph_nodes": 69,
+   "nodes_whose_name_contains_jacksonville": 21,
+   "their_names": [
+    "Candlewood Suites Jacksonville",
+    "Courtyard by Marriott Jacksonville",
+    "Days Inn by Wyndham Jacksonville NC",
+    "Extended Stay America - Jacksonville - Camp Lejeune",
+    "Fairfield by Marriott Inn & Suites Jacksonville",
+    "Hampton Inn & Suites Jacksonville",
+    "Hilton Garden Inn Jacksonville",
+    "Holiday Inn Express & Suites Jacksonville-Camp LeJeune Area",
+    "Home2 Suites by Hilton Jacksonville, NC",
+    "Microtel Inn & Suites by Wyndham Camp Lejeune/Jacksonville",
+    "Motel 6 Jacksonville, NC",
+    "My Place Hotel-Jacksonville/Camp Lejeune, NC",
+    "Quality Inn Jacksonville Near Camp Lejeune",
+    "Red Carpet Inn Jacksonville NC",
+    "Red Roof Inn Jacksonville, NC",
+    "Rodeway Inn & Suites Jacksonville Near Camp Lejeune",
+    "Sleep Inn & Suites Jacksonville Near Camp Lejeune",
+    "Staybridge Suites Jacksonville-Camp Lejeune Area",
+    "Studio 6 Suites Jacksonville, NC - Camp LeJeune",
+    "Surestay Plus Hotel by Best Western Jacksonville",
+    "TownePlace Suites by Marriott Jacksonville"
+   ],
+   "reused_as": "A GUARD ONLY. Not one of these is a lead, a census row or a policy source. They are the exact strings a Florida row must never be merged with or held by."
+  }
+ },
+ "provider_history": {
+  "firecrawl_ledger": "data/acquisition/firecrawl_call_ledger.jsonl",
+  "prior_calls_recorded": 46,
+  "prior_successes": 32,
+  "prior_refusals": 14,
+  "prior_hosts": {
+   "www.thepalmbeaches.com": 15,
+   "www.choicehotels.com": 14,
+   "www.marriott.com": 7,
+   "www.ihg.com": 4,
+   "www.hilton.com": 2,
+   "www.super8.com": 1,
+   "www.travelodge.com": 1,
+   "www.bocainn.xyz": 1,
+   "www.eaupalmbeach.com": 1
+  },
+  "calls_for_a_jacksonville_url": 0,
+  "pay_once_rule": "Every URL this order is about to buy is checked against this ledger first: pay once per page ever, and once to FIND a page ever.",
+  "refusals_are_treated_as_stale": "A prior SCRAPE_ALL_ENGINES_FAILED is a capability statement about that host at that moment and ages in days. No refusal recorded here is inherited as a reason not to try; eligible hosts are re-probed."
+ },
+ "owned_osm_extract": "data/osm_extracts/florida-latest.osm.pbf -- the Geofabrik Florida extract already owned by this repository, reused unchanged by the OSM lane at zero new download.",
+ "what_is_never_reused": "Membership (re-decided here), pet policy (none exists to import -- asserted above), and a prior market's lodging-qualification ruling (carried as provenance only)."
+}

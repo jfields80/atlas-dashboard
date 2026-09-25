@@ -1,0 +1,1029 @@
+{
+ "schema": "ptf-source-ready-accounting/1.0",
+ "work_order": "PTF-JACKSONVILLE-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "jacksonville-fl",
+ "headline": {
+  "total_raw_observations": 2906,
+  "raw_observations_by_lane": {
+   "REGISTRY_FL_DBPR": 1168,
+   "OSM_OVERPASS": 412,
+   "BRAND_INVENTORY_OWNED": 48,
+   "BRAND_INVENTORY_CITY_PAGE": 50,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 60,
+   "DESTINATION_ORGANIZATION": 391,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 699,
+   "IDENTITY_VERIFIED_PLACES": 0,
+   "PROPERTY_PAGE": 78
+  },
+  "dbpr_licensed_lodging_leads": 1172,
+  "osm_lodging_elements": 488,
+  "brand_inventory_leads": 144,
+  "destination_roster_listings": null,
+  "competitor_leads_normalized": 699,
+  "graph_nodes": 2007,
+  "proposed_census": 268,
+  "valid_pet_friendly": 95,
+  "valid_verified_no_pets": 18,
+  "resolved": 113,
+  "unresolved": 155,
+  "resolution_rate": 0.4216
+ },
+ "holds_by_class": {
+  "IDENTITY": 12,
+  "ROUTING": 43,
+  "ACCESS_BLOCKED": 53,
+  "EVIDENCE": 22,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 25,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "the brand answered the authorized attended browser with an Akamai Acce": 17,
+   "router exhausted on every free/authorized lane attempted this order (s": 15,
+   "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED": 6,
+   "router exhausted: static ACCESS_DENIED, Firecrawl FIRECRAWL_MISMATCH": 4,
+   "router exhausted: static UNHYDRATED, Firecrawl FIRECRAWL_MISMATCH": 3,
+   "the property's own site (found via Places) did not serve to the plain ": 2,
+   "router exhausted: static ACCESS_DENIED, Firecrawl FIRECRAWL_FAILED": 2,
+   "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_MISMATCH": 1,
+   "router exhausted: static NAVIGATION_FAILED, Firecrawl FIRECRAWL_MISMAT": 1,
+   "router exhausted: static NAVIGATION_FAILED, Firecrawl FIRECRAWL_FAILED": 1,
+   "router exhausted: static BLANK_PAGE, Firecrawl FIRECRAWL_MISMATCH": 1
+  },
+  "EVIDENCE_HOLD": {
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 10,
+   "": 6,
+   "ROUTE_DOMAIN_CONFLICT": 6
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "the site Places names never stated this row's house number + ZIP, phon": 6,
+   "the fetched page's own identity did not confirm this census row": 4,
+   "SAME PREMISES, TWO IDENTITIES (address_key 1201|kings|32207): Hilton G": 2
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 26,
+   "OTHER_EXPLICIT_REASON": 10,
+   "routing state INDEPENDENT_REVIEW: no first-party source in this order ": 5,
+   "routing state FREE_LANE_EXHAUSTED: no first-party source in this order": 1,
+   "routed but no acquisition lane in this order attempted the page yet": 1
+  },
+  "SOURCE_SILENT": {
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 18,
+   "the property's own site (found via Places, bound on its own address/ph": 5,
+   "the page served and stated no operative pet policy (SOURCE_SILENT_STAT": 1,
+   "the property's own pages served, bound these exact premises, and state": 1
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 87,
+  "timeshare": 0,
+  "resort_residence": 0,
+  "non_hotel": 130,
+  "closed": 0,
+  "outside": 1031,
+  "duplicate_listing": 0,
+  "name_only_unresolved_graph_residue": 458,
+  "identity_review_required_graph_residue": 33,
+  "same_campus_distinct_entity": 0,
+  "dbpr_cndo_condo_units_never_admitted": 1349,
+  "dbpr_dwel_vacation_dwellings_never_admitted": 1920,
+  "dbpr_napt_apartments_never_admitted": 959,
+  "dbpr_tapt_apartment_named_refused": 60,
+  "closed_note": "No row was classified CLOSED: DBPR extracts carry only active licences, and no first-party read in this order stated a closure."
+ },
+ "corridor_coverage": {
+  "downtown-jacksonville": {
+   "name": "Downtown Jacksonville",
+   "class": "CORE",
+   "census": 5,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 3,
+   "resolution_rate": 0.4,
+   "page_publishes": false
+  },
+  "southbank-san-marco": {
+   "name": "Southbank / San Marco",
+   "class": "CORE",
+   "census": 15,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 12,
+   "resolution_rate": 0.2,
+   "page_publishes": false
+  },
+  "riverside-avondale-brooklyn": {
+   "name": "Riverside / Avondale / Brooklyn",
+   "class": "CORE",
+   "census": 6,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 4,
+   "resolution_rate": 0.3333,
+   "page_publishes": false
+  },
+  "jax-airport-northside": {
+   "name": "Jacksonville International Airport / Northside",
+   "class": "CORE",
+   "census": 44,
+   "pet_friendly": 13,
+   "no_pets": 3,
+   "unresolved": 28,
+   "resolution_rate": 0.3636,
+   "page_publishes": true
+  },
+  "westside-i10-i295": {
+   "name": "Westside / I-10 & I-295",
+   "class": "CORE",
+   "census": 20,
+   "pet_friendly": 9,
+   "no_pets": 2,
+   "unresolved": 9,
+   "resolution_rate": 0.55,
+   "page_publishes": true
+  },
+  "arlington-intracoastal-west": {
+   "name": "Arlington / Intracoastal West",
+   "class": "CORE",
+   "census": 10,
+   "pet_friendly": 4,
+   "no_pets": 0,
+   "unresolved": 6,
+   "resolution_rate": 0.4,
+   "page_publishes": false
+  },
+  "southside-university-boulevard": {
+   "name": "Southside / University Boulevard",
+   "class": "CORE",
+   "census": 17,
+   "pet_friendly": 8,
+   "no_pets": 2,
+   "unresolved": 7,
+   "resolution_rate": 0.5882,
+   "page_publishes": true
+  },
+  "st-johns-town-center-gate-parkway": {
+   "name": "St. Johns Town Center / Gate Parkway",
+   "class": "CORE",
+   "census": 12,
+   "pet_friendly": 7,
+   "no_pets": 1,
+   "unresolved": 4,
+   "resolution_rate": 0.6667,
+   "page_publishes": true
+  },
+  "deerwood-baymeadows": {
+   "name": "Deerwood / Baymeadows",
+   "class": "CORE",
+   "census": 27,
+   "pet_friendly": 7,
+   "no_pets": 4,
+   "unresolved": 16,
+   "resolution_rate": 0.4074,
+   "page_publishes": true
+  },
+  "deerwood-park-mayo-unf": {
+   "name": "Deerwood Park / Mayo Clinic / UNF",
+   "class": "CORE",
+   "census": 7,
+   "pet_friendly": 3,
+   "no_pets": 1,
+   "unresolved": 3,
+   "resolution_rate": 0.5714,
+   "page_publishes": false
+  },
+  "mandarin-bartram-julington-creek": {
+   "name": "Mandarin / Bartram Park / Julington Creek",
+   "class": "CORE",
+   "census": 8,
+   "pet_friendly": 7,
+   "no_pets": 0,
+   "unresolved": 1,
+   "resolution_rate": 0.875,
+   "page_publishes": true
+  },
+  "jacksonville-beach": {
+   "name": "Jacksonville Beach",
+   "class": "CORE",
+   "census": 15,
+   "pet_friendly": 6,
+   "no_pets": 0,
+   "unresolved": 9,
+   "resolution_rate": 0.4,
+   "page_publishes": true
+  },
+  "atlantic-neptune-beach-mayport": {
+   "name": "Atlantic Beach / Neptune Beach / Mayport",
+   "class": "CORE",
+   "census": 10,
+   "pet_friendly": 6,
+   "no_pets": 0,
+   "unresolved": 4,
+   "resolution_rate": 0.6,
+   "page_publishes": true
+  },
+  "ponte-vedra-beach-sawgrass": {
+   "name": "Ponte Vedra Beach / Sawgrass",
+   "class": "CORRIDOR",
+   "census": 5,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 3,
+   "resolution_rate": 0.4,
+   "page_publishes": false
+  },
+  "orange-park-fleming-island": {
+   "name": "Orange Park / Fleming Island",
+   "class": "CORRIDOR",
+   "census": 19,
+   "pet_friendly": 5,
+   "no_pets": 2,
+   "unresolved": 12,
+   "resolution_rate": 0.3684,
+   "page_publishes": true
+  },
+  "amelia-island-fernandina-beach": {
+   "name": "Amelia Island / Fernandina Beach",
+   "class": "CORRIDOR",
+   "census": 38,
+   "pet_friendly": 11,
+   "no_pets": 2,
+   "unresolved": 25,
+   "resolution_rate": 0.3421,
+   "page_publishes": true
+  },
+  "yulee-nassau-i95": {
+   "name": "Yulee / Callahan / Hilliard",
+   "class": "FRINGE",
+   "census": 10,
+   "pet_friendly": 0,
+   "no_pets": 1,
+   "unresolved": 9,
+   "resolution_rate": 0.1,
+   "page_publishes": false
+  }
+ },
+ "uncorridored_rows": 0,
+ "corridor_count": 17,
+ "corridors_publishing": [
+  "jax-airport-northside",
+  "westside-i10-i295",
+  "southside-university-boulevard",
+  "st-johns-town-center-gate-parkway",
+  "deerwood-baymeadows",
+  "mandarin-bartram-julington-creek",
+  "jacksonville-beach",
+  "atlantic-neptune-beach-mayport",
+  "orange-park-fleming-island",
+  "amelia-island-fernandina-beach"
+ ],
+ "brand_by_brand": {
+  "BEST_WESTERN": {
+   "census": 5,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 4,
+   "browser_read": 3,
+   "browser_challenge_denied": 0
+  },
+  "CHOICE": {
+   "census": 14,
+   "pet_friendly": 5,
+   "no_pets": 0,
+   "unresolved": 9,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "EXTENDED_STAY_AMERICA": {
+   "census": 6,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 6,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 6,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "HILTON": {
+   "census": 36,
+   "pet_friendly": 29,
+   "no_pets": 1,
+   "unresolved": 6,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 36,
+   "browser_read": 36,
+   "browser_challenge_denied": 0
+  },
+  "HYATT": {
+   "census": 4,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 4,
+   "browser_read": 4,
+   "browser_challenge_denied": 0
+  },
+  "IHG": {
+   "census": 22,
+   "pet_friendly": 13,
+   "no_pets": 7,
+   "unresolved": 2,
+   "firecrawl_attempted": 10,
+   "firecrawl_success": 9,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "INDEPENDENT": {
+   "census": 101,
+   "pet_friendly": 16,
+   "no_pets": 2,
+   "unresolved": 83,
+   "firecrawl_attempted": 24,
+   "firecrawl_success": 0,
+   "access_blocked": 25,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "LUXURY_INDEPENDENT": {
+   "census": 14,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 13,
+   "firecrawl_attempted": 4,
+   "firecrawl_success": 0,
+   "access_blocked": 2,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "MARRIOTT": {
+   "census": 42,
+   "pet_friendly": 18,
+   "no_pets": 5,
+   "unresolved": 19,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 18,
+   "browser_capture_needed": 0,
+   "browser_attempted": 65,
+   "browser_read": 24,
+   "browser_challenge_denied": 41
+  },
+  "MOTEL6_STUDIO6": {
+   "census": 4,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 3,
+   "firecrawl_attempted": 4,
+   "firecrawl_success": 1,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "OMNI": {
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "RADISSON": {
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 1,
+   "browser_read": 0,
+   "browser_challenge_denied": 1
+  },
+  "RED_ROOF": {
+   "census": 2,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 1,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 5,
+   "browser_read": 5,
+   "browser_challenge_denied": 0
+  },
+  "SONESTA": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "WYNDHAM": {
+   "census": 13,
+   "pet_friendly": 4,
+   "no_pets": 3,
+   "unresolved": 6,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  }
+ },
+ "providers": {
+  "static_capture": {
+   "targets": 210,
+   "free_http_requests": 210,
+   "outcomes": {
+    "ACCESS_DENIED": 139,
+    "BLANK_PAGE": 2,
+    "IDENTITY_MISMATCH": 28,
+    "NAVIGATION_FAILED": 7,
+    "POLICY_NOT_FOUND": 12,
+    "UNEXPECTED_PAGE": 8,
+    "UNHYDRATED": 10,
+    "VALID": 4
+   }
+  },
+  "wyndham_property_service": {
+   "selected": null,
+   "read": 15,
+   "retired": 13
+  },
+  "extended_stay_america": {
+   "routes": 0,
+   "served": 0,
+   "faq_pet_answer": 0
+  },
+  "independents_policy_pages": {
+   "targets": 67,
+   "bound": 37,
+   "free_http_requests": 112
+  },
+  "places_route_discovery": {
+   "requests": 82,
+   "route_discovery_bound": 68,
+   "with_website": 51,
+   "gap_verdicts": {
+    "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 2,
+    "NO_LODGING_RESULT": 1,
+    "OUTSIDE_MARKET": 1
+   },
+   "cost_basis": "existing GOOGLE_PLACES_API_KEY capacity; no new key, no new authorization, no plan purchase"
+  },
+  "places_discovered_sites": {
+   "targets": 19,
+   "bound": 11,
+   "free_http_requests": 34
+  },
+  "firecrawl": {
+   "eligible_planned": 81,
+   "attempted": 133,
+   "property_page_attempts": 125,
+   "first_pass_attempted": 81,
+   "retry_pass_attempted": 0,
+   "probe2_pass_attempted": 0,
+   "route_discovery_pages": 8,
+   "route_discovery_routes": 54,
+   "brand_page_reads": {
+    "attempted": 44,
+    "answered": 44,
+    "with_own_address": 38,
+    "by_family": {
+     "CHOICE": 22,
+     "IHG": 22
+    }
+   },
+   "retry_pass_why": "first-pass FIRECRAWL_MISMATCH rows re-attempted once after the census restated numbered beach streets and state-road / US-highway spellings the way the pages write them",
+   "distinct_identities_attempted": 81,
+   "by_cohort": {
+    "DISCOVERED": 22,
+    "PROBE": 41,
+    "ROUTED": 16,
+    "WALL_REPROBE": 2
+   },
+   "publication_grade": 18,
+   "policy_found": 17,
+   "failed": 63,
+   "class_counts": {
+    "FIRECRAWL_BLOCKED": 17,
+    "FIRECRAWL_FAILED": 13,
+    "FIRECRAWL_MISMATCH": 29,
+    "FIRECRAWL_PUBLICATION_GRADE": 18,
+    "FIRECRAWL_SOURCE_SILENT": 4
+   },
+   "credits": {
+    "first_pass": {
+     "before": 1144,
+     "after": 1074,
+     "delta": 70,
+     "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+    },
+    "retry_pass": {},
+    "probe2_pass": {},
+    "route_discovery": {
+     "before": 1196,
+     "after": 1188,
+     "delta": 8
+    },
+    "brand_page_reads": {
+     "before": 1188,
+     "after": 1144,
+     "delta": 44
+    }
+   }
+  },
+  "supported_browser": {
+   "source_ready_001_attempts": 0,
+   "source_ready_001_outcomes": {},
+   "closure_002_queue": 120,
+   "closure_002_outcomes": {
+    "CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED": 42,
+    "CHALLENGE_DENIED_CAPTCHA_NOT_ATTEMPTED": 1,
+    "IDENTITY_BOUND_POLICY_SOURCE_SILENT": 1,
+    "READ": 75,
+    "ROUTE_NOT_PROPERTY_SPECIFIC": 1
+   },
+   "closure_002_reads": 75,
+   "closure_002_bindings": {
+    "BRAND_PROPERTY_CODE aisflhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE aishshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxae on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxahgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxal on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxar on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxardt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxat on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxbf on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxbh on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxbphx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxbs on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxbyhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxca on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxco on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxcy on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxde on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxdfht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxdnhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxdo on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE jaxdpgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxdthx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxdwhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxeahx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxfbht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxhshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxhtht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxhwhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxjaes on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxjb on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE jaxjbhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxjfru on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxjrdt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxjs on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxjshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxjv on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE jaxjvhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxmbhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxmc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxmd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxmkru on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxmohh on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxmt on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE jaxmyht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxne on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE jaxobgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxop on the brand's own page": 3,
+    "BRAND_PROPERTY_CODE jaxorhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxpbhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxpvgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxra on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxrd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxri on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE jaxrshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxruru on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxrv on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE jaxsbgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxse on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxsi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxsjru on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxsoht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxsw on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE jaxtl on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE jaxtp on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE jaxvs on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxwehx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE jaxyx on the brand's own page": 1,
+    "UNBOUND": 5,
+    "street number 8285 + postal code 32256, disambiguated by the street name the page itself states ('8285 philips'); more than one census row shares that house number and postal code": 1,
+    "the page's own street number 11565 + postal code 32256": 1,
+    "the page's own street number 1300 + postal code 32218": 1,
+    "the page's own street number 14565 + postal code 32218": 1,
+    "the page's own street number 225 + postal code 32202": 1,
+    "the page's own street number 2389 + postal code 32233": 1,
+    "the page's own street number 305 + postal code 32250": 1,
+    "the page's own street number 4385 + postal code 32216": 1,
+    "the page's own street number 4670 + postal code 32216": 1,
+    "the page's own street number 4670 + postal code 32256": 1,
+    "the page's own street number 4742 + postal code 32246": 1,
+    "the page's own street number 4888 + postal code 32216": 1,
+    "the page's own street number 561 + postal code 32221": 1,
+    "the queue row's street number 1063 + postal code 32218, with the page's own address agreeing": 1,
+    "the queue row's street number 1088 + postal code 32234, with the page's own address agreeing": 1,
+    "the queue row's street number 10901 + postal code 32218, with the page's own address agreeing": 1,
+    "the queue row's street number 1181 + postal code 32218, with the page's own address agreeing": 1,
+    "the queue row's street number 13550 + postal code 32218, with the page's own address agreeing": 3,
+    "the queue row's street number 15678 + postal code 32218, with the page's own address agreeing": 1,
+    "the queue row's street number 208 + postal code 32250, with the page's own address agreeing": 3,
+    "the queue row's street number 4385 + postal code 32216, with the page's own address agreeing": 1,
+    "the queue row's street number 4801 + postal code 32216, with the page's own address agreeing": 3,
+    "the queue row's street number 525 + postal code 32221, with the page's own address agreeing": 1,
+    "the queue row's street number 6099 + postal code 32244, with the page's own address agreeing": 1,
+    "the queue row's street number 6107 + postal code 32244, with the page's own address agreeing": 1,
+    "the queue row's street number 6969 + postal code 32216, with the page's own address agreeing": 1,
+    "the queue row's street number 7035 + postal code 32220, with the page's own address agreeing": 1,
+    "the queue row's street number 8520 + postal code 32256, with the page's own address agreeing": 1,
+    "the queue row's street number 8765 + postal code 32256, with the page's own address agreeing": 1,
+    "the queue row's street number 8801 + postal code 32216, with the page's own address agreeing": 1
+   },
+   "by_family": {
+    "BEST_WESTERN": 3,
+    "HILTON": 36,
+    "HYATT": 4,
+    "MARRIOTT": 24,
+    "MOTEL6": 3,
+    "RED_ROOF": 5
+   }
+  },
+  "other_paid_providers": {
+   "bright_data": 0,
+   "other": 0
+  },
+  "routing_by_state": {
+   "FREE_LANE_EXHAUSTED": 26,
+   "INDEPENDENT_REVIEW": 50,
+   "ROUTED_MAP_WEBSITE": 5,
+   "ROUTED_OFFICIAL_DESTINATION": 110,
+   "ROUTED_OFFICIAL_INVENTORY": 76,
+   "ROUTE_BRAND_MISMATCH": 1
+  },
+  "usd_spent": 0.0,
+  "new_paid_spend": 0.0,
+  "new_provider_authorization": "NONE"
+ },
+ "competitor_reconciliation": {
+  "competitor": "BringFido",
+  "cities_challenged": 22,
+  "competitor_raw_discovery": 915,
+  "normalized_unique": 699,
+  "matched_to_census": 168,
+  "matched_distinct_identities": 123,
+  "true_missing_qualifying_candidates": 4,
+  "true_missing_verified_by_places": {
+   "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 2,
+   "NO_LODGING_RESULT": 1,
+   "OUTSIDE_MARKET": 1
+  },
+  "excluded_stale_outside": 298,
+  "review": 229,
+  "matched_but_policy_unresolved": 123,
+  "counts": {
+   "ALIAS": 28,
+   "DUPLICATE": 45,
+   "EXACT_ATLAS_MATCH": 95,
+   "NON_HOTEL": 3,
+   "OUTSIDE": 44,
+   "REVIEW": 229,
+   "TRUE_MISSING": 4,
+   "VACATION_RENTAL": 251
+  }
+ },
+ "south_florida_boundary": {
+  "method": "DBPR licences counted by the licence's OWN county (HOTL / MOTL / BNB / TAPT ranks). Admission is by the corridor registry over the property's own postal code, and by nothing else -- never by the county field, which is the LICENSING county.",
+  "home_counties": [
+   "duval",
+   "nassau",
+   "clay",
+   "st. johns",
+   "st johns"
+  ],
+  "no_single_home_county": "Four counties carry admitted corridors and three of them are SPLIT. Duval is admitted whole; Clay, Nassau and St. Johns each report a discovered count and a smaller admitted count, and St. Johns' gap is the entire St. Augustine inventory.",
+  "home_county_hotel_rank_licences_in_admitted_postal_codes": 245,
+  "neighbour_counties": {
+   "alachua": {
+    "hotel_rank_licences": 69,
+    "admitted_into_jacksonville_fl": 0,
+    "role": "OUTSIDE by name",
+    "owner": "gainesville-fl",
+    "owner_is_live": false
+   },
+   "baker": {
+    "hotel_rank_licences": 5,
+    "admitted_into_jacksonville_fl": 0,
+    "role": "OUTSIDE by name",
+    "owner": "(none -- rural I-10, refused by name)",
+    "owner_is_live": false
+   },
+   "clay": {
+    "hotel_rank_licences": 20,
+    "admitted_into_jacksonville_fl": 19,
+    "role": "SPLIT -- Orange Park / Fleming Island / Middleburg / Green Cove Springs / Oakleaf admitted, Keystone Heights refused by name",
+    "owner": "(home county)",
+    "owner_is_live": false
+   },
+   "duval": {
+    "hotel_rank_licences": 193,
+    "admitted_into_jacksonville_fl": 193,
+    "role": "ADMITTED WHOLE -- the consolidated city-county",
+    "owner": "(home county)",
+    "owner_is_live": false
+   },
+   "flagler": {
+    "hotel_rank_licences": 26,
+    "admitted_into_jacksonville_fl": 0,
+    "role": "OUTSIDE by name",
+    "owner": "palm-coast-flagler-fl",
+    "owner_is_live": false
+   },
+   "nassau": {
+    "hotel_rank_licences": 42,
+    "admitted_into_jacksonville_fl": 42,
+    "role": "ADMITTED, SPLIT BY TIER -- Amelia Island / Fernandina Beach CORRIDOR, mainland FRINGE",
+    "owner": "(home county)",
+    "owner_is_live": false
+   },
+   "putnam": {
+    "hotel_rank_licences": 19,
+    "admitted_into_jacksonville_fl": 0,
+    "role": "OUTSIDE by name",
+    "owner": "(none -- rural St. Johns River, refused by name)",
+    "owner_is_live": false
+   },
+   "st. johns": {
+    "hotel_rank_licences": 124,
+    "admitted_into_jacksonville_fl": 6,
+    "role": "SPLIT HARDEST -- Ponte Vedra Beach 32082, Nocatee 32081 and Fruit Cove 32259 admitted; every St. Augustine code refused and reserved for future st-augustine-fl",
+    "owner": "(home county)",
+    "owner_is_live": false
+   },
+   "volusia": {
+    "hotel_rank_licences": 236,
+    "admitted_into_jacksonville_fl": 0,
+    "role": "OUTSIDE by name",
+    "owner": "daytona-beach-fl",
+    "owner_is_live": false
+   }
+  },
+  "live_market_inventory_admitted": 0,
+  "no_live_market_inventory_admitted": true,
+  "why_that_matters": "savannah-ga and orlando-fl are LIVE markets and jacksonville-nc is a LIVE market with this market's own NAME. Admitting one of their postal codes would publish the same hotel in two markets, so a non-zero count here is a defect, not a judgement. Georgia's counties cannot appear in a Florida licence extract at all, which is the state-line refusal expressed mechanically.",
+  "county_boundary_rules": {
+   "duval": {
+    "ruling": "ADMITTED WHOLE -- every Duval County postal code that carries a lodging licence is claimed by exactly one corridor. Duval is a CONSOLIDATED city-county, so 'JACKSONVILLE' is the postal city for 25 lodging-bearing codes across 39 miles and places nothing by itself.",
+    "corridors": "downtown-jacksonville, southbank-san-marco, riverside-avondale-brooklyn, jax-airport-northside, westside-i10-i295, arlington-intracoastal-west, southside-university-boulevard, st-johns-town-center-gate-parkway, deerwood-baymeadows, deerwood-park-mayo-unf, mandarin-bartram-julington-creek (Duval part), jacksonville-beach, atlantic-neptune-beach-mayport",
+    "separate_municipalities_inside_duval": "Jacksonville Beach, Neptune Beach, Atlantic Beach and Baldwin are separate municipalities INSIDE Duval County with their own postal codes; each is placed by its own code, never by 'Jacksonville'."
+   },
+   "st. johns": {
+    "ruling": "SPLIT, and this is the market's hardest boundary call. TWO codes admitted (32082 Ponte Vedra Beach and 32081 Nocatee at CORRIDOR tier; 32259 Fruit Cove / Julington Creek inside the Mandarin corridor). EVERY St. Augustine code REFUSED by name.",
+    "why_ponte_vedra_is_admitted": "Ponte Vedra Beach is the next beach south of Jacksonville Beach on A1A with no gap between them; its resorts (Ponte Vedra Inn & Club, the Lodge & Club, Sawgrass Marriott, TPC Sawgrass) route their guests through JAX, 25 miles north, and their traveller flow is the Butler Boulevard / A1A beaches flow. It carries 6 hotel-rank lodging licences.",
+    "why_julington_creek_is_admitted": "32259's Fruit Cove / Julington Creek lodging faces Duval's Mandarin across Julington Creek on SR-13 and Race Track Road, 20 miles from downtown St. Augustine and 15 from downtown Jacksonville. It carries ZERO hotel-rank lodging licences on the state's own record, so it is admitted for completeness of the Mandarin corridor and contributes no census row.",
+    "why_st_augustine_is_refused": "116 hotel-rank lodging licences across 32084 (78), 32080 (29) and 32092 (9); its own CVB (Florida's Historic Coast); its own historic-district and World Golf Village travel products. FUTURE_STANDALONE st-augustine-fl. County inclusion is not traveller-market inclusion, and the order forbids absorbing it automatically.",
+    "cvb_fact_recorded_against_the_traveller_fact": "Florida's Historic Coast markets Ponte Vedra together with St. Augustine, so the CVB test and the traveller test DISAGREE for 32082. The traveller test governs and the disagreement is recorded rather than hidden: Ponte Vedra Beach is contiguous with Jacksonville Beach and shares its airport, while St. Augustine is 40 miles further south with an inventory large enough to be its own market."
+   },
+   "clay": {
+    "ruling": "SPLIT. The Jacksonville-facing codes (32073 Orange Park, 32003 Fleming Island, 32065 Oakleaf, 32068 Middleburg, 32043 Green Cove Springs) ADMITTED at CORRIDOR tier -- 17 hotel-rank lodging licences. The inland lake country (32656 Keystone Heights, 1 licence) REFUSED by name.",
+    "why": "Orange Park is a Blanding Boulevard / US-17 commuter suburb continuous with Duval's westside and its hotels serve NAS Jacksonville and Jacksonville business travel. Keystone Heights is 45 miles southwest in the Trail Ridge lake district and is oriented to Gainesville. This split is the market's own demonstration that a county is not a travel market."
+   },
+   "nassau": {
+    "ruling": "ADMITTED, SPLIT BY TIER. Amelia Island / Fernandina Beach (32034, 32035) at CORRIDOR tier -- 32 hotel-rank lodging licences. The mainland row (32097 Yulee, 32011 Callahan, 32046 Hilliard) at FRINGE -- 10 licences.",
+    "amelia_island_classification": "CORRIDOR -- not FRINGE and not FUTURE_STANDALONE. The order requires an explicit choice among those three and this is it.",
+    "why_corridor": "Nassau County is inside the Jacksonville metropolitan statistical area; JAX is Amelia Island's airport (30 miles, no closer commercial field); the A1A / I-95 exit 373 approach is a Jacksonville traveller flow; and 32 hotel-rank licences is real, coherent inventory that no other market publishes. Admitting it at CORRIDOR tier ACCOUNTS FOR that inventory instead of silently dropping it.",
+    "future_optionality_preserved_explicitly": "Amelia Island is this market's NAMED first candidate for a future standalone market: it has its own CVB (the Amelia Island Convention & Visitors Bureau), its own county, its own island resort identity and two flagship resort campuses. The classification is recorded here so a founder can promote it later on the record rather than discovering the question after publication. It is admitted at CORRIDOR tier, not CORE, for exactly that reason."
+   }
+  },
+  "named_place_audit": {
+   "ST AUGUSTINE": {
+    "discovered_hotel_rank": 110,
+    "admitted": 0
+   },
+   "ST AUGUSTINE BEACH": {
+    "discovered_hotel_rank": 4,
+    "admitted": 0
+   },
+   "PALM COAST": {
+    "discovered_hotel_rank": 13,
+    "admitted": 0
+   },
+   "GAINESVILLE": {
+    "discovered_hotel_rank": 52,
+    "admitted": 0
+   },
+   "WORLD GOLF VILLAGE (32092)": {
+    "discovered_hotel_rank": 9,
+    "admitted": 0
+   },
+   "ST AUGUSTINE BEACH (32080)": {
+    "discovered_hotel_rank": 29,
+    "admitted": 0
+   },
+   "KEYSTONE HEIGHTS (32656)": {
+    "discovered_hotel_rank": 1,
+    "admitted": 0
+   }
+  },
+  "cross_county_rows_admitted": [],
+  "outside_graph_nodes_by_place": {
+   "BAKER": 7,
+   "CLAY_LAKE_COUNTRY": 1,
+   "DAYTONA_VOLUSIA": 233,
+   "GAINESVILLE_ALACHUA": 63,
+   "GEORGIA": 15,
+   "OTHER_LIVE_FLORIDA_MARKET": 418,
+   "PALM_COAST_FLAGLER": 22,
+   "PUTNAM": 17,
+   "ST_AUGUSTINE": 214
+  },
+  "rows_admitted_from_a_refused_postal_code": 0,
+  "no_northeast_florida_sprawl": true,
+  "existing_live_markets_named": [
+   "jacksonville-nc",
+   "savannah-ga",
+   "orlando-fl",
+   "tampa-fl",
+   "west-palm-beach-fl",
+   "miami-fl",
+   "fort-lauderdale-fl"
+  ],
+  "future_standalone_markets": [
+   "st-augustine-fl",
+   "amelia-island-fl",
+   "palm-coast-flagler-fl",
+   "daytona-beach-fl",
+   "gainesville-fl",
+   "golden-isles-ga"
+  ]
+ },
+ "negation_and_parser_conflicts": [
+  {
+   "identity_key": "cambria hotel jacksonville",
+   "name": "Cambria Hotel Jacksonville",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote refuses pets: 'mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (904) 865-4446 Children Anyone aged 18 and under, at time of booking, stay for free Fax (904) 862-6836 Office Hours 24/7 Pets Pets Allowed: No General: Only service animals are permitted, free of charge.'"
+  },
+  {
+   "identity_key": "coastal wave properties",
+   "name": "Coastal Wave Properties",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "comfort inn and suites jacksonville orange park",
+   "name": "Comfort Inn & Suites Jacksonville - Orange Park",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote refuses pets: 'mi Show more Info Essential details Check-In 4:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (904) 932-0096 Children Anyone aged 18 and under, at time of booking, stay for free Fax (904) 932-0097 Office Hours 24/7 Pets Pets Allowed: No General: Only service animals are permitted, free of charge.'"
+  },
+  {
+   "identity_key": "comfort suites baymeadows near butler blvd",
+   "name": "Comfort Suites Baymeadows Near Butler Blvd",
+   "why": "ROUTE_DOMAIN_CONFLICT -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'choicehotels.com' while the census binds the identity to 'comfortsuitesjacksonville.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
+  },
+  {
+   "identity_key": "country inn and suites by radisson jacksonville west",
+   "name": "Country Inn & Suites by Radisson, Jacksonville West",
+   "why": "ROUTE_DOMAIN_CONFLICT -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'choicehotels.com' while the census binds the identity to 'radissonhotelsamericas.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
+  },
+  {
+   "identity_key": "days inn by wyndham jacksonville airport",
+   "name": "Days Inn by Wyndham Jacksonville Airport",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: 'Service Animals - ADA-defined service animals welcome. / Dogs Allowed - 2 Dogs max. Dogs only. 40lbs or less per dog. / Fees - 25USD per pet per night. Pet Sanitation Fee 100 USD if required. Other information - Contact hotel for additional details and availability.'"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel jacksonville airport",
+   "name": "DoubleTree by Hilton Hotel Jacksonville Airport",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'PETS | Pets allowed: Yes | Max size: large'"
+  },
+  {
+   "identity_key": "echo suites middleburg",
+   "name": "Echo Suites Middleburg",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "hampton inn and suites jacksonville deerwood park",
+   "name": "Hampton Inn & Suites Jacksonville Deerwood Park",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'PETS | Pets allowed: Yes'"
+  },
+  {
+   "identity_key": "home2 suites by hilton jacksonville mayo clinic area",
+   "name": "Home2 Suites by Hilton Jacksonville Mayo Clinic Area",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'PETS | Pets allowed: Yes | Max size: medium'"
+  },
+  {
+   "identity_key": "homewood suites by hilton jacksonville deerwood park",
+   "name": "Homewood Suites by Hilton Jacksonville Deerwood Park",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote AMENITY_CHIP_ONLY: an amenity label states no policy: 'PETS | Pets allowed: Yes'"
+  },
+  {
+   "identity_key": "hyatt studios jacksonville st johns town center",
+   "name": "Hyatt Studios Jacksonville/St. Johns Town Center",
+   "why": "ROUTE_DOMAIN_CONFLICT -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'hyatt.com' while the census binds the identity to 'hyattstudiosjacksonvillestjohnstowncenter.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
+  },
+  {
+   "identity_key": "knights inn jacksonville at dix ellis trail",
+   "name": "Knights Inn Jacksonville at Dix Ellis Trail",
+   "why": "ROUTE_DOMAIN_CONFLICT -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'knightsinn.com' while the census binds the identity to 'redlion.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
+  },
+  {
+   "identity_key": "marble waters hotel and suites trademark collection by wyndham",
+   "name": "Marble Waters Hotel & Suites, Trademark Collection by Wyndham",
+   "why": "ROUTE_DOMAIN_CONFLICT -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'wyndhamhotels.com' while the census binds the identity to 'marblewatershotelandsuites.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
+  },
+  {
+   "identity_key": "river city inn",
+   "name": "River City Inn",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Pets Are Not Allowed River City Inn Jacksonville maintains a no-pets policy. Families can spend the day seeing exotic animals, walking through themed gardens, and enjoying interactive exhibits. Are pets allowed at River City Inn Jacksonville? Pets are not allowed at the property. amily rooms Air Conditioning 24-Hour Front Desk Laundry Business Center Convenience Store Fire Extinguishers Smoke Alarms CCTV in common areas Iron/ironing board Microwave Phone Refrigerator Coffee/tea maker Flat-screen'"
+  },
+  {
+   "identity_key": "scottish inn",
+   "name": "Scottish Inn",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'arking Free Continental Breakfast Outdoor Year Round Pool 24 Hour Reception Desk Minutes from Downtown Venues Landing, Riverwalk & Convention Center Cable TV with HBO Desk Fridge and Microwave when available Alarm Clock Air Conditioning NO Pets Allowed Activities : Explore all 840 Square Miles of a different side of Florida. Scottish Inn Jacksonville Jacksonville Florida FL Hotels Lodging Accommodations Budget Affordable Motels Cheap Vacation Packages Specials Pet Friendly Weddings Business Trav'"
+  },
+  {
+   "identity_key": "sleep inn jacksonville airport",
+   "name": "Sleep Inn Jacksonville Airport",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote refuses pets: '5 mi Show more Info Essential details Check-In 3:00 PM Check-Out 11:00 AM No Smoking 100% Smoke Free Hotel Phone Number (904) 323-3899 Children Anyone aged 18 and under, at time of booking, stay for free Fax (904) 378-9584 Pets Pets Allowed: No General: Only service animals are permitted, free of charge. Does the Sleep Inn & Suites in Jacksonville, FL allow pets?'"
+  },
+  {
+   "identity_key": "waterwalk extended stay by wyndham jacksonville",
+   "name": "WaterWalk Extended Stay by Wyndham, Jacksonville",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "woodspring suites orange park",
+   "name": "Woodspring Suites Orange Park",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "wyndham garden jacksonville",
+   "name": "Wyndham Garden Jacksonville",
+   "why": "ROUTE_DOMAIN_CONFLICT -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'wyndhamhotels.com' while the census binds the identity to 'jacksonvillewyndhamgarden.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
+  }
+ ],
+ "remaining_unresolved_root_causes": {
+  "BROWSER_CAPTURE_NEEDED": "ZERO in this market. The committed route table sends Marriott and Hilton to a paid browser provider and excludes Hyatt and Best Western from its paid lanes; this order exercised the SUPPORTED ATTENDED BROWSER instead -- 61 paced attempts, 49 first-party reads, no paid provider, no relay, no browser-JS exfiltration and no Akamai bypass. Every browser-required row is read or terminally classified.",
+  "ROUTING_HOLD": "no first-party route: the routing pass found no brand, bureau or map website, and Places route discovery either bound no place at the row's own street number + ZIP, or bound one whose card names no website (NO_OFFICIAL_WEB_PRESENCE_FOUND), or names a brand/OTA host.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible or probe-eligible) was refused or failed.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a fee / weight / count sentence with no explicit acceptance wording, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "the fetched page or site never confirmed this census row's address, phone or code."
+ }
+}
