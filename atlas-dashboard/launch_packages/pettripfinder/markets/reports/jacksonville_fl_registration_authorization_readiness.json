@@ -1,0 +1,90 @@
+{
+ "schema": "ptf-registration-authorization-readiness/1.0",
+ "status": "AUTHORIZATION_READY",
+ "founder_status": "AWAITING_FOUNDER_AUTHORIZATION",
+ "what_this_is": "A prepared, UNSIGNED readiness document for founder review, written by the registration release lane after Regression V2 classified the registration. It authorizes nothing: no launch-participation flag has moved, no activation flag is enabled, nothing is deployed. The founder's decision, if it comes, is a separate write into deploy/netlify/deployment_authorizations/ that this document never makes.",
+ "market_id": "jacksonville-fl",
+ "prepared_by": "PTF-JACKSONVILLE-FL-REGISTRATION-AND-STAGING-002",
+ "prepared_at": "2026-09-25T16:32:20Z",
+ "authorized_by": null,
+ "authorized_at": null,
+ "regression_v2": {
+  "classification_source": "AUTOMATIC",
+  "current_live_source_commit": "e3efa2210f759886aaad830b07fa241231a8f734",
+  "registration_base": "bf7a54c38cd7dd49a8d2dd57a077a343bd0006e2",
+  "trusted_factory_baseline": null,
+  "inherited_factory_paths": 0,
+  "SHARED_FACTORY_DELTA": null,
+  "base": "bf7a54c38cd7dd49a8d2dd57a077a343bd0006e2",
+  "head": "WORKTREE",
+  "change_classes": [
+   "DOCUMENTATION_ONLY",
+   "GENERATED_REPORT_ONLY",
+   "MARKET_DATA_PACKAGE",
+   "COMPOSITE_FRESH_MARKET_DATA_ONLY"
+  ],
+  "release_surfaces": [
+   "MARKET_DATA_PACKAGE",
+   "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+   "NARROW_NON_RELEASE"
+  ],
+  "CHANGE_CLASS": "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+  "FULL_REGRESSION_REQUIRED": "NO",
+  "REMOTE_BROAD_JOBS_REQUIRED": 0,
+  "plan_modules": 119,
+  "assembly_required": false,
+  "reason": "every changed file classifies into a narrow class (COMPOSITE_FRESH_MARKET_DATA_ONLY, DOCUMENTATION_ONLY, GENERATED_REPORT_ONLY, MARKET_DATA_PACKAGE); no row of the matrix makes a broad regression mandatory"
+ },
+ "registration_proof": {
+  "proof_version": "ptf-registration-data-only/2.0",
+  "ELIGIBLE": "YES",
+  "checks": {
+   "change_set": "PASS",
+   "market_local_zone": "PASS",
+   "discovery_config": "PASS",
+   "registration_input": "PASS",
+   "identity_resolutions": "PASS",
+   "participation": "PASS",
+   "release_contract": "PASS",
+   "build_closure": "PASS",
+   "derived_globals": "PASS",
+   "sealed_package": "PASS",
+   "fast_receipt": "PASS",
+   "expected_release": "PASS",
+   "identity_routes": "PASS",
+   "market_state_pin": "PASS",
+   "release_integrity": "PASS"
+  },
+  "seconds": 67.878
+ },
+ "the_digests_this_readiness_binds": {
+  "parent_live_deploy_id": "6ab599163f833ab7f48b395d",
+  "parent_release_digest": "sha256:fda6317bf022fb103f397d99ff4a4c72ac49105b992cb34ac1ba335ecb8e7445",
+  "sealed_package_id": "pkg-jacksonville-fl-60ba2edccd4882b3",
+  "sealed_package_digest": "sha256:60ba2edccd4882b38785d69c016f39f550924675d54197004adaf994b55c0536",
+  "fast_receipt": "launch_packages/pettripfinder/markets/receipts/jacksonville-fl/pkg-jacksonville-fl-60ba2edccd4882b3-b961d823ca502d7b.json",
+  "fast_receipt_digest": "sha256:b961d823ca502d7b5ea78ec66d15fa316722031bd181e5e8b5c95f6be7748371",
+  "changed_market_bundle_sha256": "a98efbea86c38a268bfa489354add4a700a0d4bc0ab13df740a5ae35ee842636",
+  "expected_candidate_index_digest": "sha256:d0d88ba7c81fa662a67a48a05247a3ac0a814ca5086273fed8f7095ae4baec25",
+  "actual_candidate_index_digest": "sha256:bc0c5e0db76b7434bbbfb9db9cd8b0298677ac4f141fd316eb5525dc70520f62"
+ },
+ "projected_live": {
+  "markets": 34,
+  "profiles": 2519,
+  "routes": 2807,
+  "unexpected_market_changes": 0,
+  "unexpected_profile_changes": 0,
+  "unexpected_route_changes": 0
+ },
+ "lane": {
+  "PACKAGE_REPRODUCIBLE": "YES",
+  "CANDIDATE_REPRODUCIBLE": "YES",
+  "UNCHANGED_MARKETS_REBUILT": 0,
+  "fast_rules_passed": 15
+ },
+ "what_is_not_claimed": [
+  "This document authorizes nothing. Only a founder authorization in deploy/netlify/deployment_authorizations/ admits a market to production.",
+  "The whole-site deployment artifact is built and hashed by the deployment order, under the current-parent guard, the exact-bytes rule and the rollback guard, none of which this lane touches.",
+  "The registration's participation row reads SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH."
+ ]
+}
