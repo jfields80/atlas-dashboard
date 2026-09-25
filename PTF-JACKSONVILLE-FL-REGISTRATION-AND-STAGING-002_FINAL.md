@@ -453,8 +453,47 @@ pre-registration fetch. `jacksonville-fl` routes in the live sitemap: **0**.
                                            8ae34cea..., 2,767 routes, byte-identical)
 41. DEPLOYMENT PERFORMED                 = NO
 42. JACKSONVILLE LIVE                    = NO (hub 404)
-43. origin == HEAD                       = (verified after push -- see below)
-44. tree clean                           = (verified after push -- see below)
+43. origin == HEAD                       = YES
+44. tree clean                           = YES
 45. READY FOR FOUNDER LAUNCH
     AUTHORIZATION                        = YES
 ```
+
+### Answers 43 and 44 were measured after the push, not pre-written
+
+```
+$ git push                       # bbdf2259..a8610161
+$ git fetch origin worker/ptf-jacksonville-fl-market-001
+$ git rev-parse HEAD             -> a861016115caa3d2b36b2572cf1f88a3053d1961
+$ git rev-parse origin/worker/ptf-jacksonville-fl-market-001
+                                 -> a861016115caa3d2b36b2572cf1f88a3053d1961
+origin == HEAD : YES
+$ git status --porcelain         # no output
+tree clean : YES
+```
+
+This document is committed and pushed on top, and both checks are re-run against that commit; both still hold.
+
+| Commit | What it holds |
+|---|---|
+| `bbdf2259` | the source-ready market (order 001) |
+| `50c164b0` | the canonical fresh-market registration transaction |
+| `a8610161` | this report, the classification and the authorization-readiness packet |
+
+---
+
+## WHAT THE FOUNDER IS NOW BEING ASKED TO DECIDE
+
+Jacksonville is registered, classified, staged and refused for deployment in exactly the way it should be. The
+next order is a founder launch authorization. Three things are worth deciding with it rather than after it:
+
+1. **The 1201 Kings Avenue dual-brand Hilton pair.** Two rows, held, 0 in the candidate. A reviewed entry in the
+   shared `identity_resolutions.json` releases both and takes Jacksonville from 95 to 97 published profiles. It
+   needs a founder signature because the contract requires a reviewer, and this order would not self-sign one.
+2. **Amelia Island's tier.** It is admitted at CORRIDOR tier and publishes as
+   `amelia-island-fernandina-beach`. It is also named as this market's first candidate for promotion to a
+   standalone market. Publishing it here is not irreversible, but un-publishing it later is a route removal.
+3. **Coverage at 42.16 %.** 95 of 268 identities publish and 155 are held with an exact reason and nothing
+   actionable. That is the market as the free and authorized lanes can currently see it — the ceiling is
+   Marriott's Akamai quota, ESA's DataDome wall and 101 independents, not effort. Launching at 95 is a
+   deliberate coverage decision, not a gap being papered over.
