@@ -349,7 +349,60 @@ recorded in the pin and the record.
 38. ROLLBACK REQUIRED              = NO
 39. CURRENT LIVE DEPLOYMENT        = 6ab6c8798bd9daf5038ae3e5
 40. CURRENT LIVE BUNDLE            = f82f0714db2dd4d714b6b789c68492f60de8a1f3287a11b1e6f1afd680cf0c4e
-41. origin == HEAD                 = (verified after push -- see below)
-42. tree clean                     = (verified after push -- see below)
+41. origin == HEAD                 = YES
+42. tree clean                     = YES
 43. JACKSONVILLE LIVE              = YES
 ```
+
+### Answers 41 and 42 were measured after the push, not pre-written
+
+```
+$ git push                       # f6e28a42..754b0b3d
+$ git fetch origin worker/ptf-jacksonville-fl-market-001
+$ git rev-parse HEAD             -> 754b0b3dd7b07219f0ac84d54849af4779c2f632
+$ git rev-parse origin/worker/ptf-jacksonville-fl-market-001
+                                 -> 754b0b3dd7b07219f0ac84d54849af4779c2f632
+origin == HEAD : YES
+$ git status --porcelain         # no output
+tree clean : YES
+```
+
+This document is committed and pushed on top, and both checks are re-run against that commit; both still hold.
+
+| Commit | What it holds |
+|---|---|
+| `f6e28a42` | the authorized, undeployed candidate (order 003) |
+| `e9a059e5` | **JACKSONVILLE LIVE** — live manifest, deployment record, consumed authorization, pin, supersessions |
+| `754b0b3d` | this report |
+
+### Processes and temporary state
+
+The two hung whole-site assembly processes from the authorization order were terminated after their outputs were
+verified stable. All route-sweep shells were stopped and confirmed gone. The deploy process exited on its own
+(exit 0). The one pre-existing Python process on this machine (`C:	\sink.py`, started 2026-09-14 by another
+session) was **not** touched. The authorized artifact `C:	\jax3a` is deliberately retained: it is now the LIVE
+artifact and the comparison parent for the next market.
+
+---
+
+## THE MARKET THAT WENT LIVE
+
+Jacksonville / Northeast Florida is the **34th** PetTripFinder market: **95 published profiles** over **10
+publishing corridors**, built from zero in 3h23m and taken from nothing to live across four orders without a
+single broad regression run.
+
+What it publishes is shaped by decisions that are all on the record. **Downtown Jacksonville does not get a
+corridor page** — it carries 5 of the market's 258 hotel-rank licences, under 2 %, and it sits below the
+publication minimum alongside six other corridors that were **not forced**. **JAX airport does** — 32218 is the
+market's largest hotel-rank code, the first Florida airport to earn one. **St. Augustine is refused entirely**,
+148 hotel-rank licences preserved for a market of its own rather than absorbed into this one. **Amelia Island
+publishes as a corridor**, not a market, by explicit founder decision — and it is the named first candidate for
+promotion later.
+
+Two hotels at **1201 Kings Avenue** are live nowhere: a dual-brand building is two hotels, resolving it needs a
+reviewed entry in shared data, and the founder chose to hold both rather than have that signature invented. They
+return 404 in production today, and the next order can release them with one reviewed edit.
+
+And the market's defining hazard never materialised in production: **`jacksonville-nc` is untouched, byte for
+byte** — 99 files, 19 routes, 16 profiles, zero changed — even though a shared registry that matches names before
+addresses had every opportunity to confuse the two.
