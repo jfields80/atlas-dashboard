@@ -582,12 +582,17 @@
    "free_http_requests": 148
   },
   "places_route_discovery": {
-   "requests": null,
-   "route_discovery_bound": null,
-   "with_website": null,
-   "gap_verdicts": null,
-   "field_mask": null,
-   "route_discovery_run": null,
+   "requests": 38,
+   "route_discovery_bound": 0,
+   "with_website": 0,
+   "gap_verdicts": {
+    "NO_LODGING_RESULT": 9,
+    "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 12,
+    "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 16,
+    "OUTSIDE_MARKET": 1
+   },
+   "field_mask": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus",
+   "route_discovery_run": false,
    "cost_basis": "existing GOOGLE_PLACES_API_KEY capacity, PRO-tier field mask only; no new key, no new authorization"
   },
   "places_discovered_sites": {
@@ -895,7 +900,12 @@
   "matched_to_census": 222,
   "matched_distinct_identities": 153,
   "true_missing_qualifying_candidates": 24,
-  "true_missing_verified_by_places": null,
+  "true_missing_verified_by_places": {
+   "NO_LODGING_RESULT": 9,
+   "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 12,
+   "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 16,
+   "OUTSIDE_MARKET": 1
+  },
   "excluded_stale_outside": 477,
   "review": 225,
   "matched_but_policy_unresolved": 60,

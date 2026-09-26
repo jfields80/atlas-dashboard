@@ -215,7 +215,7 @@ def main():
     # PHASE 23 -- THE COUNTY / BORDER BOUNDARY AUDIT, framed for THIS market. Every OUTSIDE graph node is
     # counted by the refused place its OWN postal code or municipality names; every brand card the Hilton city
     # pages refused by its own address is counted too, so a neighbour that only a brand card reached is SEEN.
-    places = {
+    refused_places = {
         "ORANGE_COUNTY": (r"san clemente|dana point|san juan capistrano|laguna|mission viejo|irvine|anaheim|"
                           r"newport beach|costa mesa|huntington beach|orange county|santa ana|tustin|aliso viejo|"
                           r"lake forest", ("926", "927", "928")),
@@ -233,7 +233,7 @@ def main():
     def _place_of(city, postal, reason):
         txt = ("%s %s" % (city or "", reason or "")).lower()
         z = (postal or "")[:5]
-        for label, (rx, prefixes) in places.items():
+        for label, (rx, prefixes) in refused_places.items():
             if (z and prefixes and z.startswith(prefixes)) or re.search(rx, txt):
                 return label
         return ""
