@@ -216,10 +216,14 @@ def extract_facts(quote):
     quote = pet_text(quote)
     fee = pet_fee_cents(quote)
     weight = None
-    m = _WEIGHT_RX.search(quote or "")
-    if m and float(m.group(1)) > 0:
-        # "Maximum Pet Weight: 0.0lbs" on a Marriott page means NO stated limit, never a zero-pound pet.
-        weight = float(m.group(1))
+    # "Maximum Pet Weight: 0.0lbs" on a Marriott page means NO stated limit, never a zero-pound pet.
+    # SAN DIEGO: A CONDITIONAL WEIGHT IS NOT ONE NUMBER. San Diego Marriott La Jolla states "1 dog 50lbs 2 dogs
+    # combined weight of 75lbs" and a 75.0lbs field; the first match (50) was published and FAST rule C refused
+    # it as contradicted. When the quote states more than one distinct weight, the weight is withheld -- the same
+    # rule as a tiered fee -- and acceptance still publishes.
+    _weights = {float(w) for w in _WEIGHT_RX.findall(quote or "") if float(w) > 0}
+    if len(_weights) == 1:
+        weight = _weights.pop()
     count = None
     m = _COUNT_RX.search(quote or "")
     if m:
