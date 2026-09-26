@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-JACKSONVILLE-FL-PRODUCTION-DEPLOYMENT-004",
+ "reviewed_by": "PTF-SAN-DIEGO-CA-PRODUCTION-DEPLOYMENT-004",
  "live": {
-  "deploy_id": "6ab6c8798bd9daf5038ae3e5",
-  "deployed_by": "PTF-JACKSONVILLE-FL-PRODUCTION-DEPLOYMENT-004",
-  "authorization_id": "ptf-auth-jacksonville-003-f82f0714db2d",
-  "deployment_record_id": "ptf-deploy-jacksonville-004-6ab6c8798bd9daf5038ae3e5",
-  "previous_deploy_id": "6ab599163f833ab7f48b395d",
-  "source_commit": "e7e02d4394dde29e949c13cf06732f3f7d69dc5f",
-  "bundle_sha256": "f82f0714db2dd4d714b6b789c68492f60de8a1f3287a11b1e6f1afd680cf0c4e",
-  "sitemap_sha256": "d34b0e5d7d5ed045a3f727e49f18e2fe61de3df108e9ef0666c5413d1bb48e4f",
+  "deploy_id": "6ab859787d349f8397e1450a",
+  "deployed_by": "PTF-SAN-DIEGO-CA-PRODUCTION-DEPLOYMENT-004",
+  "authorization_id": "ptf-auth-san-diego-003-553a858f2590",
+  "deployment_record_id": "ptf-deploy-san-diego-004-6ab859787d349f8397e1450a",
+  "previous_deploy_id": "6ab6c8798bd9daf5038ae3e5",
+  "source_commit": "34d523d9792499c9a7c413eddac3dc6e8d54d135",
+  "bundle_sha256": "553a858f2590094127ce68e63992c2c3dff969fcdc8f290decf112791f447eec",
+  "sitemap_sha256": "4f648fff6eaf50f7f7614eefda2639ac10c5cb678e77ef6fd15af60c89c0173e",
   "participating_markets": [
    "asheville-nc",
    "atlanta-ga",
@@ -40,6 +40,7 @@
    "pittsburgh-pa",
    "raleigh-nc",
    "richmond-va",
+   "san-diego-ca",
    "savannah-ga",
    "st-louis-mo",
    "tampa-fl",
@@ -76,6 +77,7 @@
    "pittsburgh-pa": 61,
    "raleigh-nc": 63,
    "richmond-va": 93,
+   "san-diego-ca": 147,
    "savannah-ga": 99,
    "st-louis-mo": 82,
    "tampa-fl": 148,
@@ -83,19 +85,19 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 2519,
-  "sitemap_route_count": 2874,
-  "total_html_pages": 15324,
-  "total_files": 15342,
-  "rollback_target": "6ab599163f833ab7f48b395d",
-  "note": "Jacksonville / Northeast Florida joined as the THIRTY-FOURTH market at 95 published pet-friendly profiles over 10 publishing corridors (amelia-island-fernandina-beach, atlantic-neptune-beach-mayport, deerwood-baymeadows, jacksonville-beach, jax-airport-northside, mandarin-bartram-julington-creek, orange-park-fleming-island, southside-university-boulevard, st-johns-town-center-gate-parkway, westside-i10-i295), on package pkg-jacksonville-fl-60ba2edccd4882b3. Built from zero on the West-Palm-Beach-live lineage, registered as COMPOSITE_FRESH_MARKET_DATA_ONLY with 0 broad regression runs, and founder-authorized once (PTF-JACKSONVILLE-FL-FOUNDER-LAUNCH-AUTHORIZATION-003) -- this market's FIRST authorization and FIRST deployment, so nothing was superseded. The exact authorized artifact was deployed with no rebuild: the served sitemap hashes to the authorized candidate, the served route SET is identical to it, all 2767 parent routes refetched 200 with 0 lost, all 107 Jacksonville routes are live, and every probed unpublished census row returns 404 -- including both halves of the 1201 Kings Avenue dual-brand Hilton building, which the founder deliberately withheld and for which no identity_resolutions.json ruling was written. Amelia Island is served as a CORRIDOR of this market and was not promoted to a standalone market; every St. Augustine postal code remains refused. The city name JACKSONVILLE decides nothing here: jacksonville-nc is a separate LIVE market in Onslow County, North Carolina, and its 19 served routes and 99 files are byte-identical across this deploy. The other 7 corridors stay below their own publication minimum and were not forced. Rollback is the deployment Jacksonville replaced (West-Palm-Beach-live, 33 markets).",
-  "rollback_record": "ptf-deploy-west-palm-beach-007-6ab599163f833ab7f48b395d.json"
+  "total_profiles": 2666,
+  "sitemap_route_count": 3037,
+  "total_html_pages": 16184,
+  "total_files": 16202,
+  "rollback_target": "6ab6c8798bd9daf5038ae3e5",
+  "note": "San Diego / Coastal San Diego County joined as the THIRTY-FIFTH market at 147 published pet-friendly profiles over 14 publishing corridors (carlsbad, del-mar-solana-beach, downtown-gaslamp-waterfront, east-county-i8, escondido-san-marcos-vista, la-jolla, mission-pacific-beach, mission-valley-hotel-circle, oceanside, old-town-midway, point-loma-shelter-island-airport, rancho-bernardo-poway-i15, south-bay-chula-vista, utc-golden-triangle-sorrento), on package pkg-san-diego-ca-5d5ffd65bf1262a1. Built from zero on the Jacksonville-live lineage, registered as COMPOSITE_FRESH_MARKET_DATA_ONLY with 0 broad regression runs, and founder-authorized once (PTF-SAN-DIEGO-CA-FOUNDER-LAUNCH-AUTHORIZATION-003) -- this market's FIRST authorization and FIRST deployment, so nothing was superseded. The exact authorized artifact was deployed with no rebuild: the served sitemap hashes to the authorized candidate, the served route SET is identical to it, all 2874 parent routes refetched 200 with 0 lost, all 163 San Diego routes are live, and every unpublished census row returns 404 -- the 130 rows with no first-party website, the 10 rows in five dual-brand buildings (no identity_resolutions.json ruling written), the 52 other held rows and the 92 verified-no-pets rows, which publish only as exclusions. Orange County, Riverside / Temecula, Palm Springs and Tijuana remain refused. The other 6 corridors stay below their own publication minimum and were not forced. Rollback is the deployment San Diego replaced (Jacksonville-live, 34 markets).",
+  "rollback_record": "ptf-deploy-jacksonville-004-6ab6c8798bd9daf5038ae3e5.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "f82f0714db2dd4d714b6b789c68492f60de8a1f3287a11b1e6f1afd680cf0c4e",
-  "sitemap_sha256": "d34b0e5d7d5ed045a3f727e49f18e2fe61de3df108e9ef0666c5413d1bb48e4f",
+  "bundle_sha256": "553a858f2590094127ce68e63992c2c3dff969fcdc8f290decf112791f447eec",
+  "sitemap_sha256": "4f648fff6eaf50f7f7614eefda2639ac10c5cb678e77ef6fd15af60c89c0173e",
   "participating_markets": [
    {
     "market_id": "asheville-nc",
@@ -294,6 +296,13 @@
     "contract_disagreements": []
    },
    {
+    "market_id": "san-diego-ca",
+    "published_profiles": 147,
+    "release_contract": "deploy/netlify/release_contracts/san-diego-ca.json",
+    "release_contract_sha256": "ac4f333a8cddaf690e5f998779f3c5767922189139c6294a6c4e77c990bf3965",
+    "contract_disagreements": []
+   },
+   {
     "market_id": "savannah-ga",
     "published_profiles": 99,
     "release_contract": "deploy/netlify/release_contracts/savannah-ga.json",
@@ -365,6 +374,7 @@
    "pittsburgh-pa": 61,
    "raleigh-nc": 63,
    "richmond-va": 93,
+   "san-diego-ca": 147,
    "savannah-ga": 99,
    "st-louis-mo": 82,
    "tampa-fl": 148,
@@ -372,9 +382,9 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 2519,
-  "sitemap_route_count": 2874,
-  "total_html_pages": 15324,
-  "total_files": 15342
+  "total_profiles": 2666,
+  "sitemap_route_count": 3037,
+  "total_html_pages": 16184,
+  "total_files": 16202
  }
 }
