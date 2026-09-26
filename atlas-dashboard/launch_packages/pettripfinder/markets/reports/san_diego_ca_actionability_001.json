@@ -1,0 +1,1814 @@
+{
+ "schema": "ptf-market-actionability/2.0",
+ "work_order": "PTF-SAN-DIEGO-CA-HARDENED-SOURCE-READY-001",
+ "market_id": "san-diego-ca",
+ "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
+ "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
+ "census_total": 431,
+ "resolved": 239,
+ "unresolved_total": 192,
+ "totals_by_class": {
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 52,
+  "REQUIRES_NEW_PROVIDER": 0,
+  "REQUIRES_NEW_SPEND": 130,
+  "REQUIRES_FOUNDER": 10
+ },
+ "by_disposition": {
+  "ACCESS_BLOCKED": {
+   "total": 6,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 6,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0
+  },
+  "EVIDENCE_HOLD": {
+   "total": 14,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 14,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "total": 11,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 1,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 10
+  },
+  "ROUTING_HOLD": {
+   "total": 138,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 8,
+   "requires_new_provider": 0,
+   "requires_new_spend": 130,
+   "requires_founder": 0
+  },
+  "SOURCE_SILENT": {
+   "total": 23,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 23,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0
+  }
+ },
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 140,
+ "new_spend_note": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)",
+ "attended_browser": {
+  "attempts": 210,
+  "reads": 174,
+  "challenge_denied": 5,
+  "unbound": 7,
+  "paid_provider_calls": 0,
+  "akamai_bypassed": false,
+  "browser_js_exfiltration_used": false,
+  "local_relay_used": false
+ },
+ "coverage_conditions": {
+  "actionable_unresolved_is_zero": true,
+  "no_material_identity_gap": true,
+  "no_material_unexplained_policy_gap": true,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
+  "publication_set_safe": true,
+  "package_deterministic_and_fast_clean": false
+ },
+ "COVERAGE_READY": "FOUNDER DECISION",
+ "TECHNICAL_SOURCE_READY": "NO",
+ "rows": [
+  {
+   "identity_key": "beach village at the del lxr hotels and resorts",
+   "canonical_name": "Beach Village at The Del, LXR Hotels & Resorts",
+   "corridor": "san-diego-ca__coronado",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own page served, but its pet-policy accordion never exposed its text to the attended browser on two bounded attempts (the panel did not open or the renderer froze); nothing was read and nothing is inferred (https://www.hilton.com/en/hotels/sancnol-beach-village-at-the-del/resort/) -- Hil"
+  },
+  {
+   "identity_key": "extended stay america carlsbad",
+   "canonical_name": "Extended Stay America Carlsbad",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "ESA",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America's own San Diego city page served a DataDome CAPTCHA to the attended browser, and its property sitemap / city page answered 403 to the plain client; solving or bypassing a CAPTCHA is prohibited, so no further ESA page can be read by any authorized lane"
+  },
+  {
+   "identity_key": "holiday inn express and suites carlsbad beach",
+   "canonical_name": "Holiday Inn Express & Suites Carlsbad Beach",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "IHG",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own page served, but its pet-policy accordion never exposed its text to the attended browser on two bounded attempts (the panel did not open or the renderer froze); nothing was read and nothing is inferred (https://www.ihg.com/holidayinnexpress/hotels/us/en/carlsbad/ocnes/hoteldetail/ame"
+  },
+  {
+   "identity_key": "motel 6 carlsbad ca beach",
+   "canonical_name": "Motel 6 Carlsbad, CA Beach",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "motel 6 san diego ca hotel circle mission valley",
+   "canonical_name": "Motel 6 San Diego, CA - Hotel Circle - Mission Valley",
+   "corridor": "san-diego-ca__mission-valley-hotel-circle",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted: static NAVIGATION_FAILED, Firecrawl FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "rodeway inn and suites el cajon san diego east",
+   "canonical_name": "Rodeway Inn & Suites El Cajon San Diego East",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "CHOICE",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "best western escondido hotel",
+   "canonical_name": "Best Western Escondido Hotel",
+   "corridor": "san-diego-ca__escondido-san-marcos-vista",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "fairmont grand del mar",
+   "canonical_name": "Fairmont Grand Del Mar",
+   "corridor": "san-diego-ca__del-mar-solana-beach",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'pets are allowed'), not an operative pet_friendly statement; held r"
+  },
+  {
+   "identity_key": "holiday inn carlsbad san diego",
+   "canonical_name": "Holiday Inn Carlsbad - San Diego",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "IHG",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "hyland inn",
+   "canonical_name": "Hyland Inn",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: \"L'Heureux Dog Park is 2. Are pets allowed at Hyland Inn? No, p"
+  },
+  {
+   "identity_key": "lafayette hotel san diego",
+   "canonical_name": "Lafayette Hotel San Diego",
+   "corridor": "san-diego-ca__uptown-hillcrest-north-park",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "ramada by wyndham san diego national city",
+   "canonical_name": "Ramada by Wyndham San Diego National City",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal statement is a legal access category, never a pet acceptance: 'Dogs accepted for a n"
+  },
+  {
+   "identity_key": "ramada by wyndham san diego poway miramar",
+   "canonical_name": "Ramada by Wyndham San Diego Poway Miramar",
+   "corridor": "san-diego-ca__rancho-bernardo-poway-i15",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Service Animals - ADA-defined service animals welcome. / Dogs Allowed, 5"
+  },
+  {
+   "identity_key": "san diego mission bay resort",
+   "canonical_name": "San Diego Mission Bay Resort",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'DING --> Overview Plan Your Wedding Venues Indian Weddings Special Offer"
+  },
+  {
+   "identity_key": "sonesta es suites san diego sorrento mesa",
+   "canonical_name": "Sonesta ES Suites San Diego - Sorrento Mesa",
+   "corridor": "san-diego-ca__utc-golden-triangle-sorrento",
+   "brand_family": "SONESTA",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'Sonesta ES Suites San Diego - Sorrento Mesa is pet-friendly and wel"
+  },
+  {
+   "identity_key": "southern california beach club",
+   "canonical_name": "Southern California Beach Club",
+   "corridor": "san-diego-ca__oceanside",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Check-In 04:00 PM Check-Out 11:00 AM Front Desk (760) 722-6666"
+  },
+  {
+   "identity_key": "the green room hotel",
+   "canonical_name": "The Green Room Hotel",
+   "corridor": "san-diego-ca__oceanside",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Pets We love pets — especial"
+  },
+  {
+   "identity_key": "the keating hotel",
+   "canonical_name": "The Keating Hotel",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "vantaggio suites extended stays",
+   "canonical_name": "Vantaggio Suites Extended Stays",
+   "corridor": "san-diego-ca__uptown-hillcrest-north-park",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "voco solana beach del mar",
+   "canonical_name": "voco Solana Beach - Del Mar",
+   "corridor": "san-diego-ca__del-mar-solana-beach",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Parking fee: 20 USD per day In and out privileges Parking for "
+  },
+  {
+   "identity_key": "ith adventure hostel",
+   "canonical_name": "ITH Adventure Hostel",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "extended stay america 9622",
+   "canonical_name": "Extended Stay America #9622",
+   "corridor": "san-diego-ca__mission-valley-hotel-circle",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own city page answered the attended browser with a DataDome CAPTCHA (never solved) and its sitemap refused the plain client; no route can be read for any ESA row in this market"
+  },
+  {
+   "identity_key": "extended stay america san diego fashion valley",
+   "canonical_name": "Extended Stay America - San Diego - Fashion Valley",
+   "corridor": "san-diego-ca__mission-valley-hotel-circle",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own city page answered the attended browser with a DataDome CAPTCHA (never solved) and its sitemap refused the plain client; no route can be read for any ESA row in this market"
+  },
+  {
+   "identity_key": "extended stay america san diego oceanside",
+   "canonical_name": "Extended Stay America - San Diego - Oceanside",
+   "corridor": "san-diego-ca__oceanside",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own city page answered the attended browser with a DataDome CAPTCHA (never solved) and its sitemap refused the plain client; no route can be read for any ESA row in this market"
+  },
+  {
+   "identity_key": "extended stay america suites 8787",
+   "canonical_name": "Extended Stay America Suites #8787",
+   "corridor": "san-diego-ca__kearny-mesa-clairemont",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own city page answered the attended browser with a DataDome CAPTCHA (never solved) and its sitemap refused the plain client; no route can be read for any ESA row in this market"
+  },
+  {
+   "identity_key": "motel 6 carlsbad village",
+   "canonical_name": "Motel 6 Carlsbad - Village",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: every Motel 6 property page this order read states only an amenity chip (never a policy), so no route for this row could yield a publishable statement; its route is also unknown -- no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "motel 6 el cajon ca san diego",
+   "canonical_name": "Motel 6 El Cajon, CA - San Diego",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: every Motel 6 property page this order read states only an amenity chip (never a policy), so no route for this row could yield a publishable statement; its route is also unknown -- no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "motel 6 la mesa ca san diego",
+   "canonical_name": "Motel 6 La Mesa, CA - San Diego",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: every Motel 6 property page this order read states only an amenity chip (never a policy), so no route for this row could yield a publishable statement; its route is also unknown -- no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "motel 6 san diego ca downtown",
+   "canonical_name": "Motel 6 San Diego, CA - Downtown",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: every Motel 6 property page this order read states only an amenity chip (never a policy), so no route for this row could yield a publishable statement; its route is also unknown -- no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "americas best value inn loma lodge",
+   "canonical_name": "Americas Best Value Inn Loma Lodge",
+   "corridor": "san-diego-ca__old-town-midway",
+   "brand_family": "SONESTA",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "ayres hotel vista carlsbad",
+   "canonical_name": "Ayres Hotel Vista / Carlsbad",
+   "corridor": "san-diego-ca__escondido-san-marcos-vista",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "beach terrace",
+   "canonical_name": "Beach Terrace",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "beachwalk villas",
+   "canonical_name": "Beachwalk Villas",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "best western plus beach view lodge",
+   "canonical_name": "Best Western Plus Beach View Lodge",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "carlsbad inn beach resort",
+   "canonical_name": "Carlsbad Inn Beach Resort",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "del mar beach hotel",
+   "canonical_name": "Del Mar Beach Hotel",
+   "corridor": "san-diego-ca__del-mar-solana-beach",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hard rock hotel san diego",
+   "canonical_name": "Hard Rock Hotel San Diego",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "humphreys half moon inn",
+   "canonical_name": "Humphreys Half Moon Inn",
+   "corridor": "san-diego-ca__point-loma-shelter-island-airport",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "legacy resort hotel and spa",
+   "canonical_name": "Legacy Resort Hotel & Spa",
+   "corridor": "san-diego-ca__mission-valley-hotel-circle",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "legoland castle hotel",
+   "canonical_name": "LEGOLAND Castle Hotel",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 carlsbad ca near legoland",
+   "canonical_name": "Motel 6 Carlsbad, CA - Near Legoland",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 oceanside",
+   "canonical_name": "Motel 6 Oceanside",
+   "corridor": "san-diego-ca__oceanside",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 san ysidro ca san diego border",
+   "canonical_name": "Motel 6 San Ysidro, CA - San Diego Border",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel mediteran",
+   "canonical_name": "Motel Mediteran",
+   "corridor": "san-diego-ca__escondido-san-marcos-vista",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "pacific shores inn",
+   "canonical_name": "Pacific Shores Inn",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "pelican cove inn",
+   "canonical_name": "Pelican Cove Inn",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "pendry san diego",
+   "canonical_name": "Pendry San Diego",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "rancho bernardo inn",
+   "canonical_name": "Rancho Bernardo Inn",
+   "corridor": "san-diego-ca__rancho-bernardo-poway-i15",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "samesun ocean beach hostel",
+   "canonical_name": "Samesun Ocean Beach Hostel",
+   "corridor": "san-diego-ca__ocean-beach",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "tamarack beach resort",
+   "canonical_name": "Tamarack Beach Resort",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the encinitan",
+   "canonical_name": "The Encinitan",
+   "corridor": "san-diego-ca__encinitas-cardiff",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "winner circle resort",
+   "canonical_name": "Winner Circle Resort",
+   "corridor": "san-diego-ca__del-mar-solana-beach",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hampton inn chula vista eastlake",
+   "canonical_name": "Hampton Inn Chula Vista Eastlake",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hilton garden inn san diego downtown bayside",
+   "canonical_name": "Hilton Garden Inn San Diego Downtown/Bayside",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "home2 suites by hilton san diego downtown",
+   "canonical_name": "Home2 Suites by Hilton San Diego Downtown",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "homewood suites by hilton chula vista eastlake",
+   "canonical_name": "Homewood Suites by Hilton Chula Vista Eastlake",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "homewood suites by hilton san diego downtown bayside",
+   "canonical_name": "Homewood Suites by Hilton San Diego Downtown/Bayside",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hotel del coronado curio collection by hilton",
+   "canonical_name": "Hotel del Coronado, Curio Collection by Hilton",
+   "corridor": "san-diego-ca__coronado",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "residence inn by marriott san diego downtown bayfront",
+   "canonical_name": "Residence Inn by Marriott San Diego Downtown/Bayfront",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "shore house at the del lxr hotels and resorts",
+   "canonical_name": "Shore House at The Del, LXR Hotels & Resorts",
+   "corridor": "san-diego-ca__coronado",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "springhill suites by marriott san diego downtown bayfront",
+   "canonical_name": "SpringHill Suites by Marriott San Diego Downtown/Bayfront",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "tru by hilton san diego downtown",
+   "canonical_name": "Tru by Hilton San Diego Downtown",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "1906 lodge",
+   "canonical_name": "1906 Lodge",
+   "corridor": "san-diego-ca__coronado",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "abpopa hillcrest",
+   "canonical_name": "Abpopa Hillcrest",
+   "corridor": "san-diego-ca__uptown-hillcrest-north-park",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "admiral at promenade",
+   "canonical_name": "Admiral at Promenade",
+   "corridor": "san-diego-ca__mission-valley-hotel-circle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "alila marea beach resort",
+   "canonical_name": "Alila Marea Beach Resort",
+   "corridor": "san-diego-ca__encinitas-cardiff",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the brand's own property-code route lands on a hotel-search page: the brand publishes no property page for these premises; no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "allegro towers",
+   "canonical_name": "Allegro Towers",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "aqua point hotel inc",
+   "canonical_name": "Aqua Point Hotel Inc",
+   "corridor": "san-diego-ca__point-loma-shelter-island-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "bay inn and suites",
+   "canonical_name": "Bay Inn & Suites",
+   "corridor": "san-diego-ca__old-town-midway",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "bayview inn",
+   "canonical_name": "Bayview Inn",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "beach haven inn",
+   "canonical_name": "Beach Haven Inn",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "beach hut bed and breakfast",
+   "canonical_name": "Beach Hut Bed & Breakfast",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "beach terrace inn",
+   "canonical_name": "Beach Terrace Inn",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "berkshire motor motel",
+   "canonical_name": "Berkshire Motor Motel",
+   "corridor": "san-diego-ca__uptown-hillcrest-north-park",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "best inn and suites",
+   "canonical_name": "Best Inn and Suites",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "best western inn and suites san diego zoo seaworld area",
+   "canonical_name": "Best Western Inn & Suites San Diego - Zoo/SeaWorld Area",
+   "corridor": "san-diego-ca__mission-valley-hotel-circle",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "best western plus marina gateway",
+   "canonical_name": "Best Western Plus Marina Gateway",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "best western premier hotel del mar",
+   "canonical_name": "Best Western Premier Hotel Del Mar",
+   "corridor": "san-diego-ca__del-mar-solana-beach",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "bluewater seaside",
+   "canonical_name": "Bluewater Seaside",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "california dreams hostel llc",
+   "canonical_name": "California Dreams Hostel Llc",
+   "corridor": "san-diego-ca__ocean-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "california suites hotel",
+   "canonical_name": "California Suites Hotel",
+   "corridor": "san-diego-ca__kearny-mesa-clairemont",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "capri by the sea",
+   "canonical_name": "Capri by the sea",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "cassia hotels",
+   "canonical_name": "Cassia Hotels",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "cherokee lodge",
+   "canonical_name": "Cherokee Lodge",
+   "corridor": "san-diego-ca__coronado",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "chula vista inn",
+   "canonical_name": "Chula Vista Inn",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "coronado inn",
+   "canonical_name": "Coronado Inn",
+   "corridor": "san-diego-ca__coronado",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "cosmopolitan hotel and restaurant",
+   "canonical_name": "Cosmopolitan Hotel & Restaurant",
+   "corridor": "san-diego-ca__old-town-midway",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "crown city inn",
+   "canonical_name": "Crown City Inn",
+   "corridor": "san-diego-ca__coronado",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "crystal pier hotel",
+   "canonical_name": "Crystal Pier Hotel",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "days inn by wyndham san diego downtown convention center",
+   "canonical_name": "Days Inn by Wyndham San Diego/Downtown/Convention Center",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "diamond head inn",
+   "canonical_name": "Diamond Head Inn",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "downtown san diego lodge",
+   "canonical_name": "Downtown San Diego Lodge",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "e z 8 motel old town",
+   "canonical_name": "E-Z 8 Motel Old Town",
+   "corridor": "san-diego-ca__old-town-midway",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "econo lodge encinitas moonlight beach",
+   "canonical_name": "Econo Lodge Encinitas Moonlight Beach",
+   "corridor": "san-diego-ca__encinitas-cardiff",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "econo lodge inn and suites el cajon san diego east",
+   "canonical_name": "Econo Lodge Inn & Suites El Cajon San Diego East",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "econo lodge inn and suites near legoland",
+   "canonical_name": "Econo Lodge Inn and Suites Near Legoland",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "empress hotel la jolla",
+   "canonical_name": "Empress Hotel La Jolla",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "escondido inn",
+   "canonical_name": "Escondido Inn",
+   "corridor": "san-diego-ca__escondido-san-marcos-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "estancia la jolla hotel and spa",
+   "canonical_name": "Estancia La Jolla Hotel & Spa",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "found san diego little italy inn",
+   "canonical_name": "Found San Diego - Little Italy Inn",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "gaslamp hostel",
+   "canonical_name": "Gaslamp Hostel",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "gaslamp quarter hotel",
+   "canonical_name": "Gaslamp Quarter Hotel",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "glorietta bay inn",
+   "canonical_name": "Glorietta Bay Inn",
+   "corridor": "san-diego-ca__coronado",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "guesthouse hotel at la valle",
+   "canonical_name": "Guesthouse Hotel at La Valle",
+   "corridor": "san-diego-ca__del-mar-solana-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "handlery hotel san diego",
+   "canonical_name": "Handlery Hotel San Diego",
+   "corridor": "san-diego-ca__mission-valley-hotel-circle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "harborview inn and suites",
+   "canonical_name": "Harborview Inn & Suites",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "harvey s motel",
+   "canonical_name": "Harvey's Motel",
+   "corridor": "san-diego-ca__college-area-mission-gorge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "heritage inn la mesa ca motel",
+   "canonical_name": "Heritage Inn La Mesa CA Motel",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "heritage inn san diego",
+   "canonical_name": "Heritage Inn San Diego",
+   "corridor": "san-diego-ca__old-town-midway",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "holiday inn express san diego sea world beach area",
+   "canonical_name": "Holiday Inn Express San Diego Sea World - Beach Area",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "IHG",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "holiday lodge",
+   "canonical_name": "Holiday Lodge",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hostel on 3rd",
+   "canonical_name": "Hostel on 3rd",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hostelling international san diego",
+   "canonical_name": "Hostelling International San Diego",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hotel avenida oceanside camp pendleton",
+   "canonical_name": "Hotel Avenida – Oceanside Camp Pendleton",
+   "corridor": "san-diego-ca__oceanside",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hotel iris",
+   "canonical_name": "Hotel Iris",
+   "corridor": "san-diego-ca__mission-valley-hotel-circle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hotel marisol coronado",
+   "canonical_name": "Hotel Marisol Coronado",
+   "corridor": "san-diego-ca__coronado",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hotel milagro",
+   "canonical_name": "Hotel Milagro",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hotel occidental",
+   "canonical_name": "Hotel Occidental",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "howard johnson by wyndham san diego state university area",
+   "canonical_name": "Howard Johnson by Wyndham San Diego State University Area",
+   "corridor": "san-diego-ca__college-area-mission-gorge",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "inn by the sea",
+   "canonical_name": "Inn by the Sea",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "island inn",
+   "canonical_name": "Island Inn",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "j street inn",
+   "canonical_name": "J Street Inn",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "jing s bnb",
+   "canonical_name": "Jing's Bnb",
+   "corridor": "san-diego-ca__uptown-hillcrest-north-park",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "kings inn hotel",
+   "canonical_name": "Kings Inn Hotel",
+   "corridor": "san-diego-ca__mission-valley-hotel-circle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la jolla beach and tennis club",
+   "canonical_name": "La Jolla Beach and Tennis Club",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la jolla biltmore motel",
+   "canonical_name": "La Jolla Biltmore Motel",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la jolla cove hotel and suites",
+   "canonical_name": "La Jolla Cove Hotel & Suites",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la jolla riviera inn",
+   "canonical_name": "La Jolla Riviera Inn",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la jolla shores hotel",
+   "canonical_name": "La Jolla Shores Hotel",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la mesa lodge",
+   "canonical_name": "La Mesa Lodge",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la pensione hotel",
+   "canonical_name": "La Pensione Hotel",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la petite rouge motel",
+   "canonical_name": "La Petite Rouge Motel",
+   "corridor": "san-diego-ca__college-area-mission-gorge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "lakehouse hotel and golf resort",
+   "canonical_name": "Lakehouse Hotel and Golf Resort",
+   "corridor": "san-diego-ca__escondido-san-marcos-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "les artistes inn",
+   "canonical_name": "Les Artistes Inn",
+   "corridor": "san-diego-ca__del-mar-solana-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "leucadia beach inn",
+   "canonical_name": "Leucadia Beach Inn",
+   "corridor": "san-diego-ca__encinitas-cardiff",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "lodge of la mesa",
+   "canonical_name": "Lodge Of La Mesa",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "mission bay motel",
+   "canonical_name": "Mission Bay Motel",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "national city motel",
+   "canonical_name": "National City Motel",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "navajo lodge",
+   "canonical_name": "Navajo Lodge",
+   "corridor": "san-diego-ca__college-area-mission-gorge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "new palace hotel",
+   "canonical_name": "New Palace Hotel",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "newman center",
+   "canonical_name": "Newman Center",
+   "corridor": "san-diego-ca__college-area-mission-gorge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "northgate motel",
+   "canonical_name": "Northgate Motel",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ocean beach hotel",
+   "canonical_name": "Ocean Beach Hotel",
+   "corridor": "san-diego-ca__ocean-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ocean park inn",
+   "canonical_name": "Ocean Park Inn",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ocean villa inn",
+   "canonical_name": "Ocean Villa Inn",
+   "corridor": "san-diego-ca__ocean-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "orli la jolla",
+   "canonical_name": "Orli La Jolla",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "pacific view inn",
+   "canonical_name": "Pacific View Inn",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "palm residence motel",
+   "canonical_name": "Palm Residence Motel",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "palomar inn",
+   "canonical_name": "Palomar Inn",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "pantai inn",
+   "canonical_name": "Pantai Inn",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "parkside inn and suites",
+   "canonical_name": "Parkside Inn & Suites",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "pb surf beachside inn",
+   "canonical_name": "PB Surf Beachside Inn",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "pleasant inn",
+   "canonical_name": "Pleasant Inn",
+   "corridor": "san-diego-ca__kearny-mesa-clairemont",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "point loma inn",
+   "canonical_name": "Point Loma Inn",
+   "corridor": "san-diego-ca__point-loma-shelter-island-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "porto vista hotel",
+   "canonical_name": "Porto Vista Hotel",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "prime inn",
+   "canonical_name": "Prime Inn",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "quality inn and suites near the border",
+   "canonical_name": "Quality Inn & Suites Near The Border",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "quality inn chula vista san diego south",
+   "canonical_name": "Quality Inn Chula Vista San Diego South",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "quality inn san diego downtown north",
+   "canonical_name": "Quality Inn San Diego Downtown North",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "r k hostel",
+   "canonical_name": "R.K. Hostel",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ramona valley inn",
+   "canonical_name": "Ramona Valley Inn",
+   "corridor": "san-diego-ca__escondido-san-marcos-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "red roof inn pacific beach san diego",
+   "canonical_name": "Red Roof Inn - Pacific Beach, San Diego",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "RED_ROOF",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "rodeway inn and suites chula vista san diego south",
+   "canonical_name": "Rodeway Inn & Suites Chula Vista San Diego South",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "rodeway inn oceanside",
+   "canonical_name": "Rodeway Inn Oceanside",
+   "corridor": "san-diego-ca__oceanside",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "san diego bed and breakfast",
+   "canonical_name": "San Diego Bed and Breakfast",
+   "corridor": "san-diego-ca__uptown-hillcrest-north-park",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "sands of la jolla",
+   "canonical_name": "Sands Of La Jolla",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "scandia motel",
+   "canonical_name": "Scandia Motel",
+   "corridor": "san-diego-ca__carlsbad",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "scripps inn",
+   "canonical_name": "Scripps Inn",
+   "corridor": "san-diego-ca__la-jolla",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "sea breeze motel",
+   "canonical_name": "Sea Breeze Motel",
+   "corridor": "san-diego-ca__college-area-mission-gorge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "sea harbor hotel",
+   "canonical_name": "Sea Harbor Hotel",
+   "corridor": "san-diego-ca__point-loma-shelter-island-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "sunrise inn san diego",
+   "canonical_name": "Sunrise Inn San Diego",
+   "corridor": "san-diego-ca__point-loma-shelter-island-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "synergy at mira bella",
+   "canonical_name": "Synergy at Mira Bella",
+   "corridor": "san-diego-ca__kearny-mesa-clairemont",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the beach bungalow hostel",
+   "canonical_name": "The Beach Bungalow Hostel",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the bristol hotel san diego",
+   "canonical_name": "The Bristol Hotel San Diego",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the dextro little italy",
+   "canonical_name": "The DEXTRO Little Italy",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the el cordova hotel",
+   "canonical_name": "The El Cordova Hotel",
+   "corridor": "san-diego-ca__coronado",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the motel san diego",
+   "canonical_name": "The Motel San Diego",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the villas at rancho valencia",
+   "canonical_name": "The Villas at Rancho Valencia",
+   "corridor": "san-diego-ca__del-mar-solana-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the yuma hotel",
+   "canonical_name": "The Yuma Hotel",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "town and country resort and convention center",
+   "canonical_name": "Town and Country Resort & Convention Center",
+   "corridor": "san-diego-ca__mission-valley-hotel-circle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "trade winds motel",
+   "canonical_name": "Trade Winds Motel",
+   "corridor": "san-diego-ca__mission-pacific-beach",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "travel time motel",
+   "canonical_name": "Travel Time Motel",
+   "corridor": "san-diego-ca__college-area-mission-gorge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "travelodge el cajon",
+   "canonical_name": "Travelodge El Cajon",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "urban boutique hotel",
+   "canonical_name": "Urban Boutique Hotel",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "valley motel",
+   "canonical_name": "Valley Motel",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "valli hi motel",
+   "canonical_name": "Valli Hi Motel",
+   "corridor": "san-diego-ca__south-bay-chula-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "vantaggio suites",
+   "canonical_name": "Vantaggio Suites",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "villa serena motel",
+   "canonical_name": "Villa Serena Motel",
+   "corridor": "san-diego-ca__east-county-i8",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "vista inn",
+   "canonical_name": "Vista Inn",
+   "corridor": "san-diego-ca__escondido-san-marcos-vista",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "west park inn",
+   "canonical_name": "West Park Inn",
+   "corridor": "san-diego-ca__downtown-gaslamp-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "western inn and suites",
+   "canonical_name": "Western Inn & Suites",
+   "corridor": "san-diego-ca__old-town-midway",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "zephyr",
+   "canonical_name": "Zephyr",
+   "corridor": "san-diego-ca__college-area-mission-gorge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, three bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  }
+ ]
+}

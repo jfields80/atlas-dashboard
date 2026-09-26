@@ -1,0 +1,2937 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-SAN-DIEGO-CA-HARDENED-SOURCE-READY-001",
+ "market_id": "san-diego-ca",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "san_diego_ca_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 150,
+  "credit_floor": 400,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 124,
+  "static_to_attended": 104,
+  "firecrawl_candidates": 14,
+  "share_static_to_attended": 0.8387,
+  "share_firecrawl_candidates": 0.1129,
+  "threshold": 0.2,
+  "warning": false,
+  "message": ""
+ },
+ "planned_rows": 43,
+ "attempted_rows": 43,
+ "stopped_by": "",
+ "credits": {
+  "before": 1059,
+  "after": 997,
+  "delta": 62,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "crowne plaza san diego mission valley": {
+    "identity_key": "crowne plaza san diego mission valley",
+    "requested_url": "https://www.ihg.com/crowneplaza/hotels/us/en/san-diego/sancp/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn carlsbad hotel": {
+    "identity_key": "holiday inn carlsbad hotel",
+    "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/carlsbad/ocnhi/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "holiday inn express and suites la jolla": {
+    "identity_key": "holiday inn express and suites la jolla",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-jolla/sanlj/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express la mesa near sdsu": {
+    "identity_key": "holiday inn express la mesa near sdsu",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-mesa/sanpd/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express mira mesa": {
+    "identity_key": "holiday inn express mira mesa",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sansc/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "staybridge suites carlsbad": {
+    "identity_key": "staybridge suites carlsbad",
+    "requested_url": "https://www.ihg.com/staybridge/hotels/us/en/carlsbad/cbasb/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "la valencia hotel": {
+    "identity_key": "la valencia hotel",
+    "requested_url": "https://www.lavalencia.com/",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "mission pacific beach resort": {
+    "identity_key": "mission pacific beach resort",
+    "requested_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sanjo-mission-pacific-beach-resort?src=corp_lclb_google_seo_sanjo&utm_source=google&utm_medium=organic&utm_campaign=lmr",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "holiday inn express and suites carlsbad beach",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "holiday inn express downtown",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "holiday inn express hotel and suites escondido",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "holiday inn express san diego sea world area",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "holiday inn oceanside marina",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "ramada by wyndham oceanside",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "super 8 escondido",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "super 8 hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "beach village at the del lxr hotels and resorts",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "beach walk villas",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "cape rey carlsbad beach a hilton resort and spa",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "downtown san diego lodge",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "escondido inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "exquisite twelve bedroom oceanfront home",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "gaslamp quarter hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "grand pacific palisades resort",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel z",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "marbrisa carlsbad resort",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "mission pacific beach resort",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6 carlsbad ca east",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6 oceanside",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6 san diego ca hotel circle mission valley",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "pacifica hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "palihotel san diego",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "pelican cove inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "samesun ocean beach hostel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "shore house at the del lxr hotels and resorts",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the baby grand",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the bower coronado an slh hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the encinitan hotel and suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the inn at rancho santa fe an slh hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the keating hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the lafayette hotel swim club and bungalows",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "vantaggio suites extended stays",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 43,
+  "results": 43
+ },
+ "class_counts": {
+  "FIRECRAWL_BLOCKED": 16,
+  "FIRECRAWL_FAILED": 10,
+  "FIRECRAWL_MISMATCH": 9,
+  "FIRECRAWL_PUBLICATION_GRADE": 6,
+  "FIRECRAWL_SOURCE_SILENT": 2
+ },
+ "outcome_counts": {
+  "ACCESS_DENIED": 11,
+  "BLANK_PAGE": 1,
+  "IDENTITY_MISMATCH": 9,
+  "NAVIGATION_FAILED": 1,
+  "POLICY_NOT_FOUND": 2,
+  "UNEXPECTED_PAGE": 9,
+  "UNHYDRATED": 4,
+  "VALID": 6
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "crowne plaza san diego mission valley",
+   "canonical_name": "Crowne Plaza San Diego - Mission Valley",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/crowneplaza/hotels/us/en/san-diego/sancp/hoteldetail",
+   "final_url": "https://www.ihg.com/crowneplaza/hotels/us/en/san-diego/sancp/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Crowne Plaza San Diego - Mission Valley",
+     "address_on_page": "2270 Hotel Circle North",
+     "postal_code": "92108",
+     "phone_on_page": "1-619-2971101",
+     "property_code_on_page": "sancp",
+     "canonical_url": "https://www.ihg.com/crowneplaza/hotels/us/en/san-diego/sancp/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8002276963",
+      "6192971101"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "92108",
+   "expected_street": "2270 Hotel Circle North",
+   "captured_at": "2026-09-25T22:21:04.374281+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/crowneplaza/hotels/us/en/san-diego/sancp/hoteldetail"
+    },
+    "envelope_sha256": "4fd9986f665150be5f005e4c0dd2ebb313d9043fa4f376cf36330ddd831bb0ad"
+   },
+   "page_sha256": "9ca198147a523dc27bb6b0182f1fc4e5b8cb20ba0fdfc48dd86fe9a191a7c142",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\crowne-plaza-san-diego-mission-valley\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets are not allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::crowne plaza san diego mission valley::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/crowneplaza/hotels/us/en/san-diego/sancp/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9ca198147a523dc27bb6b0182f1fc4e5b8cb20ba0fdfc48dd86fe9a191a7c142",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "5f5b756c94a25b5ed62335ff881940399146a5a1f45667ed49b362f0820f3c3f",
+     "document_sha256": "9ca198147a523dc27bb6b0182f1fc4e5b8cb20ba0fdfc48dd86fe9a191a7c142"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn carlsbad hotel",
+   "canonical_name": "Holiday Inn Carlsbad Hotel",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/carlsbad/ocnhi/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/carlsbad/ocnhi/hoteldetail",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Carlsbad - San Diego",
+     "address_on_page": "2725 Palomar Airport Road",
+     "postal_code": "92009",
+     "phone_on_page": "1-760-4382725",
+     "property_code_on_page": "ocnhi",
+     "canonical_url": "https://www.ihg.com/holidayinn/hotels/us/en/carlsbad/ocnhi/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "7604382725"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name_partial, postal_code, street_identity, phone, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "92009",
+   "expected_street": "2725 Palomar Airport Road",
+   "captured_at": "2026-09-25T22:21:34.712315+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinn/hotels/us/en/carlsbad/ocnhi/hoteldetail"
+    },
+    "envelope_sha256": "8f73629c04179151f2898799839b0f3b53020046e70d24e3dc3c596b8850dca2"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\holiday-inn-carlsbad-hotel\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "holiday inn express and suites carlsbad beach",
+   "canonical_name": "Holiday Inn Express & Suites Carlsbad Beach",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "http://www.ihg.com/holidayinnexpress/hotels/us/en/carlsbad/ocnes/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carlsbad/ocnes/hoteldetail",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page ZIP '92011' != expected '92009'; page telephone '1-760-4484747' is not the census number '+1-7609311185'; one property commonly publishes several",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Carlsbad Beach",
+     "address_on_page": "751 Raintree Drive",
+     "postal_code": "92011",
+     "phone_on_page": "1-760-4484747",
+     "property_code_on_page": "ocnes",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carlsbad/ocnes/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "7604484747"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "postal_code"
+    ],
+    "reasons": [
+     "page ZIP '92011' != expected '92009'",
+     "page telephone '1-760-4484747' is not the census number '+1-7609311185'; one property commonly publishes several"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "92009",
+   "expected_street": "751 Raintree Drive",
+   "captured_at": "2026-09-25T22:21:50.980368+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.ihg.com/holidayinnexpress/hotels/us/en/carlsbad/ocnes/hoteldetail"
+    },
+    "envelope_sha256": "91d2e0d3faf62fda3a1f18c3a41d383debd1a6492e539e4dbd6e98c093211d98"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\holiday-inn-express-and-suites-carlsbad-beach\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "holiday inn express and suites la jolla",
+   "canonical_name": "Holiday Inn Express & Suites La Jolla",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-jolla/sanlj/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-jolla/sanlj/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites La Jolla – Windansea Beach",
+     "address_on_page": "6705 La Jolla Boulevard",
+     "postal_code": "92037",
+     "phone_on_page": "1-858-4547101",
+     "property_code_on_page": "sanlj",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-jolla/sanlj/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8584547101"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "92037",
+   "expected_street": "6705 la Jolla Boulevard",
+   "captured_at": "2026-09-25T22:22:03.412360+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-jolla/sanlj/hoteldetail"
+    },
+    "envelope_sha256": "fc0a458719c75494ebb8f133e1c6eca725c69a0ef748236773c7545132f6c410"
+   },
+   "page_sha256": "489752de4ad659d0ee01c7796228a60e184eb755d89e3fc1572e208140dabf6b",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\holiday-inn-express-and-suites-la-jolla\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_deposit": 7500,
+     "pet_count_limit": 3
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "75 USD Pet damage deposit",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_deposit"
+      ]
+     },
+     {
+      "quote": "3 pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_deposit": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::holiday inn express and suites la jolla::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-jolla/sanlj/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "489752de4ad659d0ee01c7796228a60e184eb755d89e3fc1572e208140dabf6b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::holiday inn express and suites la jolla::pet_deposit::1",
+       "field": "pet_deposit",
+       "quote": "75 USD Pet damage deposit",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-jolla/sanlj/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "489752de4ad659d0ee01c7796228a60e184eb755d89e3fc1572e208140dabf6b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::holiday inn express and suites la jolla::pet_count_limit::2",
+       "field": "pet_count_limit",
+       "quote": "3 pets allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-jolla/sanlj/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "489752de4ad659d0ee01c7796228a60e184eb755d89e3fc1572e208140dabf6b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "e491178a7c22eea935f50185d35f1c9e8040570c3393171afb2905b1b7cabe5b",
+     "document_sha256": "489752de4ad659d0ee01c7796228a60e184eb755d89e3fc1572e208140dabf6b"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express downtown",
+   "canonical_name": "Holiday Inn Express Downtown",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sanrx/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sanrx/hoteldetail",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '1430 Seventh Avenue' does not agree with expected '1430 7th Avenue'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express San Diego Downtown",
+     "address_on_page": "1430 Seventh Avenue",
+     "postal_code": "92101",
+     "phone_on_page": "1-619-6960911",
+     "property_code_on_page": "sanrx",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sanrx/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "6196960911"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '1430 Seventh Avenue' does not agree with expected '1430 7th Avenue'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "92101",
+   "expected_street": "1430 7th Avenue",
+   "captured_at": "2026-09-25T22:22:16.932342+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sanrx/hoteldetail"
+    },
+    "envelope_sha256": "51c997933d41e5fce043a940fad8e7cee24865dbaf79408330390f27440a436a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\holiday-inn-express-downtown\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "holiday inn express hotel and suites escondido",
+   "canonical_name": "Holiday Inn Express Hotel & Suites Escondido",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/escondido/escca/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/escondido/escca/hoteldetail",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '1250 West Valley Parkway' does not agree with expected '1250 W Valley Py'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites San Diego-Escondido",
+     "address_on_page": "1250 West Valley Parkway",
+     "postal_code": "92029",
+     "phone_on_page": "1-760-7417117",
+     "property_code_on_page": "escca",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/escondido/escca/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "7607417117"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '1250 West Valley Parkway' does not agree with expected '1250 W Valley Py'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "92029",
+   "expected_street": "1250 W Valley Py",
+   "captured_at": "2026-09-25T22:22:31.089522+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/escondido/escca/hoteldetail"
+    },
+    "envelope_sha256": "7848b594f6fcc3df10ba765ea17db96f7009f4818fd5f49b77761bf512aa8a98"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\holiday-inn-express-hotel-and-suites-escondido\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "holiday inn express la mesa near sdsu",
+   "canonical_name": "Holiday Inn Express La Mesa Near SDSU",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-mesa/sanpd/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-mesa/sanpd/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express La Mesa near SDSU",
+     "address_on_page": "8000 Parkway Drive",
+     "postal_code": "91942",
+     "phone_on_page": "1-619-6987747",
+     "property_code_on_page": "sanpd",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-mesa/sanpd/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "6196987747"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "91942",
+   "expected_street": "8000 Parkway Drive",
+   "captured_at": "2026-09-25T22:22:43.691626+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-mesa/sanpd/hoteldetail"
+    },
+    "envelope_sha256": "12d5164087268d272fa9c61221c829859ce27e02670c3a2774da12927d65b346"
+   },
+   "page_sha256": "40c10a24a28c76aab1bc3002cedaf13dea7075bf78123b499f0ccff7ee0281d4",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\holiday-inn-express-la-mesa-near-sdsu\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_deposit": 3500,
+     "service_animal_exception": "ADA defined service animals are also welcome at our hotel."
+    },
+    "evidence": [
+     {
+      "quote": "Pets are welcome",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "35 USD Pet damage deposit",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_deposit"
+      ]
+     },
+     {
+      "quote": "ADA defined service animals are also welcome at our hotel.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_deposit": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::holiday inn express la mesa near sdsu::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets are welcome",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-mesa/sanpd/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "40c10a24a28c76aab1bc3002cedaf13dea7075bf78123b499f0ccff7ee0281d4",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::holiday inn express la mesa near sdsu::pet_deposit::1",
+       "field": "pet_deposit",
+       "quote": "35 USD Pet damage deposit",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-mesa/sanpd/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "40c10a24a28c76aab1bc3002cedaf13dea7075bf78123b499f0ccff7ee0281d4",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::holiday inn express la mesa near sdsu::service_animal_exception::2",
+       "field": "service_animal_exception",
+       "quote": "ADA defined service animals are also welcome at our hotel.",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/la-mesa/sanpd/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "40c10a24a28c76aab1bc3002cedaf13dea7075bf78123b499f0ccff7ee0281d4",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "08daca14f5525db182da656f716409ce47c8c8c1945b59510dcda2c8ca1cd56d",
+     "document_sha256": "40c10a24a28c76aab1bc3002cedaf13dea7075bf78123b499f0ccff7ee0281d4"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express mira mesa",
+   "canonical_name": "Holiday Inn Express Mira Mesa",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sansc/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sansc/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express Mira Mesa-San Diego",
+     "address_on_page": "9888 Mira Mesa Blvd.",
+     "postal_code": "92131",
+     "phone_on_page": "1-858-6355566",
+     "property_code_on_page": "sansc",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sansc/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "8586355566"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares telephone '1-858-6355566' and also prints this property's '+1-888-465-4329' -- one site, several properties",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "92131",
+   "expected_street": "9888 Mira Mesa Boulevard",
+   "captured_at": "2026-09-25T22:22:58.424375+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sansc/hoteldetail"
+    },
+    "envelope_sha256": "7957467b69172a01471fac8e45881daf014066ca0df20f3fba157806565b8830"
+   },
+   "page_sha256": "1d83d4c8a6aeb7d4f24d3b238334b1550b9e9939518697a6a9667d6667ef87e3",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\holiday-inn-express-mira-mesa\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets are not allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::holiday inn express mira mesa::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sansc/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1d83d4c8a6aeb7d4f24d3b238334b1550b9e9939518697a6a9667d6667ef87e3",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "b2dddc80a0c1f39fc03326851316ef871db91b475568ccf06310fbd33d362e70",
+     "document_sha256": "1d83d4c8a6aeb7d4f24d3b238334b1550b9e9939518697a6a9667d6667ef87e3"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express san diego sea world area",
+   "canonical_name": "Holiday Inn Express San Diego-Sea World Area",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.hiexpress.com/hotels/us/en/san-diego/sanex/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/san-diego/sanex/hoteldetail",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92110",
+   "expected_street": "3950 Jupiter Street",
+   "captured_at": "2026-09-25T22:23:12.692705+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hiexpress.com/hotels/us/en/san-diego/sanex/hoteldetail"
+    },
+    "envelope_sha256": "b372eb51f6a1aa37704970e192df35f4d0a90c487418f03434e3649d78b780fe"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\holiday-inn-express-san-diego-sea-world-area\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "holiday inn oceanside marina",
+   "canonical_name": "Holiday Inn Oceanside Marina",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.holidayinn.com/hotels/us/en/oceanside/ocnpc/hoteldetail?destination=Oceanside%2C+CA%2C+United+States&numberOfRooms=1&numberOfAdults=1&numberOfChildren=0&ratePreference=6CBARC&groupCode=null",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/oceanside/ocnpc/hoteldetail",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92054",
+   "expected_street": "1401 Carmelo Drive",
+   "captured_at": "2026-09-25T22:23:26.103211+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.holidayinn.com/hotels/us/en/oceanside/ocnpc/hoteldetail?destination=Oceanside%2C+CA%2C+United+States&numberOfRooms=1&numberOfAdults=1&numberOfChildren=0&ratePreference=6CBARC&groupCode=null"
+    },
+    "envelope_sha256": "f646756c5917704ca0b55ff74b905a662b884457c4ab65410eedea6d34f29260"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\holiday-inn-oceanside-marina\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "ramada by wyndham oceanside",
+   "canonical_name": "Ramada by Wyndham Oceanside",
+   "family": "WYNDHAM",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ramadaoceanside.com/",
+   "final_url": "https://www.ramadaoceanside.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92058",
+   "expected_street": "1440 Mission Avenue",
+   "captured_at": "2026-09-25T22:23:39.104712+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ramadaoceanside.com/"
+    },
+    "envelope_sha256": "ce5779b47e86bd7bdf85aa9fe2bfabcbd50d2ef3c0f83af12ee28be98a8ce00a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\ramada-by-wyndham-oceanside\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "staybridge suites carlsbad",
+   "canonical_name": "Staybridge Suites Carlsbad",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/staybridge/hotels/us/en/carlsbad/cbasb/hoteldetail",
+   "final_url": "https://www.ihg.com/staybridge/hotels/us/en/carlsbad/cbasb/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Staybridge Suites Carlsbad - San Diego",
+     "address_on_page": "2735 Palomar Airport Road",
+     "postal_code": "92009",
+     "phone_on_page": "1-760-4382735",
+     "property_code_on_page": "cbasb",
+     "canonical_url": "https://www.ihg.com/staybridge/hotels/us/en/carlsbad/cbasb/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8772388889",
+      "7604382735"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "92009",
+   "expected_street": "2735 Palomar Airport Road",
+   "captured_at": "2026-09-25T22:23:48.481642+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/staybridge/hotels/us/en/carlsbad/cbasb/hoteldetail"
+    },
+    "envelope_sha256": "e845df88ff9da693666ddc470e00d5e87c337ad7dccdd0249af7adca9a6fc45d"
+   },
+   "page_sha256": "1bc8b7b905c33e9bb72e396fda828859d57fe2a26330f90f4e6c2ffc0db1b07c",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\staybridge-suites-carlsbad\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "weight_limit": {
+      "value": 50.0,
+      "unit": "lb"
+     },
+     "species_allowed": [
+      "dog"
+     ]
+    },
+    "evidence": [
+     {
+      "quote": "Pets are welcome",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "less than 50lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Dogs allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SOURCE_AMBIGUOUS"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "species_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::staybridge suites carlsbad::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets are welcome",
+       "source_url": "https://www.ihg.com/staybridge/hotels/us/en/carlsbad/cbasb/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1bc8b7b905c33e9bb72e396fda828859d57fe2a26330f90f4e6c2ffc0db1b07c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::staybridge suites carlsbad::weight_limit::1",
+       "field": "weight_limit",
+       "quote": "less than 50lbs",
+       "source_url": "https://www.ihg.com/staybridge/hotels/us/en/carlsbad/cbasb/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1bc8b7b905c33e9bb72e396fda828859d57fe2a26330f90f4e6c2ffc0db1b07c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::staybridge suites carlsbad::species_allowed::2",
+       "field": "species_allowed",
+       "quote": "Dogs allowed",
+       "source_url": "https://www.ihg.com/staybridge/hotels/us/en/carlsbad/cbasb/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1bc8b7b905c33e9bb72e396fda828859d57fe2a26330f90f4e6c2ffc0db1b07c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "0c7e30e59626874e29f310dd2aaeb96fbf67795f88a78389bb3b136725d34bf1",
+     "document_sha256": "1bc8b7b905c33e9bb72e396fda828859d57fe2a26330f90f4e6c2ffc0db1b07c"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "super 8 escondido",
+   "canonical_name": "Super 8 Escondido",
+   "family": "WYNDHAM",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "http://www.super8.com/",
+   "final_url": "https://www.wyndhamhotels.com/super-8",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-25T22:24:02.409658+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.super8.com/"
+    },
+    "envelope_sha256": "cb6f50a87d624fe139a3cda4b3806658e9f7c77d23e217ac5d1c3632feefb277"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\super-8-escondido\\attempt-01",
+   "ladder_reason": "static channel failure (UNEXPECTED_PAGE) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "super 8 hotel",
+   "canonical_name": "Super 8 Hotel",
+   "family": "WYNDHAM",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "http://www.super8.com/hotels/california/san-diego/super-8-san-diego-imperial-beach/hotel-overview",
+   "final_url": "https://www.wyndhamhotels.com/super-8/search-results",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-25T22:24:13.181914+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.super8.com/hotels/california/san-diego/super-8-san-diego-imperial-beach/hotel-overview"
+    },
+    "envelope_sha256": "f3cc8fbd6a1ca31351eea6f204130ccc11445da6f26192ec349c2b1e20c063cc"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\super-8-hotel\\attempt-01",
+   "ladder_reason": "static channel failure (UNEXPECTED_PAGE) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "beach village at the del lxr hotels and resorts",
+   "canonical_name": "Beach Village at The Del, LXR Hotels & Resorts",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "SANCNOL",
+   "requested_url": "https://www.hilton.com/en/hotels/sancnol-beach-village-at-the-del/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92118",
+   "expected_street": "1277 R.H. Dana Place",
+   "captured_at": "2026-09-25T22:24:24.699483+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hilton.com/en/hotels/sancnol-beach-village-at-the-del/"
+    },
+    "envelope_sha256": "c30db28ed750d6b95d5d67b089bf1146d56e237b3a52855b82c6b147eaa6bf4e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\beach-village-at-the-del-lxr-hotels-and-resorts\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "beach walk villas",
+   "canonical_name": "Beach Walk Villas",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.beachwalkvillas.net/",
+   "final_url": "https://beachwalkvillas.net/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Beachwalk Villas', which does not agree with 'Beach Walk Villas'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Beachwalk Villas",
+     "address_on_page": "3100 Ocean Street",
+     "postal_code": "92008",
+     "phone_on_page": "+1-760-720-1400",
+     "property_code_on_page": "",
+     "canonical_url": "https://beachwalkvillas.net/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "7607201400",
+      "4743096808",
+      "2018788483",
+      "6951158212",
+      "7607207173"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Beachwalk Villas', which does not agree with 'Beach Walk Villas'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "92008",
+   "expected_street": "3100 Ocean Street",
+   "captured_at": "2026-09-25T22:24:57.524552+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.beachwalkvillas.net/"
+    },
+    "envelope_sha256": "93c26a6cb2091b321ef2dc4a5d1fb789c472de2cebdc10bb94db346b3045e5f2"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\beach-walk-villas\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "cape rey carlsbad beach a hilton resort and spa",
+   "canonical_name": "Cape Rey Carlsbad Beach, A Hilton Resort & Spa",
+   "family": "HILTON",
+   "cohort": "WALL_REPROBE",
+   "property_code": "SANRSHF",
+   "requested_url": "https://www.hilton.com/en/hotels/sanrshf-cape-rey-carlsbad-beach/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92011",
+   "expected_street": "1 Ponto Road",
+   "captured_at": "2026-09-25T22:25:09.566756+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hilton.com/en/hotels/sanrshf-cape-rey-carlsbad-beach/"
+    },
+    "envelope_sha256": "8de08e9f69970a9b5a720a6bcf61fd6235cdf602b3a115b59f4c2813b5aa39ab"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\cape-rey-carlsbad-beach-a-hilton-resort-and-spa\\attempt-01",
+   "ladder_reason": "FIRECRAWL_WALL_REPROBE_DIAGNOSTIC_ONLY",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-HARD-LANES-003",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "downtown san diego lodge",
+   "canonical_name": "Downtown San Diego Lodge",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://downtownlodgesd.com/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"downtownlodgesd.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unavaila",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92101",
+   "expected_street": "1345 10th Avenue",
+   "captured_at": "2026-09-25T22:25:30.947122+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://downtownlodgesd.com/"
+    },
+    "envelope_sha256": "f16dc0fce00f75cd00dd576baa740d56ba46b22247554c62de0da737d3a780be"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\downtown-san-diego-lodge\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "escondido inn",
+   "canonical_name": "Escondido Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.escondidoinn.com/",
+   "final_url": "https://www.escondidoinn.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92025",
+   "expected_street": "420 West Washington Avenue",
+   "captured_at": "2026-09-25T22:25:33.575863+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.escondidoinn.com/"
+    },
+    "envelope_sha256": "31c443291f678535255fbbf9d7c3cd37c8599de345726c96fadd046c271b2232"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\escondido-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "exquisite twelve bedroom oceanfront home",
+   "canonical_name": "Exquisite Twelve Bedroom Oceanfront Home",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.beachfrontonly.com/san-diego-beach-rentals/exquisite-twelve-bedroom-oceanfront-home-p823-x#description",
+   "final_url": "https://www.beachfrontonly.com/san-diego-beach-rentals/exquisite-twelve-bedroom-oceanfront-home-p823-x#description",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Beachfront Only Vacation Rentals', which does not agree with 'Exquisite Twelve Bedroom Oceanfront Home'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Beachfront Only Vacation Rentals",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "7607124533"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Beachfront Only Vacation Rentals', which does not agree with 'Exquisite Twelve Bedroom Oceanfront Home'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "92054",
+   "expected_street": "823 South Pacific Street",
+   "captured_at": "2026-09-25T22:25:42.632565+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.beachfrontonly.com/san-diego-beach-rentals/exquisite-twelve-bedroom-oceanfront-home-p823-x#description"
+    },
+    "envelope_sha256": "29d58fb01d70d7dc4fcfdc1cf3c049628e1916cce87b147205057c27fc5a0ddd"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\exquisite-twelve-bedroom-oceanfront-home\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "gaslamp quarter hotel",
+   "canonical_name": "Gaslamp Quarter Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://gaslampquarterhotel.com/",
+   "final_url": "http://gaslampquarterhotel.com/",
+   "outcome": "BLANK_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92101",
+   "expected_street": "417 Market Street",
+   "captured_at": "2026-09-25T22:25:52.773701+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://gaslampquarterhotel.com/"
+    },
+    "envelope_sha256": "255b73a1e8d409ba9fe95b63febe42263cfad1868fe35d1039590998581add89"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\gaslamp-quarter-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "grand pacific palisades resort",
+   "canonical_name": "Grand Pacific Palisades Resort",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "SANPPUP",
+   "requested_url": "https://www.hilton.com/en/hotels/sanppup-the-cassara-carlsbad/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92008",
+   "expected_street": "5805 Armada Dr",
+   "captured_at": "2026-09-25T22:26:08.058466+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hilton.com/en/hotels/sanppup-the-cassara-carlsbad/"
+    },
+    "envelope_sha256": "227832e781f831bc7e61f83257c9fe45cb27b74f9893a14c0902bd036e056030"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\grand-pacific-palisades-resort\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "hotel z",
+   "canonical_name": "Hotel Z",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://sandiegohotelz.com",
+   "final_url": "https://www.hotelzsandiego.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92101",
+   "expected_street": "521 6th Avenue",
+   "captured_at": "2026-09-25T22:26:29.354571+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://sandiegohotelz.com"
+    },
+    "envelope_sha256": "f9190b37170672ae1e824f3b4315dc60da34eca37db6b1018c0da74b69fd4cfa"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\hotel-z\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "la valencia hotel",
+   "canonical_name": "La Valencia Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.lavalencia.com/",
+   "final_url": "https://www.lavalencia.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 1 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "La Valencia Hotel",
+     "address_on_page": "1132 Prospect St",
+     "postal_code": "92037",
+     "phone_on_page": "(855) 476-6870",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.lavalencia.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8554766870",
+      "0764411782",
+      "0739611782",
+      "1297711790"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "92037",
+   "expected_street": "1132 Prospect Street",
+   "captured_at": "2026-09-25T22:26:40.781523+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.lavalencia.com/"
+    },
+    "envelope_sha256": "3960bea51408b41fe5dfdd159c1bad78d0f90f04185a1decdb4e84e976f0c81f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\la-valencia-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "marbrisa carlsbad resort",
+   "canonical_name": "MarBrisa Carlsbad Resort",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "SANMBGV",
+   "requested_url": "https://www.hilton.com/en/hotels/sanmbgv-hilton-grand-vacations-club-marbrisa-carlsbad/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92008",
+   "expected_street": "1594 Marbrisa Cir",
+   "captured_at": "2026-09-25T22:26:50.603643+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hilton.com/en/hotels/sanmbgv-hilton-grand-vacations-club-marbrisa-carlsbad/"
+    },
+    "envelope_sha256": "4bb3ee737d1a934947026e2095950762179eaf52aceedd0952ddd15c32d03285"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\marbrisa-carlsbad-resort\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "mission pacific beach resort",
+   "canonical_name": "Mission Pacific Beach Resort",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sanjo-mission-pacific-beach-resort?src=corp_lclb_google_seo_sanjo&utm_source=google&utm_medium=organic&utm_campaign=lmr",
+   "final_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sanjo-mission-pacific-beach-resort",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Mission Pacific Beach Resort",
+     "address_on_page": "201 N. Myers St.",
+     "postal_code": "92054",
+     "phone_on_page": "+1 844-330-1722",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sanjo-mission-pacific-beach-resort",
+     "pets_allowed_structured": "True",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8443301722",
+      "4743096808",
+      "2018788483",
+      "6951158212"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-25T22:27:34.772564+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sanjo-mission-pacific-beach-resort?src=corp_lclb_google_seo_sanjo&utm_source=google&utm_medium=organic&utm_campaign=lmr"
+    },
+    "envelope_sha256": "0484b044f8043675b22da099d4b02ad7e2049451c5b6a53ce6d864af81b323cf"
+   },
+   "page_sha256": "6b1fa9f14dac73fd9869e9a1a3c49a78e5d871f6899d51055de0356d08465bc5",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\mission-pacific-beach-resort\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "service_animal_exception": "*We welcome guests with disabilities traveling with their service animals."
+    },
+    "evidence": [
+     {
+      "quote": "dog-friendly",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "*We welcome guests with disabilities traveling with their service animals.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::mission pacific beach resort::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "dog-friendly",
+       "source_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sanjo-mission-pacific-beach-resort",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "6b1fa9f14dac73fd9869e9a1a3c49a78e5d871f6899d51055de0356d08465bc5",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "san_diego_ca_firecrawl_001::mission pacific beach resort::service_animal_exception::1",
+       "field": "service_animal_exception",
+       "quote": "*We welcome guests with disabilities traveling with their service animals.",
+       "source_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sanjo-mission-pacific-beach-resort",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "6b1fa9f14dac73fd9869e9a1a3c49a78e5d871f6899d51055de0356d08465bc5",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-25",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "16c0d5e502bb75698d59b658fc00752c7ec5af121e383f8cc313ebec3606dbbf",
+     "document_sha256": "6b1fa9f14dac73fd9869e9a1a3c49a78e5d871f6899d51055de0356d08465bc5"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "mission pacific beach resort",
+   "canonical_name": "Mission Pacific Beach Resort",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://missionpacifichotel.com/",
+   "final_url": "https://missionpacifichotel.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Mission Pacific Beach Resort",
+     "address_on_page": "201 N Myers St",
+     "postal_code": "92054",
+     "phone_on_page": "855-365-5078",
+     "property_code_on_page": "",
+     "canonical_url": "https://missionpacifichotel.com/",
+     "pets_allowed_structured": "yes",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "7600000000",
+      "8553655078"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-25T22:27:47.428198+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://missionpacifichotel.com/"
+    },
+    "envelope_sha256": "1a408177fabb2e8695ff04d57933d2e66ecc6dafcc5763c7d1c47cf9dc8bf034"
+   },
+   "page_sha256": "6b1fa9f14dac73fd9869e9a1a3c49a78e5d871f6899d51055de0356d08465bc5",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\mission-pacific-beach-resort\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "motel 6",
+   "canonical_name": "Motel 6",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/en/home/motels.ca.san-diego-ca.9393.html",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "RATE_LIMITED: the plan's request limit was hit; this is a quota result and says nothing about whether the page is reachable",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-25T22:27:57.073352+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/en/home/motels.ca.san-diego-ca.9393.html"
+    },
+    "envelope_sha256": "204ece9a377ae90a485bbd47769c02a39561d412371b966e07147c9db9a36dcb"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\motel-6\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "motel 6 carlsbad ca east",
+   "canonical_name": "Motel 6 Carlsbad, CA - East",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/en/home/motels.ca.carlsbad.3270.html",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "RATE_LIMITED: the plan's request limit was hit; this is a quota result and says nothing about whether the page is reachable",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92011",
+   "expected_street": "6117 Paseo del Norte",
+   "captured_at": "2026-09-25T22:27:59.430903+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/en/home/motels.ca.carlsbad.3270.html"
+    },
+    "envelope_sha256": "a194445ce6945e85d8d1bcd8376224d3bc74cfaaeb3a3b681d1869aaca50c5ba"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\motel-6-carlsbad-ca-east\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "motel 6 oceanside",
+   "canonical_name": "Motel 6 Oceanside",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/en/home/motels.ca.oceanside.9640.html",
+   "final_url": "https://www.motel6.com/property/motel-oceanside-california-us-293852/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92056",
+   "expected_street": "708 Plaza Drive",
+   "captured_at": "2026-09-25T22:28:01.789848+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/en/home/motels.ca.oceanside.9640.html"
+    },
+    "envelope_sha256": "97c80d3a77c9946cd18fc0f32a48b20e19f003f487cb61575134678cbf827113"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\motel-6-oceanside\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "motel 6 san diego ca hotel circle mission valley",
+   "canonical_name": "Motel 6 San Diego, CA - Hotel Circle - Mission Valley",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/reservations/motel_detail.aspx?num=14&VID=&NOA",
+   "final_url": "https://www.motel6.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92108",
+   "expected_street": "2424 Hotel Cir",
+   "captured_at": "2026-09-25T22:28:14.386196+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/reservations/motel_detail.aspx?num=14&VID=&NOA"
+    },
+    "envelope_sha256": "9cc880d5a0cb92e5748a73220c61b4e6471953373805ed893cd733b1a2eee0ea"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\motel-6-san-diego-ca-hotel-circle-mission-valley\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "pacifica hotel",
+   "canonical_name": "Pacifica Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://pacificahotelsd.com/",
+   "final_url": "https://pacificahotelsd.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92101",
+   "expected_street": "551 4th Avenue",
+   "captured_at": "2026-09-25T22:28:25.650855+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://pacificahotelsd.com/"
+    },
+    "envelope_sha256": "7fd2406e9a4e530e0781812c610d3a2cb93358356be960abfdc2abfb2ac6cde0"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\pacifica-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "palihotel san diego",
+   "canonical_name": "Palihotel San Diego",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.palisociety.com/hotels/san-diego",
+   "final_url": "https://palisociety-v2-frontend-ht9m72q0h-ouat.vercel.app/hotels/san-diego",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92101",
+   "expected_street": "830 6th Avenue",
+   "captured_at": "2026-09-25T22:28:35.762870+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.palisociety.com/hotels/san-diego"
+    },
+    "envelope_sha256": "bfd204f5bf10de8b0f75091cbc9249343be4b6cb95514f818d3b7b7b4d0a5a88"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\palihotel-san-diego\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "pelican cove inn",
+   "canonical_name": "Pelican Cove Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.pelican-cove.com/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "RATE_LIMITED: the plan's request limit was hit; this is a quota result and says nothing about whether the page is reachable",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92008",
+   "expected_street": "320 Walnut Avenue",
+   "captured_at": "2026-09-25T22:28:54.943241+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.pelican-cove.com/"
+    },
+    "envelope_sha256": "e14d703b3fb0e79eb0da5da838b712934c0cbe1d2893346b3e5f8f2d12172a33"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\pelican-cove-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "samesun ocean beach hostel",
+   "canonical_name": "Samesun Ocean Beach Hostel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://samesun.com/ocean-beach-hostel/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "RATE_LIMITED: the plan's request limit was hit; this is a quota result and says nothing about whether the page is reachable",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92107",
+   "expected_street": "4961 Newport Avenue",
+   "captured_at": "2026-09-25T22:28:57.259161+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://samesun.com/ocean-beach-hostel/"
+    },
+    "envelope_sha256": "32f5f8364a1914da329e96898a4da4f3f71d8724d75b08a93e6391584e94869e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\samesun-ocean-beach-hostel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "shore house at the del lxr hotels and resorts",
+   "canonical_name": "Shore House at The Del, LXR Hotels & Resorts",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "SANRHOL",
+   "requested_url": "https://www.hilton.com/en/hotels/sanrhol-shore-house-at-the-del/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "RATE_LIMITED: the plan's request limit was hit; this is a quota result and says nothing about whether the page is reachable",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92118",
+   "expected_street": "1500 Orange Avenue",
+   "captured_at": "2026-09-25T22:28:59.662970+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hilton.com/en/hotels/sanrhol-shore-house-at-the-del/"
+    },
+    "envelope_sha256": "2720e2f2eb4ee0d1179c1156a3f035ff7396272401a38e6952a6480c22a555d1"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\shore-house-at-the-del-lxr-hotels-and-resorts\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "the baby grand",
+   "canonical_name": "The Baby Grand",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.thebabygrandcoronado.com/",
+   "final_url": "https://www.thebabygrandcoronado.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92118",
+   "expected_street": "1315 Orange Avenue",
+   "captured_at": "2026-09-25T22:29:02.048743+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.thebabygrandcoronado.com/"
+    },
+    "envelope_sha256": "dce5e48b32fd7e8aaaa62e7403dc31c9f4cd8c036e2de813241647bafda980aa"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\the-baby-grand\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "the bower coronado an slh hotel",
+   "canonical_name": "The Bower Coronado, an SLH Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "SANTBLX",
+   "requested_url": "https://www.hilton.com/en/hotels/santblx-the-bower-coronado/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92118",
+   "expected_street": "1417 Orange Avenue",
+   "captured_at": "2026-09-25T22:29:11.529961+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hilton.com/en/hotels/santblx-the-bower-coronado/"
+    },
+    "envelope_sha256": "07f9245597ee299a2e7895479f26ff607dbbf84da9f1b1b14fb670e24488485a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\the-bower-coronado-an-slh-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "the encinitan hotel and suites",
+   "canonical_name": "The Encinitan Hotel & Suites",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://encinitan.com/",
+   "final_url": "https://encinitan.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Encinitan Hotel &amp; Suites | Boutique Hotel in Encinitas, CA",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://encinitan.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "7609427455"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "92024",
+   "expected_street": "85 Encinitas Boulevard",
+   "captured_at": "2026-09-25T22:29:43.989958+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://encinitan.com/"
+    },
+    "envelope_sha256": "aa44bb92161c1960778002e19e4942d4f03fe43d61e3e478d31542d89687a010"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\the-encinitan-hotel-and-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "the inn at rancho santa fe an slh hotel",
+   "canonical_name": "The Inn at Rancho Santa Fe, an SLH Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "SANRTLX",
+   "requested_url": "https://www.hilton.com/en/hotels/sanrtlx-the-inn-at-rancho-santa-fe/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92067",
+   "expected_street": "5951 Linea Del Cielo",
+   "captured_at": "2026-09-25T22:29:53.787050+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hilton.com/en/hotels/sanrtlx-the-inn-at-rancho-santa-fe/"
+    },
+    "envelope_sha256": "a087079007761fb03711f412898219c557f38fc548ff1a48c23be3d2a5796a1d"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\the-inn-at-rancho-santa-fe-an-slh-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "the keating hotel",
+   "canonical_name": "The Keating Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.thekeating.com",
+   "final_url": "http://www.thekeating.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Gotham', which does not agree with 'The Keating Hotel'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Gotham",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "6192311500"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Gotham', which does not agree with 'The Keating Hotel'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "92101",
+   "expected_street": "432 F Street",
+   "captured_at": "2026-09-25T22:30:14.955384+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.thekeating.com"
+    },
+    "envelope_sha256": "33b0238f7b1bac9e0e44cf2d7cb82dce6bcdaabaf61065432a88b772b01c4a8f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\the-keating-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "the lafayette hotel swim club and bungalows",
+   "canonical_name": "The Lafayette Hotel, Swim Club & Bungalows",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://lafayettehotelsd.com",
+   "final_url": "https://lafayettehotelsd.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Lafayette Hotel San Diego', which does not agree with 'The Lafayette Hotel, Swim Club & Bungalows'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Lafayette Hotel San Diego",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Lafayette Hotel San Diego', which does not agree with 'The Lafayette Hotel, Swim Club & Bungalows'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "92104",
+   "expected_street": "2223 El Cajon Boulevard",
+   "captured_at": "2026-09-25T22:30:26.765376+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://lafayettehotelsd.com"
+    },
+    "envelope_sha256": "ee0240a967e02544037f1a1d0c5ab2a439cf3ad715754eba3294bca8d5cf8e5a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\the-lafayette-hotel-swim-club-and-bungalows\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "vantaggio suites extended stays",
+   "canonical_name": "Vantaggio Suites Extended Stays",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://vantaggiosuites.com/locations/hillcrest/",
+   "final_url": "https://vantaggiosuites.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "92103",
+   "expected_street": "819 University Avenue",
+   "captured_at": "2026-09-25T22:30:37.138918+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://vantaggiosuites.com/locations/hillcrest/"
+    },
+    "envelope_sha256": "63ee0b997a6038ce276b4dcd9fffba809334ea4c394c4dd17c14013214c6e08e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_diego_ca_firecrawl_001\\vantaggio-suites-extended-stays\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  }
+ ]
+}
