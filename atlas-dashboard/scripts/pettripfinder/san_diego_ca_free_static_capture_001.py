@@ -59,7 +59,7 @@ MARKET_ID = "san-diego-ca"
 SCHEMA = "ptf-free-static-capture/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "san-diego-ca.json")
+CENSUS = os.path.join(PKG, "identity_census", "san-diego-ca.json")
 ROUTING = os.path.join(REPORTS, "san_diego_ca_routing_001.json")
 SPACING_SECONDS = 1.2
 

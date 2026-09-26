@@ -23,7 +23,7 @@ from scripts.pettripfinder import san_diego_ca_policy_pages_lane_001 as PP  # no
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "san_diego_ca_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "san-diego-ca.json")
+CENSUS = os.path.join(PKG, "identity_census", "san-diego-ca.json")
 OUT = os.path.join(PKG, "markets", "staging", "san-diego-ca", "raw_captures", "closure_static_rows.json")
 
 
