@@ -1,0 +1,1022 @@
+{
+ "schema": "ptf-market-actionability/2.0",
+ "work_order": "PTF-DENVER-CO-HARDENED-SOURCE-READY-001",
+ "market_id": "denver-co",
+ "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
+ "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
+ "census_total": 441,
+ "resolved": 337,
+ "unresolved_total": 104,
+ "totals_by_class": {
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 38,
+  "REQUIRES_NEW_PROVIDER": 0,
+  "REQUIRES_NEW_SPEND": 52,
+  "REQUIRES_FOUNDER": 14
+ },
+ "by_disposition": {
+  "ACCESS_BLOCKED": {
+   "total": 5,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 5,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0
+  },
+  "EVIDENCE_HOLD": {
+   "total": 9,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 9,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "total": 17,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 3,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 14
+  },
+  "ROUTING_HOLD": {
+   "total": 55,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 3,
+   "requires_new_provider": 0,
+   "requires_new_spend": 52,
+   "requires_founder": 0
+  },
+  "SOURCE_SILENT": {
+   "total": 18,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 18,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0
+  }
+ },
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 66,
+ "new_spend_note": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)",
+ "attended_browser": {
+  "attempts": 289,
+  "reads": 268,
+  "challenge_denied": 0,
+  "unbound": 5,
+  "paid_provider_calls": 0,
+  "akamai_bypassed": false,
+  "browser_js_exfiltration_used": false,
+  "local_relay_used": false
+ },
+ "coverage_conditions": {
+  "actionable_unresolved_is_zero": true,
+  "no_material_identity_gap": true,
+  "no_material_unexplained_policy_gap": true,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
+  "publication_set_safe": true,
+  "package_deterministic_and_fast_clean": false
+ },
+ "COVERAGE_READY": "FOUNDER DECISION",
+ "TECHNICAL_SOURCE_READY": "NO",
+ "rows": [
+  {
+   "identity_key": "holiday inn and suites commerce city denver airport",
+   "canonical_name": "Holiday Inn & Suites Commerce City - Denver Airport",
+   "corridor": "denver-co__thornton-northglenn-north-i25",
+   "brand_family": "IHG",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)"
+  },
+  {
+   "identity_key": "holiday inn and suites denver tech center centennial",
+   "canonical_name": "Holiday Inn & Suites Denver Tech Center-Centennial",
+   "corridor": "denver-co__denver-tech-center",
+   "brand_family": "IHG",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)"
+  },
+  {
+   "identity_key": "intown suites extended stay denver co aurora havana st",
+   "canonical_name": "InTown Suites Extended Stay Denver CO - Aurora Havana St.",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "intown suites extended stay denver co aurora south",
+   "canonical_name": "InTown Suites Extended Stay Denver CO - Aurora South",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "quality inn aurora denver",
+   "canonical_name": "Quality Inn Aurora Denver",
+   "corridor": "denver-co__aurora",
+   "brand_family": "CHOICE",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted: static NAVIGATION_FAILED, Firecrawl FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "even hotel denver tech center englewood",
+   "canonical_name": "EVEN Hotel Denver Tech Center-Englewood",
+   "corridor": "denver-co__denver-tech-center",
+   "brand_family": "IHG",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "gravity haus denver",
+   "canonical_name": "Gravity Haus Denver",
+   "corridor": "denver-co__highlands-rino-north-denver",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: \"Member rates & perks available - login to access or become a member here"
+  },
+  {
+   "identity_key": "holiday inn express and suites englewood denver south",
+   "canonical_name": "Holiday Inn Express & Suites Englewood - Denver South",
+   "corridor": "denver-co__denver-tech-center",
+   "brand_family": "IHG",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "hometowne studios denver airport aurora",
+   "canonical_name": "HomeTowne Studios Denver - Airport/ Aurora",
+   "corridor": "denver-co__aurora",
+   "brand_family": "RED_ROOF",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "lazy c motor lodge",
+   "canonical_name": "Lazy C Motor Lodge",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "longmont lodge and rv park",
+   "canonical_name": "Longmont Lodge & RV Park",
+   "corridor": "denver-co__longmont-erie",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: '🐾 Pet Friendly Designated pet-friendly RV areas for your convenience. Pe"
+  },
+  {
+   "identity_key": "super 8 by wyndham longmont twin peaks",
+   "canonical_name": "Super 8 by Wyndham Longmont/Twin Peaks",
+   "corridor": "denver-co__longmont-erie",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Service Animals - ADA-define"
+  },
+  {
+   "identity_key": "sylo hotel denver airport a ramada by wyndham",
+   "canonical_name": "SYLO Hotel Denver Airport, a Ramada by Wyndham",
+   "corridor": "denver-co__aurora",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal statement is a legal access category, never a pet acceptance: 'ADA-defined service a"
+  },
+  {
+   "identity_key": "the colorado chautauqua",
+   "canonical_name": "The Colorado Chautauqua",
+   "corridor": "denver-co__boulder",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "drury plaza hotel denver central park",
+   "canonical_name": "Drury Plaza Hotel Denver Central Park",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "DRURY",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "the vintage haus",
+   "canonical_name": "The Vintage Haus",
+   "corridor": "denver-co__longmont-erie",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "urban cowboy denver",
+   "canonical_name": "Urban Cowboy Denver",
+   "corridor": "denver-co__capitol-hill-uptown",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "motel 6 denver airport",
+   "canonical_name": "Motel 6 Denver - Airport",
+   "corridor": "denver-co__den-airport",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: the census's legacy property routes redirect to the brand home page (two attended reads), the sitemap timed out and Firecrawl failed; no current route is known -- no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "motel 6 greenwood village co denver south tech center",
+   "canonical_name": "Motel 6 Greenwood Village, CO - Denver - South Tech Center",
+   "corridor": "denver-co__denver-tech-center",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: the census's legacy property routes redirect to the brand home page (two attended reads), the sitemap timed out and Firecrawl failed; no current route is known -- no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "motel 6 wheat ridge co west denver north",
+   "canonical_name": "Motel 6 Wheat Ridge, CO - West - Denver North",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: the census's legacy property routes redirect to the brand home page (two attended reads), the sitemap timed out and Firecrawl failed; no current route is known -- no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "a lodge boulder",
+   "canonical_name": "A-Lodge Boulder",
+   "corridor": "denver-co__boulder",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "acoma house",
+   "canonical_name": "ACOMA HOUSE",
+   "corridor": "denver-co__downtown-lodo-union-station",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "boulder adventure lodge",
+   "canonical_name": "Boulder Adventure Lodge",
+   "corridor": "denver-co__boulder",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "boulder guest house",
+   "canonical_name": "Boulder Guest House",
+   "corridor": "denver-co__boulder",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "boulder twin lakes inn",
+   "canonical_name": "Boulder Twin Lakes Inn",
+   "corridor": "denver-co__boulder",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "bradley boulder inn",
+   "canonical_name": "Bradley Boulder Inn",
+   "corridor": "denver-co__boulder",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hilltop inn broomfield denver",
+   "canonical_name": "Hilltop Inn Broomfield Denver",
+   "corridor": "denver-co__westminster-broomfield",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn denver lakewood",
+   "canonical_name": "Holiday Inn Denver Lakewood",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel longmont",
+   "canonical_name": "Hotel Longmont",
+   "corridor": "denver-co__longmont-erie",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hyatt regency denver at colorado convention center",
+   "canonical_name": "Hyatt Regency Denver at Colorado Convention Center",
+   "corridor": "denver-co__downtown-lodo-union-station",
+   "brand_family": "HYATT",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "la vista motel",
+   "canonical_name": "La Vista Motel",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "populus hotel",
+   "canonical_name": "Populus Hotel",
+   "corridor": "denver-co__downtown-lodo-union-station",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "st julien hotel and spa",
+   "canonical_name": "St Julien Hotel and Spa",
+   "corridor": "denver-co__boulder",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the boulder broker",
+   "canonical_name": "The Boulder Broker",
+   "corridor": "denver-co__boulder",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the patterson inn",
+   "canonical_name": "The Patterson Inn",
+   "corridor": "denver-co__capitol-hill-uptown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "thompson denver",
+   "canonical_name": "Thompson Denver",
+   "corridor": "denver-co__downtown-lodo-union-station",
+   "brand_family": "HYATT",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "warwick denver",
+   "canonical_name": "Warwick Denver",
+   "corridor": "denver-co__capitol-hill-uptown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "westerner motel",
+   "canonical_name": "Westerner Motel",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "candlewood suites greenwood village dtc",
+   "canonical_name": "Candlewood Suites Greenwood Village – DTC",
+   "corridor": "denver-co__denver-tech-center",
+   "brand_family": "IHG",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "comfort suites near denver downtown",
+   "canonical_name": "Comfort Suites Near Denver Downtown",
+   "corridor": "denver-co__downtown-lodo-union-station",
+   "brand_family": "CHOICE",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites boulder broomfield interlocken",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Boulder Broomfield/Interlocken",
+   "corridor": "denver-co__westminster-broomfield",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hampton inn and suites denver downtown convention center",
+   "canonical_name": "Hampton Inn & Suites Denver Downtown-Convention Center",
+   "corridor": "denver-co__downtown-lodo-union-station",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hampton inn aurora medical center denver",
+   "canonical_name": "Hampton Inn Aurora Medical Center Denver",
+   "corridor": "denver-co__aurora",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "holiday inn express and suites greenwood village dtc",
+   "canonical_name": "Holiday Inn Express & Suites Greenwood Village – DTC",
+   "corridor": "denver-co__denver-tech-center",
+   "brand_family": "IHG",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "home2 suites by hilton aurora medical center denver",
+   "canonical_name": "Home2 Suites by Hilton Aurora Medical Center Denver",
+   "corridor": "denver-co__aurora",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "homewood suites by hilton denver airport tower road",
+   "canonical_name": "Homewood Suites by Hilton Denver Airport Tower Road",
+   "corridor": "denver-co__den-airport",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "homewood suites by hilton denver downtown convention center",
+   "canonical_name": "Homewood Suites by Hilton Denver Downtown-Convention Center",
+   "corridor": "denver-co__downtown-lodo-union-station",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "mainstay suites denver international airport",
+   "canonical_name": "MainStay Suites Denver International Airport",
+   "corridor": "denver-co__den-airport",
+   "brand_family": "CHOICE",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "mainstay suites near denver downtown",
+   "canonical_name": "MainStay Suites Near Denver Downtown",
+   "corridor": "denver-co__downtown-lodo-union-station",
+   "brand_family": "CHOICE",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "residence inn by marriott boulder broomfield interlocken",
+   "canonical_name": "Residence Inn by Marriott Boulder Broomfield/Interlocken",
+   "corridor": "denver-co__westminster-broomfield",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "sleep inn and suites denver international airport",
+   "canonical_name": "Sleep Inn & Suites Denver International Airport",
+   "corridor": "denver-co__den-airport",
+   "brand_family": "CHOICE",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "tru by hilton denver airport tower road",
+   "canonical_name": "Tru by Hilton Denver Airport Tower Road",
+   "corridor": "denver-co__den-airport",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "7 star motel",
+   "canonical_name": "7 Star Motel",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ahwahnee motel",
+   "canonical_name": "Ahwahnee Motel",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "alps boulder canyon inn",
+   "canonical_name": "Alps Boulder Canyon Inn",
+   "corridor": "denver-co__boulder",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "aurora motel",
+   "canonical_name": "Aurora motel",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "belcaro motel",
+   "canonical_name": "Belcaro Motel",
+   "corridor": "denver-co__cherry-creek-glendale",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "best western plus executive residency denver central park",
+   "canonical_name": "Best Western Plus Executive Residency Denver-Central Park",
+   "corridor": "denver-co__highlands-rino-north-denver",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the brand's own property-code route lands on a hotel-search page: the brand publishes no property page for these premises; no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "big bunny motel",
+   "canonical_name": "Big Bunny Motel",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "biltmore motel",
+   "canonical_name": "Biltmore Motel",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "blue sky motel",
+   "canonical_name": "Blue Sky Motel",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "branding iron motel",
+   "canonical_name": "Branding Iron Motel",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "clarion hotel denver central",
+   "canonical_name": "Clarion Hotel Denver Central",
+   "corridor": "denver-co__highlands-rino-north-denver",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "columbine lodge",
+   "canonical_name": "Columbine Lodge",
+   "corridor": "denver-co__boulder",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the brand's own property-code route lands on a hotel-search page: the brand publishes no property page for these premises; no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "comfort inn and suites stapleton",
+   "canonical_name": "Comfort Inn & Suites Stapleton",
+   "corridor": "denver-co__highlands-rino-north-denver",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "comfort inn denver west",
+   "canonical_name": "Comfort Inn Denver West",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "crowne plaza denver airport convention center",
+   "canonical_name": "Crowne Plaza Denver Airport Convention Center",
+   "corridor": "denver-co__aurora",
+   "brand_family": "IHG",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "essex house motel",
+   "canonical_name": "Essex House Motel",
+   "corridor": "denver-co__littleton-englewood",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "first interstate inn",
+   "canonical_name": "First Interstate Inn",
+   "corridor": "denver-co__longmont-erie",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hilton garden inn denver cherry creek",
+   "canonical_name": "Hilton Garden Inn - Denver Cherry Creek",
+   "corridor": "denver-co__cherry-creek-glendale",
+   "brand_family": "HILTON",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "holiday motel",
+   "canonical_name": "Holiday Motel",
+   "corridor": "denver-co__littleton-englewood",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hometowne studios denver lakewood west",
+   "canonical_name": "HomeTowne Studios Denver - Lakewood West",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "RED_ROOF",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "inn at the highlands denver downtown",
+   "canonical_name": "Inn at the Highlands Denver Downtown",
+   "corridor": "denver-co__highlands-rino-north-denver",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "kings inn motel",
+   "canonical_name": "Kings Inn motel",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "lakewood lodge",
+   "canonical_name": "Lakewood Lodge",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "longmont suite hotel",
+   "canonical_name": "Longmont Suite - Hotel",
+   "corridor": "denver-co__longmont-erie",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "lucky u motel",
+   "canonical_name": "Lucky U Motel",
+   "corridor": "denver-co__littleton-englewood",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "mesa motor inn",
+   "canonical_name": "Mesa Motor Inn",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "mon chalet",
+   "canonical_name": "Mon Chalet",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "motel 85",
+   "canonical_name": "Motel 85",
+   "corridor": "denver-co__brighton-northeast",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "motel 9",
+   "canonical_name": "Motel 9",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "niagara house motel",
+   "canonical_name": "Niagara House Motel",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "pacesetter motel",
+   "canonical_name": "Pacesetter Motel",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "panorama motel",
+   "canonical_name": "Panorama Motel",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "park inn by radisson",
+   "canonical_name": "Park Inn by Radisson",
+   "corridor": "denver-co__thornton-northglenn-north-i25",
+   "brand_family": "RADISSON",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "penn motel",
+   "canonical_name": "Penn Motel",
+   "corridor": "denver-co__thornton-northglenn-north-i25",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "quality inn tech center",
+   "canonical_name": "Quality Inn Tech Center",
+   "corridor": "denver-co__denver-tech-center",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "radiant motel",
+   "canonical_name": "Radiant Motel",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "radisson hotel denver central",
+   "canonical_name": "Radisson Hotel Denver Central",
+   "corridor": "denver-co__highlands-rino-north-denver",
+   "brand_family": "RADISSON",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ranger motel",
+   "canonical_name": "Ranger Motel",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "red coach motor inn",
+   "canonical_name": "Red Coach Motor Inn",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "rocky mountain motel",
+   "canonical_name": "Rocky Mountain Motel",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "royal palace motel",
+   "canonical_name": "Royal Palace Motel",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "sand and sage motel",
+   "canonical_name": "Sand & Sage Motel",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "shepherds motel",
+   "canonical_name": "Shepherds Motel",
+   "corridor": "denver-co__central-park-lowry-i70",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "stay inn",
+   "canonical_name": "Stay Inn",
+   "corridor": "denver-co__den-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "super a motel",
+   "canonical_name": "Super A Motel",
+   "corridor": "denver-co__thornton-northglenn-north-i25",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the cambridge",
+   "canonical_name": "The Cambridge",
+   "corridor": "denver-co__capitol-hill-uptown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the house inn",
+   "canonical_name": "The House Inn",
+   "corridor": "denver-co__louisville-superior-lafayette",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "travaleer",
+   "canonical_name": "Travaleer",
+   "corridor": "denver-co__aurora",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "uptown suites extended stay denver tech center co centennial",
+   "canonical_name": "Uptown Suites Extended Stay Denver Tech Center CO - Centennial",
+   "corridor": "denver-co__denver-tech-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "western hills motel",
+   "canonical_name": "Western Hills Motel",
+   "corridor": "denver-co__downtown-lodo-union-station",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "westway motel",
+   "canonical_name": "Westway Motel",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "white swan motel",
+   "canonical_name": "White Swan Motel",
+   "corridor": "denver-co__lakewood-wheat-ridge",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)"
+  }
+ ]
+}

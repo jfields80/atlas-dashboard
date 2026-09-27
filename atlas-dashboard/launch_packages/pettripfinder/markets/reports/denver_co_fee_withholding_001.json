@@ -1,0 +1,916 @@
+{
+ "schema": "ptf-fee-withholding/1.0",
+ "work_order": "PTF-DENVER-CO-HARDENED-SOURCE-READY-001",
+ "market_id": "denver-co",
+ "rule": "a fee publishes only as one amount whose basis (per night / per stay) the quote itself states, with no stay-length condition, no range, no second basis and no second amount; otherwise the fee is withheld and the acceptance, weight, count and species still publish",
+ "fees_published": 54,
+ "tiered_fees_withheld": 80,
+ "unsafe_single_fees_withheld": 35,
+ "unsafe_by_reason": {
+  "AMOUNT_RANGE": 1,
+  "BASIS_NOT_STATED": 26,
+  "STAY_LENGTH_CONDITION": 6,
+  "TWO_BASES": 2
+ },
+ "misleading_single_fees_published": 0,
+ "tiered": [
+  {
+   "stated_amounts_usd": [
+    35.0,
+    250.0
+   ],
+   "fee_the_reader_computed_cents": 3500,
+   "quote": "Pet Policy | Pets Welcome | Pets are welcome at $35/day max of $250 per stay | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    25.0,
+    50.0
+   ],
+   "fee_the_reader_computed_cents": 2500,
+   "quote": "Pets | General: Pets are allowed, Pet fee $25 per night per pet, $50 Refundable deposit is required, 65 lbs",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    20.0,
+    100.0
+   ],
+   "fee_the_reader_computed_cents": 2000,
+   "quote": "Pet Policy | Pets Welcome | $20/day (caps at 5 days) with $100/stay nonrefundable cleaning fee. | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    20.0,
+    100.0
+   ],
+   "fee_the_reader_computed_cents": 2000,
+   "quote": "Pet Policy | Pets Welcome | Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals | Non-Refundable Pet Fee Per Stay: $100.00 | Non-Refundable Pet Fee Per Night: ... | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pet Policy | Pets Welcome | Dogs, cats & service animals allowed. Non-refundable $50 fee for second pet. | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs | Max size: medium | Pet policy: 1 to 4 nights $75 per stay - $125 for 5 nights per stay",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: large | Pet policy: Dogs Only. 1-4 nights $75 per stay, 5+ nights starts at $125 per stay. 2 dogs maximum per room.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    25.0,
+    50.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pet Policy | Pets Welcome | $50 pet fee first night. $25 each additional night. First floor only. Dogs only | Maximum Pet Weight: 45.0lbs | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    150.0,
+    300.0
+   ],
+   "fee_the_reader_computed_cents": 15000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $150.00 | Pet policy: $150(1-4n),$300(5+n)2petsMax,dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $100.00 | Max weight: 75 lbs | Max size: medium | Pet policy: $100 (1-4 nights),$125(5+ nights) 2 pets Max, 75lbs Max, DOGS ONLY",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0,
+    150.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pet Policy | Pets Welcome | Non Refundable Pet fee: $50 1-2 nights, $75 3-4 nights, $150 5+ night stays | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs | Max size: large | Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: large | Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium | Pet policy: 1-4 nights $75, 5+ nights $125. 2 pets Max,dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 75 lbs | Max size: large | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 75 lbs | Pet policy: $50(1-4n),$75(5+n) 2petsMax",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 100 lbs | Max size: large | Pet policy: $50(1-4 nights), $125(5+ nights) 2 Pet Max, Dog/Cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    100.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium | Pet policy: $75(1-4n),$100(5+n) 2 pets Max, dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 45 lbs | Pet policy: 1-4 nights: $75, 5+: $125, 2 pets Max, dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: small | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium | Pet policy: $125 (5+ night), 2 pets maximum, per pet. Dogs only.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: $50 (1-4n), $75(5+n) 2 pets max, dogs only.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium | Pet policy: $75(1-4nt),$125(5+nt) No More Than 2 pets per Room with combined weight of 75 pounds Domesticated Ca",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75 fee 1-4N, 2 pets max,dogs only $125 5-29N",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    150.0,
+    300.0
+   ],
+   "fee_the_reader_computed_cents": 15000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $150.00 | Pet policy: $150(1-4n)$300(5+n) 2petsMax,dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75(1-4n)$125(5+n)2pets Max,dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium | Pet policy: $75 per stay for 1-4 nights,$125 per stay for 5+nights-2 pets max, dog/cat only. SEE ADDITIONAL INF.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75 (1-4n), $125 (5+n) 2 pets Max, dog/cat only.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75 for 1 to 4 nights, $125.00 5+ nights 2pets Max, dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75 (1-4n), $125 (5+n) 2 pets Max, dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: large | Pet policy: $75(1-4 nights),$125(5 or more nights)+ tax 2 pets Max, dog or cat only. Pet fee non refundable. Max",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n), $125(5+n), 2 pets max, dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75(1-4n),$125(5+n) 2 pets max. Hotel accepts dogs only.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 12500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $125.00 | Max weight: 150 lbs | Pet policy: $75(1-4) $125(5 +) 2 pets Max dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs | Pet policy: 1-4 Nights, $75 5+ Nights, $125. Cats & dogs only 2 pet maximum. Leash required at all times. Guest",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75(1-4n)$125(5+n)2pets Max dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75(1-4nights), $125(5+n), 2 pets Max , dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: large | Pet policy: $75(1-29n), $125(30+) 2 pets Max,dog/cat ONLY",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    150.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n), $150(5+n) 2 pets max, dogs only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    150.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Your Pet Is Welcome, Too | At Hyatt Centric Downtown Denver, we understand your dogs are part of the family and want to explore | Pet Fees | 1-6 Nights $75 | 7-30 Nights $150 | Weight Limits | Maximum number of pets is 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    200.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "We Are Pet Friendly | Whether you're staying for a few days or settling in for a few weeks, our extended-stay hotel in Bro | Pet Fees | 1–6 nights $100 STAY | 7–30 nights (includes cleaning fee) $200 STAY | Weight Limits | Maximum number of pets is 2.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    200.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "We Are Pet Friendly | Your dogs are welcome at Hyatt House Denver Airport. Enjoy exploring the array of dog parks and walk | Pet Fees | 1–6 nights $100 | 7-30 nights + additional cleaning fee $200 | Weight Limits | Maximum number of pets is 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    200.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "We Are Pet Friendly | We welcome your canine companions, with two dogs allowed per room, provided they meet the weight lim | Pet Fees | 1-6 Nights $100 | 7-16 Nights (including cleaning fee) $200 | Weight Limits | Maximum number of pets is 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    175.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "We Are Pet Friendly | Hyatt House Denver Tech Center welcomes you and your dog. | Pet Fees | 1–6 nights: $75 STAY | 7–30 nights (includes cleaning fee) $175 STAY | Weight Limits | Maximum number of pets is 2.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    175.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets Are Welcome | Like the rest of Boulder, Hyatt Place Boulder/Pearl Street loves dogs. Please call our hotel at +1 3 | Pet Fees | 1-6 nights $75 | 7-30 nights (includes cleaning fee) $175 | Weight Limits | Maximum number of pets is 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    300.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pets Are Welcome | Whether you're here for a layover or staying a bit, bring your canine companion along to enjoy all t | Pet Fees | 1-6 nights / $100 / STAY | 7-30 nights + additional cleaning fee / $100 / STAY | 30+ nights + addtional cleaning fee / $300 / STAY | Weight Limits | Maximum number of pets is 2.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    200.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pets Are Welcome | We welcome your pets at Hyatt Place Denver/Cherry Creek. For stays exceeding 30 nights, please conta | Pet Fees | 1 - 6 nights $100 STAY | 7 - 30 nights $200 STAY | Weight Limits | Maximum number of pets is 2.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    200.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pets Are Welcome | You're welcome to bring your dog when you stay at Hyatt Place Denver / Downtown. Contact the hotel t | Pet Fees | 1 - 6 nights $100 | 7-30 nights + additional cleaning fee $200",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    200.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pets Are Welcome | We welcome your canine companions at Hyatt Place Denver-South/Park Meadows. All dogs must be housebr | Pet Fees | 1-6 nights $100 STAY | 7-30 nights additional cleaning fee $200 STAY | Weight Limits | Maximum number of pets is 2.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    175.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pets Are Welcome | We welcome your canine companions at Hyatt Place Denver Tech Center. Dogs only. All dogs must be hou | Pet Fees | 1–6 nights $100 | 7–30 nights (includes cleaning fee) $175 | Weight Limits | Maximum number of pets is 2.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    200.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pets Are Welcome | Bring your furry canine friend to our hotel in Westminster, Colorado. We offer complimentary dog tre | Pet Fees | 1-6 nights $100 | 7-30 nights $200 | Weight Limits | Maximum number of pets is 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    200.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pets Are Welcome | Bring your canine world traveler along for a relaxing layover. Maximum two dogs per room. For those | Pet Fees | 1–6 nights $100 | 7–30 nights + additional cleaning fee $200",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    200.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "We Are Pet Friendly | Pets are welcome at Hyatt Regency Denver Anschutz Medical Campus. We make it easier for pet lovers a | Pet Fees | 6 nights or less: $100 | 7 nights or more: $200 | Weight Limits | Maximum number of pets is 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "VIEW DETAILS Pet-Friendly Four-legged friends are welcome at every Limelight Hotel, and we'll do our best to ensure they have a comfortable stay just like you. Is Limelight Boulder a pet-friendly hotel? At check-in, your pet will be welcomed with their very own in-room pet bed and a complimentary water bowl, and will be offered a treat every time they return to the hotel. A non-refundable pet cleaning fee applies: $75 for stays of up to 5 nights, and $125 for stays longer than 5 nights. Pets are",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    100.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pet Policy | Pets Welcome. | $50 non-refundable fee per night (max fee total $100 per stay). | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    150.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pet Policy | Pets Welcome. | USD $50.00 non-refundable fee per room per night up to $150 per stay | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 1",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    150.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pet Policy | Pets Welcome | Non-Refundable: Dog $50 per night up to $150 per stay, max 2 dogs per room | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    20.0,
+    100.0
+   ],
+   "fee_the_reader_computed_cents": 2000,
+   "quote": "Pet Policy | Pets Welcome | $20/day (caps at 5 days) with $100/stay nonrefundable cleaning fee. | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    100.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pet Policy | Pets Welcome | Small dogs allowed with a USD 125 non-refundable fee per room per stay. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    100.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pet Policy | Pets Welcome | 2 dogs 50 lbs max per room with USD $100 non-refundable fee per room per stay. | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    150.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Sonesta Simply Suites Denver West Federal Center is pet-friendly and welcomes well-mannered pets, wi | $75 fee applies for stays up to 7 nights; $150 for all longer stays.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    150.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 25 lbs | Max size: medium | Pet policy: $75(1-4 nights), $150(5+ nights) 2 pets max, Dogs only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 75 lbs | Max size: medium | Pet policy: $50 1-4 nights, $125 5+ nights",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium | Pet policy: $75 plus tax for 1 to 4 nights $125 plus tax for 5 nights or more.",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    75.0,
+    125.0
+   ],
+   "fee_the_reader_computed_cents": 12500,
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $125.00 | Pet policy: $75(1-4n)$125(5+n)2pets Max,dog/cat only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    71.0,
+    532.0
+   ],
+   "fee_the_reader_computed_cents": 7100,
+   "quote": "Pet-friendly suite options are available, and housekeeping is provided every other week for guests staying longer. onditioning Free WiFi Room Details $71 USD /night Per Night View estimated total details $532 total Book Now Amenities Featured Amenities (30) Apartment-Style Suites Weekly Rates In-Room Kitchen Laundry* Government Travelers: FEMA Approved Pet Friendly* Free WiFi Vending Machines* Fitness Center View all amenities *May require an additional cost Location Explore Centennial parks, ar",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  }
+ ],
+ "unsafe": [
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs | Max size: medium | Pet policy: Dogs Only"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 80 lbs | Max size: large"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs | Max size: large | Pet policy: $75 non-refundable fee, 1 pet per room."
+  },
+  {
+   "fee_the_reader_computed_cents": 1500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "pets are allowed $15 non-refundable fee two pets are allowed Service animals will be exempt from this charge."
+  },
+  {
+   "fee_the_reader_computed_cents": 1500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "pets are allowed $15 non-refundable fee two pets are allowed Service animals will be exempt from this charge."
+  },
+  {
+   "fee_the_reader_computed_cents": 1500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "pets are allowed $15 non-refundable fee two pets are allowed Service animals will be exempt from this charge."
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pet Policy | Pets Welcome | Dogs only, 2 max, $75 non refundable fee. | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "fee_the_reader_computed_cents": 12500,
+   "why": "STAY_LENGTH_CONDITION -- the fee depends on how long the guest stays",
+   "quote": "We Are Pet Friendly | Grand Hyatt Denver is a dog-friendly hotel, and we'll warmly greet your pup with treats to make them | Pet Fees | 1–6 Nights $125 STAY | 7–30 Nights (Additional fee) $125 STAY | Weight Limits | Maximum number of pets is 2."
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 30 lbs | Max size: medium"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: 2 Pets Max, Dogs Only"
+  },
+  {
+   "fee_the_reader_computed_cents": 5000,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 50 lbs | Max size: medium | Pet policy: Pets on 3rd and 4th floor"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "STAY_LENGTH_CONDITION -- the fee depends on how long the guest stays",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium | Pet policy: From 1 to 4 nights we require a $75 non-refundable deposit."
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs"
+  },
+  {
+   "fee_the_reader_computed_cents": 5000,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 75 lbs"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: Maximum of 2 Pets, 125lbs combined. Dogs & Cats only."
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: large"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs | Max size: large"
+  },
+  {
+   "fee_the_reader_computed_cents": 10000,
+   "why": "STAY_LENGTH_CONDITION -- the fee depends on how long the guest stays",
+   "quote": "We Are Pet Friendly | Enjoy South Denver with your dog. Our hotel's pet-friendly program makes it easier for pet lovers an | Pet Fees | 6 nights or less $100 STAY | 7–30 nights $100 STAY $100 Deep-cleaning fee"
+  },
+  {
+   "fee_the_reader_computed_cents": 5000,
+   "why": "TWO_BASES -- the page states both a nightly and a per-stay basis for the fee",
+   "quote": "Pet Policy | Pets Welcome | Pets allowed with a $50 non-refundable deposit per stay. | Non-Refundable Pet Fee Per Night: ... | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "fee_the_reader_computed_cents": 15000,
+   "why": "AMOUNT_RANGE -- the page states a range, not one amount",
+   "quote": "Pet Policy | Pets Welcome | 2 pet max per room per stay with 75-150 USD non-refundable fee. | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "STAY_LENGTH_CONDITION -- the fee depends on how long the guest stays",
+   "quote": "Pet Policy | Pets Welcome | Hotel allows dogs only. $75, non-refundable fee per stay up to one week. | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "pets are permitted $75 fee Up to two pets cats and dogs only"
+  },
+  {
+   "fee_the_reader_computed_cents": 5000,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 50 lbs | Max size: large"
+  },
+  {
+   "fee_the_reader_computed_cents": 2000,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $20.00 | Max weight: 50 lbs"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 60 lbs | Max size: large | Pet policy: Dogs only."
+  },
+  {
+   "fee_the_reader_computed_cents": 5000,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pet-Friendly Hotel in Downtown Denver | Let us know prior to check-in that you'll be traveling with your pet; our thoughtful staff will fill | As part of our extensive hypoallergenic assurance, pet-friendly bookings incur a charge of $50 per n"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "STAY_LENGTH_CONDITION -- the fee depends on how long the guest stays",
+   "quote": "Hotel Policies | Pets | Pets Allowed: Yes | Pet Policy: Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, Dogs only, $75.00 per night up to 3 nights, Limit 2 dogs per room weight limit [75lbs/34kg]. | Max Size: Large | Max Weight: 75 lbs | Pet Fee: $75.00 Non-refundable"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "LEARN MORE Offers & Packages 01 / 08 Advance Purchase Book 7 days in advance & save 10% Bring Your Pup on a Colorado Adventure Dog Days Getaway 01 / 08 VIEW ALL OFFERS MEETINGS & EVENTS EXPLORE Our goal at The Parker Hotel is to leave those expectations in the foothills behind us. Is The Parker Hotel pet friendly? Yes, The Parker Hotel is a dog-friendly hotel. We charge a $75 non-refundable deposit, which includes a maximum of two pets. Please keep your dog on a leash when walking inside and aro"
+  },
+  {
+   "fee_the_reader_computed_cents": 20000,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pets Welcome $200 non-refundable pet fee"
+  },
+  {
+   "fee_the_reader_computed_cents": 5000,
+   "why": "TWO_BASES -- the page states both a nightly and a per-stay basis for the fee",
+   "quote": "Pet Policy | Pets Welcome. | $50 Pet Fee per Stay | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 80.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "fee_the_reader_computed_cents": 7500,
+   "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
+   "quote": "Pet Policy | Pets Welcome | $75 nonrefundable pet fee per room for dogs (excludes cats) | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "fee_the_reader_computed_cents": 10000,
+   "why": "STAY_LENGTH_CONDITION -- the fee depends on how long the guest stays",
+   "quote": "Pet Policy | Pets Welcome | Contact hotel for full pet policy. Pet fee variable based on length of stay. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Number of Pets in Room: 2"
+  }
+ ]
+}
