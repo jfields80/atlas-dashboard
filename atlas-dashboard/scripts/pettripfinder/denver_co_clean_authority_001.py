@@ -98,6 +98,11 @@ _REFUSAL = re.compile(
     # acceptance pattern's bare "pets allowed" and 17 Choice refusals were claimed pet-friendly -- the shared
     # reader (FAST rule C) caught every one as QUOTE_CONTRADICTS_CLAIM, so none published, but none resolved.
     r"|\bpets?\s+allowed\s*:\s*no\b", re.I)
+#: DENVER: the site's title limit -- a profile page's title is its H1 cut at this many characters by the shared SEO
+#: engine (engines/website_generation/constants/seo.py TITLE_MAX_LENGTH). Stated here, not imported: a market-local
+#: module may not import the website engine (the registration classifier refuses it), and FAST rule J builds the
+#: real site, so a drift between the two fails the seal rather than passing silently.
+TITLE_MAX_LENGTH = 60
 #: A brand states acceptance in several shapes: "Pets Welcome", "Your pet is welcome, too", "dog-friendly stays".
 _ACCEPT = re.compile(r"\b(?:pets?|dogs?|cats?)\s+(?:is\s+|are\s+)?(?:welcome|accepted|permitted|allowed)\b"
                      r"|\bpets?\s+allowed\b"
@@ -969,7 +974,6 @@ def build():
     # Greenwood Village" are both the brand's own names and share their first 60 characters). Shortening either
     # name would invent a name no source states, so BOTH are held; the display name each should carry is a
     # founder naming decision.
-    from engines.website_generation.constants.seo import TITLE_MAX_LENGTH
     by_title = {}
     for row in rows:
         if row["disposition"] in (CLEAN_PET_FRIENDLY, CLEAN_VERIFIED_NO_PETS):
