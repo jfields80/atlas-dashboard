@@ -33,13 +33,12 @@ WORK_ORDER = "PTF-DENVER-CO-HARDENED-SOURCE-READY-001"
 MARKET_ID = "denver-co"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-#: SHADOW_UNTIL_REGISTERED: a shadow market's partition belongs INSIDE its own staging launch_package, never at
-#: the registry package root -- the root is where a REGISTERED market's release contract references it, and
-#: writing there would put an unregistered market's document into shared space. The shadow seal reads it from
-#: the staging tree.
-OUT = os.path.join(PKG, "markets", "staging", MARKET_ID, "launch_package",
-                   "denver_co_final_partition_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "denver-co.json")
+#: REGISTERED (PTF-DENVER-CO-REGISTRATION-AND-STAGING-002): the partition now lives at the registry package
+#: root, where the registered market's release contract references it. While the market was
+#: SHADOW_UNTIL_REGISTERED it was written inside its own staging launch_package (the shadow seal still reads the
+#: sealed copy there).
+OUT = os.path.join(PKG, "denver_co_final_partition_001.json")
+CENSUS = os.path.join(PKG, "identity_census", "denver-co.json")
 CLEAN = os.path.join(REPORTS, "denver_co_clean_authority_001.json")
 AS_OF = "2026-09-27"
 

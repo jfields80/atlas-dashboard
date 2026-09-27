@@ -44,7 +44,7 @@ from scripts.pettripfinder import denver_co_geography_001 as GEO  # noqa: E402
 WORK_ORDER = "PTF-DENVER-CO-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "denver-co.json")
+CENSUS = os.path.join(PKG, "identity_census", "denver-co.json")
 ROUTING = os.path.join(REPORTS, "denver_co_routing_001.json")
 RECON = os.path.join(REPORTS, "denver_co_competitor_reconciliation_001.json")
 OUT = os.path.join(REPORTS, "denver_co_places_route_discovery_001.json")

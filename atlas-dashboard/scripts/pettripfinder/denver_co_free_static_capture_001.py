@@ -59,7 +59,7 @@ MARKET_ID = "denver-co"
 SCHEMA = "ptf-free-static-capture/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "denver-co.json")
+CENSUS = os.path.join(PKG, "identity_census", "denver-co.json")
 ROUTING = os.path.join(REPORTS, "denver_co_routing_001.json")
 SPACING_SECONDS = 1.2
 

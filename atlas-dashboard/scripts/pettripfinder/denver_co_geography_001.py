@@ -106,7 +106,7 @@ REPORTS = os.path.join(PKG, "markets", "reports")
 CONFIG_OUT = os.path.join(_DASH, "scripts", "pettripfinder", "discovery", "config", "denver_co.json")
 #: NOT registered by this order. A source-ready market's document lives under markets/proposed/ until a
 #: registration order moves it to the registry's markets/<id>.json.
-SHARD_OUT = os.path.join(PKG, "markets", "proposed", "denver-co.json")
+SHARD_OUT = os.path.join(PKG, "markets", "denver-co.json")
 REPORT_OUT = os.path.join(REPORTS, "denver_co_geography_001.json")
 REGISTRY_OUT = os.path.join(REPORTS, "denver_co_corridor_registry_001.json")
 AS_OF = "2026-09-27"

@@ -50,13 +50,13 @@ MARKET_ID = "denver-co"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 CLEAN = os.path.join(REPORTS, "denver_co_clean_authority_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "denver-co.json")
+CENSUS = os.path.join(PKG, "identity_census", "denver-co.json")
 STAGING = os.path.join(PKG, "markets", "staging", "denver-co")
 #: SHADOW: the policy package goes inside the staged launch_package (where the shadow seal reads it) and the
 #: proposed authority beside it in the market's own staging root. The ROLE NAME is already the one a later
 #: registration order needs at the package root.
-PACKAGE_OUT = os.path.join(STAGING, "launch_package", "hotel_policy_facts_denver-co.json")
-AUTHORITY_OUT = os.path.join(STAGING, "denver_co_proposed_authority_001.json")
+PACKAGE_OUT = os.path.join(PKG, "hotel_policy_facts_denver-co.json")
+AUTHORITY_OUT = os.path.join(PKG, "denver_co_proposed_authority_001.json")
 #: DENVER: every fee the package does NOT publish, and why -- machine-readable for the source-ready accounting.
 FEE_REPORT_OUT = os.path.join(REPORTS, "denver_co_fee_withholding_001.json")
 OBSERVED_AT = "2026-09-27"   # the day this market's own first-party reads were taken
