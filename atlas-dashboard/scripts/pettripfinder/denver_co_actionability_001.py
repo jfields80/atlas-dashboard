@@ -109,6 +109,9 @@ def classify(row, route):
             return FOUNDER, ("a dual-brand building is TWO hotels, each proved by its own brand code and page; "
                              "publishing them needs a same_campus_distinct_entity row in the SHARED "
                              "identity_resolutions.json, which this order may not write")
+        if why.startswith("SITE TITLE COLLISION"):
+            return FOUNDER, ("two first-party names share the site's 60-character title; which display name each "
+                             "carries is a founder naming decision -- " + why[:200])
         return EXHAUSTED, why[:300]
     return ACTIONABLE_NOW, "unrecognised disposition (never silently exhausted): " + disp
 

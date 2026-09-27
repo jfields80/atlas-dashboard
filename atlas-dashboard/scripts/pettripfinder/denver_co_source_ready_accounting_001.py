@@ -3,7 +3,7 @@
 Reads only committed reports and staged documents (nothing fetches) and writes one accounting document with:
 headline accounting, holds by class (the order's exact vocabulary), exclusions by class, corridor coverage,
 brand-by-brand acquisition accounting, provider-attempt accounting (static, Wyndham, ESA, independents' pages,
-Places, Firecrawl, supported browser), competitor reconciliation, the San Diego county / border boundary audit, negation /
+Places, Firecrawl, supported browser), competitor reconciliation, the Front Range boundary audit, negation /
 parser conflicts, and the remaining unresolved root causes.
 
 Output: launch_packages/pettripfinder/markets/reports/denver_co_source_ready_accounting_001.json
@@ -39,7 +39,7 @@ HOLD_CLASSES = OrderedDict([
 ])
 
 FAMILIES = [
-    ("MARRIOTT", r"marriott|courtyard by marriott|courtyard marriott|courtyard san diego|courtyard by|courtyard(?= (san diego|downtown|airport|old town|mission|liberty|carlsbad|oceanside|north|south))|residence inn|springhill|fairfield|towneplace|ac hotel|studiores|city express|aloft|westin|sheraton|"
+    ("MARRIOTT", r"marriott|courtyard|residence inn|springhill|fairfield|towneplace|ac hotel|studiores|city express|aloft|westin|sheraton|"
                  r"moxy|element|renaissance|delta hotels|autograph|tribute|four points|le meridien|ritz|st\. regis|w south beach|"
                  r"edition|luxury collection|design hotels|gaylord"),
     ("HILTON", r"hilton|hampton|embassy suites|homewood|home2|doubletree|double tree|tru by|tapestry|canopy|spark by|"
@@ -57,17 +57,14 @@ FAMILIES = [
                                                                         r"\bsls\b|mondrian|delano|hyde|\bsbe\b"),
     ("NOBU", r"\bnobu\b"), ("OMNI", r"\bomni\b"),
 ]
-#: Luxury / resort independents (not a chain family), reported as their own rows by name vocabulary. SAN
-#: DIEGO's own: La Jolla's cove-and-shores hotels, Coronado's resort campuses, Del Mar's and Rancho Santa Fe's
-#: resort inns, the Carlsbad resort campuses and the downtown luxury independents. Nothing is inherited.
-LUXURY_RX = re.compile(r"\b(la valencia|grande colonial|the lodge at torrey pines|estancia|la jolla beach (and|&) "
-                       r"tennis|the shores|pantai inn|l.?auberge del mar|fairmont grand del mar|rancho valencia|"
-                       r"the inn at rancho santa fe|hotel del coronado|loews coronado|coronado island marriott|"
-                       r"glorietta bay inn|1906 lodge|the del|park hyatt aviara|omni la costa|la costa resort|"
-                       r"cape rey|hotel solea|the seabird|mission pacific|pendry|the us grant|rancho bernardo inn|"
-                       r"catamaran resort|bahia resort|paradise point|the pearl|kona kai|humphreys|tower 23|"
-                       r"lafayette|horton grand|the guild|hotel republic|the sofia|the westgate|la pensione|"
-                       r"hotel del)\b", re.I)
+#: Luxury / boutique independents (not a chain family), reported as their own rows by name vocabulary. DENVER's
+#: own: the downtown and LoDo landmark and boutique hotels, Cherry Creek's independents and Boulder's historic
+#: hotels. Nothing is inherited.
+LUXURY_RX = re.compile(r"\b(the crawford|crawford hotel|oxford hotel|the oxford|halcyon|hotel teatro|the ramble|"
+                       r"source hotel|the source|maven|clayton members|urban cowboy|kinsley|rally hotel|"
+                       r"catbird|jacquard|hotel clio|st julien|hotel boulderado|boulderado|chautauqua|limelight|"
+                       r"gravity haus|populus|warwick|apiary|the art hotel|hotel born|magnolia hotel|"
+                       r"capitol hill mansion|the ritz|brown palace)\b", re.I)
 RESORT_RX = re.compile(r"\bresort\b", re.I)
 
 
@@ -186,13 +183,15 @@ def main():
         t["firecrawl_success"] += i["identity_key"] in fc_ok_by_key
         t["access_blocked"] += i["disposition"] == "ACCESS_BLOCKED"
         t["browser_capture_needed"] += i["disposition"] == "BROWSER_CAPTURE_NEEDED"
-    # SAN DIEGO: the attended-browser lane this order actually exercised (denver_co_browser_lane_001),
+    # the attended-browser lane this order actually exercised (denver_co_browser_lane_001),
     # counted per brand family so the brand table reports reads and denials, not a placeholder zero.
     _blp = os.path.join(R, "denver_co_browser_lane_001.json")
     _bl = json.load(open(_blp, encoding="utf-8")) if os.path.exists(_blp) else {}
     _browser_attempts, _browser_reads, _browser_denied = Counter(), Counter(), Counter()
     for _r in _bl.get("rows", []):
         _fam = _r.get("family") or ""
+        # the browser lane names two families differently from this table
+        _fam = {"ESA": "EXTENDED_STAY_AMERICA", "MOTEL6": "MOTEL6_STUDIO6"}.get(_fam, _fam)
         _browser_attempts[_fam] += 1
         if _r.get("outcome") == "READ":
             _browser_reads[_fam] += 1
@@ -212,23 +211,30 @@ def main():
     fc_cohort = Counter(r.get("cohort") for r in fc_rows)
     credits = fc.get("credits", {}) or {}
 
-    # PHASE 23 -- THE COUNTY / BORDER BOUNDARY AUDIT, framed for THIS market. Every OUTSIDE graph node is
+    # PHASE 23 -- THE FRONT RANGE BOUNDARY AUDIT, framed for THIS market. Every OUTSIDE graph node is
     # counted by the refused place its OWN postal code or municipality names; every brand card the Hilton city
     # pages refused by its own address is counted too, so a neighbour that only a brand card reached is SEEN.
-    refused_places = {
-        "ORANGE_COUNTY": (r"san clemente|dana point|san juan capistrano|laguna|mission viejo|irvine|anaheim|"
-                          r"newport beach|costa mesa|huntington beach|orange county|santa ana|tustin|aliso viejo|"
-                          r"lake forest", ("926", "927", "928")),
-        "TEMECULA_RIVERSIDE": (r"temecula|murrieta|menifee|wildomar|lake elsinore|pechanga|riverside|\bcorona\b",
-                               ("925",)),
-        "PALM_SPRINGS_COACHELLA": (r"palm springs|palm desert|rancho mirage|la quinta|indio|cathedral city|"
-                                   r"coachella", ("922",)),
-        "MEXICO_TIJUANA": (r"tijuana|rosarito|ensenada|baja california|mexico", ()),
-        "LOS_ANGELES": (r"los angeles|hollywood|santa monica|long beach|pasadena", tuple("90%d" % d for d in range(10))
-                        + tuple("91%d" % d for d in range(9))),
-        "SAN_DIEGO_COUNTY_REFUSED": (r"fallbrook|bonsall|valley center|pala|pauma|ramona|julian|borrego|alpine|"
-                                     r"jamul|pine valley|campo|camp pendleton", ()),
-    }
+    refused_places = OrderedDict([
+        ("COLORADO_SPRINGS", (r"colorado springs|manitou springs|\bmonument\b|woodland park|\bfountain\b",
+                              ("808", "809"))),
+        ("CASTLE_ROCK", (r"castle rock|castle pines|sedalia|larkspur|franktown", ("80104", "80108", "80109"))),
+        ("FORT_COLLINS_LOVELAND", (r"fort collins|loveland|windsor|johnstown|berthoud",
+                                   ("80521", "80524", "80525", "80526", "80528", "80537", "80538", "80550",
+                                    "80534", "80513"))),
+        ("GREELEY", (r"greeley|\bevans\b", ("80631", "80634", "80620"))),
+        ("ESTES_PARK", (r"estes park", ("80517",))),
+        ("MOUNTAIN_RESORTS", (r"breckenridge|keystone|frisco|silverthorne|dillon|copper mountain|\bvail\b|\bavon\b|"
+                              r"beaver creek|edwards|aspen|snowmass|winter park|fraser|granby|grand lake|steamboat|"
+                              r"glenwood springs|leadville",
+                              ("80424", "80435", "80443", "80498", "80482", "80442", "80446", "80447", "80451",
+                               "80487", "80477", "80461", "816"))),
+        ("I70_FOOTHILLS_AND_REFUSED_TOWNS", (r"idaho springs|georgetown|evergreen|conifer|black hawk|central city|"
+                                             r"nederland|lyons|firestone|frederick|dacono",
+                                             ("80452", "80444", "80439", "80433", "80422", "80427", "80466",
+                                              "80540"))),
+        ("PUEBLO_SOUTH", (r"pueblo|canon city", ("810", "812"))),
+        ("WYOMING", (r"cheyenne|laramie|wyoming", tuple("8%d" % d for d in range(20, 32)))),
+    ])
 
     def _place_of(city, postal, reason):
         txt = ("%s %s" % (city or "", reason or "")).lower()
@@ -274,14 +280,16 @@ def main():
         ("method", "Every OUTSIDE graph node counted by the refused place its OWN postal code (prefix) or "
                    "municipality names, plus every brand city-page card whose own address is a refused neighbour. "
                    "Admission is by the corridor registry over the property's own postal code and nothing else."),
-        ("orange_county", _pair("ORANGE_COUNTY")),
-        ("riverside_county_temecula", _pair("TEMECULA_RIVERSIDE")),
-        ("palm_springs_coachella", _pair("PALM_SPRINGS_COACHELLA")),
-        ("mexico_tijuana", _pair("MEXICO_TIJUANA")),
-        ("los_angeles", _pair("LOS_ANGELES")),
-        ("san_diego_county_refused_places", _pair("SAN_DIEGO_COUNTY_REFUSED")),
-        ("palm_springs_note", "Palm Springs lies outside the OSM observation box (lat 33.83); its discovery comes "
-                              "only from the brand lanes' own refused cards, and it is reported, never absorbed."),
+        ("colorado_springs", _pair("COLORADO_SPRINGS")),
+        ("castle_rock", _pair("CASTLE_ROCK")),
+        ("fort_collins_loveland", _pair("FORT_COLLINS_LOVELAND")),
+        ("greeley", _pair("GREELEY")),
+        ("estes_park", _pair("ESTES_PARK")),
+        ("mountain_resorts", _pair("MOUNTAIN_RESORTS")),
+        ("i70_foothills_and_refused_towns", _pair("I70_FOOTHILLS_AND_REFUSED_TOWNS")),
+        ("pueblo_south", _pair("PUEBLO_SOUTH")),
+        ("wyoming", _pair("WYOMING")),
+        ("boulder_ruling", GEO.BOULDER_RULING),
         ("rows_admitted_from_a_refused_postal_code", _admitted_outside),
         ("zero_admitted_outside", _admitted_outside == 0),
         ("county_boundary_rules", GEO.COUNTY_BOUNDARY_RULES),
@@ -290,8 +298,6 @@ def main():
     ])
 
     root = OrderedDict([
-        ("BROWSER_CAPTURE_NEEDED", "Marriott rows the paced attended-browser windows did not reach before Akamai's "
-                                   "per-window quota closed each window (see the Marriott accounting)."),
         ("ROUTING_HOLD", "no first-party route: no brand inventory row, bureau link or map website joined the "
                          "building, and Places route discovery was NOT run because its website field is an "
                          "Enterprise-SKU field whose free monthly allowance is already consumed (new spend)."),
@@ -381,7 +387,8 @@ def main():
                                                   ("answered", bpr.get("answered", 0)),
                                                   ("with_own_address", bpr.get("with_own_address", 0)),
                                                   ("by_family", bpr.get("by_family", {}))])),
-                ("retry_pass_why", "no retry pass was needed in this market"),
+                ("retry_pass_why", "pass 002 read the two IHG routes (Greenwood Village DTC) the census opened when "
+                                   "it stopped joining distinct IHG codes by a route-built city name"),
                 ("distinct_identities_attempted", len(fc_rows)),
                 ("by_cohort", OrderedDict(sorted((k, v) for k, v in fc_cohort.items() if k))),
                 ("publication_grade", fc_class.get("FIRECRAWL_PUBLICATION_GRADE", 0)),
@@ -395,6 +402,13 @@ def main():
                                          ("brand_page_reads", bpr.get("credits", {}))])),
             ])),
             ("supported_browser", OrderedDict([
+                ("attended_browser_lane", OrderedDict([
+                    ("attempts", _bl.get("attempts")), ("reads", _bl.get("reads")),
+                    ("challenge_denied", _bl.get("challenge_denied")), ("unbound", _bl.get("unbound")),
+                    ("attempts_by_family", OrderedDict(sorted(_browser_attempts.items()))),
+                    ("reads_by_family", OrderedDict(sorted(_browser_reads.items()))),
+                    ("akamai_bypassed", False), ("js_exfiltration", False), ("relay", False), ("captcha_solved", False),
+                ])),
                 ("source_ready_001_attempts", len(browser)),
                 ("source_ready_001_outcomes", OrderedDict(sorted(Counter(b["outcome"] for b in browser).items()))),
                 ("closure_002_queue", len(closure_browser)),
@@ -417,12 +431,20 @@ def main():
             ("matched_distinct_identities", recon.get("matched_distinct_identities")),
             ("true_missing_qualifying_candidates", recon.get("true_missing_qualifying_candidates")),
             ("true_missing_verified_by_places", places.get("gap_verdicts")),
+            ("true_missing_names", [r["bringfido_name"] for r in recon.get("rows", [])
+                                    if r.get("classification") == "TRUE_MISSING"]),
+            ("true_missing_disposition",
+             "not carried into the census: BringFido publishes no street, no free authorized identity lane (brand "
+             "inventory, six bureaux, the map, brand city pages) states one, and Places gap verification is new "
+             "spend this month; each stays a named competitor gap, never a published row"),
             ("excluded_stale_outside", recon.get("excluded_stale_outside")),
             ("review", recon.get("review")),
             ("matched_but_policy_unresolved", recon.get("matched_but_policy_unresolved")),
             ("counts", recon.get("counts")),
         ])),
         ("county_and_border_boundary", boundary),
+        ("fees", OrderedDict((k, v) for k, v in (L("denver_co_fee_withholding_001.json", {}) or {}).items()
+                             if k not in ("tiered", "unsafe"))),
         ("negation_and_parser_conflicts", clean.get("negation_conflicts_caught", [])),
         ("remaining_unresolved_root_causes", root),
     ])

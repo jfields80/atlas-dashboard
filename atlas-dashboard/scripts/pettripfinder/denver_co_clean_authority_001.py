@@ -963,6 +963,30 @@ def build():
             ("resolution_a_registration_order_should_add", "same_campus_distinct_entity"),
         ]))
 
+    # DENVER: TWO NAMES THE SITE CANNOT TELL APART. A profile page's title is its H1 cut at the shared SEO
+    # engine's TITLE_MAX_LENGTH, and the engine refuses to compile two pages with one title (FAST rule J measured
+    # it: "Extended Stay America Select Suites Denver - Tech Center South" and "... - Tech Center South -
+    # Greenwood Village" are both the brand's own names and share their first 60 characters). Shortening either
+    # name would invent a name no source states, so BOTH are held; the display name each should carry is a
+    # founder naming decision.
+    from engines.website_generation.constants.seo import TITLE_MAX_LENGTH
+    by_title = {}
+    for row in rows:
+        if row["disposition"] in (CLEAN_PET_FRIENDLY, CLEAN_VERIFIED_NO_PETS):
+            by_title.setdefault(row["canonical_name"][:TITLE_MAX_LENGTH], []).append(row)
+    for title, sharing in sorted(by_title.items()):
+        if len(sharing) < 2:
+            continue
+        names = sorted(r["canonical_name"] for r in sharing)
+        for row in sharing:
+            row["disposition"] = IDENTITY_MISMATCH_HOLD
+            row.pop("policy_facts", None)
+            row["hold_reason"] = (
+                "SITE TITLE COLLISION: %s share their first %d characters (%r), the site's title limit, and the "
+                "shared SEO engine refuses two pages with one title. Both names are first-party; shortening either "
+                "would invent a name, so both are held for a founder naming decision."
+                % (" / ".join(names), TITLE_MAX_LENGTH, title))
+
     counts = Counter(r["disposition"] for r in rows)
     pf = [r for r in rows if r["disposition"] == CLEAN_PET_FRIENDLY]
     np_ = [r for r in rows if r["disposition"] == CLEAN_VERIFIED_NO_PETS]
