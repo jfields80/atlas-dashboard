@@ -5,14 +5,15 @@
  "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
  "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
  "census_total": 441,
- "resolved": 335,
- "unresolved_total": 106,
+ "resolved": 334,
+ "unresolved_total": 107,
  "totals_by_class": {
   "ACTIONABLE_NOW": 0,
   "AUTHORIZED_ROUTER_EXHAUSTED": 38,
   "REQUIRES_NEW_PROVIDER": 0,
   "REQUIRES_NEW_SPEND": 52,
-  "REQUIRES_FOUNDER": 16
+  "REQUIRES_FOUNDER": 16,
+  "HELD_UNTIL_OPENING": 1
  },
  "by_disposition": {
   "ACCESS_BLOCKED": {
@@ -21,15 +22,17 @@
    "authorized_router_exhausted": 5,
    "requires_new_provider": 0,
    "requires_new_spend": 0,
-   "requires_founder": 0
+   "requires_founder": 0,
+   "held_until_opening": 0
   },
   "EVIDENCE_HOLD": {
-   "total": 9,
+   "total": 10,
    "actionable_now": 0,
    "authorized_router_exhausted": 9,
    "requires_new_provider": 0,
    "requires_new_spend": 0,
-   "requires_founder": 0
+   "requires_founder": 0,
+   "held_until_opening": 1
   },
   "IDENTITY_MISMATCH_HOLD": {
    "total": 19,
@@ -37,7 +40,8 @@
    "authorized_router_exhausted": 3,
    "requires_new_provider": 0,
    "requires_new_spend": 0,
-   "requires_founder": 16
+   "requires_founder": 16,
+   "held_until_opening": 0
   },
   "ROUTING_HOLD": {
    "total": 55,
@@ -45,7 +49,8 @@
    "authorized_router_exhausted": 3,
    "requires_new_provider": 0,
    "requires_new_spend": 52,
-   "requires_founder": 0
+   "requires_founder": 0,
+   "held_until_opening": 0
   },
   "SOURCE_SILENT": {
    "total": 18,
@@ -53,11 +58,12 @@
    "authorized_router_exhausted": 18,
    "requires_new_provider": 0,
    "requires_new_spend": 0,
-   "requires_founder": 0
+   "requires_founder": 0,
+   "held_until_opening": 0
   }
  },
  "actionable_unresolved_remaining": 0,
- "rows_gated_on_new_spend_provider_or_founder": 68,
+ "rows_gated_on_new_spend_provider_or_founder": 69,
  "new_spend_note": "no first-party route exists in any authorized lane (brand inventory, six bureau rosters, the map, the brand's own area lists); the only lane that finds one is Places website discovery, an Enterprise-SKU field whose free monthly allowance is already consumed -- new spend (the allowance renews 2026-10-01)",
  "attended_browser": {
   "attempts": 289,
@@ -423,6 +429,15 @@
    "disposition": "SOURCE_SILENT",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "echo suites denver north thornton opening early 2027",
+   "canonical_name": "ECHO Suites Denver North - Thornton - Opening Early 2027",
+   "corridor": "denver-co__thornton-northglenn-north-i25",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "the founder ruled it nonpublishing until the hotel opens and its first-party policy is revalidated -- PREOPENING_NOT_YET_OPEN -- the property's own first-party name states 'Opening Early 2027': the hotel is not open, so no profile publishes until it opens and its policy is revalidated. The first-party"
   },
   {
    "identity_key": "candlewood suites greenwood village dtc",

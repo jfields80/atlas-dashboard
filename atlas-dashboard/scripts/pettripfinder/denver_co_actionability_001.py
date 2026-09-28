@@ -50,7 +50,10 @@ EXHAUSTED = "AUTHORIZED_ROUTER_EXHAUSTED"
 NEW_PROVIDER = "REQUIRES_NEW_PROVIDER"
 NEW_SPEND = "REQUIRES_NEW_SPEND"
 FOUNDER = "REQUIRES_FOUNDER"
-CLASSES = (ACTIONABLE_NOW, EXHAUSTED, NEW_PROVIDER, NEW_SPEND, FOUNDER)
+#: DENVER (PTF-DENVER-CO-PREAUTH-PREOPENING-CORRECTION-003): a hotel whose own first-party name states it has not
+#: opened. No lane, spend or ruling reaches it today -- only its opening does, after which its policy is revalidated.
+PREOPENING = "HELD_UNTIL_OPENING"
+CLASSES = (ACTIONABLE_NOW, EXHAUSTED, NEW_PROVIDER, NEW_SPEND, FOUNDER, PREOPENING)
 
 #: Places route discovery is the ONLY lane that finds a website for a row no brand roster, bureau or map links.
 #: Its website field is an Enterprise-SKU field; the month's free allowance was already consumed by other markets
@@ -98,6 +101,9 @@ def classify(row, route):
         return EXHAUSTED, ("the property's own page served, bound, and states no operative pet policy; silence "
                            "is never a refusal, and only the operator publishing a policy changes it")
     if disp in ("EVIDENCE_HOLD", "NEGATION_HOLD"):
+        if why.startswith("PREOPENING_NOT_YET_OPEN"):
+            return PREOPENING, ("the founder ruled it nonpublishing until the hotel opens and its first-party policy "
+                                "is revalidated -- " + why[:200])
         if "ROUTE_DOMAIN_CONFLICT" in why:
             return FOUNDER, ("two first-party routes for one premises; which one the package cites is a routing "
                              "ruling -- " + why[:200])
@@ -159,7 +165,8 @@ def build():
          bool(shadow.get("PACKAGE_REPRODUCIBLE_IN_PROCESS")) and bool(fast)
          and all(v == "PASS" for v in fast.values())),
     ])
-    gated = totals.get(NEW_SPEND, 0) + totals.get(NEW_PROVIDER, 0) + totals.get(FOUNDER, 0)
+    gated = (totals.get(NEW_SPEND, 0) + totals.get(NEW_PROVIDER, 0) + totals.get(FOUNDER, 0)
+             + totals.get(PREOPENING, 0))
     if actionable_total:
         coverage = "NO"
     elif gated:

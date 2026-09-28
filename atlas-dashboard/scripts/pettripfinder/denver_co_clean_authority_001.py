@@ -103,6 +103,9 @@ _REFUSAL = re.compile(
 #: module may not import the website engine (the registration classifier refuses it), and FAST rule J builds the
 #: real site, so a drift between the two fails the seal rather than passing silently.
 TITLE_MAX_LENGTH = 60
+#: DENVER: a property's own name stating that it has not opened ("Opening Early 2027", "Coming Soon").
+_PREOPENING = re.compile(r"\b(?:opening|opens)\s+(?:(?:early|late|mid|spring|summer|fall|autumn|winter|in|q[1-4])\s+)?(?:20\d\d)\b"
+                         r"|\bcoming\s+soon\b|\bopening\s+soon\b", re.I)
 #: A brand states acceptance in several shapes: "Pets Welcome", "Your pet is welcome, too", "dog-friendly stays".
 _ACCEPT = re.compile(r"\b(?:pets?|dogs?|cats?)\s+(?:is\s+|are\s+)?(?:welcome|accepted|permitted|allowed)\b"
                      r"|\bpets?\s+allowed\b"
@@ -923,6 +926,7 @@ def build():
     # resolution a registration order should add is named in the reason. Left unheld, the site generator folds
     # the pair into one profile and the release gates refuse the build.
     same_premises = []
+    preopening_held = []
     _census_by_key = {h["identity_key"]: h for h in hotels}
     resolved_keys = set()
     try:
@@ -968,6 +972,33 @@ def build():
             ("resolution_a_registration_order_should_add", "same_campus_distinct_entity"),
         ]))
 
+    # DENVER: A HOTEL THAT IS NOT YET OPEN DOES NOT PUBLISH (PTF-DENVER-CO-PREAUTH-PREOPENING-CORRECTION-003).
+    # Wyndham's own property service names 13560 Grant St "ECHO Suites Denver North - Thornton - Opening Early
+    # 2027": the pet policy it states is first-party and genuine, but a traveller cannot stay at a hotel that does
+    # not operate yet. The founder ruled it nonpublishing until it is open and revalidated. It is HELD -- never
+    # VERIFIED_NO_PETS, never deleted -- and its first-party evidence and the facts it would publish are kept on
+    # the row for that revalidation.
+    for row in rows:
+        if row["disposition"] not in (CLEAN_PET_FRIENDLY, CLEAN_VERIFIED_NO_PETS):
+            continue
+        h = _census_by_key.get(row["identity_key"]) or {}
+        stated = _PREOPENING.search(h.get("canonical_name") or "")
+        if not stated:
+            continue
+        row["disposition_before_preopening_hold"] = row["disposition"]
+        if "policy_facts" in row:
+            row["policy_facts_for_revalidation"] = row.pop("policy_facts")
+        row["disposition"] = EVIDENCE_HOLD
+        row["hold_reason"] = (
+            "PREOPENING_NOT_YET_OPEN -- the property's own first-party name states %r: the hotel is not open, so "
+            "no profile publishes until it opens and its policy is revalidated. The first-party evidence is kept "
+            "on this row; this is not a refusal and never a verified no-pets." % stated.group(0))
+        preopening_held.append(OrderedDict([
+            ("identity_key", row["identity_key"]), ("canonical_name", h.get("canonical_name")),
+            ("street", h.get("street")), ("postal_code", h.get("postal_code")),
+            ("official_url", h.get("official_url")), ("stated_opening", stated.group(0)),
+            ("disposition_before_hold", row["disposition_before_preopening_hold"])]))
+
     # DENVER: TWO NAMES THE SITE CANNOT TELL APART. A profile page's title is its H1 cut at the shared SEO
     # engine's TITLE_MAX_LENGTH, and the engine refuses to compile two pages with one title (FAST rule J measured
     # it: "Extended Stay America Select Suites Denver - Tech Center South" and "... - Tech Center South -
@@ -1007,6 +1038,11 @@ def build():
         ("negation_conflicts_caught", negation_conflicts),
         ("one_artifact_many_premises_held", shared_documents),
         ("same_premises_two_identities_held", same_premises),
+        ("preopening_held", preopening_held),
+        ("preopening_rule",
+         "A property whose own first-party name states it has not opened yet ('Opening Early 2027', 'Coming "
+         "Soon') is HELD (EVIDENCE_HOLD, hold reason PREOPENING_NOT_YET_OPEN) until it opens and its policy is "
+         "revalidated; its evidence is kept, and it is never a verified no-pets."),
         ("same_premises_rule",
          "Two rows that share one premises publish only when a committed same_campus_distinct_entity "
          "resolution for that address_key names both. This order writes no shared document, so both "

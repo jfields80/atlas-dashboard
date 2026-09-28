@@ -136,21 +136,33 @@
    "resolution_a_registration_order_should_add": "same_campus_distinct_entity"
   }
  ],
+ "preopening_held": [
+  {
+   "identity_key": "echo suites denver north thornton opening early 2027",
+   "canonical_name": "ECHO Suites Denver North - Thornton - Opening Early 2027",
+   "street": "13560 Grant Street",
+   "postal_code": "80241",
+   "official_url": "https://www.wyndhamhotels.com/echo-suites/thornton-colorado/echo-suites-extended-stay-denver-north-thornton/overview",
+   "stated_opening": "Opening Early 2027",
+   "disposition_before_hold": "CLEAN_PET_FRIENDLY"
+  }
+ ],
+ "preopening_rule": "A property whose own first-party name states it has not opened yet ('Opening Early 2027', 'Coming Soon') is HELD (EVIDENCE_HOLD, hold reason PREOPENING_NOT_YET_OPEN) until it opens and its policy is revalidated; its evidence is kept, and it is never a verified no-pets.",
  "same_premises_rule": "Two rows that share one premises publish only when a committed same_campus_distinct_entity resolution for that address_key names both. This order writes no shared document, so both halves of each dual-brand building are HELD and the resolution a registration order should add is named in the hold reason.",
  "one_artifact_many_premises_rule": "A document that is the only policy evidence for more than one census premises establishes a policy for NONE of them. A multi-property operator's shared landing page is the common case in Fort Lauderdale (Hollywood's Richard's Motel family of lodgings), and re-armed here. The inverse of the rule that two pages claiming one address publish neither.",
  "counts": {
   "ACCESS_BLOCKED": 5,
-  "CLEAN_PET_FRIENDLY": 289,
+  "CLEAN_PET_FRIENDLY": 288,
   "CLEAN_VERIFIED_NO_PETS": 46,
-  "EVIDENCE_HOLD": 9,
+  "EVIDENCE_HOLD": 10,
   "IDENTITY_MISMATCH_HOLD": 19,
   "ROUTING_HOLD": 55,
   "SOURCE_SILENT": 18
  },
- "valid_pet_friendly": 289,
+ "valid_pet_friendly": 288,
  "valid_verified_no_pets": 46,
- "resolved": 335,
- "unresolved": 106,
+ "resolved": 334,
+ "unresolved": 107,
  "rows": [
   {
    "identity_key": "7 star motel",
@@ -2193,14 +2205,16 @@
     "document_sha256": "a730edf1c2080d8fdd3caa399c27448b4eb9f7ed655b987e884b5ae3c8b3dab9",
     "captured_via": "the brand's own property-service API (same JSON the overview page renders)"
    },
-   "disposition": "CLEAN_PET_FRIENDLY",
-   "policy_facts": {
+   "disposition": "EVIDENCE_HOLD",
+   "disposition_before_preopening_hold": "CLEAN_PET_FRIENDLY",
+   "policy_facts_for_revalidation": {
     "pet_fee_cents": null,
     "fee_currency": null,
     "fee_refundable": null,
     "max_pet_weight_lbs": 75.0,
     "max_pet_count": null
-   }
+   },
+   "hold_reason": "PREOPENING_NOT_YET_OPEN -- the property's own first-party name states 'Opening Early 2027': the hotel is not open, so no profile publishes until it opens and its policy is revalidated. The first-party evidence is kept on this row; this is not a refusal and never a verified no-pets."
   },
   {
    "identity_key": "echo suites extended stay by wyndham aurora denver",
