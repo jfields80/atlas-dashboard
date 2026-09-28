@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-SAN-DIEGO-CA-PRODUCTION-DEPLOYMENT-004",
+ "reviewed_by": "PTF-DENVER-CO-PRODUCTION-DEPLOYMENT-005",
  "live": {
-  "deploy_id": "6ab859787d349f8397e1450a",
-  "deployed_by": "PTF-SAN-DIEGO-CA-PRODUCTION-DEPLOYMENT-004",
-  "authorization_id": "ptf-auth-san-diego-003-553a858f2590",
-  "deployment_record_id": "ptf-deploy-san-diego-004-6ab859787d349f8397e1450a",
-  "previous_deploy_id": "6ab6c8798bd9daf5038ae3e5",
-  "source_commit": "34d523d9792499c9a7c413eddac3dc6e8d54d135",
-  "bundle_sha256": "553a858f2590094127ce68e63992c2c3dff969fcdc8f290decf112791f447eec",
-  "sitemap_sha256": "4f648fff6eaf50f7f7614eefda2639ac10c5cb678e77ef6fd15af60c89c0173e",
+  "deploy_id": "6aba7587ddcc33a192bdf694",
+  "deployed_by": "PTF-DENVER-CO-PRODUCTION-DEPLOYMENT-005",
+  "authorization_id": "ptf-auth-denver-004-7d3471c79e2d",
+  "deployment_record_id": "ptf-deploy-denver-005-6aba7587ddcc33a192bdf694",
+  "previous_deploy_id": "6ab859787d349f8397e1450a",
+  "source_commit": "5bc62502a74407af6c9eadc7b5325c1ea521cccb",
+  "bundle_sha256": "7d3471c79e2d20d01c69e6dbd134bd3a5caec35e35967958f797decd06ee338a",
+  "sitemap_sha256": "5d3d07a4c96563c0147cdca2ad0061ea437fee9748bc5cd3169eefe083712a2c",
   "participating_markets": [
    "asheville-nc",
    "atlanta-ga",
@@ -22,6 +22,7 @@
    "cleveland-akron-canton-oh",
    "columbus-oh",
    "dayton-oh",
+   "denver-co",
    "fayetteville-nc",
    "fort-lauderdale-fl",
    "grand-rapids-holland-mi",
@@ -59,6 +60,7 @@
    "cleveland-akron-canton-oh": 120,
    "columbus-oh": 88,
    "dayton-oh": 54,
+   "denver-co": 288,
    "fayetteville-nc": 26,
    "fort-lauderdale-fl": 85,
    "grand-rapids-holland-mi": 43,
@@ -85,19 +87,19 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 2666,
-  "sitemap_route_count": 3037,
-  "total_html_pages": 16184,
-  "total_files": 16202,
-  "rollback_target": "6ab6c8798bd9daf5038ae3e5",
-  "note": "San Diego / Coastal San Diego County joined as the THIRTY-FIFTH market at 147 published pet-friendly profiles over 14 publishing corridors (carlsbad, del-mar-solana-beach, downtown-gaslamp-waterfront, east-county-i8, escondido-san-marcos-vista, la-jolla, mission-pacific-beach, mission-valley-hotel-circle, oceanside, old-town-midway, point-loma-shelter-island-airport, rancho-bernardo-poway-i15, south-bay-chula-vista, utc-golden-triangle-sorrento), on package pkg-san-diego-ca-5d5ffd65bf1262a1. Built from zero on the Jacksonville-live lineage, registered as COMPOSITE_FRESH_MARKET_DATA_ONLY with 0 broad regression runs, and founder-authorized once (PTF-SAN-DIEGO-CA-FOUNDER-LAUNCH-AUTHORIZATION-003) -- this market's FIRST authorization and FIRST deployment, so nothing was superseded. The exact authorized artifact was deployed with no rebuild: the served sitemap hashes to the authorized candidate, the served route SET is identical to it, all 2874 parent routes refetched 200 with 0 lost, all 163 San Diego routes are live, and every unpublished census row returns 404 -- the 130 rows with no first-party website, the 10 rows in five dual-brand buildings (no identity_resolutions.json ruling written), the 52 other held rows and the 92 verified-no-pets rows, which publish only as exclusions. Orange County, Riverside / Temecula, Palm Springs and Tijuana remain refused. The other 6 corridors stay below their own publication minimum and were not forced. Rollback is the deployment San Diego replaced (Jacksonville-live, 34 markets).",
-  "rollback_record": "ptf-deploy-jacksonville-004-6ab6c8798bd9daf5038ae3e5.json"
+  "total_profiles": 2954,
+  "sitemap_route_count": 3343,
+  "total_html_pages": 17886,
+  "total_files": 17904,
+  "rollback_target": "6ab859787d349f8397e1450a",
+  "note": "Denver / Boulder / Front Range, Colorado joined as the THIRTY-SIXTH market and the first Colorado market at 288 published pet-friendly profiles over 16 publishing corridors (aurora, boulder, central-park-lowry-i70, cherry-creek-glendale, den-airport, denver-tech-center, downtown-lodo-union-station, golden-red-rocks, highlands-rino-north-denver, lakewood-wheat-ridge, littleton-englewood, longmont-erie, louisville-superior-lafayette, parker-southeast, thornton-northglenn-north-i25, westminster-broomfield), on package pkg-denver-co-07f10db29ab56d98. Built from zero on the San Diego-live lineage, registered as COMPOSITE_FRESH_MARKET_DATA_ONLY with 0 broad regression runs, corrected before authorization (the not-yet-open ECHO Suites Thornton held), and founder-authorized once (PTF-DENVER-CO-FOUNDER-LAUNCH-AUTHORIZATION-004; the superseded 289-profile package pkg-denver-co-91b2e0a2 was refused) -- this market's FIRST authorization and FIRST deployment, so nothing was superseded. The exact authorized artifact was deployed with no rebuild: the served sitemap hashes to the authorized candidate, the served route SET is identical to it, all 3037 parent routes refetched 200 with 0 lost, all 306 Denver routes are live, and every unpublished census row returns 404 -- 52 with no first-party website, 16 founder-decision rows (seven dual-brand buildings, no identity_resolutions.json ruling written; two ESA title collisions, no display name invented), 38 router-exhausted, the not-yet-open ECHO Suites Thornton and the 46 verified-no-pets rows, which publish only as exclusions. Colorado Springs, Fort Collins / Loveland, Estes Park and the ski resorts remain refused. The other 4 corridors stay below their own publication minimum and were not forced. Rollback is the deployment Denver replaced (San Diego-live, 35 markets).",
+  "rollback_record": "ptf-deploy-san-diego-004-6ab859787d349f8397e1450a.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "553a858f2590094127ce68e63992c2c3dff969fcdc8f290decf112791f447eec",
-  "sitemap_sha256": "4f648fff6eaf50f7f7614eefda2639ac10c5cb678e77ef6fd15af60c89c0173e",
+  "bundle_sha256": "7d3471c79e2d20d01c69e6dbd134bd3a5caec35e35967958f797decd06ee338a",
+  "sitemap_sha256": "5d3d07a4c96563c0147cdca2ad0061ea437fee9748bc5cd3169eefe083712a2c",
   "participating_markets": [
    {
     "market_id": "asheville-nc",
@@ -167,6 +169,13 @@
     "published_profiles": 54,
     "release_contract": "deploy/netlify/release_contracts/dayton-oh.json",
     "release_contract_sha256": "d0805ffa32b52b58336a27f809615c8fed1f41ea60278832ca930e04d5d3573b",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "denver-co",
+    "published_profiles": 288,
+    "release_contract": "deploy/netlify/release_contracts/denver-co.json",
+    "release_contract_sha256": "2d1f35839cba1157dbd2933605cf354b1d2771a82719670385da9c45491bc9e7",
     "contract_disagreements": []
    },
    {
@@ -356,6 +365,7 @@
    "cleveland-akron-canton-oh": 120,
    "columbus-oh": 88,
    "dayton-oh": 54,
+   "denver-co": 288,
    "fayetteville-nc": 26,
    "fort-lauderdale-fl": 85,
    "grand-rapids-holland-mi": 43,
@@ -382,9 +392,9 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 2666,
-  "sitemap_route_count": 3037,
-  "total_html_pages": 16184,
-  "total_files": 16202
+  "total_profiles": 2954,
+  "sitemap_route_count": 3343,
+  "total_html_pages": 17886,
+  "total_files": 17904
  }
 }
