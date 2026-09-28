@@ -1,0 +1,32 @@
+{
+ "schema": "ptf-independent-reproduction/1.0",
+ "work_order": "PTF-DENVER-CO-PREAUTH-PREOPENING-CORRECTION-003",
+ "market_id": "denver-co",
+ "worktree": "C:/t/den3b-wt (git worktree add --detach 9db7ac6d; removed afterwards)",
+ "process_record": "independent_reproduction_process_003.txt (written before either process started)",
+ "step_1_data_chain": {
+  "ran": "denver_co_clean_authority_001, denver_co_actionability_001, denver_co_final_partition_001, denver_co_registration_staging_001 --write, market_registration_cli --write, build_global_authority --check",
+  "result": "PF 288 / NP 46 / resolved 334 / unresolved 107 / actionable 0; all generated artifacts match the shards",
+  "worktree_files_changed_after_rederivation": 0,
+  "DIFFERING_FILES": 0
+ },
+ "step_2_seal": {
+  "command": "python -m scripts.pettripfinder.registration_release_lane seal --market denver-co --work C:/t/den3b (separate OS process, no --work-order, no pin written)",
+  "reproduction_package": "pkg-denver-co-e3d81769c0b1af44",
+  "registered_package": "pkg-denver-co-07f10db29ab56d98",
+  "why_the_ids_differ": "created_from_source_sha is a digested provenance field: the registered seal ran on 1b30054f's tree plus the uncommitted correction (the canonical sequence seals, THEN commits), the reproduction on the committed 9db7ac6d. sealed_at differs too but is not digested.",
+  "package_fields_compared": 127814,
+  "package_fields_differing": 4,
+  "differing_fields": ["created_from_source_sha", "sealed_at", "package_digest", "package_id"],
+  "reproduction_digest_under_the_registered_provenance": "sha256:07f10db29ab56d982490df7341831d731c8015e198d9805572730113056c6707",
+  "equals_registered_digest": true,
+  "documents_equal_under_the_registered_provenance": true,
+  "bundle_sha256": {"registered": "475633a2d3c1553b19352927c29232d787da15e62eedc467341c103a2d278ce2",
+                    "reproduction": "475633a2d3c1553b19352927c29232d787da15e62eedc467341c103a2d278ce2"},
+  "built_site_files_compared": 1723,
+  "built_site_files_differing": 0,
+  "fast": {"registered": "15/15 PASS, ELIGIBLE YES, K BYTE_IDENTICAL", "reproduction": "15/15 PASS, ELIGIBLE YES, K BYTE_IDENTICAL"}
+ },
+ "BYTE_IDENTICAL": "YES (same package content and digest under the same provenance; built site 1723/1723 identical; re-derived documents 0 differing)",
+ "DIFFERING_FILES": 0
+}

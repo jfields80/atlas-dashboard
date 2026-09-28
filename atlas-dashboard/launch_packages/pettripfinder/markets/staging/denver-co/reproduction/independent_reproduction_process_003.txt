@@ -1,0 +1,7 @@
+PTF-DENVER-CO-PREAUTH-PREOPENING-CORRECTION-003 -- independent reproduction process record (written BEFORE the processes start)
+recorded_at: 2026-09-28T00:16:56Z
+worktree: C:/t/den3b-wt (git worktree add --detach, commit 9db7ac6d)
+step 1 (data chain, separate process): denver_co_clean_authority_001, denver_co_actionability_001, denver_co_final_partition_001, denver_co_registration_staging_001 --write, market_registration_cli --write, build_global_authority --check; then git status must be clean (every re-derived Denver document byte-identical to the committed one)
+step 2 (seal, separate OS process): python -m scripts.pettripfinder.registration_release_lane seal --market denver-co --work C:/t/den3b   (no --work-order: the reproduction writes no pin)
+work_dir: C:/t/den3b (the sealing run used C:/t/den3a)
+expected: pkg-denver-co-07f10db29ab56d98, sha256:07f10db29ab56d982490df7341831d731c8015e198d9805572730113056c6707, bundle 475633a2..., FAST 15/15; built site file-by-file identical to C:/t/den3a/oa/site
