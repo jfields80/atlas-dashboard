@@ -65,6 +65,21 @@ TIMESHARE_CODES = {
                             "Vacations vacation-ownership resort, so named on Hilton's own city-page card"),
     ("HILTON", "phxragv"): ("TIMESHARE -- Hilton Vacation Club Rancho Manana (Cave Creek 85331) is a Hilton Grand "
                             "Vacations vacation-ownership resort, so named on Hilton's own city-page card"),
+    # PTF-PHOENIX-AZ-PREAUTH-VACATION-OWNERSHIP-CORRECTION-003: WYNDHAM'S VACATION CLUBS. Wyndham's own property
+    # service files these four under its 'wyndham-vacations' brand segment ('Wyndham Vacation Clubs'), each overview
+    # page carries Wyndham's notice 'WYNDHAM VACATION RESORTS REQUIRE A NIGHT MINIMUM STAY', and the clubs' own sites
+    # describe them as vacation ownership (Club Wyndham: 'Club Wyndham Timeshare', owners and their ownership;
+    # WorldMark: 'WorldMark owners', ownership, dues and loans). The source-ready order's code list covered the
+    # Marriott, IHG, Choice and Hilton clubs but not this family, so they were admitted and recorded
+    # VERIFIED_NO_PETS. Evidence: markets/reports/phoenix_az_vacation_ownership_evidence_003.json.
+    ("WYNDHAM", "51351"): ("TIMESHARE -- Club Wyndham Legacy Golf Resort (6808 S 32nd St, 85042) is a Club Wyndham "
+                           "vacation-ownership resort in Wyndham's own 'wyndham-vacations' segment"),
+    ("WYNDHAM", "51349"): ("TIMESHARE -- Club Wyndham Orange Tree Resort (10601 N 56th St, 85254) is a Club Wyndham "
+                           "vacation-ownership resort in Wyndham's own 'wyndham-vacations' segment"),
+    ("WYNDHAM", "52342"): ("TIMESHARE -- WorldMark Phoenix - South Mountain Preserve (4647 E Francisco Dr, 85044) is a "
+                           "WorldMark by Wyndham vacation-ownership resort in Wyndham's own 'wyndham-vacations' segment"),
+    ("WYNDHAM", "52344"): ("TIMESHARE -- WorldMark Scottsdale (8235 E Indian Bend Rd, 85250) is a WorldMark by Wyndham "
+                           "vacation-ownership resort in Wyndham's own 'wyndham-vacations' segment"),
 }
 
 
