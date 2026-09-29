@@ -1,0 +1,42 @@
+{
+ "schema": "ptf-independent-reproduction/1.0",
+ "work_order": "PTF-PHOENIX-AZ-PREAUTH-VACATION-OWNERSHIP-CORRECTION-003",
+ "market_id": "phoenix-az",
+ "worktree": "C:/t/phx3b-wt (git worktree add --detach d6fba323; removed afterwards)",
+ "process_record": "independent_reproduction_process_003.txt (written before either process started)",
+ "step_1_data_chain": {
+  "ran": "phoenix_az_census_reconciliation_001, phoenix_az_routing_001, phoenix_az_browser_lane_001, phoenix_az_clean_authority_001, phoenix_az_actionability_001, phoenix_az_final_partition_001, phoenix_az_registration_staging_001 --write, phoenix_az_competitor_reconciliation_001, phoenix_az_source_ready_accounting_001, market_registration_cli --write, build_global_authority --check, phoenix_az_release_contract_002",
+  "result": "census 484; PF 256 / NP 59 / resolved 315 / unresolved 169 / actionable 0; all generated artifacts match the shards; release contract 0 disagreements",
+  "worktree_files_changed_after_rederivation": 0,
+  "DIFFERING_FILES": 0
+ },
+ "step_2_seal": {
+  "command": "python -m scripts.pettripfinder.registration_release_lane seal --market phoenix-az --work C:/t/phx3b (separate OS process, no --work-order, no pin written)",
+  "reproduction_package": "pkg-phoenix-az-8ccb9a8e921b5e34",
+  "registered_package": "pkg-phoenix-az-07f7e75699af6a8c",
+  "why_the_ids_differ": "created_from_source_sha is a digested provenance field: the registering seal ran on 1c89cd4f's tree plus the uncommitted correction (the canonical sequence seals, THEN commits), the reproduction on the committed d6fba323. sealed_at differs too but is not digested.",
+  "package_fields_compared": 152104,
+  "package_fields_differing": 4,
+  "differing_fields": [
+   "/created_from_source_sha",
+   "/package_digest",
+   "/package_id",
+   "/sealed_at"
+  ],
+  "reproduction_digest_under_the_registered_provenance": "sha256:07f7e75699af6a8cefe5f083b688f647c55190f04aae0cd0617292968ab0fccf",
+  "equals_registered_digest": true,
+  "documents_equal_under_the_registered_provenance": true,
+  "bundle_sha256": {
+   "registered": "ea2a8d31aadf5dcb5a20aa4872e5f761596fc5fe348f409c23c72952fcfa8d69",
+   "reproduction": "ea2a8d31aadf5dcb5a20aa4872e5f761596fc5fe348f409c23c72952fcfa8d69"
+  },
+  "built_site_files_compared": 1553,
+  "built_site_files_differing": 0,
+  "fast": {
+   "registered": "15/15 PASS, ELIGIBLE YES, K BYTE_IDENTICAL",
+   "reproduction": "15/15 PASS, ELIGIBLE YES, K BYTE_IDENTICAL"
+  }
+ },
+ "BYTE_IDENTICAL": "YES (same package content and digest under the same provenance; built site 1553/1553 identical; re-derived documents 0 differing)",
+ "DIFFERING_FILES": 0
+}
