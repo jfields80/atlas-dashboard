@@ -1,0 +1,1613 @@
+{
+ "schema": "ptf-market-actionability/2.0",
+ "work_order": "PTF-PHOENIX-AZ-HARDENED-SOURCE-READY-001",
+ "market_id": "phoenix-az",
+ "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
+ "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
+ "census_total": 488,
+ "resolved": 319,
+ "unresolved_total": 169,
+ "totals_by_class": {
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 88,
+  "REQUIRES_NEW_PROVIDER": 0,
+  "REQUIRES_NEW_SPEND": 48,
+  "REQUIRES_FOUNDER": 30,
+  "HELD_UNTIL_OPENING": 3
+ },
+ "by_disposition": {
+  "ACCESS_BLOCKED": {
+   "total": 7,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 7,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "EVIDENCE_HOLD": {
+   "total": 22,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 17,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 2,
+   "held_until_opening": 3
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "total": 49,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 21,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 28,
+   "held_until_opening": 0
+  },
+  "ROUTING_HOLD": {
+   "total": 61,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 13,
+   "requires_new_provider": 0,
+   "requires_new_spend": 48,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "SOURCE_SILENT": {
+   "total": 30,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 30,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  }
+ },
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 81,
+ "new_spend_note": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)",
+ "attended_browser": {
+  "attempts": 286,
+  "reads": 252,
+  "challenge_denied": 0,
+  "unbound": 9,
+  "paid_provider_calls": 0,
+  "akamai_bypassed": false,
+  "browser_js_exfiltration_used": false,
+  "local_relay_used": false
+ },
+ "coverage_conditions": {
+  "actionable_unresolved_is_zero": true,
+  "no_material_identity_gap": true,
+  "no_material_unexplained_policy_gap": true,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
+  "publication_set_safe": true,
+  "package_deterministic_and_fast_clean": false
+ },
+ "COVERAGE_READY": "FOUNDER DECISION",
+ "TECHNICAL_SOURCE_READY": "NO",
+ "rows": [
+  {
+   "identity_key": "boulders resort and spa scottsdale",
+   "canonical_name": "Boulders Resort & Spa Scottsdale",
+   "corridor": "phoenix-az__north-scottsdale",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own page served, but its pet-policy accordion never exposed its text to the attended browser on two bounded attempts (the panel did not open or the renderer froze); nothing was read and nothing is inferred (https://www.hilton.com/en/hotels/phxrsqq-boulders-resort-and-spa-scottsdale/resor"
+  },
+  {
+   "identity_key": "hilton phoenix tapatio cliffs resort",
+   "canonical_name": "Hilton Phoenix Tapatio Cliffs Resort",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own page served, but its pet-policy accordion never exposed its text to the attended browser on two bounded attempts (the panel did not open or the renderer froze); nothing was read and nothing is inferred (https://www.hilton.com/en/hotels/phxtcpr-hilton-phoenix-tapatio-cliffs-resort/ame"
+  },
+  {
+   "identity_key": "hilton scottsdale resort and villas",
+   "canonical_name": "Hilton Scottsdale Resort & Villas",
+   "corridor": "phoenix-az__central-scottsdale",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own page served, but its pet-policy accordion never exposed its text to the attended browser on two bounded attempts (the panel did not open or the renderer froze); nothing was read and nothing is inferred (https://www.hilton.com/en/hotels/sctshhf-hilton-scottsdale-resort-and-villas/amen"
+  },
+  {
+   "identity_key": "hotel rising phoenix",
+   "canonical_name": "Hotel Rising - Phoenix",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "motel 6 downtown",
+   "canonical_name": "Motel 6 Downtown",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "motel 6 scottsdale",
+   "canonical_name": "Motel 6 Scottsdale",
+   "corridor": "phoenix-az__old-town-scottsdale",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "studio 6 tempe",
+   "canonical_name": "Studio 6 Tempe",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "baymont by wyndham phoenix i 10 near 51st ave",
+   "canonical_name": "Baymont by Wyndham Phoenix I-10 near 51st Ave",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'ADA-defined service animals "
+  },
+  {
+   "identity_key": "chandler inn",
+   "canonical_name": "Chandler Inn",
+   "corridor": "phoenix-az__chandler",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: \"the Hotel offers Non-smoking property, Free Wi-Fi, Pets allowe"
+  },
+  {
+   "identity_key": "civana wellness resort and spa",
+   "canonical_name": "CIVANA Wellness Resort & Spa",
+   "corridor": "phoenix-az__cave-creek-carefree",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal statement is a legal access category, never a pet acceptance: 'Pets - As much as we "
+  },
+  {
+   "identity_key": "days inn by wyndham phoenix north",
+   "canonical_name": "Days Inn by Wyndham Phoenix North",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'ADA defined service animals "
+  },
+  {
+   "identity_key": "gila river resorts and casinos vee quiva",
+   "canonical_name": "Gila River Resorts & Casinos- Vee Quiva",
+   "corridor": "phoenix-az__chandler",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'ERTAINMENT EXPERIENCES MEETINGS & EVENTS THE CARD PROMOTIONS S"
+  },
+  {
+   "identity_key": "howard johnson by wyndham tempe university phoenix",
+   "canonical_name": "Howard Johnson by Wyndham Tempe University/Phoenix",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote refuses pets: 'Service Animals - ADA defined service animals are welcome free of charge"
+  },
+  {
+   "identity_key": "hyatt place phoenix downtown",
+   "canonical_name": "Hyatt Place Phoenix / Downtown",
+   "corridor": "phoenix-az__downtown-phoenix",
+   "brand_family": "HYATT",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pets Are Welcome | Your furry friends are welcome at Hyatt Pla"
+  },
+  {
+   "identity_key": "red roof inn phoenix west",
+   "canonical_name": "Red Roof Inn Phoenix West",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "RED_ROOF",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "redwood motel chandler",
+   "canonical_name": "Redwood Motel Chandler",
+   "corridor": "phoenix-az__chandler",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Are pets allowed at Redwood Motel Chandler? No, pets are not a"
+  },
+  {
+   "identity_key": "rodeway inn phoenix north i 17",
+   "canonical_name": "Rodeway Inn Phoenix North I-17",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "CHOICE",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Pets Allowed: Yes General: P"
+  },
+  {
+   "identity_key": "sanctuary camelback mountain",
+   "canonical_name": "Sanctuary Camelback Mountain",
+   "corridor": "phoenix-az__paradise-valley",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Pet Policy Our pet-friendly accommodations welcome cats and dogs up to 5"
+  },
+  {
+   "identity_key": "spark by hilton fountain hills scottsdale",
+   "canonical_name": "Spark by Hilton Fountain Hills Scottsdale",
+   "corridor": "phoenix-az__fountain-hills-fort-mcdowell",
+   "brand_family": "HILTON",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pets | Pets allowed: Yes | Non-refundable fee: $125.00 | Max w"
+  },
+  {
+   "identity_key": "super 8 by wyndham mesa gilbert",
+   "canonical_name": "Super 8 by Wyndham - Mesa/Gilbert",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "surestay by best western mesa downtown area",
+   "canonical_name": "SureStay by Best Western Mesa Downtown Area",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "the 233 suites",
+   "canonical_name": "The 233 Suites",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "the hermosa inn",
+   "canonical_name": "The Hermosa Inn",
+   "corridor": "phoenix-az__paradise-valley",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote FEE_ONLY (a fee, count or weight alone does not establish acceptance: 'FURRY FRIEND POLICY There is a limit of one dog per"
+  },
+  {
+   "identity_key": "we ko pa casino resort",
+   "canonical_name": "We-Ko-Pa Casino Resort",
+   "corridor": "phoenix-az__fountain-hills-fort-mcdowell",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Is the resort dog friendly? Dogs of up to 30 pounds are allowe"
+  },
+  {
+   "identity_key": "american executive inn",
+   "canonical_name": "American Executive Inn",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "budget suites motel",
+   "canonical_name": "Budget Suites Motel",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "citrus inn",
+   "canonical_name": "Citrus Inn",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "extended stay america phoenix mesa",
+   "canonical_name": "Extended Stay America - Phoenix/Mesa",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "ESA",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "extended stay america phoenix mesa west",
+   "canonical_name": "Extended Stay America - Phoenix/Mesa West",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "ESA",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "extended stay america phoenix scottsdale",
+   "canonical_name": "Extended Stay America Phoenix-Scottsdale",
+   "corridor": "phoenix-az__scottsdale-airpark-kierland",
+   "brand_family": "ESA",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "extended stay america scottsdale north",
+   "canonical_name": "Extended Stay America Scottsdale North",
+   "corridor": "phoenix-az__scottsdale-airpark-kierland",
+   "brand_family": "ESA",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "extended stay america scottsdale old town",
+   "canonical_name": "Extended Stay America Scottsdale Old Town",
+   "corridor": "phoenix-az__old-town-scottsdale",
+   "brand_family": "ESA",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "fountain motel",
+   "canonical_name": "Fountain Motel",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "great wolf lodge arizona",
+   "canonical_name": "Great Wolf Lodge Arizona",
+   "corridor": "phoenix-az__central-scottsdale",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "hiway inn",
+   "canonical_name": "Hiway Inn",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "independence 47 hotel",
+   "canonical_name": "Independence 47 Hotel",
+   "corridor": "phoenix-az__central-scottsdale",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "mesa oasis inn",
+   "canonical_name": "Mesa Oasis Inn",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "motel 7 by oyo near phoenix airport",
+   "canonical_name": "Motel 7 By OYO Near Phoenix Airport",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "plainsman motel",
+   "canonical_name": "Plainsman Motel",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "starlite motel",
+   "canonical_name": "Starlite Motel",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "trails west motel",
+   "canonical_name": "Trails West Motel",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "travaleers motel",
+   "canonical_name": "Travaleers Motel",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "tri city inn",
+   "canonical_name": "Tri City Inn",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "vib tempe",
+   "canonical_name": "Vib Tempe",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "woodspring suites mesa chandler",
+   "canonical_name": "WoodSpring Suites Mesa Chandler",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "CHOICE",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "extended stay america phoenix airport",
+   "canonical_name": "Extended Stay America - Phoenix - Airport",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own Phoenix directory lists the property page, but every ESA property page answers the attended browser with a DataDome CAPTCHA (never solved or bypassed); a route from any lane lands on the same wall"
+  },
+  {
+   "identity_key": "extended stay america phoenix airport tempe",
+   "canonical_name": "Extended Stay America - Phoenix - Airport - Tempe",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own Phoenix directory lists the property page, but every ESA property page answers the attended browser with a DataDome CAPTCHA (never solved or bypassed); a route from any lane lands on the same wall"
+  },
+  {
+   "identity_key": "extended stay america phoenix biltmore",
+   "canonical_name": "Extended Stay America - Phoenix - Biltmore",
+   "corridor": "phoenix-az__biltmore-camelback-arcadia",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own Phoenix directory lists the property page, but every ESA property page answers the attended browser with a DataDome CAPTCHA (never solved or bypassed); a route from any lane lands on the same wall"
+  },
+  {
+   "identity_key": "extended stay america phoenix chandler",
+   "canonical_name": "Extended Stay America - Phoenix - Chandler",
+   "corridor": "phoenix-az__ahwatukee-south-mountain",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own Phoenix directory lists the property page, but every ESA property page answers the attended browser with a DataDome CAPTCHA (never solved or bypassed); a route from any lane lands on the same wall"
+  },
+  {
+   "identity_key": "extended stay america phoenix midtown",
+   "canonical_name": "Extended Stay America - Phoenix - Midtown",
+   "corridor": "phoenix-az__midtown-central-phoenix",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own Phoenix directory lists the property page, but every ESA property page answers the attended browser with a DataDome CAPTCHA (never solved or bypassed); a route from any lane lands on the same wall"
+  },
+  {
+   "identity_key": "extended stay america phoenix peoria",
+   "canonical_name": "Extended Stay America - Phoenix - Peoria",
+   "corridor": "phoenix-az__peoria",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own Phoenix directory lists the property page, but every ESA property page answers the attended browser with a DataDome CAPTCHA (never solved or bypassed); a route from any lane lands on the same wall"
+  },
+  {
+   "identity_key": "extended stay america select suites phoenix peoria sun city",
+   "canonical_name": "Extended Stay America Select Suites - Phoenix - Peoria - Sun City",
+   "corridor": "phoenix-az__peoria",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own Phoenix directory lists the property page, but every ESA property page answers the attended browser with a DataDome CAPTCHA (never solved or bypassed); a route from any lane lands on the same wall"
+  },
+  {
+   "identity_key": "extended stay america select suites phoenix west",
+   "canonical_name": "Extended Stay America Select Suites - Phoenix - West",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own Phoenix directory lists the property page, but every ESA property page answers the attended browser with a DataDome CAPTCHA (never solved or bypassed); a route from any lane lands on the same wall"
+  },
+  {
+   "identity_key": "motel 6 phoenix airport 24th street",
+   "canonical_name": "Motel 6 Phoenix Airport - 24th Street",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: the brand's property pages in this market (4 read in the attended browser) state only the amenity chip 'Pets Allowed', never an operative policy; a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "motel 6 phoenix az east",
+   "canonical_name": "Motel 6 Phoenix, AZ - East",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: the brand's property pages in this market (4 read in the attended browser) state only the amenity chip 'Pets Allowed', never an operative policy; a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "motel 6 phoenix tempe broadway asu",
+   "canonical_name": "Motel 6 Phoenix Tempe - Broadway - ASU",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: the brand's property pages in this market (4 read in the attended browser) state only the amenity chip 'Pets Allowed', never an operative policy; a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "motel 6 tempe az phoenix airport priest dr",
+   "canonical_name": "Motel 6 Tempe, AZ - Phoenix Airport - Priest Dr",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: the brand's property pages in this market (4 read in the attended browser) state only the amenity chip 'Pets Allowed', never an operative policy; a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "motel 6 tempe az scottsdale south",
+   "canonical_name": "Motel 6 Tempe, AZ - Scottsdale South",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6: the brand's property pages in this market (4 read in the attended browser) state only the amenity chip 'Pets Allowed', never an operative policy; a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "aiden scottsdale",
+   "canonical_name": "Aiden Scottsdale",
+   "corridor": "phoenix-az__scottsdale-airpark-kierland",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "apache junction motel",
+   "canonical_name": "Apache Junction Motel",
+   "corridor": "phoenix-az__apache-junction-gold-canyon",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "arizona grand resort and spa",
+   "canonical_name": "Arizona Grand Resort & Spa",
+   "corridor": "phoenix-az__ahwatukee-south-mountain",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "casa blanca inn and suites",
+   "canonical_name": "Casa Blanca Inn and Suites",
+   "corridor": "phoenix-az__chandler",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "central phoenix budget suites",
+   "canonical_name": "Central Phoenix Budget Suites",
+   "corridor": "phoenix-az__midtown-central-phoenix",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "clarendon hotel and spa",
+   "canonical_name": "Clarendon Hotel & Spa",
+   "corridor": "phoenix-az__midtown-central-phoenix",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "es suites scottsdale paradise valley",
+   "canonical_name": "ES Suites Scottsdale Paradise Valley",
+   "corridor": "phoenix-az__paradise-valley",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "extend a suites tempe",
+   "canonical_name": "Extend-a-Suites - Tempe",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "fairmont scottsdale princess",
+   "canonical_name": "Fairmont Scottsdale Princess",
+   "corridor": "phoenix-az__north-scottsdale",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "greentree inn phoenix sky harbor",
+   "canonical_name": "GreenTree Inn Phoenix Sky Harbor",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "greentree inn phoenix west",
+   "canonical_name": "GreenTree Inn Phoenix West",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn and suites phoenix airport",
+   "canonical_name": "Holiday Inn & Suites Phoenix Airport",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn and suites scottsdale north airpark",
+   "canonical_name": "Holiday Inn & Suites Scottsdale North - Airpark",
+   "corridor": "phoenix-az__scottsdale-airpark-kierland",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn glendale stadium and ent dist",
+   "canonical_name": "Holiday Inn Glendale - Stadium & Ent Dist",
+   "corridor": "phoenix-az__glendale",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel san carlos",
+   "canonical_name": "Hotel San Carlos",
+   "corridor": "phoenix-az__downtown-phoenix",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "ida phoenix",
+   "canonical_name": "Ida Phoenix",
+   "corridor": "phoenix-az__downtown-phoenix",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "inn at eagle mountain",
+   "canonical_name": "Inn at Eagle Mountain",
+   "corridor": "phoenix-az__fountain-hills-fort-mcdowell",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "mesa budget suites",
+   "canonical_name": "Mesa Budget Suites",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 chandler az",
+   "canonical_name": "Motel 6 Chandler, AZ",
+   "corridor": "phoenix-az__chandler",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 mesa az north",
+   "canonical_name": "Motel 6 Mesa, AZ - North",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 mesa az south",
+   "canonical_name": "Motel 6 Mesa, AZ - South",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 phoenix az west",
+   "canonical_name": "Motel 6 Phoenix, AZ - West",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "mountain house lodge at sereno canyon",
+   "canonical_name": "Mountain House Lodge at Sereno Canyon",
+   "corridor": "phoenix-az__north-scottsdale",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "north phoenix budget suites",
+   "canonical_name": "North Phoenix Budget Suites",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "rise uptown",
+   "canonical_name": "Rise Uptown",
+   "corridor": "phoenix-az__midtown-central-phoenix",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "scottsdale camelback resort",
+   "canonical_name": "Scottsdale Camelback Resort",
+   "corridor": "phoenix-az__old-town-scottsdale",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "scottsdale golf retreat at troon north",
+   "canonical_name": "Scottsdale Golf Retreat at Troon North",
+   "corridor": "phoenix-az__north-scottsdale",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "scottsdale parkview hotel",
+   "canonical_name": "Scottsdale Parkview Hotel",
+   "corridor": "phoenix-az__old-town-scottsdale",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "talking stick resort",
+   "canonical_name": "Talking Stick Resort",
+   "corridor": "phoenix-az__central-scottsdale",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the hotel serene",
+   "canonical_name": "The Hotel Serene",
+   "corridor": "phoenix-az__glendale",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "echo suites phoenix chandler opening late 2026",
+   "canonical_name": "ECHO Suites Phoenix-Chandler - Opening Late 2026",
+   "corridor": "phoenix-az__chandler",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party name states 'Opening Late 2026': the hotel is not open, so no profile publishes until it opens and its policy is revalidated. The first-party "
+  },
+  {
+   "identity_key": "home2 suites by hilton peoria north phoenix",
+   "canonical_name": "Home2 Suites by Hilton Peoria North Phoenix",
+   "corridor": "phoenix-az__peoria",
+   "brand_family": "HILTON",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party page states \"We're accepting reservations for September 30, 2026 and beyond.\": the hotel is not open, so no profile publishes until it opens a"
+  },
+  {
+   "identity_key": "vai resort coming soon",
+   "canonical_name": "Vai Resort (coming soon)",
+   "corridor": "phoenix-az__glendale",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party name states 'coming soon': the hotel is not open, so no profile publishes until it opens and its policy is revalidated. The first-party eviden"
+  },
+  {
+   "identity_key": "best western plus scottsdale thunderbird suites",
+   "canonical_name": "Best Western Plus Scottsdale Thunderbird Suites",
+   "corridor": "phoenix-az__scottsdale-airpark-kierland",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "two first-party routes for one premises; which one the package cites is a routing ruling -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'thunderbirdsuiteshotel.com' while the census binds the identity to 'bestwestern.com'; the package contract requires the cited page "
+  },
+  {
+   "identity_key": "tempe mission palms",
+   "canonical_name": "Tempe Mission Palms",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "two first-party routes for one premises; which one the package cites is a routing ruling -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'hyatt.com' while the census binds the identity to 'missionpalms.com'; the package contract requires the cited page and the bound ro"
+  },
+  {
+   "identity_key": "ac hotel phoenix north norterra",
+   "canonical_name": "AC Hotel Phoenix North Norterra",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "courtyard by marriott phoenix chandler fashion center",
+   "canonical_name": "Courtyard by Marriott Phoenix Chandler/Fashion Center",
+   "corridor": "phoenix-az__chandler",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "courtyard by marriott phoenix downtown",
+   "canonical_name": "Courtyard by Marriott Phoenix Downtown",
+   "corridor": "phoenix-az__downtown-phoenix",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "econo lodge phoenix north i 17",
+   "canonical_name": "Econo Lodge Phoenix North I-17",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "CHOICE",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "element phoenix north norterra",
+   "canonical_name": "Element Phoenix North Norterra",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "fairfield inn and suites buckeye verrado",
+   "canonical_name": "Fairfield Inn & Suites Buckeye Verrado",
+   "corridor": "phoenix-az__buckeye",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "fairfield inn and suites phoenix chandler fashion center",
+   "canonical_name": "Fairfield Inn & Suites Phoenix Chandler/Fashion Center",
+   "corridor": "phoenix-az__chandler",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "fairfield inn and suites surprise prasada",
+   "canonical_name": "Fairfield Inn & Suites Surprise Prasada",
+   "corridor": "phoenix-az__surprise-sun-city",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "fairfield inn and suites tempe",
+   "canonical_name": "Fairfield Inn & Suites Tempe",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hilton garden inn phoenix tempe university research park",
+   "canonical_name": "Hilton Garden Inn Phoenix Tempe, University Research Park",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "home2 suites by hilton phoenix midtown",
+   "canonical_name": "Home2 Suites by Hilton Phoenix Midtown",
+   "corridor": "phoenix-az__midtown-central-phoenix",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "home2 suites by hilton phoenix tempe university research park",
+   "canonical_name": "Home2 Suites by Hilton Phoenix Tempe, University Research Park",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "home2 suites by hilton scottsdale salt river",
+   "canonical_name": "Home2 Suites by Hilton Scottsdale Salt River",
+   "corridor": "phoenix-az__central-scottsdale",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "homewood suites by hilton phoenix mesa airport",
+   "canonical_name": "Homewood Suites by Hilton Phoenix Mesa Airport",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hyatt house north scottsdale",
+   "canonical_name": "Hyatt House North Scottsdale",
+   "corridor": "phoenix-az__north-scottsdale",
+   "brand_family": "HYATT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hyatt place scottsdale north",
+   "canonical_name": "Hyatt Place Scottsdale - North",
+   "corridor": "phoenix-az__north-scottsdale",
+   "brand_family": "HYATT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "residence inn phoenix downtown",
+   "canonical_name": "Residence Inn Phoenix Downtown",
+   "corridor": "phoenix-az__downtown-phoenix",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "springhill suites phoenix north",
+   "canonical_name": "SpringHill Suites Phoenix North",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "super 8 by wyndham phoenix i 17",
+   "canonical_name": "Super 8 by Wyndham Phoenix I-17",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "WYNDHAM",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "tempo by hilton mesa gallery park",
+   "canonical_name": "Tempo by Hilton Mesa Gallery Park",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "the canyon suites at the phoenician a luxury collection resort scottsdale",
+   "canonical_name": "The Canyon Suites at The Phoenician, a Luxury Collection Resort, Scottsdale",
+   "corridor": "phoenix-az__old-town-scottsdale",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "the phoenician a luxury collection resort scottsdale",
+   "canonical_name": "The Phoenician, a Luxury Collection Resort, Scottsdale",
+   "corridor": "phoenix-az__old-town-scottsdale",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "towneplace suites buckeye verrado",
+   "canonical_name": "TownePlace Suites Buckeye Verrado",
+   "corridor": "phoenix-az__buckeye",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "towneplace suites phoenix north",
+   "canonical_name": "TownePlace Suites Phoenix North",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "towneplace suites surprise prasada",
+   "canonical_name": "TownePlace Suites Surprise Prasada",
+   "corridor": "phoenix-az__surprise-sun-city",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "towneplace suites tempe",
+   "canonical_name": "TownePlace Suites Tempe",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "tru by hilton phoenix midtown",
+   "canonical_name": "Tru by Hilton Phoenix Midtown",
+   "corridor": "phoenix-az__midtown-central-phoenix",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "tru by hilton scottsdale salt river",
+   "canonical_name": "Tru by Hilton Scottsdale Salt River",
+   "corridor": "phoenix-az__central-scottsdale",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "american inn and suites",
+   "canonical_name": "American Inn & Suites",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "best western plus surprise phoenix nw",
+   "canonical_name": "Best Western Plus Surprise Phoenix NW",
+   "corridor": "phoenix-az__surprise-sun-city",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "broadview motel",
+   "canonical_name": "Broadview Motel",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "buckeye motor hotel",
+   "canonical_name": "Buckeye Motor Hotel",
+   "corridor": "phoenix-az__buckeye",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "budget lodge of phoenix",
+   "canonical_name": "Budget Lodge of Phoenix",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "cave creek tumbleweed hotel",
+   "canonical_name": "Cave Creek Tumbleweed Hotel",
+   "corridor": "phoenix-az__cave-creek-carefree",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "city center downtown motel",
+   "canonical_name": "City Center Downtown Motel",
+   "corridor": "phoenix-az__downtown-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "coconut grove motel",
+   "canonical_name": "Coconut Grove Motel",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "coronado hotel and motel",
+   "canonical_name": "Coronado Hotel & Motel",
+   "corridor": "phoenix-az__downtown-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "days hotel by wyndham peoria glendale area",
+   "canonical_name": "Days Hotel by Wyndham Peoria Glendale Area",
+   "corridor": "phoenix-az__peoria",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "days inn and suites by wyndham surprise",
+   "canonical_name": "Days Inn & Suites by Wyndham Surprise",
+   "corridor": "phoenix-az__surprise-sun-city",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "del rio lodge",
+   "canonical_name": "Del Rio Lodge",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "deserama motel",
+   "canonical_name": "Deserama Motel",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "desert rose motel",
+   "canonical_name": "Desert Rose Motel",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "e z 8 motel phoenix",
+   "canonical_name": "E-Z 8 Motel Phoenix",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "east mesa inn",
+   "canonical_name": "East Mesa Inn",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "el capitan lodge",
+   "canonical_name": "El Capitan Lodge",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "envi phoenix suites",
+   "canonical_name": "Envi Phoenix Suites",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "extend a suites",
+   "canonical_name": "Extend-a-Suites",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "friendship inn motel",
+   "canonical_name": "Friendship Inn Motel",
+   "corridor": "phoenix-az__downtown-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hawthorn suites",
+   "canonical_name": "Hawthorn Suites",
+   "corridor": "phoenix-az__chandler",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hometowne studios phoenix west",
+   "canonical_name": "HomeTowne Studios Phoenix West",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "RED_ROOF",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hotel bixby scottsdale",
+   "canonical_name": "Hotel Bixby Scottsdale",
+   "corridor": "phoenix-az__old-town-scottsdale",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "knights inn phoenix at n black canyon hwy",
+   "canonical_name": "Knights Inn Phoenix at N Black Canyon Hwy",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la quinta inn phoenix thomas road",
+   "canonical_name": "La Quinta Inn Phoenix Thomas Road",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "metro tempe extended stay",
+   "canonical_name": "Metro Tempe Extended Stay",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "new windsor hotel",
+   "canonical_name": "New Windsor Hotel",
+   "corridor": "phoenix-az__downtown-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "phoenix sunrise motel",
+   "canonical_name": "Phoenix Sunrise Motel",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "premier inns tolleson",
+   "canonical_name": "Premier Inns Tolleson",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "premiere inns",
+   "canonical_name": "Premiere Inns",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "quality inn phoenix north i 17",
+   "canonical_name": "Quality Inn Phoenix North I-17",
+   "corridor": "phoenix-az__north-phoenix-deer-valley",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ramada inn tempe at arizona mills mall",
+   "canonical_name": "Ramada Inn Tempe at Arizona Mills Mall",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ranchhouse motel",
+   "canonical_name": "Ranchhouse Motel",
+   "corridor": "phoenix-az__buckeye",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "rawls motel",
+   "canonical_name": "Rawls Motel",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "red roof plus tempe phoenix airport",
+   "canonical_name": "Red Roof PLUS+ Tempe – Phoenix Airport",
+   "corridor": "phoenix-az__tempe",
+   "brand_family": "RED_ROOF",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "regency inn mesa",
+   "canonical_name": "Regency Inn - Mesa",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "roadrunner motel",
+   "canonical_name": "Roadrunner Motel",
+   "corridor": "phoenix-az__mesa",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "sentral phoenix alloy midtown",
+   "canonical_name": "Sentral Phoenix Alloy Midtown",
+   "corridor": "phoenix-az__midtown-central-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the brand's own property-code route lands on a hotel-search page: the brand publishes no property page for these premises; no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "spirit in the desert retreat center",
+   "canonical_name": "Spirit in the Desert Retreat Center",
+   "corridor": "phoenix-az__cave-creek-carefree",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "super 7 motel",
+   "canonical_name": "Super 7 Motel",
+   "corridor": "phoenix-az__midtown-central-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "superstition inn and suites",
+   "canonical_name": "Superstition Inn and Suites",
+   "corridor": "phoenix-az__apache-junction-gold-canyon",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the aloha",
+   "canonical_name": "The Aloha",
+   "corridor": "phoenix-az__chandler",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "travel inn airport",
+   "canonical_name": "Travel Inn Airport",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "travelers inn phoenix",
+   "canonical_name": "Travelers Inn Phoenix",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "victory inn",
+   "canonical_name": "Victory Inn",
+   "corridor": "phoenix-az__west-phoenix",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "western lodge phoenix",
+   "canonical_name": "Western Lodge Phoenix",
+   "corridor": "phoenix-az__phx-sky-harbor",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "westward motel",
+   "canonical_name": "Westward Motel",
+   "corridor": "phoenix-az__buckeye",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "wyndham garden phoenix midtown",
+   "canonical_name": "Wyndham Garden Phoenix Midtown",
+   "corridor": "phoenix-az__midtown-central-phoenix",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane (brand inventory, seven bureau rosters, the map, the brand's own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  }
+ ]
+}

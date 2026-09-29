@@ -1,0 +1,2732 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-PHOENIX-AZ-HARDENED-SOURCE-READY-001",
+ "market_id": "phoenix-az",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "phoenix_az_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 150,
+  "credit_floor": 400,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 134,
+  "static_to_attended": 65,
+  "firecrawl_candidates": 62,
+  "share_static_to_attended": 0.4851,
+  "share_firecrawl_candidates": 0.4627,
+  "threshold": 0.2,
+  "warning": true,
+  "message": "62 of 134 unresolved routed rows (46%) are Firecrawl candidates: evaluate the Firecrawl lane before continuing to the attended browser"
+ },
+ "planned_rows": 33,
+ "attempted_rows": 33,
+ "stopped_by": "",
+ "credits": {
+  "before": 761,
+  "after": 731,
+  "delta": 30,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "bespoke inn scottsdale": {
+    "identity_key": "bespoke inn scottsdale",
+    "requested_url": "http://www.bespokeinnscottsdale.com",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "downtown phoenix hotel": {
+    "identity_key": "downtown phoenix hotel",
+    "requested_url": "http://downtownphoenixhotel.com",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "hotel valley ho": {
+    "identity_key": "hotel valley ho",
+    "requested_url": "https://hotelvalleyho.com/",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "motel 6 mesa north": {
+    "identity_key": "motel 6 mesa north",
+    "requested_url": "https://www.motel6.com/property/motel-mesa-arizona-us-294088/",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "mountain shadows": {
+    "identity_key": "mountain shadows",
+    "requested_url": "http://mountainshadows.com",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "red roof inn phoenix midtown": {
+    "identity_key": "red roof inn phoenix midtown",
+    "requested_url": "https://www.redroof.com/property/az/phoenix/rri1167",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "red roof inn phoenix north i 17 at bell rd": {
+    "identity_key": "red roof inn phoenix north i 17 at bell rd",
+    "requested_url": "https://www.redroof.com/property/az/phoenix/rri250",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "red roof plus phoenix west": {
+    "identity_key": "red roof plus phoenix west",
+    "requested_url": "https://www.redroof.com/property/az/phoenix/rri261",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "the clarendon hotel and spa bw signature collection": {
+    "identity_key": "the clarendon hotel and spa bw signature collection",
+    "requested_url": "http://www.goclarendon.com",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "the mccormick scottsdale": {
+    "identity_key": "the mccormick scottsdale",
+    "requested_url": "https://www.millenniumhotels.com/en/scottsdale/the-mccormick-scottsdale/",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "the wigwam": {
+    "identity_key": "the wigwam",
+    "requested_url": "http://www.wigwamarizona.com/?nck=8442859042",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "holiday inn express hotel and suites scottsdale old town",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "apache junction motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "casa blanca inn and suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "country inn and suites by radisson mesa az",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "country inn and suites by radisson phoenix airport az",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "del rio lodge",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "desert rose motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "four seasons resort scottsdale at troon north",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "grand canyon university hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "greentree hotel phoenix west",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "greentree inn and suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel rising phoenix",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel solaya",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6 chandler",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6 mesa south",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6 phoenix az west",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "radisson hotel phoenix airport",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "scottsdale parkview hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "sentral phoenix alloy midtown",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "suites of america mesa",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "tempe mission palms hotel and conference center",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the hermosa inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 33,
+  "results": 33
+ },
+ "class_counts": {
+  "FIRECRAWL_BLOCKED": 6,
+  "FIRECRAWL_FAILED": 10,
+  "FIRECRAWL_IDENTITY_ONLY": 1,
+  "FIRECRAWL_MISMATCH": 6,
+  "FIRECRAWL_PUBLICATION_GRADE": 5,
+  "FIRECRAWL_SOURCE_SILENT": 5
+ },
+ "outcome_counts": {
+  "ACCESS_DENIED": 2,
+  "IDENTITY_MISMATCH": 6,
+  "NAVIGATION_FAILED": 1,
+  "POLICY_NOT_FOUND": 5,
+  "UNEXPECTED_PAGE": 9,
+  "UNHYDRATED": 4,
+  "VALID": 6
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "holiday inn express hotel and suites scottsdale old town",
+   "canonical_name": "Holiday Inn Express Hotel and Suites Scottsdale - Old Town",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/scottsdale/phxsr/hoteldetail",
+   "final_url": "https://www.ihg.com/explore",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85251",
+   "expected_street": "3131 North Scottsdale Road",
+   "captured_at": "2026-09-29T04:06:58.370543+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/scottsdale/phxsr/hoteldetail"
+    },
+    "envelope_sha256": "77d4fecf5d7eb7e0fa37fca9b0df91b5ccb6e5817a826695f697ea10cfa35cde"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\holiday-inn-express-hotel-and-suites-scottsdale-old-town\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "apache junction motel",
+   "canonical_name": "Apache Junction Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.ajmotel.com/",
+   "final_url": "http://www.ajmotel.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85120",
+   "expected_street": "1680 West Apache Trail",
+   "captured_at": "2026-09-29T04:07:16.134661+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.ajmotel.com/"
+    },
+    "envelope_sha256": "4229c3b36c79b91c737ffbdab7924425dae3e0c0f49cbc20de325673e8bf711a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\apache-junction-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "bespoke inn scottsdale",
+   "canonical_name": "Bespoke Inn Scottsdale",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.bespokeinnscottsdale.com",
+   "final_url": "https://bespokeinnscottsdale.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 3 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Bespoke Inn Scottsdale",
+     "address_on_page": "3701 N Marshall Way",
+     "postal_code": "85251",
+     "phone_on_page": "(844) 861-6715",
+     "property_code_on_page": "",
+     "canonical_url": "https://bespokeinnscottsdale.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8448616715",
+      "6026208052"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '(844) 861-6715' is not the census number '(844) 842-4981'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "85251",
+   "expected_street": "3701 N. Marshall Way",
+   "captured_at": "2026-09-29T04:07:26.257285+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.bespokeinnscottsdale.com"
+    },
+    "envelope_sha256": "7b4d3a3589d080337c43a60a3510af3303e52a9c294ba0071aaea335cf649ff9"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\bespoke-inn-scottsdale\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "casa blanca inn and suites",
+   "canonical_name": "Casa Blanca Inn & Suites",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.casablancainnsuites.com/#/",
+   "final_url": "https://www.casablancainnsuites.com/#/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'For Lowest Fares Book Directly on Hotel Website', which does not agree with 'Casa Blanca Inn & Suites'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "For Lowest Fares Book Directly on Hotel Website",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'For Lowest Fares Book Directly on Hotel Website', which does not agree with 'Casa Blanca Inn & Suites'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "85225",
+   "expected_street": "695 North Arizona Avenue",
+   "captured_at": "2026-09-29T04:07:37.633506+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.casablancainnsuites.com/#/"
+    },
+    "envelope_sha256": "0a8ada3fb8d0b1048a6a1929eff5edc100ab856963b77eb23c201a638059b446"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\casa-blanca-inn-and-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "country inn and suites by radisson mesa az",
+   "canonical_name": "Country Inn & Suites by Radisson, Mesa, AZ",
+   "family": "RADISSON",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-mesa-az",
+   "final_url": "https://www.radissonhotels.com/en-us/brand/country-inn",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85206",
+   "expected_street": "6650 E. Superstition Springs Blvd",
+   "captured_at": "2026-09-29T04:07:47.453684+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.radissonhotels.com/en-us/hotels/country-inn-mesa-az"
+    },
+    "envelope_sha256": "3bfc33694b1fd8124dbd261ac36b5ebf99c9da990483359f9ade25732aa1ab65"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\country-inn-and-suites-by-radisson-mesa-az\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "country inn and suites by radisson phoenix airport az",
+   "canonical_name": "Country Inn & Suites by Radisson, Phoenix Airport, AZ",
+   "family": "RADISSON",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-phoenix-airport-az",
+   "final_url": "https://www.radissonhotels.com/en-us/brand/country-inn",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85034",
+   "expected_street": "4702 E University Dr",
+   "captured_at": "2026-09-29T04:07:59.200253+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.radissonhotels.com/en-us/hotels/country-inn-phoenix-airport-az"
+    },
+    "envelope_sha256": "56f8adcac281f980206076c4a4d58b404522981a5a5f7f57274e5cb0f3553b03"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\country-inn-and-suites-by-radisson-phoenix-airport-az\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "del rio lodge",
+   "canonical_name": "Del Rio Lodge",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.delriolodge.com",
+   "final_url": "http://www.delriolodge.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names '历届世界杯冠军_2026世界杯分组_2026世界杯赛程表完整版_山猫直播', which does not agree with 'Del Rio Lodge'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "历届世界杯冠军_2026世界杯分组_2026世界杯赛程表完整版_山猫直播",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names '历届世界杯冠军_2026世界杯分组_2026世界杯赛程表完整版_山猫直播', which does not agree with 'Del Rio Lodge'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "85201",
+   "expected_street": "2200 W Main St",
+   "captured_at": "2026-09-29T04:08:11.568482+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.delriolodge.com"
+    },
+    "envelope_sha256": "acf4ca83a5782989a0d02807542cffc64b43d443c51121666f177b032cf2170a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\del-rio-lodge\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "desert rose motel",
+   "canonical_name": "Desert Rose Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.desertrosemotelaz.com/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.desertrosemotelaz.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily un",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85207",
+   "expected_street": "8924 East Apache Trail",
+   "captured_at": "2026-09-29T04:08:23.989114+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.desertrosemotelaz.com/"
+    },
+    "envelope_sha256": "8c74025e6dbfa2614f6c84176de6bba72308f00776119d2d2e0fdf1965d7fd71"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\desert-rose-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "downtown phoenix hotel",
+   "canonical_name": "Downtown Phoenix Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://downtownphoenixhotel.com",
+   "final_url": "https://www.downtownphoenixhotel.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Downtown Phoenix Hotel",
+     "address_on_page": "424 W Van Buren St",
+     "postal_code": "85003",
+     "phone_on_page": "+1/(602)-257-8331/",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.downtownphoenixhotel.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "6022578331"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "85003",
+   "expected_street": "424 West Van Buren Street",
+   "captured_at": "2026-09-29T04:08:26.603586+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://downtownphoenixhotel.com"
+    },
+    "envelope_sha256": "e768b50753dc8cdfc4e3b7010dca4f2439b5060e9baaec9416be6e11c9ac18b3"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\downtown-phoenix-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "four seasons resort scottsdale at troon north",
+   "canonical_name": "Four Seasons Resort Scottsdale at Troon North",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.fourseasons.com/scottsdale",
+   "final_url": "https://www.fourseasons.com/scottsdale/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Luxury Golf Resort in Scottsdale, AZ | Four Seasons', which does not agree with 'Four Seasons Resort Scottsdale at Troon North'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Luxury Golf Resort in Scottsdale, AZ | Four Seasons",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.fourseasons.com/scottsdale/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "4805155700",
+      "4805155599",
+      "8882079696"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Luxury Golf Resort in Scottsdale, AZ | Four Seasons', which does not agree with 'Four Seasons Resort Scottsdale at Troon North'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "85262",
+   "expected_street": "10600 E. Crescent Moon Dr.",
+   "captured_at": "2026-09-29T04:08:37.815975+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.fourseasons.com/scottsdale"
+    },
+    "envelope_sha256": "52a59873db0035fe5b76eb214c5411a8fa2989c9df9121cef267d8b9d5aeaa8f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\four-seasons-resort-scottsdale-at-troon-north\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "grand canyon university hotel",
+   "canonical_name": "Grand Canyon University Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://gcuhotel.com",
+   "final_url": "https://canon49.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85017",
+   "expected_street": "5115 N 27th Avenue",
+   "captured_at": "2026-09-29T04:08:49.177842+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://gcuhotel.com"
+    },
+    "envelope_sha256": "8e194fdf1a7dcd2ef72ca936f661c3e419be4bf635439146500c4af1222dfa4f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\grand-canyon-university-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "greentree hotel phoenix west",
+   "canonical_name": "GreenTree Hotel Phoenix West",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.greentreeinn.com/hotels/az/phoenix-west",
+   "final_url": "https://www.greentreeinn.com/hotels/az/phoenix-west",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Page not found - GreenTree Inn', which does not agree with 'GreenTree Hotel Phoenix West'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Page not found - GreenTree Inn",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8608547336"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Page not found - GreenTree Inn', which does not agree with 'GreenTree Hotel Phoenix West'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "85043",
+   "expected_street": "1500 N 51st Avenue",
+   "captured_at": "2026-09-29T04:08:59.421812+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.greentreeinn.com/hotels/az/phoenix-west"
+    },
+    "envelope_sha256": "53bf8a59f3cd26508d89199115b439393325046337e2c6bb1d4fb340eb5d6222"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\greentree-hotel-phoenix-west\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "greentree inn and suites",
+   "canonical_name": "GreenTree Inn & Suites",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.greentreeinn.com/hotels/az/phoenix",
+   "final_url": "https://greentreeinn.com/destinations/phoenix-west/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85040",
+   "expected_street": "4234 S 48th Street",
+   "captured_at": "2026-09-29T04:09:10.759124+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.greentreeinn.com/hotels/az/phoenix"
+    },
+    "envelope_sha256": "e2daa358e6b9c25ef42b5a4f80f3a136c3b9164a97f2a54351f11aadc730a4cf"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\greentree-inn-and-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "hotel rising phoenix",
+   "canonical_name": "Hotel Rising - Phoenix",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://american-inn-phoenix.booked.net/",
+   "final_url": "https://american-inn-phoenix.booked.net/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85043",
+   "expected_street": "1550 N 52nd Drive",
+   "captured_at": "2026-09-29T04:09:20.650363+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://american-inn-phoenix.booked.net/"
+    },
+    "envelope_sha256": "7bb0c76717b48074606a99bfd284dc3d780af6754f3f9a2cad69f3ea95e98845"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\hotel-rising-phoenix\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "hotel solaya",
+   "canonical_name": "Hotel Solaya",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/phxjs-hotel-solaya",
+   "final_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/phxjs-hotel-solaya",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '4000 N. Drinkwater' does not agree with expected '4000 N. Drinkwater Blvd.'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotel Solaya",
+     "address_on_page": "4000 N. Drinkwater",
+     "postal_code": "85251",
+     "phone_on_page": "+1 623-352-7272",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.hyatt.com/jdv-by-hyatt/en-US/phxjs-hotel-solaya",
+     "pets_allowed_structured": "True",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "6233527272",
+      "4743096808",
+      "2018788483",
+      "6951158212"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '4000 N. Drinkwater' does not agree with expected '4000 N. Drinkwater Blvd.'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "85251",
+   "expected_street": "4000 N. Drinkwater Blvd.",
+   "captured_at": "2026-09-29T04:09:29.489525+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.hyatt.com/jdv-by-hyatt/en-US/phxjs-hotel-solaya"
+    },
+    "envelope_sha256": "adf75bcc00b7fcf3973b5e1c92540b057f15d507264551280b8ef9f2b36b9b4c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\hotel-solaya\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "hotel valley ho",
+   "canonical_name": "Hotel Valley Ho",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://hotelvalleyho.com/",
+   "final_url": "https://hotelvalleyho.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotel Valley Ho",
+     "address_on_page": "6850 East Main Street",
+     "postal_code": "85251",
+     "phone_on_page": "(480) 476-2600",
+     "property_code_on_page": "",
+     "canonical_url": "https://hotelvalleyho.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4804762600",
+      "4803762600"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares telephone '(480) 476-2600' and also prints this property's '(480) 376-2600' -- one site, several properties",
+     "confirmed on name, postal_code, street_identity via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "85251",
+   "expected_street": "6850 E. Main St.",
+   "captured_at": "2026-09-29T04:09:41.172063+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://hotelvalleyho.com/"
+    },
+    "envelope_sha256": "5deb3468f53611a31a191c3c8a1dbb9a623fc21c4e3b61218722ba7834a63da9"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\hotel-valley-ho\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "motel 6 chandler",
+   "canonical_name": "Motel 6 Chandler",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/en/home/motels.az.chandler.4239.html",
+   "final_url": "https://www.motel6.com/property/motel-chandler-arizona-us-293574/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85226",
+   "expected_street": "7445 West Chandler Boulevard",
+   "captured_at": "2026-09-29T04:10:16.048320+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/en/home/motels.az.chandler.4239.html"
+    },
+    "envelope_sha256": "ae29e4c532a26a92a7a3fc5cc5e541b239231fd68c9fd351d9b4b8e9cd7b1c8d"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\motel-6-chandler\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "motel 6 mesa north",
+   "canonical_name": "Motel 6 Mesa North",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/property/motel-mesa-arizona-us-294088/",
+   "final_url": "https://www.motel6.com/property/motel-mesa-arizona-us-294088/",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Motel 6 Mesa, AZ - North",
+     "address_on_page": "336 W HAMPTON AVE",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.motel6.com/property/motel-mesa-arizona-us-294088/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "7594353759",
+      "0424884042",
+      "0053743005",
+      "9451271976",
+      "8008999841",
+      "4808448899"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "confirmed on name, street_identity, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "85210",
+   "expected_street": "336 West Hampton Avenue",
+   "captured_at": "2026-09-29T04:10:29.538457+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/property/motel-mesa-arizona-us-294088/"
+    },
+    "envelope_sha256": "2dc6417c416167f96f83fef95048cbd7dfae14391448f3bb5e2f8944d0cd7dec"
+   },
+   "page_sha256": "66f06383f133318b83510ab3fb7a99f56297be1bd0ac25e0cdb053e8049f042d",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\motel-6-mesa-north\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {},
+    "evidence": [],
+    "withheld_fields": {
+     "pets_allowed": "ARTIFACT_INSUFFICIENT",
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_REJECTED",
+     "reasons": [
+      "the capture produced no evidence entry to evaluate",
+      "no publication-grade evidence; the record carries only <none>"
+     ],
+     "schema_issues": [],
+     "blockers": [
+      "no publication-grade evidence; the record carries only <none>"
+     ],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {},
+     "evidence_entries": [],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "626682b7555499a2e1bf073ee9981067e88518ed3af17bd51946c648d9ca57b5",
+     "document_sha256": "66f06383f133318b83510ab3fb7a99f56297be1bd0ac25e0cdb053e8049f042d"
+    }
+   },
+   "pets_allowed": null,
+   "firecrawl_class": "FIRECRAWL_IDENTITY_ONLY"
+  },
+  {
+   "identity_key": "motel 6 mesa south",
+   "canonical_name": "Motel 6 Mesa South",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/en/home/motels.az.mesa.9472.html?lid=Local_Milestone_1030&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=listing&utm_campaign=visit%20website",
+   "final_url": "https://www.motel6.com/property/motel-mesa-arizona-us-294697/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85210",
+   "expected_street": "1511 South Country Club Drive",
+   "captured_at": "2026-09-29T04:10:41.498493+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/en/home/motels.az.mesa.9472.html?lid=Local_Milestone_1030&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=listing&utm_campaign=visit%20website"
+    },
+    "envelope_sha256": "a35f13a9b1688d46235c26e2e04902abb382176a77592dde03fff04f187b5fa9"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\motel-6-mesa-south\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "motel 6 phoenix az west",
+   "canonical_name": "Motel 6 Phoenix, AZ - West",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/en/home/motels.az.phoenix.9471.html",
+   "final_url": "https://www.motel6.com/property/motel-phoenix-arizona-us-293736/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85043",
+   "expected_street": "1530 N 52nd Drive",
+   "captured_at": "2026-09-29T04:10:53.525879+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/en/home/motels.az.phoenix.9471.html"
+    },
+    "envelope_sha256": "0b0da833fde20792e966a7d26392c07938528b0f8d49739a72c0966c41428eb1"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\motel-6-phoenix-az-west\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "mountain shadows",
+   "canonical_name": "Mountain Shadows",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://mountainshadows.com",
+   "final_url": "https://mountainshadows.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Mountain Shadows",
+     "address_on_page": "5445 E Lincoln Dr",
+     "postal_code": "85253",
+     "phone_on_page": "(480) 624-5400",
+     "property_code_on_page": "",
+     "canonical_url": "https://mountainshadows.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4806245400",
+      "8554851417"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "85253",
+   "expected_street": "5445 East Lincoln Drive",
+   "captured_at": "2026-09-29T04:11:06.379454+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://mountainshadows.com"
+    },
+    "envelope_sha256": "e5079666d5b5de4bdce0cc11bd90497dcd987159e86a5b1ef85a37a526c01b0f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\mountain-shadows\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "radisson hotel phoenix airport",
+   "canonical_name": "Radisson Hotel Phoenix Airport",
+   "family": "RADISSON",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.radisson.com/phoenixaz_airport",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85008",
+   "expected_street": "427 N 44th Street",
+   "captured_at": "2026-09-29T04:11:20.693287+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.radisson.com/phoenixaz_airport"
+    },
+    "envelope_sha256": "5aeefead912bf81a018de6e7c07e9dc900e098961558566d26f5fb07c75f53e8"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\radisson-hotel-phoenix-airport\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "red roof inn phoenix midtown",
+   "canonical_name": "Red Roof Inn Phoenix - Midtown",
+   "family": "RED_ROOF",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.redroof.com/property/az/phoenix/rri1167",
+   "final_url": "https://www.redroof.com/property/az/phoenix/rri1167",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Phoenix - Midtown",
+     "address_on_page": "4130 N Black Canyon Hwy",
+     "postal_code": "",
+     "phone_on_page": "1-614-695-3720",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.redroof.com/property/az/phoenix/rri1167",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "6146953720",
+      "8778437663",
+      "8777337244",
+      "8003330991",
+      "6025365528",
+      "8007337663",
+      "8773983633"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-29T04:11:24.560005+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.redroof.com/property/az/phoenix/rri1167"
+    },
+    "envelope_sha256": "450e0289ca1d82342fd06fc912aea6c5a23c92aab7332964f1bcf80f80ae7892"
+   },
+   "page_sha256": "f87555152e998f49fd73cbd52238f314f2f90bb6c407efc5bbbf20308030b60f",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\red-roof-inn-phoenix-midtown\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "fee_cap": {
+      "amount_minor": 10500,
+      "currency": "USD",
+      "basis": "per_stay"
+     },
+     "weight_limit": {
+      "value": 80.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "not to exceed 7 nights or $105 per pet per stay",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_cap"
+      ]
+     },
+     {
+      "quote": "not to exceed 80 pounds",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Up to 2 pets",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "pet (cat or dog)",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "fee_cap": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "species_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof inn phoenix midtown::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri1167",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f87555152e998f49fd73cbd52238f314f2f90bb6c407efc5bbbf20308030b60f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof inn phoenix midtown::fee_cap::1",
+       "field": "fee_cap",
+       "quote": "not to exceed 7 nights or $105 per pet per stay",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri1167",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f87555152e998f49fd73cbd52238f314f2f90bb6c407efc5bbbf20308030b60f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof inn phoenix midtown::weight_limit::2",
+       "field": "weight_limit",
+       "quote": "not to exceed 80 pounds",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri1167",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f87555152e998f49fd73cbd52238f314f2f90bb6c407efc5bbbf20308030b60f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof inn phoenix midtown::pet_count_limit::3",
+       "field": "pet_count_limit",
+       "quote": "Up to 2 pets",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri1167",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f87555152e998f49fd73cbd52238f314f2f90bb6c407efc5bbbf20308030b60f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof inn phoenix midtown::species_allowed::4",
+       "field": "species_allowed",
+       "quote": "pet (cat or dog)",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri1167",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f87555152e998f49fd73cbd52238f314f2f90bb6c407efc5bbbf20308030b60f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "117ca1f3c326ebc6e1196a7c4adceec2941ed5653c0ac90db2db3f0452fd3dc4",
+     "document_sha256": "f87555152e998f49fd73cbd52238f314f2f90bb6c407efc5bbbf20308030b60f"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "red roof inn phoenix north i 17 at bell rd",
+   "canonical_name": "Red Roof Inn Phoenix North - I-17 at Bell Rd",
+   "family": "RED_ROOF",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.redroof.com/property/az/phoenix/rri250",
+   "final_url": "https://www.redroof.com/property/az/phoenix/rri250",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Phoenix North - I-17 at Bell Rd",
+     "address_on_page": "17222 N Black Cyn Hwy",
+     "postal_code": "",
+     "phone_on_page": "1-937-328-1593",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.redroof.com/property/az/phoenix/rri250",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "9373281593",
+      "8778437663",
+      "8777337244",
+      "8003330991",
+      "6028661049",
+      "8007337663",
+      "8773983633"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-29T04:11:34.950756+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.redroof.com/property/az/phoenix/rri250"
+    },
+    "envelope_sha256": "d32a752074f00cdd966ed19aacf75bf6cbd68f82aeeabd15099fe5d5c497834c"
+   },
+   "page_sha256": "5b27f347eea2641f27e3f63bcd7babc5a45f51b1ef3546204393a7204c455874",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\red-roof-inn-phoenix-north-i-17-at-bell-rd\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "fee_cap": {
+      "amount_minor": 10500,
+      "currency": "USD",
+      "basis": "per_stay"
+     },
+     "weight_limit": {
+      "value": 80.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "not to exceed 7 nights or $105 per pet per stay",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_cap"
+      ]
+     },
+     {
+      "quote": "not to exceed 80 pounds",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Up to 2 pets",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "pet (cat or dog)",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "fee_cap": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "species_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof inn phoenix north i 17 at bell rd::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri250",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5b27f347eea2641f27e3f63bcd7babc5a45f51b1ef3546204393a7204c455874",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof inn phoenix north i 17 at bell rd::fee_cap::1",
+       "field": "fee_cap",
+       "quote": "not to exceed 7 nights or $105 per pet per stay",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri250",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5b27f347eea2641f27e3f63bcd7babc5a45f51b1ef3546204393a7204c455874",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof inn phoenix north i 17 at bell rd::weight_limit::2",
+       "field": "weight_limit",
+       "quote": "not to exceed 80 pounds",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri250",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5b27f347eea2641f27e3f63bcd7babc5a45f51b1ef3546204393a7204c455874",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof inn phoenix north i 17 at bell rd::pet_count_limit::3",
+       "field": "pet_count_limit",
+       "quote": "Up to 2 pets",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri250",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5b27f347eea2641f27e3f63bcd7babc5a45f51b1ef3546204393a7204c455874",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof inn phoenix north i 17 at bell rd::species_allowed::4",
+       "field": "species_allowed",
+       "quote": "pet (cat or dog)",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri250",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5b27f347eea2641f27e3f63bcd7babc5a45f51b1ef3546204393a7204c455874",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "7971b09c92bbcf0fe0e9f3139598a83592b4384037c7e92ccc7f2212298f35a6",
+     "document_sha256": "5b27f347eea2641f27e3f63bcd7babc5a45f51b1ef3546204393a7204c455874"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "red roof plus phoenix west",
+   "canonical_name": "Red Roof Plus+ Phoenix West",
+   "family": "RED_ROOF",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.redroof.com/property/az/phoenix/rri261",
+   "final_url": "https://www.redroof.com/property/az/phoenix/rri261",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Phoenix West",
+     "address_on_page": "5215 W Willetta St",
+     "postal_code": "",
+     "phone_on_page": "1-937-328-1601",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.redroof.com/property/az/phoenix/rri261",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "9373281601",
+      "8778437663",
+      "8777337244",
+      "8003330991",
+      "6022338004",
+      "8007337663",
+      "8773983633"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, street_identity, phone, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "85043",
+   "expected_street": "5215 West Willetta Street",
+   "captured_at": "2026-09-29T04:11:45.162356+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.redroof.com/property/az/phoenix/rri261"
+    },
+    "envelope_sha256": "fe193bb4c346333d35f9147b3e5afb9ac5cadee709c29b22a22dae96faec9f8d"
+   },
+   "page_sha256": "e1f73e5e05b0752db413e109355296a4bc74de7915049cb24d6a22b0d88cd05a",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\red-roof-plus-phoenix-west\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "fee_cap": {
+      "amount_minor": 10500,
+      "currency": "USD",
+      "basis": "per_stay"
+     },
+     "weight_limit": {
+      "value": 80.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "not to exceed 7 nights or $105 per pet per stay",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_cap"
+      ]
+     },
+     {
+      "quote": "not to exceed 80 pounds",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Up to 2 pets",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "pet (cat or dog)",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "fee_cap": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "species_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof plus phoenix west::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri261",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e1f73e5e05b0752db413e109355296a4bc74de7915049cb24d6a22b0d88cd05a",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof plus phoenix west::fee_cap::1",
+       "field": "fee_cap",
+       "quote": "not to exceed 7 nights or $105 per pet per stay",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri261",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e1f73e5e05b0752db413e109355296a4bc74de7915049cb24d6a22b0d88cd05a",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof plus phoenix west::weight_limit::2",
+       "field": "weight_limit",
+       "quote": "not to exceed 80 pounds",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri261",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e1f73e5e05b0752db413e109355296a4bc74de7915049cb24d6a22b0d88cd05a",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof plus phoenix west::pet_count_limit::3",
+       "field": "pet_count_limit",
+       "quote": "Up to 2 pets",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri261",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e1f73e5e05b0752db413e109355296a4bc74de7915049cb24d6a22b0d88cd05a",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::red roof plus phoenix west::species_allowed::4",
+       "field": "species_allowed",
+       "quote": "pet (cat or dog)",
+       "source_url": "https://www.redroof.com/property/az/phoenix/rri261",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e1f73e5e05b0752db413e109355296a4bc74de7915049cb24d6a22b0d88cd05a",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "0cdea7b9daca43efab82ad03704b65054d879a674f6878fa6b5c73d0eac2c18b",
+     "document_sha256": "e1f73e5e05b0752db413e109355296a4bc74de7915049cb24d6a22b0d88cd05a"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "scottsdale parkview hotel",
+   "canonical_name": "Scottsdale Parkview Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.scottsdaleparkview.com/",
+   "final_url": "https://www.scottsdaleparkview.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85257",
+   "expected_street": "7707 East McDowell Road",
+   "captured_at": "2026-09-29T04:11:55.720102+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.scottsdaleparkview.com/"
+    },
+    "envelope_sha256": "2a48a45931a82b5c974fe663b7ca7f790a93b6fc88e63c93e898514ecf04b97b"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\scottsdale-parkview-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "sentral phoenix alloy midtown",
+   "canonical_name": "Sentral Phoenix Alloy Midtown",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://sentral.com/phoenix/alloy-midtown/stay",
+   "final_url": "https://sentral.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85012",
+   "expected_street": "3010 N 2nd St.",
+   "captured_at": "2026-09-29T04:12:05.669888+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://sentral.com/phoenix/alloy-midtown/stay"
+    },
+    "envelope_sha256": "38dcd82d7dd7259fd3271766bf12712b36dcf0e120a7f9976336e74e93e39f3e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\sentral-phoenix-alloy-midtown\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "suites of america mesa",
+   "canonical_name": "Suites of America - Mesa",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.budgetsuites.com/goloc/mesa_mesa",
+   "final_url": "http://www.budgetsuites.com/goloc/mesa_mesa",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Budget Suites of America",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "4804641300"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "85202",
+   "expected_street": "825 S. Dobson Rd.",
+   "captured_at": "2026-09-29T04:12:16.442465+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.budgetsuites.com/goloc/mesa_mesa"
+    },
+    "envelope_sha256": "1b1e8b286d44a32c7b4f192d6b8c10a2963d9249de4264ed2de07e4168031930"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\suites-of-america-mesa\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "tempe mission palms hotel and conference center",
+   "canonical_name": "Tempe Mission Palms Hotel & Conference Center",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.missionpalms.com",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85281",
+   "expected_street": "60 E 5th Street",
+   "captured_at": "2026-09-29T04:12:26.675151+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.missionpalms.com"
+    },
+    "envelope_sha256": "9a1fb71f0eafc6f88a3441ae776c0abf12b66ad4ed9f38c77653d7d05f40a05b"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\tempe-mission-palms-hotel-and-conference-center\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "the clarendon hotel and spa bw signature collection",
+   "canonical_name": "The Clarendon Hotel & Spa, BW Signature Collection",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.goclarendon.com",
+   "final_url": "https://goclarendon.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Clarendon Hotel and Spa",
+     "address_on_page": "401 W Clarendon Ave",
+     "postal_code": "85013",
+     "phone_on_page": "(602) 252-7363",
+     "property_code_on_page": "",
+     "canonical_url": "https://goclarendon.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "6022527363"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "85013",
+   "expected_street": "401 W. Clarendon Ave.",
+   "captured_at": "2026-09-29T04:12:31.282661+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.goclarendon.com"
+    },
+    "envelope_sha256": "8d84aa79f667793313cde9c19d2c3e774a1448cdcf0a477d8b799812afe9e217"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\the-clarendon-hotel-and-spa-bw-signature-collection\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "the hermosa inn",
+   "canonical_name": "The Hermosa Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.hermosainn.com",
+   "final_url": "https://azhideawaycollection.com/hermosa-inn/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "85253",
+   "expected_street": "5532 North Palo Cristi Road",
+   "captured_at": "2026-09-29T04:12:43.075507+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.hermosainn.com"
+    },
+    "envelope_sha256": "3550395d7d4d4b36fae53c9c12910b92ae4be70488d5ac443a0b13eb230563d8"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\the-hermosa-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "the mccormick scottsdale",
+   "canonical_name": "The McCormick Scottsdale",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.millenniumhotels.com/en/scottsdale/the-mccormick-scottsdale/",
+   "final_url": "https://www.millenniumhotels.com/en/scottsdale/the-mccormick-scottsdale/",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The McCormick Scottsdale | Scottsdale Resort",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.millenniumhotels.com/en/scottsdale/the-mccormick-scottsdale/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8005351865",
+      "8002431332"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-09-29T04:13:20.905363+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.millenniumhotels.com/en/scottsdale/the-mccormick-scottsdale/"
+    },
+    "envelope_sha256": "5de482a90c039882626a8e765a5333999b95f731f5ad9630dd79c12fc497ea94"
+   },
+   "page_sha256": "5291814b6ff655980f0ff69a23736c9c5856be0e77214356f486c1a34ef99859",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\the-mccormick-scottsdale\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "pet_deposit": 10000,
+     "pet_fee": 10000,
+     "fee_currency": "USD",
+     "service_animal_exception": "Pets and Service Animals allowed Pet cleaning fee: $100 one time non-refundable deposit."
+    },
+    "evidence": [
+     {
+      "quote": "$100 refundable deposit",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_deposit"
+      ]
+     },
+     {
+      "quote": "Pet cleaning fee: $100",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Pets and Service Animals allowed Pet cleaning fee: $100 one time non-refundable deposit.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT",
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pet_deposit": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::the mccormick scottsdale::pet_deposit::0",
+       "field": "pet_deposit",
+       "quote": "$100 refundable deposit",
+       "source_url": "https://www.millenniumhotels.com/en/scottsdale/the-mccormick-scottsdale/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5291814b6ff655980f0ff69a23736c9c5856be0e77214356f486c1a34ef99859",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::the mccormick scottsdale::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "Pet cleaning fee: $100",
+       "source_url": "https://www.millenniumhotels.com/en/scottsdale/the-mccormick-scottsdale/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5291814b6ff655980f0ff69a23736c9c5856be0e77214356f486c1a34ef99859",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::the mccormick scottsdale::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "Pet cleaning fee: $100",
+       "source_url": "https://www.millenniumhotels.com/en/scottsdale/the-mccormick-scottsdale/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5291814b6ff655980f0ff69a23736c9c5856be0e77214356f486c1a34ef99859",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::the mccormick scottsdale::service_animal_exception::2",
+       "field": "service_animal_exception",
+       "quote": "Pets and Service Animals allowed Pet cleaning fee: $100 one time non-refundable deposit.",
+       "source_url": "https://www.millenniumhotels.com/en/scottsdale/the-mccormick-scottsdale/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5291814b6ff655980f0ff69a23736c9c5856be0e77214356f486c1a34ef99859",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "0d7732f9c12d8fd58e48a4b66d8782d3d4fb7695f7f529efb31728ccb5598f27",
+     "document_sha256": "5291814b6ff655980f0ff69a23736c9c5856be0e77214356f486c1a34ef99859"
+    }
+   },
+   "pets_allowed": null,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "the wigwam",
+   "canonical_name": "The Wigwam",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.wigwamarizona.com/?nck=8442859042",
+   "final_url": "https://www.wigwamarizona.com/",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Wigwam",
+     "address_on_page": "300 E Wigwam Blvd",
+     "postal_code": "85340",
+     "phone_on_page": "+1-844-239-1641",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wigwamarizona.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8442391641",
+      "8442859042",
+      "0764411782",
+      "0739611782",
+      "1297711790",
+      "3107467111"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '+1-844-239-1641' is not the census number '+1 866 976 6894'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "85340",
+   "expected_street": "300 East Wigwam Boulevard",
+   "captured_at": "2026-09-29T04:13:32.833119+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.wigwamarizona.com/?nck=8442859042"
+    },
+    "envelope_sha256": "cf44a13a0a54674abd369ee61b5faa215392137590e26671a334fa1415642cb2"
+   },
+   "page_sha256": "8813610e001a12026ffbc5553369b782eb021a68444da54d507e8012c4fa0d94",
+   "artifact_dir": "data\\acquisition\\phoenix_az_firecrawl_001\\the-wigwam\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "species_allowed": [
+      "dog"
+     ]
+    },
+    "evidence": [
+     {
+      "quote": "pet-friendly",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "dogs are welcome",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SOURCE_AMBIGUOUS"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "species_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::the wigwam::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pet-friendly",
+       "source_url": "https://www.wigwamarizona.com/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "8813610e001a12026ffbc5553369b782eb021a68444da54d507e8012c4fa0d94",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "phoenix_az_firecrawl_001::the wigwam::species_allowed::1",
+       "field": "species_allowed",
+       "quote": "dogs are welcome",
+       "source_url": "https://www.wigwamarizona.com/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "8813610e001a12026ffbc5553369b782eb021a68444da54d507e8012c4fa0d94",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-29",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "1625a08c65bc8e16daf3f2338f9c816201c3faebfae3b959ba856cb8ded6e297",
+     "document_sha256": "8813610e001a12026ffbc5553369b782eb021a68444da54d507e8012c4fa0d94"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  }
+ ]
+}
