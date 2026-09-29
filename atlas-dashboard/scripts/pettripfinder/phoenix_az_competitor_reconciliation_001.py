@@ -36,7 +36,7 @@ from scripts.pettripfinder import phoenix_az_census_reconciliation_001 as CR  # 
 WORK_ORDER = "PTF-PHOENIX-AZ-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "phoenix-az.json")
+CENSUS = os.path.join(PKG, "identity_census", "phoenix-az.json")
 COMPETITOR = os.path.join(REPORTS, "phoenix_az_competitor_challenge_001.json")
 CLEAN = os.path.join(REPORTS, "phoenix_az_clean_authority_001.json")
 OUT = os.path.join(REPORTS, "phoenix_az_competitor_reconciliation_001.json")

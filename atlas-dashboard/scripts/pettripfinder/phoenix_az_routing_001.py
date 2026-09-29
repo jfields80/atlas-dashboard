@@ -42,7 +42,7 @@ MARKET_ID = "phoenix-az"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "phoenix-az.json")
+CENSUS = os.path.join(PKG, "identity_census", "phoenix-az.json")
 OUT = os.path.join(REPORTS, "phoenix_az_routing_001.json")
 
 _NAME_FAMILY = [

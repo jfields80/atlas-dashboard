@@ -23,7 +23,7 @@ from scripts.pettripfinder import phoenix_az_policy_pages_lane_001 as PP  # noqa
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "phoenix_az_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "phoenix-az.json")
+CENSUS = os.path.join(PKG, "identity_census", "phoenix-az.json")
 OUT = os.path.join(PKG, "markets", "staging", "phoenix-az", "raw_captures", "closure_static_rows.json")
 
 
