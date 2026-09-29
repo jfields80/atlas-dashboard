@@ -7,13 +7,13 @@ not authorized and not deployed.
 
 | | |
 |---|---|
-| Shadow package | `{{PKG_ID}}` (`{{DIGEST}}`), SHADOW_UNTIL_REGISTERED |
+| Shadow package | `pkg-phoenix-az-865822f4d2fe2640` (`sha256:865822f4d2fe2640fc517f489effaa2ec2d900a0814ce492127c232b41bbe167`), SHADOW_UNTIL_REGISTERED |
 | Sealed from | `2907c502` (every staged input committed), sealed twice in-process with the same digest |
-| FAST | **{{FAST}}**; receipt `{{RECEIPT}}`, currently ELIGIBLE (`eligible_receipts` returns it) |
-| Rule J (non-empty) | {{RULE_J}} |
-| Rule K (non-vacuous) | {{RULE_K}} |
-| First-party gate | {{GATE}} |
-| Independent reproduction | {{REPRO}} |
+| FAST | **15/15 PASS, 0 UNKNOWN, 0 FAILED**; receipt `sha256:518e99d8…329c`, currently ELIGIBLE (`eligible_receipts` returns it) |
+| Rule J (non-empty) | PASS: 1,553 files, 1,537 HTML, output present, 0 output defects; bundle `ea2a8d31…8d69`; 18 corridor pages and the policy-comparison page, 0 warnings, 0 broken internal links, 0 quality-gate failures |
+| Rule K (non-vacuous) | PASS: BYTE_IDENTICAL, 4 cold builds, 0 reuse hits |
+| First-party gate | 319/319 eligible |
+| Independent reproduction | Detached worktree, separate process, separate work dir. Same package id, digest and bundle; 15/15. **FILES COMPARED 8, DIFFERING FILES 0** |
 | Census / published | 488 identities: **256 pet-friendly + 63 verified no-pets** = 319 resolved (65.37 %); 169 unresolved |
 | Actionability | **ACTIONABLE UNRESOLVED 0**: 88 router-exhausted, 48 need new spend, 30 need a founder decision, 3 held until opening |
 | Coverage | **FOUNDER DECISION** (mechanical; see §9) |
@@ -33,8 +33,9 @@ Commits on this branch:
 
 1. `2907c502`: staged inputs (census, staged policy package, shard documents, partition, every Phoenix module and
    report).
-2. `{{PKG_COMMIT}}`: the shadow package, its receipt and report.
-3. This report and the reproduction record.
+2. `9a503f5e`: the shadow package, its receipt and report (an unfilled draft of this report was swept into it).
+3. This report, the reproduction record, and the capture-time correction of the read log (§6.8), which touches no
+   sealed input.
 
 ## 2. Geography (Phases 3–6)
 
@@ -223,7 +224,7 @@ MARRIOTT ACTIONABLE REMAINING = **0** (100 census rows: 66 PF, 18 NP, 16 held �
 
 **Other rules.**
 
-- Every published quote passes the shared first-party reader (FAST rule C; gate {{GATE}}).
+- Every published quote passes the shared first-party reader (FAST rule C; gate 319/319 eligible).
 - Each row has one disposition, and every hold carries its reason.
 
 ## 6. Defects found and fixed in this market's own modules
@@ -246,6 +247,13 @@ MARRIOTT ACTIONABLE REMAINING = **0** (100 census rows: 66 PF, 18 NP, 16 held �
    write. The line break is now transcribed as a space, with a note on the read.
 7. **Same-name demotion hid a real hotel.** OSM put Sonesta Suites Gainey Ranch at 85253 and the brand at 85258, and
    the same-name pair was demoted to review. The property's own page (85258) now decides it: it publishes.
+8. **Capture times ran ahead of the wall clock.** The attended-browser recorder took each read's `captured_at` as
+   transcribed, and the transcribed clock drifted up to three hours ahead of real time: 275 of 286 reads carried a
+   capture time later than the moment their batch was recorded, which is impossible. Each impossible value is now
+   clamped to the batch's recording time (a true upper bound), with the transcribed value and the basis kept on the
+   read. Capture times reach no sealed input (census, policy package, partition and shard documents carry none), so
+   the package digest is unchanged; only the read log and the browser-lane report changed, and the clean authority
+   re-ran byte-identical.
 
 ## 7. Competitor challenge and large-market quality challenge (Phases 10 and 26)
 
@@ -326,7 +334,25 @@ new spend (48), a founder ruling (30) or the hotel's opening (3).
 
 ## 10. Reproduction (Phase 31)
 
-{{REPRO_SECTION}}
+**Setup.**
+
+- Detached worktree `C:/t/phx1b-wt` at `9a503f5e`.
+- A separate OS process; its process record was written before it started
+  (`reproduction/independent_reproduction_process.txt`).
+- Work dir `C:/t/phx1b`; the sealing run used `C:/t/phx1a`.
+- The staged tree was re-derived with `--stage`.
+
+**Results.**
+
+- Same package id and digest (`pkg-phoenix-az-865822f4d2fe2640`).
+- Same bundle `ea2a8d31…8d69`; rule J 1,553 files / 1,537 HTML / output present in both runs.
+- 15/15 PASS, BYTE_IDENTICAL, ELIGIBLE YES in both runs.
+- Staged tree: file sets equal; **FILES COMPARED 8, DIFFERING FILES 0** (byte-identical even before LF
+  normalisation). The package file is identical after LF normalisation.
+- Receipt: 1506 fields compared. The 34 that differ are wall-clock seconds, timestamps, peak working set, the two cache
+  `input_key`s (they hash the work-dir path; both runs BUILD_EXECUTED), and therefore the receipt digest.
+
+The worktree and both scratch work dirs were removed afterwards.
 
 ## 11. Isolation, boundaries and cleanup (Phases 33–34)
 
@@ -352,7 +378,7 @@ remain. One unrelated pre-existing process (`C:\t\sink.py`, started 2026-09-14) 
 
 **Performance (Phase 34).**
 
-- START 2026-09-29T01:45:20Z; ZERO_TO_SOURCE_READY {{ZTSR}}.
+- START 2026-09-29T01:45:20Z; ZERO_TO_SOURCE_READY 5h16m (the FAST-clean shadow package was committed as `9a503f5e` at 07:00:51Z).
 - Active compute is dominated by the census reconciliation (about 6 minutes a run, run to a fixpoint after each
   browser batch).
 - Provider / cooldown wait: none forced; browser pacing ~6–8 s per page, Marriott ~30 s.
@@ -382,4 +408,75 @@ This order may not modify another market. It needs its own correction order.
 
 ## FINAL ANSWERS
 
-{{ANSWERS}}
+1. START TIMESTAMP = 2026-09-29T01:45:20Z
+2. ZERO_TO_SOURCE_READY = 5h16m (FAST-clean shadow package committed `9a503f5e` at 07:00:51Z)
+3. ZERO_TO_COVERAGE_READY = not reached. Coverage is FOUNDER DECISION; the mechanical decision was reached with the source-ready package (5h16m)
+4. CURRENT LIVE DEPLOYMENT = Denver, deploy 6aba7587ddcc33a192bdf694 (source edf11b7a, bundle 7d3471c7…, sitemap 5d3d07a4…)
+5. CURRENT LIVE MARKETS = 36 (2,954 profiles / 3,274 release-index routes / 3,343 served routes)
+6. TOTAL DISCOVERED = 3,915 raw observations
+7. NORMALIZED IDENTITIES = 2,499 graph nodes
+8. QUALIFYING CENSUS = 488
+9. PET-FRIENDLY = 256
+10. VERIFIED NO-PETS = 63
+11. RESOLVED = 319
+12. UNRESOLVED = 169
+13. RESOLUTION RATE = 65.37 %
+14. ACTIONABLE UNRESOLVED = 0
+15. HOLDS BY CLASS = IDENTITY 49 (28 of them dual-brand), ROUTING 61, ACCESS_BLOCKED 7, EVIDENCE 22 (3 of them PREOPENING), SOURCE_SILENT 30, NEGATION 0, BROWSER_CAPTURE 0, POLICY_NOT_FOUND 0, GEOGRAPHY 0
+16. EXCLUSIONS BY CLASS = vacation rental 271, timeshare 11, resort residence 0, non-hotel 137, outside 440, name-only residue 1,034, identity-review residue 112, same-campus distinct entity 4, closed 0
+17. PREOPENING IDENTITIES = 3 (Home2 Suites Peoria North, ECHO Suites Phoenix-Chandler, Vai Resort)
+18. PREOPENING PUBLISHED = 0
+19. PUBLISHING CORRIDORS = 18 of 26
+20. SCOTTSDALE CLASSIFICATION = inside phoenix-az, not a separate market: Old Town Scottsdale (CORE), Central Scottsdale (CORE), Paradise Valley (CORE), Scottsdale Airpark & Kierland (STRONG CORRIDOR), North Scottsdale (STRONG CORRIDOR); the four Scottsdale-named corridors hold 75 census rows / 44 PF
+21. COMPETITOR RAW / NORMALIZED / MATCHED / TRUE MISSING = 1,858 / 1,544 / 276 / 12
+22. MATERIAL IDENTITY GAP = NO
+23. MATERIAL POLICY GAP = NO
+24. FIRECRAWL ATTEMPTED / SUCCESS = 131 / 103 (22 discovery pages → 77 routes; 76 brand-page answers, 66 with their own address; 33 routed reads, 5 publication-grade), plus 5 credits in an aborted first start of pass 001
+25. MARRIOTT CENSUS = 100
+26. MARRIOTT BROWSER ATTEMPTED = 106
+27. MARRIOTT READ SUCCESS = 102 (the other 4 are timeshare resorts the brand's own page names, excluded)
+28. MARRIOTT CHALLENGE DENIED = 0
+29. MARRIOTT ACTIONABLE REMAINING = 0
+30. OTHER BROWSER ATTEMPTED / SUCCESS = 180 / 152
+31. DUAL-BRAND / SHARED-CAMPUS HOLDS = 14 buildings / 28 rows (Marriott 8 buildings, Hilton 4, Hyatt 1, Choice + Wyndham 1), all held for a same_campus_distinct_entity resolution
+32. SINGLE-BASIS FEES PUBLISHED = 49
+33. TIERED FEES WITHHELD = 77
+34. UNSAFE / MULTI-AMOUNT FEES WITHHELD = 35 unsafe single fees (basis not stated 30, stay-length condition 5); the 77 multi-amount fees are counted in answer 33
+35. MISLEADING SINGLE FEES = 0
+36. ACCESS_BLOCKED AFTER ROUTER EXHAUSTION = 7
+37. EXISTING PROVIDER CREDITS USED = 133 Firecrawl credits (864 → 731)
+38. NEW PAID SPEND = 0
+39. PROVIDER COST = USD 0 (existing Firecrawl plan only)
+40. RULE J NONEMPTY = PASS (1,553 files / 1,537 HTML / output present / 0 output defects)
+41. RULE K NONVACUOUS = PASS (BYTE_IDENTICAL, 4 cold builds, 0 reuse)
+42. FAST RECEIPT CURRENTLY ELIGIBLE = YES (`eligible_receipts` returns it; 0 output defects; 0 UNKNOWN)
+43. SHADOW PACKAGE CREATED = YES, pkg-phoenix-az-865822f4d2fe2640, SHADOW_UNTIL_REGISTERED
+44. PACKAGE REPRODUCIBLE = YES (in-process two-seal, and independent reproduction: BYTE IDENTICAL, DIFFERING FILES 0)
+45. PACKAGE DIGEST = sha256:865822f4d2fe2640fc517f489effaa2ec2d900a0814ce492127c232b41bbe167
+46. FAST = 15/15 PASS, 0 UNKNOWN, 0 FAILED
+47. TECHNICAL SOURCE READY = YES
+48. COVERAGE READY = FOUNDER DECISION
+49. CROSS-MARKET FILE CHANGES = 0
+50. FACTORY CODE CHANGED = NO
+51. BROAD REGRESSION RUNS = 0
+52. FINAL PRODUCTION CANDIDATE CREATED = NO
+53. FOUNDER AUTHORIZATION CREATED = NO
+54. PHOENIX DEPLOYED = NO
+55. origin == HEAD = YES (verified after the final push)
+56. tree clean = YES (verified after the final push)
+
+```
+PHOENIX SOURCE READY = YES
+PHOENIX COVERAGE READY = FOUNDER DECISION
+ACTIONABLE UNRESOLVED = 0
+PREOPENING PROFILES PUBLISHED = 0
+MISLEADING SINGLE FEES = 0
+RULE J NONEMPTY = PASS
+RULE K NONVACUOUS = PASS
+FAST = 15/15 PASS, 0 UNKNOWN, 0 FAILED
+FACTORY CODE CHANGED = NO
+BROAD REGRESSION RUNS = 0
+PHOENIX FINAL CANDIDATE = NO
+PHOENIX DEPLOYED = NO
+WAITING FOR RELEASE QUEUE = YES
+```
