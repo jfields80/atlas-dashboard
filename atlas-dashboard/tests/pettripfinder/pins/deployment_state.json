@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-DENVER-CO-PRODUCTION-DEPLOYMENT-005",
+ "reviewed_by": "PTF-PHOENIX-AZ-PRODUCTION-DEPLOYMENT-005",
  "live": {
-  "deploy_id": "6aba7587ddcc33a192bdf694",
-  "deployed_by": "PTF-DENVER-CO-PRODUCTION-DEPLOYMENT-005",
-  "authorization_id": "ptf-auth-denver-004-7d3471c79e2d",
-  "deployment_record_id": "ptf-deploy-denver-005-6aba7587ddcc33a192bdf694",
-  "previous_deploy_id": "6ab859787d349f8397e1450a",
-  "source_commit": "5bc62502a74407af6c9eadc7b5325c1ea521cccb",
-  "bundle_sha256": "7d3471c79e2d20d01c69e6dbd134bd3a5caec35e35967958f797decd06ee338a",
-  "sitemap_sha256": "5d3d07a4c96563c0147cdca2ad0061ea437fee9748bc5cd3169eefe083712a2c",
+  "deploy_id": "6abc8387e81507b25eb94a0a",
+  "deployed_by": "PTF-PHOENIX-AZ-PRODUCTION-DEPLOYMENT-005",
+  "authorization_id": "ptf-auth-phoenix-004-19234b7affec",
+  "deployment_record_id": "ptf-deploy-phoenix-005-6abc8387e81507b25eb94a0a",
+  "previous_deploy_id": "6aba7587ddcc33a192bdf694",
+  "source_commit": "63e410ff9cde676bd0621e2e1a7029bf54ff81bd",
+  "bundle_sha256": "19234b7affec61c16d6ac40e864e83a4c497262b2451eba2d03821482e9a1f78",
+  "sitemap_sha256": "647596dca769c1b82c94e1c512ab04d87bbe729c07c1d06a49c2e11e5c652ecb",
   "participating_markets": [
    "asheville-nc",
    "atlanta-ga",
@@ -37,6 +37,7 @@
    "nashville-tn",
    "orlando-fl",
    "outer-banks-nc",
+   "phoenix-az",
    "piedmont-triad-nc",
    "pittsburgh-pa",
    "raleigh-nc",
@@ -75,6 +76,7 @@
    "nashville-tn": 79,
    "orlando-fl": 201,
    "outer-banks-nc": 26,
+   "phoenix-az": 256,
    "piedmont-triad-nc": 54,
    "pittsburgh-pa": 61,
    "raleigh-nc": 63,
@@ -87,19 +89,19 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 2954,
-  "sitemap_route_count": 3343,
-  "total_html_pages": 17886,
-  "total_files": 17904,
-  "rollback_target": "6ab859787d349f8397e1450a",
-  "note": "Denver / Boulder / Front Range, Colorado joined as the THIRTY-SIXTH market and the first Colorado market at 288 published pet-friendly profiles over 16 publishing corridors (aurora, boulder, central-park-lowry-i70, cherry-creek-glendale, den-airport, denver-tech-center, downtown-lodo-union-station, golden-red-rocks, highlands-rino-north-denver, lakewood-wheat-ridge, littleton-englewood, longmont-erie, louisville-superior-lafayette, parker-southeast, thornton-northglenn-north-i25, westminster-broomfield), on package pkg-denver-co-07f10db29ab56d98. Built from zero on the San Diego-live lineage, registered as COMPOSITE_FRESH_MARKET_DATA_ONLY with 0 broad regression runs, corrected before authorization (the not-yet-open ECHO Suites Thornton held), and founder-authorized once (PTF-DENVER-CO-FOUNDER-LAUNCH-AUTHORIZATION-004; the superseded 289-profile package pkg-denver-co-91b2e0a2 was refused) -- this market's FIRST authorization and FIRST deployment, so nothing was superseded. The exact authorized artifact was deployed with no rebuild: the served sitemap hashes to the authorized candidate, the served route SET is identical to it, all 3037 parent routes refetched 200 with 0 lost, all 306 Denver routes are live, and every unpublished census row returns 404 -- 52 with no first-party website, 16 founder-decision rows (seven dual-brand buildings, no identity_resolutions.json ruling written; two ESA title collisions, no display name invented), 38 router-exhausted, the not-yet-open ECHO Suites Thornton and the 46 verified-no-pets rows, which publish only as exclusions. Colorado Springs, Fort Collins / Loveland, Estes Park and the ski resorts remain refused. The other 4 corridors stay below their own publication minimum and were not forced. Rollback is the deployment Denver replaced (San Diego-live, 35 markets).",
-  "rollback_record": "ptf-deploy-san-diego-004-6ab859787d349f8397e1450a.json"
+  "total_profiles": 3210,
+  "sitemap_route_count": 3619,
+  "total_html_pages": 19418,
+  "total_files": 19436,
+  "rollback_target": "6aba7587ddcc33a192bdf694",
+  "note": "Phoenix / Scottsdale / Valley of the Sun, Arizona joined as the THIRTY-SEVENTH market and the first Arizona market at 256 published pet-friendly profiles over 18 publishing corridors (downtown-phoenix, biltmore-camelback-arcadia, phx-sky-harbor, tempe, old-town-scottsdale, central-scottsdale, paradise-valley, mesa, chandler, glendale, scottsdale-airpark-kierland, north-scottsdale, north-phoenix-deer-valley, west-phoenix, gilbert, goodyear-avondale-litchfield, surprise-sun-city, buckeye), on package pkg-phoenix-az-07f7e75699af6a8c. Built from zero on the Denver-live lineage, registered as COMPOSITE_FRESH_MARKET_DATA_ONLY with 0 broad regression runs, corrected before authorization (four Wyndham vacation-ownership resorts moved to TIMESHARE, outside hotel inventory), and founder-authorized once (PTF-PHOENIX-AZ-FOUNDER-LAUNCH-AUTHORIZATION-004; the earlier packages pkg-phoenix-az-85ad9b66 and pkg-phoenix-az-865822f4 were refused) -- this market's FIRST authorization and FIRST deployment, so nothing was superseded. The exact authorized artifact was deployed with no rebuild: the served sitemap hashes to the authorized candidate, the served route SET is identical to it, all 3343 parent routes refetched 200 with 0 lost, all 276 Phoenix routes are live, and every unpublished census row returns 404 -- 48 Places-gated, 30 founder-decision rows (fourteen dual-brand buildings and two redirect-domain rulings, no identity_resolutions.json ruling written), 88 router-exhausted / evidence / source-silent, three hotels not yet open and the 59 verified-no-pets rows, which publish only as exclusions. Sedona, Flagstaff, the Grand Canyon, Prescott and Tucson remain refused. The other 8 corridors stay below their own publication minimum and were not forced. Rollback is the deployment Phoenix replaced (Denver-live, 36 markets).",
+  "rollback_record": "ptf-deploy-denver-005-6aba7587ddcc33a192bdf694.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "7d3471c79e2d20d01c69e6dbd134bd3a5caec35e35967958f797decd06ee338a",
-  "sitemap_sha256": "5d3d07a4c96563c0147cdca2ad0061ea437fee9748bc5cd3169eefe083712a2c",
+  "bundle_sha256": "19234b7affec61c16d6ac40e864e83a4c497262b2451eba2d03821482e9a1f78",
+  "sitemap_sha256": "647596dca769c1b82c94e1c512ab04d87bbe729c07c1d06a49c2e11e5c652ecb",
   "participating_markets": [
    {
     "market_id": "asheville-nc",
@@ -277,6 +279,13 @@
     "contract_disagreements": []
    },
    {
+    "market_id": "phoenix-az",
+    "published_profiles": 256,
+    "release_contract": "deploy/netlify/release_contracts/phoenix-az.json",
+    "release_contract_sha256": "ce803c33901f20faf3de285d0e995fc2b28259305f682c88cb299270a4730ec4",
+    "contract_disagreements": []
+   },
+   {
     "market_id": "piedmont-triad-nc",
     "published_profiles": 54,
     "release_contract": "deploy/netlify/release_contracts/piedmont-triad-nc.json",
@@ -380,6 +389,7 @@
    "nashville-tn": 79,
    "orlando-fl": 201,
    "outer-banks-nc": 26,
+   "phoenix-az": 256,
    "piedmont-triad-nc": 54,
    "pittsburgh-pa": 61,
    "raleigh-nc": 63,
@@ -392,9 +402,9 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 2954,
-  "sitemap_route_count": 3343,
-  "total_html_pages": 17886,
-  "total_files": 17904
+  "total_profiles": 3210,
+  "sitemap_route_count": 3619,
+  "total_html_pages": 19418,
+  "total_files": 19436
  }
 }
