@@ -17,7 +17,8 @@ WHICH "LIVE"
 ``release_index.live_index`` derives the live index from the committed tree and checks it against the live record's
 counts. After the correction the committed tree is AHEAD of production, so read here it would (rightly) report the
 mismatch. The live index is therefore derived in a checkout whose launch-package, deploy and script trees are
-byte-identical to the CURRENT LIVE SOURCE commit (``--live-tree``, verified before use): that is exactly
+byte-identical to the data the live bundle was BUILT FROM -- the live record's own ``source_commit`` --
+(``--live-tree``, verified before use): that is exactly
 production's authority, and ``live_index`` must return no problem there.
 
 WHAT IT WRITES (``--write``)
@@ -54,8 +55,12 @@ WORK_ORDER = "PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001"
 PKG = _DASH / "launch_packages" / "pettripfinder"
 LEDGER = PKG / "markets" / "reports" / "question_negation_live_correction_001.json"
 REPORT = PKG / "markets" / "reports" / "question_negation_reseal_001.json"
-LIVE_SOURCE_COMMIT = "e2d452722028a7f2c3923e65fac90206f4f41b99"
-LIVE_TREES = ("atlas-dashboard/launch_packages", "atlas-dashboard/deploy", "atlas-dashboard/scripts")
+#: the market data the live bundle was built from. The commit is the live record's own ``source_commit`` (its
+#: built-from commit), read at run time -- never typed here. Reports are excluded: a deploy order adds reports and
+#: records after the build, and neither is an input to it.
+LIVE_DATA_PATHS = ("atlas-dashboard/launch_packages", ":(exclude)atlas-dashboard/launch_packages/pettripfinder/markets/reports",
+                   "atlas-dashboard/deploy/netlify/release_contracts",
+                   "atlas-dashboard/deploy/netlify/launch_participation.json")
 
 _PICKLE_LIVE = r"""
 import pickle, sys
@@ -72,14 +77,11 @@ def _git(root, *args):
 
 
 def live_from_tree(live_tree: Path, scratch: Path):
-    """The CURRENT VERIFIED LIVE index, derived in a checkout proven identical to the live source."""
+    """The CURRENT VERIFIED LIVE index, derived in a checkout whose market data is proven identical to the data
+    the live bundle was built from."""
     live_tree = Path(live_tree)
     if _git(live_tree, "status", "--porcelain"):
         raise SystemExit("%s is not clean" % live_tree)
-    diff = _git(live_tree, "diff", "--name-only", LIVE_SOURCE_COMMIT, "HEAD", "--", *LIVE_TREES)
-    if diff:
-        raise SystemExit("%s differs from the live source %s in %s" % (live_tree, LIVE_SOURCE_COMMIT,
-                                                                      diff.splitlines()[:3]))
     scratch.mkdir(parents=True, exist_ok=True)
     out = scratch / "live_index.pkl"
     subprocess.run([sys.executable, "-c", _PICKLE_LIVE, str(out)], cwd=str(live_tree / "atlas-dashboard"),
@@ -88,12 +90,13 @@ def live_from_tree(live_tree: Path, scratch: Path):
     idx, state, problems = live
     if problems:
         raise SystemExit("CURRENT_VERIFIED_LIVE could not be established in %s: %s" % (live_tree, problems[:3]))
-    if state.source_commit != LIVE_SOURCE_COMMIT and not state.source_commit.startswith(LIVE_SOURCE_COMMIT[:8]):
-        # the live record names its own source; it must be the one the tree was proven against
-        raise SystemExit("the live record names source %s, not %s" % (state.source_commit, LIVE_SOURCE_COMMIT))
+    diff = _git(live_tree, "diff", "--name-only", state.source_commit, "HEAD", "--", *LIVE_DATA_PATHS)
+    if diff:
+        raise SystemExit("%s's market data differs from the live build source %s in %s"
+                         % (live_tree, state.source_commit, diff.splitlines()[:3]))
     return live, OrderedDict([("live_tree_head", _git(live_tree, "rev-parse", "HEAD")),
-                              ("live_source_commit", LIVE_SOURCE_COMMIT),
-                              ("trees_identical_to_live_source", list(LIVE_TREES)),
+                              ("live_built_from_commit", state.source_commit),
+                              ("market_data_identical_to_live_build_source", list(LIVE_DATA_PATHS)),
                               ("live_deploy_id", state.deploy_id), ("live_index_digest", idx.digest()),
                               ("markets", len(idx.participating)), ("profiles", idx.total_profiles)])
 
