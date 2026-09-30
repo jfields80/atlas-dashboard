@@ -1,0 +1,1523 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001",
+ "market_id": "austin-tx",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "austin_tx_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 26,
+  "credit_floor": 400,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 100,
+  "static_to_attended": 60,
+  "firecrawl_candidates": 29,
+  "share_static_to_attended": 0.6,
+  "share_firecrawl_candidates": 0.29,
+  "threshold": 0.2,
+  "warning": true,
+  "message": "29 of 100 unresolved routed rows (29%) are Firecrawl candidates: evaluate the Firecrawl lane before continuing to the attended browser"
+ },
+ "planned_rows": 26,
+ "attempted_rows": 26,
+ "stopped_by": "",
+ "credits": {
+  "before": 637,
+  "after": 613,
+  "delta": 24,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "four seasons hotel austin": {
+    "identity_key": "four seasons hotel austin",
+    "requested_url": "http://www.fourseasons.com/austin/",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "hotel ella": {
+    "identity_key": "hotel ella",
+    "requested_url": "http://www.hotelella.com",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "sentral east austin at 1630 e sixth": {
+    "identity_key": "sentral east austin at 1630 e sixth",
+    "requested_url": "https://sentral.com/austin/east-austin-1630/stay",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "austin motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "bunkhouse group",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "carpenter hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "commodore perry estate",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel indigo austin downtown university an ihg hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel magdalena",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel saint cecilia",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel san jose",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "intown suites extended stay austin research blvd",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "kalahari resort hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "miraval austin",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6 austin central downtown ut",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6 austin central north",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6 austin north",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "mountain star hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "park lane guest house",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "quality suites south",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "sage hill inn and spa",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "south congress hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "strickland arms bed and breakfast",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the driskill hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the inn at jennifer s gardens",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "wizard s guest cottage",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 26,
+  "results": 26
+ },
+ "class_counts": {
+  "FIRECRAWL_BLOCKED": 7,
+  "FIRECRAWL_FAILED": 12,
+  "FIRECRAWL_MISMATCH": 4,
+  "FIRECRAWL_PUBLICATION_GRADE": 2,
+  "FIRECRAWL_SOURCE_SILENT": 1
+ },
+ "outcome_counts": {
+  "ACCESS_DENIED": 2,
+  "BLANK_PAGE": 1,
+  "IDENTITY_MISMATCH": 4,
+  "POLICY_NOT_FOUND": 1,
+  "UNEXPECTED_PAGE": 12,
+  "UNHYDRATED": 4,
+  "VALID": 2
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "austin motel",
+   "canonical_name": "Austin Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://austinmotel.com/",
+   "final_url": "https://www.bunkhousehotels.com/austin-motel",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78704",
+   "expected_street": "1220 S Congress Ave",
+   "captured_at": "2026-09-30T19:00:57.526205+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://austinmotel.com/"
+    },
+    "envelope_sha256": "5c875550f53e9c5e71b524079bee1e58b5ee5932a347b2d93f149718251c1b5a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\austin-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "bunkhouse group",
+   "canonical_name": "Bunkhouse Group",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.bunkhousegroup.com",
+   "final_url": "https://www.bunkhousehotels.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78704",
+   "expected_street": "1711 S Congress Avenue",
+   "captured_at": "2026-09-30T19:01:11.023045+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.bunkhousegroup.com"
+    },
+    "envelope_sha256": "074d385017c2889706c3fae753546917c7a1babb4f4c43c10aaec85677771744"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\bunkhouse-group\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "carpenter hotel",
+   "canonical_name": "Carpenter Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://carpenterhotel.com/",
+   "final_url": "https://www.bunkhousehotels.com/carpenter-hotel",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78704",
+   "expected_street": "400 Josephine St",
+   "captured_at": "2026-09-30T19:01:24.174272+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://carpenterhotel.com/"
+    },
+    "envelope_sha256": "041d5e4d500497c2c4e4b3908f283e3cb0d7a34c522664158b52023889290a58"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\carpenter-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "commodore perry estate",
+   "canonical_name": "Commodore Perry Estate",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://aubergeresorts.com/commodoreperry/",
+   "final_url": "https://auberge.com/commodore-perry/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78751",
+   "expected_street": "4100 Red River St",
+   "captured_at": "2026-09-30T19:01:36.329030+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://aubergeresorts.com/commodoreperry/"
+    },
+    "envelope_sha256": "62d368d703160d529fbba4844c25a320167bb11d6fef22ea14f370d5cbf5ee54"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\commodore-perry-estate\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "four seasons hotel austin",
+   "canonical_name": "Four Seasons Hotel Austin",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.fourseasons.com/austin/",
+   "final_url": "https://www.fourseasons.com/austin/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Four Seasons Hotel Austin",
+     "address_on_page": "98 San Jacinto Boulevard",
+     "postal_code": "78701-4039",
+     "phone_on_page": "+1 (512) 478-4500",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.fourseasons.com/austin/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5124784500",
+      "5124783117"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "78701",
+   "expected_street": "98 San Jacinto Blvd",
+   "captured_at": "2026-09-30T19:01:46.972951+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.fourseasons.com/austin/"
+    },
+    "envelope_sha256": "cfc4f2e08f2afcf96ebb94a6d366db1bbd3d5a5493380edadb455a4e725dbb14"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\four-seasons-hotel-austin\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "hotel ella",
+   "canonical_name": "Hotel Ella",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.hotelella.com",
+   "final_url": "https://www.hotelella.com/",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotel Ella",
+     "address_on_page": "1900 Rio Grande Street",
+     "postal_code": "78705",
+     "phone_on_page": "512-495-1800",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.hotelella.com/",
+     "pets_allowed_structured": "True",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5124951800"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "78705",
+   "expected_street": "1900 Rio Grande St",
+   "captured_at": "2026-09-30T19:01:59.185430+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.hotelella.com"
+    },
+    "envelope_sha256": "914746d640c0086beba5595ce165000664a6048d34e6250f4aa303dd6e626b10"
+   },
+   "page_sha256": "61d1af79fd0b0d39662c0b29de357e30da8b81c4cb559623521ca194d5e891b5",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\hotel-ella\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "pet_fee": 5000,
+     "fee_currency": "USD",
+     "service_animal_exception": "Service animals are exempt from these rules."
+    },
+    "evidence": [
+     {
+      "quote": "fee of $50.00",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Service animals are exempt from these rules.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_CONTRADICTORY",
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "austin_tx_firecrawl_001::hotel ella::pet_fee::0",
+       "field": "pet_fee",
+       "quote": "fee of $50.00",
+       "source_url": "https://www.hotelella.com/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "61d1af79fd0b0d39662c0b29de357e30da8b81c4cb559623521ca194d5e891b5",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-30",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "austin_tx_firecrawl_001::hotel ella::fee_currency::0",
+       "field": "fee_currency",
+       "quote": "fee of $50.00",
+       "source_url": "https://www.hotelella.com/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "61d1af79fd0b0d39662c0b29de357e30da8b81c4cb559623521ca194d5e891b5",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-30",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "austin_tx_firecrawl_001::hotel ella::service_animal_exception::1",
+       "field": "service_animal_exception",
+       "quote": "Service animals are exempt from these rules.",
+       "source_url": "https://www.hotelella.com/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "61d1af79fd0b0d39662c0b29de357e30da8b81c4cb559623521ca194d5e891b5",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-30",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "de573cf9d79d8044e08daf0ec5662ebc1291806352a374523cdfcd23b2f47ead",
+     "document_sha256": "61d1af79fd0b0d39662c0b29de357e30da8b81c4cb559623521ca194d5e891b5"
+    }
+   },
+   "pets_allowed": null,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "hotel indigo austin downtown university an ihg hotel",
+   "canonical_name": "Hotel Indigo Austin Downtown-University, an IHG Hotel",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "http://www.ihg.com/hotelindigo/hotels/us/en/austin/ausit/hoteldetail",
+   "final_url": "https://www.ihg.com/hotelindigo/hotels/us/en/austin/ausit/hoteldetail",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Hotel Indigo Austin Downtown | Boutique Hotel Near 6th Street', which does not agree with 'Hotel Indigo Austin Downtown-University, an IHG Hotel'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotel Indigo Austin Downtown | Boutique Hotel Near 6th Street",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "ausit",
+     "canonical_url": "https://www.ihg.com/hotelindigo/hotels/us/en/austin/ausit/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8778463446",
+      "5124811000"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Hotel Indigo Austin Downtown | Boutique Hotel Near 6th Street', which does not agree with 'Hotel Indigo Austin Downtown-University, an IHG Hotel'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "78701",
+   "expected_street": "810 Red River St",
+   "captured_at": "2026-09-30T19:02:09.907053+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.ihg.com/hotelindigo/hotels/us/en/austin/ausit/hoteldetail"
+    },
+    "envelope_sha256": "4fbb0402f3aa55f0247c6d466337b34ca1a389a52863d55eda81a415011233f0"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\hotel-indigo-austin-downtown-university-an-ihg-hotel\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "hotel magdalena",
+   "canonical_name": "Hotel Magdalena",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://hotelmagdalena.com/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78704",
+   "expected_street": "1101 Music Ln",
+   "captured_at": "2026-09-30T19:02:13.114959+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://hotelmagdalena.com/"
+    },
+    "envelope_sha256": "cfa06e2b79d49ede5fcc9b4ff89ff2d995a886b78a86fbe4c083bf3acc4fbf91"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\hotel-magdalena\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "hotel saint cecilia",
+   "canonical_name": "Hotel Saint Cecilia",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://hotelsaintcecilia.com/",
+   "final_url": "https://www.bunkhousehotels.com/hotel-saint-cecilia",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78704",
+   "expected_street": "112 Academy Dr",
+   "captured_at": "2026-09-30T19:02:16.867324+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://hotelsaintcecilia.com/"
+    },
+    "envelope_sha256": "d01bc4fb3401b4a40ad0fb6dfd01fbe8b93908746bbd7b4dc0ccb209c43c2155"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\hotel-saint-cecilia\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "hotel san jose",
+   "canonical_name": "Hotel San Jose",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.sanjosehotel.com/",
+   "final_url": "https://www.bunkhousehotels.com/hotel-san-jose",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78704",
+   "expected_street": "1316 S Congress Ave",
+   "captured_at": "2026-09-30T19:02:29.007471+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.sanjosehotel.com/"
+    },
+    "envelope_sha256": "0ea914ac5f67f451d4bb0b55079a9cec1ed42cdca501e8ce9c973bff89f2620f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\hotel-san-jose\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "intown suites extended stay austin research blvd",
+   "canonical_name": "InTown Suites Extended Stay Austin - Research Blvd",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.intownsuites.com/extended-stay-locations/texas/austin/austin-2/",
+   "final_url": "https://www.intownsuites.com/extended-stay-hotels/texas/austin/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78750",
+   "expected_street": "12989 N Highway 183",
+   "captured_at": "2026-09-30T19:02:41.347782+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.intownsuites.com/extended-stay-locations/texas/austin/austin-2/"
+    },
+    "envelope_sha256": "1dc3beb4d895f1793d370f1c66bbab49466b6f1746e56fab0273b6b15dc55a20"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\intown-suites-extended-stay-austin-research-blvd\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "kalahari resort hotel",
+   "canonical_name": "Kalahari Resort Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.kalahariresorts.com/texas/accommodations/",
+   "final_url": "https://www.kalahariresorts.com/texas/accommodations/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Accommodations | Round Rock, TX | Kalahari Resorts &amp; Conventions', which does not agree with 'Kalahari Resort Hotel'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Accommodations | Round Rock, TX | Kalahari Resorts &amp; Conventions",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8775252427"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Accommodations | Round Rock, TX | Kalahari Resorts &amp; Conventions', which does not agree with 'Kalahari Resort Hotel'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "78665",
+   "expected_street": "3001 Kalahari Blvd",
+   "captured_at": "2026-09-30T19:02:53.675688+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.kalahariresorts.com/texas/accommodations/"
+    },
+    "envelope_sha256": "30bec545dfb819194b7c1eda8c46056e2a5a0c9c2394211bbfbd2ae6525c54a2"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\kalahari-resort-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "miraval austin",
+   "canonical_name": "Miraval Austin",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.miravalaustin.com",
+   "final_url": "https://www.miravalresorts.com/austin",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78726",
+   "expected_street": "13500 FM 2769",
+   "captured_at": "2026-09-30T19:03:07.493602+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.miravalaustin.com"
+    },
+    "envelope_sha256": "05277776f43dec7b2de4768e1bdda62600eb934b7ce8d5bc427a2c5d870e21ea"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\miraval-austin\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "motel 6 austin central downtown ut",
+   "canonical_name": "Motel 6 Austin - Central Downtown UT",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/en/home/motels.tx.austin.9286.html",
+   "final_url": "https://www.motel6.com/property/motel-austin-tx-texas-us-294218/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78751",
+   "expected_street": "5330 N Interstate 35",
+   "captured_at": "2026-09-30T19:03:18.484006+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/en/home/motels.tx.austin.9286.html"
+    },
+    "envelope_sha256": "b54c147c4f332436c1df8fae422bea10050005d33cd78f917dac66572ef48bc1"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\motel-6-austin-central-downtown-ut\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "motel 6 austin central north",
+   "canonical_name": "Motel 6 Austin Central - North",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/en/motels.tx.austin.1344.html",
+   "final_url": "https://www.motel6.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78753",
+   "expected_street": "8010 N Interstate 35",
+   "captured_at": "2026-09-30T19:03:32.423892+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/en/motels.tx.austin.1344.html"
+    },
+    "envelope_sha256": "dd546cd55d0c1d615231b17b1e9a4ed693e5e32e5c1ae6c002e5be95f6e98de9"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\motel-6-austin-central-north\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "motel 6 austin north",
+   "canonical_name": "Motel 6 Austin North",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/en/motels.tx.austin.360.html",
+   "final_url": "https://www.motel6.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78753",
+   "expected_street": "9420 N Interstate 35",
+   "captured_at": "2026-09-30T19:03:50.006833+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/en/motels.tx.austin.360.html"
+    },
+    "envelope_sha256": "aa06839061e5e46426836d30da4e15f332c4549bce9d43ab01bbe62240a67087"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\motel-6-austin-north\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "mountain star hotel",
+   "canonical_name": "Mountain Star Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://mountainstarlodge.com/",
+   "final_url": "https://mountainstarlodge.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78738",
+   "expected_street": "3573 Ranch Road 620 S",
+   "captured_at": "2026-09-30T19:04:01.549132+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://mountainstarlodge.com/"
+    },
+    "envelope_sha256": "0276091417fda9ad613bfee2a11a10f478448624b8cc86b1f0cc807bc7d305ec"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\mountain-star-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "park lane guest house",
+   "canonical_name": "Park Lane Guest House",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.parklaneguesthouse.com",
+   "final_url": "http://www.parklaneguesthouse.com",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78704",
+   "expected_street": "221 Park Ln.",
+   "captured_at": "2026-09-30T19:04:11.316283+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.parklaneguesthouse.com"
+    },
+    "envelope_sha256": "caa2dc6f06088e601b297493439f21f0c71ae1c5c64c92d9dbb436879c5dcfd5"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\park-lane-guest-house\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "quality suites south",
+   "canonical_name": "Quality Suites South",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.qualityinn.com/hotel-austin-texas-TX452",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78744",
+   "expected_street": "1701 E St Elmo Rd",
+   "captured_at": "2026-09-30T19:04:21.652730+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.qualityinn.com/hotel-austin-texas-TX452"
+    },
+    "envelope_sha256": "b292dacbdf74e883d4a442c7e35651afd009ba828074e50c83e6e34f694237e1"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\quality-suites-south\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "sage hill inn and spa",
+   "canonical_name": "Sage Hill Inn & Spa",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.sagehill.com/",
+   "final_url": "https://www.sagehill.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '4444 Ranch to Market Rd 150' does not agree with expected '4444 W Fm 150'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sage Hill Inn &amp; Spa",
+     "address_on_page": "4444 Ranch to Market Rd 150",
+     "postal_code": "78640",
+     "phone_on_page": "(512) 268-1617",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sagehill.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5122681617"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '4444 Ranch to Market Rd 150' does not agree with expected '4444 W Fm 150'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "78640",
+   "expected_street": "4444 W Fm 150",
+   "captured_at": "2026-09-30T19:04:25.802450+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.sagehill.com/"
+    },
+    "envelope_sha256": "29b01f0b8005f9be93c26cadae377734a914e4b6d855aac2488a99a07ffd5ba0"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\sage-hill-inn-and-spa\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "sentral east austin at 1630 e sixth",
+   "canonical_name": "Sentral East Austin at 1630 E. Sixth",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://sentral.com/austin/east-austin-1630/stay",
+   "final_url": "https://sentral.com/austin/east-austin-1630/stay",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sentral East Austin 1630",
+     "address_on_page": "1630 E. 6th Street",
+     "postal_code": "78702",
+     "phone_on_page": "(512) 647-1676",
+     "property_code_on_page": "",
+     "canonical_url": "https://sentral.com/austin/east-austin-1630/stay",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5126471676",
+      "4743096808",
+      "2018788483",
+      "6951158212",
+      "8886878592"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '(512) 647-1676' is not the census number '(847) 899-5866'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "78702",
+   "expected_street": "1630 E 6th St.",
+   "captured_at": "2026-09-30T19:04:37.860159+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://sentral.com/austin/east-austin-1630/stay"
+    },
+    "envelope_sha256": "925930356e8b1fb12e0913886a9bc22cfe7a56610a562183a809f27046771d25"
+   },
+   "page_sha256": "9cf88261bde6dd8e5b3fa13e0fd7a46db12753bf8bae8807624995ac435e119b",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\sentral-east-austin-at-1630-e-sixth\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true
+    },
+    "evidence": [
+     {
+      "quote": "Pets Welcome",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "austin_tx_firecrawl_001::sentral east austin at 1630 e sixth::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets Welcome",
+       "source_url": "https://sentral.com/austin/east-austin-1630/stay",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9cf88261bde6dd8e5b3fa13e0fd7a46db12753bf8bae8807624995ac435e119b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-30",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "91bb9f45918d6ce1bceca3b35f991705cd783c4c2814c7e31a38a6b145b151dd",
+     "document_sha256": "9cf88261bde6dd8e5b3fa13e0fd7a46db12753bf8bae8807624995ac435e119b"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "south congress hotel",
+   "canonical_name": "South Congress Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://southcongresshotel.com",
+   "final_url": "https://southcongresshotel.com",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78704",
+   "expected_street": "1603 S Congress Ave",
+   "captured_at": "2026-09-30T19:04:53.426564+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://southcongresshotel.com"
+    },
+    "envelope_sha256": "2f12906f0591df10b204dd40b860cd22b593b569efe63e03b42a2a130f485e15"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\south-congress-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "strickland arms bed and breakfast",
+   "canonical_name": "Strickland Arms Bed & Breakfast",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://stricklandarmsbedandbreakfast.com/",
+   "final_url": "https://stricklandarmsbedandbreakfast.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Home : Strickland Arms Bed and Breakfast",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://stricklandarmsbedandbreakfast.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "5124544426"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "78751",
+   "expected_street": "604 E 47th St",
+   "captured_at": "2026-09-30T19:05:02.437302+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://stricklandarmsbedandbreakfast.com/"
+    },
+    "envelope_sha256": "d747ee2e64ce80faa8467bd9711561abe96bbdfbc33fd8308c6a48acfa19e26c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\strickland-arms-bed-and-breakfast\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "the driskill hotel",
+   "canonical_name": "The Driskill Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://thedriskill.com",
+   "final_url": "http://driskillhotel.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78701",
+   "expected_street": "604 Brazos St",
+   "captured_at": "2026-09-30T19:05:12.527825+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://thedriskill.com"
+    },
+    "envelope_sha256": "90804ccecda992a72ad015e19a00bf8da88ca9a9df4b28e79b0c066c61badd42"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\the-driskill-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "the inn at jennifer s gardens",
+   "canonical_name": "The Inn At Jennifer's Gardens",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.theinnatjg.com/",
+   "final_url": "https://www.theinnatjg.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78705",
+   "expected_street": "1101 W 31st St.",
+   "captured_at": "2026-09-30T19:05:23.038249+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.theinnatjg.com/"
+    },
+    "envelope_sha256": "fef62231239ae0ba04e1e75d25d5cd01ed0d33fbc9794d12f1cb65e8f93017b4"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\the-inn-at-jennifer-s-gardens\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "wizard s guest cottage",
+   "canonical_name": "Wizard's Guest Cottage",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://wizardsguestcottage.com/",
+   "final_url": "https://wizardsguestcottage.com/",
+   "outcome": "BLANK_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78737",
+   "expected_street": "16221 Crystal Hills Drive",
+   "captured_at": "2026-09-30T19:05:33.133662+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://wizardsguestcottage.com/"
+    },
+    "envelope_sha256": "8498ec479afcf349e8d0db9c9206287c26ace92cdf2bfe8a8a238e4e7165afa7"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\austin_tx_firecrawl_001\\wizard-s-guest-cottage\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  }
+ ]
+}

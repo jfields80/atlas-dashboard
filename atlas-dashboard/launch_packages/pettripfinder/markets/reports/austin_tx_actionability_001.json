@@ -1,0 +1,1514 @@
+{
+ "schema": "ptf-market-actionability/2.0",
+ "work_order": "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001",
+ "market_id": "austin-tx",
+ "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
+ "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
+ "census_total": 407,
+ "resolved": 249,
+ "unresolved_total": 158,
+ "totals_by_class": {
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 49,
+  "REQUIRES_NEW_PROVIDER": 0,
+  "REQUIRES_NEW_SPEND": 80,
+  "REQUIRES_FOUNDER": 29,
+  "HELD_UNTIL_OPENING": 0
+ },
+ "by_disposition": {
+  "ACCESS_BLOCKED": {
+   "total": 6,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 6,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "EVIDENCE_HOLD": {
+   "total": 29,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 18,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 11,
+   "held_until_opening": 0
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "total": 20,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 2,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 18,
+   "held_until_opening": 0
+  },
+  "ROUTING_HOLD": {
+   "total": 88,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 8,
+   "requires_new_provider": 0,
+   "requires_new_spend": 80,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "SOURCE_SILENT": {
+   "total": 15,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 15,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  }
+ },
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 109,
+ "new_spend_note": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)",
+ "attended_browser": {
+  "attempts": 240,
+  "reads": 204,
+  "challenge_denied": 1,
+  "unbound": 11,
+  "paid_provider_calls": 0,
+  "akamai_bypassed": false,
+  "browser_js_exfiltration_used": false,
+  "local_relay_used": false
+ },
+ "coverage_conditions": {
+  "actionable_unresolved_is_zero": true,
+  "no_material_identity_gap": true,
+  "no_material_unexplained_policy_gap": true,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
+  "publication_set_safe": true,
+  "package_deterministic_and_fast_clean": false
+ },
+ "COVERAGE_READY": "FOUNDER DECISION",
+ "TECHNICAL_SOURCE_READY": "NO",
+ "rows": [
+  {
+   "identity_key": "extended stay america austin austin airport",
+   "canonical_name": "Extended Stay America - Austin - Austin Airport",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "ESA",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand served a DataDome CAPTCHA to the attended browser; never solved or bypassed (https://www.extendedstayamerica.com/hotels/tx/austin/austin-airport) -- second attempt on this route this order (first: seq 193). The brand served a DataDome CAPTCHA (accessibility tree 'DataDome CAPTCHA'; blank r"
+  },
+  {
+   "identity_key": "extended stay america nw lakeline mall",
+   "canonical_name": "Extended Stay America NW Lakeline Mall",
+   "corridor": "austin-tx__arboretum-northwest",
+   "brand_family": "ESA",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static IDENTITY_MISMATCH)"
+  },
+  {
+   "identity_key": "extended stay america southwest",
+   "canonical_name": "Extended Stay America Southwest",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "ESA",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static IDENTITY_MISMATCH)"
+  },
+  {
+   "identity_key": "extended stay austin town lake",
+   "canonical_name": "Extended Stay Austin Town Lake",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static IDENTITY_MISMATCH)"
+  },
+  {
+   "identity_key": "intown suites extended stay austin research blvd",
+   "canonical_name": "InTown Suites Extended Stay Austin - Research Blvd",
+   "corridor": "austin-tx__arboretum-northwest",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "red roof inn austin round rock",
+   "canonical_name": "Red Roof Inn Austin/round Rock",
+   "corridor": "austin-tx__round-rock",
+   "brand_family": "RED_ROOF",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)"
+  },
+  {
+   "identity_key": "avid hotels austin tech ridge",
+   "canonical_name": "avid hotels Austin – Tech Ridge",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "IHG",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Pet policy Pets are not allo"
+  },
+  {
+   "identity_key": "best western plus austin airport inn and suites",
+   "canonical_name": "Best Western Plus Austin Airport Inn & Suites",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "best western plus georgetown inn and suites",
+   "canonical_name": "Best Western Plus Georgetown Inn & Suites",
+   "corridor": "austin-tx__georgetown",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "best western plus pflugerville inn and suites",
+   "canonical_name": "Best Western Plus Pflugerville Inn & Suites",
+   "corridor": "austin-tx__pflugerville",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "brava house",
+   "canonical_name": "Brava House",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "holiday inn austin midtown",
+   "canonical_name": "Holiday Inn Austin Midtown",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "IHG",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "holiday inn austin town lake",
+   "canonical_name": "Holiday Inn Austin-Town Lake",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "IHG",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "hotel ella",
+   "canonical_name": "Hotel Ella",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'What is the hotel’s pet poli"
+  },
+  {
+   "identity_key": "hotel viata",
+   "canonical_name": "Hotel Viata",
+   "corridor": "austin-tx__westlake-west-lake-hills",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "sage hill inn and spa",
+   "canonical_name": "Sage Hill Inn & Spa",
+   "corridor": "austin-tx__kyle",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Pets | Sorry, pets cannot be"
+  },
+  {
+   "identity_key": "super 8 by wyndham austin south i 35",
+   "canonical_name": "Super 8 by Wyndham Austin South / I-35",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal statement is a legal access category, never a pet acceptance: 'A maximum of 2 pets a"
+  },
+  {
+   "identity_key": "the driskill",
+   "canonical_name": "The Driskill",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "the inn at jennifer s gardens",
+   "canonical_name": "The Inn At Jennifer's Gardens",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "woodspring suites austin central",
+   "canonical_name": "WoodSpring Suites Austin Central",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "CHOICE",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "woodspring suites austin georgetown",
+   "canonical_name": "WoodSpring Suites Austin Georgetown",
+   "corridor": "austin-tx__georgetown",
+   "brand_family": "CHOICE",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "woodspring suites austin north i 35",
+   "canonical_name": "WoodSpring Suites Austin North I-35",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "CHOICE",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "woodspring suites round rock austin north",
+   "canonical_name": "WoodSpring Suites Round Rock-Austin North",
+   "corridor": "austin-tx__round-rock",
+   "brand_family": "CHOICE",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "wyndham garden austin",
+   "canonical_name": "Wyndham Garden Austin",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "campus on lake austin",
+   "canonical_name": "Campus on Lake Austin",
+   "corridor": "austin-tx__arboretum-northwest",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "extended stay america select suites austin round rock",
+   "canonical_name": "Extended Stay America Select Suites Austin - Round Rock",
+   "corridor": "austin-tx__round-rock",
+   "brand_family": "ESA",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "extended stay america austin round rock south",
+   "canonical_name": "Extended Stay America - Austin - Round Rock - South",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's property pages answer the attended browser with a DataDome CAPTCHA that re-arms within one page (seq 193, 234; one page read, seq 233); never solved or bypassed, and a route from any lane lands on the same wall"
+  },
+  {
+   "identity_key": "extended stay america premier kyle",
+   "canonical_name": "Extended Stay America Premier Kyle",
+   "corridor": "austin-tx__kyle",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's property pages answer the attended browser with a DataDome CAPTCHA that re-arms within one page (seq 193, 234; one page read, seq 233); never solved or bypassed, and a route from any lane lands on the same wall"
+  },
+  {
+   "identity_key": "motel 6 austin airport",
+   "canonical_name": "Motel 6 Austin Airport",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the brand's property pages in this market state only an amenity chip or a templated feature card, never an operative policy (seq 194, 227, 231); its legacy routes are retired (seq 228-230, 232); a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "motel 6 austin central north",
+   "canonical_name": "Motel 6 Austin Central - North",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the brand's property pages in this market state only an amenity chip or a templated feature card, never an operative policy (seq 194, 227, 231); its legacy routes are retired (seq 228-230, 232); a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "motel 6 austin north",
+   "canonical_name": "Motel 6 Austin North",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the brand's property pages in this market state only an amenity chip or a templated feature card, never an operative policy (seq 194, 227, 231); its legacy routes are retired (seq 228-230, 232); a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "motel 6 austin south airport",
+   "canonical_name": "Motel 6 Austin South - Airport",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the brand's property pages in this market state only an amenity chip or a templated feature card, never an operative policy (seq 194, 227, 231); its legacy routes are retired (seq 228-230, 232); a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "motel 6 cedar park",
+   "canonical_name": "Motel 6 Cedar Park",
+   "corridor": "austin-tx__cedar-park",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the brand's property pages in this market state only an amenity chip or a templated feature card, never an operative policy (seq 194, 227, 231); its legacy routes are retired (seq 228-230, 232); a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "studio 6 northwest",
+   "canonical_name": "Studio 6 Northwest",
+   "corridor": "austin-tx__arboretum-northwest",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the brand's property pages in this market state only an amenity chip or a templated feature card, never an operative policy (seq 194, 227, 231); its legacy routes are retired (seq 228-230, 232); a route found by any lane yields the same chip"
+  },
+  {
+   "identity_key": "adina austin",
+   "canonical_name": "Adina Austin",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "americas best value inn austin university",
+   "canonical_name": "Americas Best Value Inn Austin University",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "SONESTA",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "americas best value inn buda austin s",
+   "canonical_name": "Americas Best Value Inn Buda Austin S",
+   "corridor": "austin-tx__buda",
+   "brand_family": "SONESTA",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "cactus moon lodge",
+   "canonical_name": "Cactus Moon Lodge",
+   "corridor": "austin-tx__dripping-springs",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "firehouse hostel and lounge",
+   "canonical_name": "Firehouse Hostel & Lounge",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "miraval austin resort and spa",
+   "canonical_name": "Miraval Austin Resort & Spa",
+   "corridor": "austin-tx__arboretum-northwest",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 austin tx central downtown ut",
+   "canonical_name": "Motel 6 Austin, TX - Central Downtown UT",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 austin tx midtown",
+   "canonical_name": "Motel 6 Austin, TX - Midtown",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "san jac saloon",
+   "canonical_name": "San Jac Saloon",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "studio 6 austin midtown",
+   "canonical_name": "Studio 6 Austin Midtown",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "texas bungalows hotel and suites",
+   "canonical_name": "Texas Bungalows Hotel & Suites",
+   "corridor": "austin-tx__pflugerville",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the bungalows hotel and event center",
+   "canonical_name": "The Bungalows Hotel & Event Center",
+   "corridor": "austin-tx__cedar-park",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the code",
+   "canonical_name": "The Code",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the frances modern inn",
+   "canonical_name": "The Frances Modern Inn",
+   "corridor": "austin-tx__east-austin",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the wayback",
+   "canonical_name": "The Wayback",
+   "corridor": "austin-tx__westlake-west-lake-hills",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "at and t hotel and conference center",
+   "canonical_name": "AT and T Hotel and Conference Center",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "the property's own page states a refusal this order read as one, but the SHARED reader FAST rule C re-runs cannot interpret it (a shared-factory change this order may not make); held, never published -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pet Policy Pets are not allowed at the AT&T Hotel and Conferen"
+  },
+  {
+   "identity_key": "austin motel",
+   "canonical_name": "Austin Motel",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "two first-party routes for one premises; which one the package cites is a routing ruling -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'bunkhousehotels.com' while the census binds the identity to 'austinmotel.com'; the package contract requires the cited page and the"
+  },
+  {
+   "identity_key": "carpenter hotel",
+   "canonical_name": "Carpenter Hotel",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "two first-party routes for one premises; which one the package cites is a routing ruling -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'bunkhousehotels.com' while the census binds the identity to 'carpenterhotel.com'; the package contract requires the cited page and "
+  },
+  {
+   "identity_key": "heywood hotel",
+   "canonical_name": "Heywood Hotel",
+   "corridor": "austin-tx__east-austin",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "the property's own page states a refusal this order read as one, but the SHARED reader FAST rule C re-runs cannot interpret it (a shared-factory change this order may not make); held, never published -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pets Though you might see Zelda, the neighborhood hen, roaming"
+  },
+  {
+   "identity_key": "hotel magdalena",
+   "canonical_name": "Hotel Magdalena",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "two first-party routes for one premises; which one the package cites is a routing ruling -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'hyatt.com' while the census binds the identity to 'hotelmagdalena.com'; the package contract requires the cited page and the bound "
+  },
+  {
+   "identity_key": "hotel saint cecilia",
+   "canonical_name": "Hotel Saint Cecilia",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "two first-party routes for one premises; which one the package cites is a routing ruling -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'bunkhousehotels.com' while the census binds the identity to 'hotelsaintcecilia.com'; the package contract requires the cited page a"
+  },
+  {
+   "identity_key": "hotel san jose",
+   "canonical_name": "Hotel San Jose",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "two first-party routes for one premises; which one the package cites is a routing ruling -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'bunkhousehotels.com' while the census binds the identity to 'sanjosehotel.com'; the package contract requires the cited page and th"
+  },
+  {
+   "identity_key": "hotel zaza austin",
+   "canonical_name": "Hotel Zaza Austin",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "the property's own page states a refusal this order read as one, but the SHARED reader FAST rule C re-runs cannot interpret it (a shared-factory change this order may not make); held, never published -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Is Hotel ZaZa Austin pet-friendly? Yes, cats and dogs of all breeds and "
+  },
+  {
+   "identity_key": "kalahari resorts and conventions round rock tx",
+   "canonical_name": "Kalahari Resorts & Conventions Round Rock, TX",
+   "corridor": "austin-tx__round-rock",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "the property's own page states a refusal this order read as one, but the SHARED reader FAST rule C re-runs cannot interpret it (a shared-factory change this order may not make); held, never published -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Are pets allowed? | With the exception of service animals certified unde"
+  },
+  {
+   "identity_key": "mountain star lodge and hotel",
+   "canonical_name": "Mountain Star Lodge & Hotel",
+   "corridor": "austin-tx__lakeway-bee-cave",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "the property's own page states a refusal this order read as one, but the SHARED reader FAST rule C re-runs cannot interpret it (a shared-factory change this order may not make); held, never published -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pets policy: | No pets allowed in this property. Each violatio"
+  },
+  {
+   "identity_key": "strickland arms bed and breakfast",
+   "canonical_name": "Strickland Arms Bed and Breakfast",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "the property's own page states a refusal this order read as one, but the SHARED reader FAST rule C re-runs cannot interpret it (a shared-factory change this order may not make); held, never published -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Please note that we can NOT accommodate children under 12 or p"
+  },
+  {
+   "identity_key": "ac hotel austin university",
+   "canonical_name": "AC Hotel Austin-University",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "aloft austin downtown",
+   "canonical_name": "Aloft Austin Downtown",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "candlewood suites austin airport",
+   "canonical_name": "Candlewood Suites Austin Airport",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "IHG",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "courtyard by marriott austin downtown convention center",
+   "canonical_name": "Courtyard by Marriott Austin Downtown/Convention Center",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "element by marriott austin downtown",
+   "canonical_name": "Element by Marriott Austin Downtown",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hampton inn austin east side 5th street",
+   "canonical_name": "Hampton Inn Austin East Side 5th Street",
+   "corridor": "austin-tx__east-austin",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hawthorn extended stay by wyndham pflugerville",
+   "canonical_name": "Hawthorn Extended Stay by Wyndham Pflugerville",
+   "corridor": "austin-tx__pflugerville",
+   "brand_family": "WYNDHAM",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hilton garden inn cedar park austin",
+   "canonical_name": "Hilton Garden Inn Cedar Park Austin",
+   "corridor": "austin-tx__arboretum-northwest",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "holiday inn austin airport",
+   "canonical_name": "Holiday Inn Austin Airport",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "IHG",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "home2 suites by hilton austin east side 5th street",
+   "canonical_name": "Home2 Suites by Hilton Austin East Side 5th Street",
+   "corridor": "austin-tx__east-austin",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "home2 suites by hilton pflugerville",
+   "canonical_name": "Home2 Suites by Hilton Pflugerville",
+   "corridor": "austin-tx__pflugerville",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham pflugerville",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Pflugerville",
+   "corridor": "austin-tx__pflugerville",
+   "brand_family": "WYNDHAM",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "residence inn by marriott austin downtown convention center",
+   "canonical_name": "Residence Inn by Marriott Austin Downtown/Convention Center",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "staybridge suites austin south interstate hwy 35",
+   "canonical_name": "Staybridge Suites Austin South Interstate Hwy 35",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "IHG",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "the otis hotel austin autograph collection",
+   "canonical_name": "The Otis Hotel Austin, Autograph Collection",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "towneplace suites by marriott austin north lakeline",
+   "canonical_name": "TownePlace Suites by Marriott Austin North/Lakeline",
+   "corridor": "austin-tx__arboretum-northwest",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "towneplace suites by marriott austin south",
+   "canonical_name": "TownePlace Suites by Marriott Austin South",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "tru by hilton pflugerville",
+   "canonical_name": "Tru by Hilton Pflugerville",
+   "corridor": "austin-tx__pflugerville",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "3603 robbins road",
+   "canonical_name": "3603 Robbins Road",
+   "corridor": "austin-tx__arboretum-northwest",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "404 beardsley ln",
+   "canonical_name": "404 Beardsley Ln",
+   "corridor": "austin-tx__westlake-west-lake-hills",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "505 w 43rd st",
+   "canonical_name": "505 W 43rd St",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "americas best value inn south austin",
+   "canonical_name": "Americas Best Value Inn-South Austin",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "SONESTA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "anthony t bell",
+   "canonical_name": "Anthony T Bell",
+   "corridor": "austin-tx__lakeway-bee-cave",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "austin hotel group llc",
+   "canonical_name": "Austin Hotel Group Llc",
+   "corridor": "austin-tx__east-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "austin motor inn",
+   "canonical_name": "Austin Motor Inn",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "austin north",
+   "canonical_name": "Austin North",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "austin suites",
+   "canonical_name": "Austin Suites",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "austin suites hotel",
+   "canonical_name": "Austin Suites Hotel",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "austin village motor inn",
+   "canonical_name": "Austin Village Motor Inn",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "austin yacht club",
+   "canonical_name": "Austin Yacht Club",
+   "corridor": "austin-tx__lakeway-bee-cave",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "bear creek cottages",
+   "canonical_name": "Bear Creek Cottages",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "bear creek retreat",
+   "canonical_name": "Bear Creek Retreat",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "capitol garden inn",
+   "canonical_name": "Capitol Garden Inn",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "casita",
+   "canonical_name": "Casita",
+   "corridor": "austin-tx__east-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "casulo hotel",
+   "canonical_name": "Casulo Hotel",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "centro studio homes",
+   "canonical_name": "Centro Studio Homes",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "classic inn",
+   "canonical_name": "Classic Inn",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "dave kemper",
+   "canonical_name": "Dave Kemper",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ernie s at bentwood",
+   "canonical_name": "Ernie's at Bentwood",
+   "corridor": "austin-tx__georgetown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "extendedstay america austin north central",
+   "canonical_name": "Extendedstay America-Austin North Central",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "floating beach house",
+   "canonical_name": "Floating Beach House",
+   "corridor": "austin-tx__leander",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "gallery house",
+   "canonical_name": "Gallery House",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "habitat suites",
+   "canonical_name": "Habitat Suites",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "heart of texas motel",
+   "canonical_name": "Heart of Texas Motel",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "hill country casitas",
+   "canonical_name": "Hill Country Casitas",
+   "corridor": "austin-tx__dripping-springs",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "holly house complex",
+   "canonical_name": "Holly House Complex",
+   "corridor": "austin-tx__east-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "home office",
+   "canonical_name": "Home Office",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "home style inn",
+   "canonical_name": "Home Style Inn",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "its austin grand",
+   "canonical_name": "Its Austin Grand",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "jeffrey s davis",
+   "canonical_name": "Jeffrey S Davis",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "joan s place",
+   "canonical_name": "Joan's Place",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "john e h street trust",
+   "canonical_name": "John E H Street Trust",
+   "corridor": "austin-tx__lakeway-bee-cave",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "julie mundahl",
+   "canonical_name": "Julie Mundahl",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la hacienda rv resort",
+   "canonical_name": "La Hacienda Rv Resort",
+   "corridor": "austin-tx__lakeway-bee-cave",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "la unica",
+   "canonical_name": "La Unica",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "lakeway resort and spa",
+   "canonical_name": "Lakeway Resort and Spa",
+   "corridor": "austin-tx__lakeway-bee-cave",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "line",
+   "canonical_name": "LINE",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "lucky arror retreatment dripping springs",
+   "canonical_name": "Lucky Arror Retreatment Dripping Springs",
+   "corridor": "austin-tx__dripping-springs",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ma and pa ferguson mansion",
+   "canonical_name": "Ma & Pa Ferguson Mansion",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "marks overlook lodge",
+   "canonical_name": "Marks Overlook Lodge",
+   "corridor": "austin-tx__buda",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "mehl s motel",
+   "canonical_name": "Mehl's Motel",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "motel 71",
+   "canonical_name": "Motel 71",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "nutty brown cabin",
+   "canonical_name": "Nutty Brown Cabin",
+   "corridor": "austin-tx__dripping-springs",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "onion creek cottage",
+   "canonical_name": "Onion Creek Cottage",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "orangewood suites",
+   "canonical_name": "Orangewood Suites",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "outpost motel",
+   "canonical_name": "Outpost Motel",
+   "corridor": "austin-tx__dripping-springs",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "park lane guest house",
+   "canonical_name": "Park Lane Guest House",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "park west inn",
+   "canonical_name": "Park West Inn",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "patton courts motel",
+   "canonical_name": "Patton Courts Motel",
+   "corridor": "austin-tx__east-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "querencia at barton creek",
+   "canonical_name": "Querencia at Barton Creek",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "radisson hotel austin north",
+   "canonical_name": "Radisson Hotel Austin North",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "RADISSON",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "rancho moonrise",
+   "canonical_name": "Rancho Moonrise",
+   "corridor": "austin-tx__manor",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "roadrunner s bungaloq",
+   "canonical_name": "Roadrunner's Bungaloq",
+   "corridor": "austin-tx__dripping-springs",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "rodeway inn university downtown",
+   "canonical_name": "Rodeway Inn University / Downtown",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "ruby ranch lodge",
+   "canonical_name": "Ruby Ranch Lodge",
+   "corridor": "austin-tx__buda",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "skylite inn",
+   "canonical_name": "Skylite Inn",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "south congress hotel",
+   "canonical_name": "South Congress Hotel",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "stacy leigh keese",
+   "canonical_name": "Stacy Leigh Keese",
+   "corridor": "austin-tx__aus-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "star house b and b",
+   "canonical_name": "Star House B and B",
+   "corridor": "austin-tx__dripping-springs",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "stonewall valley ranch",
+   "canonical_name": "Stonewall Valley Ranch",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "studio haus",
+   "canonical_name": "Studio Haus",
+   "corridor": "austin-tx__east-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "tallows",
+   "canonical_name": "Tallows",
+   "corridor": "austin-tx__south-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "texan motel 2",
+   "canonical_name": "Texan Motel 2",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "texas hills publishing",
+   "canonical_name": "Texas Hills Publishing",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "texas tieshare in lakeway",
+   "canonical_name": "Texas Tieshare in Lakeway",
+   "corridor": "austin-tx__lakeway-bee-cave",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "texnet system test account",
+   "canonical_name": "Texnet System Test Account",
+   "corridor": "austin-tx__downtown-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the callway house austin",
+   "canonical_name": "The Callway House Austin",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the castilian",
+   "canonical_name": "The Castilian",
+   "corridor": "austin-tx__ut-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the liney moon",
+   "canonical_name": "The Liney Moon",
+   "corridor": "austin-tx__dripping-springs",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the plant",
+   "canonical_name": "The Plant",
+   "corridor": "austin-tx__kyle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "the ruby hotel",
+   "canonical_name": "The Ruby Hotel",
+   "corridor": "austin-tx__round-rock",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "tootie s retreat",
+   "canonical_name": "Tootie's Retreat",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "value place austin braker",
+   "canonical_name": "Value Place - Austin Braker",
+   "corridor": "austin-tx__domain-north-austin",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "village motor inn",
+   "canonical_name": "Village Motor Inn",
+   "corridor": "austin-tx__south-congress",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "vintage villas",
+   "canonical_name": "Vintage Villas",
+   "corridor": "austin-tx__lakeway-bee-cave",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "vip marina",
+   "canonical_name": "Vip Marina",
+   "corridor": "austin-tx__leander",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "wizard s guest cottage",
+   "canonical_name": "Wizard's Guest Cottage",
+   "corridor": "austin-tx__dripping-springs",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  },
+  {
+   "identity_key": "woodspring suites austin northwest research blvd",
+   "canonical_name": "Woodspring Suites Austin Northwest Research Blvd",
+   "corridor": "austin-tx__arboretum-northwest",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "REQUIRES_NEW_SPEND",
+   "why": "no first-party route exists in any authorized lane (brand inventory, the Texas hotel-tax permit register, Visit Austin's roster, the map, the brands' own area lists and directories); the only lane that finds one is Places website discovery, an Enterprise-SKU field this order is not authorized to buy -- new spend (the free monthly allowance renews 2026-10-01)"
+  }
+ ]
+}

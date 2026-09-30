@@ -1,0 +1,182 @@
+{
+ "schema": "ptf-live-scan-finding/1.0",
+ "work_order": "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001",
+ "finding": "LIVE_PET_FRIENDLY_READ_FROM_AN_FAQ_QUESTION",
+ "scanned_at_commit": "0e3098689a0a7318a7f86f81eaa0a6e6a655605b",
+ "scope": "READ-ONLY scan of every committed hotel_policy_facts_*.json at the package root (the registered markets); nothing was modified",
+ "mechanism": "The shared reader first_party_binding.classify_quote (FAST rule C) and the market-local acceptance patterns cloned from market to market both match a bare 'pets allowed' / 'pet-friendly' INSIDE an FAQ QUESTION ('Are pets allowed?', 'Is X pet friendly?'). When the answer is a refusal the local pattern does not read ('we do not accept pets', 'pet-free facility', 'pets aren't allowed', 'strict no-pet policy', 'pets (including ESAs) are not permitted'), the question alone is read as acceptance and the row publishes VERIFIED_PET_FRIENDLY. Found in Austin on Kalahari Round Rock (fixed in Austin's own clean authority: a question clause is never acceptance; three refusal shapes added). The shared reader is not modified by this order.",
+ "live_pet_friendly_records_scanned": 3243,
+ "counts": {
+  "LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES": 9,
+  "LIVE_PET_FRIENDLY_ON_A_QUESTION_ONLY": 2,
+  "REVIEW_ACCEPTANCE_PRESENT_BUT_READ_FROM_A_QUESTION": 4
+ },
+ "required_action": "A correction order for the affected live markets (this order may not modify another market, the shared reader or live): re-adjudicate each LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES row as a refusal / hold, hold each LIVE_PET_FRIENDLY_ON_A_QUESTION_ONLY row, review the REVIEW rows, and fix the shared reader so a question is never acceptance.",
+ "rows": [
+  {
+   "market_id": "fort-lauderdale-fl",
+   "identity_key": "dolphin hollywood",
+   "name": "DOLPHIN HOLLYWOOD",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "You are welcome to smoke outdoors ​ Are Pets Allowed? Unfortunately, we do not accept pets at this time. besides pets with license as emotional support.",
+   "source_url": "https://www.dolphinhollywood.com/",
+   "package_file": "pettripfinder\\hotel_policy_facts_fort-lauderdale-fl.json"
+  },
+  {
+   "market_id": "fort-lauderdale-fl",
+   "identity_key": "honu cove",
+   "name": "Honu Cove",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Is Honu Cove Pet Friendly? Pet Policy & ADA Service Animals Pets: Pets are strictly prohibited anywhere on property.",
+   "source_url": "https://www.honucovefl.com/",
+   "package_file": "pettripfinder\\hotel_policy_facts_fort-lauderdale-fl.json"
+  },
+  {
+   "market_id": "fort-lauderdale-fl",
+   "identity_key": "mariner motel inc",
+   "name": "Mariner Motel Inc",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Policies Are pets allowed? While we love animals, our properties are currently pet-free to ensure a hypoallergenic environment for all guests.",
+   "source_url": "https://www.ultra-spaces.com/",
+   "package_file": "pettripfinder\\hotel_policy_facts_fort-lauderdale-fl.json"
+  },
+  {
+   "market_id": "miami-fl",
+   "identity_key": "clevelander south beach",
+   "name": "Clevelander South Beach",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_ON_A_QUESTION_ONLY",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Are you pet-friendly?",
+   "source_url": "https://www.clevelander.com/",
+   "package_file": "pettripfinder\\hotel_policy_facts_miami-fl.json"
+  },
+  {
+   "market_id": "miami-fl",
+   "identity_key": "essex house hotel",
+   "name": "Essex House Hotel",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_ON_A_QUESTION_ONLY",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Are pets allowed? Please contact the hotel directly for the most up-to-date pet policy.",
+   "source_url": "https://www.essexhotel.com/",
+   "package_file": "pettripfinder\\hotel_policy_facts_miami-fl.json"
+  },
+  {
+   "market_id": "orlando-fl",
+   "identity_key": "vacation village at parkway",
+   "name": "Vacation Village at Parkway",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "REVIEW_ACCEPTANCE_PRESENT_BUT_READ_FROM_A_QUESTION",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Is Vacation Village at Parkway pet-friendly? Dogs must be less than 35 pounds, and the resort must approve before arrival.",
+   "source_url": "https://www.vacationvillageresorts.com/vacation_village_parkway/faq.html",
+   "package_file": "pettripfinder\\hotel_policy_facts_orlando-fl.json"
+  },
+  {
+   "market_id": "phoenix-az",
+   "identity_key": "the quinn",
+   "name": "The Quinn",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "REVIEW_ACCEPTANCE_PRESENT_BUT_READ_FROM_A_QUESTION",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Is your community pet friendly? We accept dogs & cats!",
+   "source_url": "https://quinnphx.com",
+   "package_file": "pettripfinder\\hotel_policy_facts_phoenix-az.json"
+  },
+  {
+   "market_id": "phoenix-az",
+   "identity_key": "the scott resort and spa",
+   "name": "The Scott Resort & Spa",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "REVIEW_ACCEPTANCE_PRESENT_BUT_READ_FROM_A_QUESTION",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Pets Are pets allowed? Please note that pets must weigh no more than 50 pounds, or two pets must weigh no more than 75 pounds combined to be permitted to stay at The Scott Resort. We ask that you please inform us prior to arrival that you will be traveling with your pet (or pets). A Pet Form must be completed and a $150 non-refundable pet deposit per stay will be charged upon check-in. Prior to arriving, please be aware of our pet policies and amenities. The standard pet fee will be waived for s",
+   "source_url": "https://www.thescottresort.com/",
+   "package_file": "pettripfinder\\hotel_policy_facts_phoenix-az.json"
+  },
+  {
+   "market_id": "tampa-fl",
+   "identity_key": "bellweather beach resort",
+   "name": "Bellweather Beach Resort",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Is the hotel pet friendly? Unfortunately, Bellwether Beach Resort is a pet-free facility. We accept service dogs and will require a signed pet agreement.",
+   "source_url": "https://www.bellwetherbeachresort.com/?utm_source=google&utm_medium=organic&utm_campaign=mybusiness",
+   "package_file": "pettripfinder\\hotel_policy_facts_tampa-fl.json"
+  },
+  {
+   "market_id": "tampa-fl",
+   "identity_key": "bon aire motel apts",
+   "name": "Bon Aire Motel Apts",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Are you pet friendly? No, we do not allow pets on the property.",
+   "source_url": "https://www.bonaireresort.com/",
+   "package_file": "pettripfinder\\hotel_policy_facts_tampa-fl.json"
+  },
+  {
+   "market_id": "tampa-fl",
+   "identity_key": "boutique beach retreat",
+   "name": "Boutique Beach Retreat",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Is Boutique Beach Retreat pet friendly? Unfortunately, we can not allow pets at the hotel. Emotional support animals are considered pets, not service animals under the American Disabilities Act. We do not allow pets at this property.",
+   "source_url": "https://boutiquebeachretreat.com/",
+   "package_file": "pettripfinder\\hotel_policy_facts_tampa-fl.json"
+  },
+  {
+   "market_id": "tampa-fl",
+   "identity_key": "crystal palms beach resort at treasure island",
+   "name": "Crystal Palms Beach Resort at Treasure Island",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "PETS: Pets and Emotional Support Animals are not allowed on property. Crystal Palms Beach Resort adheres to Federal ADA Law allowing ADA Compliant Services Animals. Is Crystal Palms Beach Resort pet-friendly?",
+   "source_url": "https://www.providentresorts.com/crystal-palms-tampa-and-treasure-island/",
+   "package_file": "pettripfinder\\hotel_policy_facts_tampa-fl.json"
+  },
+  {
+   "market_id": "tampa-fl",
+   "identity_key": "sunset vistas beachfront suites",
+   "name": "Sunset Vistas Beachfront Suites",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "PETS: Pets and Emotional Support Animals are not allowed on property. Sunset Vistas Beachfront Suites adheres to Federal ADA Law allowing ADA Compliant Services Animals. Are pets allowed at Sunset Vistas Beachfront Suites? Unfortunately, pets aren’t allowed.",
+   "source_url": "https://www.providentresorts.com/sunset-vistas-beachfront-suites-tampa-and-treasure-island/",
+   "package_file": "pettripfinder\\hotel_policy_facts_tampa-fl.json"
+  },
+  {
+   "market_id": "tampa-fl",
+   "identity_key": "hotel south tampa and suites",
+   "name": "Hotel South Tampa & Suites",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "LIVE_PET_FRIENDLY_BUT_THE_QUOTE_REFUSES",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Are pets allowed at the hotel? + To ensure the comfort of all our guests, we maintain a strict no-pet policy.",
+   "source_url": "https://www.hotelsouthtampa.com/",
+   "package_file": "pettripfinder\\hotel_policy_facts_tampa-fl.json"
+  },
+  {
+   "market_id": "west-palm-beach-fl",
+   "identity_key": "aka west palm",
+   "name": "Aka West Palm",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "classification": "REVIEW_ACCEPTANCE_PRESENT_BUT_READ_FROM_A_QUESTION",
+   "shared_reader_on_quote": "ELIGIBLE",
+   "quote": "Stay productive during the day in our resident-only public area, treat your furry friend to five-star grooming at the AKA Pet Spa powered by D is for Dog, and sip and savor at The Blind Monk restaurant. Explore Membership Here Are Pets Allowed at AKA locations? Pets are always welcome at AKA locations. Be sure to check your respective property’s FAQ for applicable fees and available pet services.",
+   "source_url": "https://www.stayaka.com/aka-west-palm",
+   "package_file": "pettripfinder\\hotel_policy_facts_west-palm-beach-fl.json"
+  }
+ ]
+}
