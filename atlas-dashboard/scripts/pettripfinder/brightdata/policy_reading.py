@@ -471,6 +471,35 @@ _PETS_WELCOME_RES: Tuple[re.Pattern, ...] = (
     # acceptance here.
     re.compile(r"\bwelcomes?\s+(?:only\s+)?(?:pets?|dogs?|cats?)\b",
                re.IGNORECASE),
+    # PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001: once a
+    # QUESTION stopped counting as an acceptance, the ANSWER has to be read,
+    # and these are the answer shapes live first-party FAQs use. Each is still
+    # governed by the negation guard and the question guard in
+    # ``_first_acceptance``.
+    #   "we'd love to welcome your pet", "welcomes well-behaved dogs and
+    #   cats", "We welcome up to 2 dogs"
+    re.compile(r"\bwelcomes?\s+(?:only\s+)?(?:up\s+to\s+(?:\d+|one|two|three)\s+)?"
+               r"(?:(?:your|our|well[\s-]behaved|small)\s+)*(?:pets?|dogs?|cats?)\b", re.IGNORECASE),
+    #   "welcomes four-legged companions"
+    re.compile(r"\bwelcomes?\s+(?:your\s+|our\s+)?(?:four[\s\-‐‑]legged|furry)\s+"
+               r"(?:companions?|friends?|guests?|family\s+members?)\b", re.IGNORECASE),
+    #   "Pets are always welcome", "Four-legged guests are always welcome"
+    re.compile(r"\b(?:pets?|dogs?|cats?|four[\s\-‐‑]legged\s+(?:guests?|friends?|companions?))\s+"
+               r"are\s+(?:always|very|most|more\s+than|certainly|happily|warmly)\s+welcome\b", re.IGNORECASE),
+    #   "We only allow dogs and cats", "we allow our four legged friends"
+    re.compile(r"\bwe\s+(?:only\s+|happily\s+|gladly\s+)?(?:allow|accept)\s+(?:up\s+to\s+(?:\d+|one|two|three)\s+)?"
+               r"(?:pets?|dogs?|cats?|(?:our\s+)?(?:four[\s\-‐‑]legged|furry)\s+(?:friends?|guests?|"
+               r"companions?))\b", re.IGNORECASE),
+    #   "Is Halcyon pet friendly? Yes, we'd love to welcome your pet." -- a
+    #   question about pets answered YES. The match ends on the answer, so the
+    #   question guard does not discard it; an answer that goes on to limit
+    #   itself to service animals or to negate is not read as a yes. A question
+    #   about PET-FREE rooms or allergies ("Do you have pet-free rooms for
+    #   those with allergies? Yes, ...") answered yes is the opposite claim and
+    #   is never read this way.
+    re.compile(r"\b(?:pets?|dogs?|cats?|(?:pet|dog)[\s\-‐‑]friendly)\b(?![\s\-‐‑]free)"
+               r"(?:(?!allerg|pet[\s\-‐‑]free)[^.?!|]){0,80}\?\s*(?:‍\s*)?"
+               r"Yes\b(?![^.?!|]{0,60}\b(?:only\s+service|service\s+animals?\s+only|not|no)\b)"),
 )
 
 #: Continuations that turn a refusal into a HOUSE RULE rather than a refusal of
@@ -496,6 +525,67 @@ _PETS_REFUSED_RES: Tuple[re.Pattern, ...] = (
     re.compile(r"\bno\s+(?:other\s+|additional\s+|further\s+)?pets?\b"
                r"(?!\s+(?:allowed\s+)?fee)", re.IGNORECASE),
     re.compile(r"\bpets?\s+allowed\s*:?\s*no\b", re.IGNORECASE),
+    # PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001: refusals the
+    # patterns above could not read. Each was measured on a LIVE first-party
+    # quote that published the opposite. Appended, never reordered, so every
+    # earlier refusal still wins first, and each carries the house-rule
+    # qualifier so "not allowed in the pool" stays a place rule.
+    #
+    # (a) A subject the verb does not follow directly: an appositive or a
+    #     parenthetical ("Pets, including emotional support animals, are not
+    #     permitted", "pets (including ESAs) are not permitted") or a compound
+    #     ("Pets and Emotional Support Animals are not allowed"), and the
+    #     contractions "aren't" / "isn't". "Service animals" and "other
+    #     animals" are never the subject: the first is a legal access category
+    #     and the second restricts a species (``_is_species_restriction``).
+    re.compile(r"(?<!\bother\s)(?<!\bservice\s)\b(?:pets?|animals?)"
+               r"(?:\s*\([^)]{0,80}\)|\s*,\s*[^,.;!?|]{1,80},"
+               r"|\s+(?:and|or)\s+(?:[\w-]+\s+){0,3}?(?:animals?|esas?|pets?))?"
+               r"\s*(?:(?:are|is)\s+(?:strictly\s+)?not|aren[’']?t|isn[’']?t|not)\s+"
+               r"(?:allowed|permitted|accepted)\b" + _REFUSAL_QUALIFIER, re.IGNORECASE),
+    # (b) A refusal stated with the property as the subject: "we do not accept
+    #     pets", "we can not allow pets", "we are unfortunately unable to
+    #     accommodate pets". The gap may not carry a number or a size word, so
+    #     "we cannot accommodate more than 2 pets" stays a count limit.
+    #     Nor is it a refusal when what follows restricts the SPECIES ("we do
+    #     not accept pets other than dogs") or a named ROOM TYPE ("we do not
+    #     allow pets in our Kitchenette suite"); "in guest rooms" still refuses.
+    re.compile(r"\b(?:(?:do|does|did|will|can|could|would)\s*(?:not|n[’']t)|cannot|unable\s+to)\s+"
+               r"(?:allow|accept|permit|accommodate|welcome)\s+(?:any\s+)?"
+               r"(?:(?!(?:more|than|over|above|additional|extra|larger?|big(?:ger)?|heav(?:y|ier)|two|three|"
+               r"four|\d+)\b)[\w-]+\s+){0,6}?pets?\b"
+               r"(?!\s+(?:other\s+than|except|besides|apart\s+from|but)\b)"
+               r"(?!\s+in\s+(?:our|the|any)\s+(?!guest\s)(?:[\w-]+\s+){0,3}?(?:suites?|rooms?)\b)"
+               + _REFUSAL_QUALIFIER, re.IGNORECASE),
+    # "We are not a pet friendly hotel", "Pacific Terrace Hotel is not a
+    # pet-friendly hotel": the property denies the very phrase the acceptance
+    # patterns read (the negation guard already stops that acceptance). "Our
+    # oceanfront ROOMS are not pet friendly" beside pet-friendly rooms restricts
+    # a room type and is not a refusal, so a room, suite, floor or area may not
+    # be the subject.
+    re.compile(r"\bnot\s+a\s+(?:pet|dog)[\s\-‐‑]friendly\s+(?:hotel|property|facility|resort|inn|motel|"
+               r"establishment|building|community|complex)\b"
+               r"|(?<!\brooms\s)(?<!\broom\s)(?<!\bsuites\s)(?<!\bsuite\s)(?<!\bfloors\s)(?<!\bareas\s)(?<!\barea\s)"
+               r"\b(?:is|are)\s+not\s+(?:a\s+)?pet[\s\-‐‑]friendly\b", re.IGNORECASE),
+    re.compile(r"\bpets?\s+(?:cannot|can\s*not|can[’']t)\s+be\s+(?:accommodated|allowed|accepted|permitted)\b"
+               + _REFUSAL_QUALIFIER, re.IGNORECASE),
+    # (c) Prohibition: "Pets are strictly prohibited anywhere on property",
+    #     "Animals are prohibited". "Prohibited from being left alone" is a
+    #     house rule and is not read.
+    re.compile(r"(?<!\bother\s)(?<!\bservice\s)\b(?:pets?|animals?)"
+               r"(?:\s+(?:and|or)\s+(?:[\w-]+\s+){0,3}?(?:animals?|esas?|pets?))?"
+               r"\s+(?:are\s+|is\s+)?(?:strictly\s+)?prohibited\b(?!\s+from\b)" + _REFUSAL_QUALIFIER,
+               re.IGNORECASE),
+    # (d) The property declared pet-free: "a pet-free facility", "our
+    #     properties are currently pet-free". A pet-free ROOM or FLOOR beside
+    #     pet rooms is not a refusal, so the subject must be the property.
+    re.compile(r"\bpet[\s\-‐‑]free\s+(?:facility|property|properties|hotel|resort|environment|establishment|"
+               r"building|inn|motel|community|complex)\b"
+               r"|\b(?:property|properties|hotel|facility|resort|inn|motel|building|complex)\s+(?:is|are)\s+"
+               r"(?:(?:currently|now|a|100%)\s+)*pet[\s\-‐‑]free\b", re.IGNORECASE),
+    # (e) "a strict no-pet policy": the hyphenated form the plain "no pets"
+    #     pattern above cannot see.
+    re.compile(r"\bno-pets?\b(?!\s+(?:allowed\s+)?fee)", re.IGNORECASE),
 )
 
 #: A condition attached to a charge that schema 1.2 has no field for: a fee
@@ -1302,8 +1392,63 @@ def _first_acceptance(text: str):
             if _is_negated(text, match):
                 negated.append(text[match.start():match.end()])
                 continue
+            if _in_question(text, match):
+                # A QUESTION is never an acceptance: "Are pets allowed?" asks,
+                # and its answer -- which may be a refusal -- is the policy.
+                negated.append(text[match.start():match.end()])
+                continue
             return match, "welcome[%d]" % index, negated
     return None, "", negated
+
+
+#: Where a statement ends: a full stop or exclamation mark followed by space or
+#: the end, a question mark, a list separator or a line break. A decimal point
+#: ("$50.00") is not a statement end.
+_STATEMENT_END_RE = re.compile(r"[.!](?=\s|$)|[?|\n]")
+
+
+def _in_question(text: str, match) -> bool:
+    """Whether a match sits inside a QUESTION -- the statement that contains it
+    ends in a question mark.
+
+    PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001. FAQ pages quote
+    their own questions ("Are pets allowed?", "Is Honu Cove Pet Friendly?") and
+    every acceptance pattern matched the question's words, so a hotel whose
+    ANSWER refused pets published as pet-friendly (Kalahari Round Rock, and
+    nine live rows in Fort Lauderdale and Tampa). A question states nothing;
+    only an answer can.
+
+    Captured blocks often run statements together without punctuation ("Pets
+    Welcome Have questions? Call us"), so the question mark must be CLOSE
+    (within ``_QUESTION_REACH`` characters) and the words between the match and
+    it must not open a NEW question -- a capitalised interrogative there means
+    the question mark belongs to a later sentence, not to this one.
+    """
+    if match is None:
+        return False
+    end = _STATEMENT_END_RE.search(text, match.end())
+    if not end or end.group(0) != "?" or end.start() - match.end() > _QUESTION_REACH:
+        return False
+    return not _NEW_QUESTION_RE.search(text[match.end():end.start()])
+
+
+_QUESTION_REACH = 120
+#: A capitalised (or ALL-CAPS) word that opens a new question ("Have
+#: questions?", "Need help?", "ARE PETS ALLOWED AT ...?"). Case-sensitive on
+#: purpose: inside a question these words are lower-case ("... if my dog is
+#: small?"). ALL-CAPS matters: a brand block writes the chip "PETS ALLOWED"
+#: and then its FAQ heading "ARE PETS ALLOWED AT WOODSPRING SUITES ...?" with
+#: no punctuation between, and the chip is not part of that question.
+_NEW_QUESTION_WORDS = ("Have", "Need", "Want", "Question", "Questions", "Any", "Looking", "Planning", "Traveling",
+                       "Travelling", "Do", "Does", "Did", "Are", "Is", "Can", "Could", "What", "How", "Why", "Where",
+                       "When", "Who", "Which", "Would", "Will", "Should", "May")
+_NEW_QUESTION_RE = re.compile(
+    r"\b(?:%s)\b" % "|".join(w for word in _NEW_QUESTION_WORDS for w in (word, word.upper())))
+
+
+def _not_in_question(text: str, match):
+    """``match`` unless it sits inside a question, in which case ``None``."""
+    return None if _in_question(text, match) else match
 
 
 def _pet_qualifies(text: str, position: int) -> bool:
@@ -1823,13 +1968,18 @@ def parse(block_text: str, *, strategy: str = "") -> Reading:
     dogs_mentioned = next(
         (m for m in re.finditer(r"\bdogs?\s+(?:are\s+)?(?:allowed|welcome|"
                                 r"permitted)\b", text, re.IGNORECASE)
-         if not _NEGATION_IN_GAP_RE.search(text[max(0, m.start() - 12):m.start()])),
+         if not _NEGATION_IN_GAP_RE.search(text[max(0, m.start() - 12):m.start()])
+         and not _in_question(text, m)),
         None)
-    dogs_only = dogs_exclusive or dogs_mentioned or _dogs_allowed_qualified(text)
+    # A species named inside a QUESTION ("Are dogs allowed?") is asked about,
+    # not accepted (PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001).
+    dogs_exclusive = _not_in_question(text, dogs_exclusive)
+    dogs_only = dogs_exclusive or dogs_mentioned or _not_in_question(text, _dogs_allowed_qualified(text))
     cats_refused = MS._CATS_REFUSED_RE.search(text)
-    both_exclusive = _BOTH_SPECIES_RE.search(text)
-    both_species = (both_exclusive or _BOTH_SPECIES_ACCEPTED_RE.search(text)
-                    or _SPECIES_PAIR_RE.search(text))
+    both_exclusive = _not_in_question(text, _BOTH_SPECIES_RE.search(text))
+    both_species = (both_exclusive
+                    or _not_in_question(text, _BOTH_SPECIES_ACCEPTED_RE.search(text))
+                    or _not_in_question(text, _SPECIES_PAIR_RE.search(text)))
     species_exclusive = bool(both_exclusive
                              or (dogs_exclusive and not both_species))
     service = MS._SERVICE_ANIMAL_RE.search(text)
