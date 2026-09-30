@@ -118,6 +118,13 @@ def correction_delta(market_id, live_market, package_market, ledger_rows):
         ("expected_verified_no_pets_delta", refused),
         ("expected_market_count_delta", 0),
         ("expected_participation_delta", []),
+        ("removal_authority", OrderedDict((
+            ("ruling_ref", "%s -- %s" % (WORK_ORDER, LEDGER.relative_to(_DASH).as_posix())),
+            ("reason", "the founder's work order directs every live pet-friendly row whose own first-party quote "
+                       "explicitly refuses pets into verified-no-pets, and every row whose only 'acceptance' was an "
+                       "FAQ question into a hold; each removed profile is named in the ledger with the quote that "
+                       "moved it, and a corridor route leaves only when its corridor falls below the publication "
+                       "minimum because of those removals")))),
         ("correction", OrderedDict((
             ("work_order", WORK_ORDER),
             ("ledger", LEDGER.relative_to(_DASH).as_posix()),
