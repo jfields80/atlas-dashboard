@@ -139,7 +139,10 @@ def _seal(market_id, parent, source_sha, sealed_at, delta):
 def reseal(market_id, live, rows, *, source_sha, sealed_at, work, write):
     idx, state, _p = live
     parent = LANE.parent_from_live(live)
-    _i, provisional = _seal(market_id, parent, source_sha, sealed_at, None)
+    # The delta is part of what is sealed, and it is measured FROM the package, so the package is first sealed
+    # with the empty correction shape (the live market against itself), measured, then sealed for real.
+    empty = correction_delta(market_id, idx.markets[market_id], idx.markets[market_id], rows)
+    _i, provisional = _seal(market_id, parent, source_sha, sealed_at, empty)
     delta = correction_delta(market_id, idx.markets[market_id],
                              RI.index_from_package(provisional, participating=True), rows)
     _i, package = _seal(market_id, parent, source_sha, sealed_at, delta)
