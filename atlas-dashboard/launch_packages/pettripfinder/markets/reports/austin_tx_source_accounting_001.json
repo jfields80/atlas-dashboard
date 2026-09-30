@@ -1,0 +1,109 @@
+{
+ "schema": "ptf-source-accounting/1.0",
+ "work_order": "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001",
+ "market_id": "austin-tx",
+ "derived_from": "launch_packages/pettripfinder/markets/reports/austin_tx_source_ready_accounting_001.json",
+ "headline": {
+  "total_raw_observations": 3643,
+  "raw_observations_by_lane": {
+   "REGISTRY_LICENCE": 714,
+   "OSM_OVERPASS": 1297,
+   "BRAND_INVENTORY_OWNED": 77,
+   "BRAND_INVENTORY_CITY_PAGE": 70,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 114,
+   "DESTINATION_ORGANIZATION": 471,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 562,
+   "IDENTITY_VERIFIED_PLACES": 0,
+   "PROPERTY_PAGE": 338
+  },
+  "city_business_tax_register_lodging_leads": null,
+  "osm_lodging_elements": 1370,
+  "brand_inventory_leads": 216,
+  "destination_roster_listings": 471,
+  "destination_roster_rows_in_admitted_codes": 464,
+  "competitor_leads_normalized": 562,
+  "graph_nodes": 2079,
+  "proposed_census": 407,
+  "valid_pet_friendly": 190,
+  "valid_verified_no_pets": 59,
+  "resolved": 249,
+  "unresolved": 158,
+  "resolution_rate": 0.6118
+ },
+ "holds_by_class": {
+  "IDENTITY": 20,
+  "ROUTING": 88,
+  "ACCESS_BLOCKED": 6,
+  "EVIDENCE": 29,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 15,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "router exhausted on every free/authorized lane attempted this order (s": 4,
+   "the brand served a DataDome CAPTCHA to the attended browser; never sol": 1,
+   "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED": 1
+  },
+  "EVIDENCE_HOLD": {
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 10,
+   "the property's own page served and bound these premises, but its only ": 7,
+   "ROUTE_DOMAIN_CONFLICT": 5,
+   "the first-party quote states neither an acceptance nor a refusal sente": 5,
+   "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE": 2
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "SAME PREMISES, TWO IDENTITIES (address_key 1901|san|78705): AC Hotel A": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 109|7th|78701): Aloft Austi": 2,
+   "the fetched page's own identity did not confirm this census row": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 6711|ben|78741): Candlewood": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 300|4th|78701): Courtyard b": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 2033|5th|78702): Hampton In": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 1408|town|78660): Hawthorn ": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 13501|lyndhurst|78717): Hil": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 18700|hilltop|78660): Home2": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 901|little|78745): Staybrid": 2
+  },
+  "ROUTING_HOLD": {
+   "routing state INDEPENDENT_REVIEW: no first-party source in this order ": 73,
+   "routing state FREE_LANE_EXHAUSTED: no first-party source in this order": 8,
+   "the route the census carries served an error page (expired domain, sit": 7
+  },
+  "SOURCE_SILENT": {
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 7,
+   "the property's own pages served, bound these exact premises, and state": 5,
+   "the brand's own page served and bound these premises, and the only pet": 3
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 90,
+  "timeshare": 3,
+  "resort_residence": 0,
+  "non_hotel": 138,
+  "closed": 0,
+  "outside": 969,
+  "duplicate_listing": 0,
+  "name_only_unresolved_graph_residue": 323,
+  "identity_review_required_graph_residue": 138,
+  "same_campus_distinct_entity": 11,
+  "city_register_short_term_rental_certificates_never_admitted": 0,
+  "city_register_rooming_houses_never_admitted": 0,
+  "closed_note": "No row was classified CLOSED on a first-party closure statement; lapsed routes (an expired domain, a brand redirect to its own search) are ROUTING holds, never a closure claim."
+ },
+ "remaining_unresolved_root_causes": {
+  "ROUTING_HOLD": "no first-party route: no brand inventory row, bureau link or map website joined the building, and Places route discovery was NOT run because its website field is an Enterprise-SKU field whose free monthly allowance is already consumed (new spend).",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible, the attended browser) was refused or walled.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a conditional, chip-only or fee/weight/count-only statement, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "dual-brand buildings awaiting a reviewed shared resolution, or a page that never confirmed this census row's premises."
+ }
+}

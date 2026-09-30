@@ -1,0 +1,65 @@
+{
+ "schema": "ptf-independent-reproduction/1.0",
+ "work_order": "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001",
+ "market_id": "austin-tx",
+ "worktree": "C:/t/atx1b-wt (git worktree add --detach 6050ffe1; removed afterwards)",
+ "process": "separate OS process (PowerShell Start-Process python, pid 6484), record written before start: independent_reproduction_process.txt",
+ "command": "python -m scripts.pettripfinder.austin_tx_shadow_package_001 --source-sha cb8bb6d211176c2a9874cbaff1ec3b560980f19d --work-dir C:/t/atx1b --stage",
+ "work_dir": "C:/t/atx1b (the sealing run used C:/t/atx1a)",
+ "package_id": {
+  "sealing_run": "pkg-austin-tx-3030caf7703a9c57",
+  "reproduction": "pkg-austin-tx-3030caf7703a9c57"
+ },
+ "package_digest": {
+  "sealing_run": "sha256:3030caf7703a9c574c14177ebcb072bbd691e94a518f6b68a045506482026331",
+  "reproduction": "sha256:3030caf7703a9c574c14177ebcb072bbd691e94a518f6b68a045506482026331"
+ },
+ "reproduction_two_seal_in_process": "YES",
+ "package_file_identical_lf_normalised": true,
+ "package_file_raw_difference": "line endings only: the detached checkout writes CRLF under core.autocrlf=true, the sealing tree holds the tool-written LF file",
+ "bundle_sha256": {
+  "sealing_run": "6cc8b82506ab4c4b3456199b781b7d106e02ba61a90a706b56d21cd4a39cced7",
+  "reproduction": "6cc8b82506ab4c4b3456199b781b7d106e02ba61a90a706b56d21cd4a39cced7"
+ },
+ "rule_j": {
+  "sealing_run": [
+   1157,
+   1141,
+   true
+  ],
+  "reproduction": [
+   1157,
+   1141,
+   true
+  ]
+ },
+ "fast": {
+  "sealing_run": "15/15 PASS, 0 UNKNOWN, 0 FAILED",
+  "reproduction": "15/15 PASS, 0 UNKNOWN, 0 FAILED"
+ },
+ "determinism": {
+  "sealing_run": "BYTE_IDENTICAL",
+  "reproduction": "BYTE_IDENTICAL"
+ },
+ "staged_tree_file_sets_equal": true,
+ "staged_tree_files_compared": 8,
+ "staged_tree_differing_files": 0,
+ "staged_tree_differing_files_raw_bytes": [],
+ "receipt_fields_compared": 1235,
+ "receipt_fields_differing": 32,
+ "receipt_differing_field_heads": [
+  "ENVIRONMENT",
+  "PERFORMANCE",
+  "RECEIPT_DIGEST",
+  "RESULTS",
+  "TIMESTAMPS"
+ ],
+ "receipt_differences_are": "wall-clock seconds (per rule, build, writer, compare, total), started_at / finished_at, environment, peak working set, the two cache input_keys (they hash the work-dir path; both runs BUILD_EXECUTED) and hence RECEIPT_DIGEST",
+ "receipt_digest": {
+  "sealing_run": "sha256:0149facbdda891b679de641f89ddf1e9c04abe6e2f5b1531ad5b06c742349952",
+  "reproduction": "sha256:ec9e4f8f2bd3e23b4d33fb8f20e9febccfdc5bb97d94fafd8855125f57745491"
+ },
+ "INDEPENDENT_REPRODUCTION": "YES",
+ "BYTE_IDENTICAL": "YES",
+ "DIFFERING_FILES": 0
+}

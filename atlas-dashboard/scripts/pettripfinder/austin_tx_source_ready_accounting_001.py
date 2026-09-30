@@ -482,6 +482,23 @@ def main():
     with open(OUT, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(doc, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
+    # AUSTIN: the order names SEVEN machine-readable accountings. Each is written as its own document from the
+    # SAME sections of this one (never recomputed, so the files cannot disagree); the actionability and competitor
+    # reconciliation documents are their own modules' outputs.
+    for name, keys in (("source", ("headline", "holds_by_class", "holds_exact_sub_causes", "exclusions",
+                                   "remaining_unresolved_root_causes")),
+                       ("provider", ("providers",)), ("brand", ("brand_by_brand",)),
+                       ("corridor", ("corridor_coverage", "uncorridored_rows", "corridor_count",
+                                     "corridors_publishing")),
+                       ("boundary", ("county_and_border_boundary",))):
+        part = OrderedDict([("schema", "ptf-%s-accounting/1.0" % name), ("work_order", WORK_ORDER),
+                            ("market_id", "austin-tx"),
+                            ("derived_from", os.path.relpath(OUT, _DASH).replace("\\", "/"))])
+        part.update((k, doc[k]) for k in keys)
+        with open(os.path.join(R, "austin_tx_%s_accounting_001.json" % name), "w", encoding="utf-8",
+                  newline="\n") as fh:
+            json.dump(part, fh, indent=1, ensure_ascii=False)
+            fh.write("\n")
     print("headline:", dict(doc["headline"]))
     print("holds:", dict(doc["holds_by_class"]))
     print("corridors publishing:", doc["corridors_publishing"])
