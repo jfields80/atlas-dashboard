@@ -14,6 +14,8 @@ reader, run from this tree it imports the new one. ``scan`` therefore puts the c
     cd <old atlas-dashboard> && python <this file> scan --label before --out before.json
     cd <new atlas-dashboard> && python <this file> scan --label after  --out after.json
     python <this file> compare --before before.json --after after.json
+    cd <corrected atlas-dashboard> && python <this file> scan --label candidate --out candidate.json
+    python <this file> rescan --before before.json --candidate candidate.json    # the corrected candidate
 
 CLASSES (per live pet-friendly record)
 ---------------------------------------
@@ -38,6 +40,7 @@ WORK_ORDER = "PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001"
 SCHEMA = "ptf-live-pet-policy-quote-safety-scan/1.0"
 PKG_REL = os.path.join("launch_packages", "pettripfinder")
 REPORT_REL = os.path.join(PKG_REL, "markets", "reports", "live_pet_policy_quote_safety_scan_001.json")
+RESCAN_REL = os.path.join(PKG_REL, "markets", "reports", "live_pet_policy_quote_safety_rescan_001.json")
 
 
 def _live_markets(pkg):
@@ -158,6 +161,45 @@ def compare(before, after):
     ])
 
 
+def rescan(before, candidate):
+    """The corrected candidate, judged by the repaired reader.
+
+    A candidate record is QUESTION_ONLY when the repaired reader finds no operative acceptance and no refusal and
+    the reader it replaced DID accept it -- the same rule ``compare`` applies. The candidate set is the live set
+    minus what the correction removed, so the two scans are joined by identity rather than required to match.
+    """
+    b = {(r["market_id"], r["identity_key"]): r for r in before["pet_friendly_records"]}
+    c = {(r["market_id"], r["identity_key"]): r for r in candidate["pet_friendly_records"]}
+    rows = []
+    for k in sorted(c):
+        rc, rb = c[k], b.get(k)
+        klass = rc["class"]
+        if klass == "NOT_OPERATIVE":
+            klass = "QUESTION_ONLY" if rb and rb["class"] == "AFFIRMATIVE_ACCEPTANCE" else "OTHER"
+        rows.append(OrderedDict([("market_id", k[0]), ("identity_key", k[1]), ("name", rc["name"]),
+                                 ("class_under_prior_reader", (rb or {}).get("class")), ("class", klass),
+                                 ("quotes", rc["quotes"])]))
+    counts = Counter(r["class"] for r in rows)
+    return OrderedDict([
+        ("schema", SCHEMA + "/rescan"), ("work_order", WORK_ORDER),
+        ("what_this_is", "Every pet-friendly record of the CORRECTED candidate (the root policy package of every "
+                         "FOUNDER_AUTHORIZED_FOR_LAUNCH market in the corrected tree) re-read by the repaired "
+                         "reader exactly as FAST rule C applies it."),
+        ("markets_scanned", len(candidate["markets"])),
+        ("CANDIDATE_PET_FRIENDLY_RECORDS_SCANNED", len(rows)),
+        ("live_records_not_in_candidate", sorted("%s/%s" % k for k in set(b) - set(c))),
+        ("candidate_records_not_live", sorted("%s/%s" % k for k in set(c) - set(b))),
+        ("classes", OrderedDict(sorted(counts.items()))),
+        ("PET_FRIENDLY_RECORDS_WITH_EXPLICIT_REFUSAL", counts.get("EXPLICIT_REFUSAL", 0)),
+        ("QUESTION_ONLY_PET_FRIENDLY_RECORDS", counts.get("QUESTION_ONLY", 0)),
+        ("AMBIGUOUS", counts.get("AMBIGUOUS", 0)),
+        ("records_the_prior_reader_also_did_not_accept",
+         [OrderedDict([("market_id", r["market_id"]), ("identity_key", r["identity_key"]), ("class", r["class"]),
+                       ("class_under_prior_reader", r["class_under_prior_reader"])])
+          for r in rows if r["class"] != "AFFIRMATIVE_ACCEPTANCE"]),
+    ])
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -168,7 +210,22 @@ def main(argv=None):
     c.add_argument("--before", required=True)
     c.add_argument("--after", required=True)
     c.add_argument("--out", default=None)
+    r = sub.add_parser("rescan")
+    r.add_argument("--before", required=True)
+    r.add_argument("--candidate", required=True)
+    r.add_argument("--out", default=None)
     args = ap.parse_args(argv)
+    if args.cmd == "rescan":
+        doc = rescan(json.load(open(args.before, encoding="utf-8")), json.load(open(args.candidate, encoding="utf-8")))
+        out = args.out or os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", RESCAN_REL)
+        with open(out, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(doc, fh, indent=1, ensure_ascii=False)
+            fh.write("\n")
+        for k in ("CANDIDATE_PET_FRIENDLY_RECORDS_SCANNED", "classes", "PET_FRIENDLY_RECORDS_WITH_EXPLICIT_REFUSAL",
+                  "QUESTION_ONLY_PET_FRIENDLY_RECORDS", "AMBIGUOUS", "live_records_not_in_candidate",
+                  "candidate_records_not_live"):
+            print(k, "=", doc[k])
+        return 0 if not doc["PET_FRIENDLY_RECORDS_WITH_EXPLICIT_REFUSAL"] and not doc["QUESTION_ONLY_PET_FRIENDLY_RECORDS"] else 1
     if args.cmd == "scan":
         doc = scan(args.label)
         out = args.out
