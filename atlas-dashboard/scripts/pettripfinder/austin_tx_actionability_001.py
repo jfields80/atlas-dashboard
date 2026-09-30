@@ -91,6 +91,10 @@ SHARED_READER_REFUSAL = ("the property's own page states a refusal this order re
 #: The shared reader's "the quote accepts pets" verdict when the only acceptance words sit in an FAQ QUESTION
 #: ("'Are pets allowed? | ... are not permitted'") -- the Kalahari shape.
 _QUESTION_ONLY_ACCEPT = re.compile(r"the quote accepts pets: '(?:Are|Is|Can|Do|Does)\b[^?']{0,120}\?", re.I)
+#: ...and the quote refuses pets at the PROPERTY, not in one of its areas: Hotel ZaZa's "pets are not permitted in
+#: our restaurants or pool" is an area rule beside an acceptance, never a refusal of the stay.
+_WHOLE_PROPERTY_REFUSAL = re.compile(r"\bnot\s+(?:allowed|accepted|permitted)\b(?!\s+(?:in|inside|on|at)\s+(?:our|the|any)\b)",
+                                     re.I)
 
 
 def _load(path, default=None):
@@ -134,7 +138,8 @@ def classify(row, route):
             return FOUNDER, ("two first-party routes for one premises; which one the package cites is a routing "
                              "ruling -- " + why[:200])
         if ("no refusal the reader will interpret" in why
-                or ("QUOTE_CONTRADICTS_CLAIM (the quote accepts pets:" in why and _QUESTION_ONLY_ACCEPT.search(why))):
+                or ("QUOTE_CONTRADICTS_CLAIM (the quote accepts pets:" in why and _QUESTION_ONLY_ACCEPT.search(why)
+                    and _WHOLE_PROPERTY_REFUSAL.search(why))):
             return FOUNDER, SHARED_READER_REFUSAL + why[:200]
         return EXHAUSTED, ("the first-party evidence was read and is not publishable as stated (conditional, "
                            "fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition "
