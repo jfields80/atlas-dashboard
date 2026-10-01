@@ -66,7 +66,8 @@ def _load(path):
 
 
 def _git_json(commit, rel):
-    out = subprocess.run(["git", "-C", str(_DASH), "show", "%s:atlas-dashboard/%s" % (commit, rel)],
+    # read-only: ``git show`` of a committed blob, run in the repository (cwd), never ``git -C``
+    out = subprocess.run(["git", "show", "%s:atlas-dashboard/%s" % (commit, rel)], cwd=str(_DASH),
                          capture_output=True, check=True).stdout
     return json.loads(out.decode("utf-8-sig"))
 
