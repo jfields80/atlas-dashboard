@@ -245,19 +245,29 @@ def main(argv=None):
                 problems.append("%s/%s had no live route to remove" % (m, key))
             elif route in cand_sitemap or pages or go:
                 problems.append("%s/%s still publishes: %s" % (m, key, (pages + go)[:3]))
+    # A REBIND changes the EVIDENCE behind a published statement, not the statement: a profile renders the
+    # record's facts ("Pets are welcome.", the fee, the weight), never the cited quote. So the profile must stay
+    # served and byte-identical to live, and the record must now be an operative acceptance under the repaired
+    # reader (the rescan) -- the statement it always made is now backed by the sentence that makes it.
+    rescan_class = {(r["market_id"], r["identity_key"]): r["class"]
+                    for r in _load(RESCAN)["records_the_prior_reader_also_did_not_accept"]}
     for (m, key), row in rebound.items():
         entry = next((e for e in proposed.markets[m].profiles.values() if e.declared_identity_key == key
                       or e.identity_key == key), None)
-        page = os.path.join(args.candidate, "site", entry.route.strip("/"), "index.html") if entry else None
-        text = open(page, encoding="utf-8").read() if page and os.path.isfile(page) else ""
+        rel = (entry.route.strip("/") + "/index.html") if entry else None
+        text = open(os.path.join(args.candidate, "site", rel), encoding="utf-8").read() \
+            if rel and os.path.isfile(os.path.join(args.candidate, "site", rel)) else ""
         flat = " ".join(html.unescape(re.sub(r"<[^>]+>", " ", text)).split())
-        shows_answer = row["rebind_quote"] in flat
-        old_question_only = row["quote_before"] in flat
+        served = bool(entry) and entry.route in cand_sitemap
+        unchanged = bool(rel) and cand_files.get(rel) == live_files.get(rel)
+        operative = (m, key) not in rescan_class    # absent from the non-accepted list = AFFIRMATIVE_ACCEPTANCE
         rows_out.append(OrderedDict((("market_id", m), ("identity_key", key), ("route", entry.route if entry else None),
-                                     ("page_shows_rebound_answer", shows_answer),
-                                     ("page_still_shows_old_quote", old_question_only))))
-        if not shows_answer:
-            problems.append("%s/%s: the profile does not show the rebound answer" % (m, key))
+                                     ("route_served", served), ("profile_byte_identical_to_live", unchanged),
+                                     ("profile_renders_quote", row["rebind_quote"] in flat),
+                                     ("rebound_quote_operative_acceptance_under_repaired_reader", operative))))
+        if not (served and unchanged and operative):
+            problems.append("%s/%s: rebind not as expected (served %s, unchanged %s, operative %s)"
+                            % (m, key, served, unchanged, operative))
 
     # ---- E. the corrected candidate, re-read by the repaired reader -------
     rescan = _load(RESCAN)
