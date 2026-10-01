@@ -24,37 +24,37 @@
  },
  "reconciliation": {
   "confirmed_identities": 268,
-  "published_pet_friendly": 95,
-  "verified_no_pets": 18,
+  "published_pet_friendly": 94,
+  "verified_no_pets": 19,
   "resolved": 113,
   "unresolved": 155,
-  "note": "95 clean pet-friendly and 18 clean verified-no-pets over a 268-identity census. A row publishes only on an OPERATIVE first-party quote from the property's own page, bound to its census identity by the property code or the full street identity that page states: a fee, a weight, a count, an amenity chip or a service-animal sentence alone publishes nothing, one brand page that binds two census rows publishes for neither, and an identity the census cannot address never publishes. 155 identities did not publish (53 ACCESS_BLOCKED; 22 EVIDENCE_HOLD; 12 IDENTITY_MISMATCH_HOLD; 43 ROUTING_HOLD; 25 SOURCE_SILENT); every one is named in jacksonville_fl_clean_authority_001.json with its class. No gate was lowered to preserve a count."
+  "note": "95 clean pet-friendly and 18 clean verified-no-pets over a 268-identity census. A row publishes only on an OPERATIVE first-party quote from the property's own page, bound to its census identity by the property code or the full street identity that page states: a fee, a weight, a count, an amenity chip or a service-animal sentence alone publishes nothing, one brand page that binds two census rows publishes for neither, and an identity the census cannot address never publishes. 155 identities did not publish (53 ACCESS_BLOCKED; 22 EVIDENCE_HOLD; 12 IDENTITY_MISMATCH_HOLD; 43 ROUTING_HOLD; 25 SOURCE_SILENT); every one is named in jacksonville_fl_clean_authority_001.json with its class. No gate was lowered to preserve a count. CORRECTED by PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001: the repaired first-party reader moved this market to 94 pet-friendly / 19 verified-no-pets / 155 unresolved (was 95 / 18 / 155); every moved row is named in launch_packages/pettripfinder/markets/reports/question_negation_live_correction_001.json."
  },
  "policy_package": {
   "path": "launch_packages/pettripfinder/hotel_policy_facts_jacksonville-fl.json",
-  "expected_sha256": "a3074533253b9ec97fa877ae5ff5d4dd528fd2b16c6c554af49b904a97ac69b4",
+  "expected_sha256": "ed2628b1d7d37b74e804be5078b48a69cba7df4b6074a598ce3591d52e0a0fe9",
   "expected_schema_version": "1.3",
-  "expected_record_count": 95,
+  "expected_record_count": 94,
   "identity_authority": true,
   "note": "The verified hotel identities are DERIVED from this package at assembly time via site_data.verified_public_hotels(); they are not restated here. Every record carries the exact operator quote for each published fact, the capture lane, and the sha256 of the document it was read from."
  },
  "final_partition": {
   "path": "launch_packages/pettripfinder/jacksonville_fl_final_partition_001.json",
   "schema": "ptf-market-final-partition/1.1",
-  "expected_sha256": "c9dadc5cad49093c2f45d19472850a6cf0fdf5540a79002c8a0548fe9ef37f73",
+  "expected_sha256": "142ec0a37a4707d7fa5f7a68a007054be776236987ba37ea369bb7d9399f613e",
   "expected_count": 268,
   "note": "The partition of record for this market, referenced by path and content digest so the whole-site assembler resolves it from THIS contract rather than from a table in its own source. Written from the committed file by release_contracts.final_partition_block; verified by market_partition_resolution: the file must exist, declare this market_id, hash to expected_sha256 and carry expected_count identities. Regenerating the partition means reissuing this block."
  },
  "public_surface": {
-  "seed_hotel_rows": 95,
-  "public_hotel_profile_count": 95,
+  "seed_hotel_rows": 94,
+  "public_hotel_profile_count": 94,
   "excluded_public_profile_count": 0,
   "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package (not-published seed hotels: held/manual-review plus rows still pending evidence) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials. This market currently holds none -- every seed row it owns is published -- and the gate is derived, so it starts enforcing the moment that changes."
  },
  "routes": {
   "market_slug": "jacksonville-fl",
   "route_mode": "market_prefixed",
-  "hotel_route_count": 95,
+  "hotel_route_count": 94,
   "published_corridor_route_count": 10,
   "note": "route_mode market_prefixed: this market's hub, corridor and policy-comparison pages live under /pet-friendly-hotels/jacksonville-fl/. 10 of 17 corridors reach their own publication minimum; the rest are suppressed, which is a threshold and not a gap. The market and its corridors are hidden from navigation and the sitemap (show_in_navigation=false, show_in_sitemap=false) until a launch order says otherwise."
  },

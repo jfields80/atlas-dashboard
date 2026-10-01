@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-PHOENIX-AZ-PRODUCTION-DEPLOYMENT-005",
+ "reviewed_by": "PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001",
  "live": {
-  "deploy_id": "6abc8387e81507b25eb94a0a",
-  "deployed_by": "PTF-PHOENIX-AZ-PRODUCTION-DEPLOYMENT-005",
-  "authorization_id": "ptf-auth-phoenix-004-19234b7affec",
-  "deployment_record_id": "ptf-deploy-phoenix-005-6abc8387e81507b25eb94a0a",
-  "previous_deploy_id": "6aba7587ddcc33a192bdf694",
-  "source_commit": "63e410ff9cde676bd0621e2e1a7029bf54ff81bd",
-  "bundle_sha256": "19234b7affec61c16d6ac40e864e83a4c497262b2451eba2d03821482e9a1f78",
-  "sitemap_sha256": "647596dca769c1b82c94e1c512ab04d87bbe729c07c1d06a49c2e11e5c652ecb",
+  "deploy_id": "6abdbcb87e046e3e673760ac",
+  "deployed_by": "PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001",
+  "authorization_id": "ptf-auth-question-negation-001-63ae17cf4054",
+  "deployment_record_id": "ptf-deploy-question-negation-001-6abdbcb87e046e3e673760ac",
+  "previous_deploy_id": "6abc8387e81507b25eb94a0a",
+  "source_commit": "18f4f979e9be2042f71b581af45c5348be2c31bd",
+  "bundle_sha256": "63ae17cf40542101c731ce315a210da5fae6ebce4ba51fc76477c80e2364edd7",
+  "sitemap_sha256": "4ee064226b37e36e96e1ecaf91a5e1301985445547a0225fdce526dd7b06999d",
   "participating_markets": [
    "asheville-nc",
    "atlanta-ga",
@@ -63,15 +63,15 @@
    "dayton-oh": 54,
    "denver-co": 288,
    "fayetteville-nc": 26,
-   "fort-lauderdale-fl": 85,
+   "fort-lauderdale-fl": 82,
    "grand-rapids-holland-mi": 43,
    "greenville-nc": 8,
    "indianapolis-in": 82,
-   "jacksonville-fl": 95,
+   "jacksonville-fl": 94,
    "jacksonville-nc": 16,
    "lexington-ky": 20,
    "louisville-ky": 53,
-   "miami-fl": 125,
+   "miami-fl": 123,
    "milwaukee-wi": 73,
    "nashville-tn": 79,
    "orlando-fl": 201,
@@ -81,27 +81,27 @@
    "pittsburgh-pa": 61,
    "raleigh-nc": 63,
    "richmond-va": 93,
-   "san-diego-ca": 147,
+   "san-diego-ca": 145,
    "savannah-ga": 99,
    "st-louis-mo": 82,
-   "tampa-fl": 148,
+   "tampa-fl": 142,
    "toledo-oh": 17,
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 3210,
-  "sitemap_route_count": 3619,
-  "total_html_pages": 19418,
-  "total_files": 19436,
-  "rollback_target": "6aba7587ddcc33a192bdf694",
-  "note": "Phoenix / Scottsdale / Valley of the Sun, Arizona joined as the THIRTY-SEVENTH market and the first Arizona market at 256 published pet-friendly profiles over 18 publishing corridors (downtown-phoenix, biltmore-camelback-arcadia, phx-sky-harbor, tempe, old-town-scottsdale, central-scottsdale, paradise-valley, mesa, chandler, glendale, scottsdale-airpark-kierland, north-scottsdale, north-phoenix-deer-valley, west-phoenix, gilbert, goodyear-avondale-litchfield, surprise-sun-city, buckeye), on package pkg-phoenix-az-07f7e75699af6a8c. Built from zero on the Denver-live lineage, registered as COMPOSITE_FRESH_MARKET_DATA_ONLY with 0 broad regression runs, corrected before authorization (four Wyndham vacation-ownership resorts moved to TIMESHARE, outside hotel inventory), and founder-authorized once (PTF-PHOENIX-AZ-FOUNDER-LAUNCH-AUTHORIZATION-004; the earlier packages pkg-phoenix-az-85ad9b66 and pkg-phoenix-az-865822f4 were refused) -- this market's FIRST authorization and FIRST deployment, so nothing was superseded. The exact authorized artifact was deployed with no rebuild: the served sitemap hashes to the authorized candidate, the served route SET is identical to it, all 3343 parent routes refetched 200 with 0 lost, all 276 Phoenix routes are live, and every unpublished census row returns 404 -- 48 Places-gated, 30 founder-decision rows (fourteen dual-brand buildings and two redirect-domain rulings, no identity_resolutions.json ruling written), 88 router-exhausted / evidence / source-silent, three hotels not yet open and the 59 verified-no-pets rows, which publish only as exclusions. Sedona, Flagstaff, the Grand Canyon, Prescott and Tucson remain refused. The other 8 corridors stay below their own publication minimum and were not forced. Rollback is the deployment Phoenix replaced (Denver-live, 36 markets).",
-  "rollback_record": "ptf-deploy-denver-005-6aba7587ddcc33a192bdf694.json"
+  "total_profiles": 3196,
+  "sitemap_route_count": 3604,
+  "total_html_pages": 19334,
+  "total_files": 19352,
+  "rollback_target": "6abc8387e81507b25eb94a0a",
+  "note": "The first-party reader safety correction: the shared reader no longer reads an FAQ question as acceptance and reads the refusal shapes it missed; sixteen live rows in seven markets were corrected (twelve to verified-no-pets, two held as question-only, two rebound to the answer on the same capture). 37 markets, participation unchanged. Rollback is the deployment this replaced.",
+  "rollback_record": "ptf-deploy-phoenix-005-6abc8387e81507b25eb94a0a.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "19234b7affec61c16d6ac40e864e83a4c497262b2451eba2d03821482e9a1f78",
-  "sitemap_sha256": "647596dca769c1b82c94e1c512ab04d87bbe729c07c1d06a49c2e11e5c652ecb",
+  "bundle_sha256": "63ae17cf40542101c731ce315a210da5fae6ebce4ba51fc76477c80e2364edd7",
+  "sitemap_sha256": "4ee064226b37e36e96e1ecaf91a5e1301985445547a0225fdce526dd7b06999d",
   "participating_markets": [
    {
     "market_id": "asheville-nc",
@@ -189,9 +189,9 @@
    },
    {
     "market_id": "fort-lauderdale-fl",
-    "published_profiles": 85,
+    "published_profiles": 82,
     "release_contract": "deploy/netlify/release_contracts/fort-lauderdale-fl.json",
-    "release_contract_sha256": "2faa85da151a550a1bba5a428e45aa050ae513f31948df21f973184b8ec6b869",
+    "release_contract_sha256": "9fca5631eb8493c2ae5ab69f1647380e1104b3f96fa4a5052da5e0faa7f950eb",
     "contract_disagreements": []
    },
    {
@@ -217,9 +217,9 @@
    },
    {
     "market_id": "jacksonville-fl",
-    "published_profiles": 95,
+    "published_profiles": 94,
     "release_contract": "deploy/netlify/release_contracts/jacksonville-fl.json",
-    "release_contract_sha256": "38d0a66409a5ea15bf2b2f746fc9940f02f6ec1e972f11aa19e8aeaf0494db40",
+    "release_contract_sha256": "f84c7a4617982dfe94754078b573c7a1dba9e14741d0a10df520ed7a08f5e916",
     "contract_disagreements": []
    },
    {
@@ -245,9 +245,9 @@
    },
    {
     "market_id": "miami-fl",
-    "published_profiles": 125,
+    "published_profiles": 123,
     "release_contract": "deploy/netlify/release_contracts/miami-fl.json",
-    "release_contract_sha256": "2bd2bb2cb6ec5031d75aeeed1247db2131d3119737470b3df5d25e9b3e90f260",
+    "release_contract_sha256": "a589c06a2dc991033cbc57b77dc5ac3c47a20176081236cabe803f45536f857f",
     "contract_disagreements": []
    },
    {
@@ -268,7 +268,7 @@
     "market_id": "orlando-fl",
     "published_profiles": 201,
     "release_contract": "deploy/netlify/release_contracts/orlando-fl.json",
-    "release_contract_sha256": "0a1e84239da3a2b4e398d4928cfbc0d337365e1beac75c763b13adb9d59d6737",
+    "release_contract_sha256": "e325f59c46a12feeaef7dea7d011d87437d2d7d54c66677c56ed45fd593c4ea3",
     "contract_disagreements": []
    },
    {
@@ -282,7 +282,7 @@
     "market_id": "phoenix-az",
     "published_profiles": 256,
     "release_contract": "deploy/netlify/release_contracts/phoenix-az.json",
-    "release_contract_sha256": "ce803c33901f20faf3de285d0e995fc2b28259305f682c88cb299270a4730ec4",
+    "release_contract_sha256": "50b897639118aa5c49be0d0f0d82d0dcde8a40dbae22e013450e1e6843921822",
     "contract_disagreements": []
    },
    {
@@ -315,9 +315,9 @@
    },
    {
     "market_id": "san-diego-ca",
-    "published_profiles": 147,
+    "published_profiles": 145,
     "release_contract": "deploy/netlify/release_contracts/san-diego-ca.json",
-    "release_contract_sha256": "ac4f333a8cddaf690e5f998779f3c5767922189139c6294a6c4e77c990bf3965",
+    "release_contract_sha256": "af1493a0a2c52d485a12ec8dadc946a45e95457875ecbc4574d1fd14b1ac33b8",
     "contract_disagreements": []
    },
    {
@@ -336,9 +336,9 @@
    },
    {
     "market_id": "tampa-fl",
-    "published_profiles": 148,
+    "published_profiles": 142,
     "release_contract": "deploy/netlify/release_contracts/tampa-fl.json",
-    "release_contract_sha256": "c014ac1e25997ff08555173129549d984cba254a7d47ad6c512977fdb48a8e77",
+    "release_contract_sha256": "60a801395ac65a5caf78e723cb5ca14fc3a07e6d451394d46967dc10bde33a3b",
     "contract_disagreements": []
    },
    {
@@ -376,15 +376,15 @@
    "dayton-oh": 54,
    "denver-co": 288,
    "fayetteville-nc": 26,
-   "fort-lauderdale-fl": 85,
+   "fort-lauderdale-fl": 82,
    "grand-rapids-holland-mi": 43,
    "greenville-nc": 8,
    "indianapolis-in": 82,
-   "jacksonville-fl": 95,
+   "jacksonville-fl": 94,
    "jacksonville-nc": 16,
    "lexington-ky": 20,
    "louisville-ky": 53,
-   "miami-fl": 125,
+   "miami-fl": 123,
    "milwaukee-wi": 73,
    "nashville-tn": 79,
    "orlando-fl": 201,
@@ -394,17 +394,17 @@
    "pittsburgh-pa": 61,
    "raleigh-nc": 63,
    "richmond-va": 93,
-   "san-diego-ca": 147,
+   "san-diego-ca": 145,
    "savannah-ga": 99,
    "st-louis-mo": 82,
-   "tampa-fl": 148,
+   "tampa-fl": 142,
    "toledo-oh": 17,
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 3210,
-  "sitemap_route_count": 3619,
-  "total_html_pages": 19418,
-  "total_files": 19436
+  "total_profiles": 3196,
+  "sitemap_route_count": 3604,
+  "total_html_pages": 19334,
+  "total_files": 19352
  }
 }

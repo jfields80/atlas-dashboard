@@ -24,37 +24,37 @@
  },
  "reconciliation": {
   "confirmed_identities": 507,
-  "published_pet_friendly": 148,
-  "verified_no_pets": 45,
+  "published_pet_friendly": 142,
+  "verified_no_pets": 51,
   "resolved": 193,
   "unresolved": 314,
-  "note": "148 clean pet-friendly and 45 clean verified-no-pets over a 507-identity census. A row publishes only on an OPERATIVE first-party quote from the property's own page, bound to its census identity by the street identity that page states: a fee, a weight, a count, an amenity chip or a service-animal sentence alone publishes nothing. 314 rows did not publish (10 ACCESS_BLOCKED; 1 BROWSER_CAPTURE_NEEDED; 21 EVIDENCE_HOLD; 2 IDENTITY_MISMATCH_HOLD; 270 ROUTING_HOLD; 10 SOURCE_SILENT); every one is named in tampa_fl_v2_clean_authority_001.json with its class. No gate was lowered to preserve a count."
+  "note": "148 clean pet-friendly and 45 clean verified-no-pets over a 507-identity census. A row publishes only on an OPERATIVE first-party quote from the property's own page, bound to its census identity by the street identity that page states: a fee, a weight, a count, an amenity chip or a service-animal sentence alone publishes nothing. 314 rows did not publish (10 ACCESS_BLOCKED; 1 BROWSER_CAPTURE_NEEDED; 21 EVIDENCE_HOLD; 2 IDENTITY_MISMATCH_HOLD; 270 ROUTING_HOLD; 10 SOURCE_SILENT); every one is named in tampa_fl_v2_clean_authority_001.json with its class. No gate was lowered to preserve a count. CORRECTED by PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001: the repaired first-party reader moved this market to 142 pet-friendly / 51 verified-no-pets / 314 unresolved (was 148 / 45 / 314); every moved row is named in launch_packages/pettripfinder/markets/reports/question_negation_live_correction_001.json."
  },
  "policy_package": {
   "path": "launch_packages/pettripfinder/hotel_policy_facts_tampa-fl.json",
-  "expected_sha256": "b233e81d6caa6d14ddc2ffe1b80cfa8a736aa438b324bcc28c6e52a8186f9bec",
+  "expected_sha256": "30c77fd390fe09e4f29782eecfd8e05201c3cae1108f8c67b90384e9e13d6c08",
   "expected_schema_version": "1.3",
-  "expected_record_count": 148,
+  "expected_record_count": 142,
   "identity_authority": true,
   "note": "The verified hotel identities are DERIVED from this package at assembly time via site_data.verified_public_hotels(); they are not restated here. Every record carries the exact operator quote for each published fact, the capture lane, and the sha256 of the document it was read from. No record here came through a paid lane: this market cost $0 USD net new spend, existing plan credits only."
  },
  "final_partition": {
   "path": "launch_packages/pettripfinder/tampa_fl_final_partition_v2_001.json",
   "schema": "ptf-market-final-partition/1.1",
-  "expected_sha256": "7890a9e73b2035d6c0b1579c731a9b47ba915ca2e28991b981abe62bc3c3c83e",
+  "expected_sha256": "ff6652b8779dec6fbb8fcfe4fc552cc833ad0a376dc8f9b4beccd46949f2c7ce",
   "expected_count": 507,
   "note": "The partition of record for this market, referenced by path and content digest so the whole-site assembler resolves it from THIS contract rather than from a table in its own source. Written from the committed file by release_contracts.final_partition_block; verified by market_partition_resolution: the file must exist, declare this market_id, hash to expected_sha256 and carry expected_count identities. Regenerating the partition means reissuing this block."
  },
  "public_surface": {
-  "seed_hotel_rows": 148,
-  "public_hotel_profile_count": 148,
+  "seed_hotel_rows": 142,
+  "public_hotel_profile_count": 142,
   "excluded_public_profile_count": 0,
   "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package (not-published seed hotels: held/manual-review plus rows still pending evidence) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials. This market currently holds none -- every seed row it owns is published -- and the gate is derived, so it starts enforcing the moment that changes."
  },
  "routes": {
   "market_slug": "tampa-fl",
   "route_mode": "market_prefixed",
-  "hotel_route_count": 148,
+  "hotel_route_count": 142,
   "published_corridor_route_count": 11,
   "note": "route_mode market_prefixed: this market's hub, corridor and policy-comparison pages live under /pet-friendly-hotels/tampa-fl/. 11 of 19 corridors reach their own publication minimum; the rest are suppressed, which is a threshold and not a gap. The market and its corridors are hidden from navigation and the sitemap (show_in_navigation=false, show_in_sitemap=false) until a launch order says otherwise."
  },

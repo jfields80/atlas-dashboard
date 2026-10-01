@@ -1,0 +1,631 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-jacksonville-fl-8573f63027aaf178",
+ "PACKAGE_DIGEST": "sha256:8573f63027aaf1780a5130ffa51dfb88d6c424545512aa3e5a031293e3946aa4",
+ "MARKET_ID": "jacksonville-fl",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6abc8387e81507b25eb94a0a",
+  "rollback_target": "6aba7587ddcc33a192bdf694",
+  "source_commit": "63e410ff9cde676bd0621e2e1a7029bf54ff81bd",
+  "live_index_digest": "sha256:eaf535343ba53637b37b5b12c89fb6c45b45379c12c738c9f330499b454a87b0"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:163348ff06f3b869da68ad3278b887532e9eb6ebda4e39f1a104415774292b95",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.086,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-jacksonville-fl-8573f63027aaf178",
+    "package_digest": "sha256:8573f63027aaf1780a5130ffa51dfb88d6c424545512aa3e5a031293e3946aa4"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.326,
+   "detail": {
+    "identity_records": 268,
+    "census_count": 268,
+    "declared_relations": 0,
+    "writer_seconds": 0.324
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.381,
+   "detail": {
+    "records_evaluated": 113,
+    "eligible": 113,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 94,
+    "verified_no_pets_records": 19,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 110
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 268,
+    "unresolved_rows": 155,
+    "counts_by_partition_state": {
+     "ACCESS_BLOCKED": 53,
+     "AWAITING_OFFICIAL_URL": 43,
+     "AWAITING_POLICY_OBSERVATION": 47,
+     "AWAITING_ROUTING_REPLACEMENT": 12,
+     "PUBLISHED_PET_FRIENDLY": 94,
+     "VERIFIED_NO_PETS": 19
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.313,
+   "detail": {
+    "live_digest": "sha256:eaf535343ba53637b37b5b12c89fb6c45b45379c12c738c9f330499b454a87b0",
+    "proposed_digest": "sha256:14faaafbf196c52ea93a27c773a9e731d6051f5976805401dd09fbcd88630073",
+    "proposed_participating": [
+     "asheville-nc",
+     "atlanta-ga",
+     "augusta-ga",
+     "boone-blowing-rock-nc",
+     "charleston-sc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "denver-co",
+     "fayetteville-nc",
+     "fort-lauderdale-fl",
+     "grand-rapids-holland-mi",
+     "greenville-nc",
+     "indianapolis-in",
+     "jacksonville-fl",
+     "jacksonville-nc",
+     "lexington-ky",
+     "louisville-ky",
+     "miami-fl",
+     "milwaukee-wi",
+     "nashville-tn",
+     "orlando-fl",
+     "outer-banks-nc",
+     "phoenix-az",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "richmond-va",
+     "san-diego-ca",
+     "savannah-ga",
+     "st-louis-mo",
+     "tampa-fl",
+     "toledo-oh",
+     "west-palm-beach-fl",
+     "wilmington-nc"
+    ],
+    "proposed_total_profiles": 3209,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.302
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.313,
+   "detail": {
+    "live_participating": [
+     "asheville-nc",
+     "atlanta-ga",
+     "augusta-ga",
+     "boone-blowing-rock-nc",
+     "charleston-sc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "denver-co",
+     "fayetteville-nc",
+     "fort-lauderdale-fl",
+     "grand-rapids-holland-mi",
+     "greenville-nc",
+     "indianapolis-in",
+     "jacksonville-fl",
+     "jacksonville-nc",
+     "lexington-ky",
+     "louisville-ky",
+     "miami-fl",
+     "milwaukee-wi",
+     "nashville-tn",
+     "orlando-fl",
+     "outer-banks-nc",
+     "phoenix-az",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "richmond-va",
+     "san-diego-ca",
+     "savannah-ga",
+     "st-louis-mo",
+     "tampa-fl",
+     "toledo-oh",
+     "west-palm-beach-fl",
+     "wilmington-nc"
+    ],
+    "live_total_profiles": 3210,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.313,
+   "detail": {
+    "intended_delta": {
+     "market_id": "jacksonville-fl",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [
+      "amelia surf and racquet club"
+     ],
+     "add_routes": [],
+     "change_routes": [],
+     "remove_routes": [
+      "/pet-friendly-hotels/jacksonville-fl/amelia-surf-racquet-club/"
+     ],
+     "expected_profile_delta": -1,
+     "expected_market_count_delta": 0,
+     "expected_participation_delta": []
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [
+      "amelia surf and racquet club"
+     ],
+     "add_routes": [],
+     "remove_routes": [
+      "/pet-friendly-hotels/jacksonville-fl/amelia-surf-racquet-club/"
+     ],
+     "profile_delta": -1,
+     "verified_no_pets_delta": 1,
+     "market_count_delta": 0
+    },
+    "removal_authority": {
+     "ruling_ref": "PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001 -- launch_packages/pettripfinder/markets/reports/question_negation_live_correction_001.json",
+     "reason": "the founder's work order directs every live pet-friendly row whose own first-party quote explicitly refuses pets into verified-no-pets, and every row whose only 'acceptance' was an FAQ question into a hold; each removed profile is named in the ledger with the quote that moved it, and a corridor route leaves only when its corridor falls below the publication minimum because of those removals"
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 53.358,
+   "detail": {
+    "bundle_sha256": "20e74654b75c1ccb88b88c4076a5a74a71d608b2c3db32f79827896e0a0f0613",
+    "file_count": 597,
+    "html_count": 581,
+    "output_present": true,
+    "output_defects": [],
+    "staged_input_digest": "sha256:fcaae3001b4d8dd3bf6f3b630b6af6fb78cb5aa8f16410f211791f5a6ab4ffb6",
+    "contract_sha256": "sha256:d27086d073b64e7821ec33b1b5d6ea4c9a499a3068fe3a16160f39995b9b6d3a",
+    "release_name": "package-jacksonville-fl-nogit-0b057e35-3e010b8f",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "2eb4db8db50cf566852ba96945e839ad0c4fe5a6a6cd4aa6bc19c2463b967a29",
+      "seconds": 26.052
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "da0412b143a9d0e42f799a8104c39a16d8e2988e24543e7d352b2a338df13c9c",
+      "seconds": 43.422
+     }
+    ],
+    "build_seconds": 53.358
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 43.345,
+   "detail": {
+    "input_digest": "sha256:fcaae3001b4d8dd3bf6f3b630b6af6fb78cb5aa8f16410f211791f5a6ab4ffb6",
+    "output_digest_a": "20e74654b75c1ccb88b88c4076a5a74a71d608b2c3db32f79827896e0a0f0613",
+    "output_digest_b": "20e74654b75c1ccb88b88c4076a5a74a71d608b2c3db32f79827896e0a0f0613",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 43.345
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.002,
+   "detail": {
+    "package_digest": "sha256:8573f63027aaf1780a5130ffa51dfb88d6c424545512aa3e5a031293e3946aa4",
+    "rederived_digest": "sha256:8573f63027aaf1780a5130ffa51dfb88d6c424545512aa3e5a031293e3946aa4",
+    "evidence_references": 113,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:163348ff06f3b869da68ad3278b887532e9eb6ebda4e39f1a104415774292b95"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.002,
+   "detail": {
+    "max_age_days": 365,
+    "references": 113,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-25T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.05,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6abc8387e81507b25eb94a0a",
+     "previous_deploy_id": "6aba7587ddcc33a192bdf694",
+     "rollback_target": "6aba7587ddcc33a192bdf694",
+     "source_commit": "63e410ff9cde676bd0621e2e1a7029bf54ff81bd",
+     "bundle_sha256": "19234b7affec61c16d6ac40e864e83a4c497262b2451eba2d03821482e9a1f78",
+     "sitemap_sha256": "647596dca769c1b82c94e1c512ab04d87bbe729c07c1d06a49c2e11e5c652ecb",
+     "participating_markets": [
+      "asheville-nc",
+      "atlanta-ga",
+      "augusta-ga",
+      "boone-blowing-rock-nc",
+      "charleston-sc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "denver-co",
+      "fayetteville-nc",
+      "fort-lauderdale-fl",
+      "grand-rapids-holland-mi",
+      "greenville-nc",
+      "indianapolis-in",
+      "jacksonville-fl",
+      "jacksonville-nc",
+      "lexington-ky",
+      "louisville-ky",
+      "miami-fl",
+      "milwaukee-wi",
+      "nashville-tn",
+      "orlando-fl",
+      "outer-banks-nc",
+      "phoenix-az",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "richmond-va",
+      "san-diego-ca",
+      "savannah-ga",
+      "st-louis-mo",
+      "tampa-fl",
+      "toledo-oh",
+      "west-palm-beach-fl",
+      "wilmington-nc"
+     ],
+     "profile_counts": {
+      "asheville-nc": 41,
+      "atlanta-ga": 244,
+      "augusta-ga": 14,
+      "boone-blowing-rock-nc": 11,
+      "charleston-sc": 84,
+      "charlotte-nc": 106,
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "denver-co": 288,
+      "fayetteville-nc": 26,
+      "fort-lauderdale-fl": 85,
+      "grand-rapids-holland-mi": 43,
+      "greenville-nc": 8,
+      "indianapolis-in": 82,
+      "jacksonville-fl": 95,
+      "jacksonville-nc": 16,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "miami-fl": 125,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "orlando-fl": 201,
+      "outer-banks-nc": 26,
+      "phoenix-az": 256,
+      "piedmont-triad-nc": 54,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "richmond-va": 93,
+      "san-diego-ca": 147,
+      "savannah-ga": 99,
+      "st-louis-mo": 82,
+      "tampa-fl": 148,
+      "toledo-oh": 17,
+      "west-palm-beach-fl": 49,
+      "wilmington-nc": 29
+     },
+     "total_profiles": 3210,
+     "sitemap_route_count": 3619,
+     "deployment_record": "ptf-deploy-phoenix-005-6abc8387e81507b25eb94a0a.json",
+     "authorization_id": "ptf-auth-phoenix-004-19234b7affec",
+     "rollback_record": "ptf-deploy-denver-005-6aba7587ddcc33a192bdf694.json",
+     "rollback_markets": [
+      "asheville-nc",
+      "atlanta-ga",
+      "augusta-ga",
+      "boone-blowing-rock-nc",
+      "charleston-sc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "denver-co",
+      "fayetteville-nc",
+      "fort-lauderdale-fl",
+      "grand-rapids-holland-mi",
+      "greenville-nc",
+      "indianapolis-in",
+      "jacksonville-fl",
+      "jacksonville-nc",
+      "lexington-ky",
+      "louisville-ky",
+      "miami-fl",
+      "milwaukee-wi",
+      "nashville-tn",
+      "orlando-fl",
+      "outer-banks-nc",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "richmond-va",
+      "san-diego-ca",
+      "savannah-ga",
+      "st-louis-mo",
+      "tampa-fl",
+      "toledo-oh",
+      "west-palm-beach-fl",
+      "wilmington-nc"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-30T22:51:25Z",
+  "finished_at": "2026-09-30T22:53:03Z",
+  "seconds": 97.865
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "20e74654b75c1ccb88b88c4076a5a74a71d608b2c3db32f79827896e0a0f0613",
+  "changed_market_bundle_sha256_b": "20e74654b75c1ccb88b88c4076a5a74a71d608b2c3db32f79827896e0a0f0613",
+  "staged_input_digest": "sha256:fcaae3001b4d8dd3bf6f3b630b6af6fb78cb5aa8f16410f211791f5a6ab4ffb6",
+  "staged_contract_sha256": "sha256:d27086d073b64e7821ec33b1b5d6ea4c9a499a3068fe3a16160f39995b9b6d3a"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:eaf535343ba53637b37b5b12c89fb6c45b45379c12c738c9f330499b454a87b0",
+  "proposed": "sha256:14faaafbf196c52ea93a27c773a9e731d6051f5976805401dd09fbcd88630073"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:384b3af3ecf228506c74b75670586ba4114d4338e96c953d6b500f338fb9f1be",
+ "INTENDED_DELTA_DIGEST": "sha256:bdf4b4c928c845497dc65ff81e9f9b5a66c4296ca6b1166cf67bde8ed0afcda1",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "275cfca537a06a0e10a02c5befc581d3d525bbfc",
+  "peak_working_set_mb": 362.8
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6abc8387e81507b25eb94a0a",
+   "the live index digest is sha256:eaf535343ba53637b37b5b12c89fb6c45b45379c12c738c9f330499b454a87b0",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-25T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 97.865,
+  "per_rule_seconds": {
+   "A": 0.086,
+   "B": 0.326,
+   "C": 0.381,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.313,
+   "H": 0.313,
+   "I": 0.313,
+   "J": 53.358,
+   "K": 43.345,
+   "L": 0.002,
+   "M": 0.002,
+   "N": 0.05,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 53.358,
+  "determinism_build_seconds": 43.345
+ },
+ "RECEIPT_DIGEST": "sha256:abb9b4c3513f972e25deaa078133a996c7f625b63fe15b60249a49ffbfb7a93f"
+}
