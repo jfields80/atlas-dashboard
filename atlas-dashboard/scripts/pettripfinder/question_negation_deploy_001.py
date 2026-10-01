@@ -135,7 +135,9 @@ def authorize(args):
                ACCOUNTING.relative_to(_DASH).as_posix()))
     auth = DA.build_authorization(
         manifest, authorization_id=authorization_id, work_order=WORK_ORDER, authorized_by="founder",
-        source_commit=_git("rev-parse", "HEAD"), rollback_target=live["deploy_id"], target_site=TARGET_SITE,
+        # the commit the candidate was BUILT from (the manifest's own), not HEAD: the live pin's source_commit
+        # must equal the committed manifest's, and a metadata commit after the build moves HEAD and no site byte
+        source_commit=manifest["source_commit"], rollback_target=live["deploy_id"], target_site=TARGET_SITE,
         target_domain=HOST, authorization_source=AUTHORIZATION_SOURCE, note=note)
     problems = DA.verify_authorization(auth, manifest=manifest)
     if problems:
