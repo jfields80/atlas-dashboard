@@ -45,7 +45,10 @@ from scripts.pettripfinder.contracts import policy_schema as PS       # noqa: E4
 # site_data.normalize_name does not); the registration CLI joins the authority to the census on it, so every
 # staged row states the census key and never a second spelling of the same name.
 
-WORK_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
+#: PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002 re-derives this output under the repaired shared first-party reader;
+#: the market was built by PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001 (SOURCE_READY_ORDER), whose captures it reuses.
+SOURCE_READY_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
+WORK_ORDER = "PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002"
 MARKET_ID = "austin-tx"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
@@ -62,6 +65,8 @@ FEE_REPORT_OUT = os.path.join(REPORTS, "austin_tx_fee_withholding_001.json")
 #: the UTC day every one of this market's own first-party reads was recorded (browser read log 2026-09-30T16:09Z ..
 #: T19:54Z; Firecrawl pass 2026-09-30T19:00Z .. T19:05Z). The Phoenix clone carried Phoenix's 2026-09-29.
 OBSERVED_AT = "2026-09-30"
+#: the capture date stays OBSERVED_AT; the re-review under the repaired reader is dated by the refresh order
+REVIEWED_AT = "2026-10-01"
 CAPTURED_AT = "2026-09-29T02:00:00+00:00"
 
 LANE_GRADE = {
@@ -238,7 +243,7 @@ def build():
                 ("market_id", MARKET_ID), ("schema_version", PS.SCHEMA_VERSION), ("facts", facts),
                 ("computation_class", FC.classify(facts).computation_class),
                 ("verification_state", "VERIFIED_PET_FRIENDLY"),
-                ("reviewer_id", WORK_ORDER), ("reviewed_at", OBSERVED_AT),
+                ("reviewer_id", WORK_ORDER), ("reviewed_at", REVIEWED_AT),
                 ("evidence", _evidence(key, lane, full_quote, source_url, doc_sha, facts)),
             ])
             r_issues = PS.validate_record(record)
@@ -256,7 +261,7 @@ def build():
                 ("evidence", record["evidence"]), ("evidence_quote", quote), ("facts", dict(facts)),
                 ("authority_state", enums.PUBLISHED_PET_FRIENDLY), ("publication_grade", "PUBLICATION_GRADE_EVIDENCE"),
                 ("readiness_state", "READY"), ("founder_decision", "REGISTERED_NOT_AUTHORIZED_FOR_LAUNCH"),
-                ("founder_reviewer_id", WORK_ORDER), ("founder_reviewed_at", OBSERVED_AT), ("snapshot_hash", doc_sha),
+                ("founder_reviewer_id", WORK_ORDER), ("founder_reviewed_at", REVIEWED_AT), ("snapshot_hash", doc_sha),
             ]))
         else:
             exclusions.append(OrderedDict([
@@ -272,13 +277,13 @@ def build():
                 ("exclusion_state", enums.VERIFIED_NO_PETS), ("snapshot_hash", doc_sha),
                 ("publication_grade", "PUBLICATION_GRADE_EVIDENCE"), ("readiness_state", "READY"),
                 ("founder_decision", "REGISTERED_NOT_AUTHORIZED_FOR_LAUNCH"),
-                ("founder_reviewer_id", WORK_ORDER), ("founder_reviewed_at", OBSERVED_AT),
+                ("founder_reviewer_id", WORK_ORDER), ("founder_reviewed_at", REVIEWED_AT),
             ]))
 
     package = OrderedDict([
         ("market", "Austin / Central Texas"), ("schema_version", PS.SCHEMA_VERSION),
         ("market_id", MARKET_ID),
-        ("work_order", WORK_ORDER), ("as_of", OBSERVED_AT),
+        ("work_order", WORK_ORDER), ("as_of", REVIEWED_AT),
         ("note", "Austin / Central Texas's STAGED (shadow, unregistered) policy package. Every record is "
                 "one first-party read of the property's own page, and every published fact is cited to the quote "
                 "it rests on. Refundability is absent, not false, when the source stated neither refundable nor "
@@ -299,7 +304,7 @@ def build():
         ("built_from", OrderedDict([
             ("source_ledgers", [os.path.relpath(CLEAN, _DASH).replace("\\", "/")]),
             ("decision_ledger", "ptf-market-clean-authority/1.0"), ("decided_by", WORK_ORDER),
-            ("decided_at", OBSERVED_AT), ("approval_vocabulary", "REGISTERED_NOT_AUTHORIZED_FOR_LAUNCH"),
+            ("decided_at", REVIEWED_AT), ("approval_vocabulary", "REGISTERED_NOT_AUTHORIZED_FOR_LAUNCH"),
         ])),
         ("gate", "a row reaches this document only with an operative first-party quote bound to an ADMITTED "
                 "census identity; nothing here is authorised for launch"),

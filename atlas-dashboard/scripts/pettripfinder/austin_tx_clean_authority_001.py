@@ -51,7 +51,10 @@ _DASH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 if _DASH not in sys.path:
     sys.path.insert(0, _DASH)
 
-WORK_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
+#: PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002 re-derives this output under the repaired shared first-party reader;
+#: the market was built by PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001 (SOURCE_READY_ORDER), whose captures it reuses.
+SOURCE_READY_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
+WORK_ORDER = "PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002"
 MARKET_ID = "austin-tx"
 SCHEMA = "ptf-clean-authority/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")

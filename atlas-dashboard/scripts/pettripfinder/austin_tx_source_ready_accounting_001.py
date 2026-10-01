@@ -23,7 +23,10 @@ if _DASH not in sys.path:
 from scripts.pettripfinder import austin_tx_geography_001 as GEO  # noqa: E402
 from scripts.pettripfinder.austin_tx_nonhotel_rulings_001 import exclusion_class  # noqa: E402
 
-WORK_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
+#: PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002 re-derives this output under the repaired shared first-party reader;
+#: the market was built by PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001 (SOURCE_READY_ORDER), whose captures it reuses.
+SOURCE_READY_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
+WORK_ORDER = "PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 R = os.path.join(PKG, "markets", "reports")
 RAW = os.path.join(PKG, "markets", "staging", "austin-tx", "raw_captures")

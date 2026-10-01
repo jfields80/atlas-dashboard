@@ -29,7 +29,10 @@ if _DASH not in sys.path:
 
 from scripts.pettripfinder.contracts import partition as PARTITION  # noqa: E402
 
-WORK_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
+#: PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002 re-derives this output under the repaired shared first-party reader;
+#: the market was built by PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001 (SOURCE_READY_ORDER), whose captures it reuses.
+SOURCE_READY_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
+WORK_ORDER = "PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002"
 MARKET_ID = "austin-tx"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
@@ -41,7 +44,7 @@ OUT = os.path.join(PKG, "markets", "staging", MARKET_ID, "launch_package",
                    "austin_tx_final_partition_001.json")
 CENSUS = os.path.join(PKG, "identity_census_proposed", "austin-tx.json")
 CLEAN = os.path.join(REPORTS, "austin_tx_clean_authority_001.json")
-AS_OF = "2026-09-29"
+AS_OF = "2026-10-01"  # the refresh order re-derives the partition (was a Phoenix-dated leftover, 2026-09-29)
 
 #: disposition -> final_state
 _STATE = {

@@ -44,7 +44,10 @@ from scripts.pettripfinder import registration_release_lane as LANE   # noqa: E4
 from scripts.pettripfinder import release_index as RI                 # noqa: E402
 from scripts.pettripfinder import sealed_market_package as SMP        # noqa: E402
 
-WORK_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
+#: PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002 re-derives this output under the repaired shared first-party reader;
+#: the market was built by PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001 (SOURCE_READY_ORDER), whose captures it reuses.
+SOURCE_READY_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
+WORK_ORDER = "PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002"
 MARKET_ID = "austin-tx"
 PKG = _DASH / "launch_packages" / "pettripfinder"
 STAGING = PKG / "markets" / "staging" / MARKET_ID
@@ -57,7 +60,7 @@ PARTITION_SRC = STAGING / "launch_package" / "austin_tx_final_partition_001.json
 #: A FIXED seal time (the package digest covers it, so it must never be the wall clock). AUSTIN: after this order's
 #: last first-party capture (browser read log, 2026-09-30T20:01:37Z) and not later than the moment it was set
 #: (2026-09-30T20:08:54Z by the real clock). The Phoenix clone carried Phoenix's 2026-09-29T02:00:00Z.
-SEALED_AT = "2026-09-30T20:05:00Z"
+SEALED_AT = "2026-10-01T05:23:32Z"  # PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002: the moment its staged inputs were frozen (real clock)
 
 
 def _read(path):
@@ -184,8 +187,11 @@ def seal(source_sha, work_dir, write=True):
             ("unresolved_rows", len(package.get("unresolved_rows") or [])),
             ("declared_routes", len(package["intended_delta"].get("add_routes") or []))])),
         ("parent_binding",
-         "parent_live_state names the CURRENT live release (Phoenix, deploy 6abc8387e815...). That is what this "
-         "package was validated against. Once any later market is live, FAST rule N fails this package BY "
+         "parent_live_state names the CURRENT live release (deploy %s, %d markets / %d profiles). That is what "
+         "this package was validated against. Once any later release is live, FAST rule N fails this package BY "
+         % (package["parent_live_state"]["live_deploy_id"],
+            len(package["parent_live_state"]["participating_markets"]),
+            package["parent_live_state"]["total_profiles"]) +
          "DESIGN; the registration order -- when Austin reaches the front of the release queue -- re-seals the "
          "same committed inputs against that parent as a NEW package id. Nothing here is a production "
          "candidate, and no whole-site build was assembled."),

@@ -1,16 +1,11 @@
 {
  "schema": "ptf-clean-authority/1.0",
- "work_order": "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001",
+ "work_order": "PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002",
  "market_id": "austin-tx",
  "phase": "15-19 -- policy adjudication, negation safety, one disposition per row",
  "no_inference_from_silence": "A page that states no pet policy is SOURCE_SILENT; it is never read as acceptance or refusal.",
  "no_inference_from_amenity_alone": "A fee, weight or count sentence alone, with no explicit acceptance wording in the same quote, is held as EVIDENCE_HOLD rather than published; every genuine CLEAN_PET_FRIENDLY row in this market was read directly from a 'Pets allowed: Yes' / 'Pets Welcome' field or FAQ sentence, so this rule is a safety net that this run's own captures did not need to exercise except as a guard.",
  "negation_conflicts_caught": [
-  {
-   "identity_key": "at and t hotel and conference center",
-   "name": "AT and T Hotel and Conference Center",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Pet Policy Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations. Are pets allowed at the hotel? Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations.'"
-  },
   {
    "identity_key": "austin motel",
    "name": "Austin Motel",
@@ -25,11 +20,6 @@
    "identity_key": "carpenter hotel",
    "name": "Carpenter Hotel",
    "why": "ROUTE_DOMAIN_CONFLICT -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'bunkhousehotels.com' while the census binds the identity to 'carpenterhotel.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
-  },
-  {
-   "identity_key": "heywood hotel",
-   "name": "Heywood Hotel",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Pets Though you might see Zelda, the neighborhood hen, roaming the property, we are unfortunately unable to accommodate pets.'"
   },
   {
    "identity_key": "hotel ella",
@@ -62,19 +52,9 @@
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: 'Is Hotel ZaZa Austin pet-friendly? Yes, cats and dogs of all breeds and sizes are welcome at Hotel ZaZa Austin. A one-time cleaning fee of $100 per pet is required at check-in. PETS Hotel ZaZa is a pet-friendly facility. A non-refundable deposit of $100 per pet is required at check in per reservation. Pets are permitted in rooms, hallways and lobby; per the state department of health, pets are not permitted in our restaurants or pool. For safety, pets must be under owner supervision at all times'"
   },
   {
-   "identity_key": "kalahari resorts and conventions round rock tx",
-   "name": "Kalahari Resorts & Conventions Round Rock, TX",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: 'Are pets allowed? | With the exception of service animals certified under the American Disabilities Act (ADA), pets (including ESAs) are not permitted at Kalahari Resorts & Conventions. Guests bringing animals that go against our pet policy will be asked to leave and will not be refunded.'"
-  },
-  {
    "identity_key": "mountain star lodge and hotel",
    "name": "Mountain Star Lodge & Hotel",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Pets policy: | No pets allowed in this property. Each violation is subject to $500 cleaning fee.'"
-  },
-  {
-   "identity_key": "sage hill inn and spa",
-   "name": "Sage Hill Inn & Spa",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'Pets | Sorry, pets cannot be accommodated. The only exception being service animals that assist with a disability.'"
   },
   {
    "identity_key": "strickland arms bed and breakfast",
@@ -219,16 +199,16 @@
  "counts": {
   "ACCESS_BLOCKED": 6,
   "CLEAN_PET_FRIENDLY": 190,
-  "CLEAN_VERIFIED_NO_PETS": 59,
-  "EVIDENCE_HOLD": 29,
+  "CLEAN_VERIFIED_NO_PETS": 63,
+  "EVIDENCE_HOLD": 25,
   "IDENTITY_MISMATCH_HOLD": 20,
   "ROUTING_HOLD": 88,
   "SOURCE_SILENT": 15
  },
  "valid_pet_friendly": 190,
- "valid_verified_no_pets": 59,
- "resolved": 249,
- "unresolved": 158,
+ "valid_verified_no_pets": 63,
+ "resolved": 253,
+ "unresolved": 154,
  "rows": [
   {
    "identity_key": "1 hotel austin",
@@ -649,8 +629,7 @@
     "document_sha256": "558bdd861dfba1ec8f2dccecd2d2eb13f04c3a19865c6865795cb1c2f40df177",
     "captured_via": "the independent property's own policy/FAQ page, plain client"
    },
-   "disposition": "EVIDENCE_HOLD",
-   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pet Policy Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations. Are pets allowed at the hotel? Pets are), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "atwell suites austin airport",
@@ -3236,8 +3215,7 @@
     "document_sha256": "cc43a811d9196c848e2a53bce18d9ca7aec139d121f12a87e790d043e88c2e84",
     "captured_via": "the independent property's own policy/FAQ page, plain client"
    },
-   "disposition": "EVIDENCE_HOLD",
-   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pets Though you might see Zelda, the neighborhood hen, roaming the property, we are unfortunately unable to accommodate pets.'), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "hill country casitas",
@@ -4892,8 +4870,7 @@
     "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001",
     "binding": "the page's own street number 3001 + street words + postal code 78665"
    },
-   "disposition": "EVIDENCE_HOLD",
-   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Are pets allowed? | With the exception of service animals certified under the American Disabilities Act (ADA), pets (including ESAs) are not permitted at Kalahari Resorts & Co), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "la hacienda rv resort",
@@ -6319,8 +6296,7 @@
     "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001",
     "binding": "the page's own street number 4444 + street words + postal code 78640"
    },
-   "disposition": "EVIDENCE_HOLD",
-   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Pets | Sorry, pets cannot be accommodated. The only exception being service animals that assist with a disability.'), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "san jac saloon",
