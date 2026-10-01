@@ -1,6 +1,6 @@
 {
  "schema": "ptf-source-ready-accounting/1.0",
- "work_order": "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001",
+ "work_order": "PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002",
  "market_id": "austin-tx",
  "headline": {
   "total_raw_observations": 3643,
@@ -26,16 +26,16 @@
   "graph_nodes": 2079,
   "proposed_census": 407,
   "valid_pet_friendly": 190,
-  "valid_verified_no_pets": 59,
-  "resolved": 249,
-  "unresolved": 158,
-  "resolution_rate": 0.6118
+  "valid_verified_no_pets": 63,
+  "resolved": 253,
+  "unresolved": 154,
+  "resolution_rate": 0.6216
  },
  "holds_by_class": {
   "IDENTITY": 20,
   "ROUTING": 88,
   "ACCESS_BLOCKED": 6,
-  "EVIDENCE": 29,
+  "EVIDENCE": 25,
   "NEGATION": 0,
   "BROWSER_CAPTURE": 0,
   "POLICY_NOT_FOUND": 0,
@@ -54,8 +54,8 @@
    "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED": 1
   },
   "EVIDENCE_HOLD": {
-   "the shared reader that FAST rule C re-runs at seal time classifies thi": 10,
    "the property's own page served and bound these premises, but its only ": 7,
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 6,
    "ROUTE_DOMAIN_CONFLICT": 5,
    "the first-party quote states neither an acceptance nor a refusal sente": 5,
    "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE": 2
@@ -126,9 +126,9 @@
    "class": "CORE",
    "census": 18,
    "pet_friendly": 7,
-   "no_pets": 2,
-   "unresolved": 9,
-   "resolution_rate": 0.5,
+   "no_pets": 3,
+   "unresolved": 8,
+   "resolution_rate": 0.5556,
    "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
    "page_publishes": true
   },
@@ -137,9 +137,9 @@
    "class": "CORE",
    "census": 24,
    "pet_friendly": 6,
-   "no_pets": 2,
-   "unresolved": 16,
-   "resolution_rate": 0.3333,
+   "no_pets": 3,
+   "unresolved": 15,
+   "resolution_rate": 0.375,
    "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
    "page_publishes": true
   },
@@ -192,9 +192,9 @@
    "class": "CORRIDOR",
    "census": 34,
    "pet_friendly": 21,
-   "no_pets": 8,
-   "unresolved": 5,
-   "resolution_rate": 0.8529,
+   "no_pets": 9,
+   "unresolved": 4,
+   "resolution_rate": 0.8824,
    "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
    "page_publishes": true
   },
@@ -269,9 +269,9 @@
    "class": "CORRIDOR",
    "census": 6,
    "pet_friendly": 2,
-   "no_pets": 1,
-   "unresolved": 3,
-   "resolution_rate": 0.5,
+   "no_pets": 2,
+   "unresolved": 2,
+   "resolution_rate": 0.6667,
    "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
    "page_publishes": false
   },
@@ -480,8 +480,8 @@
   "INDEPENDENT": {
    "census": 97,
    "pet_friendly": 7,
-   "no_pets": 5,
-   "unresolved": 85,
+   "no_pets": 7,
+   "unresolved": 83,
    "firecrawl_attempted": 4,
    "firecrawl_success": 0,
    "access_blocked": 0,
@@ -494,8 +494,8 @@
   "LUXURY_INDEPENDENT": {
    "census": 26,
    "pet_friendly": 10,
-   "no_pets": 0,
-   "unresolved": 16,
+   "no_pets": 2,
+   "unresolved": 14,
    "firecrawl_attempted": 9,
    "firecrawl_success": 1,
    "access_blocked": 0,
@@ -1184,7 +1184,7 @@
  },
  "fees": {
   "schema": "ptf-fee-withholding/1.0",
-  "work_order": "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001",
+  "work_order": "PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002",
   "market_id": "austin-tx",
   "rule": "a fee publishes only as one amount whose basis (per night / per stay) the quote itself states, with no stay-length condition, no range, no second basis and no second amount; otherwise the fee is withheld and the acceptance, weight, count and species still publish",
   "fees_published": 31,
@@ -1199,11 +1199,6 @@
  },
  "negation_and_parser_conflicts": [
   {
-   "identity_key": "at and t hotel and conference center",
-   "name": "AT and T Hotel and Conference Center",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Pet Policy Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations. Are pets allowed at the hotel? Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations.'"
-  },
-  {
    "identity_key": "austin motel",
    "name": "Austin Motel",
    "why": "ROUTE_DOMAIN_CONFLICT -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'bunkhousehotels.com' while the census binds the identity to 'austinmotel.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
@@ -1217,11 +1212,6 @@
    "identity_key": "carpenter hotel",
    "name": "Carpenter Hotel",
    "why": "ROUTE_DOMAIN_CONFLICT -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'bunkhousehotels.com' while the census binds the identity to 'carpenterhotel.com'; the package contract requires the cited page and the bound route to agree, so the row is held for a routing decision rather than published against a route it does not cite"
-  },
-  {
-   "identity_key": "heywood hotel",
-   "name": "Heywood Hotel",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Pets Though you might see Zelda, the neighborhood hen, roaming the property, we are unfortunately unable to accommodate pets.'"
   },
   {
    "identity_key": "hotel ella",
@@ -1254,19 +1244,9 @@
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: 'Is Hotel ZaZa Austin pet-friendly? Yes, cats and dogs of all breeds and sizes are welcome at Hotel ZaZa Austin. A one-time cleaning fee of $100 per pet is required at check-in. PETS Hotel ZaZa is a pet-friendly facility. A non-refundable deposit of $100 per pet is required at check in per reservation. Pets are permitted in rooms, hallways and lobby; per the state department of health, pets are not permitted in our restaurants or pool. For safety, pets must be under owner supervision at all times'"
   },
   {
-   "identity_key": "kalahari resorts and conventions round rock tx",
-   "name": "Kalahari Resorts & Conventions Round Rock, TX",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_CONTRADICTS_CLAIM: the quote accepts pets: 'Are pets allowed? | With the exception of service animals certified under the American Disabilities Act (ADA), pets (including ESAs) are not permitted at Kalahari Resorts & Conventions. Guests bringing animals that go against our pet policy will be asked to leave and will not be refunded.'"
-  },
-  {
    "identity_key": "mountain star lodge and hotel",
    "name": "Mountain Star Lodge & Hotel",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Pets policy: | No pets allowed in this property. Each violation is subject to $500 cleaning fee.'"
-  },
-  {
-   "identity_key": "sage hill inn and spa",
-   "name": "Sage Hill Inn & Spa",
-   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'Pets | Sorry, pets cannot be accommodated. The only exception being service animals that assist with a disability.'"
   },
   {
    "identity_key": "strickland arms bed and breakfast",

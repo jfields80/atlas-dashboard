@@ -1,0 +1,2948 @@
+{
+ "schema": "ptf-market-reader-refresh/1.0",
+ "work_order": "PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002",
+ "market_id": "austin-tx",
+ "old_source_ready_commit": "fcca4aad",
+ "old_package": {
+  "package_id": "pkg-austin-tx-3030caf7703a9c57",
+  "package_digest": "sha256:3030caf7703a9c574c14177ebcb072bbd691e94a518f6b68a045506482026331",
+  "sealed_at": "2026-09-30T20:05:00Z",
+  "created_from_source_sha": "cb8bb6d211176c2a9874cbaff1ec3b560980f19d",
+  "sealed_under": "the shared first-party reader BEFORE PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001 (it read FAQ questions as acceptance and missed several refusal shapes)",
+  "parent_live_deploy": "6abc8387e81507b25eb94a0a",
+  "current_live_deploy": "6abdbcb87e046e3e673760ac",
+  "fast_today": {
+   "note": "re-run against the CURRENT live release with the two builds declared not run (J, K UNKNOWN by design); a package that fails any rule today is not eligible",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "UNKNOWN",
+    "K": "UNKNOWN",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "FAIL",
+    "O": "PASS"
+   },
+   "failed": [
+    "N"
+   ],
+   "unknown": [
+    "J",
+    "K"
+   ],
+   "rule_N_problems": [
+    "live_deploy_id: package parent '6abc8387e81507b25eb94a0a', live '6abdbcb87e046e3e673760ac'",
+    "rollback_target: package parent '6aba7587ddcc33a192bdf694', live '6abc8387e81507b25eb94a0a'",
+    "source_commit: package parent '63e410ff9cde676bd0621e2e1a7029bf54ff81bd', live '18f4f979e9be2042f71b581af45c5348be2c31bd'",
+    "total_profiles: package parent 3210, live 3196",
+    "sitemap_route_count: package parent 3619, live 3604",
+    "profile_counts differ from live",
+    "live_index_digest: package parent sha256:eaf535343ba53637, live sha256:2dea3970b2e3f5c7"
+   ],
+   "ELIGIBLE": "NO"
+  },
+  "canonical_receipts_selecting_it": [],
+  "historical_receipt_in_staging": [
+   "pkg-austin-tx-3030caf7703a9c57-0149facbdda891b6.json"
+  ],
+  "dependency_inputs_no_longer_committed": [
+   "exclusions",
+   "partition",
+   "policy_package"
+  ],
+  "OLD_PACKAGE_REGISTERABLE": "NO",
+  "OLD_PACKAGE_AUTHORIZABLE": "NO",
+  "kept_as_historical_evidence": true
+ },
+ "interpretation": {
+  "operative_quotes_classified": 289,
+  "by_disposition_and_class": {
+   "CLEAN_PET_FRIENDLY / AFFIRMATIVE_ACCEPTANCE": 190,
+   "CLEAN_VERIFIED_NO_PETS / EXPLICIT_REFUSAL": 63,
+   "EVIDENCE_HOLD / AFFIRMATIVE_ACCEPTANCE": 7,
+   "EVIDENCE_HOLD / NOT_OPERATIVE": 5,
+   "EVIDENCE_HOLD / SERVICE_ANIMAL_ONLY": 6,
+   "IDENTITY_MISMATCH_HOLD / AFFIRMATIVE_ACCEPTANCE": 16,
+   "IDENTITY_MISMATCH_HOLD / EXPLICIT_REFUSAL": 2
+  },
+  "PET_FRIENDLY_NOT_AFFIRMATIVE": [],
+  "PET_FRIENDLY_WITH_EXPLICIT_REFUSAL": 0,
+  "QUESTION_ONLY_PET_FRIENDLY": 0,
+  "SERVICE_ANIMAL_ONLY_PET_FRIENDLY": 0,
+  "QUESTION_ONLY_IS_NEVER_ACCEPTANCE": true
+ },
+ "kalahari": {
+  "quote": "Are pets allowed? | With the exception of service animals certified under the American Disabilities Act (ADA), pets (including ESAs) are not permitted at Kalahari Resorts & Conventions. Guests bringing animals that go against our pet policy will be asked to leave and will not be refunded.",
+  "old_disposition": "EVIDENCE_HOLD",
+  "new_classification": "EXPLICIT_REFUSAL",
+  "new_disposition": "CLEAN_VERIFIED_NO_PETS",
+  "KALAHARI_PET_FRIENDLY": "NO",
+  "canonical_verified_no_pets_exclusion": {
+   "exclusion_id": "austin-tx--kalahari-resorts-and-conventions-round-rock-tx",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Are pets allowed? | With the exception of service animals certified under the American Disabilities Act (ADA), pets (including ESAs) are not permitted at Kalahari Resorts & Conventions. Guests bringing animals that go against our pet policy will be asked to leave and will not be refunded.",
+   "source_url": "https://www.kalahariresorts.com/texas-round-rock/more-info/faq/",
+   "record_hash": "sha256:cbb5340cf58cb082de6f6f16c6adceb8e2e7348b5c5b527db0808073262ed303",
+   "approval_hash": "sha256:8fcca04b5211774901d594973d5d7a5d55f28c5fe572b81c6a97c5862fc94973"
+  }
+ },
+ "old_refusal_language_holds": [
+  {
+   "property": "Kalahari Resorts & Conventions Round Rock, TX",
+   "identity_key": "kalahari resorts and conventions round rock tx",
+   "quote": "Are pets allowed? | With the exception of service animals certified under the American Disabilities Act (ADA), pets (including ESAs) are not permitted at Kalahari Resorts & Conventions. Guests bringing animals that go against our pet policy will be asked to leave and will not be refunded.",
+   "old_disposition": "EVIDENCE_HOLD",
+   "old_hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Are pets allowed? | With the exception of service animals certified under the American Disabilities Act (ADA), pets (including ESAs) are not permitted at Kalahari Resorts &",
+   "new_classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Are pets allowed? | With the exception of service animals certified under the American Disabilities Act (ADA), pets (including ESAs) are not permitted at Kalahari Resorts & Conventions. Guests bringing animals that go again",
+   "new_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "new_hold_reason": ""
+  },
+  {
+   "property": "Mountain Star Lodge & Hotel",
+   "identity_key": "mountain star lodge and hotel",
+   "quote": "Pets policy: | No pets allowed in this property. Each violation is subject to $500 cleaning fee.",
+   "old_disposition": "EVIDENCE_HOLD",
+   "old_hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pets policy: | No pets allowed in this property. Each violation is subject to $500 cleaning fee.'), not an operative no_pets statement; held rather than published",
+   "new_classification": "NOT_OPERATIVE",
+   "why": "no acceptance the reader will interpret: 'Pets policy: | No pets allowed in this property. Each violation is subject to $500 cleaning fee.'",
+   "new_disposition": "EVIDENCE_HOLD",
+   "new_hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pets policy: | No pets allowed in this property. Each violation is subject to $500 cleaning fee.'), not an operative no_pets statement; held rather than published"
+  },
+  {
+   "property": "AT and T Hotel and Conference Center",
+   "identity_key": "at and t hotel and conference center",
+   "quote": "Pet Policy Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations. Are pets allowed at the hotel? Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations.",
+   "old_disposition": "EVIDENCE_HOLD",
+   "old_hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pet Policy Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations. Are pets allowed at the hotel? Pets are)",
+   "new_classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations. Are pets allowed at the hotel? Pets are not allowed at the AT&T Hotel and Conference Center due to Un",
+   "new_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "new_hold_reason": ""
+  },
+  {
+   "property": "Strickland Arms Bed and Breakfast",
+   "identity_key": "strickland arms bed and breakfast",
+   "quote": "Please note that we can NOT accommodate children under 12 or pets of any kind",
+   "old_disposition": "EVIDENCE_HOLD",
+   "old_hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Please note that we can NOT accommodate children under 12 or pets of any kind'), not an operative no_pets statement; held rather than published on a disagreement ",
+   "new_classification": "NOT_OPERATIVE",
+   "why": "no acceptance the reader will interpret: 'Please note that we can NOT accommodate children under 12 or pets of any kind'",
+   "new_disposition": "EVIDENCE_HOLD",
+   "new_hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Please note that we can NOT accommodate children under 12 or pets of any kind'), not an operative no_pets statement; held rather than published on a disagreement "
+  },
+  {
+   "property": "Heywood Hotel",
+   "identity_key": "heywood hotel",
+   "quote": "Pets Though you might see Zelda, the neighborhood hen, roaming the property, we are unfortunately unable to accommodate pets.",
+   "old_disposition": "EVIDENCE_HOLD",
+   "old_hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pets Though you might see Zelda, the neighborhood hen, roaming the property, we are unfortunately unable to accommodate pets.'), not an operative no_pets statemen",
+   "new_classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets Though you might see Zelda, the neighborhood hen, roaming the property, we are unfortunately unable to accommodate pets.'",
+   "new_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "new_hold_reason": ""
+  }
+ ],
+ "OLD_REFUSAL_LANGUAGE_HOLDS": 5,
+ "REFUSAL_LANGUAGE_ROWS_RESOLVED": 3,
+ "REMAINING_REFUSAL_LANGUAGE_HOLDS": 2,
+ "founder_cohort": {
+  "OLD_FOUNDER_ROWS": 28,
+  "old_by_class": {
+   "dual_brand_rows": 18,
+   "operator_domain_route_rulings": 5,
+   "refusal_language_rows": 5
+  },
+  "ROWS_RESOLVED_BY_REPAIRED_READER": 3,
+  "NEW_FOUNDER_ROWS": 25,
+  "new_by_class": {
+   "dual_brand_rows": 18,
+   "operator_domain_route_rulings": 5,
+   "refusal_language_rows": 2
+  },
+  "identity_resolutions_written": false
+ },
+ "other_safe_holds_preserved": {
+  "same_campus_distinct_entity_rows": [
+   "Best Western",
+   "Best Western Cedar Inn",
+   "Cambria Hotel Austin Uptown near the Domain",
+   "Comfort Suites Buda - Austin South",
+   "EVEN Hotel Austin Uptown near the Domain",
+   "Esa Select Suites Austin Round Rock North",
+   "Extended Stay America - Austin Metro",
+   "Fairfield Inn & Suites Austin Northwest/ Research Blvd.",
+   "Hawthorn Extended Stay Austin North",
+   "Holiday Inn Express & Suites Austin South-Buda",
+   "Wingate by Wyndham Austin North"
+  ],
+  "same_campus_count": 11,
+  "sentral_east_austin": [
+   "IDENTITY_REVIEW_REQUIRED"
+  ],
+  "preopening_held": [],
+  "timeshare_excluded": [
+   "Club Wyndham Austin",
+   "Raintree Inn & Suites",
+   "WorldMark Austin"
+  ]
+ },
+ "static_lane_reread": {
+  "reads_reread": 23,
+  "verdicts_moved": 6,
+  "moved": [
+   {
+    "identity_key": "uptown suites extended stay austin tx downtown",
+    "outcome": "VALID",
+    "old_reader": true,
+    "repaired_reader": null,
+    "block": "Are Pets Allowed At Uptown Suites Austin TX - Downtown? Uptown Suites Austin TX – Downtown allows one dog (40 lbs. or less) per suite. Dogs must be less than 36” long and less than 36” tall. They must be healthy, housebroken and current on "
+   },
+   {
+    "identity_key": "woodspring suites austin central",
+    "outcome": "IDENTITY_MISMATCH",
+    "old_reader": true,
+    "repaired_reader": null,
+    "block": "Are pets allowed at WoodSpring Suites Austin Central? Limit 2 dogs, under 75lbs. per room. No cats. Non-refundable pet cleaning fee of 100USD per pet and daily charge of 25USD for first 6 nights and 10USD per pet per night charge for the du"
+   },
+   {
+    "identity_key": "woodspring suites austin north i 35",
+    "outcome": "IDENTITY_MISMATCH",
+    "old_reader": true,
+    "repaired_reader": null,
+    "block": "Are pets allowed at WoodSpring Suites Austin North I-35? Service, assistance animals are welcome at no additional charge, must be registered at front desk. Limit 2 dogs, under 75lbs. per room. No cats. Non-refundable pet fees, 50USD a pet r"
+   },
+   {
+    "identity_key": "woodspring suites round rock austin north",
+    "outcome": "IDENTITY_MISMATCH",
+    "old_reader": true,
+    "repaired_reader": null,
+    "block": "Are pets allowed at WoodSpring Suites Round Rock-Austin North? Service Animals are welcome at no additional charge, must be registered upon arrival. Limit of 2 Dogs per room. No Cats. Registration Fee of 50 USD. Plus 5 USD for each dog per "
+   },
+   {
+    "identity_key": "woodspring suites austin south central i 35",
+    "outcome": "VALID",
+    "old_reader": true,
+    "repaired_reader": null,
+    "block": "Are pets allowed at WoodSpring Suites Austin South Central I-35? Limit 2 dogs, under 75lbs. per room. No cats. Non-refundable pet cleaning fee of 100USD per pet and daily charge of 25USD for first 6 nights and 10USD per pet per night charge"
+   },
+   {
+    "identity_key": "woodspring suites north austin georgetown",
+    "outcome": "VALID",
+    "old_reader": true,
+    "repaired_reader": null,
+    "block": "Are pets allowed at WoodSpring Suites Austin Georgetown? Service Animals are welcome at no additional charge, must be registered upon arrival. Limit of 2 Dogs per room. No Cats. Registration Fee of 50 USD. Plus 5 USD for each dog per night."
+   }
+  ],
+  "why_not_rerun": "the lane would refetch the 63 targets with no cached attempt record; this order repeats no acquisition",
+  "effect": "none publishes: the clean authority's shared-reader gate re-reads every quote under the repaired reader before a row can publish"
+ },
+ "accounting": {
+  "old": {
+   "qualifying_census": 407,
+   "pet_friendly": 190,
+   "verified_no_pets": 59,
+   "resolved": 249,
+   "unresolved": 158,
+   "resolution_rate_pct": 61.18
+  },
+  "new": {
+   "qualifying_census": 407,
+   "pet_friendly": 190,
+   "verified_no_pets": 63,
+   "resolved": 253,
+   "unresolved": 154,
+   "resolution_rate_pct": 62.16
+  },
+  "actionable_unresolved_old": 0,
+  "actionable_unresolved_new": 0,
+  "totals_by_class_new": {
+   "ACTIONABLE_NOW": 0,
+   "AUTHORIZED_ROUTER_EXHAUSTED": 49,
+   "REQUIRES_NEW_PROVIDER": 0,
+   "REQUIRES_NEW_SPEND": 80,
+   "REQUIRES_FOUNDER": 25,
+   "HELD_UNTIL_OPENING": 0
+  },
+  "by_disposition_new": {
+   "ACCESS_BLOCKED": {
+    "total": 6,
+    "actionable_now": 0,
+    "authorized_router_exhausted": 6,
+    "requires_new_provider": 0,
+    "requires_new_spend": 0,
+    "requires_founder": 0,
+    "held_until_opening": 0
+   },
+   "EVIDENCE_HOLD": {
+    "total": 25,
+    "actionable_now": 0,
+    "authorized_router_exhausted": 18,
+    "requires_new_provider": 0,
+    "requires_new_spend": 0,
+    "requires_founder": 7,
+    "held_until_opening": 0
+   },
+   "IDENTITY_MISMATCH_HOLD": {
+    "total": 20,
+    "actionable_now": 0,
+    "authorized_router_exhausted": 2,
+    "requires_new_provider": 0,
+    "requires_new_spend": 0,
+    "requires_founder": 18,
+    "held_until_opening": 0
+   },
+   "ROUTING_HOLD": {
+    "total": 88,
+    "actionable_now": 0,
+    "authorized_router_exhausted": 8,
+    "requires_new_provider": 0,
+    "requires_new_spend": 80,
+    "requires_founder": 0,
+    "held_until_opening": 0
+   },
+   "SOURCE_SILENT": {
+    "total": 15,
+    "actionable_now": 0,
+    "authorized_router_exhausted": 15,
+    "requires_new_provider": 0,
+    "requires_new_spend": 0,
+    "requires_founder": 0,
+    "held_until_opening": 0
+   }
+  },
+  "TECHNICAL_SOURCE_READY": "YES",
+  "COVERAGE_READY": "FOUNDER DECISION"
+ },
+ "reader_safety_new_package": {
+  "PET_FRIENDLY_WITH_EXPLICIT_REFUSAL": 0,
+  "refusal_rows": [],
+  "QUESTION_ONLY_PET_FRIENDLY": 0,
+  "question_only_rows": [],
+  "PREOPENING_PROFILES_PUBLISHED": 0,
+  "timeshare_identities_excluded_by_census": [
+   "Club Wyndham Austin",
+   "Raintree Inn & Suites",
+   "WorldMark Austin"
+  ],
+  "VACATION_OWNERSHIP_TIMESHARE_PROFILES_PUBLISHED": 0,
+  "MISLEADING_SINGLE_FEES": 0,
+  "misleading_rows": [],
+  "rule_C_over_new_package": {
+   "records_evaluated": 253,
+   "eligible": 253,
+   "ineligible": 0,
+   "passed": true
+  }
+ },
+ "rows": [
+  {
+   "identity_key": "1 hotel austin",
+   "canonical_name": "1 Hotel Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'PET FRIENDLY'",
+   "quote": "PET FRIENDLY | We know dogs are family too. That's why we warmly welcome our four-legged guests, with no extra fee. As a pet-friendly hotel in Austin, bring up to two pups along for the adventure—because travel is always better with good company."
+  },
+  {
+   "identity_key": "ac hotel austin hill country",
+   "canonical_name": "AC Hotel Austin Hill Country",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Up to two dog(s) or cat(s) per room ($50 pet fee per day) | Non-Refundable Pet Fee Per Night: ... | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "ac hotel austin university",
+   "canonical_name": "AC Hotel Austin-University",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | Only dogs 30lbs maximum per room with $100 non-refundable fee per room per stay. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 30.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "aiden austin city hotel",
+   "canonical_name": "Aiden Austin City Hotel",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet-Friendly'",
+   "quote": "In-room microwave, refrigerator, and Keurig coffee maker In-room safe, customizable code, sized for a laptop 100% smoke-free environment Meeting & event rooms Business center Pet-Friendly hotel Minutes from downtown Austin, Texas Universally accessible rooms available Check-in: 4:00 pm - Check-out: 11:00 am (Minimum check-in age: 21) BOOK YOUR ROOM RESERVATION TODAY What are you waiting for?"
+  },
+  {
+   "identity_key": "aloft austin downtown",
+   "canonical_name": "Aloft Austin Downtown",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | Our Arf Program offers a special bed, bowl and a doggie bag of delicious treats. | Non-Refundable Pet Fee Per Stay: $50.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "identity_key": "aloft by marriott austin airport",
+   "canonical_name": "Aloft by Marriott Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Per room/2 pets 25 lbs max-USD 50 fee per night-guest responsible for damages | Non-Refundable Pet Fee Per Night: ... | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "aloft by marriott austin at the domain",
+   "canonical_name": "Aloft by Marriott Austin at The Domain",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Dogs up to 30lbs, may not be left unnattended in room at any time. | Maximum Pet Weight: 30.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "aloft by marriott austin northwest",
+   "canonical_name": "Aloft by Marriott Austin Northwest",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | ARF Program waiver upon checkin. Non-refundable Sanitation Fee $50.00. | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 55.0lbs"
+  },
+  {
+   "identity_key": "aloft by marriott austin round rock",
+   "canonical_name": "Aloft by Marriott Austin Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "aloft by marriott austin south",
+   "canonical_name": "Aloft by Marriott Austin South",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | 2 per room, 25 lbs max. Must be registered, cannot be left alone. $50 per stay | Non-Refundable Pet Fee Per Night: ... | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "aloft by marriott austin southwest",
+   "canonical_name": "Aloft by Marriott Austin Southwest",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Dogs up to 40lbs. May not be left unattended in room at any time. | Non-Refundable Pet Fee Per Night: ... | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "archer hotel austin",
+   "canonical_name": "Archer Hotel Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'welcomes dogs'",
+   "quote": "Dogs + emotional support dogs + service animals Guests may bring one pet dog or emotional support dog (up to 50 lbs. A nonrefundable pet cleaning deposit of $150 per stay applies. No documentation or prior authorization is required for service animals, and the pet cleaning deposit does not apply to service animals. Are pets allowed? Archer Hotel welcomes dogs — we love to host you and your pup."
+  },
+  {
+   "identity_key": "arrive austin",
+   "canonical_name": "ARRIVE Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pet-friendly'",
+   "quote": "As a pet-friendly hotel in Austin with meeting rooms and unique private event spaces, ARRIVE Austin is ideal for business travelers, wedding groups, and everything in-between."
+  },
+  {
+   "identity_key": "at and t hotel and conference center",
+   "canonical_name": "AT and T Hotel and Conference Center",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations. Are pets allowed at the hotel? Pets are not allowed at the AT",
+   "quote": "Pet Policy Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations. Are pets allowed at the hotel? Pets are not allowed at the AT&T Hotel and Conference Center due to University of Texas at Austin regulations."
+  },
+  {
+   "identity_key": "atwell suites austin airport",
+   "canonical_name": "Atwell Suites Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet-friendly'",
+   "quote": "ng and transportation details Check-in : 3:00 PM Check-out : 12:00 PM Minimum check-in age : 21 The highlights Flexible and Enriching Spaces Food and Drink to Start and End Your Day Explore Austin Like Never Before Experience a Pawsitively Pet-friendly Stay The Perfect Space for Collaboration Flexible and Enriching Spaces Thoughtfully designed to offer the perfect balance of productivity and socia"
+  },
+  {
+   "identity_key": "austin marriott downtown",
+   "canonical_name": "Austin Marriott Downtown",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "austin marriott south",
+   "canonical_name": "Austin Marriott South",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "austin motel",
+   "canonical_name": "Austin Motel",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'dogs are always welcome'",
+   "quote": "Can I bring my pet? | Yes! Well-behaved dogs are always welcome (for a small fee)."
+  },
+  {
+   "identity_key": "austin proper hotel a member of design hotels",
+   "canonical_name": "Austin Proper Hotel, a Member of Design Hotels",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Up to two dogs under 35lbs are permitted for the fee of USD 100 per dog per stay | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "austin southpark hotel",
+   "canonical_name": "Austin Southpark Hotel",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $150.00 | Max weight: 75 lbs | Max size: medium"
+  },
+  {
+   "identity_key": "avid hotels austin nw lakeline",
+   "canonical_name": "avid hotels Austin NW - Lakeline",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Pet policy Our pet friendly Austin hotel welcomes both dogs and service animals. We allow dogs up to 25 lbs. for a non refundable fee of 75 USD per dog. For your convenience, a designated pet walking area is available onsite. Can I bring my pet to avid hotels Austin NW - Lakeline? Pets are welcome at avid hotels Austin NW - Lakeline. Our Pet Policy: Our pet friendly Austin hotel welcomes both dogs"
+  },
+  {
+   "identity_key": "avid hotels austin round rock south",
+   "canonical_name": "avid hotels Austin – Round Rock South",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Pet policy Our pet friendly hotel in Round Rock, TX, welcomes pets and service animals. A one time, non refundable 25 USD pet fee per night applies to your stay up to five nights, while service animals are always welcome at no charge. Can I bring my pet to avid hotels Austin – Round Rock South? Pets are welcome at avid hotels Austin – Round Rock South. Our Pet Policy: Our pet friendly hotel in Rou"
+  },
+  {
+   "identity_key": "avid hotels austin tech ridge",
+   "canonical_name": "avid hotels Austin – Tech Ridge",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "a service-animal statement is a legal access category, never a pet acceptance: 'Pet policy Pets are not allowed at this location. We do accept service animals and guide dogs. If a pet is found on the ",
+   "quote": "Pet policy Pets are not allowed at this location. We do accept service animals and guide dogs. If a pet is found on the property and is not a service animal, there will be a 500 USD penalty fee. Can I bring my pet to avid hotels Austin – Tech Ridge? No, pets are not allowed at avid hotels Austin – Tech Ridge."
+  },
+  {
+   "identity_key": "baymont by wyndham austin university area",
+   "canonical_name": "Baymont by Wyndham Austin University Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. / Fees - 15USD per pet per night. Pet Sanitation Fee 300USD. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "best western plus austin central",
+   "canonical_name": "Best Western Plus Austin Central",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet Friendly'",
+   "quote": "PET POLICY | We are Pet Friendly and allow up to two dogs in a limited number of rooms. The size limit for any one dog shall be 80 pounds. Other pet types (e.g., cats) may be allowed upon the hotel's approval prior to arrival. The Pet Friendly rate is 40.00 USD per day."
+  },
+  {
+   "identity_key": "cambria hotel austin airport",
+   "canonical_name": "Cambria Hotel Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet Friendly'",
+   "quote": "Guests: 4 Starting at $ XXX USD 1 King Bed, Suite, Sofa Bed Book 1 King Bed, Suite, Sofa Bed Now Book Now 1 King Bed, Suite, Sofa Bed Free WiFi Valet Parking Pet Friendly Meeting Space View all Amenities Stay, Play and Save in Austin Style Exclusive Offers for Your Stay Discover special packages and limited-time deals at Cambria Hotel Austin Airport."
+  },
+  {
+   "identity_key": "cambria hotel austin downtown",
+   "canonical_name": "Cambria Hotel Austin Downtown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet-friendly'",
+   "quote": "of flexible indoor/outdoor event space State-of-the-art oversized fitness center Secured parking (fees apply) Pet-friendly ( $75 pet fee per stay, per pet)* Valet parking with EV charging stations ($57 per vehicle, per day) *A fee of $75 per pet, per stay applies. Is the hotel pet friendly? Yes, we are pet-friendly! A fee of $75 per pet, per stay applies."
+  },
+  {
+   "identity_key": "candlewood suites austin airport",
+   "canonical_name": "Candlewood Suites Austin Airport",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet Friendly'",
+   "quote": "Pet Friendly Hotel Near Austin Airport | Candlewood Suites Austin Airport Skip To main content Your session will expire in 5 minutes , 0 seconds , due to inactivity. Pet Friendly Non refundable pet fee of 75. Dogs only No Cats! k-sleep-fly packages please contact hotel directly for more info Parking fee: 15 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Bus,"
+  },
+  {
+   "identity_key": "candlewood suites austin n cedar park",
+   "canonical_name": "Candlewood Suites Austin N-Cedar Park",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pet-friendly'",
+   "quote": "ices Important Announcements Settle In & Stay Awhile in Cedar Park Extended Stay Hotel in Cedar Park Discover Comfort and Convenience at Our Extended Stay Hotel in Cedar Park Escape to the tranquility just north of Austin at our all-suite, pet-friendly accommodations, offering a perfect blend of business and leisure amenities. Read more Extended Stay Hotel in Cedar Park Discover Comfort and Conven"
+  },
+  {
+   "identity_key": "candlewood suites austin north 290 and i 35",
+   "canonical_name": "Candlewood Suites Austin North 290 & I-35",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "We're pet friendly too! (Ask us about our pet policies. Pet Friendly Two pets up to 80 lbs each. A non refundable pet fee will be charged to the guest account upon check in based upon the length of stay 6 nights 75 USD, 7 plus nights 150USD. Parking & transportation details Can I bring my pet to Candlewood Suites Austin North 290 & I-35? Pets are welcome at Candlewood Suites Austin North 290 & I-3"
+  },
+  {
+   "identity_key": "candlewood suites austin round rock",
+   "canonical_name": "Candlewood Suites Austin-Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Unwind in our spacious, pet-friendly suites, each equipped with everything you need. We welcome up to two dogs per room, up to 80 lbs. The fee per pet per day is 25 USD. Enjoy a tail-wagging good time at our pet-friendly hotel in Round Rock, TX! Pet Friendly Pets allowed with nonrefundable fee of 25. 00 per day per pet not to exceed 200. 00 per stay per pet. Pet agreement is required and no animal"
+  },
+  {
+   "identity_key": "candlewood suites buda austin sw",
+   "canonical_name": "Candlewood Suites Buda - Austin SW",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are allowed'",
+   "quote": "Pet-Friendly Hotel In South Austin, TX | Candlewood Suites Buda - Austin SW Skip To main content Your session will expire in 5 minutes , 0 seconds , due to inactivity. Pet Friendly Pets are allowed up to 75lbs. There is a 75 dollar nonrefundable fee for one to six nights of stay and 150 dollar fee for all stays of seven plus nights per pet. Parking for registered guests only Parking & transportati"
+  },
+  {
+   "identity_key": "candlewood suites georgetown",
+   "canonical_name": "Candlewood Suites Georgetown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pet Friendly Limited number of rooms available. Domestic dogs and cats only, 40 lb. Only 2 Pets allowed in guest room. Pet fees USD 75. Parking fee: 0 USD per day Parking for registered guests only Vehicles allowed: Bus, Truck, Trailer, Rv Parking & transportation details Can I bring my pet to Candlewood Suites Georgetown? Pets are welcome at Candlewood Suites Georgetown. Pet policy description. 0"
+  },
+  {
+   "identity_key": "canopy by hilton austin downtown",
+   "canonical_name": "Canopy by Hilton Austin Downtown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium"
+  },
+  {
+   "identity_key": "carpenter hotel",
+   "canonical_name": "Carpenter Hotel",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'dogs are always welcome'",
+   "quote": "Can I bring my pet? | Yes! Well-behaved dogs are always welcome, and they stay for free! | Pack your pup and we'll supply a bed, bowl, and maybe a treat or two for your best friend."
+  },
+  {
+   "identity_key": "cedar park marriott hotel and conference center",
+   "canonical_name": "Cedar Park Marriott Hotel and Conference Center",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy: | Pets Not Allowed'",
+   "quote": "Pet Policy: | Pets Not Allowed"
+  },
+  {
+   "identity_key": "citizenm austin downtown",
+   "canonical_name": "citizenM Austin Downtown",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "colton house hotel",
+   "canonical_name": "Colton House Hotel",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pet-friendly'",
+   "quote": "Find answers to commonly asked questions about our all-suite hotel in South Austin, including extended stays, suite amenities, coworking memberships, parking, pet-friendly accommodations, and more. What is your pet policy? Dog-friendly rooms are limited and subject to availability; advance reservations are required. Guests with dogs are required to pay a $50 non-refundable fee. 2 dog limit per roo"
+  },
+  {
+   "identity_key": "comfort inn and suites austin north loop",
+   "canonical_name": "Comfort Inn & Suites Austin North Loop",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "comfort suites austin airport",
+   "canonical_name": "Comfort Suites Austin Airport",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "comfort suites austin nw lakeline",
+   "canonical_name": "Comfort Suites Austin NW Lakeline",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "comfort suites cedar park austin northwest",
+   "canonical_name": "Comfort Suites Cedar Park - Austin Northwest",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Pets | Pets Allowed: Yes | General: Pets allowed 30.00 USD per pet, per night. A maximum of 50 pounds and 2 pets per room.. Ser"
+  },
+  {
+   "identity_key": "comfort suites georgetown",
+   "canonical_name": "Comfort Suites Georgetown",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "comfort suites kyle",
+   "canonical_name": "Comfort Suites Kyle",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "comfort suites pflugerville austin north",
+   "canonical_name": "Comfort Suites Pflugerville - Austin North",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "comfort suites south austin",
+   "canonical_name": "Comfort Suites - South Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Pets | Pets Allowed: Yes | General: Pets are allowed 50 USD per stay. A maximum of 2 pets per room.. Service animals are permi."
+  },
+  {
+   "identity_key": "commodore perry estate",
+   "canonical_name": "Commodore Perry Estate",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pets maximum are allowed'",
+   "quote": "Pet Policies What is the pet fee? How many pets are allowed? Two pets maximum are allowed. Do you offer special pet amenities and services? Are support animals allowed? Yes, service animals are allowed and the pet fee is waived. Pets under 60 pounds are permitted. What is provided with the pet fee?"
+  },
+  {
+   "identity_key": "country inn and suites by radisson austin north pflugerville tx",
+   "canonical_name": "Country Inn & Suites by Radisson, Austin North (Pflugerville), TX",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "country inn and suites by radisson round rock tx",
+   "canonical_name": "Country Inn & Suites by Radisson, Round Rock, TX",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "courtyard by marriott austin airport",
+   "canonical_name": "Courtyard by Marriott Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Pets cannot be left unattended in rooms. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "courtyard by marriott austin downtown convention center",
+   "canonical_name": "Courtyard by Marriott Austin Downtown/Convention Center",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "courtyard by marriott austin dripping springs",
+   "canonical_name": "Courtyard by Marriott Austin Dripping Springs",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "courtyard by marriott austin northwest lakeline",
+   "canonical_name": "Courtyard by Marriott Austin Northwest/Lakeline",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Pet Friendly: 2 pets with 50 pounds max per room (dog only) $75.00 fee nonrefund | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "courtyard by marriott austin parmer tech ridge",
+   "canonical_name": "Courtyard by Marriott Austin Parmer/Tech Ridge",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "courtyard by marriott austin pflugerville and pflugerville conference center",
+   "canonical_name": "Courtyard by Marriott Austin Pflugerville and Pflugerville Conference Center",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Max 2 Dogs - Max 40 LBS | Non-Refundable Pet Fee Per Stay: $40.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "courtyard by marriott austin round rock",
+   "canonical_name": "Courtyard by Marriott Austin Round Rock",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "courtyard by marriott austin south",
+   "canonical_name": "Courtyard by Marriott Austin South",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "courtyard by marriott austin the domain area",
+   "canonical_name": "Courtyard by Marriott Austin The Domain Area",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "courtyard by marriott austin university area",
+   "canonical_name": "Courtyard by Marriott Austin-University Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Maximum of 2 Pets Per Room. | Non-Refundable Pet Fee Per Stay: $125.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "days inn by wyndham georgetown",
+   "canonical_name": "Days Inn by Wyndham Georgetown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome. / Pets Allowed - Dogs only - 2 dogs max with maximum weight of 70 lbs. / Fees - Non-refundable 20USD per pet per night. / Other information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "days inn by wyndham round rock",
+   "canonical_name": "Days Inn by Wyndham Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. Fees - 25USD per pet per night for up to 4 days max. / Pet Sanitation Fee 100USD if required. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "doubletree by hilton hotel austin",
+   "canonical_name": "DoubleTree by Hilton Hotel Austin",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'PETS | Pets not allowed'",
+   "quote": "PETS | Pets not allowed"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel austin northwest arboretum",
+   "canonical_name": "DoubleTree by Hilton Hotel Austin Northwest Arboretum",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'PETS | Pets not allowed'",
+   "quote": "PETS | Pets not allowed"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel austin university area",
+   "canonical_name": "DoubleTree by Hilton Hotel Austin - University Area",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'PETS | Pets not allowed'",
+   "quote": "PETS | Pets not allowed"
+  },
+  {
+   "identity_key": "doubletree suites by hilton austin downtown capitol",
+   "canonical_name": "DoubleTree Suites by Hilton Austin Downtown Capitol",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 40 lbs | Max size: medium"
+  },
+  {
+   "identity_key": "drury inn and suites austin north",
+   "canonical_name": "Drury Inn & Suites Austin North",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Dogs and cats accepted'",
+   "quote": "Pet Policy | Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Servic"
+  },
+  {
+   "identity_key": "east austin hotel",
+   "canonical_name": "East Austin Hotel",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pets are allowed'",
+   "quote": "Here, you will find answers to some of our most frequently asked questions about parking, pet policies, complimentary wifi, daily housekeeping, and room service options. Whether you’re wondering about the cost of parking, if pets are allowed, or what type of room service is offered, we’ve got you covered. Q: Are pets allowed at the hotel? A: Yes, pets are allowed at the hotel for an additional fee"
+  },
+  {
+   "identity_key": "echo suites extended stay by wyndham austin round rock",
+   "canonical_name": "ECHO Suites Extended Stay by Wyndham Austin Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Dogs Allowed'",
+   "quote": "Service Animals - ADA-defined service animals welcome. / Dogs Allowed. 2 dogs max. 75lbs or less per pet. / Fees - 50USD for 1st night. Plus 10USD for each additional night per dog. Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "econo lodge austin north near the domain",
+   "canonical_name": "Econo Lodge Austin North near The Domain",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Pets | Pets Allowed: Yes | General: All Pets Are Allowed. Pet Accommodation fee $35.00, per Stay. There is a Refundable Deposit"
+  },
+  {
+   "identity_key": "element by marriott austin at the domain",
+   "canonical_name": "Element by Marriott Austin at The Domain",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | One (1) pet (50 lbs max) per room. $50 USD per night, max of $150 USD per stay. | Non-Refundable Pet Fee Per Night: ... | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "identity_key": "element by marriott austin downtown",
+   "canonical_name": "Element by Marriott Austin Downtown",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | Our Love That Dog program provides a dog bed, bowls, and clean-up supplies. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "identity_key": "element by marriott austin round rock",
+   "canonical_name": "Element by Marriott Austin Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Nightly fee WILL NOT exceed $150 per stay; Only Dogs Accepted; 40 pound max | Non-Refundable Pet Fee Per Night: ... | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "element by marriott north austin tech ridge",
+   "canonical_name": "Element by Marriott North Austin Tech Ridge",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | $50 USD per night. Maximum of $150 USD per stay. | Non-Refundable Pet Fee Per Stay: $50.00 | Non-Refundable Pet Fee Per Night: ... | Maximum Pet Weight: 45.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "embassy suites by hilton austin arboretum",
+   "canonical_name": "Embassy Suites by Hilton Austin Arboretum",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "embassy suites by hilton austin central",
+   "canonical_name": "Embassy Suites by Hilton Austin Central",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "embassy suites by hilton austin downtown south congress",
+   "canonical_name": "Embassy Suites by Hilton Austin Downtown South Congress",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "embassy suites by hilton round rock",
+   "canonical_name": "Embassy Suites by Hilton Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "everhome suites georgetown austin",
+   "canonical_name": "Everhome Suites Georgetown - Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Pets | Pets Allowed: Yes | General: Pets Allowed. Midsize Domestic Animal . Pet Charge 25.00 USD Per Pet, Per Night. Pet limit."
+  },
+  {
+   "identity_key": "extended stay america suites austin northwest arboretum",
+   "canonical_name": "Extended Stay America Suites Austin - Northwest/Arboretum",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pets are allowed'",
+   "quote": "Pet Policy | A maximum of two pets are allowed in each suite. Height and length restrictions apply-- pets can be | Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pe"
+  },
+  {
+   "identity_key": "extended stay america suites austin northwest research park",
+   "canonical_name": "Extended Stay America Suites Austin - Northwest - Research Park",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pets are allowed'",
+   "quote": "Is Extended Stay America Austin - Northwest - Research Park pet friendly? | Yes. | Pet Policy | A maximum of two pets are allowed in each suite."
+  },
+  {
+   "identity_key": "extended stay hotel austin tx downtown",
+   "canonical_name": "Extended Stay Hotel Austin, TX – Downtown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet Friendly'",
+   "quote": "Are Pets Allowed At Uptown Suites Austin TX - Downtown? Uptown Suites Austin TX – Downtown allows one dog (40 lbs. Dogs must be less than 36” long and less than 36” tall. There is a non-refundable pet fee of $20 (plus tax) per night not to exceed $200. Additional Pet policies can be found here . Pet Policies For Our Pet Friendly Hotel | Uptown Suites Skip to main content You are using an outdated "
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites austin buda",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Austin Buda",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed | No Pets Allowed:Service Animals Only'",
+   "quote": "Pet Policy | Pets Not Allowed | No Pets Allowed:Service Animals Only"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites austin downtown",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Austin Downtown",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites austin georgetown",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Austin Georgetown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Maximum of 2 dogsMaximum of 40 lbs each | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites austin northwest research blvd",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Austin Northwest/Research Blvd",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Pets welcome! $45 non-refundable fee per stay, max 2 pets. | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites austin northwest the domain area",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Austin Northwest/The Domain Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Daily cleaning fee of $5/ day in addition to the one time non-refundable pet fee | Non-Refundable Pet Fee Per Stay: $50.00 | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites austin parmer tech ridge",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Austin Parmer/Tech Ridge",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites austin south",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Austin South",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites austin southwest",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Austin Southwest",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites austin university area",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Austin-University Area",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites cedar park",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Cedar Park",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "fairmont austin",
+   "canonical_name": "Fairmont Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'welcomes pets'",
+   "quote": "What is your pet policy? | Fairmont Austin welcomes pets weighing up to 25 pounds for a one time fee of $100. The pet must be on a leash at all times and must not be left unattended in the room. Any damage incurred to the room by the pet is the responsibility of the guest. Service animals are always welcome and exempt of charges."
+  },
+  {
+   "identity_key": "four points by sheraton austin airport",
+   "canonical_name": "Four Points by Sheraton Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "identity_key": "four seasons hotel austin",
+   "canonical_name": "Four Seasons Hotel Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pet-friendly'",
+   "quote": "Four Seasons welcomes you to stay with your dog or cat at our pet-friendly Austin hotel. | PET POLICY | Hotel policy allows cats, dogs and other domestic animals"
+  },
+  {
+   "identity_key": "frame hotel soco",
+   "canonical_name": "Frame Hotel – SoCo",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'No pets.'",
+   "quote": "No pets."
+  },
+  {
+   "identity_key": "hampton inn and suites austin airport",
+   "canonical_name": "Hampton Inn & Suites Austin-Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 75 lbs | Max size: large | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "hampton inn and suites austin cedar park lakeline",
+   "canonical_name": "Hampton Inn & Suites Austin Cedar Park-Lakeline",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n), $100(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "identity_key": "hampton inn and suites austin downtown convention center",
+   "canonical_name": "Hampton Inn & Suites Austin-Downtown/Convention Center",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 75 lbs | Max size: large | Pet policy: $50 non-refundable pet fee per stay"
+  },
+  {
+   "identity_key": "hampton inn and suites austin lakeway",
+   "canonical_name": "Hampton Inn & Suites Austin - Lakeway",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "identity_key": "hampton inn and suites austin south buda",
+   "canonical_name": "Hampton Inn & Suites Austin South/Buda",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 75 lbs | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "hampton inn and suites austin the university capitol",
+   "canonical_name": "Hampton Inn & Suites Austin @ The University/Capitol",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75(1-4n) $125(5+n) per stay non refundable fee 2 pets per room max Dogs/Cats only"
+  },
+  {
+   "identity_key": "hampton inn and suites cedar park north austin",
+   "canonical_name": "Hampton Inn & Suites Cedar Park North Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs"
+  },
+  {
+   "identity_key": "hampton inn and suites georgetown austin north",
+   "canonical_name": "Hampton Inn & Suites Georgetown/Austin North",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n),$100(5+n) 2petsMax,dog/cat only. Notify ahead of time when bringing pet."
+  },
+  {
+   "identity_key": "hampton inn and suites hutto austin",
+   "canonical_name": "Hampton Inn & Suites Hutto Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "hampton inn austin airport area south",
+   "canonical_name": "Hampton Inn Austin/Airport Area South",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "identity_key": "hampton inn austin east side 5th street",
+   "canonical_name": "Hampton Inn Austin East Side 5th Street",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 40 lbs | Max size: medium"
+  },
+  {
+   "identity_key": "hampton inn austin north i 35 and hwy 183",
+   "canonical_name": "Hampton Inn Austin-North @ I-35 & Hwy 183",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $125.00 | Max weight: 75 lbs | Max size: small | Pet policy: $75 1-4n,$125 5+n 2petsMax,dog/cat only"
+  },
+  {
+   "identity_key": "hampton inn austin nw near the domain",
+   "canonical_name": "Hampton Inn Austin NW near The Domain",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "hampton inn austin oak hill",
+   "canonical_name": "Hampton Inn Austin/Oak Hill",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n),$125(5+n)2petsMax,dog only"
+  },
+  {
+   "identity_key": "hampton inn austin round rock",
+   "canonical_name": "Hampton Inn Austin-Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium | Pet policy: $75(1-4n)/$125(5+n) Max 2-Dog/Cat Only"
+  },
+  {
+   "identity_key": "hampton inn kyle",
+   "canonical_name": "Hampton Inn Kyle",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 30 lbs | Max size: small | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "hawthorn extended stay by wyndham pflugerville",
+   "canonical_name": "Hawthorn Extended Stay by Wyndham Pflugerville",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.'",
+   "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed."
+  },
+  {
+   "identity_key": "heywood hotel",
+   "canonical_name": "Heywood Hotel",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets Though you might see Zelda, the neighborhood hen, roaming the property, we are unfortunately unable to accommodate pets.'",
+   "quote": "Pets Though you might see Zelda, the neighborhood hen, roaming the property, we are unfortunately unable to accommodate pets."
+  },
+  {
+   "identity_key": "hilton austin",
+   "canonical_name": "Hilton Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Hotel Policies | Pets | Pets Allowed: Yes | Pet Policy: Pets allowed, $50.00 non-refundable fee, 75 lbs maximum | Max Size: Large | Max Weight: 75 lbs | Pet Fee: $50.00 Non-refundable"
+  },
+  {
+   "identity_key": "hilton austin airport",
+   "canonical_name": "Hilton Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: large | Pet policy: Bed and bowls limited"
+  },
+  {
+   "identity_key": "hilton garden inn austin airport",
+   "canonical_name": "Hilton Garden Inn Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n),$75(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "identity_key": "hilton garden inn austin central",
+   "canonical_name": "Hilton Garden Inn Austin Central",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs | Max size: medium"
+  },
+  {
+   "identity_key": "hilton garden inn austin downtown convention center",
+   "canonical_name": "Hilton Garden Inn Austin Downtown/Convention Center",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Max weight: 75 lbs | Pet policy: $75 Dog/Cat only 2 pets maximum"
+  },
+  {
+   "identity_key": "hilton garden inn austin north",
+   "canonical_name": "Hilton Garden Inn Austin North",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75 up to 4 nights and $125 for 4+ nights"
+  },
+  {
+   "identity_key": "hilton garden inn austin north near the domain",
+   "canonical_name": "Hilton Garden Inn Austin North-Near the Domain",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $125.00 | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "hilton garden inn austin nw arboretum",
+   "canonical_name": "Hilton Garden Inn Austin NW/Arboretum",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "hilton garden inn austin round rock",
+   "canonical_name": "Hilton Garden Inn Austin/Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $125.00 | Max weight: 75 lbs | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "hilton garden inn austin university capitol district",
+   "canonical_name": "Hilton Garden Inn Austin University Capitol District",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: $75+tx(1-4 nights), $125+tx(5+ nights) 2 Pets Max, Dog/Cat Only. Maximum weight combined cannot exc."
+  },
+  {
+   "identity_key": "hilton garden inn cedar park austin",
+   "canonical_name": "Hilton Garden Inn Cedar Park Austin",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max size: medium | Pet policy: $75(1-4n)$125(5+n)2pets max,dog/cat only"
+  },
+  {
+   "identity_key": "holiday inn austin airport",
+   "canonical_name": "Holiday Inn Austin Airport",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet-Friendly'",
+   "quote": "Pet-Friendly Hotel Near Austin, TX Airport | Holiday Inn Austin Airport Skip To main content Your session will expire in 5 minutes , 0 seconds , due to inactivity."
+  },
+  {
+   "identity_key": "holiday inn austin north round rock",
+   "canonical_name": "Holiday Inn Austin North - Round Rock",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking for registered guests only Vehicles allowed: Bus, Truck, Trailer Parking & transportation details Can I bring my pet to Holiday Inn Austin North - Round Rock? No, pets are not",
+   "quote": "Parking for registered guests only Vehicles allowed: Bus, Truck, Trailer Parking & transportation details Can I bring my pet to Holiday Inn Austin North - Round Rock? No, pets are not allowed at Holiday Inn Austin North - Round Rock."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin airport east",
+   "canonical_name": "Holiday Inn Express & Suites Austin Airport East",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pet-friendly'",
+   "quote": "Traveling with your dog? We are a pet-friendly hotel near the Austin Airport where your furry companion gets a welcome treat at check-in. Shuttle service to AUS From 211 USD per night 204 room + 7 fees SELECT DATES Pet Getaway Pet Getaway Save with our Pet Package. Up to 2 dogs max 50 lb each. Nightly pet fee is included. Parking fee: 0 USD per day In and out privileges Parking for registered gues"
+  },
+  {
+   "identity_key": "holiday inn express and suites austin downtown university",
+   "canonical_name": "Holiday Inn Express & Suites Austin Downtown - University",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking fee: 45 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Truck Parking & transportation details Can I bring my pet to Holiday Inn Express",
+   "quote": "Parking fee: 45 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Truck Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin Downtown - University? No, pets are not allowed at Holiday Inn Express & Suites Austin Downtown - University."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin manor",
+   "canonical_name": "Holiday Inn Express & Suites Austin - Manor",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Free open parking Parking fee: 0 USD per day Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin - Manor? No,",
+   "quote": "Free open parking Parking fee: 0 USD per day Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin - Manor? No, pets are not allowed at Holiday Inn Express & Suites Austin - Manor."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin ne hutto",
+   "canonical_name": "Holiday Inn Express & Suites Austin NE - Hutto",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Starmark l Dog Training Academy is just two miles away. This pet friendly Hutto, TX hotel features a contemporary style with a trendy flair. Complimentary Self Parking In and out privileges Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin NE - Hutto? Pets are welcome at Holiday Inn Express & Suites Austin NE - Hutto. Pet "
+  },
+  {
+   "identity_key": "holiday inn express and suites austin north central",
+   "canonical_name": "Holiday Inn Express & Suites Austin North Central",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pet-friendly'",
+   "quote": "IATA # View prices View Prices Important Announcements Renovated pet-friendly hotel From the moment you arrive at our hotel in Austin, TX, everything is designed to help your stay feel simple and comfortable. We’re happy to offer pet-friendly accommodations so you can travel together more comfortably. A pet deposit applies, and we recommend calling before arrival so we can share the details and he"
+  },
+  {
+   "identity_key": "holiday inn express and suites austin north pflugerville",
+   "canonical_name": "Holiday Inn Express & Suites Austin North - Pflugerville",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking fee: 0 USD per day Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin North - Pflugerville? No, pets",
+   "quote": "Parking fee: 0 USD per day Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin North - Pflugerville? No, pets are not allowed at Holiday Inn Express & Suites Austin North - Pflugerville."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin nw arboretum area",
+   "canonical_name": "Holiday Inn Express & Suites Austin NW - Arboretum Area",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin NW - Arboretum Area? No, pets are not allowed at Holiday ",
+   "quote": "Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin NW - Arboretum Area? No, pets are not allowed at Holiday Inn Express & Suites Austin NW - Arboretum Area."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin nw cedar park",
+   "canonical_name": "Holiday Inn Express & Suites Austin NW - Cedar Park",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking for registered guests only Vehicles allowed: Bus Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin NW - Cedar Park? No, pets are not a",
+   "quote": "Parking for registered guests only Vehicles allowed: Bus Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin NW - Cedar Park? No, pets are not allowed at Holiday Inn Express & Suites Austin NW - Cedar Park."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin nw four points",
+   "canonical_name": "Holiday Inn Express & Suites Austin NW - Four Points",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin NW - Four Points? No, pets are not allowed at Holiday Inn Express & Suites Austin NW - Four ",
+   "quote": "Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin NW - Four Points? No, pets are not allowed at Holiday Inn Express & Suites Austin NW - Four Points."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin nw lakeline",
+   "canonical_name": "Holiday Inn Express & Suites Austin NW - Lakeline",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Complimentary self parking available to guests Parking fee: 0 USD per day Parking for registered guests only Vehicles allowed: Bus, Trailer, Truck Parking & transportation details Can",
+   "quote": "Complimentary self parking available to guests Parking fee: 0 USD per day Parking for registered guests only Vehicles allowed: Bus, Trailer, Truck Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin NW - Lakeline? No, pets are not allowed at Holiday Inn Express & Suites Austin NW - Lakeline."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin nw lakeway",
+   "canonical_name": "Holiday Inn Express & Suites Austin NW - Lakeway",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer, Truck Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin NW - Lakeway? N",
+   "quote": "Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer, Truck Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin NW - Lakeway? No, pets are not allowed at Holiday Inn Express & Suites Austin NW - Lakeway."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin round rock",
+   "canonical_name": "Holiday Inn Express & Suites Austin - Round Rock",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer, Truck Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin - Round Rock? N",
+   "quote": "Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer, Truck Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin - Round Rock? No, pets are not allowed at Holiday Inn Express & Suites Austin - Round Rock."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin round rock area",
+   "canonical_name": "Holiday Inn Express & Suites Austin - Round Rock Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Can I bring my pet to Holiday Inn Express & Suites Austin - Round Rock Area? | Pets are welcome at Holiday Inn Express & Suites Austin - Round Rock Area. | Pet policy description. Our pet friendly hotel welcomes a maximum of 2 dogs with a treat at check in. A signed waiver, vaccination record verification, and a 75 USD per dog, per stay fee are required. Explore the city with your furry friend at "
+  },
+  {
+   "identity_key": "holiday inn express and suites austin south",
+   "canonical_name": "Holiday Inn Express & Suites Austin South",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Self Parking Parking fee: 0 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer Parking & transportation details Can I bring my pet",
+   "quote": "Self Parking Parking fee: 0 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin South? No, pets are not allowed at Holiday Inn Express & Suites Austin South."
+  },
+  {
+   "identity_key": "holiday inn express and suites austin sw sunset valley",
+   "canonical_name": "Holiday Inn Express & Suites Austin SW - Sunset Valley",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking fee: 0 USD per day In and out privileges Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin SW - Sun",
+   "quote": "Parking fee: 0 USD per day In and out privileges Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Austin SW - Sunset Valley? No, pets are not allowed at Holiday Inn Express & Suites Austin SW - Sunset Valley."
+  },
+  {
+   "identity_key": "holiday inn express and suites dripping springs austin area",
+   "canonical_name": "Holiday Inn Express & Suites Dripping Springs - Austin Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Complimentary Self Parking Parking fee: 0 USD per day Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Dripping Springs - Austin Area? Pets are welcome at Holiday Inn Express & Suites Dripping Springs - Austin Area. Pet policy description. Dogs are allowed with a 45lb maximum weight limit per dog. Limit of 2 dogs per stay and a "
+  },
+  {
+   "identity_key": "holiday inn express and suites georgetown",
+   "canonical_name": "Holiday Inn Express & Suites Georgetown",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Georgetown? No, pets are not allowed at Holiday Inn Express & Su",
+   "quote": "Parking for registered guests only Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Georgetown? No, pets are not allowed at Holiday Inn Express & Suites Georgetown."
+  },
+  {
+   "identity_key": "holiday inn express and suites leander",
+   "canonical_name": "Holiday Inn Express & Suites Leander",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Parking fee: 0 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer, Truck Parking & transportation details Can I bring my pet to Ho",
+   "quote": "Parking fee: 0 USD per day In and out privileges Parking for registered guests only Vehicles allowed: Bus, Rv, Trailer, Truck Parking & transportation details Can I bring my pet to Holiday Inn Express & Suites Leander? No, pets are not allowed at Holiday Inn Express & Suites Leander."
+  },
+  {
+   "identity_key": "home2 suites by hilton austin airport",
+   "canonical_name": "Home2 Suites by Hilton Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "home2 suites by hilton austin cedar park tx",
+   "canonical_name": "Home2 Suites by Hilton Austin/Cedar Park, TX",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 40 lbs | Max size: medium | Pet policy: $75(1-4nts) OR $125 (5+nts) exclusive of tax. 2 pets max. Dogs and Cats only"
+  },
+  {
+   "identity_key": "home2 suites by hilton austin east side 5th street",
+   "canonical_name": "Home2 Suites by Hilton Austin East Side 5th Street",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 40 lbs | Max size: medium"
+  },
+  {
+   "identity_key": "home2 suites by hilton austin north near the domain",
+   "canonical_name": "Home2 Suites by Hilton Austin North/Near the Domain",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $125.00 | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "home2 suites by hilton austin round rock",
+   "canonical_name": "Home2 Suites by Hilton Austin Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Pet policy: Up to two pets allowed per room."
+  },
+  {
+   "identity_key": "home2 suites by hilton austin south",
+   "canonical_name": "Home2 Suites by Hilton Austin South",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs | Max size: medium | Pet policy: $75(1-4 Nights), $125(5+Nights) 2 pets Max, dog/cat only. No more than 2 pets are permitted per gues"
+  },
+  {
+   "identity_key": "home2 suites by hilton georgetown austin north",
+   "canonical_name": "Home2 Suites by Hilton Georgetown Austin North",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium | Pet policy: $75(1-4n),$125(5+n)2pets Max, dog/cat"
+  },
+  {
+   "identity_key": "home2 suites by hilton pflugerville",
+   "canonical_name": "Home2 Suites by Hilton Pflugerville",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "home2 suites by hilton round rock medical center",
+   "canonical_name": "Home2 Suites by Hilton Round Rock Medical Center",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs | Max size: medium"
+  },
+  {
+   "identity_key": "hometowne studios austin",
+   "canonical_name": "HomeTowne Studios Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are permitted'",
+   "quote": "Pet Policy: Service animals and Emotional Support Animals (\"Assistance Animals\") are welcome at all of our properties and must be declared at check-in. Pets are permitted with a $10.00 fee per night up to $100.00 a month."
+  },
+  {
+   "identity_key": "homewood suites by hilton austin airport",
+   "canonical_name": "Homewood Suites by Hilton Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $125.00 | Max weight: 75 lbs | Max size: medium | Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only, 75lbs max total weight allowed between the 2 pets."
+  },
+  {
+   "identity_key": "homewood suites by hilton austin cedar park lakeline",
+   "canonical_name": "Homewood Suites by Hilton Austin Cedar Park Lakeline",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n),$100(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "identity_key": "homewood suites by hilton austin downtown",
+   "canonical_name": "Homewood Suites by Hilton Austin Downtown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $125.00 | Pet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "identity_key": "homewood suites by hilton austin nw near the domain",
+   "canonical_name": "Homewood Suites by Hilton Austin NW near The Domain",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $125.00 | Max weight: 75 lbs | Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "homewood suites by hilton austin round rock tx",
+   "canonical_name": "Homewood Suites by Hilton Austin/Round Rock, TX",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-4n)$125(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "identity_key": "homewood suites by hilton austin south airport",
+   "canonical_name": "Homewood Suites by Hilton Austin-South/Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75 (1-4 nights) $125 (5+ nights) 2 pets Max, dog/cat only"
+  },
+  {
+   "identity_key": "homewood suites by hilton techridge parmer i 35",
+   "canonical_name": "Homewood Suites by Hilton TechRidge Parmer @ I-35",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 75 lbs | Max size: medium | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "hotel ella",
+   "canonical_name": "Hotel Ella",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "a service-animal statement is a legal access category, never a pet acceptance: 'What is the hotel’s pet policy? Hotel Ella is pet-friendly. 00 for any pets checked in. Pets are not allowed in the food",
+   "quote": "What is the hotel’s pet policy? Hotel Ella is pet-friendly. 00 for any pets checked in. Pets are not allowed in the food service outlets. Pets & Service Animals Hotel Ella is pet friendly. 00 for any pets checked in. Pets are not allowed in the food service outlets. ings Corporate Events Our Spaces Happenings Offers Location & Contact Terms and Conditions Privacy policy Accessibility Site Map Face"
+  },
+  {
+   "identity_key": "hotel indigo austin downtown university",
+   "canonical_name": "Hotel Indigo Austin Downtown - University",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Can I bring my pet to Hotel Indigo Austin Downtown - University? | Pets are welcome at Hotel Indigo Austin Downtown - University. | Pet policy description. Hotel Indigo Austin allows pets with a one time fee of 75 USD per stay. Up to two pets per room, with a size limit of 75 pounds. The hotel also has designated areas for pets | Pet fee per stay: 75 USD | Pet damage deposit: 75 USD | Pet weight l"
+  },
+  {
+   "identity_key": "hotel magdalena",
+   "canonical_name": "Hotel Magdalena",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet-Friendly'",
+   "quote": "We Are Pet-Friendly | Hotel Magdalena gladly welcomes your traveling canine companions. | Pet Fees | Per pet $25 NIGHT"
+  },
+  {
+   "identity_key": "hotel saint cecilia",
+   "canonical_name": "Hotel Saint Cecilia",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'dogs are always welcome'",
+   "quote": "Can I bring my pet? | Yes! Well-behaved dogs are always welcome (for a small fee)."
+  },
+  {
+   "identity_key": "hotel san jose",
+   "canonical_name": "Hotel San Jose",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'dogs are always welcome'",
+   "quote": "Can I bring my pet? | Yes! Well-behaved dogs are always welcome (for a small $20 fee)."
+  },
+  {
+   "identity_key": "hotel trinity autograph collection",
+   "canonical_name": "Hotel Trinity, Autograph Collection",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | 1 pet 50 lbs max per pet per room with non-refundable fee. Dogs & Cats welcome | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "identity_key": "hotel van zandt",
+   "canonical_name": "Hotel Van Zandt",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Dog-Friendly'",
+   "quote": "Dog-Friendly"
+  },
+  {
+   "identity_key": "hotel viata",
+   "canonical_name": "Hotel Viata",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "NOT_OPERATIVE",
+   "why": "no acceptance the reader will interpret: 'Explore Rooms Explore Rooms Fall into the Sweet Life Enjoy Up to 20% Off & $50 Resort Credit View Offer Bed & Breakfast For Two $60 Daily Breakfast Credit & L",
+   "quote": "Explore Rooms Explore Rooms Fall into the Sweet Life Enjoy Up to 20% Off & $50 Resort Credit View Offer Bed & Breakfast For Two $60 Daily Breakfast Credit & Late Checkout View Offer Paws & Relax Waived Pet Fee ($100 Value), Complimentary Pet Menu Entrée at Laurel & Welcome Amenity for Your Pup View Offer Your Story Starts at Viata Make Every Stay a Sweet Memory Plan your Texas hillside getaway, yo"
+  },
+  {
+   "identity_key": "hotel zaza austin",
+   "canonical_name": "Hotel Zaza Austin",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are permitted'",
+   "quote": "Is Hotel ZaZa Austin pet-friendly? Yes, cats and dogs of all breeds and sizes are welcome at Hotel ZaZa Austin. A one-time cleaning fee of $100 per pet is required at check-in. PETS Hotel ZaZa is a pet-friendly facility. A non-refundable deposit of $100 per pet is required at check in per reservation. Pets are permitted in rooms, hallways and lobby; per the state department of health, pets are not"
+  },
+  {
+   "identity_key": "hyatt centric congress avenue austin",
+   "canonical_name": "Hyatt Centric Congress Avenue Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pets are welcome'",
+   "quote": "Your Pet Is Welcome, Too | Your pets are welcome at Hyatt Centric Congress Avenue Austin. Bring up to two dogs along when you s | Pet Fees | Price Free | Weight Limits | Individual pet weight limit Pounds | Combined pets weight limit Pounds | Maximum number of pets is 2."
+  },
+  {
+   "identity_key": "hyatt house austin downtown",
+   "canonical_name": "Hyatt House Austin/Downtown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet Friendly'",
+   "quote": "We Are Pet Friendly | Whether you're visiting for a few days or a few weeks, our extended-stay hotel in Austin is happy to | Pet Fees | 1-6 nights $100 STAY | 7-30 nights + additional cleaning fee $200 STAY | Weight Limits | Individual pet weight limit Pounds | Combined pets weight limit Pounds | Maximum number of pets is 2."
+  },
+  {
+   "identity_key": "hyatt place austin airport",
+   "canonical_name": "Hyatt Place Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Are Welcome'",
+   "quote": "Pets Are Welcome | Hyatt Place Austin Airport welcomes dogs. For more information, please contact our team directly at | Pet Fees | 1-3 Nights $75 STAY | 4+ Nights $125 STAY"
+  },
+  {
+   "identity_key": "hyatt place austin cedar park",
+   "canonical_name": "Hyatt Place Austin / Cedar Park",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Are Welcome'",
+   "quote": "Pets Are Welcome | We are a pet-friendly hotel. Bring up to two housebroken dogs when you stay at Hyatt Place Austin / | Pet Fees | 1-6 nights $75 STAY | 7-30 nights (includes cleaning fee) $175 STAY | Weight Limits | Individual pet weight limit Pounds | Combined pets weight limit Pounds | Maximum number of pets is 2."
+  },
+  {
+   "identity_key": "hyatt place austin downtown",
+   "canonical_name": "Hyatt Place Austin Downtown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet Friendly'",
+   "quote": "We Are Pet Friendly | Enjoy a relaxing stay at our pet-friendly hotel in beautiful downtown Austin. We understand that you | Pet Fees | Up to 7 nights (non-refundable) $100 STAY $200 7+ nights (non-refundable) | Weight Limits | Individual pet weight limit Pounds | Combined pets weight limit Pounds | Maximum number of pets is 2."
+  },
+  {
+   "identity_key": "hyatt place austin lake travis four points",
+   "canonical_name": "Hyatt Place Austin / Lake Travis / Four Points",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Are Welcome'",
+   "quote": "Pets Are Welcome | We welcome up to two housebroken dogs or cats along when you stay at Hyatt Place Austin / Lake Travi | Pet Fees | 1-6 nights $100 STAY | 7-30 nights (includes cleaning fee) $200 STAY | Weight Limits | Individual pet weight limit Pounds | Combined pets weight limit Pounds | Maximum number of pets is 2."
+  },
+  {
+   "identity_key": "hyatt place austin round rock",
+   "canonical_name": "Hyatt Place Austin/Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Are Welcome'",
+   "quote": "Pets Are Welcome | We're happy to welcome your furry companions at our pet-friendly Hyatt Place Austin/Round Rock. For | Pet Fees | 1-6 nights (One-time nonrefundable cleaning fee) $100 STAY | 7-30 nights + additional cleaning fee $200 STAY | Weight Limits | Individual pet weight limit Pounds | Combined pets weight limit Pounds | Maximum number of pets is 2."
+  },
+  {
+   "identity_key": "hyatt place austin the domain area",
+   "canonical_name": "Hyatt Place Austin The Domain Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Are Welcome'",
+   "quote": "Pets Are Welcome | Your pets are welcome at our pet-friendly hotel, Hyatt Place Austin The Domain Area. We allow a maxi | Pet Fees | 1-6 nights $100 STAY | 7-30 nights + additional cleaning fee $200 STAY | Weight Limits | Individual pet weight limit Pounds | Combined pets weight limit Pounds | Maximum number of pets is 2."
+  },
+  {
+   "identity_key": "hyatt regency austin",
+   "canonical_name": "Hyatt Regency Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet Friendly'",
+   "quote": "We Are Pet Friendly | Hyatt Regency Austin's pet-friendly program makes it easier for pet lovers and their four-legged fri | Pet Fees | Up to 6 nights $150 STAY | 7-10 nights (additional fee) $150 STAY | Weight Limits | Individual pet weight limit Pounds | Combined pets weight limit Pounds | Maximum number of pets is 2."
+  },
+  {
+   "identity_key": "jw marriott austin",
+   "canonical_name": "JW Marriott Austin",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "kalahari resorts and conventions round rock tx",
+   "canonical_name": "Kalahari Resorts & Conventions Round Rock, TX",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Are pets allowed? | With the exception of service animals certified under the American Disabilities Act (ADA), pets (including ESAs) are not permitted at Kalahari Resorts & Convention",
+   "quote": "Are pets allowed? | With the exception of service animals certified under the American Disabilities Act (ADA), pets (including ESAs) are not permitted at Kalahari Resorts & Conventions. Guests bringing animals that go against our pet policy will be asked to leave and will not be refunded."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham austin airport",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham austin cedar park",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Austin - Cedar Park",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham austin near the domain",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Austin Near The Domain",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details in availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham austin nw lakeline mall",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Austin NW/Lakeline Mall",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham austin parmer tech ridge",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Austin Parmer/Tech Ridge",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge./Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet./Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay./Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham austin round rock",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Austin Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham austin south",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Austin South",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge./Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet./Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay./Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham kyle austin south",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Kyle - Austin South",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham lakeway",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Lakeway",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham pflugerville",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Pflugerville",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham round rock near kalahari",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Round Rock near Kalahari",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham round rock north",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Round Rock North",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn by wyndham austin capitol downtown",
+   "canonical_name": "La Quinta Inn by Wyndham Austin Capitol / Downtown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn by wyndham austin north",
+   "canonical_name": "La Quinta Inn by Wyndham Austin North",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "la quinta inn by wyndham austin oltorf",
+   "canonical_name": "La Quinta Inn by Wyndham Austin Oltorf",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "lake austin spa resort",
+   "canonical_name": "Lake Austin Spa Resort",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pet-friendly'",
+   "quote": "Are pets allowed? We’re thrilled to welcome dogs at Lake Austin Spa Resort. Indeed, dogs and the lake were made for each other. So, when you bring your pup or service dog along for your resort stay, they’ll be treated with thoughtful attention and specialized pet-friendly service. For more information about what a stay with your furry friend entails, please consult our pet visitor page ."
+  },
+  {
+   "identity_key": "lone star court",
+   "canonical_name": "Lone Star Court",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pet-friendly'",
+   "quote": "Pet Policy Lone Star Court does allow pets in designated pet-friendly rooms and designated public areas. Pet fee and waiver are required at check-in. Note: Emotional support animals, comfort animals, and therapy dogs are not considered service animals under Title II and Title III of the ADA, and are subject to pet fees and waivers at check-in. Pet Policy What is the pet fee? The pet fee is $150 pe"
+  },
+  {
+   "identity_key": "marriott north austin round rock",
+   "canonical_name": "Marriott North Austin Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Non-refundable pet fee of $75 | Non-Refundable Pet Fee Per Stay: $75.00"
+  },
+  {
+   "identity_key": "microtel inn and suites by wyndham austin airport",
+   "canonical_name": "Microtel Inn & Suites by Wyndham Austin Airport",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.'",
+   "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed."
+  },
+  {
+   "identity_key": "microtel inn and suites by wyndham buda austin south",
+   "canonical_name": "Microtel Inn & Suites by Wyndham Buda Austin South",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Service Animals - ADA defined service animals are welcome free of charge. Sorry no other pets are allowed.'",
+   "quote": "Service Animals - ADA defined service animals are welcome free of charge. Sorry no other pets are allowed."
+  },
+  {
+   "identity_key": "microtel inn and suites by wyndham round rock",
+   "canonical_name": "Microtel Inn & Suites by Wyndham Round Rock",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.'",
+   "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed."
+  },
+  {
+   "identity_key": "mountain star lodge and hotel",
+   "canonical_name": "Mountain Star Lodge & Hotel",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "NOT_OPERATIVE",
+   "why": "no acceptance the reader will interpret: 'Pets policy: | No pets allowed in this property. Each violation is subject to $500 cleaning fee.'",
+   "quote": "Pets policy: | No pets allowed in this property. Each violation is subject to $500 cleaning fee."
+  },
+  {
+   "identity_key": "moxy austin university",
+   "canonical_name": "Moxy Austin - University",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | Dog friendly only. 50LBS or less. $75/stay for 1 dog, $100/stay for 2 dogs. | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "omni austin hotel downtown",
+   "canonical_name": "Omni Austin Hotel Downtown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets under 25lbs are welcome'",
+   "quote": "PET POLICY | Pets under 25lbs are welcome at Omni Austin with the following conditions: A non-refundable cleaning fee of $125.00 is paid upon check-in. This is for basic cleaning of pet hair and odor (Additional charges for damage may be imposed)."
+  },
+  {
+   "identity_key": "omni barton creek resort and spa",
+   "canonical_name": "Omni Barton Creek Resort & Spa",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pet-friendly'",
+   "quote": "PET POLICY | Omni Barton Creek Resort & Spa is a pet-friendly resort. Guests must have a valid credit card on their reservation. Two (2) pets up to 60 lbs. each may be registered to a room. A non-refundable cleaning fee of $150 is to be paid upon check-in."
+  },
+  {
+   "identity_key": "orangewood inn and suites midtown",
+   "canonical_name": "Orangewood Inn & Suites Midtown",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: \"Pet Policy: Orangewood Inn & Suites Austin Midtown does not allow pets . 00 plus tax will be charged to the guest's credit card if a pet or evidence of a pet is found in the guest roo",
+   "quote": "Pet Policy: Orangewood Inn & Suites Austin Midtown does not allow pets . 00 plus tax will be charged to the guest's credit card if a pet or evidence of a pet is found in the guest room. Do you allow pets? Sorry, pets are not allowed at our Orangewood Inn & Suite Austin Midtown Hotel. To know about the details on pet policy kindly contact us at +1 (512) 836-0079."
+  },
+  {
+   "identity_key": "origin austin a wyndham hotel",
+   "canonical_name": "Origin Austin, a Wyndham Hotel",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Dogs Allowed'",
+   "quote": "Service Animals - ADA-defined service animals welcome. / Dogs Allowed. 2 dogs max. 60lbs or less per pet. / Fees - 50USD per pet per stay. / Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "identity_key": "quality inn and suites round rock austin north",
+   "canonical_name": "Quality Inn & Suites Round Rock - Austin North",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "quality inn cedar park austin northwest",
+   "canonical_name": "Quality Inn Cedar Park - Austin Northwest",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Pets | Pets Allowed: Yes | General: Pets allowed: Dogs only. 25 USD per pet, per night. 100 USD refundable deposit required. A"
+  },
+  {
+   "identity_key": "quality suites austin south st elmo district",
+   "canonical_name": "Quality Suites Austin South St. Elmo District",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "ramada by wyndham austin south",
+   "canonical_name": "Ramada by Wyndham Austin South",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'ADA defined service animals are welcomed at this hotel. Sorry no other pets are allowed.'",
+   "quote": "ADA defined service animals are welcomed at this hotel. Sorry no other pets are allowed."
+  },
+  {
+   "identity_key": "red roof plus austin south airport",
+   "canonical_name": "Red Roof PLUS+ Austin South - Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pets allowed'",
+   "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome. Guest rooms with pets will require daily housekeeping."
+  },
+  {
+   "identity_key": "renaissance austin arboretum domain hotel",
+   "canonical_name": "Renaissance Austin Arboretum Domain Hotel",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | $50 per day, up to $200 per week | Non-Refundable Pet Fee Per Night: $50.00"
+  },
+  {
+   "identity_key": "renaissance austin downtown hotel",
+   "canonical_name": "Renaissance Austin Downtown Hotel",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "residence inn by marriott austin airport",
+   "canonical_name": "Residence Inn by Marriott Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Daily cleaning fee of $5/ day in addition to the one time non-refundable pet fee | Non-Refundable Pet Fee Per Stay: $100.00 | Non-Refundable Pet Fee Per Night: ... | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "residence inn by marriott austin downtown convention center",
+   "canonical_name": "Residence Inn by Marriott Austin Downtown/Convention Center",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | Pets 50 pounds max per room with USD 100 non-refundable fee. Dogs Only. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "identity_key": "residence inn by marriott austin lake travis river place",
+   "canonical_name": "Residence Inn by Marriott Austin Lake Travis/River Place",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | $20 per night up to $100 non-refundable pet fee | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "residence inn by marriott austin northwest the domain area",
+   "canonical_name": "Residence Inn by Marriott Austin Northwest/The Domain Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Pets allowed with non-refundable sanitation fee of USD 125 per room per stay | Non-Refundable Pet Fee Per Stay: $125.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "residence inn by marriott austin parmer tech ridge",
+   "canonical_name": "Residence Inn by Marriott Austin Parmer/Tech Ridge",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Pets allowed with USD 100 non-refundable cleaning fee per room per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "residence inn by marriott austin round rock dell way",
+   "canonical_name": "Residence Inn by Marriott Austin Round Rock/Dell Way",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Pets allowed with USD $100 non-refundable cleaning fee per stay. Dogs only. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "identity_key": "residence inn by marriott austin south",
+   "canonical_name": "Residence Inn by Marriott Austin South",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | 2 pets 50 lbs max per room-USD 150 non-refundable cleaning fee per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "residence inn by marriott austin southwest",
+   "canonical_name": "Residence Inn by Marriott Austin Southwest",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | 2 dogs/cats allowed with non-refundable fee of USD 100 per room per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "residence inn by marriott austin the domain area",
+   "canonical_name": "Residence Inn by Marriott Austin The Domain Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Pets allowed with USD 100 non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "residence inn by marriott austin university area",
+   "canonical_name": "Residence Inn by Marriott Austin-University Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Pets 50 pounds or less allowed with non-refundable fee of USD 100 per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "residence inn by marriott georgetown",
+   "canonical_name": "Residence Inn by Marriott Georgetown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Maximum of 2 dogsMaximum of 40 lbs each | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "rodeway inn georgetown",
+   "canonical_name": "Rodeway Inn Georgetown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Pets | Pets Allowed: Yes | General: Pets allowed 10.00 USD per pet, per night. Max 50 lbs, 2 pets per room.. Service animals ar"
+  },
+  {
+   "identity_key": "roost rainey",
+   "canonical_name": "ROOST Rainey",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'We only allow dogs'",
+   "quote": "Is ROOST pet friendly? We love pets! In the interest of the security and safety of all our guests, we do not allow dogs above 40 lbs. We only allow dogs. We charge a cleaning fee up to $350 for all pets (depending on length of stay)."
+  },
+  {
+   "identity_key": "sage hill inn and spa",
+   "canonical_name": "Sage Hill Inn & Spa",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Sorry, pets cannot be accommodated. The only exception being service animals that assist with a disability.'",
+   "quote": "Pets | Sorry, pets cannot be accommodated. The only exception being service animals that assist with a disability."
+  },
+  {
+   "identity_key": "scottish inns austin",
+   "canonical_name": "Scottish Inns – Austin",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'No pets allowed'",
+   "quote": "No pets allowed"
+  },
+  {
+   "identity_key": "sheraton austin georgetown hotel and conference center",
+   "canonical_name": "Sheraton Austin Georgetown Hotel & Conference Center",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Dogs/cats. 40 lbs. max. $100 non-refundable fee per stay, $20 fee per night. | Non-Refundable Pet Fee Per Stay: $100.00 | Non-Refundable Pet Fee Per Night: ... | Maximum Pet Weight: 40.0lbs"
+  },
+  {
+   "identity_key": "sleep inn and suites austin north pflugerville",
+   "canonical_name": "Sleep Inn & Suites Austin North-Pflugerville",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "sleep inn and suites austin northeast",
+   "canonical_name": "Sleep Inn & Suites Austin - Northeast",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Pets | Pets Allowed: Yes | General: Pets Are Allowed. 25.00 USD Per Night and Per Pet. A maximum of 60 pounds. A maximum of 2 p"
+  },
+  {
+   "identity_key": "sleep inn and suites round rock austin north",
+   "canonical_name": "Sleep Inn & Suites Round Rock - Austin North",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge.'",
+   "quote": "Pets | Pets Allowed: No | General: Only service animals are permitted, free of charge."
+  },
+  {
+   "identity_key": "sonesta bee cave austin hill country",
+   "canonical_name": "Sonesta Bee Cave Austin Hill Country",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet-Friendly'",
+   "quote": "Pet-Friendly Hotel in Bee Cave, TX | Sonesta Bee Cave Austin Hill Country is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. | $75 fee per stay applies."
+  },
+  {
+   "identity_key": "sonesta es suites austin the domain area",
+   "canonical_name": "Sonesta ES Suites Austin The Domain Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet-Friendly'",
+   "quote": "Pet-Friendly Hotel Near The Domain, Austin | Sonesta ES Suites Austin The Domain Area is pet-friendly and welcomes well-mannered pets, with no br | $75 fee applies for stays up to 7 nights; $150 for all longer stays."
+  },
+  {
+   "identity_key": "sonesta select austin north",
+   "canonical_name": "Sonesta Select Austin North",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet-Friendly'",
+   "quote": "Pet-Friendly Hotel in North Austin | Sonesta Select Austin North is pet-friendly and welcomes well-mannered pets, with no breed or weight | $75 per stay for up to 6 nights and from night 7, add $100 cleaning fee."
+  },
+  {
+   "identity_key": "sonesta simply suites austin the domain area",
+   "canonical_name": "Sonesta Simply Suites Austin The Domain Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet-Friendly'",
+   "quote": "Pet-Friendly Hotel Near The Domain | Sonesta Simply Suites Austin The Domain is pet-friendly and welcomes well-mannered pets, with no bre | $75 fee applies for stays up to 7 nights; $150 for all longer stays."
+  },
+  {
+   "identity_key": "spark by hilton round rock",
+   "canonical_name": "Spark by Hilton Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 50 lbs | Max size: medium"
+  },
+  {
+   "identity_key": "springhill suites by marriott austin cedar park",
+   "canonical_name": "SpringHill Suites by Marriott Austin Cedar Park",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "springhill suites by marriott austin north",
+   "canonical_name": "SpringHill Suites by Marriott Austin North",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "springhill suites by marriott austin parmer tech ridge",
+   "canonical_name": "SpringHill Suites by Marriott Austin Parmer/Tech Ridge",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Pet Policy | Pets Not Allowed'",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "identity_key": "springhill suites by marriott austin round rock",
+   "canonical_name": "SpringHill Suites by Marriott Austin Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "springhill suites by marriott austin south",
+   "canonical_name": "SpringHill Suites by Marriott Austin South",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Dogs Welcomed | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "springhill suites by marriott austin the domain area",
+   "canonical_name": "SpringHill Suites by Marriott Austin The Domain Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Dogs only 60lb max. Non refundable $75 fee per 5 nights. 1 dog per room. | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "identity_key": "springhill suites by marriott austin west lakeway",
+   "canonical_name": "SpringHill Suites by Marriott Austin West/Lakeway",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | Non-Refundable Pet Fee Per Stay: $125.00 | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "identity_key": "staybridge suites austin airport",
+   "canonical_name": "Staybridge Suites Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Amenities Parking Pet friendly Pool Fitness center Wi-Fi included Parking Pet friendly Pool Fitness center Wi-Fi included VIEW ALL AMENITIES Social Hour Join us for a variety of free appetizers and beverages at our evening reception. Can I bring my pet to Staybridge Suites Austin Airport? Pets are welcome at Staybridge Suites Austin Airport. Our Pet Policy: Guidelines for guests traveling with pet"
+  },
+  {
+   "identity_key": "staybridge suites austin north parmer lane",
+   "canonical_name": "Staybridge Suites Austin North - Parmer Lane",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Amenities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities VIEW ALL AMENITIES Social Hour Join us for a variety of free appetizers and beverages at our evening reception. Can I bring my pet to Staybridge Suites Austin North - Parmer Lane? Pets are welcome at Staybridge Suites Austin North - Parmer "
+  },
+  {
+   "identity_key": "staybridge suites austin northwest",
+   "canonical_name": "Staybridge Suites Austin Northwest",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Amenities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities VIEW ALL AMENITIES Social Hour Join us for a variety of free appetizers and beverages at our evening reception. Can I bring my pet to Staybridge Suites Austin Northwest? Pets are welcome at Staybridge Suites Austin Northwest. There is a pet"
+  },
+  {
+   "identity_key": "staybridge suites austin nw lake travis area",
+   "canonical_name": "Staybridge Suites Austin NW – Lake Travis Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet friendly'",
+   "quote": "Amenities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities VIEW ALL AMENITIES Social Hour Join us for a variety of free appetizers and beverages at our evening reception. Wednesday, Thursday, Friday 7:00 AM - 10:00 AM Saturday, Sunday Additional Offers --> View All Offers Hotel Highlights Hotel Hig"
+  },
+  {
+   "identity_key": "staybridge suites austin round rock",
+   "canonical_name": "Staybridge Suites Austin-Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Amenities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities VIEW ALL AMENITIES Social Hour Join us for a variety of free appetizers and beverages at our evening reception. Can I bring my pet to Staybridge Suites Austin-Round Rock? Pets are welcome at Staybridge Suites Austin-Round Rock. There is a p"
+  },
+  {
+   "identity_key": "staybridge suites austin south interstate hwy 35",
+   "canonical_name": "Staybridge Suites Austin South Interstate Hwy 35",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Amenities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting facilities VIEW ALL AMENITIES Social Hour Join us for a variety of free appetizers and beverages at our evening reception. Can I bring my pet to Staybridge Suites Austin South Interstate Hwy 35? Pets are welcome at Staybridge Suites Austin South Inter"
+  },
+  {
+   "identity_key": "staybridge suites cedar park austin n",
+   "canonical_name": "Staybridge Suites Cedar Park - Austin N",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet-Friendly'",
+   "quote": "Pet-Friendly Cedar Park, TX Hotel | Staybridge Suites Cedar Park - Austin N Skip To main content Your session will expire in 5 minutes , 0 seconds , due to inactivity. Enjoy complimentary guest laundry, high speed Wi Fi, a 24 hour fitness center, business center, outdoor pool, grilling area, and pet friendly accommodations. Amenities Parking Pet friendly Pool Fitness center Wi-Fi included Meeting "
+  },
+  {
+   "identity_key": "strickland arms bed and breakfast",
+   "canonical_name": "Strickland Arms Bed and Breakfast",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "NOT_OPERATIVE",
+   "why": "no acceptance the reader will interpret: 'Please note that we can NOT accommodate children under 12 or pets of any kind'",
+   "quote": "Please note that we can NOT accommodate children under 12 or pets of any kind"
+  },
+  {
+   "identity_key": "super 8 by wyndham austin airport south",
+   "canonical_name": "Super 8 by Wyndham Austin/Airport South",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.'",
+   "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed."
+  },
+  {
+   "identity_key": "super 8 by wyndham austin downtown capitol area",
+   "canonical_name": "Super 8 by Wyndham Austin Downtown/Capitol Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are welcome'",
+   "quote": "Pets are welcome for a fee. 35USD per pet per night. ADA defined service animals are welcome at this hotel."
+  },
+  {
+   "identity_key": "super 8 by wyndham austin north university area",
+   "canonical_name": "Super 8 by Wyndham Austin North/University Area",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.'",
+   "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed."
+  },
+  {
+   "identity_key": "super 8 by wyndham austin south i 35",
+   "canonical_name": "Super 8 by Wyndham Austin South / I-35",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "a service-animal statement is a legal access category, never a pet acceptance: 'A maximum of 2 pets allowed for a non-refundable charge of 25.00 USD per pet per night. If customer is paying cash a ref",
+   "quote": "A maximum of 2 pets allowed for a non-refundable charge of 25.00 USD per pet per night. If customer is paying cash a refundable deposit is required of 75.00 USD.ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed."
+  },
+  {
+   "identity_key": "super 8 by wyndham austin university downtown area",
+   "canonical_name": "Super 8 by Wyndham Austin University/Downtown Area",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'ADA-defined service animals are welcome at this hotel. Sorry no other pets are allowed'",
+   "quote": "ADA-defined service animals are welcome at this hotel. Sorry no other pets are allowed"
+  },
+  {
+   "identity_key": "the driskill",
+   "canonical_name": "The Driskill",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "NOT_OPERATIVE",
+   "why": "a fee, count or weight alone does not establish acceptance: 'Pet Policy | We gladly welcome your most beloved travel companions with the Pampered Pet Program at The Driskill. | FEES: $150 one-time, no",
+   "quote": "Pet Policy | We gladly welcome your most beloved travel companions with the Pampered Pet Program at The Driskill. | FEES: $150 one-time, non-refundable | WEIGHT LIMITS: Dogs must weigh 50 pounds or under, or two dogs must weigh no more than 75 pounds combined"
+  },
+  {
+   "identity_key": "the inn at green pastures",
+   "canonical_name": "The Inn at Green Pastures",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pet Friendly'",
+   "quote": "Pet Friendly | The Inn is dog-friendly and allows up to two dogs per room. A non-refundable pet fee of $100 is collected at check-in. 15% of the fee is donated to Austin Pets Alive."
+  },
+  {
+   "identity_key": "the line austin",
+   "canonical_name": "The LINE Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pets are permitted'",
+   "quote": "Animals We allow domesticated dogs and cats, provided, that animals may not be left unattended. No other animals or unattended pets are permitted in the Hotel, without prior approval. No animals or pets are permitted in restaurants, or in bar spaces at the Hotel except for trained service animals. Guests are solely responsible for any damages and/or cleaning costs caused by their animals. Can I br"
+  },
+  {
+   "identity_key": "the loren austin",
+   "canonical_name": "The Loren Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pet friendly'",
+   "quote": "Pet Policy Pets are always welcome at The Loren Hotel Austin. $100 one time, non-refundable fee per dog, per stay 2 dogs max per room Max weight of 45 lb per pet Sorry, no cats Additional fees may apply for deep cleaning or damages that occur TAXES & FEES Room rates are subject to the following nightly fees: Hotel Occupancy Tax of 17. Is the hotel pet-friendly? Yes, we are a pet friendly hotel."
+  },
+  {
+   "identity_key": "the otis hotel austin autograph collection",
+   "canonical_name": "The Otis Hotel Austin, Autograph Collection",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | Only dogs, 30lbs max per room with 100 USD non Refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 30.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "the stephen f austin royal sonesta hotel",
+   "canonical_name": "The Stephen F Austin Royal Sonesta Hotel",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pets are permitted'",
+   "quote": "pets are permitted"
+  },
+  {
+   "identity_key": "the westin austin at the domain",
+   "canonical_name": "The Westin Austin at The Domain",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | Dogs allowed under 40 pounds | Non-Refundable Pet Fee Per Stay: $49.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 1"
+  },
+  {
+   "identity_key": "the westin austin downtown",
+   "canonical_name": "The Westin Austin Downtown",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | Dogs up to 70 lbs are welcome, and there's no additional pet fee. | Maximum Pet Weight: 70.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "towneplace suites by marriott austin north lakeline",
+   "canonical_name": "TownePlace Suites by Marriott Austin North/Lakeline",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | 1 pet per room up to 20lbs allowed | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 20.0lbs"
+  },
+  {
+   "identity_key": "towneplace suites by marriott austin northwest the domain area",
+   "canonical_name": "TownePlace Suites by Marriott Austin Northwest/The Domain Area",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | 2 pets maximum per room with 100USD Non Refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 80.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "towneplace suites by marriott austin parmer tech ridge",
+   "canonical_name": "TownePlace Suites by Marriott Austin Parmer/Tech Ridge",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | $50 daily fee, not to exceed $150 total. | Non-Refundable Pet Fee Per Stay: $100.00 | Non-Refundable Pet Fee Per Night: ... | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "towneplace suites by marriott austin round rock",
+   "canonical_name": "TownePlace Suites by Marriott Austin Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | 2 pets 50 lbs max per room with USD 100 fee per room per stay and signed waiver | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "towneplace suites by marriott austin south",
+   "canonical_name": "TownePlace Suites by Marriott Austin South",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | 2 pets per room allowed with USD $150 non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "towneplace suites by marriott hutto",
+   "canonical_name": "TownePlace Suites by Marriott Hutto",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome | 2 pets 40lbs max per pet per room, 150USD non-refundable fee per room per night | Non-Refundable Pet Fee Per Night: ... | Maximum Pet Weight: 40.0lbs"
+  },
+  {
+   "identity_key": "tru by hilton austin airport",
+   "canonical_name": "Tru by Hilton Austin Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Pet policy: $75(1-5n)$125(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "identity_key": "tru by hilton austin nw arboretum",
+   "canonical_name": "Tru by Hilton Austin NW Arboretum",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 75 lbs | Max size: medium | Pet policy: 2petsMax,dog/cat only"
+  },
+  {
+   "identity_key": "tru by hilton austin university capitol district",
+   "canonical_name": "Tru by Hilton Austin University Capitol District",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Max weight: 50 lbs | Max size: large | Pet policy: $50 (1-4 nights), $75 (5+ nights) 2 pets max, dog/cat only"
+  },
+  {
+   "identity_key": "tru by hilton pflugerville",
+   "canonical_name": "Tru by Hilton Pflugerville",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "old_disposition": "IDENTITY_MISMATCH_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "tru by hilton round rock",
+   "canonical_name": "Tru by Hilton Round Rock",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets allowed'",
+   "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $50.00 | Pet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only"
+  },
+  {
+   "identity_key": "w austin",
+   "canonical_name": "W Austin",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Welcome'",
+   "quote": "Pet Policy | Pets Welcome. | Up to 2 dogs or cats 50 lbs max with USD100 cleaning fee | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2"
+  },
+  {
+   "identity_key": "walnut forest motel",
+   "canonical_name": "Walnut Forest Motel",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'Policies | Welcome to Walnut Forest Motel. Here are some ploicies we follow for better guest safety and experience... | No pets allowed.'",
+   "quote": "Policies | Welcome to Walnut Forest Motel. Here are some ploicies we follow for better guest safety and experience... | No pets allowed."
+  },
+  {
+   "identity_key": "wingate by wyndham round rock hotel and conference center",
+   "canonical_name": "Wingate by Wyndham Round Rock Hotel & Conference Center",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "old_disposition": "CLEAN_VERIFIED_NO_PETS",
+   "classification": "EXPLICIT_REFUSAL",
+   "why": "refusal stated: 'ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.'",
+   "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed."
+  },
+  {
+   "identity_key": "woodspring suites austin central",
+   "canonical_name": "WoodSpring Suites Austin Central",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "NOT_OPERATIVE",
+   "why": "a fee, count or weight alone does not establish acceptance: 'Pet Policy | Limit 2 dogs, under 75lbs. per room. No cats. Non-refundable pet cleaning fee of 100USD per pet and daily charge of 25USD for ",
+   "quote": "Pet Policy | Limit 2 dogs, under 75lbs. per room. No cats. Non-refundable pet cleaning fee of 100USD per pet and daily charge of 25USD for first 6 nights and 10USD per pet per night charge for the duration of the stay"
+  },
+  {
+   "identity_key": "woodspring suites austin georgetown",
+   "canonical_name": "WoodSpring Suites Austin Georgetown",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "a service-animal statement is a legal access category, never a pet acceptance: 'Pet Policy | Service Animals are welcome at no additional charge, must be registered upon arrival. Limit of 2 Dogs per r",
+   "quote": "Pet Policy | Service Animals are welcome at no additional charge, must be registered upon arrival. Limit of 2 Dogs per room. No Cats. Registration Fee of 50 USD. Plus 5 USD for each dog per night. Weight limit of 50 lbs per pet. Credit Card required for incidentals."
+  },
+  {
+   "identity_key": "woodspring suites austin north i 35",
+   "canonical_name": "WoodSpring Suites Austin North I-35",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "a service-animal statement is a legal access category, never a pet acceptance: 'Pet Policy | Service, assistance animals are welcome at no additional charge, must be registered at front desk. Limit 2 ",
+   "quote": "Pet Policy | Service, assistance animals are welcome at no additional charge, must be registered at front desk. Limit 2 dogs, under 75lbs. per room. No cats. Non-refundable pet fees, 50USD a pet reg fee and 10USD a pet per night charge for the duration of the stay."
+  },
+  {
+   "identity_key": "woodspring suites austin northwest",
+   "canonical_name": "WoodSpring Suites Austin Northwest",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets Allowed'",
+   "quote": "Pet Policy | Pets Allowed. Pet Charge 10.00 USD Per Pet, Per Night. Pet limit 2 Pet Per Room. Max 40 Pounds"
+  },
+  {
+   "identity_key": "woodspring suites austin south central i 35",
+   "canonical_name": "WoodSpring Suites Austin South Central I-35",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'pets allowed'",
+   "quote": "pets allowed"
+  },
+  {
+   "identity_key": "woodspring suites cedar park austin north",
+   "canonical_name": "WoodSpring Suites Cedar Park - Austin North",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "old_disposition": "CLEAN_PET_FRIENDLY",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'Pets are allowed'",
+   "quote": "Pets are allowed"
+  },
+  {
+   "identity_key": "woodspring suites round rock austin north",
+   "canonical_name": "WoodSpring Suites Round Rock-Austin North",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "a service-animal statement is a legal access category, never a pet acceptance: 'Pet Policy | Service Animals are welcome at no additional charge, must be registered upon arrival. Limit of 2 Dogs per r",
+   "quote": "Pet Policy | Service Animals are welcome at no additional charge, must be registered upon arrival. Limit of 2 Dogs per room. No Cats. Registration Fee of 50 USD. Plus 5 USD for each dog per night. Weight limit of 50 lbs per pet. Credit Card required for incidentals."
+  },
+  {
+   "identity_key": "wyndham garden austin",
+   "canonical_name": "Wyndham Garden Austin",
+   "disposition": "EVIDENCE_HOLD",
+   "old_disposition": "EVIDENCE_HOLD",
+   "classification": "AFFIRMATIVE_ACCEPTANCE",
+   "why": "acceptance stated: 'dogs only'",
+   "quote": "A one-time 75.00 USD Non-Refundable pet fee per room per stay applies. Limit of 2 pets per room cats and dogs only no exotic. ADA defined service animals are welcome at this hotel."
+  }
+ ]
+}
