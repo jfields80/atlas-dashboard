@@ -370,7 +370,7 @@
  "rollback_target": "6abc8387e81507b25eb94a0a",
  "target_site": "pettripfinder-prod",
  "target_domain": "https://pettripfinder.com",
- "authorization_status": "AUTHORIZED",
+ "authorization_status": "DEPLOYED",
  "status_history": [
   {
    "status": "PREPARED",
@@ -381,6 +381,14 @@
    "status": "AUTHORIZED",
    "at": "2026-10-01T01:41:44+00:00",
    "note": "Every bounded safety gate the order names passed (reader tests, live scan, differential, reseal FAST 15/15 x7, candidate accounting, determinism). Written AUTHORIZED; the deploying step of the same order consumes it."
+  },
+  {
+   "status": "DEPLOYED",
+   "at": "2026-10-01T01:56:36+00:00",
+   "note": "Consumed by PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001: deployed as 6abdbcb87e046e3e673760ac. The served sitemap hashes to the authorized candidate and the served route set is identical to it; every candidate route answers 200, every declared removal answers 404, and 136/136 sampled pages are byte-identical to the artifact.",
+   "consumed_by_work_order": "PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001",
+   "deployment_id": "6abdbcb87e046e3e673760ac",
+   "deployment_record_id": "ptf-deploy-question-negation-001-6abdbcb87e046e3e673760ac"
   }
  ]
 }
