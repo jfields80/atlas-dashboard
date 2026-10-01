@@ -23,7 +23,7 @@ from scripts.pettripfinder import austin_tx_policy_pages_lane_001 as PP  # noqa:
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "austin_tx_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "austin-tx.json")
+CENSUS = os.path.join(PKG, "identity_census", "austin-tx.json")
 OUT = os.path.join(PKG, "markets", "staging", "austin-tx", "raw_captures", "closure_static_rows.json")
 
 

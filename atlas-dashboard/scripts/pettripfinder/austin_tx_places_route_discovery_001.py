@@ -44,7 +44,7 @@ from scripts.pettripfinder import austin_tx_geography_001 as GEO  # noqa: E402
 WORK_ORDER = "PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "austin-tx.json")
+CENSUS = os.path.join(PKG, "identity_census", "austin-tx.json")
 ROUTING = os.path.join(REPORTS, "austin_tx_routing_001.json")
 RECON = os.path.join(REPORTS, "austin_tx_competitor_reconciliation_001.json")
 OUT = os.path.join(REPORTS, "austin_tx_places_route_discovery_001.json")

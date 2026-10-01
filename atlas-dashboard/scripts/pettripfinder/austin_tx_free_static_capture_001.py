@@ -59,7 +59,7 @@ MARKET_ID = "austin-tx"
 SCHEMA = "ptf-free-static-capture/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "austin-tx.json")
+CENSUS = os.path.join(PKG, "identity_census", "austin-tx.json")
 ROUTING = os.path.join(REPORTS, "austin_tx_routing_001.json")
 SPACING_SECONDS = 1.2
 
