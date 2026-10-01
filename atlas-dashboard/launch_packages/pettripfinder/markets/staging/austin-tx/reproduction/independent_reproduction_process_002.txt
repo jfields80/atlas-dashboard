@@ -1,0 +1,7 @@
+PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002 -- independent reproduction process record (written BEFORE the process starts)
+recorded_at: 2026-10-01T05:40:53Z
+worktree: C:/t/atx2b-wt (git worktree add --detach, commit 26ab90dbfc5d6b128d05dd0318411b10c6cda19a, the commit holding every staged input)
+process: a separate OS process (PowerShell Start-Process python), not the process that sealed the package
+command: python -m scripts.pettripfinder.austin_tx_shadow_package_001 --source-sha 26ab90dbfc5d6b128d05dd0318411b10c6cda19a --work-dir C:/t/atx2b --stage
+work_dir: C:/t/atx2b (never used by the sealing run, which used C:/t/atx2a)
+expected: package pkg-austin-tx-024e6fb46a9e6934, digest sha256:024e6fb46a9e6934e4884ddb2ac2f4c42756a6154f6f0cd74d6674baf9e665b4, bundle 6cc8b825..., FAST 15/15
