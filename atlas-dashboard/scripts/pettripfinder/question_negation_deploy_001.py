@@ -74,6 +74,10 @@ def _git(*args):
                           check=True).stdout.strip()
 
 
+def _git_show_bytes(spec):
+    return subprocess.run(["git", "-C", str(_DASH), "show", spec], capture_output=True, check=True).stdout
+
+
 def _market_ids(markets):
     return [m.get("market_id") if isinstance(m, dict) else m for m in (markets or ())]
 
@@ -170,16 +174,31 @@ def source_pin(args):
         ("sitemap_route_count", manifest["sitemap_route_count"]),
         ("total_html_pages", manifest["total_html_pages"]), ("total_files", manifest["total_files"]),
     ])
+    # EVERY chain entry that still bound a corrected market's PRE-correction contract bytes now has that market
+    # moved under it by this order -- the live authorization and every historical one alike (the Milwaukee
+    # service-animal correction extended ptf-auth-047 the same way). An entry whose bound bytes were already
+    # different was moved by an earlier order, which it already names; it is left alone.
+    pre = {m: hashlib.sha256(_git_show_bytes("%s:atlas-dashboard/deploy/netlify/release_contracts/%s.json"
+                                                    % (args.pre_correction_commit, m))).hexdigest()
+           for m in _corrected_markets()}
     chain = _load(SUPERSESSIONS)
-    current = chain["authorizations"][live["authorization_id"]]
-    moved = OrderedDict(current.get("moved_by_later_work") or {})
-    for m in _corrected_markets():
-        moved[m] = WORK_ORDER
-    current["moved_by_later_work"] = OrderedDict(sorted(moved.items()))
+    extended = OrderedDict()
+    for auth_id, entry in chain["authorizations"].items():
+        bound = {c["market_id"]: c["sha256"] for c in DA.load_authorization(auth_id).get("release_contracts") or ()}
+        moved = OrderedDict(entry.get("moved_by_later_work") or {})
+        added = [m for m in _corrected_markets() if bound.get(m) == pre[m] and m not in moved]
+        for m in added:
+            moved[m] = WORK_ORDER
+        if added:
+            entry["moved_by_later_work"] = OrderedDict(sorted(moved.items()))
+            extended[auth_id] = added
+    if sorted(extended.get(live["authorization_id"]) or ()) != sorted(_corrected_markets()):
+        raise SystemExit("the live authorization %s does not bind the pre-correction contracts" % live["authorization_id"])
     chain["reviewed_by"] = WORK_ORDER
     print("source ahead      :", manifest["bundle_sha256"], manifest["total_published_profiles"],
           manifest["sitemap_route_count"])
-    print("moved under %s: %s" % (live["authorization_id"], list(current["moved_by_later_work"])))
+    for auth_id, added in extended.items():
+        print("moved under %s: %s" % (auth_id, added))
     if args.write:
         _dump(DEPLOYMENT_STATE, state)
         _dump(SUPERSESSIONS, chain)
@@ -525,6 +544,9 @@ def main(argv=None):
         s = sub.add_parser(name)
         s.add_argument("--candidate", required=True)
         s.add_argument("--write", action="store_true")
+        if name == "source-pin":
+            s.add_argument("--pre-correction-commit", default="0e3098689a0a7318a7f86f81eaa0a6e6a655605b",
+                           help="the commit whose release contracts production was authorized against")
     v = sub.add_parser("verify-live")
     v.add_argument("--candidate", required=True)
     v.add_argument("--parent-sitemap", required=True)
