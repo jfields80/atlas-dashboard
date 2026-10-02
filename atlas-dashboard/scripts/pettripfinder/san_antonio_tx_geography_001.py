@@ -102,7 +102,7 @@ REPORTS = os.path.join(PKG, "markets", "reports")
 CONFIG_OUT = os.path.join(_DASH, "scripts", "pettripfinder", "discovery", "config", "san_antonio_tx.json")
 #: NOT registered by this order. A source-ready market's document lives under markets/proposed/ until a
 #: registration order moves it to the registry's markets/<id>.json.
-SHARD_OUT = os.path.join(PKG, "markets", "proposed", "san-antonio-tx.json")
+SHARD_OUT = os.path.join(PKG, "markets", "san-antonio-tx.json")
 REPORT_OUT = os.path.join(REPORTS, "san_antonio_tx_geography_001.json")
 REGISTRY_OUT = os.path.join(REPORTS, "san_antonio_tx_corridor_registry_001.json")
 #: The live Austin market's own registered document: no postal code it admits may be admitted here.

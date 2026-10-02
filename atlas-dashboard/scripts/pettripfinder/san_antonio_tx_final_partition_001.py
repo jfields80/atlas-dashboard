@@ -33,13 +33,12 @@ WORK_ORDER = "PTF-SAN-ANTONIO-TX-HARDENED-SOURCE-READY-001"
 MARKET_ID = "san-antonio-tx"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-#: SHADOW_UNTIL_REGISTERED: a shadow market's partition belongs INSIDE its own staging launch_package, never at
-#: the registry package root -- the root is where a REGISTERED market's release contract references it, and
-#: writing there would put an unregistered market's document into shared space. The shadow seal reads it from
-#: the staging tree.
-OUT = os.path.join(PKG, "markets", "staging", MARKET_ID, "launch_package",
-                   "san_antonio_tx_final_partition_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "san-antonio-tx.json")
+#: REGISTERED (PTF-SAN-ANTONIO-TX-REGISTRATION-AND-STAGING-003): the partition now lives at the registry package
+#: root, where the registered market's release contract references it. While the market was
+#: SHADOW_UNTIL_REGISTERED it was written inside its own staging launch_package (the shadow package still carries
+#: the sealed copy there).
+OUT = os.path.join(PKG, "san_antonio_tx_final_partition_001.json")
+CENSUS = os.path.join(PKG, "identity_census", "san-antonio-tx.json")
 CLEAN = os.path.join(REPORTS, "san_antonio_tx_clean_authority_001.json")
 AS_OF = "2026-10-02"  # the day every San Antonio capture was made (the Austin clone carried Austin's 2026-10-01)
 

@@ -41,7 +41,7 @@ MARKET_ID = "san-antonio-tx"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "san-antonio-tx.json")
+CENSUS = os.path.join(PKG, "identity_census", "san-antonio-tx.json")
 OUT = os.path.join(REPORTS, "san_antonio_tx_routing_001.json")
 
 _NAME_FAMILY = [

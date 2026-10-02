@@ -36,7 +36,7 @@ from scripts.pettripfinder import san_antonio_tx_census_reconciliation_001 as CR
 WORK_ORDER = "PTF-SAN-ANTONIO-TX-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "san-antonio-tx.json")
+CENSUS = os.path.join(PKG, "identity_census", "san-antonio-tx.json")
 COMPETITOR = os.path.join(REPORTS, "san_antonio_tx_competitor_challenge_001.json")
 CLEAN = os.path.join(REPORTS, "san_antonio_tx_clean_authority_001.json")
 OUT = os.path.join(REPORTS, "san_antonio_tx_competitor_reconciliation_001.json")
