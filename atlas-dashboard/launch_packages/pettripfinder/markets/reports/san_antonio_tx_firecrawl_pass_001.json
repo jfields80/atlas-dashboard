@@ -1,0 +1,865 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-SAN-ANTONIO-TX-HARDENED-SOURCE-READY-001",
+ "market_id": "san-antonio-tx",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "san_antonio_tx_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 15,
+  "credit_floor": 400,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 121,
+  "static_to_attended": 60,
+  "firecrawl_candidates": 46,
+  "share_static_to_attended": 0.4959,
+  "share_firecrawl_candidates": 0.3802,
+  "threshold": 0.2,
+  "warning": true,
+  "message": "46 of 121 unresolved routed rows (38%) are Firecrawl candidates: evaluate the Firecrawl lane before continuing to the attended browser"
+ },
+ "planned_rows": 15,
+ "attempted_rows": 15,
+ "stopped_by": "",
+ "credits": {
+  "before": 517,
+  "after": 503,
+  "delta": 14,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "riverwalk plaza hotel san antonio": {
+    "identity_key": "riverwalk plaza hotel san antonio",
+    "requested_url": "http://www.riverwalkplaza.com",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "stayapt": {
+    "identity_key": "stayapt",
+    "requested_url": "https://www.stayapt.com/hotels/stayapt-suites-san-antonio-lackland/",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "hillview inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel gibbs",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel havana",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "intown suites extended stay san antonio airport",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "intown suites extended stay san antonio culebra road",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "intown suites extended stay san antonio nacogdoches road",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "intown suites extended stay san antonio northeast",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "knights inn at e houston st",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "la hacienda inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "la quinta inn south park",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "staybridge suites san antonio",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the espee",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "waterwalk hotel apartments",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 15,
+  "results": 15
+ },
+ "class_counts": {
+  "FIRECRAWL_BLOCKED": 3,
+  "FIRECRAWL_FAILED": 9,
+  "FIRECRAWL_MISMATCH": 1,
+  "FIRECRAWL_PUBLICATION_GRADE": 1,
+  "FIRECRAWL_SOURCE_SILENT": 1
+ },
+ "outcome_counts": {
+  "IDENTITY_MISMATCH": 1,
+  "NAVIGATION_FAILED": 1,
+  "POLICY_NOT_FOUND": 1,
+  "UNEXPECTED_PAGE": 8,
+  "UNHYDRATED": 3,
+  "VALID": 1
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "hillview inn",
+   "canonical_name": "Hillview Inn",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://hillviewinnandsuites.com/",
+   "final_url": "https://hillviewinnandsuites.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78257",
+   "expected_street": "19793 19793 I 10 W",
+   "captured_at": "2026-10-02T17:19:45.599001+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://hillviewinnandsuites.com/"
+    },
+    "envelope_sha256": "21ecf9e57ae3ba90343a4bed2fdf34f425def02e483c888993b73155c1c1e3d6"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\hillview-inn\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "hotel gibbs",
+   "canonical_name": "Hotel Gibbs",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "http://www.hotelgibbs.com/",
+   "final_url": "https://www.hotelgibbs.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotel Gibbs | San Antonio Riverwalk Hotel | Official Site",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.hotelgibbs.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2109332000"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "78205",
+   "expected_street": "105 N Alamo St",
+   "captured_at": "2026-10-02T17:19:55.085380+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.hotelgibbs.com/"
+    },
+    "envelope_sha256": "dd599e17f7d7d0d38f99426d9cd4c6898edee62c675a5f3650694d32a7080081"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\hotel-gibbs\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "hotel havana",
+   "canonical_name": "Hotel Havana",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://havanasanantonio.com/",
+   "final_url": "https://hotelhavanaerror.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78205",
+   "expected_street": "1015 Navarro St",
+   "captured_at": "2026-10-02T17:20:11.382489+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://havanasanantonio.com/"
+    },
+    "envelope_sha256": "f39344f1860a23c235c013c90853f76f525e1e18b4b3f467f29ff69a1c247dbc"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\hotel-havana\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "intown suites extended stay san antonio airport",
+   "canonical_name": "InTown Suites Extended Stay San Antonio Airport",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://www.intownsuites.com/extended-stay-locations/texas/san-antonio/airport-4/",
+   "final_url": "https://www.intownsuites.com/extended-stay-hotels/texas/san-antonio/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78216",
+   "expected_street": "6923 San Pedro Ave",
+   "captured_at": "2026-10-02T17:20:22.484640+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.intownsuites.com/extended-stay-locations/texas/san-antonio/airport-4/"
+    },
+    "envelope_sha256": "2fe7fa369e4049a4fe3c9dac749b2308e47156322e32e1cca48c201a1765d505"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\intown-suites-extended-stay-san-antonio-airport\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "intown suites extended stay san antonio culebra road",
+   "canonical_name": "InTown Suites Extended Stay San Antonio - Culebra Road",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://www.intownsuites.com/extended-stay-locations/texas/san-antonio/west-9/",
+   "final_url": "https://www.intownsuites.com/extended-stay-hotels/texas/san-antonio/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78251",
+   "expected_street": "7490 Culebra Rd",
+   "captured_at": "2026-10-02T17:20:33.144858+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.intownsuites.com/extended-stay-locations/texas/san-antonio/west-9/"
+    },
+    "envelope_sha256": "c52c22836e272998dbe5fe52c4fb6518f5aca3548a35f00f014940ddb6af964e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\intown-suites-extended-stay-san-antonio-culebra-road\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "intown suites extended stay san antonio nacogdoches road",
+   "canonical_name": "InTown Suites Extended Stay San Antonio Nacogdoches Road",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://www.intownsuites.com/extended-stay-locations/texas/san-antonio/northeast-5/",
+   "final_url": "https://www.intownsuites.com/extended-stay-hotels/texas/san-antonio/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78217",
+   "expected_street": "13220 Nacogdoches Rd",
+   "captured_at": "2026-10-02T17:20:43.979629+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.intownsuites.com/extended-stay-locations/texas/san-antonio/northeast-5/"
+    },
+    "envelope_sha256": "a82ebc38f28747ae58dbea551ac40e52da24e7f698ac8f1f70607a5b3c2e889c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\intown-suites-extended-stay-san-antonio-nacogdoches-road\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "intown suites extended stay san antonio northeast",
+   "canonical_name": "InTown Suites Extended Stay San Antonio - Northeast",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://www.intownsuites.com/extended-stay-locations/texas/san-antonio/east-10",
+   "final_url": "https://www.intownsuites.com/extended-stay-hotels/texas/san-antonio/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78217",
+   "expected_street": "9530 Perrin Beitel",
+   "captured_at": "2026-10-02T17:20:54.400430+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.intownsuites.com/extended-stay-locations/texas/san-antonio/east-10"
+    },
+    "envelope_sha256": "edaa619f33b73ab91446303ca201711982e0747d340f162227e3ddfbcbd60bf2"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\intown-suites-extended-stay-san-antonio-northeast\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "knights inn at e houston st",
+   "canonical_name": "Knights Inn at E Houston St",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://www.redlion.com/knights-inn/tx/san-antonio/knights-inn-san-antonio-e-houston-st",
+   "final_url": "https://www.knightsinn.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78220",
+   "expected_street": "4039 East Houston Street",
+   "captured_at": "2026-10-02T17:21:05.544069+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.redlion.com/knights-inn/tx/san-antonio/knights-inn-san-antonio-e-houston-st"
+    },
+    "envelope_sha256": "8a6c00ad7cceeb4da4235c876c979409c69b31416be6996cd58758a93f39250f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\knights-inn-at-e-houston-st\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "la hacienda inn",
+   "canonical_name": "La Hacienda Inn",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://lahaciendainnalamodome.com/",
+   "final_url": "https://lahaciendainnalamodome.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78205",
+   "expected_street": "1524 E Commerce St",
+   "captured_at": "2026-10-02T17:21:15.638697+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://lahaciendainnalamodome.com/"
+    },
+    "envelope_sha256": "65480eeb93ae758e43d3b50427f82493a16da7d04ddfd7ca26bc2f6697c24bae"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\la-hacienda-inn\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "la quinta inn south park",
+   "canonical_name": "La Quinta Inn - South Park",
+   "family": "WYNDHAM",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "http://laquintasanantoniosouth.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"laquintasanantoniosouth.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily ",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78224",
+   "expected_street": "7202 Interstate 35 S",
+   "captured_at": "2026-10-02T17:21:24.974327+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://laquintasanantoniosouth.com"
+    },
+    "envelope_sha256": "bbec2846df8003506f1f5d6b15e515ea054684952b39bc035cb3f90f710ee0cc"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\la-quinta-inn-south-park\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "riverwalk plaza hotel san antonio",
+   "canonical_name": "Riverwalk Plaza Hotel San Antonio",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "http://www.riverwalkplaza.com",
+   "final_url": "https://www.riverwalkplaza.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Riverwalk Plaza Hotel & Suites",
+     "address_on_page": "100 Villita Street",
+     "postal_code": "78205",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.riverwalkplaza.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2102251234"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "postal_code",
+     "street_identity"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "confirmed on name_partial, postal_code, street_identity via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "78205",
+   "expected_street": "100 Villita St",
+   "captured_at": "2026-10-02T17:21:27.502629+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.riverwalkplaza.com"
+    },
+    "envelope_sha256": "24518acc577fedfa8aab53ebaace7bd4940312c2e6ca7554ed15baf600a0e704"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\riverwalk-plaza-hotel-san-antonio\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "stayapt",
+   "canonical_name": "stayAPT",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://www.stayapt.com/hotels/stayapt-suites-san-antonio-lackland/",
+   "final_url": "https://www.stayapt.com/hotels/stayapt-suites-san-antonio-lackland/",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "stayAPT Suites San Antonio-Lackland AFB Hotel",
+     "address_on_page": "9923 Ingram Road",
+     "postal_code": "78245",
+     "phone_on_page": "210-209-8505",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.stayapt.com/hotels/stayapt-suites-san-antonio-lackland/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2102098505",
+      "4743096808",
+      "2018788483",
+      "6951158212"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "78245",
+   "expected_street": "9923 Ingram Road",
+   "captured_at": "2026-10-02T17:21:38.057111+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.stayapt.com/hotels/stayapt-suites-san-antonio-lackland/"
+    },
+    "envelope_sha256": "8b808a030fa4376552139b496da2788abbb6d8a2e2362f6dfa19afc67d400e50"
+   },
+   "page_sha256": "4befd2f8ea4444852640c0832e05c6dbee4509d950098522348108974a8ff770",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\stayapt\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "service_animal_exception": "Both small pets and service animals are always welcome in our pet-friendly rooms."
+    },
+    "evidence": [
+     {
+      "quote": "pet-friendly",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Both small pets and service animals are always welcome in our pet-friendly rooms.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "san_antonio_tx_firecrawl_001::stayapt::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pet-friendly",
+       "source_url": "https://www.stayapt.com/hotels/stayapt-suites-san-antonio-lackland/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "4befd2f8ea4444852640c0832e05c6dbee4509d950098522348108974a8ff770",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-02",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "san_antonio_tx_firecrawl_001::stayapt::service_animal_exception::1",
+       "field": "service_animal_exception",
+       "quote": "Both small pets and service animals are always welcome in our pet-friendly rooms.",
+       "source_url": "https://www.stayapt.com/hotels/stayapt-suites-san-antonio-lackland/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "4befd2f8ea4444852640c0832e05c6dbee4509d950098522348108974a8ff770",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-02",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "2cb6c04d75dd3a5335718432d5deb3ce0d6eda56f587c49bad64809fdb1eb049",
+     "document_sha256": "4befd2f8ea4444852640c0832e05c6dbee4509d950098522348108974a8ff770"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "staybridge suites san antonio",
+   "canonical_name": "Staybridge Suites San Antonio",
+   "family": "IHG",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/staybridge/hotels/us/en/san-antonio/satsb/hoteldetail",
+   "final_url": "https://www.ihg.com/explore",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78249",
+   "expected_street": "6919 North Loop 1604 West",
+   "captured_at": "2026-10-02T17:21:50.332748+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/staybridge/hotels/us/en/san-antonio/satsb/hoteldetail"
+    },
+    "envelope_sha256": "f0bf3f291dc64b62ce9a26fb95c8a2fd1b858e3fb96e27c0edabc5ee8d94c76d"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\staybridge-suites-san-antonio\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (BROWSER_CAPTURE_NEEDED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "the espee",
+   "canonical_name": "The Espee",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://www.theespee.com/",
+   "final_url": "https://us.atgtickets.com/venues/the-espee/whats-on/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78205",
+   "expected_street": "1174 E. Commerce",
+   "captured_at": "2026-10-02T17:22:02.398551+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.theespee.com/"
+    },
+    "envelope_sha256": "e8b05b4e25cd305f06a8b382d7d7108ddfd95ddf418dfd1b6ad264a847edcb3f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\the-espee\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "waterwalk hotel apartments",
+   "canonical_name": "Waterwalk Hotel Apartments",
+   "family": "INDEPENDENT",
+   "cohort": "ROUTED_RESIDUAL",
+   "property_code": "",
+   "requested_url": "https://waterwalk.com/locations/san-antonio-tx-top-golf/",
+   "final_url": "https://waterwalk.com/locations/san-antonio-tx-top-golf/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "78257",
+   "expected_street": "5423 North Loop 1604 West",
+   "captured_at": "2026-10-02T17:22:17.037150+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://waterwalk.com/locations/san-antonio-tx-top-golf/"
+    },
+    "envelope_sha256": "365185d5f3e3f6859c4f93c0aa8ae2d34d0f1ddb03a455e882784ee04a2a02b5"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\san_antonio_tx_firecrawl_001\\waterwalk-hotel-apartments\\attempt-01",
+   "ladder_reason": "still unresolved after the static rung (ACCESS_BLOCKED); first-party route",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  }
+ ]
+}

@@ -1,0 +1,1642 @@
+{
+ "schema": "ptf-market-actionability/2.0",
+ "work_order": "PTF-SAN-ANTONIO-TX-HARDENED-SOURCE-READY-001",
+ "market_id": "san-antonio-tx",
+ "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
+ "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
+ "census_total": 414,
+ "resolved": 242,
+ "unresolved_total": 172,
+ "totals_by_class": {
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 159,
+  "REQUIRES_NEW_PROVIDER": 0,
+  "REQUIRES_NEW_SPEND": 0,
+  "REQUIRES_FOUNDER": 9,
+  "HELD_UNTIL_OPENING": 4
+ },
+ "by_disposition": {
+  "ACCESS_BLOCKED": {
+   "total": 28,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 28,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "EVIDENCE_HOLD": {
+   "total": 17,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 12,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 1,
+   "held_until_opening": 4
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "total": 16,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 8,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 8,
+   "held_until_opening": 0
+  },
+  "ROUTING_HOLD": {
+   "total": 81,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 81,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "SOURCE_SILENT": {
+   "total": 30,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 30,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  }
+ },
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 0,
+ "founder_rows_safely_held": 9,
+ "preopening_rows_safely_excluded": 4,
+ "places_note": "Google Places route discovery ran inside the renewed free monthly allowance (existing capacity, no new spend); a row it queried and could not route is exhausted, a row it never queried is actionable",
+ "attended_browser": {
+  "attempts": 213,
+  "reads": 173,
+  "challenge_denied": 12,
+  "unbound": 13,
+  "paid_provider_calls": 0,
+  "akamai_bypassed": false,
+  "browser_js_exfiltration_used": false,
+  "local_relay_used": false
+ },
+ "coverage_conditions": {
+  "actionable_unresolved_is_zero": true,
+  "no_material_identity_gap": true,
+  "no_material_unexplained_policy_gap": true,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
+  "publication_set_safe": true,
+  "package_deterministic_and_fast_clean": false
+ },
+ "COVERAGE_READY": "NO",
+ "TECHNICAL_SOURCE_READY": "NO",
+ "rows": [
+  {
+   "identity_key": "country inn motel",
+   "canonical_name": "Country Inn Motel",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "RADISSON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site (found via Places) did not serve to the plain client (status None)"
+  },
+  {
+   "identity_key": "economy hotel",
+   "canonical_name": "Economy Hotel",
+   "corridor": "san-antonio-tx__live-oak-universal-city",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site (found via Places) did not serve to the plain client (status 403)"
+  },
+  {
+   "identity_key": "embassy suites by hilton san antonio landmark",
+   "canonical_name": "Embassy Suites by Hilton San Antonio-Landmark",
+   "corridor": "san-antonio-tx__northwest-la-cantera",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.hilton.com/en/hotels/satsaes-embassy-suites-san-antonio-landmark/hotel-info/) -- hilton.com served its 'Something went wrong' page with an Akamai e"
+  },
+  {
+   "identity_key": "flex studios culebra",
+   "canonical_name": "Flex Studios Culebra",
+   "corridor": "san-antonio-tx__leon-valley-helotes",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "hampton inn and suites san antonio lackland afb seaworld",
+   "canonical_name": "Hampton Inn & Suites San Antonio Lackland AFB SeaWorld",
+   "corridor": "san-antonio-tx__seaworld-westover-hills",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.hilton.com/en/hotels/satlphx-hampton-suites-san-antonio-lackland-afb-seaworld/hotel-info/) -- hilton.com served its 'Something went wrong' page wit"
+  },
+  {
+   "identity_key": "hilton garden inn san antonio at the rim",
+   "canonical_name": "Hilton Garden Inn San Antonio at the Rim",
+   "corridor": "san-antonio-tx__six-flags-rim",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.hilton.com/en/hotels/satrpgi-hilton-garden-inn-san-antonio-at-the-rim/hotel-info/) -- hilton.com served its 'Something went wrong' page with an Aka"
+  },
+  {
+   "identity_key": "hilton san antonio hill country",
+   "canonical_name": "Hilton San Antonio Hill Country",
+   "corridor": "san-antonio-tx__seaworld-westover-hills",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.hilton.com/en/hotels/sathchf-hilton-san-antonio-hill-country/hotel-info/) -- hilton.com served its 'Something went wrong' page carrying an Akamai e"
+  },
+  {
+   "identity_key": "home2 suites by hilton san antonio lackland seaworld",
+   "canonical_name": "Home2 Suites by Hilton San Antonio Lackland SeaWorld",
+   "corridor": "san-antonio-tx__seaworld-westover-hills",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.hilton.com/en/hotels/satswht-home2-suites-san-antonio-lackland-seaworld/hotel-info/) -- hilton.com served its 'Something went wrong' page with an A"
+  },
+  {
+   "identity_key": "home2 suites by hilton san antonio rim",
+   "canonical_name": "Home2 Suites by Hilton San Antonio Rim",
+   "corridor": "san-antonio-tx__six-flags-rim",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.hilton.com/en/hotels/satrmht-home2-suites-san-antonio-at-the-rim/hotel-info/) -- hilton.com served its 'Something went wrong' page with an Akamai e"
+  },
+  {
+   "identity_key": "hometowne studios by red roof",
+   "canonical_name": "HomeTowne Studios by Red Roof",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "RED_ROOF",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)"
+  },
+  {
+   "identity_key": "la cantera resort and spa a signia hilton resort",
+   "canonical_name": "La Cantera Resort & Spa, a Signia Hilton Resort",
+   "corridor": "san-antonio-tx__northwest-la-cantera",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.hilton.com/en/hotels/satcnsa-signia-la-cantera-resort-and-spa/hotel-info/) -- hilton.com served its 'Something went wrong' page with an Akamai edge"
+  },
+  {
+   "identity_key": "la quinta inn south park",
+   "canonical_name": "La Quinta Inn - South Park",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "WYNDHAM",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted: static NAVIGATION_FAILED, Firecrawl FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "motel 6 downtown market square 1122",
+   "canonical_name": "Motel 6 Downtown Market Square #1122",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "motel 6 fiesta texas 1208",
+   "canonical_name": "Motel 6 Fiesta Texas#1208",
+   "corridor": "san-antonio-tx__six-flags-rim",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "motel 6 fort sam houston 1350",
+   "canonical_name": "Motel 6 Fort Sam Houston #1350",
+   "corridor": "san-antonio-tx__northeast",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "motel 6 northwest medical center 1123",
+   "canonical_name": "Motel 6 Northwest Medical Center #1123",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "motel 6 seaworld",
+   "canonical_name": "Motel 6 SeaWorld",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "oecan valley inn suites",
+   "canonical_name": "Oecan Valley Inn Suites",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)"
+  },
+  {
+   "identity_key": "red roof inn airport",
+   "canonical_name": "Red Roof Inn Airport",
+   "corridor": "san-antonio-tx__sat-airport",
+   "brand_family": "RED_ROOF",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)"
+  },
+  {
+   "identity_key": "red roof inn san antonio northeast",
+   "canonical_name": "Red Roof Inn San Antonio Northeast",
+   "corridor": "san-antonio-tx__northeast",
+   "brand_family": "RED_ROOF",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)"
+  },
+  {
+   "identity_key": "red roof plus downtown",
+   "canonical_name": "Red Roof Plus Downtown",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "RED_ROOF",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)"
+  },
+  {
+   "identity_key": "spark by hilton san antonio dominion",
+   "canonical_name": "Spark by Hilton San Antonio Dominion",
+   "corridor": "san-antonio-tx__six-flags-rim",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.hilton.com/en/hotels/satadpe-spark-san-antonio-dominion/hotel-info/) -- first navigation showed a browser network-error page, the paced retry serve"
+  },
+  {
+   "identity_key": "studio 6 san antonio airport",
+   "canonical_name": "Studio 6 San Antonio Airport",
+   "corridor": "san-antonio-tx__sat-airport",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "studio 6 san antonio tx medical center 5245",
+   "canonical_name": "Studio 6 San Antonio, TX - Medical Center #5245",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "studio 6 san antonio tx six flags 5244",
+   "canonical_name": "Studio 6 San Antonio, TX - Six Flags #5244",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "the riverwalk plaza hotel and suites",
+   "canonical_name": "The Riverwalk Plaza Hotel & Suites",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static UNHYDRATED)"
+  },
+  {
+   "identity_key": "tru by hilton san antonio at the rim",
+   "canonical_name": "Tru by Hilton San Antonio at The Rim",
+   "corridor": "san-antonio-tx__six-flags-rim",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.hilton.com/en/hotels/satooru-tru-san-antonio-at-the-rim/hotel-info/) -- hilton.com served its 'Something went wrong' page with an Akamai edge refer"
+  },
+  {
+   "identity_key": "tru by hilton san antonio lackland seaworld",
+   "canonical_name": "Tru by Hilton San Antonio Lackland SeaWorld",
+   "corridor": "san-antonio-tx__seaworld-westover-hills",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.hilton.com/en/hotels/satwdru-tru-san-antonio-lackland-seaworld/hotel-info/) -- hilton.com served its 'Something went wrong' page with Akamai edge '"
+  },
+  {
+   "identity_key": "americas best value inn san antonio airport south",
+   "canonical_name": "Americas Best Value Inn San Antonio Airport South",
+   "corridor": "san-antonio-tx__north-central",
+   "brand_family": "SONESTA",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "best western plus hill country suites",
+   "canonical_name": "Best Western Plus Hill Country Suites",
+   "corridor": "san-antonio-tx__stone-oak",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "everhome suites san antonio lackland near seaworld",
+   "canonical_name": "Everhome Suites San Antonio Lackland near Seaworld",
+   "corridor": "san-antonio-tx__seaworld-westover-hills",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'Pets | Pets Allowed: Yes'), not an operative pet_friendly statement"
+  },
+  {
+   "identity_key": "hotel emma",
+   "canonical_name": "Hotel Emma",
+   "corridor": "san-antonio-tx__pearl-broadway",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "hotel gibbs",
+   "canonical_name": "Hotel Gibbs",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no acceptance the reader will interpret: \"Furry Friends Are Welcome | Why should your pet have to mis"
+  },
+  {
+   "identity_key": "hotel indigo san antonio riverwalk",
+   "canonical_name": "Hotel Indigo San Antonio-Riverwalk",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "IHG",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "hotel valencia riverwalk",
+   "canonical_name": "Hotel Valencia Riverwalk",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: \"Pet Policy A. Hotel Valencia"
+  },
+  {
+   "identity_key": "o casey s boutique inn",
+   "canonical_name": "O'Casey's Boutique Inn",
+   "corridor": "san-antonio-tx__pearl-broadway",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "super 8 by wyndham san antonio at i 10",
+   "canonical_name": "Super 8 by Wyndham San Antonio at I-10",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "the crockett hotel",
+   "canonical_name": "The Crockett Hotel",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "the historic menger hotel",
+   "canonical_name": "The Historic Menger Hotel",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'The hotel does not allow pet"
+  },
+  {
+   "identity_key": "woodspring suites san antonio north live oak i 35",
+   "canonical_name": "WoodSpring Suites San Antonio North Live Oak I-35",
+   "corridor": "san-antonio-tx__live-oak-universal-city",
+   "brand_family": "CHOICE",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "alamo oasis inn ans suites",
+   "canonical_name": "Alamo Oasis Inn Ans Suites",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "atria inn and suites",
+   "canonical_name": "Atria Inn & Suites",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "budget suites of america",
+   "canonical_name": "Budget Suites of America",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "bullis house inn",
+   "canonical_name": "Bullis House Inn",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "pinn road inn and suites",
+   "canonical_name": "Pinn Road Inn & Suites",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "rittman inn",
+   "canonical_name": "Rittman Inn",
+   "corridor": "san-antonio-tx__northeast",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "star inn hotel sea world",
+   "canonical_name": "Star Inn Hotel Sea World",
+   "corridor": "san-antonio-tx__leon-valley-helotes",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "stay express inn",
+   "canonical_name": "Stay Express Inn",
+   "corridor": "san-antonio-tx__north-central",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "aaron motel",
+   "canonical_name": "Aaron Motel",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "aaron pancoast carriage house b and b",
+   "canonical_name": "Aaron Pancoast Carriage House B & B",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "alma del rio bed and breakfast",
+   "canonical_name": "Alma Del Rio Bed and Breakfast",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "amgreen karena hotel",
+   "canonical_name": "Amgreen-Karena Hotel",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "badger lodging",
+   "canonical_name": "Badger Lodging",
+   "corridor": "san-antonio-tx__pearl-broadway",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "bandera motel",
+   "canonical_name": "Bandera Motel",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "berg s mill motel",
+   "canonical_name": "Berg's Mill Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "best inn motel",
+   "canonical_name": "Best Inn Motel",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "best western posada inn medical ctr",
+   "canonical_name": "Best Western Posada Inn-Medical Ctr",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "best wesyern palo alto inn and suites",
+   "canonical_name": "Best Wesyern Palo Alto Inn & Suites",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "bonita inn motel",
+   "canonical_name": "Bonita Inn Motel",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "bridge motel",
+   "canonical_name": "Bridge Motel",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "broadway inn",
+   "canonical_name": "Broadway Inn",
+   "corridor": "san-antonio-tx__northeast",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "brookcity executive inn",
+   "canonical_name": "Brookcity Executive Inn",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "budget inn motel",
+   "canonical_name": "Budget Inn Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "budget suites of america tx 360",
+   "canonical_name": "Budget Suites of America Tx-360",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "c and m motel",
+   "canonical_name": "C & M Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "camino vista motel",
+   "canonical_name": "Camino Vista Motel",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "casa linda motel",
+   "canonical_name": "Casa Linda Motel",
+   "corridor": "san-antonio-tx__north-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "choice inn motel",
+   "canonical_name": "Choice Inn Motel",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "day inn and suites att center",
+   "canonical_name": "Day Inn & Suites Att Center",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "econo lodge inn and suites downtown san antonio",
+   "canonical_name": "Econo Lodge Inn & Suites Downtown San Antonio",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Places named https://www.choicehotels.com/texas/san-antonio/econo-lodge-hotels/txj92; the attended browser opened it (seq 184): NAVIGATION_FAILED_ERROR_PAGE -- RETIRED ROUTE: the code Places names for Econo Lodge Inn & Suites Downtown (1122 S Laredo St) redirects to Choice's own San Antonio Econo Lodge listing, which lists three Econo Lodges and not this one"
+  },
+  {
+   "identity_key": "econo lodge inn and suites fiesta park",
+   "canonical_name": "Econo Lodge Inn & Suites - Fiesta Park",
+   "corridor": "san-antonio-tx__northwest-la-cantera",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Places named https://www.choicehotels.com/texas/san-antonio/econo-lodge-hotels/tx125; the attended browser opened it (seq 185): NAVIGATION_FAILED_ERROR_PAGE -- RETIRED ROUTE: the code Places names for Econo Lodge Inn & Suites Fiesta Park (13575 W IH 10) redirects to Choice's own San Antonio Econo Lodge listing, which does not list it; the brand no longer sel"
+  },
+  {
+   "identity_key": "el mio motel",
+   "canonical_name": "El Mio Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "el montan motor hotel and restaurant",
+   "canonical_name": "El Montan Motor Hotel & Restaurant",
+   "corridor": "san-antonio-tx__sat-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "eltejas motel",
+   "canonical_name": "Eltejas Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "executive inn motel",
+   "canonical_name": "Executive Inn Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "felx studios",
+   "canonical_name": "Felx Studios",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "fire side inn",
+   "canonical_name": "Fire Side Inn",
+   "corridor": "san-antonio-tx__north-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "galaxy inn motel",
+   "canonical_name": "Galaxy Inn Motel",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "garden inn",
+   "canonical_name": "Garden Inn",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "garden inn motel",
+   "canonical_name": "Garden Inn Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "gasper motel",
+   "canonical_name": "Gasper Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "great value inn",
+   "canonical_name": "Great Value Inn",
+   "corridor": "san-antonio-tx__live-oak-universal-city",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "hines motel",
+   "canonical_name": "Hines Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "hotel havana",
+   "canonical_name": "Hotel Havana",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "howard johnson",
+   "canonical_name": "Howard Johnson",
+   "corridor": "san-antonio-tx__north-central",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.wyndhamhotels.com/hojo/san-antonio-texas/howard-johnson-inn-and-suites-san-ant) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "hyatt place san antonio airport quary market",
+   "canonical_name": "Hyatt Place San Antonio Airport/Quary Market",
+   "corridor": "san-antonio-tx__sat-airport",
+   "brand_family": "HYATT",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.hyatt.com/en-US/hotel/texas/hyatt-place-san-antonio-airport-quarry-market/satz) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "intown suites perrin beitel",
+   "canonical_name": "Intown Suites Perrin Beitel",
+   "corridor": "san-antonio-tx__sat-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "krosh al hotel",
+   "canonical_name": "Krosh Al Hotel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "la hacienda inn",
+   "canonical_name": "La Hacienda Inn",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.lahaciendainnalamodome.com/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "la quinta inn san antonio i 35 n at rittiman rd",
+   "canonical_name": "La Quinta Inn San Antonio I-35 N at Rittiman Rd",
+   "corridor": "san-antonio-tx__northeast",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.wyndhamhotels.com/laquinta/san-antonio-texas/la-quinta-inn-san-antonio-i-35-n-) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "lakeland motel",
+   "canonical_name": "Lakeland Motel",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "laredo motel",
+   "canonical_name": "Laredo Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "luxury inn",
+   "canonical_name": "Luxury Inn",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "luxury inn and suites",
+   "canonical_name": "Luxury Inn and Suites",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "matador motel",
+   "canonical_name": "Matador Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "midtown motel",
+   "canonical_name": "Midtown Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "moon light motel",
+   "canonical_name": "Moon Light Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "motel 6 san antonio south",
+   "canonical_name": "Motel 6 San Antonio South",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the routes this market's lanes carry are legacy routes the brand retires to its home page (seq 164-165), and the brand's live property pages state only an amenity chip (measured in the Austin order) -- no authorized lane yields an operative policy"
+  },
+  {
+   "identity_key": "motel 6 san antonio tx frost bank center",
+   "canonical_name": "Motel 6 San Antonio, Tx - Frost Bank Center",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the routes this market's lanes carry are legacy routes the brand retires to its home page (seq 164-165), and the brand's live property pages state only an amenity chip (measured in the Austin order) -- no authorized lane yields an operative policy"
+  },
+  {
+   "identity_key": "motel 6 san antonio tx sea world north",
+   "canonical_name": "Motel 6 San Antonio, TX - Sea World North",
+   "corridor": "san-antonio-tx__seaworld-westover-hills",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the routes this market's lanes carry are legacy routes the brand retires to its home page (seq 164-165), and the brand's live property pages state only an amenity chip (measured in the Austin order) -- no authorized lane yields an operative policy"
+  },
+  {
+   "identity_key": "motel 6 san antonio tx south ih 10 east",
+   "canonical_name": "Motel 6 San Antonio, TX - South IH-10 East",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the routes this market's lanes carry are legacy routes the brand retires to its home page (seq 164-165), and the brand's live property pages state only an amenity chip (measured in the Austin order) -- no authorized lane yields an operative policy"
+  },
+  {
+   "identity_key": "mustang inn",
+   "canonical_name": "Mustang Inn",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "nu capri motel inc",
+   "canonical_name": "Nu-Capri Motel Inc",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "oak view motel apartment",
+   "canonical_name": "Oak-View Motel Apartment",
+   "corridor": "san-antonio-tx__sat-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "paradise inn motel",
+   "canonical_name": "Paradise Inn Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "posada ana inn",
+   "canonical_name": "Posada Ana Inn",
+   "corridor": "san-antonio-tx__sat-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Places named https://www.bestwestern.com/en_US/book/hotel-details.44543.html; the attended browser opened it (seq 189): NAVIGATION_FAILED_ERROR_PAGE -- RETIRED ROUTE: the code Places names for Posada Ana Inn (8600 Jones Maltsberger Rd) lands on Best Western's search-results page, not a property page; the brand's own Texas sitemap lists no 44543"
+  },
+  {
+   "identity_key": "prado motel",
+   "canonical_name": "Prado Motel",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "quality inn and suites fiesta park",
+   "canonical_name": "Quality Inn & Suites Fiesta Park",
+   "corridor": "san-antonio-tx__northwest-la-cantera",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "rodeway inn downtown",
+   "canonical_name": "Rodeway Inn Downtown",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Places named https://www.choicehotels.com/texas/san-antonio/rodeway-inn-hotels; the attended browser opened it (seq 207): NAVIGATION_FAILED_ERROR_PAGE -- RETIRED: the website Places names for Rodeway Inn Downtown (909 S Frio St) is Choice's own San Antonio Rodeway listing, whose only Rodeway is Rodeway Inn San Antonio Lackland AFB - SeaWorld (6500 Enri"
+  },
+  {
+   "identity_key": "roosevelt inn motel",
+   "canonical_name": "Roosevelt Inn Motel",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "rose park inn and suites",
+   "canonical_name": "Rose Park Inn & Suites",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "safari inn motel",
+   "canonical_name": "Safari Inn Motel",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "sage motel",
+   "canonical_name": "Sage Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "southtown san antonio inn mini suites",
+   "canonical_name": "Southtown San Antonio Inn/mini-Suites",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "spark by hilton san antonio near seaworld",
+   "canonical_name": "Spark by Hilton San Antonio near SeaWorld",
+   "corridor": "san-antonio-tx__seaworld-westover-hills",
+   "brand_family": "HILTON",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.hilton.com/en/hotels/sathype-spark-san-antonio-near-seaworld/?SEO_id=GMB-AMER-) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "spur mtel",
+   "canonical_name": "Spur Mtel",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "stewart motel",
+   "canonical_name": "Stewart Motel",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "studio 6 lackland afb",
+   "canonical_name": "Studio 6 Lackland AFB",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the routes this market's lanes carry are legacy routes the brand retires to its home page (seq 164-165), and the brand's live property pages state only an amenity chip (measured in the Austin order) -- no authorized lane yields an operative policy"
+  },
+  {
+   "identity_key": "sueno motel",
+   "canonical_name": "Sueno Motel",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Places named only a social or third-party booking page (https://www.facebook.com/Sueno-Motel-113593668674361), never a first-party policy source; no other authorized lane routes this row"
+  },
+  {
+   "identity_key": "super 7 inn san antonio n w medical center",
+   "canonical_name": "Super 7 Inn San Antonio N.W. Medical Center",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Places named only a social or third-party booking page (https://www.oyorooms.com/us/258786/), never a first-party policy source; no other authorized lane routes this row"
+  },
+  {
+   "identity_key": "texan inn motel",
+   "canonical_name": "Texan Inn Motel",
+   "corridor": "san-antonio-tx__northeast",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "the ever kleen motel",
+   "canonical_name": "The Ever Kleen Motel",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "upland inn",
+   "canonical_name": "Upland Inn",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "valley hi inn",
+   "canonical_name": "Valley Hi Inn",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "value place hotel",
+   "canonical_name": "Value Place Hotel",
+   "corridor": "san-antonio-tx__live-oak-universal-city",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (2 candidates)"
+  },
+  {
+   "identity_key": "villa motel",
+   "canonical_name": "Villa Motel",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "washington courts motel",
+   "canonical_name": "Washington Courts Motel",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "waterwalk hotel apartments",
+   "canonical_name": "Waterwalk Hotel Apartments",
+   "corridor": "san-antonio-tx__six-flags-rim",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "workforce lodge llc",
+   "canonical_name": "Workforce Lodge Llc",
+   "corridor": "san-antonio-tx__sat-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the Texas hotel-tax permit register, Visit San Antonio's roster, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "americas best value inn frost bank center",
+   "canonical_name": "Americas Best Value Inn Frost Bank Center",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "SONESTA",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "camino real motel",
+   "canonical_name": "Camino Real Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "capital motel",
+   "canonical_name": "Capital Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "cardinal pointe station",
+   "canonical_name": "Cardinal Pointe Station",
+   "corridor": "san-antonio-tx__seaworld-westover-hills",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "city view inn and suites",
+   "canonical_name": "City View Inn & Suites",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "culebra motel",
+   "canonical_name": "Culebra Motel",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "fairmount hotel",
+   "canonical_name": "Fairmount Hotel",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn and suites san antonio northwest",
+   "canonical_name": "Holiday Inn & Suites San Antonio Northwest",
+   "corridor": "san-antonio-tx__northwest-la-cantera",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn san antonio n stone oak area",
+   "canonical_name": "Holiday Inn San Antonio N - Stone Oak Area",
+   "corridor": "san-antonio-tx__stone-oak",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn san antonio seaworld",
+   "canonical_name": "Holiday Inn San Antonio SeaWorld",
+   "corridor": "san-antonio-tx__seaworld-westover-hills",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "home suites hill country",
+   "canonical_name": "Home Suites Hill Country",
+   "corridor": "san-antonio-tx__six-flags-rim",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "homegate studio and suites",
+   "canonical_name": "Homegate Studio and Suites",
+   "corridor": "san-antonio-tx__northwest-la-cantera",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "homestead inn",
+   "canonical_name": "Homestead Inn",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "inn on the riverwalk",
+   "canonical_name": "Inn on the Riverwalk",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "knights inn san antonio near frost bank center",
+   "canonical_name": "Knights Inn San Antonio near Frost Bank Center",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "la villita inn",
+   "canonical_name": "La Villita Inn",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "mayfield motel",
+   "canonical_name": "Mayfield Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 san antonio tx i 10 west",
+   "canonical_name": "Motel 6 San Antonio, TX - I-10 West",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 san antonio tx i 35 north corridor",
+   "canonical_name": "Motel 6 San Antonio, TX – I-35 North Corridor",
+   "corridor": "san-antonio-tx__live-oak-universal-city",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "mustang inn and suites",
+   "canonical_name": "Mustang Inn & Suites",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "nogalitos motel",
+   "canonical_name": "Nogalitos Motel",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "oyo hotel san antonio east",
+   "canonical_name": "OYO Hotel San Antonio East",
+   "corridor": "san-antonio-tx__east-side",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "oyo hotel san antonio lackland",
+   "canonical_name": "Oyo Hotel San Antonio Lackland",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "oyo inn and suites",
+   "canonical_name": "Oyo Inn and Suites",
+   "corridor": "san-antonio-tx__medical-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "qubed",
+   "canonical_name": "Qubed",
+   "corridor": "san-antonio-tx__northeast",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "san pedro motel",
+   "canonical_name": "San Pedro Motel",
+   "corridor": "san-antonio-tx__sat-airport",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "studio 6 the inn market square",
+   "canonical_name": "Studio 6 / the Inn Market Square",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "winnquest",
+   "canonical_name": "Winnquest",
+   "corridor": "san-antonio-tx__northeast",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "woodspring suites san antonio fort sam",
+   "canonical_name": "WoodSpring Suites San Antonio Fort Sam",
+   "corridor": "san-antonio-tx__northeast",
+   "brand_family": "CHOICE",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "woodspring suites south",
+   "canonical_name": "WoodSpring Suites South",
+   "corridor": "san-antonio-tx__south-side",
+   "brand_family": "CHOICE",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "homewood suites by hilton san antonio at the rim tx",
+   "canonical_name": "Homewood Suites by Hilton San Antonio at the Rim, TX",
+   "corridor": "san-antonio-tx__six-flags-rim",
+   "brand_family": "HILTON",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party inventory card states \"open = false; opening 2027-02-05 (the brand's own city-page card)\": the hotel is not open, so no profile publishes unti"
+  },
+  {
+   "identity_key": "perlen house opening 2027",
+   "canonical_name": "Perlen House- Opening 2027",
+   "corridor": "san-antonio-tx__pearl-broadway",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party name states 'Opening 2027': the hotel is not open, so no profile publishes until it opens and its policy is revalidated. The first-party evide"
+  },
+  {
+   "identity_key": "sitio el tropicano opening late 2026",
+   "canonical_name": "Sitio El Tropicano - Opening Late 2026",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party name states 'Opening Late 2026': the hotel is not open, so no profile publishes until it opens and its policy is revalidated. The first-party "
+  },
+  {
+   "identity_key": "the st paul san antonio outset collection by hilton",
+   "canonical_name": "The St Paul San Antonio, Outset Collection by Hilton",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "HILTON",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party page states \"We're accepting reservations for January 3, 2027 and beyond.\": the hotel is not open, so no profile publishes until it opens and "
+  },
+  {
+   "identity_key": "the jackson house",
+   "canonical_name": "The Jackson House",
+   "corridor": "san-antonio-tx__southtown",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "the property's own page states a refusal this order read as one, but the SHARED reader FAST rule C re-runs cannot interpret it (a shared-factory change this order may not make); held, never published -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pets: We regret that we can’t accommodate any pets.'), not an "
+  },
+  {
+   "identity_key": "ac hotel san antonio riverwalk",
+   "canonical_name": "AC Hotel San Antonio Riverwalk",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "baymont by wyndham san antonio downtown",
+   "canonical_name": "Baymont by Wyndham San Antonio Downtown",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "WYNDHAM",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "baymont by wyndham san antonio near lackland afb",
+   "canonical_name": "Baymont by Wyndham San Antonio Near Lackland AFB",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "WYNDHAM",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "days inn by wyndham san antonio downtown",
+   "canonical_name": "Days Inn by Wyndham San Antonio Downtown",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "WYNDHAM",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "days inn by wyndham san antonio near lackland afb",
+   "canonical_name": "Days Inn by Wyndham San Antonio Near Lackland AFB",
+   "corridor": "san-antonio-tx__lackland-west",
+   "brand_family": "WYNDHAM",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "element by marriott san antonio riverwalk",
+   "canonical_name": "Element by Marriott San Antonio Riverwalk",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "hampton inn and suites san antonio riverwalk",
+   "canonical_name": "Hampton Inn & Suites San Antonio Riverwalk",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "home2 suites by hilton san antonio riverwalk",
+   "canonical_name": "Home2 Suites by Hilton San Antonio Riverwalk",
+   "corridor": "san-antonio-tx__downtown-river-walk",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  }
+ ]
+}
