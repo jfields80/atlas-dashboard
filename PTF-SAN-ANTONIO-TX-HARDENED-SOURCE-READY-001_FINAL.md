@@ -476,3 +476,25 @@ BROAD REGRESSION RUNS = 0
 SAN ANTONIO FINAL CANDIDATE = NO
 SAN ANTONIO DEPLOYED = NO
 WAITING FOR RELEASE QUEUE = YES
+
+## ADDENDUM — PTF-SAN-ANTONIO-TX-HILTON-PACED-RETRY-002 (2026-10-02)
+
+One bounded, paced attended-browser window over ONLY the 10 Hilton rows held ACCESS_BLOCKED (satsaes, satlphx,
+satrpgi, sathchf, satswht, satrmht, satcnsa, satadpe, satooru, satwdru): one page at a time, each navigation
+preceded by at least 30 seconds idle; navigate + accessibility tree / page text only; nothing clicked, solved or
+bypassed; no other brand retried; no spend.
+
+- Every page again served Hilton's "Something went wrong" page (title "Hilton Page Reference Code"; satwdru's page
+  text carried Akamai edge "Reference No. 27.e5c83017.1790966908.3b9999bf"). No real hotel page loaded, so no premises
+  bound and no policy was captured or inferred.
+- HILTON RETRIED = 10, NEW READS = 0, NEWLY RESOLVED = 0, STILL BLOCKED = 10 — all ten stay ACCESS_BLOCKED,
+  AUTHORIZED_ROUTER_EXHAUSTED (terminally held). ACTIONABLE UNRESOLVED stays 0; coverage is not downgraded.
+- Record: `markets/reports/san_antonio_tx_hilton_paced_retry_002.json` (recording clock 2026-10-02T18:48:54Z, an
+  upper bound for every attempt).
+- **Sealed inputs untouched.** The package's inputs are the market, census, policy package, exclusions, routing,
+  seed and partition documents. The retry is recorded in a separate report that none of them reads; the browser
+  read log (which feeds the partition's hold reasons) was deliberately not appended. A digest-only re-seal from
+  `823e0ba4` returned the same `pkg-san-antonio-tx-b6018714bcc2bd44` / `sha256:b6018714…ed36`, and its receipt
+  `…54a176a9` is still currently eligible, so FAST and the reproduction were not rebuilt for unchanged content.
+- **AUTHORITATIVE PACKAGE = `pkg-san-antonio-tx-b6018714bcc2bd44`** (unchanged). Not registered, not authorized, not
+  deployed.
