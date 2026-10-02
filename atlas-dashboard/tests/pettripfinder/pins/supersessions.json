@@ -1,7 +1,7 @@
 {
  "schema": "ptf-supersession-registry/1.0",
  "what_this_is": "Which later work orders moved a market out from under a CONSUMED historical deployment authorization. An authorization is immutable evidence of what was authorized and deployed at the time; later legitimate source growth must NOT make its historical hash read as corrupt. So a test that re-verifies a historical authorization skips exactly the markets named here -- named, never blanket -- and still binds every market that was not moved. A market may only be listed with the work order that moved it.",
- "reviewed_by": "PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001",
+ "reviewed_by": "PTF-AUSTIN-TX-FOUNDER-LAUNCH-AUTHORIZATION-AND-DEPLOYMENT-004",
  "authorizations": {
   "ptf-auth-047-a324b1bf5023": {
    "work_order": "PTF-FIRST-MULTI-MARKET-AUTHORIZATION-AND-DEPLOYMENT-047",
@@ -236,7 +236,12 @@
   "ptf-auth-question-negation-001-63ae17cf4054": {
    "work_order": "PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001",
    "moved_by_later_work": {},
-   "note": "The CURRENT live authorization. It binds all 37 release contracts exactly. A production SAFETY CORRECTION, not a launch: the repaired shared first-party reader moved sixteen live rows in seven markets (fort-lauderdale-fl, tampa-fl, san-diego-ca, jacksonville-fl, miami-fl, phoenix-az, orlando-fl), each resealed FAST 15/15; no market joined or left, participation is unchanged, and the next application order that re-authors a market lists it here."
+   "note": "Was the current live authorization. It binds all 37 release contracts exactly. A production SAFETY CORRECTION, not a launch: the repaired shared first-party reader moved sixteen live rows in seven markets (fort-lauderdale-fl, tampa-fl, san-diego-ca, jacksonville-fl, miami-fl, phoenix-az, orlando-fl), each resealed FAST 15/15; no market joined or left, participation is unchanged, and the next application order that re-authors a market lists it here. Historical. It was the current live authorization until deploy 6abf3e749cc359701298718d published austin-tx as the thirty-eighth market (authorization ptf-auth-austin-004-75e569412dd2, PTF-AUSTIN-TX-FOUNDER-LAUNCH-AUTHORIZATION-AND-DEPLOYMENT-004), which this chain records as the new CURRENT entry."
+  },
+  "ptf-auth-austin-004-75e569412dd2": {
+   "work_order": "PTF-AUSTIN-TX-FOUNDER-LAUNCH-AUTHORIZATION-AND-DEPLOYMENT-004",
+   "moved_by_later_work": {},
+   "note": "The CURRENT live authorization. It binds all 38 release contracts exactly, because production was authorized against what source holds and no application order has moved a market since. Registered with an EMPTY moved list rather than left unregistered: an unregistered authorization binds everything by default, so the two read alike today, and only the explicit entry says that emptiness was checked. austin-tx was built from zero by PTF-AUSTIN-TX-HARDENED-SOURCE-READY-001, refreshed under the repaired shared first-party reader by PTF-AUSTIN-TX-POST-READER-SAFETY-REFRESH-002, registered by PTF-AUSTIN-TX-REGISTRATION-AND-STAGING-003 as COMPOSITE_FRESH_MARKET_DATA_ONLY (FAST 15/15, 0 broad regression runs; classification supplied against base 1109a239 because the automatic base derivation refused), and founder-authorized and deployed ONCE by PTF-AUSTIN-TX-FOUNDER-LAUNCH-AUTHORIZATION-AND-DEPLOYMENT-004. This is the market's FIRST authorization and FIRST deployment: nothing was superseded."
   }
  }
 }

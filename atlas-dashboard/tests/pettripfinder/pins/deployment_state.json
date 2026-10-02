@@ -1,20 +1,21 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001",
+ "reviewed_by": "PTF-AUSTIN-TX-FOUNDER-LAUNCH-AUTHORIZATION-AND-DEPLOYMENT-004",
  "live": {
-  "deploy_id": "6abdbcb87e046e3e673760ac",
-  "deployed_by": "PTF-FIRST-PARTY-QUESTION-NEGATION-AND-LIVE-CORRECTION-001",
-  "authorization_id": "ptf-auth-question-negation-001-63ae17cf4054",
-  "deployment_record_id": "ptf-deploy-question-negation-001-6abdbcb87e046e3e673760ac",
-  "previous_deploy_id": "6abc8387e81507b25eb94a0a",
-  "source_commit": "18f4f979e9be2042f71b581af45c5348be2c31bd",
-  "bundle_sha256": "63ae17cf40542101c731ce315a210da5fae6ebce4ba51fc76477c80e2364edd7",
-  "sitemap_sha256": "4ee064226b37e36e96e1ecaf91a5e1301985445547a0225fdce526dd7b06999d",
+  "deploy_id": "6abf3e749cc359701298718d",
+  "deployed_by": "PTF-AUSTIN-TX-FOUNDER-LAUNCH-AUTHORIZATION-AND-DEPLOYMENT-004",
+  "authorization_id": "ptf-auth-austin-004-75e569412dd2",
+  "deployment_record_id": "ptf-deploy-austin-004-6abf3e749cc359701298718d",
+  "previous_deploy_id": "6abdbcb87e046e3e673760ac",
+  "source_commit": "ef28f7b484e410bf5073f0b72248cf95fea69b46",
+  "bundle_sha256": "75e569412dd28a64eb4c7aa02c58c955badf065833d969b1d18b8ed339fa31b0",
+  "sitemap_sha256": "d6461dbc2cd4bc225c52b235c5e4b675f78117b0b2e191463fe5c4baca2ef606",
   "participating_markets": [
    "asheville-nc",
    "atlanta-ga",
    "augusta-ga",
+   "austin-tx",
    "boone-blowing-rock-nc",
    "charleston-sc",
    "charlotte-nc",
@@ -54,6 +55,7 @@
    "asheville-nc": 41,
    "atlanta-ga": 244,
    "augusta-ga": 14,
+   "austin-tx": 190,
    "boone-blowing-rock-nc": 11,
    "charleston-sc": 84,
    "charlotte-nc": 106,
@@ -89,19 +91,19 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 3196,
-  "sitemap_route_count": 3604,
-  "total_html_pages": 19334,
-  "total_files": 19352,
-  "rollback_target": "6abc8387e81507b25eb94a0a",
-  "note": "The first-party reader safety correction: the shared reader no longer reads an FAQ question as acceptance and reads the refusal shapes it missed; sixteen live rows in seven markets were corrected (twelve to verified-no-pets, two held as question-only, two rebound to the answer on the same capture). 37 markets, participation unchanged. Rollback is the deployment this replaced.",
-  "rollback_record": "ptf-deploy-phoenix-005-6abc8387e81507b25eb94a0a.json"
+  "total_profiles": 3386,
+  "sitemap_route_count": 3808,
+  "total_html_pages": 20470,
+  "total_files": 20488,
+  "rollback_target": "6abdbcb87e046e3e673760ac",
+  "note": "Austin / Central Texas joined as the THIRTY-EIGHTH market and the first Texas market at 190 published pet-friendly profiles over 12 publishing corridors, on package pkg-austin-tx-ee3f5c9147638f51 (refreshed under the repaired shared first-party reader). The exact authorized artifact was deployed with no rebuild; every unpublished census row returns 404, and the three timeshare identities are absent. Rollback is the deployment Austin replaced (the reader safety correction, 37 markets).",
+  "rollback_record": "ptf-deploy-question-negation-001-6abdbcb87e046e3e673760ac.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "63ae17cf40542101c731ce315a210da5fae6ebce4ba51fc76477c80e2364edd7",
-  "sitemap_sha256": "4ee064226b37e36e96e1ecaf91a5e1301985445547a0225fdce526dd7b06999d",
+  "bundle_sha256": "75e569412dd28a64eb4c7aa02c58c955badf065833d969b1d18b8ed339fa31b0",
+  "sitemap_sha256": "d6461dbc2cd4bc225c52b235c5e4b675f78117b0b2e191463fe5c4baca2ef606",
   "participating_markets": [
    {
     "market_id": "asheville-nc",
@@ -122,6 +124,13 @@
     "published_profiles": 14,
     "release_contract": "deploy/netlify/release_contracts/augusta-ga.json",
     "release_contract_sha256": "0ab800a7d105bf4835702576e2c8c8edbf55e5c26b394e9a15c8f5d4107bcf49",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "austin-tx",
+    "published_profiles": 190,
+    "release_contract": "deploy/netlify/release_contracts/austin-tx.json",
+    "release_contract_sha256": "02f53ff40ce6bac442c09fbf80df24380cdb0c5eb96989473905e2aede4879f5",
     "contract_disagreements": []
    },
    {
@@ -367,6 +376,7 @@
    "asheville-nc": 41,
    "atlanta-ga": 244,
    "augusta-ga": 14,
+   "austin-tx": 190,
    "boone-blowing-rock-nc": 11,
    "charleston-sc": 84,
    "charlotte-nc": 106,
@@ -402,9 +412,9 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 3196,
-  "sitemap_route_count": 3604,
-  "total_html_pages": 19334,
-  "total_files": 19352
+  "total_profiles": 3386,
+  "sitemap_route_count": 3808,
+  "total_html_pages": 20470,
+  "total_files": 20488
  }
 }

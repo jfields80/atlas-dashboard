@@ -22,6 +22,7 @@ import re
 import subprocess
 import sys
 from collections import OrderedDict
+from pathlib import Path
 
 _DASH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 if _DASH not in sys.path:
@@ -387,7 +388,7 @@ def supersessions(args):
                     if (a.get("status_history") or [{}])[-1].get("deployment_id") == auth["rollback_target"])
     prev_entry = chain[previous["authorization_id"]]
     drift = sorted(c["market_id"] for c in previous["release_contracts"]
-                   if DA._sha256_file(os.path.join(_DASH, c["path"])) != c["sha256"])
+                   if DA._sha256_file(Path(_DASH) / c["path"]) != c["sha256"])
     if drift != sorted(prev_entry.get("moved_by_later_work") or {}):
         raise SystemExit("drift under %s is %s but the chain lists %s" % (previous["authorization_id"], drift,
                                                                           list(prev_entry.get("moved_by_later_work") or {})))
@@ -398,7 +399,7 @@ def supersessions(args):
                                 "austin-tx as the thirty-eighth market (authorization %s, %s), which this chain "
                                 "records as the new CURRENT entry." % (args.deployment_id, auth_id, WORK_ORDER))
     mine = sorted(c["market_id"] for c in auth["release_contracts"]
-                  if DA._sha256_file(os.path.join(_DASH, c["path"])) != c["sha256"])
+                  if DA._sha256_file(Path(_DASH) / c["path"]) != c["sha256"])
     if mine:
         raise SystemExit("release-contract drift under the new authorization: %s" % mine)
     from collections import OrderedDict as OD
