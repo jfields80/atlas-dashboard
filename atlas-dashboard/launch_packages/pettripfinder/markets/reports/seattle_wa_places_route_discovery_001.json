@@ -1,0 +1,3820 @@
+{
+ "schema": "ptf-places-route-discovery/1.0",
+ "work_order": "PTF-SEATTLE-WA-HARDENED-SOURCE-READY-001",
+ "market_id": "seattle-wa",
+ "provider": "GOOGLE_PLACES_TEXT_SEARCH (existing GOOGLE_PLACES_API_KEY capacity)",
+ "field_mask_gap_verification": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus",
+ "field_mask_route_discovery": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus,places.websiteUri,places.nationalPhoneNumber",
+ "route_discovery_run": true,
+ "route_discovery_capacity_basis": "websiteUri is an Enterprise-SKU field; its free monthly allowance (about 1,000 requests) renewed on 2026-10-01; the only Places use on this machine since then is San Antonio's 201 requests (187 Enterprise). This run stays inside that allowance (cap 300 Enterprise requests) -- existing capacity, no new paid spend.",
+ "request_cap": 400,
+ "route_discovery_cap": 300,
+ "requests_made": 169,
+ "enterprise_requests_made": 149,
+ "pro_requests_made": 20,
+ "requests_this_run": 20,
+ "answers_reused_from_prior_runs": 82,
+ "errors": {},
+ "never_policy": "A Places field is never a pet policy; a website it names is only a route.",
+ "route_discovery_targets": 82,
+ "route_discovery_bound": 106,
+ "route_discovery_bound_with_website": 63,
+ "gap_verification_targets": 20,
+ "gap_verdicts": {
+  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 15,
+  "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 3,
+  "OUTSIDE_MARKET": 1,
+  "NO_LODGING_RESULT": 1
+ },
+ "rows": [
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "ace hotel",
+   "query": "Ace Hotel 2423 1st Ave Seattle WA 98121",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ0489300VkFQRymcFygNPKbw",
+    "display_name": "Ace Hotel Seattle",
+    "formatted_address": "2423 1st Ave, Seattle, WA 98121, USA",
+    "street_number": "2423",
+    "route": "1st Avenue",
+    "locality": "Seattle",
+    "postal_code": "98121",
+    "phone": "(206) 448-4721",
+    "website_uri": "http://www.acehotel.com/seattle",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "clothing_store",
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "store"
+    ],
+    "lat": 47.6143774,
+    "lng": -122.34883939999997
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "aero motel",
+   "query": "Aero Motel 7240 E Marginal Way S Seattle WA 98108",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJFZhA041BkFQRhbgVeO2M4Aw",
+    "display_name": "Aero Motel",
+    "formatted_address": "7240 E Marginal Wy S, Seattle, WA 98108, USA",
+    "street_number": "7240",
+    "route": "East Marginal Way South",
+    "locality": "Seattle",
+    "postal_code": "98108",
+    "phone": "(206) 763-9962",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.53866190000001,
+    "lng": -122.31960289999998
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "airlane motel",
+   "query": "Airlane Motel 7070 E Marginal Way S Seattle WA 98108",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJV5TJ4o1BkFQRaAUwcdy15vA",
+    "display_name": "Airlane Motel",
+    "formatted_address": "7070 E Marginal Wy S, Seattle, WA 98108, USA",
+    "street_number": "7070",
+    "route": "East Marginal Way South",
+    "locality": "Seattle",
+    "postal_code": "98108",
+    "phone": "(206) 766-9809",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.539656699999995,
+    "lng": -122.3217654
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "best motel",
+   "query": "Best Motel 12045 Aurora Ave N Seattle WA 98133",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQ9rG5EoRkFQRkHtZpXq77Yo",
+    "display_name": "Best Motel",
+    "formatted_address": "12045 Aurora Ave N, Seattle, WA 98133, USA",
+    "street_number": "12045",
+    "route": "Aurora Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98133",
+    "phone": "(206) 364-6095",
+    "website_uri": "https://bestmotelseattle.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.7172117,
+    "lng": -122.34571869999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "best western plus edmonds harbor inn",
+   "query": "Best Western Plus Edmonds Harbor Inn 130 West Dayton Street Edmonds WA 98020",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJz4Qxq_kakFQRt8mAqeaeOCs",
+    "display_name": "Best Western Plus Edmonds Harbor Inn",
+    "formatted_address": "130 W Dayton St, Edmonds, WA 98020, USA",
+    "street_number": "130",
+    "route": "West Dayton Street",
+    "locality": "Edmonds",
+    "postal_code": "98020",
+    "phone": "(425) 771-5021",
+    "website_uri": "https://www.bestwestern.com/en_US/book/hotel-rooms.48168.html?iata=00171880&ssob=BLBWI0004G&cid=BLBWI0004G:google:gmb:48168",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.8084158,
+    "lng": -122.38446499999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "beston inn seattle",
+   "query": "Beston Inn Seattle 12035 Aurora Ave N Seattle WA 98133",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJr1bwM6gRkFQRxWTwC0Dug0E",
+    "display_name": "Beston Inn Seattle",
+    "formatted_address": "12035 Aurora Ave N, Seattle, WA 98133, USA",
+    "street_number": "12035",
+    "route": "Aurora Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98133",
+    "phone": "(206) 363-9009",
+    "website_uri": "https://www.bestoninn.com/?utm_source=google&utm_medium=wix_google_business_profile&utm_campaign=8841162887749401234",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.7169118,
+    "lng": -122.34516989999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "boyer avenue co",
+   "query": "Boyer Avenue Co 2410 Boyer Ave E # 1 Seattle WA 98112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ-fK5ed0UkFQRpDdkrzSTG40",
+    "display_name": "Four Seasons Apartments",
+    "formatted_address": "2410 Boyer Ave E, Seattle, WA 98112, USA",
+    "street_number": "2410",
+    "route": "Boyer Avenue East",
+    "locality": "Seattle",
+    "postal_code": "98112",
+    "phone": "(206) 702-1839",
+    "website_uri": "https://www.redsidepartners.com/property/four-seasons-apartments/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "apartment_building",
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.641543,
+    "lng": -122.31352199999998
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "c and c b and b",
+   "query": "C and c B and b 4710 Burke Ave N Seattle WA 98103",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJHXQmFloUkFQRTyVIfhfh-c4",
+    "display_name": "4710 Burke Ave N",
+    "formatted_address": "4710 Burke Ave N, Seattle, WA 98103, USA",
+    "street_number": "4710",
+    "route": "Burke Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98103",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.6632746,
+    "lng": -122.33493929999997
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "clarion inn renton seattle",
+   "query": "Clarion Inn Renton-Seattle 3700 East Valley Road Renton WA 98055",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJpXMnNhpdkFQRntUxHgDH5po",
+    "display_name": "Clarion Inn Renton-Seattle",
+    "formatted_address": "3700 E Valley Rd, Renton, WA 98055, USA",
+    "street_number": "3700",
+    "route": "East Valley Road",
+    "locality": "Renton",
+    "postal_code": "98055",
+    "phone": "(425) 336-1011",
+    "website_uri": "https://www.choicehotels.com/washington/renton/clarion-hotels/wa199?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.446332,
+    "lng": -122.217456
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "clarion pointe kent seattle south",
+   "query": "Clarion Pointe Kent - Seattle South 1711 W. Meeker Street Kent WA 98032",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJMSiFLG9bkFQR1g2mjq4B0L0",
+    "display_name": "Clarion Pointe Kent - Seattle South",
+    "formatted_address": "1711 W Meeker St, Kent, WA 98032, USA",
+    "street_number": "1711",
+    "route": "West Meeker Street",
+    "locality": "Kent",
+    "postal_code": "98032",
+    "phone": "(253) 480-6739",
+    "website_uri": "https://www.choicehotels.com/washington/kent/quality-inn-hotels/wa211?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.3817242,
+    "lng": -122.25766009999998
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn and suites bothell seattle north",
+   "query": "Comfort Inn & Suites - Bothell Seattle North 1414 228th Street Bothell WA 98021",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJA0sL1qkPkFQR43qJWFmWqvo",
+    "display_name": "Comfort Inn & Suites Bothell - Seattle North",
+    "formatted_address": "1414 228th St SE, Bothell, WA 98021, USA",
+    "street_number": "1414",
+    "route": "228th Street Southeast",
+    "locality": "Bothell",
+    "postal_code": "98021",
+    "phone": "(425) 402-0900",
+    "website_uri": "https://www.choicehotels.com/washington/bothell/comfort-inn-hotels/wa704?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.790475,
+    "lng": -122.213519
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn and suites seattle north",
+   "query": "Comfort Inn & Suites Seattle North 13700 Aurora Ave N Seattle WA 98133",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJE2Q2djARkFQR9A2eNolcYxA",
+    "display_name": "Comfort Inn & Suites Seattle North",
+    "formatted_address": "13700 Aurora Ave N, Seattle, WA 98133, USA",
+    "street_number": "13700",
+    "route": "Aurora Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98133",
+    "phone": "(206) 962-4682",
+    "website_uri": "https://www.choicehotels.com/washington/seattle/comfort-inn-hotels/wa217?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.729014,
+    "lng": -122.344447
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn federal way seattle",
+   "query": "Comfort Inn Federal Way - Seattle 31622 Pacific Highway South Federal Way WA 98003",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJK9lMqXlXkFQRioDcw4YsVLs",
+    "display_name": "Comfort Inn Federal Way - Seattle",
+    "formatted_address": "31622 Pacific Hwy S, Federal Way, WA 98003, USA",
+    "street_number": "31622",
+    "route": "Pacific Highway South",
+    "locality": "Federal Way",
+    "postal_code": "98003",
+    "phone": "(253) 237-1519",
+    "website_uri": "https://www.choicehotels.com/washington/federal-way/comfort-inn-hotels/wa114?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.317651,
+    "lng": -122.31097500000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn kent seattle",
+   "query": "Comfort Inn - Kent/Seattle 22311 84th Avenue South Kent WA 98032",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJvdsHNBJckFQRvptCd3KyKy4",
+    "display_name": "Comfort Inn Kent - Seattle",
+    "formatted_address": "22311 84th Ave S, Kent, WA 98032, USA",
+    "street_number": "22311",
+    "route": "84th Avenue South",
+    "locality": "Kent",
+    "postal_code": "98032",
+    "phone": "(253) 648-6943",
+    "website_uri": "https://www.choicehotels.com/washington/kent/comfort-inn-hotels/wa020?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.401751999999995,
+    "lng": -122.22891
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "cory shelest",
+   "query": "Cory Shelest 3120 Harvard Ave E Seattle WA 98102",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJzaYKFEoVkFQR22CRlLWPgiM",
+    "display_name": "Odessa Apartments",
+    "formatted_address": "3120 Harvard Ave E, Seattle, WA 98102, USA",
+    "street_number": "3120",
+    "route": "Harvard Avenue East",
+    "locality": "Seattle",
+    "postal_code": "98102",
+    "phone": "(206) 483-1484",
+    "website_uri": "http://odessaonlakeunion.com/?utm_knock=g",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "apartment_building",
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.6499338,
+    "lng": -122.32191030000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "crossland economy studios seattle kent des moines",
+   "query": "Crossland Economy Studios - Seattle/Kent/Des Moines 25104 Pacific Highway South Kent WA 98032",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJpzVCkDlbkFQRHSu62SvYI7Y",
+    "display_name": "HomeTowne Studios Seattle - Kent/ Des Moines",
+    "formatted_address": "25104 Pacific Hwy S, Kent, WA 98032, USA",
+    "street_number": "25104",
+    "route": "Pacific Highway South",
+    "locality": "Kent",
+    "postal_code": "98032",
+    "phone": "(253) 466-2716",
+    "website_uri": "https://www.redroof.com/extendedstay/hometownestudios/property/WA/Kent/HTS1048?utm_source=GMB&utm_medium=Google&utm_campaign=GMB_Performance_HTS1048",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.376486299999996,
+    "lng": -122.2976936
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "curben hotel",
+   "query": "Curben Hotel 1726 Summit Ave Seattle WA 98122",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ3z98XDMVkFQR_PG4TCTbk6g",
+    "display_name": "The Curben Hotel",
+    "formatted_address": "1726 Summit Ave, Seattle, WA 98122, USA",
+    "street_number": "1726",
+    "route": "Summit Avenue",
+    "locality": "Seattle",
+    "postal_code": "98122",
+    "phone": "(206) 323-8688",
+    "website_uri": "https://neiders.com/properties/the-curben-hotel/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "real_estate_agency",
+     "service"
+    ],
+    "lat": 47.617181099999996,
+    "lng": -122.32529450000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "econo lodge seatac airport",
+   "query": "Econo Lodge Seatac Airport 13910 Tukwila International Boulevard Tukwila WA 98168",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "ed b and b",
+   "query": "Ed B and b 130 NE 57th St Seattle WA 98105",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJm1hB_mcUkFQRhXz241xvMSQ",
+    "display_name": "130 NE 57th St",
+    "formatted_address": "130 NE 57th St, Seattle, WA 98105, USA",
+    "street_number": "130",
+    "route": "Northeast 57th Street",
+    "locality": "Seattle",
+    "postal_code": "98105",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.670358199999995,
+    "lng": -122.32680850000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "elsie s bay manor",
+   "query": "Elsie's Bay Manor 27615 10th Avenue South Des Moines WA 98198",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites seattle bothell canyon park",
+   "query": "Extended Stay America Suites Seattle - Bothell - Canyon Park 22122 17th Ave. SE Bothell WA 98021",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ-V7StAgPkFQRhRXVcnAu9Ps",
+    "display_name": "Extended Stay America Suites- Seattle - Bothell - Canyon Park",
+    "formatted_address": "22122 17th Ave SE, Bothell, WA 98021, USA",
+    "street_number": "22122",
+    "route": "17th Avenue Southeast",
+    "locality": "Bothell",
+    "postal_code": "98021",
+    "phone": "(425) 482-2900",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/wa/seattle/bothell-canyon-park?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.7961065,
+    "lng": -122.2116284
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites seattle bothell west",
+   "query": "Extended Stay America Suites Seattle - Bothell - West 923 228th St. SE Bothell WA 98021",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJIWQd2acPkFQR-r49yDW1Gzs",
+    "display_name": "Extended Stay America Suites- Seattle - Bothell - West",
+    "formatted_address": "923 228th St SE, Bothell, WA 98021, USA",
+    "street_number": "923",
+    "route": "228th Street Southeast",
+    "locality": "Bothell",
+    "postal_code": "98021",
+    "phone": "(425) 402-4252",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/wa/seattle/bothell-west?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.792207999999995,
+    "lng": -122.21921700000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites seattle lynnwood",
+   "query": "Extended Stay America Suites Seattle - Lynnwood 3021 196th St. SW Lynnwood WA 98036",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJLxbhSW4FkFQRdhvIyjiVTQg",
+    "display_name": "Extended Stay America Suites- Seattle - Lynnwood",
+    "formatted_address": "3021 196th St SW, Lynnwood, WA 98036, USA",
+    "street_number": "3021",
+    "route": "196th Street Southwest",
+    "locality": "Lynnwood",
+    "postal_code": "98036",
+    "phone": "(425) 670-2520",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/wa/seattle/lynnwood?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.8214532,
+    "lng": -122.2748135
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites seattle southcenter",
+   "query": "Extended Stay America Suites Seattle - Southcenter 15635 W. Valley Hwy. Tukwila WA 98188",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJDaQL2StdkFQRW_JeDsVrjIs",
+    "display_name": "Extended Stay America Suites- Seattle - Southcenter",
+    "formatted_address": "15635 W Valley Hwy, Tukwila, WA 98188, USA",
+    "street_number": "15635",
+    "route": "West Valley Highway",
+    "locality": "Tukwila",
+    "postal_code": "98188",
+    "phone": "(425) 235-7160",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/wa/seattle/southcenter?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.461855899999996,
+    "lng": -122.24628430000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites seattle tukwila",
+   "query": "Extended Stay America Suites Seattle - Tukwila 15451 53rd Ave. S. Tukwila WA 98188",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJTV3SLixDkFQRPRG5X9RrFwY",
+    "display_name": "Extended Stay America Suites- Seattle - Tukwila",
+    "formatted_address": "15451 53rd Ave S, Tukwila, WA 98188, USA",
+    "street_number": "15451",
+    "route": "53rd Avenue South",
+    "locality": "Tukwila",
+    "postal_code": "98188",
+    "phone": "(206) 244-2537",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/wa/seattle/tukwila?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.4642823,
+    "lng": -122.27012129999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "federal way motel",
+   "query": "Federal Way Motel 29815 Pacific Highway South Federal Way WA 98003",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJRxhcyt9ZkFQRN_oZR84JpV0",
+    "display_name": "Federal Way Motel",
+    "formatted_address": "29815 Pacific Hwy S, Federal Way, WA 98003, USA",
+    "street_number": "29815",
+    "route": "Pacific Highway South",
+    "locality": "Federal Way",
+    "postal_code": "98003",
+    "phone": "(253) 941-6996",
+    "website_uri": "http://federal-way-motel.paqe.io/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.33473790000001,
+    "lng": -122.31274990000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "foxglove inn",
+   "query": "Foxglove Inn 121 11th Ave E Seattle WA 98102",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJzaStCk4VkFQR9KTeHOY4FpA",
+    "display_name": "FoxGlove Inn",
+    "formatted_address": "121 11th Ave E, Seattle, WA 98102, USA",
+    "street_number": "121",
+    "route": "11th Avenue East",
+    "locality": "Seattle",
+    "postal_code": "98102",
+    "phone": "(564) 465-6509",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.619451,
+    "lng": -122.31851610000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "georgetown inn llc",
+   "query": "Georgetown Inn Llc 6100 Corson Ave S Seattle WA 98108",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJH3pZFetBkFQRcorZLIIQdns",
+    "display_name": "Georgetown Inn",
+    "formatted_address": "6100 Corson Ave S, Seattle, WA 98108, USA",
+    "street_number": "6100",
+    "route": "Corson Avenue South",
+    "locality": "Seattle",
+    "postal_code": "98108",
+    "phone": "(206) 762-2233",
+    "website_uri": "http://www.georgetowninnseattle.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.547747199999996,
+    "lng": -122.3207694
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "golden kent motel",
+   "query": "Golden Kent Motel 22203 84th Avenue South Kent WA 98032",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJ-d7SxJckFQREx4i8x7G_Jw",
+    "display_name": "Golden Kent Motel",
+    "formatted_address": "22203 84th Ave S, Kent, WA 98032, USA",
+    "street_number": "22203",
+    "route": "84th Avenue South",
+    "locality": "Kent",
+    "postal_code": "98032",
+    "phone": "(253) 872-8372",
+    "website_uri": "http://goldenkentmotel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.402323599999995,
+    "lng": -122.2284327
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hotel california by the sea",
+   "query": "Hotel California By The Sea 18504 Bothell Way Northeast Bothell WA 98011",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJR9U1LN0PkFQRxM_Fk22fKcw",
+    "display_name": "Hotel California by the Sea",
+    "formatted_address": "18504 Bothell Way NE, Bothell, WA 98011, USA",
+    "street_number": "18504",
+    "route": "Bothell Way Northeast",
+    "locality": "Bothell",
+    "postal_code": "98011",
+    "phone": "(425) 665-1133",
+    "website_uri": "https://www.hotelcaliforniabythesea.com/leading-bellevue-rehab-washington/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "health",
+     "point_of_interest"
+    ],
+    "lat": 47.7618849,
+    "lng": -122.2071207
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hotel seattle",
+   "query": "Hotel Seattle 315 Seneca Street Seattle WA 98101",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "inn at lake washington",
+   "query": "Inn At Lake Washington 4710 Lake Washington Boulevard Northeast Renton WA 98056",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJeRAgsalpkFQRf6p0sjXy0xY",
+    "display_name": "Inn at Lake Washington By OYO I-405",
+    "formatted_address": "4710 Lake Washington Blvd NE, Renton, WA 98056, USA",
+    "street_number": "4710",
+    "route": "Lake Washington Boulevard Northeast",
+    "locality": "Renton",
+    "postal_code": "98056",
+    "phone": "(323) 284-6005",
+    "website_uri": "https://www.oyorooms.com/us/259273/?utm_source=GMB&utm_medium=Organic&utm_campaign=US_NTO002",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.533354599999996,
+    "lng": -122.19442000000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "jennie s grand b and b",
+   "query": "Jennie's Grand B and b 1122 Grand Ave Seattle WA 98122",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "jet inn motel",
+   "query": "Jet Inn Motel 3747 S 142nd Street Tukwila WA 98168",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJffUXfxhDkFQR0KVtva38L5s",
+    "display_name": "Jet Inn Motel",
+    "formatted_address": "3747 S 142nd St, Tukwila, WA 98168, USA",
+    "street_number": "3747",
+    "route": "South 142nd Street",
+    "locality": "Tukwila",
+    "postal_code": "98168",
+    "phone": "(206) 431-0085",
+    "website_uri": "https://www.jetinnmotel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.475758,
+    "lng": -122.284627
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "k and m b and b",
+   "query": "K & M B and b 2219 2nd Ave # 100 Seattle WA 98121",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJYRsZTUwVkFQRssd9bPprE7U",
+    "display_name": "Concept One Apartments",
+    "formatted_address": "2219 2nd Ave #100, Seattle, WA 98121, USA",
+    "street_number": "2219",
+    "route": "2nd Avenue",
+    "locality": "Seattle",
+    "postal_code": "98121",
+    "phone": "(206) 728-9515",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "apartment_building",
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.613637499999996,
+    "lng": -122.3453442
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "la hacienda motel",
+   "query": "La Hacienda Motel 5414 1st Ave S Seattle WA 98108",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJHXoWzrhBkFQRN5mlnNIYS9A",
+    "display_name": "La Hacienda Motel",
+    "formatted_address": "5414 1st Ave S, Seattle, WA 98108, USA",
+    "street_number": "5414",
+    "route": "1st Avenue South",
+    "locality": "Seattle",
+    "postal_code": "98108",
+    "phone": "(206) 762-2460",
+    "website_uri": "https://www.lahaciendamotel.net/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.553553099999995,
+    "lng": -122.33399659999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "lakeview boutique hotel kirkland",
+   "query": "Lakeview Boutique Hotel Kirkland 10830 NE 68th Street Kirkland WA 98033",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJL58J8q0TkFQRGJpkbqHvOWE",
+    "display_name": "Lakeview Boutique Hotel Kirkland",
+    "formatted_address": "10830 NE 68th St, Kirkland, WA 98033, USA",
+    "street_number": "10830",
+    "route": "Northeast 68th Street",
+    "locality": "Kirkland",
+    "postal_code": "98033",
+    "phone": "(425) 500-9444",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6671098,
+    "lng": -122.1953401
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "larkspur landing extended stay suites renton",
+   "query": "Larkspur Landing Extended Stay Suites Renton 1701 E. Valley Road Renton WA 98057",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ60FWjTddkFQRi8fxPHVitgc",
+    "display_name": "Larkspur Landing Extended Stay Suites Renton",
+    "formatted_address": "1701 E Valley Rd, Renton, WA 98057, USA",
+    "street_number": "1701",
+    "route": "East Valley Road",
+    "locality": "Renton",
+    "postal_code": "98057",
+    "phone": "(425) 235-1212",
+    "website_uri": "https://www.larkspurhotels.com/renton/?utm_source=google-gbp&utm_medium=organic&utm_campaign=gbp",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.4642108,
+    "lng": -122.2195046
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "livaway suites seattle renton",
+   "query": "LivAway Suites Seattle-Renton 751 Park Avenue North Renton WA 98057",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJtTUCORpokFQRejsB47aUeTI",
+    "display_name": "LivAway Suites Seattle-Renton",
+    "formatted_address": "751 Park Ave N, Renton, WA 98057, USA",
+    "street_number": "751",
+    "route": "Park Avenue North",
+    "locality": "Renton",
+    "postal_code": "98057",
+    "phone": "(425) 577-6562",
+    "website_uri": "https://www.livawaysuites.com/locations/wa/seattle/renton",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.494827,
+    "lng": -122.20260100000002
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "machloft guest house and gallery",
+   "query": "Machloft Guest House & Gallery 4502 47th Ave Sw Seattle WA 98116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJg196GwBBkFQRANiP6oiQgzU",
+    "display_name": "MachLoft Guest House & Gallery",
+    "formatted_address": "4502 47th Ave SW, Seattle, WA 98116, USA",
+    "street_number": "4502",
+    "route": "47th Avenue Southwest",
+    "locality": "Seattle",
+    "postal_code": "98116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "guest_house",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.5628001,
+    "lng": -122.3918869
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "marco polo motel",
+   "query": "Marco Polo Motel 4114 Aurora Ave N Seattle WA 98103",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ17V0x1QUkFQRys8gw0fY99s",
+    "display_name": "Marco Polo Motel",
+    "formatted_address": "4114 Aurora Ave N, Seattle, WA 98103, USA",
+    "street_number": "4114",
+    "route": "Aurora Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98103",
+    "phone": "(206) 338-0016",
+    "website_uri": "http://marcopolomotel.net/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.657604899999995,
+    "lng": -122.3470414
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "marina inn",
+   "query": "Marina Inn 22300 7th Avenue South Des Moines WA 98198",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJZ0A33AFbkFQRlzBdbwRuZ_Y",
+    "display_name": "Marina Inn",
+    "formatted_address": "22300 7th Ave S, Des Moines, WA 98198, USA",
+    "street_number": "22300",
+    "route": "7th Avenue South",
+    "locality": "Des Moines",
+    "postal_code": "98198",
+    "phone": "(206) 824-9920",
+    "website_uri": "https://seattlemarinainn.com/home/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.4009643,
+    "lng": -122.3253931
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "mildreds bed and breakfast",
+   "query": "Mildreds Bed & Breakfast 1202 15th Ave E Seattle WA 98112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJkeyJjNcUkFQRVWsyOqrMZkA",
+    "display_name": "Mildred's Bed & Breakfast",
+    "formatted_address": "1202 15th Ave E, Seattle, WA 98112, USA",
+    "street_number": "1202",
+    "route": "15th Avenue East",
+    "locality": "Seattle",
+    "postal_code": "98112",
+    "phone": "(206) 325-6072",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6307835,
+    "lng": -122.31219909999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel 6 issaquah wa seattle east",
+   "query": "Motel 6 Issaquah, WA - Seattle - East 1885 15th Place Northwest Issaquah WA 98027",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJYZ52uKBvkFQRVgj6OJ-qOQk",
+    "display_name": "Motel 6 Issaquah, WA - Seattle - East",
+    "formatted_address": "1885 15th Pl NW, Issaquah, WA 98027, USA",
+    "street_number": "1885",
+    "route": "15th Place Northwest",
+    "locality": "Issaquah",
+    "postal_code": "98027",
+    "phone": "(425) 464-7623",
+    "website_uri": "https://www.motel6.com/property/motel-issaquah-washington-us-294485?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.5507239,
+    "lng": -122.06068889999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel travel inn",
+   "query": "Motel Travel Inn 26225 Pacific Highway South Des Moines WA 98198",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJnf4-yiVakFQR1qiIaKZVwyE",
+    "display_name": "Travel Inn Motel",
+    "formatted_address": "26225 Pacific Hwy S #9246, Des Moines, WA 98198, USA",
+    "street_number": "26225",
+    "route": "Pacific Highway South",
+    "locality": "Des Moines",
+    "postal_code": "98198",
+    "phone": "(253) 529-8965",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.366569,
+    "lng": -122.30561999999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "munson motel",
+   "query": "Munson Motel 7060 E Marginal Way S Seattle WA 98108",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJu5Fr_Y1BkFQRoLxv-fUhVto",
+    "display_name": "Munson Motel",
+    "formatted_address": "7060 E Marginal Wy S, Seattle, WA 98108, USA",
+    "street_number": "7060",
+    "route": "East Marginal Way South",
+    "locality": "Seattle",
+    "postal_code": "98108",
+    "phone": "(206) 681-7100",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.539875699999996,
+    "lng": -122.32218990000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "new best inn",
+   "query": "New Best Inn 23408 30th Avenue South Kent WA 98032",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJdz32GLpbkFQRhx0UnXGn_wU",
+    "display_name": "New Best Inn",
+    "formatted_address": "23408 30th Ave S, Kent, WA 98032, USA",
+    "street_number": "23408",
+    "route": "30th Avenue South",
+    "locality": "Kent",
+    "postal_code": "98032",
+    "phone": "(206) 870-1280",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.391466699999995,
+    "lng": -122.2930466
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "new west motel",
+   "query": "New West Motel 21450 International Boulevard Seatac WA 98198",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJUzfJK3VbkFQR24Z4sE5NLio",
+    "display_name": "New West Motel",
+    "formatted_address": "21450 International Blvd, SeaTac, WA 98198, USA",
+    "street_number": "21450",
+    "route": "International Boulevard",
+    "locality": "SeaTac",
+    "postal_code": "98198",
+    "phone": "(206) 824-4640",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.4086937,
+    "lng": -122.29728220000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nites inn motel",
+   "query": "Nites Inn Motel 11746 Aurora Ave N Seattle WA 98133",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQSGaaksRkFQR3seiXTnuzSU",
+    "display_name": "Nites Inn Motel",
+    "formatted_address": "11746 Aurora Ave N, Seattle, WA 98133, USA",
+    "street_number": "11746",
+    "route": "Aurora Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98133",
+    "phone": "(206) 365-2010",
+    "website_uri": "http://nitesinnmotelseattle.us/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.7157899,
+    "lng": -122.34417060000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "ontario hotel",
+   "query": "Ontario Hotel 4003 Airport Way S Seattle WA 98108",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJzUkV3tNBkFQRH2jdbITwoxg",
+    "display_name": "Ontario Hotel",
+    "formatted_address": "4003 Airport Wy S, Seattle, WA 98108, USA",
+    "street_number": "4003",
+    "route": "Airport Way South",
+    "locality": "Seattle",
+    "postal_code": "98108",
+    "phone": "(206) 343-7958",
+    "website_uri": "https://ontariohotelseattle.stay.at/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.5678555,
+    "lng": -122.32293809999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "panama hotel",
+   "query": "Panama Hotel 605 1/2 S Main St Seattle WA 98104",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJjSFKjLtqkFQRyQ_Rd1aUkTw",
+    "display_name": "Panama Hotel and Tea House",
+    "formatted_address": "605 South Main St, Seattle, WA 98104, USA",
+    "street_number": "605",
+    "route": "South Main Street",
+    "locality": "Seattle",
+    "postal_code": "98104",
+    "phone": "(206) 223-9242",
+    "website_uri": "http://www.panamahotelseattle.net/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.5998923,
+    "lng": -122.325902
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "parkshore",
+   "query": "Parkshore 1630 43rd Ave E Seattle WA 98112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ5a-DVbQUkFQRVYs79c0UtBA",
+    "display_name": "Parkshore Senior Living Community",
+    "formatted_address": "1630 43rd Ave E, Seattle, WA 98112, USA",
+    "street_number": "1630",
+    "route": "43rd Avenue East",
+    "locality": "Seattle",
+    "postal_code": "98112",
+    "phone": "(206) 329-0770",
+    "website_uri": "https://transformingage.org/community/parkshore/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "health",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.6342824,
+    "lng": -122.27649579999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "peacock garden b and b",
+   "query": "Peacock Garden B and b 2435 W Boston St Seattle WA 98199",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJDyN0yHgVkFQRtX0DMfljA6Q",
+    "display_name": "2435 W Boston St",
+    "formatted_address": "2435 W Boston St, Seattle, WA 98199, USA",
+    "street_number": "2435",
+    "route": "West Boston Street",
+    "locality": "Seattle",
+    "postal_code": "98199",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.638190099999996,
+    "lng": -122.38968940000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "quality inn and suites federal way seattle",
+   "query": "Quality Inn & Suites Federal Way - Seattle 1400 S 348th Street Federal Way WA 98003",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJDYFgicdXkFQRiZxyR8V8FNE",
+    "display_name": "Quality Inn & Suites Federal Way - Seattle",
+    "formatted_address": "1400 S 348th St, Federal Way, WA 98003, USA",
+    "street_number": "1400",
+    "route": "South 348th Street",
+    "locality": "Federal Way",
+    "postal_code": "98003",
+    "phone": "(253) 387-7508",
+    "website_uri": "https://www.choicehotels.com/washington/federal-way/quality-inn-hotels/wa134?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.291073,
+    "lng": -122.31496200000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "quality inn kirkland",
+   "query": "Quality Inn Kirkland 12204 NE 124th Street Kirkland WA 98034",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJWy_We4ENkFQRZVKoKgjTgrc",
+    "display_name": "Quality Inn Kirkland",
+    "formatted_address": "12204 NE 124th St, Kirkland, WA 98034, USA",
+    "street_number": "12204",
+    "route": "Northeast 124th Street",
+    "locality": "Kirkland",
+    "postal_code": "98034",
+    "phone": "(425) 380-8495",
+    "website_uri": "https://www.choicehotels.com/washington/kirkland/quality-inn-hotels/wa160?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.709585,
+    "lng": -122.17794
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "quocation",
+   "query": "Quocation 510 Broadway Seattle WA 98122",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJBQcv_J9rkFQRgOp0FSv4nwI",
+    "display_name": "Adapt Broadway",
+    "formatted_address": "510 Broadway, Seattle, WA 98122, USA",
+    "street_number": "510",
+    "route": "Broadway",
+    "locality": "Seattle",
+    "postal_code": "98122",
+    "phone": "(564) 444-7772",
+    "website_uri": "https://adaptbroadway.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "apartment_complex",
+     "establishment",
+     "point_of_interest",
+     "real_estate_agency",
+     "service"
+    ],
+    "lat": 47.6065854,
+    "lng": -122.32041489999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "renton inn",
+   "query": "Renton Inn 219 Sunset Boulevard North Renton WA 98057",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJCw-TywZokFQRS3_ZXc0qSRc",
+    "display_name": "Renton Inn",
+    "formatted_address": "219 Sunset Blvd N, Renton, WA 98057, USA",
+    "street_number": "219",
+    "route": "Sunset Boulevard North",
+    "locality": "Renton",
+    "postal_code": "98057",
+    "phone": "(425) 687-9846",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.485407599999995,
+    "lng": -122.19650259999997
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "ridge crest motel",
+   "query": "Ridge Crest Motel 1812 S 336th Street Federal Way WA 98003",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJd0wYN5ZXkFQRsWKC5QujjXk",
+    "display_name": "Ridge Crest Motel",
+    "formatted_address": "1812 South 336th St, Federal Way, WA 98003, USA",
+    "street_number": "1812",
+    "route": "South 336th Street",
+    "locality": "Federal Way",
+    "postal_code": "98003",
+    "phone": "(253) 880-2712",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.3008202,
+    "lng": -122.30988789999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "shafer baillie mansion",
+   "query": "Shafer Baillie Mansion 907 14th Ave E Seattle WA 98112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJG0-PqCkVkFQRRhhS7oDsOw8",
+    "display_name": "The Baillie",
+    "formatted_address": "907 14th Ave E, Seattle, WA 98112, USA",
+    "street_number": "907",
+    "route": "14th Avenue East",
+    "locality": "Seattle",
+    "postal_code": "98112",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.627080799999995,
+    "lng": -122.31494029999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "shoreline motel",
+   "query": "Shoreline Motel 16526 Aurora Avenue North Shoreline WA 98133",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJ2Pr9OYQkFQRvNVgxLqo-Og",
+    "display_name": "Shoreline Motel",
+    "formatted_address": "16526 Aurora Ave N, Shoreline, WA 98133, USA",
+    "street_number": "16526",
+    "route": "Aurora Avenue North",
+    "locality": "Shoreline",
+    "postal_code": "98133",
+    "phone": "(206) 542-7777",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.749699799999995,
+    "lng": -122.3450735
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "silver cloud inn seattle lake union",
+   "query": "Silver Cloud Inn - Seattle Lake Union 1150 Eastlake Avenue East Seattle WA 98109",
+   "candidates_returned": 3,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJwx7m7SQVkFQRr5pJ3WBJy2U",
+    "display_name": "Silver Cloud Hotel - Seattle Lake Union",
+    "formatted_address": "1150 Fairview Ave N, Seattle, WA 98109, USA",
+    "street_number": "1150",
+    "route": "Fairview Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98109",
+    "phone": "(206) 447-9500",
+    "website_uri": "http://www.silvercloud.com/seattlelakeunion/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6297061,
+    "lng": -122.32904599999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "skyway inn hotel",
+   "query": "Skyway Inn Hotel 20045 International Boulevard Seatac WA 98198",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJN9iGam9bkFQRN8BKYMVjPUQ",
+    "display_name": "Skyway Inn & Airport Parking",
+    "formatted_address": "20045 International Blvd, SeaTac, WA 98198, USA",
+    "street_number": "20045",
+    "route": "International Boulevard",
+    "locality": "SeaTac",
+    "postal_code": "98198",
+    "phone": "(206) 242-1777",
+    "website_uri": "http://www.skywayparkingseatac.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.421255699999996,
+    "lng": -122.2969394
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "stevenson motel",
+   "query": "Stevenson Motel 33330 Pacific Highway South Federal Way WA 98003",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJD4Vi3pdXkFQR_xmavCiBb3g",
+    "display_name": "Stevenson Motel Federal Way near I 5",
+    "formatted_address": "33330 Pacific Hwy S, Federal Way, WA 98003, USA",
+    "street_number": "33330",
+    "route": "Pacific Highway South",
+    "locality": "Federal Way",
+    "postal_code": "98003",
+    "phone": "(325) 349-8439",
+    "website_uri": "https://www.oyorooms.com/us/369438/?utm_source=GMB&utm_medium=Organic&utm_campaign=US_DER001",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.3018226,
+    "lng": -122.31259699999998
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "talaramba b and b",
+   "query": "Talaramba B and b 4838 S Morgan St Seattle WA 98118",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJoySVtvhpkFQRIUoTREaQFbo",
+    "display_name": "4838 S Morgan St",
+    "formatted_address": "4838 S Morgan St, Seattle, WA 98118, USA",
+    "street_number": "4838",
+    "route": "South Morgan Street",
+    "locality": "Seattle",
+    "postal_code": "98118",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.544483299999996,
+    "lng": -122.2709946
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the bacon mansion bed and breakfast",
+   "query": "The Bacon Mansion Bed and Breakfast 959 Broadway E Seattle WA 98102",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJyWqDACYVkFQRerQ07bm3JqY",
+    "display_name": "The Bacon Mansion Bed and Breakfast",
+    "formatted_address": "959 Broadway E, Seattle, WA 98102, USA",
+    "street_number": "959",
+    "route": "Broadway East",
+    "locality": "Seattle",
+    "postal_code": "98102",
+    "phone": "(206) 717-5959",
+    "website_uri": "https://www.baconmanor.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6284778,
+    "lng": -122.3215556
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the corona",
+   "query": "The Corona 606 2nd Avenue Seattle WA 98104",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJdx-vg7pqkFQRgxBEwvRwYQ0",
+    "display_name": "Corona Lofts",
+    "formatted_address": "606 2nd Ave, Seattle, WA 98104, USA",
+    "street_number": "606",
+    "route": "2nd Avenue",
+    "locality": "Seattle",
+    "postal_code": "98104",
+    "phone": "(206) 854-4400",
+    "website_uri": "https://corona.seattlehistoriclofts.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "apartment_building",
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.6026896,
+    "lng": -122.332431
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the legend motel",
+   "query": "The Legend Motel 22204 Pacific Highway South Des Moines WA 98198",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJfTbNIaFbkFQRSalw-mAKe_0",
+    "display_name": "Legend Motel",
+    "formatted_address": "22204 Pacific Hwy S, Des Moines, WA 98198, USA",
+    "street_number": "22204",
+    "route": "Pacific Highway South",
+    "locality": "Des Moines",
+    "postal_code": "98198",
+    "phone": "(206) 878-0366",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.4032298,
+    "lng": -122.2977045
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the motel georgian",
+   "query": "The Motel Georgian 8801 Aurora Avenue North Seattle WA 98103",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the suite northwest guesthouse",
+   "query": "The Suite Northwest Guesthouse 8521 Meridian Ave N Seattle WA 98103",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ64C6TgUUkFQRfKgXIsx97DI",
+    "display_name": "The Suite Northwest Guesthouse",
+    "formatted_address": "8521 Meridian Ave N #4142, Seattle, WA 98103, USA",
+    "street_number": "8521",
+    "route": "Meridian Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98103",
+    "phone": "(206) 227-3332",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "guest_house",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6911172,
+    "lng": -122.33404979999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "tlc suites dba temporary living corporate suites",
+   "query": "Tlc Suites Dba Temporary Living Corporate Suites 600 1st Ave #239 Seattle WA 98104",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "univeristy inn",
+   "query": "Univeristy Inn 4140 Roosevelt Walk Ne Seattle WA 98105",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJk91uaPQUkFQR65S3l9ByrBw",
+    "display_name": "University Inn - A Staypineapple Hotel",
+    "formatted_address": "4140 Roosevelt Way NE, Seattle, WA 98105, USA",
+    "street_number": "4140",
+    "route": "Roosevelt Way Northeast",
+    "locality": "Seattle",
+    "postal_code": "98105",
+    "phone": "(206) 632-5055",
+    "website_uri": "https://www.staypineapple.com/university-inn-seattle-wa?utm_source=google&utm_medium=organic&utm_campaign=GMB&utm_term=ui",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6581706,
+    "lng": -122.31751209999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "valu inn sea tac",
+   "query": "Valu Inn Sea Tac 22246 Pacific Highway South Des Moines WA 98198",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJIaU9OKFbkFQRkf9DzMNj7CM",
+    "display_name": "Seattle Airport Best Value Inn & Parking",
+    "formatted_address": "22246 Pacific Hwy S, Des Moines, WA 98198, USA",
+    "street_number": "22246",
+    "route": "Pacific Highway South",
+    "locality": "Des Moines",
+    "postal_code": "98198",
+    "phone": "(206) 878-8427",
+    "website_uri": "https://www.seattleairportbestvalueinn.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "airport_shuttle_service",
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "parking",
+     "parking_lot",
+     "point_of_interest",
+     "service",
+     "transportation_service"
+    ],
+    "lat": 47.4023117,
+    "lng": -122.2974483
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "wallingford inn",
+   "query": "Wallingford Inn 4450 Green Lake Way N Seattle WA 98103",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ45jqr1MUkFQR-lClk8aQ2gE",
+    "display_name": "Wallingford Inn",
+    "formatted_address": "4450 Green Lake Way N, Seattle, WA 98103, USA",
+    "street_number": "4450",
+    "route": "Green Lake Way North",
+    "locality": "Seattle",
+    "postal_code": "98103",
+    "phone": "(425) 409-9977",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.660818600000006,
+    "lng": -122.34693259999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "warwick seattle",
+   "query": "Warwick Seattle 401 Lenora St Seattle WA 98121",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJW2wzfksVkFQRIaM8ID80KiA",
+    "display_name": "Warwick Seattle",
+    "formatted_address": "401 Lenora St, Seattle, WA 98121, USA",
+    "street_number": "401",
+    "route": "Lenora Street",
+    "locality": "Seattle",
+    "postal_code": "98121",
+    "phone": "(206) 443-4300",
+    "website_uri": "https://www.warwickhotels.com/warwick-seattle?utm_source=google&utm_medium=local&utm_campaign=seo",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.613854800000006,
+    "lng": -122.34094419999998
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "west view motel",
+   "query": "West View Motel 2717 S 216th Street Des Moines WA 98198",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "west wind motel",
+   "query": "West Wind Motel 110 Rainier Avenue South Renton WA 98057",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJW7GP9q5CkFQRPjIVKpoR51M",
+    "display_name": "West Wind Motel",
+    "formatted_address": "110 Rainier Ave S, Renton, WA 98057, USA",
+    "street_number": "110",
+    "route": "Rainier Avenue South",
+    "locality": "Renton",
+    "postal_code": "98057",
+    "phone": "(425) 226-5060",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.4825558,
+    "lng": -122.21638060000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "columbus motor inn",
+   "query": "Columbus Motor Inn 9613 Aurora Ave N Seattle WA 98103",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJB40x36cWkFQRNt7PT2ns6P4",
+    "display_name": "Columbus Motor Inn",
+    "formatted_address": "9613 Aurora Ave N, Seattle, WA 98103, USA",
+    "street_number": "9613",
+    "route": "Aurora Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98103",
+    "phone": "(206) 524-8880",
+    "website_uri": "http://columbusmotorinn.net/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.6991283,
+    "lng": -122.3449741
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "crest motor inn sea tac",
+   "query": "Crest Motor Inn - Sea-Tac 18845 International Boulevard Seatac WA 98188",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJH782DABdkFQR_k4s74IlsX8",
+    "display_name": "Crest Motor Inn SEA Airport Parking",
+    "formatted_address": "18845 International Blvd, SeaTac, WA 98188, USA",
+    "street_number": "18845",
+    "route": "International Boulevard",
+    "locality": "SeaTac",
+    "postal_code": "98188",
+    "phone": "(206) 433-0999",
+    "website_uri": "https://off-airportparking.com/airports/sea/sea-tac-crest-motor-inn/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "parking",
+     "parking_lot",
+     "point_of_interest",
+     "service",
+     "transportation_service"
+    ],
+    "lat": 47.433096,
+    "lng": -122.295991
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel 6 kirkland wa north kirkland",
+   "query": "Motel 6 Kirkland, WA - North Kirkland 12010 120th Place Northeast Kirkland WA 98034",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ5c7NrYENkFQRy27QI0AVohw",
+    "display_name": "Motel 6 Kirkland, WA - North Kirkland",
+    "formatted_address": "12010 120th Pl NE, Kirkland, WA 98034, USA",
+    "street_number": "12010",
+    "route": "120th Place Northeast",
+    "locality": "Kirkland",
+    "postal_code": "98034",
+    "phone": "(425) 821-5618",
+    "website_uri": "https://www.motel6.com/property/motel-kirkland-washington-us-293844?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.707998200000006,
+    "lng": -122.17960799999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "quality inn bellevue",
+   "query": "Quality Inn- Bellevue 3241 156th Avenue Southeast Bellevue WA 98007",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJv8GZ6L5vkFQRd754YwhoYNc",
+    "display_name": "Quality Inn Bellevue",
+    "formatted_address": "3241 156th Ave SE, Bellevue, WA 98007, USA",
+    "street_number": "3241",
+    "route": "156th Avenue Southeast",
+    "locality": "Bellevue",
+    "postal_code": "98007",
+    "phone": "(425) 643-6644",
+    "website_uri": "https://www.choicehotels.com/washington/bellevue/quality-inn-hotels/wa345?adults=1&checkInDate=2019-05-24&checkOutDate=2019-05-25&clientId=&minors=0&ratePlanCode=RACK&rateType=LOW_RACK&rooms=1",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.5813347,
+    "lng": -122.1368769
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "seatac inn",
+   "query": "SeaTac Inn 17108 International Boulevard Seatac WA 98188",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJIa-g23ZdkFQRsC3TzE_aSeA",
+    "display_name": "SeaTac inn",
+    "formatted_address": "17108 International Blvd, SeaTac, WA 98188, USA",
+    "street_number": "17108",
+    "route": "International Boulevard",
+    "locality": "SeaTac",
+    "postal_code": "98188",
+    "phone": "(206) 244-1230",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.449014899999995,
+    "lng": -122.29599719999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "travelodge by wyndham seattle north of downtown",
+   "query": "Travelodge by Wyndham Seattle North of Downtown 8512 Aurora Avenue North Seattle WA 98103",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJs13_3xsUkFQRvNmdgJ3RmQE",
+    "display_name": "Travelodge by Wyndham Seattle North of Downtown",
+    "formatted_address": "8512 Aurora Ave N, Seattle, WA 98103, USA",
+    "street_number": "8512",
+    "route": "Aurora Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98103",
+    "phone": "(206) 522-5000",
+    "website_uri": "https://www.wyndhamhotels.com/travelodge/seattle-washington/travelodge-seattle-north-of-downtown/overview?CID=LC:fkqqcjhla7b6gbb:17972&iata=00093796",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.691257,
+    "lng": -122.34387179999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Best Western Plus Edmonds Harbor Inn",
+   "query": "Best Western Plus Edmonds Harbor Inn Seattle WA",
+   "corridor": "edmonds-mountlake-terrace",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJz4Qxq_kakFQRt8mAqeaeOCs",
+    "display_name": "Best Western Plus Edmonds Harbor Inn",
+    "formatted_address": "130 W Dayton St, Edmonds, WA 98020, USA",
+    "street_number": "130",
+    "route": "West Dayton Street",
+    "locality": "Edmonds",
+    "postal_code": "98020",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.8084158,
+    "lng": -122.38446499999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Comfort Inn & Suites Seattle North",
+   "query": "Comfort Inn & Suites Seattle North Seattle WA",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJE2Q2djARkFQR9A2eNolcYxA",
+    "display_name": "Comfort Inn & Suites Seattle North",
+    "formatted_address": "13700 Aurora Ave N, Seattle, WA 98133, USA",
+    "street_number": "13700",
+    "route": "Aurora Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98133",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.729014,
+    "lng": -122.344447
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Country Inn & Suites by Radisson Seattle-Bothell WA",
+   "query": "Country Inn & Suites by Radisson Seattle-Bothell WA Seattle WA",
+   "corridor": "bothell-kenmore",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJW45SzWEOkFQRyBh1UZGsIqU",
+    "display_name": "Country Inn & Suites by Radisson, Seattle-Bothell, WA",
+    "formatted_address": "19333 N Creek Pkwy S, Bothell, WA 98011, USA",
+    "street_number": "19333",
+    "route": "North Creek Parkway South",
+    "locality": "Bothell",
+    "postal_code": "98011",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.7678012,
+    "lng": -122.1863633
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Executive Residency by Best Western Navigator Inn & Suites",
+   "query": "Executive Residency by Best Western Navigator Inn & Suites Seattle WA",
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJs7NFqkoBkFQRr1VyNdrXBP4",
+    "display_name": "Executive Residency by Best Western Navigator Inn & Suites",
+    "formatted_address": "10210 Evergreen Wy, Everett, WA 98204, USA",
+    "street_number": "10210",
+    "route": "Evergreen Way",
+    "locality": "Everett",
+    "postal_code": "98204",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.905358,
+    "lng": -122.24488559999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Premier Suites Seattle Bellevue Downtown",
+   "query": "Extended Stay America Premier Suites Seattle Bellevue Downtown Seattle WA",
+   "corridor": "bellevue",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJaX-u8mNskFQRkcR1R03P7JQ",
+    "display_name": "Extended Stay America Premier Suites- Seattle - Bellevue - Downtown",
+    "formatted_address": "11400 Main St, Bellevue, WA 98004, USA",
+    "street_number": "11400",
+    "route": "Main Street",
+    "locality": "Bellevue",
+    "postal_code": "98004",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6107076,
+    "lng": -122.1876478
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites Seattle Bothell Canyon Park",
+   "query": "Extended Stay America Suites Seattle Bothell Canyon Park Seattle WA",
+   "corridor": "bothell-kenmore",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ-V7StAgPkFQRhRXVcnAu9Ps",
+    "display_name": "Extended Stay America Suites- Seattle - Bothell - Canyon Park",
+    "formatted_address": "22122 17th Ave SE, Bothell, WA 98021, USA",
+    "street_number": "22122",
+    "route": "17th Avenue Southeast",
+    "locality": "Bothell",
+    "postal_code": "98021",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.7961065,
+    "lng": -122.2116284
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites Seattle Bothell West",
+   "query": "Extended Stay America Suites Seattle Bothell West Seattle WA",
+   "corridor": "bothell-kenmore",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJIWQd2acPkFQR-r49yDW1Gzs",
+    "display_name": "Extended Stay America Suites- Seattle - Bothell - West",
+    "formatted_address": "923 228th St SE, Bothell, WA 98021, USA",
+    "street_number": "923",
+    "route": "228th Street Southeast",
+    "locality": "Bothell",
+    "postal_code": "98021",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.792207999999995,
+    "lng": -122.21921700000001
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites Seattle Lynnwood",
+   "query": "Extended Stay America Suites Seattle Lynnwood Seattle WA",
+   "corridor": "lynnwood",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJLxbhSW4FkFQRdhvIyjiVTQg",
+    "display_name": "Extended Stay America Suites- Seattle - Lynnwood",
+    "formatted_address": "3021 196th St SW, Lynnwood, WA 98036, USA",
+    "street_number": "3021",
+    "route": "196th Street Southwest",
+    "locality": "Lynnwood",
+    "postal_code": "98036",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.8214532,
+    "lng": -122.2748135
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites Seattle Southcenter",
+   "query": "Extended Stay America Suites Seattle Southcenter Seattle WA",
+   "corridor": "sea-airport",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJDaQL2StdkFQRW_JeDsVrjIs",
+    "display_name": "Extended Stay America Suites- Seattle - Southcenter",
+    "formatted_address": "15635 W Valley Hwy, Tukwila, WA 98188, USA",
+    "street_number": "15635",
+    "route": "West Valley Highway",
+    "locality": "Tukwila",
+    "postal_code": "98188",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.461855899999996,
+    "lng": -122.24628430000001
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites Seattle Tukwila",
+   "query": "Extended Stay America Suites Seattle Tukwila Seattle WA",
+   "corridor": "sea-airport",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJTV3SLixDkFQRPRG5X9RrFwY",
+    "display_name": "Extended Stay America Suites- Seattle - Tukwila",
+    "formatted_address": "15451 53rd Ave S, Tukwila, WA 98188, USA",
+    "street_number": "15451",
+    "route": "53rd Avenue South",
+    "locality": "Tukwila",
+    "postal_code": "98188",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.4642823,
+    "lng": -122.27012129999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "FairBridge Inn Express Tukwila",
+   "query": "FairBridge Inn Express Tukwila Seattle WA",
+   "corridor": "sea-airport",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJeVCp2CBDkFQRGTfkwCSvcx0",
+    "display_name": "FairBridge Inn Express",
+    "formatted_address": "13050 48th Ave S, Seattle, WA 98168, USA",
+    "street_number": "13050",
+    "route": "48th Avenue South",
+    "locality": "Seattle",
+    "postal_code": "98168",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.4859108,
+    "lng": -122.2691287
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Gold Crest Suites",
+   "query": "Gold Crest Suites Seattle WA",
+   "verdict": "NO_LODGING_RESULT"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Hotel Nexus, BW Signature Collection",
+   "query": "Hotel Nexus, BW Signature Collection Seattle WA",
+   "corridor": "north-seattle",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJva91sFMRkFQR1si1JDP8QSI",
+    "display_name": "Hotel Nexus Seattle",
+    "formatted_address": "2140 N Northgate Way, Seattle, WA 98133, USA",
+    "street_number": "2140",
+    "route": "North Northgate Way",
+    "locality": "Seattle",
+    "postal_code": "98133",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.7091275,
+    "lng": -122.332284
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Lakeview Hotel",
+   "query": "Lakeview Hotel Seattle WA",
+   "corridor": "kirkland",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJL58J8q0TkFQRGJpkbqHvOWE",
+    "display_name": "Lakeview Boutique Hotel Kirkland",
+    "formatted_address": "10830 NE 68th St, Kirkland, WA 98033, USA",
+    "street_number": "10830",
+    "route": "Northeast 68th Street",
+    "locality": "Kirkland",
+    "postal_code": "98033",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6671098,
+    "lng": -122.1953401
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "LivAway Suites Seattle-Renton",
+   "query": "LivAway Suites Seattle-Renton Seattle WA",
+   "corridor": "renton",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJtTUCORpokFQRejsB47aUeTI",
+    "display_name": "LivAway Suites Seattle-Renton",
+    "formatted_address": "751 Park Ave N, Renton, WA 98057, USA",
+    "street_number": "751",
+    "route": "Park Avenue North",
+    "locality": "Renton",
+    "postal_code": "98057",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.494827,
+    "lng": -122.20260100000002
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Motel 6 Issaquah WA - Seattle - East",
+   "query": "Motel 6 Issaquah WA - Seattle - East Seattle WA",
+   "corridor": "issaquah",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJYZ52uKBvkFQRVgj6OJ-qOQk",
+    "display_name": "Motel 6 Issaquah, WA - Seattle - East",
+    "formatted_address": "1885 15th Pl NW, Issaquah, WA 98027, USA",
+    "street_number": "1885",
+    "route": "15th Place Northwest",
+    "locality": "Issaquah",
+    "postal_code": "98027",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.5507239,
+    "lng": -122.06068889999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Motel 6 Kirkland WA - North Kirkland",
+   "query": "Motel 6 Kirkland WA - North Kirkland Seattle WA",
+   "corridor": "kirkland",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ5c7NrYENkFQRy27QI0AVohw",
+    "display_name": "Motel 6 Kirkland, WA - North Kirkland",
+    "formatted_address": "12010 120th Pl NE, Kirkland, WA 98034, USA",
+    "street_number": "12010",
+    "route": "120th Place Northeast",
+    "locality": "Kirkland",
+    "postal_code": "98034",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.707998200000006,
+    "lng": -122.17960799999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Motel 6 Seattle Kent WA",
+   "query": "Motel 6 Seattle Kent WA Seattle WA",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJV8c6P_tdkFQRhqhdOKfjf8w",
+    "display_name": "Motel 6 Suites Seattle Kent, WA",
+    "formatted_address": "22520 83rd Ave S, Kent, WA 98032, USA",
+    "street_number": "22520",
+    "route": "83rd Avenue South",
+    "locality": "Kent",
+    "postal_code": "98032",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.399875800000004,
+    "lng": -122.22900469999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Pensione Nichols Bed and Breakfast",
+   "query": "Pensione Nichols Bed and Breakfast Seattle WA",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJbfqQ-WQVkFQRZFGngTbNY4E",
+    "display_name": "Cecil Bacon Manor Bed and Breakfast",
+    "formatted_address": "959 Broadway E, Seattle, WA 98102, USA",
+    "street_number": "959",
+    "route": "Broadway East",
+    "locality": "Seattle",
+    "postal_code": "98102",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6284736,
+    "lng": -122.32158329999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "The Green Lake Firefly Lodge",
+   "query": "The Green Lake Firefly Lodge Seattle WA",
+   "corridor": "university-district",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJVzsl62cUkFQRgJSI4Ox7IkA",
+    "display_name": "The Green Lake Firefly Lodge - Four-Bedroom House",
+    "formatted_address": "Seattle, WA 98105, USA",
+    "street_number": "",
+    "route": "",
+    "locality": "Seattle",
+    "postal_code": "98105",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6698494,
+    "lng": -122.32454689999999
+   }
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "18665 151st ave ne",
+   "query": "18665 151st Ave NE 18665 151st Avenue Northeast Woodinville WA 98072",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJTx82AaAOkFQR8V3sjEqNuiE",
+    "display_name": "18665 151st Ave NE",
+    "formatted_address": "18665 151st Ave NE, Woodinville, WA 98072, USA",
+    "street_number": "18665",
+    "route": "151st Avenue Northeast",
+    "locality": "Woodinville",
+    "postal_code": "98072",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.762453699999995,
+    "lng": -122.1394205
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "admiral guesthouse",
+   "query": "Admiral Guesthouse 5059 Sw Waite St Seattle WA 98116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "alki beach bed and breakfast",
+   "query": "Alki Beach Bed and Breakfast 2437 55th Ave Sw # A Seattle WA 98116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "alki guesthouse",
+   "query": "Alki Guesthouse 3044 64th Ave Sw Seattle WA 98116",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "ashworth golestan",
+   "query": "Ashworth Golestan 3053 30th Ave W Seattle WA 98199",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJf29vWYUVkFQRTqqujmpdT40",
+    "display_name": "3053 30th Ave W",
+    "formatted_address": "3053 30th Ave W, Seattle, WA 98199, USA",
+    "street_number": "3053",
+    "route": "30th Avenue West",
+    "locality": "Seattle",
+    "postal_code": "98199",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 47.648415299999996,
+    "lng": -122.3959019
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "back of house concepts",
+   "query": "Back of House Concepts 14632 SE 22nd St Bellevue WA 98007",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "ballard guest suite",
+   "query": "Ballard Guest Suite 701 NW 60th St Seattle WA 98107",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "boti b and b",
+   "query": "Boti B & B 2717 E Spring St Seattle WA 98122",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "btc 612",
+   "query": "Btc 612 3504 NE 143rd St Seattle WA 98125",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "cedar grove lodge",
+   "query": "Cedar Grove Lodge 4714 47th Ave Sw Seattle WA 98116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "chamonix lodge",
+   "query": "Chamonix Lodge 11536 Meridian Ave N # A Seattle WA 98133",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "chaos capital lodgings",
+   "query": "Chaos Capital Lodgings 1433 E Howell St Seattle WA 98122",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "charming seattle guesthouse",
+   "query": "Charming Seattle Guesthouse 4554 33rd Ave S Seattle WA 98118",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "clarion hotel",
+   "query": "Clarion Hotel 3700 East Valley Road Renton WA 98057",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "columbia city hostel",
+   "query": "Columbia City Hostel 4419 S Brandon St # D Seattle WA 98118",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn and suites seattle",
+   "query": "Comfort Inn & Suites Seattle 13700 Aurora Ave N Seattle WA 98133",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJE2Q2djARkFQR9A2eNolcYxA",
+    "display_name": "Comfort Inn & Suites Seattle North",
+    "formatted_address": "13700 Aurora Ave N, Seattle, WA 98133, USA",
+    "street_number": "13700",
+    "route": "Aurora Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98133",
+    "phone": "(206) 962-4682",
+    "website_uri": "https://www.choicehotels.com/washington/seattle/comfort-inn-hotels/wa217?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.729014,
+    "lng": -122.344447
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn and suites tukwila",
+   "query": "Comfort Inn & Suites Tukwila 31622 Pacific Highway South Federal Way WA 98003",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJK9lMqXlXkFQRioDcw4YsVLs",
+    "display_name": "Comfort Inn Federal Way - Seattle",
+    "formatted_address": "31622 Pacific Hwy S, Federal Way, WA 98003, USA",
+    "street_number": "31622",
+    "route": "Pacific Highway South",
+    "locality": "Federal Way",
+    "postal_code": "98003",
+    "phone": "(253) 237-1519",
+    "website_uri": "https://www.choicehotels.com/washington/federal-way/comfort-inn-hotels/wa114?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.317651,
+    "lng": -122.31097500000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfortstayd",
+   "query": "Comfortstayd 1503 N 122nd St Seattle WA 98133",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "daisy maes b and b",
+   "query": "Daisy Maes B & B 6731 1st Ave Nw Seattle WA 98117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJE338mDAUkFQRoE2ajJtLcKk",
+    "display_name": "6731 1st Ave NW",
+    "formatted_address": "6731 1st Ave NW, Seattle, WA 98117, USA",
+    "street_number": "6731",
+    "route": "1st Avenue Northwest",
+    "locality": "Seattle",
+    "postal_code": "98117",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.67870860000001,
+    "lng": -122.35771059999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "diane xiao",
+   "query": "Diane Xiao 806a 23rd Ave S Seattle WA 98144",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "floresca jose l",
+   "query": "Floresca Jose L 1433 20th Ave Seattle WA 98122",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ-4srHdFqkFQRZweJfOKrh2Q",
+    "display_name": "1433 20th Ave",
+    "formatted_address": "1433 20th Ave, Seattle, WA 98122, USA",
+    "street_number": "1433",
+    "route": "20th Avenue",
+    "locality": "Seattle",
+    "postal_code": "98122",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.613946899999995,
+    "lng": -122.3065628
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "greenlake view home",
+   "query": "Greenlake View Home 336 N 73rd St Seattle WA 98103",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "guest house 9105",
+   "query": "Guest House 9105 9105 Matthews Ave Ne Seattle WA 98115",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hampton inn and suites federal way",
+   "query": "Hampton Inn & Suites Federal Way 31720 Gateway Center Boulevard South Federal Way WA 98003",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ3Vnnan9XkFQRbF-4LWNRsM8",
+    "display_name": "Hampton Inn & Suites Seattle/Federal Way",
+    "formatted_address": "31720 Gateway Center Blvd S, Federal Way, WA 98003, USA",
+    "street_number": "31720",
+    "route": "Gateway Center Boulevard South",
+    "locality": "Federal Way",
+    "postal_code": "98003",
+    "phone": "(253) 946-7000",
+    "website_uri": "https://www.hilton.com/en/hotels/seafwhx-hampton-suites-seattle-federal-way/?SEO_id=GMB-AMER-HX-SEAFWHX",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.317115699999995,
+    "lng": -122.2981364
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "heath horton",
+   "query": "Heath Horton 2000 Alaskan Way # 548 Seattle WA 98121",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJt4OyqrJqkFQRoMZkgz-a65I",
+    "display_name": "2000 Alaskan Wy Apt 548",
+    "formatted_address": "2000 Alaskan Wy Apt 548, Seattle, WA 98121, USA",
+    "street_number": "2000",
+    "route": "Alaskan Way",
+    "locality": "Seattle",
+    "postal_code": "98121",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 47.609834299999996,
+    "lng": -122.3451574
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hedreen hotel llc",
+   "query": "Hedreen Hotel Llc 1700 7th Ave # 2300 Seattle WA 98101",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJh-DmPbNqkFQR8bJuJ6EZsqc",
+    "display_name": "R C Hedreen Co",
+    "formatted_address": "1700 7th Ave #2300, Seattle, WA 98101, USA",
+    "street_number": "1700",
+    "route": "7th Avenue",
+    "locality": "Seattle",
+    "postal_code": "98101",
+    "phone": "(206) 624-8909",
+    "website_uri": "http://www.rchco.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "corporate_office",
+     "establishment",
+     "point_of_interest"
+    ],
+    "lat": 47.614109899999995,
+    "lng": -122.33535649999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hilton bellevue",
+   "query": "Hilton Bellevue 300 112th Avenue SE Bellevue WA 98004",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ64dQMntskFQRLUp7RxHYSRA",
+    "display_name": "Hilton Bellevue",
+    "formatted_address": "300 112th Ave SE, Bellevue, WA 98004, USA",
+    "street_number": "300",
+    "route": "112th Avenue Southeast",
+    "locality": "Bellevue",
+    "postal_code": "98004",
+    "phone": "(425) 455-1300",
+    "website_uri": "https://www.hilton.com/en/hotels/lion-hf-hilton-bellevue/?SEO_id=GMB-AMER-HH-LIONHF",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.607183000000006,
+    "lng": -122.18862179999998
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hitts hill guest house",
+   "query": "Hitts Hill Guest House 3844 S Lucile St Seattle WA 98118",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hostel fish seattle",
+   "query": "Hostel Fish Seattle 2327 2nd Ave Seattle WA 98121",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJEQH3lV0VkFQR46QZKwDm05Q",
+    "display_name": "Hostel Fish Seattle",
+    "formatted_address": "2327 2nd Ave, Seattle, WA 98121, USA",
+    "street_number": "2327",
+    "route": "2nd Avenue",
+    "locality": "Seattle",
+    "postal_code": "98121",
+    "phone": "",
+    "website_uri": "http://hostelfish.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hostel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.6144132,
+    "lng": -122.3468278
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "ivi hotel management of washington inc",
+   "query": "Ivi Hotel Management of Washington Inc 20415 72nd Ave S # 120 Kent WA 98032",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJf9GkWjpdkFQRu41yRe3en0Q",
+    "display_name": "InnVentures",
+    "formatted_address": "20415 72nd Ave S Ste 120, Kent, WA 98032, USA",
+    "street_number": "20415",
+    "route": "72nd Avenue South",
+    "locality": "Kent",
+    "postal_code": "98032",
+    "phone": "(206) 431-8000",
+    "website_uri": "http://innventures.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.4184579,
+    "lng": -122.24503980000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "jiaming xie",
+   "query": "Jiaming Xie 13705 Corliss Ave N Seattle WA 98133",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJDyiEmz4RkFQRT078_kDyew0",
+    "display_name": "13705 Corliss Ave N",
+    "formatted_address": "13705 Corliss Ave N, Seattle, WA 98133, USA",
+    "street_number": "13705",
+    "route": "Corliss Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98133",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.7288965,
+    "lng": -122.3318469
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "judkins park inn",
+   "query": "Judkins Park Inn 2208 S Norman St Seattle WA 98144",
+   "candidates_returned": 2,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "kevan homes",
+   "query": "Kevan Homes 1311 12th Ave S # B402 Seattle WA 98144",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJH2jue5ZqkFQR8XUbw9hXuAs",
+    "display_name": "Harwood Condominiums",
+    "formatted_address": "1311 12th Ave S, Seattle, WA 98144, USA",
+    "street_number": "1311",
+    "route": "12th Avenue South",
+    "locality": "Seattle",
+    "postal_code": "98144",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "condominium_complex",
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.591102899999996,
+    "lng": -122.3179955
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "kubota inn llc",
+   "query": "Kubota Inn Llc 5720 S Cooper St Seattle WA 98118",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "lakewastr",
+   "query": "Lakewastr 2124 31st Ave S Seattle WA 98144",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "larkspur landing",
+   "query": "Larkspur Landing 1701 East Valley Road Renton WA 98057",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ60FWjTddkFQRi8fxPHVitgc",
+    "display_name": "Larkspur Landing Extended Stay Suites Renton",
+    "formatted_address": "1701 E Valley Rd, Renton, WA 98057, USA",
+    "street_number": "1701",
+    "route": "East Valley Road",
+    "locality": "Renton",
+    "postal_code": "98057",
+    "phone": "(425) 235-1212",
+    "website_uri": "https://www.larkspurhotels.com/renton/?utm_source=google-gbp&utm_medium=organic&utm_campaign=gbp",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 47.4642108,
+    "lng": -122.2195046
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "libertty sabrina",
+   "query": "Libertty Sabrina 3601 Sw Raymond St Seattle WA 98126",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJNSRe6ARBkFQRTyMN9GHGOOk",
+    "display_name": "3601 SW Raymond St",
+    "formatted_address": "3601 SW Raymond St, Seattle, WA 98126, USA",
+    "street_number": "3601",
+    "route": "Southwest Raymond Street",
+    "locality": "Seattle",
+    "postal_code": "98126",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.5482033,
+    "lng": -122.37808950000002
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "low income housing institute",
+   "query": "Low Income Housing Institute 1253 S Jackson St # A Seattle WA 98144",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJVy6T300VkFQRphDEC8QFgDo",
+    "display_name": "Low Income Housing Institute",
+    "formatted_address": "1253 S Jackson St Ste A, Seattle, WA 98144, USA",
+    "street_number": "1253",
+    "route": "South Jackson Street",
+    "locality": "Seattle",
+    "postal_code": "98144",
+    "phone": "(206) 443-9935",
+    "website_uri": "http://www.lihi.org/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.598873999999995,
+    "lng": -122.3149208
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "luxe guesthouse seattle",
+   "query": "Luxe Guesthouse Seattle 5070 B Harold Pl Ne Seattle WA 98105",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "maple leaf lodge",
+   "query": "Maple Leaf Lodge 8921 5th Ave Ne Seattle WA 98115",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJK1Bp1AcUkFQRpACgvLs9ToE",
+    "display_name": "8921 5th Ave NE",
+    "formatted_address": "8921 5th Ave NE, Seattle, WA 98115, USA",
+    "street_number": "8921",
+    "route": "5th Avenue Northeast",
+    "locality": "Seattle",
+    "postal_code": "98115",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.693776899999996,
+    "lng": -122.32332529999998
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "miller air b n b",
+   "query": "Miller Air B N B 133 Queen Anne Ave N # 506 Seattle WA 98109",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJf9TSK0UVkFQR08FawRKwDdY",
+    "display_name": "133 Queen Anne Ave N Unit 506",
+    "formatted_address": "133 Queen Anne Ave N Unit 506, Seattle, WA 98109, USA",
+    "street_number": "133",
+    "route": "Queen Anne Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98109",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 47.6196014,
+    "lng": -122.3571242
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "minerva inn llc",
+   "query": "Minerva Inn Llc 517 11th Ave E Seattle WA 98102",
+   "candidates_returned": 2,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "moonlight guest house",
+   "query": "Moonlight Guest House 5228 42nd Ave Sw Seattle WA 98136",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJlxO_DP1AkFQRBHZUlLTpnjc",
+    "display_name": "5228 42nd Ave SW",
+    "formatted_address": "5228 42nd Ave SW, Seattle, WA 98136, USA",
+    "street_number": "5228",
+    "route": "42nd Avenue Southwest",
+    "locality": "Seattle",
+    "postal_code": "98136",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.554854299999995,
+    "lng": -122.3851538
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "ne seattle stays",
+   "query": "Ne Seattle Stays 6833 36th Ave Ne # B Seattle WA 98115",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nestled inn llc",
+   "query": "Nestled Inn Llc 1802 30th Ave S Seattle WA 98144",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nostalgique",
+   "query": "Nostalgique 12034 25th Ave Ne Seattle WA 98125",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJj9N0U2ERkFQROQN7WfReAEk",
+    "display_name": "12034 25th Ave NE",
+    "formatted_address": "12034 25th Ave NE, Seattle, WA 98125, USA",
+    "street_number": "12034",
+    "route": "25th Avenue Northeast",
+    "locality": "Seattle",
+    "postal_code": "98125",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.716743099999995,
+    "lng": -122.30133130000002
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nw lodge seattle llc",
+   "query": "Nw Lodge Seattle Llc 2728 NE 130th St Seattle WA 98125",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "pangolin guest house",
+   "query": "Pangolin Guest House 2352 Franklin Ave E Seattle WA 98105",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "pawliday inn",
+   "query": "Pawliday Inn 302 18th Ave E Seattle WA 98112",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "plymouth housing group",
+   "query": "Plymouth Housing Group 2113 3rd Ave Seattle WA 98121",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ16WQ9cdqkFQR7lXBGddwsL8",
+    "display_name": "Plymouth Housing",
+    "formatted_address": "2113 3rd Ave, Seattle, WA 98121, USA",
+    "street_number": "2113",
+    "route": "3rd Avenue",
+    "locality": "Seattle",
+    "postal_code": "98121",
+    "phone": "(206) 374-9409",
+    "website_uri": "http://www.plymouthhousing.org/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "association_or_organization",
+     "establishment",
+     "non_profit_organization",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.6133503,
+    "lng": -122.34290969999998
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "rainier beach guest house",
+   "query": "Rainier Beach Guest House 10015 65th Ave S Seattle WA 98178",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "red roof inn seattle airport seatac",
+   "query": "Red Roof Inn Seattle Airport SEATAC 16838 International Boulevard Seatac WA 98188",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJXQaeV01DkFQR96eEyUW5L8s",
+    "display_name": "Red Roof Inn Seattle Airport - SEATAC",
+    "formatted_address": "16838 International Blvd, Seattle, WA 98188, USA",
+    "street_number": "16838",
+    "route": "International Boulevard",
+    "locality": "Seattle",
+    "postal_code": "98188",
+    "phone": "(206) 248-0901",
+    "website_uri": "https://www.redroof.com/property/wa/seattle/RRI304?utm_source=GMB&utm_medium=Google&utm_campaign=GMB_Performance_RRI304",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 47.451428,
+    "lng": -122.29483599999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "reddysetgomez guest house",
+   "query": "Reddysetgomez Guest House 3006 38th Ave Sw Seattle WA 98126",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJE4X2_mdAkFQRzsuBkw6cT8s",
+    "display_name": "3006 38th Ave SW",
+    "formatted_address": "3006 38th Ave SW, Seattle, WA 98126, USA",
+    "street_number": "3006",
+    "route": "38th Avenue Southwest",
+    "locality": "Seattle",
+    "postal_code": "98126",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.5771878,
+    "lng": -122.3799609
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "salmon bay bed and breakfast",
+   "query": "Salmon Bay Bed & Breakfast 7003 17th Ave Nw Seattle WA 98117",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "sarah s suites 1",
+   "query": "Sarah's Suites 1 7712 46th Ave S Seattle WA 98118",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ6dJ3pwhCkFQRIeeGoqjk39g",
+    "display_name": "7712 46th Ave S",
+    "formatted_address": "7712 46th Ave S, Seattle, WA 98118, USA",
+    "street_number": "7712",
+    "route": "46th Avenue South",
+    "locality": "Seattle",
+    "postal_code": "98118",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.533338,
+    "lng": -122.2750533
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "seattle city suites llc",
+   "query": "Seattle City Suites Llc 2415 2nd Ave # 527 Seattle WA 98121",
+   "candidates_returned": 3,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJT0dBfE4VkFQR-mFt2YImSMY",
+    "display_name": "Belltown Court Condominium",
+    "formatted_address": "2415 2nd Ave, Seattle, WA 98121, USA",
+    "street_number": "2415",
+    "route": "2nd Avenue",
+    "locality": "Seattle",
+    "postal_code": "98121",
+    "phone": "(206) 448-0400",
+    "website_uri": "http://www.belltowncourt.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "association_or_organization",
+     "condominium_complex",
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 47.614877899999996,
+    "lng": -122.3477951
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "seattle pacific hotel",
+   "query": "Seattle Pacific Hotel 1228 Bigelow Ave N Seattle WA 98109",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "seattle visitor information centers",
+   "query": "Seattle Visitor Information Centers 705 Pike Street Seattle WA 98101",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "suzanne wen",
+   "query": "Suzanne Wen 3930 Midvale Ave N Seattle WA 98103",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJHxcaaFUUkFQR9KagR9CKyiY",
+    "display_name": "3930 Midvale Ave N",
+    "formatted_address": "3930 Midvale Ave N, Seattle, WA 98103, USA",
+    "street_number": "3930",
+    "route": "Midvale Avenue North",
+    "locality": "Seattle",
+    "postal_code": "98103",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.6550346,
+    "lng": -122.3432989
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "teddy cp",
+   "query": "Teddy Cp 917 NW 103rd St Seattle WA 98177",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the evanstones motor lodge",
+   "query": "The Evanstones Motor Lodge 3804 Evanston Ave N Seattle WA 98103",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "vynne hernandez suites",
+   "query": "Vynne-Hernandez Suites 2612 NE 82nd St Seattle WA 98115",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJo_pk54wTkFQRH17i3kW6DXo",
+    "display_name": "2612 NE 82nd St",
+    "formatted_address": "2612 NE 82nd St, Seattle, WA 98115, USA",
+    "street_number": "2612",
+    "route": "Northeast 82nd Street",
+    "locality": "Seattle",
+    "postal_code": "98115",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.6887634,
+    "lng": -122.2991361
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "wallingford suites",
+   "query": "Wallingford Suites 4214 1st Ave Nw Seattle WA 98107",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "wander lodge",
+   "query": "Wander Lodge 4144 48th Ave Sw Seattle WA 98116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJfbtiLfFAkFQRW9ZsAIISVgA",
+    "display_name": "4144 48th Ave SW",
+    "formatted_address": "4144 48th Ave SW, Seattle, WA 98116, USA",
+    "street_number": "4144",
+    "route": "48th Avenue Southwest",
+    "locality": "Seattle",
+    "postal_code": "98116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.5652706,
+    "lng": -122.3931441
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "west seattle guesthouse",
+   "query": "West Seattle Guesthouse 3550 SW 100th St Seattle WA 98146",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJX_yBr1dBkFQRhLppXX4kclw",
+    "display_name": "3550 SW 100th St",
+    "formatted_address": "3550 SW 100th St, Seattle, WA 98146, USA",
+    "street_number": "3550",
+    "route": "Southwest 100th Street",
+    "locality": "Seattle",
+    "postal_code": "98146",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.5139187,
+    "lng": -122.3785661
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "winters alki beach hideaway",
+   "query": "Winters Alki Beach Hideaway 2527 56th Ave Sw Seattle WA 98116",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "woodsy haven",
+   "query": "Woodsy Haven 9313 NW 26th Pl Nw Seattle WA 98117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQTNBL4kWkFQRy2J6kxMO4aI",
+    "display_name": "9313 26th Pl NW",
+    "formatted_address": "9313 26th Pl NW, Seattle, WA 98117, USA",
+    "street_number": "9313",
+    "route": "26th Place Northwest",
+    "locality": "Seattle",
+    "postal_code": "98117",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 47.697257199999996,
+    "lng": -122.39104709999998
+   },
+   "bind_basis": "street_number+postal_code"
+  }
+ ]
+}

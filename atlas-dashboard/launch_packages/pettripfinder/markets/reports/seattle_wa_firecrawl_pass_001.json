@@ -1,0 +1,1010 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-SEATTLE-WA-HARDENED-SOURCE-READY-001",
+ "market_id": "seattle-wa",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "seattle_wa_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 12,
+  "credit_floor": 300,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 68,
+  "static_to_attended": 43,
+  "firecrawl_candidates": 19,
+  "share_static_to_attended": 0.6324,
+  "share_firecrawl_candidates": 0.2794,
+  "threshold": 0.2,
+  "warning": true,
+  "message": "19 of 68 unresolved routed rows (28%) are Firecrawl candidates: evaluate the Firecrawl lane before continuing to the attended browser"
+ },
+ "planned_rows": 10,
+ "attempted_rows": 10,
+ "stopped_by": "",
+ "credits": {
+  "before": 435,
+  "after": 426,
+  "delta": 9,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "sonesta select seattle bellevue redmond": {
+    "identity_key": "sonesta select seattle bellevue redmond",
+    "requested_url": "https://www.sonesta.com/sonesta-select/wa/bellevue/sonesta-select-seattle-bellevue-redmond",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "sonesta select seattle renton suites": {
+    "identity_key": "sonesta select seattle renton suites",
+    "requested_url": "https://www.sonesta.com/sonesta-select/wa/renton/sonesta-select-seattle-renton-suites",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "warwick seattle": {
+    "identity_key": "warwick seattle",
+    "requested_url": "https://www.warwickhotels.com/warwick-seattle?utm_source=google&utm_medium=local&utm_campaign=seo",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "woodspring suites seattle redmond": {
+    "identity_key": "woodspring suites seattle redmond",
+    "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/washington/seattle-tacoma-bellevue/woodspring-suites-seattle-redmond",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "beston inn seattle",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "jet inn motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "la residence suite hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "livaway suites seattle renton",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "panama hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the bacon mansion bed and breakfast",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 10,
+  "results": 10
+ },
+ "class_counts": {
+  "FIRECRAWL_BLOCKED": 2,
+  "FIRECRAWL_MISMATCH": 4,
+  "FIRECRAWL_PUBLICATION_GRADE": 3,
+  "FIRECRAWL_SOURCE_SILENT": 1
+ },
+ "outcome_counts": {
+  "ACCESS_DENIED": 1,
+  "IDENTITY_MISMATCH": 4,
+  "POLICY_NOT_FOUND": 1,
+  "UNHYDRATED": 1,
+  "VALID": 3
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "beston inn seattle",
+   "canonical_name": "Beston Inn Seattle",
+   "family": "INDEPENDENT",
+   "cohort": "RESIDUAL_001",
+   "property_code": "",
+   "requested_url": "https://www.bestoninn.com/?utm_source=google&utm_medium=wix_google_business_profile&utm_campaign=8841162887749401234",
+   "final_url": "https://www.bestoninn.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "98133",
+   "expected_street": "12035 Aurora Ave N",
+   "captured_at": "2026-10-03T06:41:31.886592+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.bestoninn.com/?utm_source=google&utm_medium=wix_google_business_profile&utm_campaign=8841162887749401234"
+    },
+    "envelope_sha256": "09567789c3c5335bb61d7f53a488a45fb0676e18963245fc635728b36e604088"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\seattle_wa_firecrawl_001\\beston-inn-seattle\\attempt-01",
+   "ladder_reason": "residual: ROUTING_HOLD",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "jet inn motel",
+   "canonical_name": "Jet Inn Motel",
+   "family": "INDEPENDENT",
+   "cohort": "RESIDUAL_001",
+   "property_code": "",
+   "requested_url": "https://www.jetinnmotel.com/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "98168",
+   "expected_street": "3747 S 142nd Street",
+   "captured_at": "2026-10-03T06:41:43.634338+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.jetinnmotel.com/"
+    },
+    "envelope_sha256": "8f7e19752edf3bb0752dba68468174232e00d4f1ddeeacd79ee9dfac05a450e4"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\seattle_wa_firecrawl_001\\jet-inn-motel\\attempt-01",
+   "ladder_reason": "residual: ACCESS_BLOCKED",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "la residence suite hotel",
+   "canonical_name": "La Residence Suite Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "RESIDUAL_001",
+   "property_code": "",
+   "requested_url": "http://www.bellevuelodging.com",
+   "final_url": "https://bellevuelodging.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Best Downtown Bellevue Hotel | Spacious suites + kitchens', which does not agree with 'La Residence Suite Hotel'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Best Downtown Bellevue Hotel | Spacious suites + kitchens",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://bellevuelodging.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "4743096808",
+      "2018788483",
+      "6951158212",
+      "4254551475"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Best Downtown Bellevue Hotel | Spacious suites + kitchens', which does not agree with 'La Residence Suite Hotel'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "98004",
+   "expected_street": "475 100th Avenue Northeast",
+   "captured_at": "2026-10-03T06:42:26.463740+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.bellevuelodging.com"
+    },
+    "envelope_sha256": "b9352f96aca850642ce733fce187725c86dcec89f1e0d77c1f1aeb786f49f370"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\seattle_wa_firecrawl_001\\la-residence-suite-hotel\\attempt-01",
+   "ladder_reason": "residual: SOURCE_SILENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "livaway suites seattle renton",
+   "canonical_name": "LivAway Suites Seattle-Renton",
+   "family": "INDEPENDENT",
+   "cohort": "RESIDUAL_001",
+   "property_code": "",
+   "requested_url": "https://www.livawaysuites.com/locations/wa/seattle/renton",
+   "final_url": "https://www.livawaysuites.com/locations/wa/seattle/renton",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '751 Park Avenue' does not agree with expected '751 Park Avenue North'; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "LivAway Suites - Seattle Renton",
+     "address_on_page": "751 Park Avenue",
+     "postal_code": "98057",
+     "phone_on_page": "(425) 577-6562",
+     "property_code_on_page": "",
+     "canonical_url": "/locations/wa/seattle/renton",
+     "pets_allowed_structured": "True",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4255776562",
+      "8445482929",
+      "8426721226"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '751 Park Avenue' does not agree with expected '751 Park Avenue North'",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "98057",
+   "expected_street": "751 Park Avenue North",
+   "captured_at": "2026-10-03T06:42:37.600510+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.livawaysuites.com/locations/wa/seattle/renton"
+    },
+    "envelope_sha256": "cbd564ffd046ef68565153c549684b81acb1de36b55eb0ecf0c729084ea26b91"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\seattle_wa_firecrawl_001\\livaway-suites-seattle-renton\\attempt-01",
+   "ladder_reason": "residual: ROUTING_HOLD",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "panama hotel",
+   "canonical_name": "Panama Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "RESIDUAL_001",
+   "property_code": "",
+   "requested_url": "http://www.panamahotelseattle.net/",
+   "final_url": "https://www.panamahotelseattle.net/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Panama Hotel | Seattle | Japanese American Heritage",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.panamahotelseattle.net/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "4743096808",
+      "2018788483",
+      "6951158212"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "98104",
+   "expected_street": "605 1/2 S Main St",
+   "captured_at": "2026-10-03T06:42:47.937076+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.panamahotelseattle.net/"
+    },
+    "envelope_sha256": "83d257736ef2b53af00da9d20863e53ed41df09d9bdb2a3287850e0fa61a2f13"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\seattle_wa_firecrawl_001\\panama-hotel\\attempt-01",
+   "ladder_reason": "residual: SOURCE_SILENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "sonesta select seattle bellevue redmond",
+   "canonical_name": "Sonesta Select Seattle Bellevue Redmond",
+   "family": "SONESTA",
+   "cohort": "RESIDUAL_001",
+   "property_code": "",
+   "requested_url": "https://www.sonesta.com/sonesta-select/wa/bellevue/sonesta-select-seattle-bellevue-redmond",
+   "final_url": "https://www.sonesta.com/sonesta-select/wa/bellevue/sonesta-select-seattle-bellevue-redmond",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sonesta Select Seattle Bellevue Redmond",
+     "address_on_page": "14615 NE 29th Place",
+     "postal_code": "98007",
+     "phone_on_page": "(425) 869-5300",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/sonesta-select/wa/bellevue/sonesta-select-seattle-bellevue-redmond",
+     "pets_allowed_structured": "true",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4258695300"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "98007",
+   "expected_street": "14615 NE 29th Place",
+   "captured_at": "2026-10-03T06:42:58.318607+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.sonesta.com/sonesta-select/wa/bellevue/sonesta-select-seattle-bellevue-redmond"
+    },
+    "envelope_sha256": "9e8ac61a6fa3bf13066f5ee49b6d4b4b253791767acbf1b57f5378ea9ca74196"
+   },
+   "page_sha256": "896cfffc540f66d57f411e7414f6b2ba86b23dc3fc3ca4fc5220c8a093a5c96f",
+   "artifact_dir": "data\\acquisition\\seattle_wa_firecrawl_001\\sonesta-select-seattle-bellevue-redmond\\attempt-01",
+   "ladder_reason": "residual: SOURCE_SILENT",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "service_animal_exception": "Service animals are welcome"
+    },
+    "evidence": [
+     {
+      "quote": "Service animals are welcome",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "seattle_wa_firecrawl_001::sonesta select seattle bellevue redmond::service_animal_exception::0",
+       "field": "service_animal_exception",
+       "quote": "Service animals are welcome",
+       "source_url": "https://www.sonesta.com/sonesta-select/wa/bellevue/sonesta-select-seattle-bellevue-redmond",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "896cfffc540f66d57f411e7414f6b2ba86b23dc3fc3ca4fc5220c8a093a5c96f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-03",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "3cf230905421dfdc2d7e1c748f04aed99ca4ded440d59c5e2aa8b6b0f6c7b585",
+     "document_sha256": "896cfffc540f66d57f411e7414f6b2ba86b23dc3fc3ca4fc5220c8a093a5c96f"
+    }
+   },
+   "pets_allowed": null,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "sonesta select seattle renton suites",
+   "canonical_name": "Sonesta Select Seattle Renton Suites",
+   "family": "SONESTA",
+   "cohort": "RESIDUAL_001",
+   "property_code": "",
+   "requested_url": "https://www.sonesta.com/sonesta-select/wa/renton/sonesta-select-seattle-renton-suites",
+   "final_url": "https://www.sonesta.com/sonesta-select/wa/renton/sonesta-select-seattle-renton-suites",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sonesta Select Seattle Renton Suites",
+     "address_on_page": "200 SW 19th Street",
+     "postal_code": "98057",
+     "phone_on_page": "(425) 226-4100",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/sonesta-select/wa/renton/sonesta-select-seattle-renton-suites",
+     "pets_allowed_structured": "true",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4252264100"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "98057",
+   "expected_street": "200 SW 19th Street",
+   "captured_at": "2026-10-03T06:43:10.747492+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.sonesta.com/sonesta-select/wa/renton/sonesta-select-seattle-renton-suites"
+    },
+    "envelope_sha256": "da184fb713fa4037797ac416c2fe9623bdad04c071b7557b31193001f21cb834"
+   },
+   "page_sha256": "a3180ecbce69d271b1ec1b14cca1e27e9941dd0e2ccaf41022bd10144b67be18",
+   "artifact_dir": "data\\acquisition\\seattle_wa_firecrawl_001\\sonesta-select-seattle-renton-suites\\attempt-01",
+   "ladder_reason": "residual: SOURCE_SILENT",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "service_animal_exception": "Service animals are welcome"
+    },
+    "evidence": [
+     {
+      "quote": "Service animals are welcome",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "seattle_wa_firecrawl_001::sonesta select seattle renton suites::service_animal_exception::0",
+       "field": "service_animal_exception",
+       "quote": "Service animals are welcome",
+       "source_url": "https://www.sonesta.com/sonesta-select/wa/renton/sonesta-select-seattle-renton-suites",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "a3180ecbce69d271b1ec1b14cca1e27e9941dd0e2ccaf41022bd10144b67be18",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-03",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "3cf230905421dfdc2d7e1c748f04aed99ca4ded440d59c5e2aa8b6b0f6c7b585",
+     "document_sha256": "a3180ecbce69d271b1ec1b14cca1e27e9941dd0e2ccaf41022bd10144b67be18"
+    }
+   },
+   "pets_allowed": null,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "the bacon mansion bed and breakfast",
+   "canonical_name": "The Bacon Mansion Bed and Breakfast",
+   "family": "INDEPENDENT",
+   "cohort": "RESIDUAL_001",
+   "property_code": "",
+   "requested_url": "https://www.baconmanor.com/",
+   "final_url": "https://www.baconmanor.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Cecil Bacon Manor Bed and Breakfast | Capitol Hill, Seattle",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.baconmanor.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2067175959"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "98102",
+   "expected_street": "959 Broadway E",
+   "captured_at": "2026-10-03T06:43:23.482267+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.baconmanor.com/"
+    },
+    "envelope_sha256": "a41a763e45851c8bd4c174c2b6f00a12186a3a125b46c7db406264f18d8b3c8e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\seattle_wa_firecrawl_001\\the-bacon-mansion-bed-and-breakfast\\attempt-01",
+   "ladder_reason": "residual: SOURCE_SILENT",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "warwick seattle",
+   "canonical_name": "Warwick Seattle",
+   "family": "INDEPENDENT",
+   "cohort": "RESIDUAL_001",
+   "property_code": "",
+   "requested_url": "https://www.warwickhotels.com/warwick-seattle?utm_source=google&utm_medium=local&utm_campaign=seo",
+   "final_url": "https://www.warwickhotels.com/warwick-seattle",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Warwick Seattle",
+     "address_on_page": "401 Lenora Street",
+     "postal_code": "98121",
+     "phone_on_page": "+1 206-443-4300",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.warwickhotels.com/warwick-seattle",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2064434300",
+      "2062192241",
+      "2067771990"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "98121",
+   "expected_street": "401 Lenora St",
+   "captured_at": "2026-10-03T06:43:33.419112+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.warwickhotels.com/warwick-seattle?utm_source=google&utm_medium=local&utm_campaign=seo"
+    },
+    "envelope_sha256": "a5bc18813bc085ea27356497a549b130d3f05f909880799c9b0395f0f1ba0356"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\seattle_wa_firecrawl_001\\warwick-seattle\\attempt-01",
+   "ladder_reason": "residual: ROUTING_HOLD",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "woodspring suites seattle redmond",
+   "canonical_name": "WoodSpring Suites Seattle Redmond",
+   "family": "CHOICE",
+   "cohort": "RESIDUAL_001",
+   "property_code": "",
+   "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/washington/seattle-tacoma-bellevue/woodspring-suites-seattle-redmond",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/washington/seattle-tacoma-bellevue/woodspring-suites-seattle-redmond",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "WoodSpring Suites Seattle Redmond",
+     "address_on_page": "7045 180th Avenue Northeast",
+     "postal_code": "98052",
+     "phone_on_page": "1(425)598-7011",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/washington/seattle-tacoma-bellevue/woodspring-suites-seattle-redmond",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4255987010",
+      "4743096808",
+      "2018788483",
+      "6951158212",
+      "8449746835"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "98052",
+   "expected_street": "7045 180th Avenue Northeast",
+   "captured_at": "2026-10-03T06:43:44.126176+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.woodspring.com/extended-stay-hotels/locations/washington/seattle-tacoma-bellevue/woodspring-suites-seattle-redmond"
+    },
+    "envelope_sha256": "9c6c01cd52116dac4b845758d76042830819e6f7310661bc8f8070c4c7283625"
+   },
+   "page_sha256": "503d358c3d81a2c0a69133c577a01b152df564e2ced71829dedabbb6368b5a5e",
+   "artifact_dir": "data\\acquisition\\seattle_wa_firecrawl_001\\woodspring-suites-seattle-redmond\\attempt-01",
+   "ladder_reason": "residual: SOURCE_SILENT",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {
+     "weight_limit": {
+      "value": 50.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "cats_allowed": false,
+     "service_animal_exception": "Are pets allowed at WoodSpring Suites Seattle Redmond? Service Animals are welcome at no additional charge, must be registered upon arrival."
+    },
+    "evidence": [
+     {
+      "quote": "Weight limit of 50 lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Limit of 2 Dogs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "No Cats",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "cats_allowed"
+      ]
+     },
+     {
+      "quote": "Are pets allowed at WoodSpring Suites Seattle Redmond? Service Animals are welcome at no additional charge, must be registered upon arrival.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT",
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "cats_allowed": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "seattle_wa_firecrawl_001::woodspring suites seattle redmond::weight_limit::0",
+       "field": "weight_limit",
+       "quote": "Weight limit of 50 lbs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/washington/seattle-tacoma-bellevue/woodspring-suites-seattle-redmond",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "503d358c3d81a2c0a69133c577a01b152df564e2ced71829dedabbb6368b5a5e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-03",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "seattle_wa_firecrawl_001::woodspring suites seattle redmond::pet_count_limit::1",
+       "field": "pet_count_limit",
+       "quote": "Limit of 2 Dogs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/washington/seattle-tacoma-bellevue/woodspring-suites-seattle-redmond",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "503d358c3d81a2c0a69133c577a01b152df564e2ced71829dedabbb6368b5a5e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-03",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "seattle_wa_firecrawl_001::woodspring suites seattle redmond::cats_allowed::2",
+       "field": "cats_allowed",
+       "quote": "No Cats",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/washington/seattle-tacoma-bellevue/woodspring-suites-seattle-redmond",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "503d358c3d81a2c0a69133c577a01b152df564e2ced71829dedabbb6368b5a5e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-03",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "seattle_wa_firecrawl_001::woodspring suites seattle redmond::service_animal_exception::3",
+       "field": "service_animal_exception",
+       "quote": "Are pets allowed at WoodSpring Suites Seattle Redmond? Service Animals are welcome at no additional charge, must be registered upon arrival.",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/washington/seattle-tacoma-bellevue/woodspring-suites-seattle-redmond",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "503d358c3d81a2c0a69133c577a01b152df564e2ced71829dedabbb6368b5a5e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-03",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "36896da671202d50b111dbc155870cdfb0c99d0d11cb10d56a5b469da338cbb2",
+     "document_sha256": "503d358c3d81a2c0a69133c577a01b152df564e2ced71829dedabbb6368b5a5e"
+    }
+   },
+   "pets_allowed": null,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  }
+ ]
+}

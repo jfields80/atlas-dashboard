@@ -1,0 +1,106 @@
+{
+ "schema": "ptf-source-accounting/1.0",
+ "work_order": "PTF-SEATTLE-WA-HARDENED-SOURCE-READY-001",
+ "market_id": "seattle-wa",
+ "derived_from": "launch_packages/pettripfinder/markets/reports/seattle_wa_source_ready_accounting_001.json",
+ "headline": {
+  "total_raw_observations": 2190,
+  "raw_observations_by_lane": {
+   "REGISTRY_LICENCE": 242,
+   "OSM_OVERPASS": 811,
+   "BRAND_INVENTORY_OWNED": 55,
+   "BRAND_INVENTORY_CITY_PAGE": 54,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 65,
+   "DESTINATION_ORGANIZATION": 178,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 475,
+   "IDENTITY_VERIFIED_PLACES": 14,
+   "PROPERTY_PAGE": 296
+  },
+  "city_business_licence_register_lodging_leads": 242,
+  "osm_lodging_elements": 858,
+  "brand_inventory_leads": 160,
+  "destination_roster_listings": 242,
+  "destination_roster_rows_in_admitted_codes": 221,
+  "competitor_leads_normalized": 475,
+  "graph_nodes": 1295,
+  "proposed_census": 303,
+  "valid_pet_friendly": 139,
+  "valid_verified_no_pets": 61,
+  "resolved": 200,
+  "unresolved": 103,
+  "resolution_rate": 0.6601
+ },
+ "holds_by_class": {
+  "IDENTITY": 8,
+  "ROUTING": 37,
+  "ACCESS_BLOCKED": 6,
+  "EVIDENCE": 19,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 33,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "router exhausted on every free/authorized lane attempted this order (s": 5,
+   "the property's own site (found via Places) did not serve to the plain ": 1
+  },
+  "EVIDENCE_HOLD": {
+   "the first-party quote states neither an acceptance nor a refusal sente": 6,
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 5,
+   "SERVICE_ANIMAL_ONLY_BESIDE_ACCEPTANCE": 2,
+   "the property's own page served and bound these premises, but its only ": 2,
+   "one artifact (sha256:efbd31638cdf4707) is the ONLY policy evidence for": 2,
+   "PREOPENING_NOT_YET_OPEN": 1,
+   "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "the fetched page's own identity did not confirm this census row": 4,
+   "SAME PREMISES, TWO IDENTITIES (address_key 15220|shen|98052): Aloft by": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 32124|25th|98003): Holiday ": 2
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 30,
+   "the route the census carries served an error page (expired domain, sit": 5,
+   "OTHER_EXPLICIT_REASON": 2
+  },
+  "SOURCE_SILENT": {
+   "the property's own pages served, bound these exact premises, and state": 13,
+   "the property's own site (found via Places, bound on its own address/ph": 11,
+   "the brand's own page served and bound these premises, and the only pet": 5,
+   "the page served and stated no operative pet policy (BLOCK_FOUND_BUT_SI": 3,
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 1
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 84,
+  "timeshare": 2,
+  "resort_residence": 0,
+  "non_hotel": 175,
+  "closed": 0,
+  "converted_to_non_hotel": 0,
+  "military_restricted": 3,
+  "outside": 380,
+  "duplicate_listing": 4,
+  "name_only_unresolved_graph_residue": 247,
+  "identity_review_required_graph_residue": 99,
+  "same_campus_distinct_entity": 1,
+  "city_register_short_term_rental_and_other_rows_never_leads": 2931,
+  "closed_note": "No row was classified CLOSED on a first-party closure statement; lapsed routes (an expired domain, a brand redirect to its own search) are ROUTING holds, never a closure claim."
+ },
+ "remaining_unresolved_root_causes": {
+  "ROUTING_HOLD": "no first-party route: no brand inventory row, bureau link or map website joined the building, Google Places route discovery (run inside the renewed free monthly allowance) found no first-party website for it, or the route the census carried is retired, expired or a third-party page.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible, the attended browser) was refused or walled.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a conditional, chip-only or fee/weight/count-only statement, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "dual-brand buildings awaiting a reviewed shared resolution, or a page that never confirmed this census row's premises."
+ }
+}

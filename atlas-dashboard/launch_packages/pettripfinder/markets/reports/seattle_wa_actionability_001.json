@@ -1,0 +1,1021 @@
+{
+ "schema": "ptf-market-actionability/2.0",
+ "work_order": "PTF-SEATTLE-WA-HARDENED-SOURCE-READY-001",
+ "market_id": "seattle-wa",
+ "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
+ "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
+ "census_total": 303,
+ "resolved": 200,
+ "unresolved_total": 103,
+ "totals_by_class": {
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 98,
+  "REQUIRES_NEW_PROVIDER": 0,
+  "REQUIRES_NEW_SPEND": 0,
+  "REQUIRES_FOUNDER": 4,
+  "HELD_UNTIL_OPENING": 1
+ },
+ "by_disposition": {
+  "ACCESS_BLOCKED": {
+   "total": 6,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 6,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "EVIDENCE_HOLD": {
+   "total": 19,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 18,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "total": 8,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 4,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 4,
+   "held_until_opening": 0
+  },
+  "ROUTING_HOLD": {
+   "total": 37,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 37,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "SOURCE_SILENT": {
+   "total": 33,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 33,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  }
+ },
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 0,
+ "founder_rows_safely_held": 4,
+ "preopening_rows_safely_excluded": 1,
+ "places_note": "Google Places route discovery ran inside the renewed free monthly allowance (existing capacity, no new spend); a row it queried and could not route is exhausted, a row it never queried is actionable",
+ "attended_browser": {
+  "attempts": 193,
+  "reads": 160,
+  "challenge_denied": 3,
+  "unbound": 3,
+  "paid_provider_calls": 0,
+  "akamai_bypassed": false,
+  "browser_js_exfiltration_used": false,
+  "local_relay_used": false
+ },
+ "coverage_conditions": {
+  "actionable_unresolved_is_zero": true,
+  "no_material_identity_gap": true,
+  "no_material_unexplained_policy_gap": true,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
+  "publication_set_safe": true,
+  "package_deterministic_and_fast_clean": false
+ },
+ "COVERAGE_READY": "NO",
+ "TECHNICAL_SOURCE_READY": "NO",
+ "rows": [
+  {
+   "identity_key": "best western plus renton",
+   "canonical_name": "Best Western Plus - Renton",
+   "corridor": "seattle-wa__renton",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "extended stay america seattle kent",
+   "canonical_name": "Extended Stay America - Seattle/Kent",
+   "corridor": "seattle-wa__kent",
+   "brand_family": "ESA",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static ACCESS_DENIED)"
+  },
+  {
+   "identity_key": "federal way inn and suites",
+   "canonical_name": "Federal Way Inn & Suites",
+   "corridor": "seattle-wa__federal-way",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static UNEXPECTED_PAGE)"
+  },
+  {
+   "identity_key": "jet inn motel",
+   "canonical_name": "Jet Inn Motel",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site (found via Places) did not serve to the plain client (status None)"
+  },
+  {
+   "identity_key": "motel 6 seattle airport 1332",
+   "canonical_name": "Motel 6 Seattle Airport #1332",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static UNHYDRATED)"
+  },
+  {
+   "identity_key": "motel 6 seattle south 736",
+   "canonical_name": "Motel 6 Seattle South #736",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "ballard inn",
+   "canonical_name": "Ballard Inn",
+   "corridor": "seattle-wa__ballard-fremont",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "best western plus edmonds harbor inn",
+   "canonical_name": "Best Western Plus Edmonds Harbor Inn",
+   "corridor": "seattle-wa__edmonds-mountlake-terrace",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "coast gateway hotel",
+   "canonical_name": "Coast Gateway Hotel",
+   "corridor": "seattle-wa__bellevue",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'Pets are welcome'), not an operative pet_friendly statement; held r"
+  },
+  {
+   "identity_key": "coast seattle downtown hotel by apa",
+   "canonical_name": "Coast Seattle Downtown Hotel by APA",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Our friendly staff is committed to ensuring a comfortable experience for"
+  },
+  {
+   "identity_key": "courtyard by marriott seattle northgate",
+   "canonical_name": "Courtyard by Marriott Seattle Northgate",
+   "corridor": "seattle-wa__north-seattle",
+   "brand_family": "MARRIOTT",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- SERVICE_ANIMAL_ONLY_BESIDE_ACCEPTANCE -- the quote welcomes pets and also restricts the stay to service animals only; the two statements contradict each other, so the row is held, never published eith"
+  },
+  {
+   "identity_key": "hyatt at olive 8",
+   "canonical_name": "Hyatt at Olive 8",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "HYATT",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "hyatt regency lake washington at seattle s southport",
+   "canonical_name": "Hyatt Regency Lake Washington at Seattle's Southport",
+   "corridor": "seattle-wa__renton",
+   "brand_family": "HYATT",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "la hacienda motel",
+   "canonical_name": "La Hacienda Motel",
+   "corridor": "seattle-wa__south-west-seattle",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- SERVICE_ANIMAL_ONLY_BESIDE_ACCEPTANCE -- the quote welcomes pets and also restricts the stay to service animals only; the two statements contradict each other, so the row is held, never published eith"
+  },
+  {
+   "identity_key": "larkspur landing extended stay suites renton",
+   "canonical_name": "Larkspur Landing Extended Stay Suites Renton",
+   "corridor": "seattle-wa__renton",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "seattle gaslight inn",
+   "canonical_name": "Seattle Gaslight Inn",
+   "corridor": "seattle-wa__capitol-hill-central",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no acceptance the reader will interpret: '- Do you have pets? They loves people and will \"ask\" you fo"
+  },
+  {
+   "identity_key": "silver cloud hotel seattle lake union",
+   "canonical_name": "Silver Cloud Hotel Seattle - Lake Union",
+   "corridor": "seattle-wa__seattle-center-slu",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- one artifact (sha256:efbd31638cdf4707) is the ONLY policy evidence for 2 different premises (silver cloud hotel seattle lake union, silver cloud inn seattle lake union); a document bound to more than "
+  },
+  {
+   "identity_key": "silver cloud inn seattle lake union",
+   "canonical_name": "Silver Cloud Inn - Seattle Lake Union",
+   "corridor": "seattle-wa__seattle-center-slu",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- one artifact (sha256:efbd31638cdf4707) is the ONLY policy evidence for 2 different premises (silver cloud hotel seattle lake union, silver cloud inn seattle lake union); a document bound to more than "
+  },
+  {
+   "identity_key": "the baroness hotel",
+   "canonical_name": "The Baroness Hotel",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Are pets allowed? Pets are n"
+  },
+  {
+   "identity_key": "the edgewater hotel",
+   "canonical_name": "The Edgewater Hotel",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "the inn at virginia mason",
+   "canonical_name": "The Inn at Virginia Mason",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'What is the pet policy? Pets"
+  },
+  {
+   "identity_key": "the state hotel",
+   "canonical_name": "The State Hotel",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "travelodge by wyndham seattle north of downtown",
+   "canonical_name": "Travelodge by Wyndham Seattle North of Downtown",
+   "corridor": "seattle-wa__ballard-fremont",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "warwick seattle",
+   "canonical_name": "Warwick Seattle",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "bellevue club hotel",
+   "canonical_name": "Bellevue Club Hotel",
+   "corridor": "seattle-wa__bellevue",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "executive hotel pacific",
+   "canonical_name": "Executive Hotel Pacific",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "hotel five",
+   "canonical_name": "Hotel FIVE",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "the alexis royal sonesta hotel seattle",
+   "canonical_name": "The Alexis Royal Sonesta Hotel Seattle",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "SONESTA",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "aero motel",
+   "canonical_name": "Aero Motel",
+   "corridor": "seattle-wa__south-west-seattle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "airlane motel",
+   "canonical_name": "Airlane Motel",
+   "corridor": "seattle-wa__south-west-seattle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "c and c b and b",
+   "canonical_name": "C and c B and b",
+   "corridor": "seattle-wa__ballard-fremont",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "columbus motor inn",
+   "canonical_name": "Columbus Motor Inn",
+   "corridor": "seattle-wa__ballard-fremont",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://columbusmotorinn.net/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "crest motor inn sea tac",
+   "canonical_name": "Crest Motor Inn - Sea-Tac",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://off-airportparking.com/airports/sea/sea-tac-crest-motor-inn/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "econo lodge seatac airport",
+   "canonical_name": "Econo Lodge Seatac Airport",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "ed b and b",
+   "canonical_name": "Ed B and b",
+   "corridor": "seattle-wa__university-district",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "elsie s bay manor",
+   "canonical_name": "Elsie's Bay Manor",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "foxglove inn",
+   "canonical_name": "Foxglove Inn",
+   "corridor": "seattle-wa__capitol-hill-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "hotel seattle",
+   "canonical_name": "Hotel Seattle",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "jennie s grand b and b",
+   "canonical_name": "Jennie's Grand B and b",
+   "corridor": "seattle-wa__capitol-hill-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "k and m b and b",
+   "canonical_name": "K & M B and b",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "lakeview boutique hotel kirkland",
+   "canonical_name": "Lakeview Boutique Hotel Kirkland",
+   "corridor": "seattle-wa__kirkland",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "machloft guest house and gallery",
+   "canonical_name": "Machloft Guest House & Gallery",
+   "corridor": "seattle-wa__south-west-seattle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "mildreds bed and breakfast",
+   "canonical_name": "Mildreds Bed & Breakfast",
+   "corridor": "seattle-wa__capitol-hill-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "motel 6 issaquah wa seattle east",
+   "canonical_name": "Motel 6 Issaquah, WA - Seattle - East",
+   "corridor": "seattle-wa__issaquah",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the brand's live property pages state only an amenity chip and a brand-wide link (seq 142), and the franchise domain Places names answers an error page (seq 143) -- no authorized lane yields an operative policy"
+  },
+  {
+   "identity_key": "motel 6 kirkland wa north kirkland",
+   "canonical_name": "Motel 6 Kirkland, WA - North Kirkland",
+   "corridor": "seattle-wa__kirkland",
+   "brand_family": "MOTEL6",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Motel 6 / Studio 6: the brand's live property pages state only an amenity chip and a brand-wide link (seq 142), and the franchise domain Places names answers an error page (seq 143) -- no authorized lane yields an operative policy"
+  },
+  {
+   "identity_key": "motel travel inn",
+   "canonical_name": "Motel Travel Inn",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "munson motel",
+   "canonical_name": "Munson Motel",
+   "corridor": "seattle-wa__south-west-seattle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "new best inn",
+   "canonical_name": "New Best Inn",
+   "corridor": "seattle-wa__kent",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "new west motel",
+   "canonical_name": "New West Motel",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "peacock garden b and b",
+   "canonical_name": "Peacock Garden B and b",
+   "corridor": "seattle-wa__seattle-center-slu",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "quality inn bellevue",
+   "canonical_name": "Quality Inn- Bellevue",
+   "corridor": "seattle-wa__bellevue",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.choicehotels.com/washington/bellevue/quality-inn-hotels/wa345?adults=1&checkIn) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "renton inn",
+   "canonical_name": "Renton Inn",
+   "corridor": "seattle-wa__renton",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "ridge crest motel",
+   "canonical_name": "Ridge Crest Motel",
+   "corridor": "seattle-wa__federal-way",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "seatac inn",
+   "canonical_name": "SeaTac Inn",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "shafer baillie mansion",
+   "canonical_name": "Shafer Baillie Mansion",
+   "corridor": "seattle-wa__capitol-hill-central",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "shoreline motel",
+   "canonical_name": "Shoreline Motel",
+   "corridor": "seattle-wa__north-seattle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "talaramba b and b",
+   "canonical_name": "Talaramba B and b",
+   "corridor": "seattle-wa__south-west-seattle",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "the legend motel",
+   "canonical_name": "The Legend Motel",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "the motel georgian",
+   "canonical_name": "The Motel Georgian",
+   "corridor": "seattle-wa__ballard-fremont",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "the suite northwest guesthouse",
+   "canonical_name": "The Suite Northwest Guesthouse",
+   "corridor": "seattle-wa__ballard-fremont",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "tlc suites dba temporary living corporate suites",
+   "canonical_name": "Tlc Suites Dba Temporary Living Corporate Suites",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (0 candidates)"
+  },
+  {
+   "identity_key": "univeristy inn",
+   "canonical_name": "Univeristy Inn",
+   "corridor": "seattle-wa__university-district",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Places named https://www.staypineapple.com/university-inn-seattle-wa; the attended browser opened it (seq 189): AMENITY_CHIP_ONLY_NOT_OPERATIVE -- the operator's own hotel page (the route Places names); 'DOG FRIENDLY' is an amenity label and 'Dog-Friendly Hotels' a brand-wide link; no property policy sentence on the page"
+  },
+  {
+   "identity_key": "wallingford inn",
+   "canonical_name": "Wallingford Inn",
+   "corridor": "seattle-wa__ballard-fremont",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "west view motel",
+   "canonical_name": "West View Motel",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "west wind motel",
+   "canonical_name": "West Wind Motel",
+   "corridor": "seattle-wa__renton",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, the City of Seattle business-licence register, Visit Seattle's and Visit Bellevue's rosters, the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "arctic club hotel",
+   "canonical_name": "Arctic Club Hotel",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "best lynnwood inn",
+   "canonical_name": "Best Lynnwood Inn",
+   "corridor": "seattle-wa__lynnwood",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "best motel",
+   "canonical_name": "Best Motel",
+   "corridor": "seattle-wa__north-seattle",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "best western plus pioneer square hotel downtown",
+   "canonical_name": "Best Western Plus Pioneer Square Hotel Downtown",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "civic hotel",
+   "canonical_name": "Civic Hotel",
+   "corridor": "seattle-wa__seattle-center-slu",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "federal way motel",
+   "canonical_name": "Federal Way Motel",
+   "corridor": "seattle-wa__federal-way",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "four seasons hotel seattle",
+   "canonical_name": "Four Seasons Hotel Seattle",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "golden kent motel",
+   "canonical_name": "Golden Kent Motel",
+   "corridor": "seattle-wa__kent",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel andra seattle mgallery",
+   "canonical_name": "Hotel Andra Seattle - MGallery",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel max",
+   "canonical_name": "Hotel Max",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "inn at lake washington",
+   "canonical_name": "Inn At Lake Washington",
+   "corridor": "seattle-wa__renton",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "inn at the market",
+   "canonical_name": "Inn at the Market",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "la residence suite hotel",
+   "canonical_name": "La Residence Suite Hotel",
+   "corridor": "seattle-wa__bellevue",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "livaway suites seattle renton wa",
+   "canonical_name": "LivAway Suites Seattle - Renton, WA",
+   "corridor": "seattle-wa__renton",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "marco polo motel",
+   "canonical_name": "Marco Polo Motel",
+   "corridor": "seattle-wa__ballard-fremont",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "marina inn",
+   "canonical_name": "Marina Inn",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "mayflower park hotel",
+   "canonical_name": "Mayflower Park Hotel",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "moore hotel",
+   "canonical_name": "Moore Hotel",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 seattle wa sea tac airport south",
+   "canonical_name": "Motel 6 Seattle, WA - Sea-Tac Airport South",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "ontario hotel",
+   "canonical_name": "Ontario Hotel",
+   "corridor": "seattle-wa__south-west-seattle",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "panama hotel",
+   "canonical_name": "Panama Hotel",
+   "corridor": "seattle-wa__downtown-waterfront",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "red lion hotel bellevue",
+   "canonical_name": "Red Lion Hotel Bellevue",
+   "corridor": "seattle-wa__bellevue",
+   "brand_family": "SONESTA",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "sonesta select seattle bellevue redmond",
+   "canonical_name": "Sonesta Select Seattle Bellevue Redmond",
+   "corridor": "seattle-wa__bellevue",
+   "brand_family": "SONESTA",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "sonesta select seattle renton suites",
+   "canonical_name": "Sonesta Select Seattle Renton Suites",
+   "corridor": "seattle-wa__renton",
+   "brand_family": "SONESTA",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "stevenson motel",
+   "canonical_name": "Stevenson Motel",
+   "corridor": "seattle-wa__federal-way",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the bacon mansion bed and breakfast",
+   "canonical_name": "The Bacon Mansion Bed and Breakfast",
+   "corridor": "seattle-wa__capitol-hill-central",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the boylston hotel",
+   "canonical_name": "The Boylston Hotel",
+   "corridor": "seattle-wa__capitol-hill-central",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the maxwell hotel",
+   "canonical_name": "The Maxwell Hotel",
+   "corridor": "seattle-wa__seattle-center-slu",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the mediterranean inn",
+   "canonical_name": "The Mediterranean Inn",
+   "corridor": "seattle-wa__seattle-center-slu",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "university inn seattle wa staypineapple",
+   "canonical_name": "University Inn - Seattle, WA | Staypineapple",
+   "corridor": "seattle-wa__university-district",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "valu inn sea tac",
+   "canonical_name": "Valu Inn Sea Tac",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "watertown hotel",
+   "canonical_name": "Watertown Hotel",
+   "corridor": "seattle-wa__university-district",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "woodspring suites seattle redmond",
+   "canonical_name": "WoodSpring Suites Seattle Redmond",
+   "corridor": "seattle-wa__redmond",
+   "brand_family": "CHOICE",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel interurban seattle tukwila tapestry by hilton",
+   "canonical_name": "Hotel Interurban Seattle Tukwila, Tapestry by Hilton",
+   "corridor": "seattle-wa__sea-airport",
+   "brand_family": "HILTON",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party page states \"We're opening in November 2026, but aren't accepting reservations yet.\": the hotel is not open, so no profile publishes until it "
+  },
+  {
+   "identity_key": "aloft by marriott seattle redmond",
+   "canonical_name": "Aloft by Marriott Seattle Redmond",
+   "corridor": "seattle-wa__redmond",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "element by marriott seattle redmond",
+   "canonical_name": "Element by Marriott Seattle Redmond",
+   "corridor": "seattle-wa__redmond",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "holiday inn express federal way seattle south",
+   "canonical_name": "Holiday Inn Express Federal Way - Seattle South",
+   "corridor": "seattle-wa__federal-way",
+   "brand_family": "IHG",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "staybridge suites federal way seattle south",
+   "canonical_name": "Staybridge Suites Federal Way - Seattle South",
+   "corridor": "seattle-wa__federal-way",
+   "brand_family": "IHG",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  }
+ ]
+}
