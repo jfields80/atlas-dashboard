@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-SAN-ANTONIO-TX-PRODUCTION-DEPLOYMENT-005",
+ "reviewed_by": "PTF-SEATTLE-WA-PRODUCTION-DEPLOYMENT-004",
  "live": {
-  "deploy_id": "6ac064cd6a4261e60054a2f3",
-  "deployed_by": "PTF-SAN-ANTONIO-TX-PRODUCTION-DEPLOYMENT-005",
-  "authorization_id": "ptf-auth-san-antonio-004-50b1ce95d803",
-  "deployment_record_id": "ptf-deploy-san-antonio-005-6ac064cd6a4261e60054a2f3",
-  "previous_deploy_id": "6abf3e749cc359701298718d",
-  "source_commit": "be83dab24f079bb89f2d48f677666da2156d9f16",
-  "bundle_sha256": "50b1ce95d80386ed9c28f16ad1493bc4c8f2588f201bb1f95597a6d6984a6bf4",
-  "sitemap_sha256": "e2a6b1c94dff6f9178fe83913c0babaf74f1b02b9453be37e29ad2c82a86b484",
+  "deploy_id": "6ac169ef7c75c383eb79f824",
+  "deployed_by": "PTF-SEATTLE-WA-PRODUCTION-DEPLOYMENT-004",
+  "authorization_id": "ptf-auth-seattle-003-cfaad64a7bcb",
+  "deployment_record_id": "ptf-deploy-seattle-004-6ac169ef7c75c383eb79f824",
+  "previous_deploy_id": "6ac064cd6a4261e60054a2f3",
+  "source_commit": "438348c712a2a57c54ac735847a7397a020b9cbe",
+  "bundle_sha256": "cfaad64a7bcb1b2b1734fe777ea577d5884aafe953054c2d80a7db1b01e0e5c3",
+  "sitemap_sha256": "63e052812b36668271aebb3f8bc933a44ac0d6150b7b8c19279d5f1e45a2b151",
   "participating_markets": [
    "asheville-nc",
    "atlanta-ga",
@@ -46,6 +46,7 @@
    "san-antonio-tx",
    "san-diego-ca",
    "savannah-ga",
+   "seattle-wa",
    "st-louis-mo",
    "tampa-fl",
    "toledo-oh",
@@ -87,25 +88,26 @@
    "san-antonio-tx": 144,
    "san-diego-ca": 145,
    "savannah-ga": 99,
+   "seattle-wa": 139,
    "st-louis-mo": 82,
    "tampa-fl": 142,
    "toledo-oh": 17,
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 3530,
-  "sitemap_route_count": 3966,
-  "total_html_pages": 21333,
-  "total_files": 21351,
-  "rollback_target": "6abf3e749cc359701298718d",
-  "note": "San Antonio / Greater San Antonio joined as the THIRTY-NINTH market and the second Texas market at 144 published pet-friendly profiles over 12 publishing corridors, on package pkg-san-antonio-tx-aa8f4fe9ea26a6ff (founder-authorized by PTF-SAN-ANTONIO-TX-FOUNDER-LAUNCH-AUTHORIZATION-004, bound to registration commit 5f30c7b3). The exact authorized artifact was deployed with no rebuild; every unpublished census row returns 404, and the timeshare and military-restricted identities are absent. Rollback is the deployment San Antonio replaced (Austin, 38 markets).",
-  "rollback_record": "ptf-deploy-austin-004-6abf3e749cc359701298718d.json"
+  "total_profiles": 3669,
+  "sitemap_route_count": 4117,
+  "total_html_pages": 22165,
+  "total_files": 22183,
+  "rollback_target": "6ac064cd6a4261e60054a2f3",
+  "note": "Seattle / Bellevue / Puget Sound joined as the FORTIETH market and the first Washington market at 139 published pet-friendly profiles over 10 publishing corridors, on package pkg-seattle-wa-784f0147e1220f40 (founder-authorized by PTF-SEATTLE-WA-FOUNDER-LAUNCH-AUTHORIZATION-003, bound to registration commit 89d6f249). The exact authorized artifact was deployed with no rebuild; every unpublished census row returns 404, and the timeshare and military-restricted identities are absent. Rollback is the deployment Seattle replaced (San Antonio, 39 markets).",
+  "rollback_record": "ptf-deploy-san-antonio-005-6ac064cd6a4261e60054a2f3.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "50b1ce95d80386ed9c28f16ad1493bc4c8f2588f201bb1f95597a6d6984a6bf4",
-  "sitemap_sha256": "e2a6b1c94dff6f9178fe83913c0babaf74f1b02b9453be37e29ad2c82a86b484",
+  "bundle_sha256": "cfaad64a7bcb1b2b1734fe777ea577d5884aafe953054c2d80a7db1b01e0e5c3",
+  "sitemap_sha256": "63e052812b36668271aebb3f8bc933a44ac0d6150b7b8c19279d5f1e45a2b151",
   "participating_markets": [
    {
     "market_id": "asheville-nc",
@@ -346,6 +348,13 @@
     "contract_disagreements": []
    },
    {
+    "market_id": "seattle-wa",
+    "published_profiles": 139,
+    "release_contract": "deploy/netlify/release_contracts/seattle-wa.json",
+    "release_contract_sha256": "aba6a374bedb1191a947768d62b433b29464964eaf0adf25165a005540101033",
+    "contract_disagreements": []
+   },
+   {
     "market_id": "st-louis-mo",
     "published_profiles": 82,
     "release_contract": "deploy/netlify/release_contracts/st-louis-mo.json",
@@ -416,15 +425,16 @@
    "san-antonio-tx": 144,
    "san-diego-ca": 145,
    "savannah-ga": 99,
+   "seattle-wa": 139,
    "st-louis-mo": 82,
    "tampa-fl": 142,
    "toledo-oh": 17,
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 3530,
-  "sitemap_route_count": 3966,
-  "total_html_pages": 21333,
-  "total_files": 21351
+  "total_profiles": 3669,
+  "sitemap_route_count": 4117,
+  "total_html_pages": 22165,
+  "total_files": 22183
  }
 }
