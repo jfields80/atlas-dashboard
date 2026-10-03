@@ -23,7 +23,7 @@ from scripts.pettripfinder import seattle_wa_policy_pages_lane_001 as PP  # noqa
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "seattle_wa_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "seattle-wa.json")
+CENSUS = os.path.join(PKG, "identity_census", "seattle-wa.json")
 OUT = os.path.join(PKG, "markets", "staging", "seattle-wa", "raw_captures", "closure_static_rows.json")
 
 

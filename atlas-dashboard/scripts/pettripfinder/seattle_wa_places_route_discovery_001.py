@@ -42,7 +42,7 @@ from scripts.pettripfinder import seattle_wa_geography_001 as GEO  # noqa: E402
 WORK_ORDER = "PTF-SEATTLE-WA-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "seattle-wa.json")
+CENSUS = os.path.join(PKG, "identity_census", "seattle-wa.json")
 ROUTING = os.path.join(REPORTS, "seattle_wa_routing_001.json")
 RECON = os.path.join(REPORTS, "seattle_wa_competitor_reconciliation_001.json")
 OUT = os.path.join(REPORTS, "seattle_wa_places_route_discovery_001.json")

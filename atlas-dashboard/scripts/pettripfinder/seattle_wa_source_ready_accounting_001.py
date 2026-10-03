@@ -28,7 +28,7 @@ PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 R = os.path.join(PKG, "markets", "reports")
 RAW = os.path.join(PKG, "markets", "staging", "seattle-wa", "raw_captures")
 OUT = os.path.join(R, "seattle_wa_source_ready_accounting_001.json")
-PARTITION = os.path.join(PKG, "markets", "staging", "seattle-wa", "launch_package", "seattle_wa_final_partition_001.json")
+PARTITION = os.path.join(PKG, "seattle_wa_final_partition_001.json")
 
 #: The order's hold vocabulary, and which clean-authority disposition each maps from.
 HOLD_CLASSES = OrderedDict([
@@ -107,7 +107,7 @@ def _jsonl(path):
 
 
 def main():
-    census = json.load(open(os.path.join(PKG, "identity_census_proposed", "seattle-wa.json"), encoding="utf-8"))
+    census = json.load(open(os.path.join(PKG, "identity_census", "seattle-wa.json"), encoding="utf-8"))
     part = json.load(open(PARTITION, encoding="utf-8"))
     clean = L("seattle_wa_clean_authority_001.json", {}) or {}
     fc = L("seattle_wa_firecrawl_pass_001.json", {}) or {}
