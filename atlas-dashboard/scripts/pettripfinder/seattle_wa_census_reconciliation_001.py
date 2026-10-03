@@ -3010,8 +3010,8 @@ def build():
         ("same_name_collision_is_an_in_market_test", OrderedDict([
             ("rule", "The same-name collision test counts ADMITTED-postal nodes only, and ignores nodes the "
                      "brand's own inventory does not list."),
-            ("why", "This market's observation set deliberately carries every New Braunfels, Seguin, San "
-                    "Marcos, Boerne / Hill Country, Castroville and rural-ring element inside its observation box "
+            ("why", "This market's observation set deliberately carries every Tacoma, Everett, Olympia, "
+                    "Bellingham, Kitsap and outer-Puget-Sound element inside its observation box "
                     "so the boundary "
                     "audit can count them. Counted in the collision test, a generic chain flag in somebody else's market would "
                     "silently HOLD a real hotel in this one -- the standing rule stated the other way round."),
