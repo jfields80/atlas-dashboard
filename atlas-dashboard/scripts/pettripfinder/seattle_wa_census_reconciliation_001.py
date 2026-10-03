@@ -679,7 +679,11 @@ def read_osm():
             street=street, city=(t.get("addr:city") or "").strip(),
             region=state_code((t.get("addr:state") or "").strip()),
             postal=(t.get("addr:postcode") or "").strip()[:5],
-            phone=(t.get("phone") or t.get("contact:phone") or "").strip(),
+            # SEATTLE: OSM's phone tag is MULTI-VALUED ("+1-206-901-9268;+1-877-515-2176" -- the property line and a
+            # toll-free reservations line). Kept whole, the two numbers fused into one 22-digit tel: link that FAST
+            # rule J's build refused (Cedarbrook Lodge), and the phone key took the TOLL-FREE number's last ten
+            # digits. The first listed value is the property's own line.
+            phone=(t.get("phone") or t.get("contact:phone") or "").split(";")[0].strip(),
             lat=e.get("lat"), lng=e.get("lng"),
             osm_element="%s/%s" % (e.get("type"), e.get("id")),
             osm_categories=[t.get("tourism")],
