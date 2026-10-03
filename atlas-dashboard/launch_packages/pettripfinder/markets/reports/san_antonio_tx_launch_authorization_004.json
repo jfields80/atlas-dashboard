@@ -1,0 +1,472 @@
+{
+ "schema": "ptf-launch-authorization-accounting/1.0",
+ "work_order": "PTF-SAN-ANTONIO-TX-FOUNDER-LAUNCH-AUTHORIZATION-004",
+ "market_id": "san-antonio-tx",
+ "live_bundle": {
+  "bundle_sha256": "75e569412dd28a64eb4c7aa02c58c955badf065833d969b1d18b8ed339fa31b0",
+  "markets": 38,
+  "profiles": 3386,
+  "served_sitemap_routes": 3808,
+  "release_index_routes": 3737,
+  "non_market_served_surface": 71,
+  "verified_live": true,
+  "live_index_problems": []
+ },
+ "candidate_bundle": {
+  "bundle_sha256": "50b1ce95d80386ed9c28f16ad1493bc4c8f2588f201bb1f95597a6d6984a6bf4",
+  "sitemap_sha256": "e2a6b1c94dff6f9178fe83913c0babaf74f1b02b9453be37e29ad2c82a86b484",
+  "markets": 39,
+  "profiles": 3530,
+  "served_sitemap_routes": 3966,
+  "release_index_routes": 3894,
+  "non_market_served_surface": 72,
+  "all_gates_pass": true
+ },
+ "route_accounting_note": "RELEASE-INDEX routes count what markets OWN; SERVED SITEMAP routes count what the composed bundle publishes. The difference on each side is the release-global surface no market owns (the apex, the category root, the editorial and legal pages and the market directory). It is the same set before and after, which is why the served delta equals San Antonio's owned-route delta plus its own policy-comparison page.",
+ "san_antonio": {
+  "profiles": 144,
+  "verified_no_pets": 98,
+  "census": 414,
+  "unresolved": 172,
+  "hub_routes": 1,
+  "corridor_routes": 12,
+  "hotel_routes": 144,
+  "other_routes": 0,
+  "release_index_routes": 157,
+  "served_routes": 158,
+  "comparison_route": "/pet-friendly-hotels/san-antonio-tx/policy-comparison/",
+  "publishing_corridors": [
+   "downtown-river-walk",
+   "east-side",
+   "lackland-west",
+   "medical-center",
+   "north-central",
+   "northeast",
+   "northwest-la-cantera",
+   "sat-airport",
+   "seaworld-westover-hills",
+   "selma-schertz",
+   "south-side",
+   "southtown"
+  ],
+  "suppressed_corridors": [
+   "bulverde",
+   "converse",
+   "leon-valley-helotes",
+   "live-oak-universal-city",
+   "pearl-broadway",
+   "six-flags-rim",
+   "stone-oak"
+  ],
+  "forced_corridors": 0
+ },
+ "delta_safety": {
+  "release_diff_passed": true,
+  "finding_counts": {},
+  "findings": [],
+  "unexpected_market_delta": [],
+  "unexpected_profile_delta": [],
+  "unexpected_route_delta": [],
+  "unexpected_served_route_delta": [],
+  "parent_markets_preserved": true,
+  "parent_routes_preserved": true,
+  "parent_profiles_preserved": true
+ },
+ "byte_preservation": {
+  "files_live": 20488,
+  "files_candidate": 21351,
+  "files_added": 863,
+  "files_removed": 0,
+  "files_changed": 1,
+  "added_by_class": {
+   "san_antonio": 863,
+   "global_regenerated": 0,
+   "prior_market": 0,
+   "unclassified": 0
+  },
+  "removed_by_class": {
+   "san_antonio": 0,
+   "global_regenerated": 0,
+   "prior_market": 0,
+   "unclassified": 0
+  },
+  "changed_by_class": {
+   "san_antonio": 0,
+   "global_regenerated": 1,
+   "prior_market": 0,
+   "unclassified": 0
+  },
+  "changed_global_artifacts": [
+   "sitemap.xml"
+  ],
+  "prior_market_files_changed": [],
+  "unclassified_paths": []
+ },
+ "hold_safety": {
+  "approved_profiles": 144,
+  "san_antonio_pages_in_candidate": 158,
+  "san_antonio_hotel_profile_pages": 144,
+  "unapproved_profiles_in_candidate": 0,
+  "unapproved_examples": [],
+  "unresolved_kept_unpublished": 172,
+  "verified_no_pets_are_exclusions_not_profiles": 98
+ },
+ "cross_market_collision_safety": {
+  "registry_rows": 1559,
+  "duplicate_canonical_names": 0,
+  "duplicate_examples": [],
+  "collision_canaries": {
+   "name_twin": null,
+   "name_twin_registry_rows": 0,
+   "name_twin_collisions": [],
+   "bare_chain_names": [
+    "best western garden inn"
+   ],
+   "bare_chain_exposure": {
+    "best western garden inn": {
+     "other_rows": [
+      {
+       "market": "austin-tx",
+       "classification": "OUTSIDE_MARKET",
+       "street": "11939 Interstate 35 North",
+       "postal_code": "78233",
+       "same_building": true
+      }
+     ],
+     "OTHER_BUILDINGS_EXPOSED": 0
+    }
+   },
+   "bare_chain_collisions": [],
+   "names_held_by_another_market": []
+  },
+  "NAME_TWIN_COLLISIONS": 0,
+  "BARE_CHAIN_NAMES": 1,
+  "BARE_CHAIN_COLLISIONS": 0,
+  "KNOWN_LATENT_RISK": "a bare-chain-shaped verified-no-pets exclusion name is matched by name in every market and could shadow a future, unrelated hotel of the same name; recorded, not repaired, by the founder's order",
+  "ANY_MARKET_DUPLICATE_COLLISIONS": 0,
+  "CROSS_MARKET_COLLISION_SAFE": "PASS"
+ },
+ "identity_safety": {
+  "HELD_ROWS_PUBLISHED": false,
+  "VERIFIED_NO_PETS_PUBLISHED_AS_PROFILES": false,
+  "groups": {
+   "hilton_blocked_rows": {
+    "rows": 10,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "dual_brand_rows": {
+    "rows": 8,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "jackson_house_rows": {
+    "rows": 1,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "preopening_rows": {
+    "rows": 4,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "router_exhausted_rows": {
+    "rows": 159,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "all_unresolved_rows": {
+    "rows": 172,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "verified_no_pets_rows": {
+    "rows": 98,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   }
+  },
+  "identity_resolutions_ruling_written": false,
+  "fee_safety": {
+   "tiered_fee_rows": 39,
+   "multi_amount_rows": 71,
+   "misleading_single_fees_published": 0
+  }
+ },
+ "timeshare_and_military_safety": {
+  "TIMESHARE_PROFILES_PUBLISHED": 0,
+  "MILITARY_RESTRICTED_PROFILES_PUBLISHED": 0,
+  "files_scanned": 868,
+  "manifest_paths_not_found_under_site": 0,
+  "scan_scope": "pet-friendly-hotels/san-antonio-tx/, go/san-antonio-tx/ and the global surface",
+  "classes": {
+   "timeshare": {
+    "rows": 8,
+    "distinct_names": 8,
+    "PUBLISHED": 0,
+    "properties": {
+     "Club Wyndham La Cascada": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/club-wyndham-la-cascada/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Club Wyndham Riverside Suites": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/club-wyndham-riverside-suites/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Hilton Vacation Club Eilan Resort & Spa San Antonio": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/hilton-vacation-club-eilan-resort-spa-san-antonio/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Hyatt Vacation Club Wild Oak Ranch": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/hyatt-vacation-club-wild-oak-ranch/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Raintree Inn & Suites": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/raintree-inn-suites/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Shell Vacations Club at Salado Creek Villas": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/shell-vacations-club-at-salado-creek-villas/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "WorldMark Hunt - Stablewood Springs Resort": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/worldmark-hunt-stablewood-springs-resort/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Worldmark Hunt- Stable Springs": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/worldmark-hunt-stable-springs/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     }
+    }
+   },
+   "military_restricted": {
+    "rows": 9,
+    "distinct_names": 8,
+    "PUBLISHED": 0,
+    "properties": {
+     "Candlewood Suites Building 2426": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/candlewood-suites-building-2426/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Fisher House": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/fisher-house/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Gateway Inn": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/gateway-inn/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Holiday Inn Express Building 592": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/holiday-inn-express-building-592/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Holiday Inn Express Powless House": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/holiday-inn-express-powless-house/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Ihg Army Hotels Building 1384": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/ihg-army-hotels-building-1384/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Ihg Army Hotels Foulois House-Historia": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/ihg-army-hotels-foulois-house-historia/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Randolph Inn": {
+      "site_route": "/pet-friendly-hotels/san-antonio-tx/randolph-inn/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     }
+    }
+   }
+  }
+ },
+ "reader_safety": {
+  "PET_FRIENDLY_WITH_EXPLICIT_REFUSAL": 0,
+  "QUESTION_ONLY_PET_FRIENDLY": 0,
+  "SERVICE_ANIMAL_ONLY_PET_FRIENDLY": 0,
+  "PREOPENING_OR_CLOSED_PUBLISHED": 0,
+  "TIMESHARE_OR_VACATION_OWNERSHIP_PUBLISHED": 0,
+  "MILITARY_RESTRICTED_PUBLISHED": 0,
+  "MISLEADING_SINGLE_FEE_PUBLISHED": 0,
+  "NO_PETS_QUOTE_WITHOUT_REFUSAL": 0
+ },
+ "fast_receipt_safety": {
+  "selected": "pkg-san-antonio-tx-aa8f4fe9ea26a6ff-859baec5238b5b52.json",
+  "current_eligibility": "YES",
+  "bundle_sha256": "f9b4c610bd27eb9bafee4cabcb41bc1a77c4040917b90c04538f985ca6a92123",
+  "file_count": 884,
+  "html_count": 868,
+  "defects": [],
+  "augusta_historical_receipt_preserved": true,
+  "augusta_currently_eligible": false,
+  "augusta_defects_today": [
+   "EMPTY_BUNDLE",
+   "NO_HTML_OUTPUT"
+  ]
+ },
+ "release_factory_accounting": {
+  "UNCHANGED_BUNDLES_REUSED": 38,
+  "UNCHANGED_MARKETS_REBUILT": 0,
+  "SAN_ANTONIO_BUNDLES_BUILT": 1,
+  "PHYSICAL_FRAGMENTS_RERENDERED": 39,
+  "market_scopes_in_build_log": 32,
+  "note": "REUSE counts live market index entries carried into the candidate unchanged. The whole-site composer has no populated release store in this worktree, so it physically renders every participating market's fragment; that count is PHYSICAL_FRAGMENTS_RERENDERED and is not reuse."
+ },
+ "candidate_determinism": {
+  "measured": true,
+  "second_assembly": "C:/t/sa4b",
+  "candidate_bundle_sha256": "50b1ce95d80386ed9c28f16ad1493bc4c8f2588f201bb1f95597a6d6984a6bf4",
+  "rebuild_bundle_sha256": "50b1ce95d80386ed9c28f16ad1493bc4c8f2588f201bb1f95597a6d6984a6bf4",
+  "files_compared": 21351,
+  "files_differing": 0,
+  "examples": [],
+  "result": "BYTE_IDENTICAL"
+ },
+ "deployment_eligibility": {
+  "checked": true,
+  "authorization_id": "ptf-auth-san-antonio-004-50b1ce95d803",
+  "authorization_status": "AUTHORIZED",
+  "bound_to_candidate_bytes": true,
+  "deployability_problems": [],
+  "verify_authorization_problems": [],
+  "deployable": true,
+  "consumed": false,
+  "deployment_record_exists": false
+ },
+ "problems": [],
+ "ALL_ACCOUNTING_GATES": "PASS",
+ "nothing_deployed": true
+}
