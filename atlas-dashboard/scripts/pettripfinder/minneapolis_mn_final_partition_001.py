@@ -33,13 +33,12 @@ WORK_ORDER = "PTF-MINNEAPOLIS-MN-HARDENED-SOURCE-READY-001"
 MARKET_ID = "minneapolis-mn"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-#: SHADOW_UNTIL_REGISTERED: a shadow market's partition belongs INSIDE its own staging launch_package, never at
-#: the registry package root -- the root is where a REGISTERED market's release contract references it, and
-#: writing there would put an unregistered market's document into shared space. The shadow seal reads it from
-#: the staging tree.
-OUT = os.path.join(PKG, "markets", "staging", MARKET_ID, "launch_package",
-                   "minneapolis_mn_final_partition_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "minneapolis-mn.json")
+#: REGISTERED (PTF-MINNEAPOLIS-MN-REGISTRATION-AND-STAGING-002): the partition now lives at the registry package
+#: root, where the registered market's release contract references it. While the market was
+#: SHADOW_UNTIL_REGISTERED it was written inside its own staging launch_package (the shadow package still carries
+#: the sealed copy there).
+OUT = os.path.join(PKG, "minneapolis_mn_final_partition_001.json")
+CENSUS = os.path.join(PKG, "identity_census", "minneapolis-mn.json")
 CLEAN = os.path.join(REPORTS, "minneapolis_mn_clean_authority_001.json")
 from scripts.pettripfinder import minneapolis_mn_registration_staging_001 as _ST  # noqa: E402
 #: MINNEAPOLIS: the UTC day of this order's LAST first-party capture (the staged package's own upper bound); the reads

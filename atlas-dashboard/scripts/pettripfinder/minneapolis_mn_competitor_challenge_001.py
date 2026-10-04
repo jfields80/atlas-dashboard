@@ -250,8 +250,8 @@ def build(prior_cities=None):
          "own stated total and returns neighbouring cities' hotels under that city's URL, so this lane stops "
          "paginating once a city's captured count reaches its own page-1 stated total; (2) the Hotel-typed "
          "entries include vacation-rental and condo-unit listings, so every lead is reconciled before it can be "
-         "read as a hotel. In THIS market the radius widening is expected to reach Camas, Newberg, Sandy, Canby "
-         "and the Gorge -- that is reported as an OUTSIDE count, not "
+         "read as a hotel. In THIS market the radius widening is expected to reach Stillwater, Hastings, Lakeville, "
+         "Anoka and the St. Croix valley -- that is reported as an OUTSIDE count, not "
          "corrected, and no refused city's own page is ever challenged, because a refused place's inventory is "
          "not this market's gap."),
         ("refused_cities_never_challenged",

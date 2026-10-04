@@ -59,7 +59,7 @@ MARKET_ID = "minneapolis-mn"
 SCHEMA = "ptf-free-static-capture/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "minneapolis-mn.json")
+CENSUS = os.path.join(PKG, "identity_census", "minneapolis-mn.json")
 ROUTING = os.path.join(REPORTS, "minneapolis_mn_routing_001.json")
 SPACING_SECONDS = 1.2
 

@@ -43,7 +43,7 @@ from scripts.pettripfinder import minneapolis_mn_geography_001 as GEO  # noqa: E
 WORK_ORDER = "PTF-MINNEAPOLIS-MN-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "minneapolis-mn.json")
+CENSUS = os.path.join(PKG, "identity_census", "minneapolis-mn.json")
 ROUTING = os.path.join(REPORTS, "minneapolis_mn_routing_001.json")
 RECON = os.path.join(REPORTS, "minneapolis_mn_competitor_reconciliation_001.json")
 OUT = os.path.join(REPORTS, "minneapolis_mn_places_route_discovery_001.json")

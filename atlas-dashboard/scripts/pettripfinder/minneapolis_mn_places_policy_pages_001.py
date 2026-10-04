@@ -23,7 +23,7 @@ from scripts.pettripfinder import minneapolis_mn_policy_pages_lane_001 as PP  # 
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "minneapolis_mn_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "minneapolis-mn.json")
+CENSUS = os.path.join(PKG, "identity_census", "minneapolis-mn.json")
 OUT = os.path.join(PKG, "markets", "staging", "minneapolis-mn", "raw_captures", "closure_static_rows.json")
 
 

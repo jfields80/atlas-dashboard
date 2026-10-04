@@ -77,7 +77,7 @@ PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 STAGING = os.path.join(PKG, "markets", "staging", "minneapolis-mn", "raw_captures")
 READS = os.path.join(STAGING, "browser_reads_001.jsonl")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "minneapolis-mn.json")
+CENSUS = os.path.join(PKG, "identity_census", "minneapolis-mn.json")
 ROWS_OUT = os.path.join(STAGING, "browser_closure_rows.json")
 REPORT_OUT = os.path.join(REPORTS, "minneapolis_mn_browser_lane_001.json")
 

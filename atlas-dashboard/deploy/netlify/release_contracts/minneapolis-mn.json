@@ -1,0 +1,146 @@
+{
+ "schema": "ptf-market-release-contract/1.0",
+ "contract_id": "pettripfinder-minneapolis-mn-release/1.0",
+ "market_id": "minneapolis-mn",
+ "product": "pettripfinder-minneapolis-mn",
+ "release_name_prefix": "prod-minneapolis-mn",
+ "description": "Deterministic release-gate contract for the PetTripFinder Minneapolis / St. Paul / Twin Cities, Minnesota market through PTF-MINNEAPOLIS-MN-REGISTRATION-AND-STAGING-002. Every number is derived from THIS market's committed authority by release_contracts.derive_authority; none is typed and none is inherited from or comparable to another market's contract.",
+ "deployment_authorization": {
+  "grants_deployment": false,
+  "asserts_market_complete": false,
+  "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish gate holds. It is not a deployment authorization and asserts nothing about the market being complete -- 36 of this market's 258 registered identities are still unresolved, and no founder deployment decision exists for Minneapolis at 156 published profiles."
+ },
+ "canonical": {
+  "base_url": "https://pettripfinder.com",
+  "canonical_host": "pettripfinder.com",
+  "robots_sitemap_host": "pettripfinder.com",
+  "sitemap_host": "pettripfinder.com"
+ },
+ "identity_census": {
+  "path": "launch_packages/pettripfinder/identity_census/minneapolis-mn.json",
+  "schema": "ptf-market-identity-census/1.1",
+  "expected_count": 258,
+  "note": "258 registered identities, built from zero by PTF-MINNEAPOLIS-MN-HARDENED-SOURCE-READY-001 on the Portland-live hardened lineage and registered by PTF-MINNEAPOLIS-MN-REGISTRATION-AND-STAGING-002. Membership is this market's own corridor postal partition (census_membership_basis CORRIDOR_REGISTRY): 24 corridors over the admitted Twin Cities postal codes -- Downtown Minneapolis, University / Dinkytown, Uptown / South Minneapolis, Northeast and North Minneapolis, Downtown St. Paul, the St. Paul Midway, the St. Paul neighbourhoods, the MSP airport and Bloomington / Mall of America at CORE; Eagan, Richfield, Edina, Eden Prairie, Minnetonka / Hopkins, Plymouth, Roseville, Maplewood / Oakdale and Woodbury as CORRIDOR; Brooklyn Center / Brooklyn Park, Maple Grove, Burnsville / Shakopee, Mendota Heights / Inver Grove Heights and Golden Valley / St. Louis Park as FRINGE. Minneapolis and St. Paul are two cities and are never flattened into one. A name never places a property: 'MSP Airport' or 'Mall of America' in a hotel's name decides nothing, its own postal code does. Rochester, Duluth / the North Shore, St. Cloud, Mankato, Stillwater and the St. Croix valley, the north metro beyond the I-694 ring, the outer south metro, the western exurbs and Wisconsin are named, refused and preserved: 0 rows are admitted from a refused postal code. A name decides nothing: a code binds only under its own brand, and one premises stated by two live hotels (Home2 Suites and Tru by Hilton Minneapolis Downtown, 317 2nd Ave S; Home2 Suites and Tru by Hilton Mall of America, 2415 E Old Shakopee Rd; Comfort Inn and MainStay Suites MSP Airport, 1321 E 78th St) is held, never published. Timeshare and vacation ownership, booking-affiliate template sites, apartments, serviced-apartment operators, student housing, RV parks, campgrounds, hostels and short-term rentals are never admitted or cited. Rows the identity graph did not admit are recorded, not dropped: 36 IDENTITY_REVIEW_REQUIRED; 142 NAME_ONLY_UNRESOLVED; 110 NON_LODGING; 320 OUTSIDE_MARKET."
+ },
+ "reconciliation": {
+  "confirmed_identities": 258,
+  "published_pet_friendly": 156,
+  "verified_no_pets": 66,
+  "resolved": 222,
+  "unresolved": 36,
+  "note": "156 clean pet-friendly and 66 clean verified-no-pets over a 258-identity census. A row publishes only on an OPERATIVE first-party quote from the property's own page, read by the repaired shared reader (an FAQ question is never an acceptance, and an explicit refusal always wins), bound to its census identity by the property code or the full street identity that page states: a fee, a weight, a count, an amenity chip or a service-animal sentence alone publishes nothing, one page that binds two census rows publishes for neither, and an identity the census cannot address never publishes. 36 identities did not publish (4 ACCESS_BLOCKED; 3 EVIDENCE_HOLD; 9 IDENTITY_MISMATCH_HOLD; 10 ROUTING_HOLD; 10 SOURCE_SILENT); every one is named in minneapolis_mn_clean_authority_001.json with its class. No gate was lowered to preserve a count."
+ },
+ "policy_package": {
+  "path": "launch_packages/pettripfinder/hotel_policy_facts_minneapolis-mn.json",
+  "expected_sha256": "77633dc4a405a51e9277bf4cd87af40847d51e57ed9f3be0bb1b34e4804b64ea",
+  "expected_schema_version": "1.3",
+  "expected_record_count": 156,
+  "identity_authority": true,
+  "note": "The verified hotel identities are DERIVED from this package at assembly time via site_data.verified_public_hotels(); they are not restated here. Every record carries the exact operator quote for each published fact, the capture lane, and the sha256 of the document it was read from."
+ },
+ "final_partition": {
+  "path": "launch_packages/pettripfinder/minneapolis_mn_final_partition_001.json",
+  "schema": "ptf-market-final-partition/1.1",
+  "expected_sha256": "53775da9a1215a609006846e96def59a12f5c5c314598d22703e576abc7bc9b8",
+  "expected_count": 258,
+  "note": "The partition of record for this market, referenced by path and content digest so the whole-site assembler resolves it from THIS contract rather than from a table in its own source. Written from the committed file by release_contracts.final_partition_block; verified by market_partition_resolution: the file must exist, declare this market_id, hash to expected_sha256 and carry expected_count identities. Regenerating the partition means reissuing this block."
+ },
+ "public_surface": {
+  "seed_hotel_rows": 156,
+  "public_hotel_profile_count": 156,
+  "excluded_public_profile_count": 0,
+  "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package (not-published seed hotels: held/manual-review plus rows still pending evidence) must have NO public route and NO reference on any surface: hotel profiles, the hotels listing/category page, nearby-lodging cards on any page, the policy-comparison table, the sitemap, canonicals, internal links, and /go/ interstitials. This market currently holds none -- every seed row it owns is published -- and the gate is derived, so it starts enforcing the moment that changes."
+ },
+ "routes": {
+  "market_slug": "minneapolis-mn",
+  "route_mode": "market_prefixed",
+  "hotel_route_count": 156,
+  "published_corridor_route_count": 14,
+  "note": "route_mode market_prefixed: this market's hub, corridor and policy-comparison pages live under /pet-friendly-hotels/minneapolis-mn/. 14 of 24 corridors reach their own publication minimum; the rest are suppressed, which is a threshold and not a gap. The market and its corridors are hidden from navigation and the sitemap (show_in_navigation=false, show_in_sitemap=false) until a launch order says otherwise."
+ },
+ "minimum_release_gates": [
+  "authority.contract_is_for_this_market",
+  "authority.reconciliation_matches_market_authority",
+  "authority.package_exists",
+  "authority.package_sha256",
+  "authority.package_schema_version",
+  "authority.package_count",
+  "identity.verified_from_package",
+  "identity.held_derived",
+  "route.profile_count_matches_contract",
+  "route.all_committed_profiles_present",
+  "route.all_held_absent",
+  "route.no_excluded_reference_on_any_surface",
+  "publish.control_files_present",
+  "publish.headers_match_tracked_source",
+  "publish.redirects_match_tracked_source",
+  "publish.no_forbidden_files",
+  "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
+  "content.zero_broken_links",
+  "content.quality_report_clean",
+  "content.build_report_hotel_count_matches_contract",
+  "tech.go_pages_noindex",
+  "tech.sitemap_public_canonical_only",
+  "tech.robots_sitemap_host_apex",
+  "tech.no_credentials",
+  "tech.no_windows_local_paths",
+  "tech.no_runtime_paths"
+ ],
+ "forbidden_output_tokens": [
+  "C:\\Atlas",
+  "C:/Atlas",
+  "NETLIFY_AUTH_TOKEN",
+  "NETLIFY_SITE_ID",
+  "nfp_",
+  "AppData",
+  "/Users/",
+  "\\Users\\"
+ ],
+ "publish": {
+  "publishable_root": "site/",
+  "control_files": [
+   "_headers",
+   "_redirects"
+  ],
+  "control_file_sources": {
+   "_headers": {
+    "preview": "deploy/netlify/headers.preview",
+    "production": "deploy/netlify/headers.production"
+   },
+   "_redirects": "deploy/netlify/redirects"
+  },
+  "forbidden_basenames": [
+   "_build_report.json",
+   "_broken_link_report.json",
+   "_quality_report.json",
+   "bundle_manifest.json",
+   ".env"
+  ],
+  "forbidden_extensions": [
+   ".py",
+   ".pyc",
+   ".pyo",
+   ".patch",
+   ".map",
+   ".json",
+   ".env"
+  ],
+  "forbidden_path_segments": [
+   ".git",
+   ".github",
+   ".claude",
+   ".netlify",
+   "__pycache__",
+   "data",
+   "docs",
+   "tests",
+   "scripts",
+   "services",
+   "launch_packages",
+   "engines",
+   "repositories"
+  ],
+  "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
+ }
+}
