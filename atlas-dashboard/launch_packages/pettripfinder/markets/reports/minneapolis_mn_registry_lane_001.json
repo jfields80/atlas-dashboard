@@ -1,0 +1,60 @@
+{
+ "schema": "ptf-registry-lane/1.0",
+ "work_order": "PTF-MINNEAPOLIS-MN-HARDENED-SOURCE-READY-001",
+ "market_id": "minneapolis-mn",
+ "phase": "9 -- the Minnesota / Twin Cities lodging-register lane: MEASURED, NONE EXISTS",
+ "register_exists": false,
+ "measured_on": "2026-10-04",
+ "measurements": [
+  {
+   "portal": "opendata.minneapolismn.gov (ArcGIS Hub search API)",
+   "query": "q=hotel / q=lodging",
+   "answered": "no dataset",
+   "why_not_a_register": "nothing to read"
+  },
+  {
+   "portal": "opendata.minneapolismn.gov (ArcGIS Hub search API)",
+   "query": "q=license / q=business license / q=food license",
+   "answered": "On_Sale_Liquor, Off_Sale_Liquor, trade licences, Active_Rental_Licenses, Public_311_*",
+   "why_not_a_register": "liquor and trade licences are not lodging registers; Active_Rental_Licenses are RESIDENTIAL rental licences"
+  },
+  {
+   "portal": "information.stpaul.gov (ArcGIS Hub search API)",
+   "query": "q=license / q=hotel / q=lodging",
+   "answered": "Liquor Licenses, building / demolition permits, vacant buildings, housing production",
+   "why_not_a_register": "no lodging dataset"
+  },
+  {
+   "portal": "Socrata catalog (all domains)",
+   "query": "q=minnesota lodging license",
+   "answered": "no dataset",
+   "why_not_a_register": "no Minnesota register"
+  },
+  {
+   "portal": "hub.arcgis.com global search",
+   "query": "q=minneapolis business licenses",
+   "answered": "other cities' licence layers only",
+   "why_not_a_register": "no Twin Cities lodging register"
+  },
+  {
+   "portal": "health.state.mn.us Food, Pools, and Lodging Services licensing page",
+   "query": "GET (plain client)",
+   "answered": "HTTP 200, an informational page",
+   "why_not_a_register": "no bulk list or open dataset; lodging licensing in Minneapolis, St. Paul and Bloomington is delegated to the city health agencies"
+  }
+ ],
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 14,
+ "what_replaces_it": "OpenStreetMap (the Minnesota extract), the committed national brand inventory, the brands' own city pages and sitemaps, the destination organisations, Google Places identity verification inside the free allowance, the property pages themselves and the competitor gap challenge.",
+ "accommodation_rows": 0,
+ "lead_rows": 0,
+ "leads_in_admitted_postal_codes": 0,
+ "leads_by_corridor": {},
+ "leads_refused_by_their_own_postal_code": 0,
+ "leads_refused_by_future_market": {},
+ "leads_without_trade_name": 0,
+ "short_term_rental_and_other_rows_counted_not_leads": 0,
+ "pages": [],
+ "leads": []
+}

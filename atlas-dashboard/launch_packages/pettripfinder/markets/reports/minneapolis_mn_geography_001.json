@@ -1,0 +1,1290 @@
+{
+ "schema": "ptf-market-geography/1.0",
+ "work_order": "PTF-MINNEAPOLIS-MN-HARDENED-SOURCE-READY-001",
+ "phase": "2 + 3 + 4 + 5 + 6 -- Minneapolis / St. Paul / Twin Cities two-city travel-market geography, the Minneapolis / St. Paul identity trap, the MSP / Bloomington / Mall of America boundary, the residence / apartment / vacation-rental rule and the timeshare rule",
+ "market_id": "minneapolis-mn",
+ "as_of": "2026-10-04",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "registration_state": "SHADOW_UNTIL_REGISTERED. The market document is written to markets/proposed/minneapolis-mn.json. This order does not register, authorize or deploy anything.",
+ "membership_rule": "The property's OWN postal code, as its own official page or its brand's own property card states it, joined to the corridor registry. Nothing else admits a property.",
+ "two_city_rule": "Minneapolis and St. Paul are both central cities with their own corridors; neither is flattened into the other, and every row states the city its own premises are in.",
+ "classes": {
+  "CORE": "Downtown Minneapolis (55401, 55402, 55403, 55404, 55415); University of Minnesota & Dinkytown (55414, 55454, 55455); Uptown & South Minneapolis (55405, 55406, 55407, 55408, 55409, 55410, 55417, 55419); Northeast Minneapolis (55413, 55418); North Minneapolis (55411, 55412); Downtown St. Paul (55101, 55102, 55155); St. Paul Midway & University Avenue (55103, 55104, 55108, 55114); St. Paul Neighborhoods (55105, 55106, 55107, 55116, 55117, 55130); MSP Airport (55111, 55450); Bloomington & Mall of America (55420, 55425, 55431, 55437, 55438, 55439)",
+  "CORRIDOR": "Eagan (55121, 55122, 55123); Richfield (55423); Edina (55424, 55435, 55436); Eden Prairie (55344, 55346, 55347); Minnetonka, Hopkins & Wayzata (55305, 55343, 55345, 55391); Plymouth (55441, 55442, 55446, 55447); Roseville & North St. Paul suburbs (55113, 55112, 55126); Maplewood & Oakdale (55109, 55119, 55128); Woodbury (55125, 55129)",
+  "FRINGE": "Brooklyn Center & Brooklyn Park (55430, 55429, 55443, 55444, 55445, 55428); Maple Grove (55311, 55369); Burnsville, Savage & Shakopee (55306, 55337, 55378, 55379); Mendota Heights, West St. Paul & Inver Grove Heights (55118, 55120, 55075, 55076, 55077); Golden Valley & St. Louis Park (55416, 55426, 55422, 55427)"
+ },
+ "class_vocabulary": "The order's STRONG_CORRIDOR is registry class CORRIDOR; FUTURE_STANDALONE lives inside OUTSIDE with its future market id.",
+ "outside_class": "Everything else, refused by name with its postal codes and by postal PREFIX for the refused regions; the future standalone markets named.",
+ "future_standalone_markets": {
+  "rochester-mn": "Rochester / Mayo Clinic -- 80 miles south-east on US-52.",
+  "duluth-mn": "Duluth / the North Shore -- 150 miles north on I-35.",
+  "st-cloud-mn": "St. Cloud -- 65 miles north-west on I-94.",
+  "mankato-mn": "Mankato / North Mankato -- 80 miles south-west on US-169.",
+  "stillwater-st-croix": "Stillwater and the St. Croix Valley river towns -- 25 miles east."
+ },
+ "existing_live_markets": {
+  "portland-or": "Portland / Greater Portland, live as production market #41 (deploy 6ac264b79e70ce6a7db4baaf) -- the CURRENT LIVE market at this order's authoring time. No shared state, no shared postal code.",
+  "milwaukee-wi": "Milwaukee, live -- the nearest live market and the only Upper-Midwest one. It owns its own Wisconsin 53xxx codes; every Wisconsin code is refused here by prefix.",
+  "cleveland-akron-canton-oh": "Cleveland / Akron / Canton, live -- its region contains a Richfield, OHIO; identity is decided by premises and state, never the town name.",
+  "indianapolis-in": "Indianapolis, live -- Bloomington, INDIANA is a different city; identity is decided by premises and state, never the town name."
+ },
+ "msp_bloomington_evaluation": {
+  "msp_airport": "Only a hotel physically on airport property (Fort Snelling 55111 / airport 55450) is the msp-airport corridor. Every other hotel marketed 'MSP Airport', 'Minneapolis Airport' or 'Minneapolis-St. Paul Airport' is placed by its own code: Bloomington (55425 / 55420), Eagan (55121 / 55122), Mendota Heights (55120) or Richfield (55423).",
+  "mall_of_america": "The Mall of America is 55425, Bloomington. Its connected hotels and the hotels marketed 'Mall of America' are Bloomington hotels and report under the Mall of America overlay by their own street (Lindau Lane, Killebrew Drive, 24th Avenue South).",
+  "bloomington_east": "The airport-adjacent American Blvd East / 34th Avenue South / East 78th-81st Street hotel row (55425 / 55420) reports as the Bloomington East overlay.",
+  "bloomington_west": "Normandale Lake / American Blvd West (55437 / 55438 / 55439) reports as the Bloomington West overlay.",
+  "one_premises_one_row": "A property is one row however many of 'airport', 'Mall of America', 'Bloomington' and 'Minneapolis' its marketing carries; identity is its own street address and brand property code."
+ },
+ "twin_cities_ruling": {
+  "classification": "The metro-continuous Twin Cities core is admitted -- the five Minneapolis and three St. Paul corridors, MSP Airport and Bloomington / Mall of America CORE; Eagan, Richfield, Edina, Eden Prairie, Minnetonka / Hopkins / Wayzata, Plymouth, Roseville, Maplewood / Oakdale and Woodbury STRONG CORRIDOR; Brooklyn Center / Brooklyn Park, Maple Grove, Burnsville / Savage / Shakopee, Mendota Heights / West St. Paul / Inver Grove Heights and Golden Valley / St. Louis Park FRINGE. Rochester, Duluth, St. Cloud, Mankato and Stillwater are OUTSIDE, and so are the north metro beyond I-694, the outer south metro and the western exurbs.",
+  "a_marketing_phrase_admits_nothing": "'Minneapolis Airport', 'MSP Airport', 'Mall of America', 'Minneapolis West', 'Minneapolis North', 'Minneapolis South', 'St. Paul North', 'St. Paul East', 'St. Paul-Woodbury' and 'Minneapolis-St. Paul' are marketing. The property's own postal code decides.",
+  "actual_location": "Decided by the property's own postal code on its own page.",
+  "drive_market_relationship": "MSP, Bloomington / the Mall of America, the I-494 / I-694 ring suburbs and the two downtowns are where Twin Cities travellers sleep; Rochester (Mayo), Duluth, St. Cloud, Mankato and the St. Croix river towns are trips of their own.",
+  "traveller_intent": "Convention (Minneapolis Convention Center, RiverCentre), arena and stadium (Target Center, U.S. Bank Stadium, Target Field, Xcel Energy Center, Allianz Field, Huntington Bank Stadium), medical (Hennepin Healthcare, M Health Fairview, Regions, Children's), university (University of Minnesota, St. Thomas, Macalester, Hamline), corporate (Target, Best Buy, UnitedHealth, 3M, Ecolab, General Mills, Medtronic), Mall of America and MSP demand is Twin Cities intent; Mayo Clinic, the North Shore and the St. Croix are not.",
+  "metro_continuity": "Continuous development runs inside the I-494 / I-694 ring and along its suburban interchanges; this registry stops at the ring's outer suburbs named by the order.",
+  "corridor_support": "Every admitted edge code is in a named corridor so its count is visible and a founder can move it on the record.",
+  "preserved_for": "FUTURE_STANDALONE rochester-mn, duluth-mn, st-cloud-mn, mankato-mn and stillwater-st-croix."
+ },
+ "metro_structure_test": {
+  "A. Is the Twin Cities one market, or several?": "ONE market, minneapolis-mn, covering both central cities and the contiguous suburbs the order evaluates -- one commercial airport (MSP), one I-94 / I-35W / I-35E / I-494 / I-694 road system, one Metro Transit light-rail network (Blue and Green Lines).",
+  "B. St. Paul is NOT flattened into Minneapolis": "Downtown St. Paul, the Midway and the St. Paul neighbourhoods are their own corridors with their own city; a St. Paul hotel is never stated as Minneapolis, and the reverse.",
+  "C. MSP": "Only the airport's own codes (55111 / 55450) are msp-airport; 'Airport' hotels elsewhere are placed by their own code (MSP_BLOOMINGTON_EVALUATION).",
+  "D. Mall of America": "An overlay of bloomington-mall-of-america (55425).",
+  "E. North Loop / Mill District / Lowertown / Cathedral Hill / West 7th": "Overlays of their downtown corridor, never split codes.",
+  "F. Rochester": "OUTSIDE -- FUTURE_STANDALONE rochester-mn.",
+  "G. Duluth": "OUTSIDE -- FUTURE_STANDALONE duluth-mn.",
+  "H. St. Cloud": "OUTSIDE -- FUTURE_STANDALONE st-cloud-mn.",
+  "I. Mankato": "OUTSIDE -- FUTURE_STANDALONE mankato-mn.",
+  "J. Stillwater": "OUTSIDE -- FUTURE_STANDALONE stillwater-st-croix.",
+  "K. North metro / western exurbs": "OUTSIDE -- not absorbed."
+ },
+ "county_boundary_rules": {
+  "hennepin": {
+   "ruling": "ADMITTED, SPLIT. Minneapolis, Bloomington, Richfield, Edina, Eden Prairie, Minnetonka, Hopkins, Wayzata, Plymouth, St. Louis Park, Golden Valley, Brooklyn Center, Brooklyn Park and Maple Grove are admitted; Rogers, Dayton, Champlin, Medina, Orono, Mound and the western lake towns are refused. County inclusion is not traveller-market inclusion."
+  },
+  "ramsey": {
+   "ruling": "ADMITTED INSIDE THE I-694 RING. St. Paul, Roseville, Maplewood, Falcon Heights, Arden Hills, New Brighton and Shoreview are admitted; White Bear Lake and Vadnais Heights are refused."
+  },
+  "dakota": {
+   "ruling": "ADMITTED NORTH OF COUNTY ROAD 42. Eagan, Mendota Heights, West St. Paul, South St. Paul, Inver Grove Heights and Burnsville are admitted; Apple Valley, Lakeville, Rosemount, Farmington and Hastings are refused."
+  },
+  "washington": {
+   "ruling": "ADMITTED ONLY AT WOODBURY / OAKDALE. Stillwater, Oak Park Heights, Bayport, Lake Elmo and the St. Croix Valley are refused (FUTURE_STANDALONE stillwater-st-croix); Cottage Grove and Forest Lake are refused."
+  },
+  "scott": {
+   "ruling": "ADMITTED ONLY AT SAVAGE / SHAKOPEE. Prior Lake (Mystic Lake), Jordan and Belle Plaine are refused."
+  },
+  "anoka / carver / wright / sherburne": {
+   "ruling": "REFUSED. The north metro beyond I-694 and the western / north-western exurbs are not absorbed."
+  },
+  "olmsted / st. louis / stearns / blue earth": {
+   "ruling": "REFUSED. Rochester, Duluth, St. Cloud and Mankato are standalone markets (FUTURE_STANDALONE rochester-mn, duluth-mn, st-cloud-mn, mankato-mn)."
+  }
+ },
+ "condo_hotel_rule": {
+  "public_hotel_operator": "Required and proved on the operator's own page: an establishment sold nightly to the public under one name, with an official property page and an on-site hotel operation.",
+  "exact_premises": "Required: the row's own street address (house number + canonical street + ZIP). A unit designator ('Ste', 'Unit', '#', 'Apt', 'PH') in a registry address means the record is a UNIT INSIDE a building or campus, which is never a hotel identity.",
+  "hotel_vs_residence_boundary": "A property that sells both hotel rooms and residences is admitted ONLY as the hotel premises. The Twin Cities' specific exposures: the North Loop / Mill District / Uptown apartment towers with furnished short-stay units, the serviced-apartment and aparthotel operators (Sonder, Kasa, Mint House, Placemakr, Blueground, Lark, Barsala), corporate-housing portfolios, the University of Minnesota student housing, hotel-and-residences towers (the residences are never the hotel), Club Wyndham / WorldMark vacation-ownership inventory and the Airbnb / Vrbo inventory.",
+  "timeshare_rule": "A vacation-ownership club or timeshare resort (Club Wyndham, WorldMark, Hilton Grand Vacations, Marriott Vacation Club, Holiday Inn Club Vacations, Bluegreen, Diamond / Hilton Vacation Club, Hyatt Vacation Club, Shell Vacations) is TIMESHARE and is never admitted to hotel accounting, even when its brand lists it beside its hotels, even when it sells a nightly rate, and even when a pet-policy page exists (the Phoenix correction-003 lesson).",
+  "shared_campus_relation": "Never merged by display name, brand, owner, phone, shared address, campus, booking engine, shared amenities or shared entrance. A dual-brand building is TWO hotels and is HELD for the split, never published as one. A hotel and its residences on one campus are distinct premises.",
+  "extended_stay": "Extended-stay hotels are hotels and are admitted on their own pages; an 'apartment hotel' or 'aparthotel' is admitted only as a public hotel operation at an exact premises, never as a residential building that rents furnished units.",
+  "patient_and_military_lodging": "Patient-family housing (the Ronald McDonald Houses, Hope Lodge, Gift of Life), charitable family lodging (Fisher House) and on-base military lodging are never public hotels and are never admitted."
+ },
+ "military_lodging_rule": {
+  "rule": "On-base military / government lodging is MILITARY_RESTRICTED and never admitted: restricted eligibility (DoD ID or sponsorship), on-base premises behind a gate, ordinary public-hotel contract NOT satisfied. The Joint Air Reserve Station / 133rd Airlift Wing at MSP sell no public lodging; the on-base names are refused wherever they appear.",
+  "military_postal_codes": {},
+  "nonpublic_names": {
+   "navy lodge": "Navy Lodge on-base lodging -- MILITARY_RESTRICTED",
+   "army lodging": "on-post Army lodging -- MILITARY_RESTRICTED",
+   "army hotel": "IHG Army Hotels on-post lodging -- restricted to authorised DoD travellers; MILITARY_RESTRICTED",
+   "air force inn": "Air Force Inns on-base lodging -- MILITARY_RESTRICTED",
+   "air reserve station": "Minneapolis-St. Paul Joint Air Reserve Station lodging -- MILITARY_RESTRICTED",
+   "air national guard": "Air National Guard base lodging -- MILITARY_RESTRICTED",
+   "temporary lodging facility": "military temporary lodging facility (TLF) -- MILITARY_RESTRICTED",
+   "visiting quarters": "military visiting quarters -- MILITARY_RESTRICTED",
+   "fisher house": "Fisher House -- charitable lodging for military and veteran families; not public lodging",
+   "ronald mcdonald house": "charitable family lodging -- not public lodging",
+   "hope lodge": "American Cancer Society Hope Lodge -- patient lodging, not public lodging",
+   "family housing": "patient-family housing -- not public lodging",
+   "gift of life": "transplant-patient family housing -- not public lodging"
+  }
+ },
+ "pet_travel_relevance": "The Twin Cities was selected as a high-value PetTripFinder market for its two downtowns, convention and stadium demand, medical and university travel, corporate travel, the Mall of America, extended-stay demand and MSP airport traffic. That lowers NO evidence standard: pet acceptance is never inferred from a city's reputation. It shapes only the CENSUS: every tourist, convention, stadium, medical, university, corporate, airport and extended-stay lodging cluster is covered by an admitting corridor.",
+ "the_minneapolis_st_paul_name_trap": "The chains put 'Minneapolis' on hotels in Bloomington, Eagan, Edina, Eden Prairie, Plymouth, Maple Grove, Brooklyn Park and Burnsville, and 'St. Paul' on hotels in Roseville, Maplewood, Woodbury, Oakdale, Shoreview, Mendota Heights and Eagan. A property's own postal code, street and brand property code decide what and where it is; none of those words decides anything.",
+ "notable_postal_codes": {
+  "55402": "Downtown Minneapolis core -- Nicollet Mall and the skyway hotel row.",
+  "55401": "North Loop / Warehouse District / Mill District -- overlays of downtown, never split.",
+  "55403": "Loring Park and the Minneapolis Convention Center.",
+  "55101": "Lowertown -- downtown St. Paul east.",
+  "55102": "Rice Park / Xcel Energy Center / Cathedral Hill / West 7th -- downtown St. Paul west.",
+  "55425": "Mall of America and the airport-adjacent Bloomington East hotel row.",
+  "55111": "MSP Airport / Fort Snelling -- the only airport-property code.",
+  "55901": "Rochester -- refused (rochester-mn)."
+ },
+ "demand_drivers": {
+  "_rule": "A demand driver informs a corridor's description and its publication priority. It NEVER alters an exact premises identity and never admits a property.",
+  "Minneapolis-St. Paul International Airport (MSP)": "msp-airport (55111 / 55450); airport-marketed hotels placed by their own codes.",
+  "Mall of America": "bloomington-mall-of-america (55425) -- overlay.",
+  "Minneapolis Convention Center": "downtown-minneapolis (55403) -- overlay.",
+  "U.S. Bank Stadium / Target Field / Target Center": "downtown-minneapolis (55415 / 55403 / 55401).",
+  "University of Minnesota": "university-dinkytown (55414 / 55454 / 55455).",
+  "Xcel Energy Center / RiverCentre": "downtown-st-paul (55102) -- overlay.",
+  "Allianz Field": "st-paul-midway (55104).",
+  "Minnesota State Fairgrounds": "st-paul-midway (55108).",
+  "Southdale / Galleria": "edina (55435).",
+  "Rosedale Center": "roseville (55113).",
+  "Canterbury Park / Valleyfair": "burnsville-shakopee (55379)."
+ },
+ "evaluated_inclusions": {
+  "Downtown Minneapolis": "ADMITTED (CORE, downtown-minneapolis, 55401 / 55402 / 55403 / 55404 / 55415). PRIMARY.",
+  "North Loop": "ADMITTED (CORE, downtown-minneapolis, 55401 -- shared with the Warehouse District and the core, never split) -- reported as an overlay. PRIMARY.",
+  "Mill District": "ADMITTED (CORE, downtown-minneapolis, 55401 / 55415) -- reported as an overlay. PRIMARY.",
+  "University / Dinkytown": "ADMITTED (CORE, university-dinkytown, 55414 / 55454 / 55455). PRIMARY.",
+  "Uptown / South Minneapolis": "ADMITTED (CORE, uptown-south-minneapolis, 55405 / 55406 / 55407 / 55408 / 55409 / 55410 / 55417 / 55419). PRIMARY.",
+  "Northeast Minneapolis": "ADMITTED (CORE, northeast-minneapolis, 55413 / 55418). PRIMARY.",
+  "Downtown St. Paul": "ADMITTED (CORE, downtown-st-paul, 55101 / 55102 / 55155). PRIMARY.",
+  "Cathedral Hill": "ADMITTED (CORE, downtown-st-paul, 55102) -- reported as an overlay. PRIMARY.",
+  "West 7th": "ADMITTED (CORE, downtown-st-paul, 55102; its south end 55116 is st-paul-neighborhoods) -- reported as an overlay. PRIMARY.",
+  "Lowertown": "ADMITTED (CORE, downtown-st-paul, 55101) -- reported as an overlay. PRIMARY.",
+  "University / Midway": "ADMITTED (CORE, st-paul-midway, 55103 / 55104 / 55108 / 55114). PRIMARY.",
+  "MSP Airport": "ADMITTED (CORE, msp-airport, 55111 / 55450) -- only hotels physically on airport property. PRIMARY.",
+  "Bloomington": "ADMITTED (CORE, bloomington-mall-of-america, 55420 / 55425 / 55431 / 55437 / 55438 / 55439). PRIMARY.",
+  "Mall of America": "ADMITTED (CORE, bloomington-mall-of-america, 55425) -- reported as an overlay. PRIMARY.",
+  "Eagan": "ADMITTED (STRONG CORRIDOR, eagan, 55121 / 55122 / 55123). STRONG.",
+  "Richfield": "ADMITTED (STRONG CORRIDOR, richfield, 55423). STRONG.",
+  "Edina": "ADMITTED (STRONG CORRIDOR, edina, 55424 / 55435 / 55436). STRONG.",
+  "Eden Prairie": "ADMITTED (STRONG CORRIDOR, eden-prairie, 55344 / 55346 / 55347). STRONG.",
+  "Minnetonka": "ADMITTED (STRONG CORRIDOR, minnetonka-hopkins, 55305 / 55343 / 55345 / 55391). STRONG.",
+  "Plymouth": "ADMITTED (STRONG CORRIDOR, plymouth, 55441 / 55442 / 55446 / 55447). STRONG.",
+  "Roseville": "ADMITTED (STRONG CORRIDOR, roseville, 55113 / 55112 / 55126). STRONG.",
+  "Maplewood": "ADMITTED (STRONG CORRIDOR, maplewood-oakdale, 55109 / 55119 / 55128). STRONG.",
+  "Woodbury": "ADMITTED (STRONG CORRIDOR, woodbury, 55125 / 55129). STRONG.",
+  "Brooklyn Center": "ADMITTED (FRINGE, brooklyn-center-brooklyn-park, 55430 / 55429). CAREFUL.",
+  "Brooklyn Park": "ADMITTED (FRINGE, brooklyn-center-brooklyn-park, 55443 / 55444 / 55445 / 55428). CAREFUL.",
+  "Maple Grove": "ADMITTED (FRINGE, maple-grove, 55311 / 55369). CAREFUL.",
+  "Burnsville": "ADMITTED (FRINGE, burnsville-shakopee, 55306 / 55337). CAREFUL.",
+  "Shakopee": "ADMITTED (FRINGE, burnsville-shakopee, 55379; Savage 55378 between them). CAREFUL.",
+  "Mendota Heights": "ADMITTED (FRINGE, mendota-heights-inver-grove, 55120 / 55118). CAREFUL.",
+  "Inver Grove Heights": "ADMITTED (FRINGE, mendota-heights-inver-grove, 55076 / 55077; South St. Paul 55075). CAREFUL.",
+  "Golden Valley": "ADMITTED (FRINGE, golden-valley-st-louis-park, 55422 / 55427). CAREFUL.",
+  "St. Louis Park": "ADMITTED (FRINGE, golden-valley-st-louis-park, 55416 / 55426). CAREFUL.",
+  "Rochester": "OUTSIDE -- FUTURE_STANDALONE rochester-mn; refused by prefix 559. KEEP SEPARATE.",
+  "Duluth": "OUTSIDE -- FUTURE_STANDALONE duluth-mn; refused by prefix 556 / 557 / 558. KEEP SEPARATE.",
+  "St. Cloud": "OUTSIDE -- FUTURE_STANDALONE st-cloud-mn; refused by prefix 563. KEEP SEPARATE.",
+  "Mankato": "OUTSIDE -- FUTURE_STANDALONE mankato-mn; refused by prefix 560. KEEP SEPARATE.",
+  "Stillwater": "OUTSIDE -- FUTURE_STANDALONE stillwater-st-croix; the river-town inns are better standalone. KEEP SEPARATE.",
+  "Farther western / northern exurbs": "OUTSIDE -- Chanhassen, Chaska, Rogers, Elk River, Monticello, Blaine, Coon Rapids, Anoka and beyond; refused by name and postal code. KEEP SEPARATE.",
+  "Hudson, Wisconsin": "OUTSIDE -- another state; refused by its Wisconsin code."
+ },
+ "nonpublic_names": {
+  "navy lodge": "Navy Lodge on-base lodging -- MILITARY_RESTRICTED",
+  "army lodging": "on-post Army lodging -- MILITARY_RESTRICTED",
+  "army hotel": "IHG Army Hotels on-post lodging -- restricted to authorised DoD travellers; MILITARY_RESTRICTED",
+  "air force inn": "Air Force Inns on-base lodging -- MILITARY_RESTRICTED",
+  "air reserve station": "Minneapolis-St. Paul Joint Air Reserve Station lodging -- MILITARY_RESTRICTED",
+  "air national guard": "Air National Guard base lodging -- MILITARY_RESTRICTED",
+  "temporary lodging facility": "military temporary lodging facility (TLF) -- MILITARY_RESTRICTED",
+  "visiting quarters": "military visiting quarters -- MILITARY_RESTRICTED",
+  "fisher house": "Fisher House -- charitable lodging for military and veteran families; not public lodging",
+  "ronald mcdonald house": "charitable family lodging -- not public lodging",
+  "hope lodge": "American Cancer Society Hope Lodge -- patient lodging, not public lodging",
+  "family housing": "patient-family housing -- not public lodging",
+  "gift of life": "transplant-patient family housing -- not public lodging"
+ },
+ "corridor_registry_is_a_partition": true,
+ "admitted_postal_codes": [
+  "55075",
+  "55076",
+  "55077",
+  "55101",
+  "55102",
+  "55103",
+  "55104",
+  "55105",
+  "55106",
+  "55107",
+  "55108",
+  "55109",
+  "55111",
+  "55112",
+  "55113",
+  "55114",
+  "55116",
+  "55117",
+  "55118",
+  "55119",
+  "55120",
+  "55121",
+  "55122",
+  "55123",
+  "55125",
+  "55126",
+  "55128",
+  "55129",
+  "55130",
+  "55155",
+  "55305",
+  "55306",
+  "55311",
+  "55337",
+  "55343",
+  "55344",
+  "55345",
+  "55346",
+  "55347",
+  "55369",
+  "55378",
+  "55379",
+  "55391",
+  "55401",
+  "55402",
+  "55403",
+  "55404",
+  "55405",
+  "55406",
+  "55407",
+  "55408",
+  "55409",
+  "55410",
+  "55411",
+  "55412",
+  "55413",
+  "55414",
+  "55415",
+  "55416",
+  "55417",
+  "55418",
+  "55419",
+  "55420",
+  "55422",
+  "55423",
+  "55424",
+  "55425",
+  "55426",
+  "55427",
+  "55428",
+  "55429",
+  "55430",
+  "55431",
+  "55435",
+  "55436",
+  "55437",
+  "55438",
+  "55439",
+  "55441",
+  "55442",
+  "55443",
+  "55444",
+  "55445",
+  "55446",
+  "55447",
+  "55450",
+  "55454",
+  "55455"
+ ],
+ "admitted_postal_code_count": 88,
+ "admitted_postal_codes_by_state": {
+  "MN": [
+   "55075",
+   "55076",
+   "55077",
+   "55101",
+   "55102",
+   "55103",
+   "55104",
+   "55105",
+   "55106",
+   "55107",
+   "55108",
+   "55109",
+   "55111",
+   "55112",
+   "55113",
+   "55114",
+   "55116",
+   "55117",
+   "55118",
+   "55119",
+   "55120",
+   "55121",
+   "55122",
+   "55123",
+   "55125",
+   "55126",
+   "55128",
+   "55129",
+   "55130",
+   "55155",
+   "55305",
+   "55306",
+   "55311",
+   "55337",
+   "55343",
+   "55344",
+   "55345",
+   "55346",
+   "55347",
+   "55369",
+   "55378",
+   "55379",
+   "55391",
+   "55401",
+   "55402",
+   "55403",
+   "55404",
+   "55405",
+   "55406",
+   "55407",
+   "55408",
+   "55409",
+   "55410",
+   "55411",
+   "55412",
+   "55413",
+   "55414",
+   "55415",
+   "55416",
+   "55417",
+   "55418",
+   "55419",
+   "55420",
+   "55422",
+   "55423",
+   "55424",
+   "55425",
+   "55426",
+   "55427",
+   "55428",
+   "55429",
+   "55430",
+   "55431",
+   "55435",
+   "55436",
+   "55437",
+   "55438",
+   "55439",
+   "55441",
+   "55442",
+   "55443",
+   "55444",
+   "55445",
+   "55446",
+   "55447",
+   "55450",
+   "55454",
+   "55455"
+  ]
+ },
+ "admitted_counties": [
+  "dakota (eagan, mendota heights, west st. paul, south st. paul, inver grove heights, burnsville; apple valley, lakeville, rosemount, hastings refused)",
+  "fort snelling unorganized territory (msp airport)",
+  "hennepin (minneapolis, bloomington, richfield, edina, eden prairie, minnetonka, hopkins, wayzata, plymouth, st. louis park, golden valley, brooklyn center, brooklyn park, maple grove; the western exurbs refused)",
+  "ramsey (st. paul, roseville, maplewood, arden hills, new brighton, shoreview, falcon heights; white bear lake and vadnais heights refused)",
+  "scott (savage, shakopee; prior lake / mystic lake and jordan refused)",
+  "washington (woodbury, oakdale; stillwater and the st. croix valley refused)"
+ ],
+ "observed_outside_counties": {
+  "olmsted (rochester)": "rochester-mn",
+  "st. louis / lake (duluth)": "duluth-mn",
+  "stearns / benton (st. cloud)": "st-cloud-mn",
+  "blue earth / nicollet (mankato)": "mankato-mn",
+  "washington east (stillwater)": "stillwater-st-croix",
+  "anoka (blaine, coon rapids, fridley, anoka)": "(none -- refused after careful evaluation)",
+  "carver / wright / sherburne (western exurbs)": "(none -- refused, keep separate)",
+  "st. croix / pierce, wisconsin (hudson, river falls)": "(none -- another state)"
+ },
+ "outside_prefixes": [
+  {
+   "prefix": "556",
+   "area": "Duluth region / north-east Minnesota (Arrowhead)",
+   "future_market": "duluth-mn"
+  },
+  {
+   "prefix": "557",
+   "area": "Duluth region / Iron Range",
+   "future_market": "duluth-mn"
+  },
+  {
+   "prefix": "558",
+   "area": "Duluth",
+   "future_market": "duluth-mn"
+  },
+  {
+   "prefix": "559",
+   "area": "Rochester / south-east Minnesota",
+   "future_market": "rochester-mn"
+  },
+  {
+   "prefix": "560",
+   "area": "Mankato / south-central Minnesota",
+   "future_market": "mankato-mn"
+  },
+  {
+   "prefix": "561",
+   "area": "Windom / south-west Minnesota",
+   "future_market": ""
+  },
+  {
+   "prefix": "562",
+   "area": "Willmar / west-central Minnesota",
+   "future_market": ""
+  },
+  {
+   "prefix": "563",
+   "area": "St. Cloud / central Minnesota",
+   "future_market": "st-cloud-mn"
+  },
+  {
+   "prefix": "564",
+   "area": "Brainerd / north-central Minnesota",
+   "future_market": ""
+  },
+  {
+   "prefix": "565",
+   "area": "Detroit Lakes / north-west Minnesota",
+   "future_market": ""
+  },
+  {
+   "prefix": "566",
+   "area": "Bemidji / north Minnesota",
+   "future_market": ""
+  },
+  {
+   "prefix": "567",
+   "area": "Thief River Falls / north-west Minnesota",
+   "future_market": ""
+  },
+  {
+   "prefix": "530",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "531",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "532",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "533",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "534",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "535",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "536",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "537",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "538",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "539",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "540",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "541",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "542",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "543",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "544",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "545",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "546",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "547",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "548",
+   "area": "Wisconsin",
+   "future_market": ""
+  },
+  {
+   "prefix": "549",
+   "area": "Wisconsin",
+   "future_market": ""
+  }
+ ],
+ "shared_postal_codes": {
+  "55401": [
+   "North Loop",
+   "Warehouse District",
+   "Mill District (west)",
+   "Downtown core (Hennepin)"
+  ],
+  "55415": [
+   "Downtown East",
+   "Mill District (east)",
+   "U.S. Bank Stadium"
+  ],
+  "55403": [
+   "Loring Park",
+   "Convention Center",
+   "Downtown core (south)"
+  ],
+  "55101": [
+   "Lowertown",
+   "Downtown St. Paul (east)"
+  ],
+  "55102": [
+   "Rice Park",
+   "Downtown St. Paul (west)",
+   "Cathedral Hill",
+   "West 7th"
+  ],
+  "55425": [
+   "Mall of America",
+   "Bloomington East (airport-adjacent)",
+   "South Loop"
+  ],
+  "55439": [
+   "Bloomington West",
+   "Edina (south-west)"
+  ],
+  "55120": [
+   "Mendota Heights",
+   "Eagan (north-east)",
+   "Lilydale"
+  ],
+  "55117": [
+   "St. Paul North End",
+   "Little Canada",
+   "Maplewood (west)"
+  ],
+  "55119": [
+   "St. Paul Battle Creek",
+   "Maplewood (south)"
+  ],
+  "55416": [
+   "St. Louis Park",
+   "Golden Valley",
+   "Minneapolis (Bryn Mawr edge)"
+  ],
+  "55422": [
+   "Golden Valley",
+   "Robbinsdale",
+   "Crystal"
+  ],
+  "55427": [
+   "Golden Valley",
+   "Crystal",
+   "New Hope"
+  ],
+  "55428": [
+   "Brooklyn Park",
+   "Crystal",
+   "New Hope"
+  ],
+  "55369": [
+   "Maple Grove",
+   "Osseo"
+  ],
+  "55343": [
+   "Hopkins",
+   "Minnetonka",
+   "Edina (west)"
+  ],
+  "55391": [
+   "Wayzata",
+   "Minnetonka (north)",
+   "Orono"
+  ],
+  "55108": [
+   "St. Anthony Park",
+   "Como",
+   "Falcon Heights",
+   "Lauderdale"
+  ]
+ },
+ "registered_market_postal_codes_checked": 1842,
+ "no_live_market_postal_code_admitted": true,
+ "first_minnesota_market": true,
+ "corridors": [
+  {
+   "corridor_id": "minneapolis-mn__downtown-minneapolis",
+   "name": "Downtown Minneapolis",
+   "geography_class": "CORE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55401",
+    "55402",
+    "55403",
+    "55404",
+    "55415"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__university-dinkytown",
+   "name": "University of Minnesota & Dinkytown",
+   "geography_class": "CORE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55414",
+    "55454",
+    "55455"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__uptown-south-minneapolis",
+   "name": "Uptown & South Minneapolis",
+   "geography_class": "CORE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55405",
+    "55406",
+    "55407",
+    "55408",
+    "55409",
+    "55410",
+    "55417",
+    "55419"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__northeast-minneapolis",
+   "name": "Northeast Minneapolis",
+   "geography_class": "CORE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55413",
+    "55418"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__north-minneapolis",
+   "name": "North Minneapolis",
+   "geography_class": "CORE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55411",
+    "55412"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__downtown-st-paul",
+   "name": "Downtown St. Paul",
+   "geography_class": "CORE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55101",
+    "55102",
+    "55155"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__st-paul-midway",
+   "name": "St. Paul Midway & University Avenue",
+   "geography_class": "CORE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55103",
+    "55104",
+    "55108",
+    "55114"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__st-paul-neighborhoods",
+   "name": "St. Paul Neighborhoods",
+   "geography_class": "CORE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55105",
+    "55106",
+    "55107",
+    "55116",
+    "55117",
+    "55130"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__msp-airport",
+   "name": "MSP Airport",
+   "geography_class": "CORE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55111",
+    "55450"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__bloomington-mall-of-america",
+   "name": "Bloomington & Mall of America",
+   "geography_class": "CORE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55420",
+    "55425",
+    "55431",
+    "55437",
+    "55438",
+    "55439"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__eagan",
+   "name": "Eagan",
+   "geography_class": "CORRIDOR",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55121",
+    "55122",
+    "55123"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__richfield",
+   "name": "Richfield",
+   "geography_class": "CORRIDOR",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55423"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__edina",
+   "name": "Edina",
+   "geography_class": "CORRIDOR",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55424",
+    "55435",
+    "55436"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__eden-prairie",
+   "name": "Eden Prairie",
+   "geography_class": "CORRIDOR",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55344",
+    "55346",
+    "55347"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__minnetonka-hopkins",
+   "name": "Minnetonka, Hopkins & Wayzata",
+   "geography_class": "CORRIDOR",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55305",
+    "55343",
+    "55345",
+    "55391"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__plymouth",
+   "name": "Plymouth",
+   "geography_class": "CORRIDOR",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55441",
+    "55442",
+    "55446",
+    "55447"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__roseville",
+   "name": "Roseville & North St. Paul suburbs",
+   "geography_class": "CORRIDOR",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55113",
+    "55112",
+    "55126"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__maplewood-oakdale",
+   "name": "Maplewood & Oakdale",
+   "geography_class": "CORRIDOR",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55109",
+    "55119",
+    "55128"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__woodbury",
+   "name": "Woodbury",
+   "geography_class": "CORRIDOR",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55125",
+    "55129"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__brooklyn-center-brooklyn-park",
+   "name": "Brooklyn Center & Brooklyn Park",
+   "geography_class": "FRINGE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55430",
+    "55429",
+    "55443",
+    "55444",
+    "55445",
+    "55428"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__maple-grove",
+   "name": "Maple Grove",
+   "geography_class": "FRINGE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55311",
+    "55369"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__burnsville-shakopee",
+   "name": "Burnsville, Savage & Shakopee",
+   "geography_class": "FRINGE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55306",
+    "55337",
+    "55378",
+    "55379"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__mendota-heights-inver-grove",
+   "name": "Mendota Heights, West St. Paul & Inver Grove Heights",
+   "geography_class": "FRINGE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55118",
+    "55120",
+    "55075",
+    "55076",
+    "55077"
+   ]
+  },
+  {
+   "corridor_id": "minneapolis-mn__golden-valley-st-louis-park",
+   "name": "Golden Valley & St. Louis Park",
+   "geography_class": "FRINGE",
+   "state_code": "MN",
+   "included_postal_codes": [
+    "55416",
+    "55426",
+    "55422",
+    "55427"
+   ]
+  }
+ ],
+ "corridor_count": 24,
+ "corridor_count_by_class": {
+  "CORE": 10,
+  "CORRIDOR": 9,
+  "FRINGE": 5
+ },
+ "corridor_page_rule": "A corridor page publishes only when the existing publication threshold (minimum_hotel_count = 5 verified pet-friendly hotels) is met. No thin corridor page is invented for SEO, airport, stadium, convention or mall keywords; every corridor is show_in_navigation / show_in_sitemap false until a registration order publishes it.",
+ "coverage_areas": [
+  {
+   "area": "North Loop / Warehouse District",
+   "anchor_lat": 44.987,
+   "anchor_lng": -93.276,
+   "radius_km": 0.8
+  },
+  {
+   "area": "Mill District / Downtown East",
+   "anchor_lat": 44.978,
+   "anchor_lng": -93.256,
+   "radius_km": 0.65
+  },
+  {
+   "area": "Downtown Minneapolis core / Nicollet Mall",
+   "anchor_lat": 44.976,
+   "anchor_lng": -93.272,
+   "radius_km": 0.8
+  },
+  {
+   "area": "Loring Park / Convention Center",
+   "anchor_lat": 44.969,
+   "anchor_lng": -93.281,
+   "radius_km": 0.6
+  },
+  {
+   "area": "Downtown Minneapolis",
+   "anchor_lat": 44.976,
+   "anchor_lng": -93.27,
+   "radius_km": 1.5
+  },
+  {
+   "area": "University / Dinkytown",
+   "anchor_lat": 44.98,
+   "anchor_lng": -93.235,
+   "radius_km": 1.3
+  },
+  {
+   "area": "Uptown / Lyn-Lake",
+   "anchor_lat": 44.948,
+   "anchor_lng": -93.296,
+   "radius_km": 1.4
+  },
+  {
+   "area": "South Minneapolis / Longfellow / Nokomis",
+   "anchor_lat": 44.92,
+   "anchor_lng": -93.23,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Northeast Minneapolis",
+   "anchor_lat": 45.005,
+   "anchor_lng": -93.247,
+   "radius_km": 2.2
+  },
+  {
+   "area": "Lowertown",
+   "anchor_lat": 44.949,
+   "anchor_lng": -93.086,
+   "radius_km": 0.55
+  },
+  {
+   "area": "Rice Park / Xcel Energy Center",
+   "anchor_lat": 44.944,
+   "anchor_lng": -93.1,
+   "radius_km": 0.55
+  },
+  {
+   "area": "Cathedral Hill / West 7th",
+   "anchor_lat": 44.94,
+   "anchor_lng": -93.115,
+   "radius_km": 1.1
+  },
+  {
+   "area": "Downtown St. Paul",
+   "anchor_lat": 44.948,
+   "anchor_lng": -93.093,
+   "radius_km": 1.2
+  },
+  {
+   "area": "St. Paul Midway / University Ave",
+   "anchor_lat": 44.956,
+   "anchor_lng": -93.167,
+   "radius_km": 2.4
+  },
+  {
+   "area": "MSP Airport terminals",
+   "anchor_lat": 44.883,
+   "anchor_lng": -93.212,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Mall of America",
+   "anchor_lat": 44.855,
+   "anchor_lng": -93.242,
+   "radius_km": 0.8
+  },
+  {
+   "area": "Bloomington East (airport-adjacent)",
+   "anchor_lat": 44.858,
+   "anchor_lng": -93.225,
+   "radius_km": 2.2
+  },
+  {
+   "area": "Bloomington West / Normandale",
+   "anchor_lat": 44.856,
+   "anchor_lng": -93.35,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Bloomington central / I-494",
+   "anchor_lat": 44.86,
+   "anchor_lng": -93.29,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Eagan",
+   "anchor_lat": 44.825,
+   "anchor_lng": -93.165,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Richfield",
+   "anchor_lat": 44.88,
+   "anchor_lng": -93.28,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Edina / Southdale / Galleria",
+   "anchor_lat": 44.88,
+   "anchor_lng": -93.325,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Eden Prairie",
+   "anchor_lat": 44.855,
+   "anchor_lng": -93.45,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Minnetonka / Hopkins / Ridgedale",
+   "anchor_lat": 44.95,
+   "anchor_lng": -93.44,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Plymouth",
+   "anchor_lat": 45.01,
+   "anchor_lng": -93.46,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Roseville / Rosedale",
+   "anchor_lat": 45.015,
+   "anchor_lng": -93.165,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Maplewood / Oakdale",
+   "anchor_lat": 45.005,
+   "anchor_lng": -93.005,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Woodbury",
+   "anchor_lat": 44.93,
+   "anchor_lng": -92.94,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Brooklyn Center / Brooklyn Park",
+   "anchor_lat": 45.08,
+   "anchor_lng": -93.34,
+   "radius_km": 4.5
+  },
+  {
+   "area": "Maple Grove",
+   "anchor_lat": 45.095,
+   "anchor_lng": -93.44,
+   "radius_km": 3.5
+  },
+  {
+   "area": "Burnsville / Savage / Shakopee",
+   "anchor_lat": 44.78,
+   "anchor_lng": -93.35,
+   "radius_km": 8.0
+  },
+  {
+   "area": "Mendota Heights / Inver Grove Heights",
+   "anchor_lat": 44.87,
+   "anchor_lng": -93.1,
+   "radius_km": 5.0
+  },
+  {
+   "area": "St. Louis Park / Golden Valley",
+   "anchor_lat": 44.97,
+   "anchor_lng": -93.35,
+   "radius_km": 3.5
+  }
+ ],
+ "outside_named_and_refused": [
+  {
+   "municipality": "Rochester / Mayo Clinic / Olmsted County",
+   "state": "MN",
+   "postal_codes": [
+    "55901",
+    "55902",
+    "55903",
+    "55904",
+    "55905",
+    "55906"
+   ],
+   "why": "OLMSTED COUNTY; FUTURE_STANDALONE rochester-mn. Mayo Clinic's medical-travel market 80 miles south-east on US-52. Refused by name and postal PREFIX (559). A hotel marketed 'Mayo / Minneapolis' is placed by its code."
+  },
+  {
+   "municipality": "Duluth / Lake Superior North Shore / Two Harbors / Cloquet",
+   "state": "MN",
+   "postal_codes": [],
+   "why": "ST. LOUIS / LAKE COUNTY; FUTURE_STANDALONE duluth-mn. 150 miles north on I-35. Refused by postal PREFIX (556 / 557 / 558)."
+  },
+  {
+   "municipality": "St. Cloud / Sauk Rapids / Waite Park",
+   "state": "MN",
+   "postal_codes": [],
+   "why": "STEARNS / BENTON COUNTY; FUTURE_STANDALONE st-cloud-mn. 65 miles north-west on I-94. Refused by postal PREFIX (563)."
+  },
+  {
+   "municipality": "Mankato / North Mankato / St. Peter",
+   "state": "MN",
+   "postal_codes": [
+    "56001",
+    "56002",
+    "56003",
+    "56082"
+   ],
+   "why": "BLUE EARTH / NICOLLET COUNTY; FUTURE_STANDALONE mankato-mn. 80 miles south-west on US-169. Refused by name and postal PREFIX (560)."
+  },
+  {
+   "municipality": "Stillwater / St. Croix Valley -- Stillwater, Oak Park Heights, Bayport, Lake Elmo, Lakeland, Afton, Marine on St. Croix, Hastings",
+   "state": "MN",
+   "postal_codes": [
+    "55082",
+    "55003",
+    "55042",
+    "55043",
+    "55001",
+    "55047",
+    "55033",
+    "55090"
+   ],
+   "why": "WASHINGTON COUNTY east / DAKOTA COUNTY south-east; FUTURE_STANDALONE stillwater-st-croix. Stillwater's historic river-town inns and B&Bs are a destination a Twin Cities traveller drives TO, better standalone than absorbed. Hastings is the Mississippi / St. Croix confluence town on US-61. Refused by name and postal code."
+  },
+  {
+   "municipality": "North metro beyond the I-694 ring -- Columbia Heights, Fridley, Spring Lake Park, Blaine (National Sports Center), Coon Rapids, Anoka, Ramsey, Andover, Ham Lake, Lino Lakes, White Bear Lake, Vadnais Heights, Hugo, Forest Lake",
+   "state": "MN",
+   "postal_codes": [
+    "55421",
+    "55432",
+    "55434",
+    "55449",
+    "55433",
+    "55448",
+    "55303",
+    "55304",
+    "55110",
+    "55127",
+    "55014",
+    "55038",
+    "55025",
+    "55011",
+    "55070",
+    "55092"
+   ],
+   "why": "ANOKA COUNTY / north RAMSEY / north WASHINGTON COUNTY. Not in the order's evaluation list. Refused after CAREFUL evaluation so the Twin Cities market does not silently absorb the north metro; recorded in the boundary audit, never silently dropped. A founder may move Blaine / Coon Rapids on the record."
+  },
+  {
+   "municipality": "South metro beyond Burnsville / Eagan -- Apple Valley, Lakeville, Rosemount, Farmington, Cottage Grove, Prior Lake (Mystic Lake Casino Hotel), Jordan, Belle Plaine, Northfield, Red Wing (Treasure Island)",
+   "state": "MN",
+   "postal_codes": [
+    "55124",
+    "55044",
+    "55068",
+    "55024",
+    "55016",
+    "55372",
+    "55352",
+    "56011",
+    "55057",
+    "55066",
+    "55089",
+    "55065"
+   ],
+   "why": "DAKOTA / SCOTT / WASHINGTON / GOODHUE / RICE COUNTY outside the evaluated suburbs; refused after CAREFUL evaluation. Mystic Lake (Prior Lake) and Treasure Island (Red Wing / Welch) are tribal casino resorts a traveller drives TO. Recorded, never silently absorbed."
+  },
+  {
+   "municipality": "Western / north-western exurbs -- Chanhassen, Chaska, Victoria, Excelsior, Mound, Long Lake, Orono, Medina, Hamel, Rogers, Dayton, Champlin, Elk River, Otsego, Albertville, St. Michael, Monticello, Buffalo, Delano",
+   "state": "MN",
+   "postal_codes": [
+    "55317",
+    "55318",
+    "55386",
+    "55331",
+    "55364",
+    "55356",
+    "55340",
+    "55374",
+    "55327",
+    "55316",
+    "55330",
+    "55301",
+    "55376",
+    "55362",
+    "55313",
+    "55328",
+    "55357",
+    "55359",
+    "55384",
+    "55387"
+   ],
+   "why": "CARVER / western HENNEPIN / WRIGHT / SHERBURNE COUNTY. The order's 'farther western / northern exurbs' -- KEEP SEPARATE. Refused by name and postal code."
+  },
+  {
+   "municipality": "Wisconsin -- Hudson, River Falls, Prescott, Somerset (St. Croix / Pierce counties) and the rest of Wisconsin",
+   "state": "WI",
+   "postal_codes": [
+    "54016",
+    "54022",
+    "54021",
+    "54025",
+    "54082"
+   ],
+   "why": "Across the St. Croix in WISCONSIN. The Twin Cities market is a Minnesota market; Hudson is refused by its own state and code (and the live milwaukee-wi market owns its own Wisconsin codes). Refused by PREFIX (530-549)."
+  },
+  {
+   "municipality": "Greater Minnesota and out of state",
+   "state": "--",
+   "postal_codes": [],
+   "why": "Every other Minnesota postal prefix (556-567: Duluth, Rochester, Mankato, Willmar, St. Cloud, Brainerd, Detroit Lakes, Bemidji, Thief River Falls) and every non-Minnesota code is refused."
+  }
+ ],
+ "vacation_rental_rule": "The census admits hotels, motels, inns, public resorts, qualifying condo-hotels with a distinct public hotel operation, qualifying extended-stay hotels and other public lodging establishments: bookable nightly rooms or suites sold to the public under one establishment name, with an official property page and an on-site hotel operation. It NEVER admits: individual condominium units; vacation homes sold by owners or managers; property-management / corporate-housing / short-term-rental portfolios; serviced-apartment operators; Airbnb / Vrbo listings; ordinary apartments; student housing; timeshare and vacation-club inventory; residential-only towers; privately managed residences; member-only club lodging; on-base military / government lodging; and privately managed units inside hotel-condo towers. Campgrounds, RV parks and hostels are NON_LODGING.",
+ "shared_campus_rule": "Never merged solely by display name, brand, owner, phone, shared address, campus, booking engine, shared amenities or shared entrance. Exact premises identity (its own street address or its own brand property code on its own page) governs. A dual-brand building is TWO hotels and is HELD for the split.",
+ "config_written": "scripts/pettripfinder/discovery/config/minneapolis_mn.json",
+ "market_document_written": "launch_packages/pettripfinder/markets/proposed/minneapolis-mn.json",
+ "cells_total": 32,
+ "cells_admitting": 24,
+ "cells_observation_only": 8
+}

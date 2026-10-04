@@ -1,0 +1,418 @@
+{
+ "schema": "ptf-market-actionability/2.0",
+ "work_order": "PTF-MINNEAPOLIS-MN-HARDENED-SOURCE-READY-001",
+ "market_id": "minneapolis-mn",
+ "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
+ "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
+ "census_total": 258,
+ "resolved": 222,
+ "unresolved_total": 36,
+ "totals_by_class": {
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 30,
+  "REQUIRES_NEW_PROVIDER": 0,
+  "REQUIRES_NEW_SPEND": 0,
+  "REQUIRES_FOUNDER": 6,
+  "HELD_UNTIL_OPENING": 0
+ },
+ "by_disposition": {
+  "ACCESS_BLOCKED": {
+   "total": 4,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 4,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "EVIDENCE_HOLD": {
+   "total": 3,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 3,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "total": 9,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 3,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 6,
+   "held_until_opening": 0
+  },
+  "ROUTING_HOLD": {
+   "total": 10,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 10,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "SOURCE_SILENT": {
+   "total": 10,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 10,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  }
+ },
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 0,
+ "founder_rows_safely_held": 6,
+ "preopening_rows_safely_excluded": 0,
+ "places_note": "Google Places route discovery ran inside the renewed free monthly allowance (existing capacity, no new spend); a row it queried and could not route is exhausted, a row it never queried is actionable",
+ "attended_browser": {
+  "attempts": 212,
+  "reads": 192,
+  "challenge_denied": 0,
+  "unbound": 10,
+  "paid_provider_calls": 0,
+  "akamai_bypassed": false,
+  "browser_js_exfiltration_used": false,
+  "local_relay_used": false
+ },
+ "coverage_conditions": {
+  "actionable_unresolved_is_zero": true,
+  "no_material_identity_gap": true,
+  "no_material_unexplained_policy_gap": true,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
+  "publication_set_safe": true,
+  "package_deterministic_and_fast_clean": false
+ },
+ "COVERAGE_READY": "NO",
+ "TECHNICAL_SOURCE_READY": "NO",
+ "rows": [
+  {
+   "identity_key": "300 clifton bed and breakfast",
+   "canonical_name": "300 Clifton Bed & Breakfast",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static UNHYDRATED)"
+  },
+  {
+   "identity_key": "historic district bed and breakfast",
+   "canonical_name": "Historic District Bed and Breakfast",
+   "corridor": "minneapolis-mn__downtown-st-paul",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site (found via Places) did not serve to the plain client (status 403)"
+  },
+  {
+   "identity_key": "sandalwood studios and suites",
+   "canonical_name": "Sandalwood Studios & Suites",
+   "corridor": "minneapolis-mn__burnsville-shakopee",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site (found via Places) did not serve to the plain client (status 403)"
+  },
+  {
+   "identity_key": "valley inn shakopee",
+   "canonical_name": "Valley Inn Shakopee",
+   "corridor": "minneapolis-mn__burnsville-shakopee",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site (found via Places) did not serve to the plain client (status None)"
+  },
+  {
+   "identity_key": "americinn by wyndham burnsville",
+   "canonical_name": "AmericInn by Wyndham Burnsville",
+   "corridor": "minneapolis-mn__burnsville-shakopee",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'ADA defined service animals "
+  },
+  {
+   "identity_key": "holiday inn express and suites eagan minneapolis area",
+   "canonical_name": "Holiday Inn Express & Suites Eagan - Minneapolis Area",
+   "corridor": "minneapolis-mn__eagan",
+   "brand_family": "IHG",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Parking for registered guests only Parking & transportation details Can "
+  },
+  {
+   "identity_key": "microtel inn and suites by wyndham inver grove heights minne",
+   "canonical_name": "Microtel Inn & Suites by Wyndham Inver Grove Heights/Minne",
+   "corridor": "minneapolis-mn__mendota-heights-inver-grove",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_CONTRADICTS_CLAIM (the quote accepts pets: 'Dogs with a maximum weight of 30lbs are allowed for a non-refundable cha"
+  },
+  {
+   "identity_key": "envision hotel st paul south",
+   "canonical_name": "enVision Hotel St. Paul South",
+   "corridor": "minneapolis-mn__mendota-heights-inver-grove",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "key inn",
+   "canonical_name": "Key Inn",
+   "corridor": "minneapolis-mn__roseville",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the page the census route serves states no address, phone or postal code of its own, so it binds no premises (and states no pet policy) (https://www.keyinnroseville.com/) -- the census route's home page states only the name 'Key Inn' -- no address, no phone, no pet wording; it confirms no premises a"
+  },
+  {
+   "identity_key": "valu stay inn",
+   "canonical_name": "Valu Stay Inn",
+   "corridor": "minneapolis-mn__burnsville-shakopee",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "aqua city motel",
+   "canonical_name": "Aqua City Motel",
+   "corridor": "minneapolis-mn__uptown-south-minneapolis",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Meet Minneapolis's, Visit Saint Paul's and Visit Roseville's rosters (Bloomington and Explore Minnesota refused this client with 403; Minnesota and Washington publish no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "coratel inn and suites maple grove",
+   "canonical_name": "Coratel Inn & Suites Maple Grove",
+   "corridor": "minneapolis-mn__maple-grove",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, Meet Minneapolis's, Visit Saint Paul's and Visit Roseville's rosters (Bloomington and Explore Minnesota refused this client with 403; Minnesota and Washington publish no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://coratelinnandsuitesmaplegrove.xyz/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "coratel suites extended stay msp airport minneapolis richfield",
+   "canonical_name": "Coratel Suites Extended Stay MSP Airport Minneapolis Richfield",
+   "corridor": "minneapolis-mn__richfield",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, Meet Minneapolis's, Visit Saint Paul's and Visit Roseville's rosters (Bloomington and Explore Minnesota refused this client with 403; Minnesota and Washington publish no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.jasperrooms.com/hotel/coratel-inn-amp-suites-extended-stay-msp-airport) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "emerald inn",
+   "canonical_name": "Emerald Inn",
+   "corridor": "minneapolis-mn__maplewood-oakdale",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, Meet Minneapolis's, Visit Saint Paul's and Visit Roseville's rosters (Bloomington and Explore Minnesota refused this client with 403; Minnesota and Washington publish no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.emeraldinnmaplewood.top/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "extended stay america minneapolis airport eagan",
+   "canonical_name": "Extended Stay America - Minneapolis - Airport - Eagan",
+   "corridor": "minneapolis-mn__eagan",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own pages were read wherever a route existed (seq 80-86); this row has no route in any authorized lane, including Places"
+  },
+  {
+   "identity_key": "metro inn motel",
+   "canonical_name": "Metro Inn Motel",
+   "corridor": "minneapolis-mn__uptown-south-minneapolis",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Meet Minneapolis's, Visit Saint Paul's and Visit Roseville's rosters (Bloomington and Explore Minnesota refused this client with 403; Minnesota and Washington publish no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (2 candidates)"
+  },
+  {
+   "identity_key": "midwest hotel",
+   "canonical_name": "Midwest Hotel",
+   "corridor": "minneapolis-mn__st-paul-midway",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Meet Minneapolis's, Visit Saint Paul's and Visit Roseville's rosters (Bloomington and Explore Minnesota refused this client with 403; Minnesota and Washington publish no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "sonesta simply suites minneapolis richfield",
+   "canonical_name": "Sonesta Simply Suites Minneapolis Richfield",
+   "corridor": "minneapolis-mn__bloomington-mall-of-america",
+   "brand_family": "SONESTA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Meet Minneapolis's, Visit Saint Paul's and Visit Roseville's rosters (Bloomington and Explore Minnesota refused this client with 403; Minnesota and Washington publish no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "super 8 by wyndham brooklyn center mpls",
+   "canonical_name": "Super 8 by Wyndham Brooklyn Center/MPLS",
+   "corridor": "minneapolis-mn__brooklyn-center-brooklyn-park",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own property-code route lands on a hotel-search page: the brand publishes no property page for these premises; no first-party route exists in any authorized lane: the brand inventories, Meet Minneapolis's, Visit Saint Paul's and Visit Roseville's rosters (Bloomington and Explore Minnesota refused this client with 403; Minnesota and Washington publish no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.wyndhamhotels.com/super-8/brooklyn-center-minnesota/super-8-brooklyn-center-mp) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "university inn",
+   "canonical_name": "University Inn",
+   "corridor": "minneapolis-mn__university-dinkytown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, Meet Minneapolis's, Visit Saint Paul's and Visit Roseville's rosters (Bloomington and Explore Minnesota refused this client with 403; Minnesota and Washington publish no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://www.universityinnmn.westsuites.club/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "alma",
+   "canonical_name": "Alma",
+   "corridor": "minneapolis-mn__university-dinkytown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "como lake bed and breakfast",
+   "canonical_name": "Como Lake Bed & Breakfast",
+   "corridor": "minneapolis-mn__st-paul-midway",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "four seasons hotel minneapolis",
+   "canonical_name": "Four Seasons Hotel Minneapolis",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn and suites maple grove nw mpls arbor lks",
+   "canonical_name": "Holiday Inn & Suites Maple Grove NW Mpls-Arbor Lks",
+   "corridor": "minneapolis-mn__maple-grove",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 brooklyn center mn minneapolis",
+   "canonical_name": "Motel 6 Brooklyn Center, MN - Minneapolis",
+   "corridor": "minneapolis-mn__brooklyn-center-brooklyn-park",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 burnsville mn",
+   "canonical_name": "Motel 6 Burnsville, MN",
+   "corridor": "minneapolis-mn__burnsville-shakopee",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 roseville mn minneapolis north",
+   "canonical_name": "Motel 6 Roseville, MN - Minneapolis North",
+   "corridor": "minneapolis-mn__roseville",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "nicollet island inn",
+   "canonical_name": "Nicollet Island Inn",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "northernaire motel",
+   "canonical_name": "Northernaire Motel",
+   "corridor": "minneapolis-mn__maplewood-oakdale",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "norwood inn and suites",
+   "canonical_name": "Norwood Inn & Suites",
+   "corridor": "minneapolis-mn__roseville",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "comfort inn msp airport mall of america",
+   "canonical_name": "Comfort Inn MSP Airport - Mall of America",
+   "corridor": "minneapolis-mn__bloomington-mall-of-america",
+   "brand_family": "CHOICE",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "home2 suites by hilton minneapolis downtown",
+   "canonical_name": "Home2 Suites by Hilton Minneapolis Downtown",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "home2 suites by hilton minneapolis mall of america",
+   "canonical_name": "Home2 Suites by Hilton Minneapolis Mall of America",
+   "corridor": "minneapolis-mn__bloomington-mall-of-america",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "mainstay suites msp airport mall of america",
+   "canonical_name": "MainStay Suites MSP Airport - Mall of America",
+   "corridor": "minneapolis-mn__bloomington-mall-of-america",
+   "brand_family": "CHOICE",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "tru by hilton minneapolis downtown",
+   "canonical_name": "Tru by Hilton Minneapolis Downtown",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "tru by hilton minneapolis mall of america",
+   "canonical_name": "Tru by Hilton Minneapolis Mall of America",
+   "corridor": "minneapolis-mn__bloomington-mall-of-america",
+   "brand_family": "HILTON",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  }
+ ]
+}

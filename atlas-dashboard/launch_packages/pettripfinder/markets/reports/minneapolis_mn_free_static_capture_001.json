@@ -1,0 +1,2026 @@
+{
+ "schema": "ptf-free-static-capture/1.0",
+ "work_order": "PTF-MINNEAPOLIS-MN-HARDENED-SOURCE-READY-001",
+ "phase": "10 and 13 -- free first-party static capture and classification",
+ "market_id": "minneapolis-mn",
+ "run_id": "minneapolis_mn_free_static_001",
+ "as_of": "2026-10-04",
+ "lane": "direct_http (first-party static; no vendor, no browser, no price)",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests_this_run": 60,
+ "no_inference_from_silence": "A page that states no pet policy is SOURCE_SILENT. It is not a refusal, it is not an acceptance, and it never becomes either here.",
+ "counts": {
+  "targets": 65,
+  "by_cohort": {
+   "IDENTITY_FILL": 19,
+   "ROUTED": 46
+  },
+  "by_outcome": {
+   "ACCESS_DENIED": 45,
+   "IDENTITY_MISMATCH": 11,
+   "NAVIGATION_FAILED": 4,
+   "POLICY_NOT_FOUND": 2,
+   "UNEXPECTED_PAGE": 1,
+   "UNHYDRATED": 1,
+   "VALID": 1
+  },
+  "by_classification": {
+   "ACCESS_BLOCKED_PLAIN_CLIENT": 45,
+   "CLEAN_PET_FRIENDLY_CANDIDATE": 1,
+   "IDENTITY_NOT_CONFIRMED_STATIC": 2,
+   "IDENTITY_TEXT_BOUND_POLICY_SILENT": 11,
+   "NEEDS_ATTENDED_RENDER": 1,
+   "TRANSPORT_FAILED": 4,
+   "UNEXPECTED_PAGE": 1
+  },
+  "by_brand": {
+   "BEST_WESTERN": 3,
+   "CHOICE": 2,
+   "DRURY": 1,
+   "ESA": 1,
+   "HYATT": 7,
+   "IHG": 26,
+   "INDEPENDENT": 13,
+   "MOTEL6": 1,
+   "OMNI": 1,
+   "RADISSON": 9,
+   "SONESTA": 1
+  }
+ },
+ "rows": [
+  {
+   "cohort": "ROUTED",
+   "identity_key": "300 clifton bed and breakfast",
+   "canonical_name": "300 Clifton Bed & Breakfast",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "http://www.300clifton.com",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://300clifton.com/",
+   "title": "One moment, please...",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\300-clifton-bed-and-breakfast\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "avid by ihg",
+   "canonical_name": "Avid by IHG",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__roseville",
+   "requested_url": "https://www.ihg.com/avidhotels/hotels/us/en/roseville/mspav/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/avidhotels/hotels/us/en/roseville/mspav/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\avid-by-ihg\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "best western bloomington edina minneapolis",
+   "canonical_name": "Best Western Bloomington Edina - Minneapolis",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__bloomington-mall-of-america",
+   "requested_url": "http://www.americinn.com",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.wyndhamhotels.com/americinn",
+   "title": "AmericInn by Wyndham - Hotel Rooms, Discount Rates, & Deals",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\best-western-bloomington-edina-minneapolis\\attempt-01",
+   "classification": "UNEXPECTED_PAGE"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "best western plus normandy inn and suites",
+   "canonical_name": "Best Western Plus Normandy Inn & Suites",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "http://www.bestwesternnormandy.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.bestwesternnormandy.com/",
+   "title": "Normandy Inn & Suites | Hotel & Restaurant in Minneapolis, MN",
+   "detail": "page names 'Normandy Inn & Suites | Hotel & Restaurant in Minneapolis, MN', which does not agree with 'Best Western Plus Normandy Inn & Suites'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Normandy Inn & Suites | Hotel & Restaurant in Minneapolis, MN",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.bestwesternnormandy.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "6123701400"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Normandy Inn & Suites | Hotel & Restaurant in Minneapolis, MN', which does not agree with 'Best Western Plus Normandy Inn & Suites'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\best-western-plus-normandy-inn-and-suites\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "ed67dfecf8d149ebdf46541ccd47b232a1966526a3f16191de83f8827a573161",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "cambria hotel minneapolis downtown",
+   "canonical_name": "Cambria Hotel Minneapolis Downtown",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "https://www.choicehotels.com/minnesota/minneapolis/cambria-hotels/mn206#hotel-map",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/minnesota/minneapolis/cambria-hotels/mn206#hotel-map",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\cambria-hotel-minneapolis-downtown\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "candlewood suites eagan",
+   "canonical_name": "Candlewood Suites Eagan",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__eagan",
+   "requested_url": "https://www.ihg.com/candlewood/hotels/us/en/eagan/eagrc/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/candlewood/hotels/us/en/eagan/eagrc/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\candlewood-suites-eagan\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "country inn and suites brooklyn center mn",
+   "canonical_name": "Country Inn & Suites, Brooklyn Center, MN",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__brooklyn-center-brooklyn-park",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-brooklyn-center-mn",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-brooklyn-center-mn",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\country-inn-and-suites-brooklyn-center-mn\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "country inn and suites shoreview mn",
+   "canonical_name": "Country Inn & Suites, Shoreview, MN",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__roseville",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-shoreview-mn",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-shoreview-mn",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\country-inn-and-suites-shoreview-mn\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "crowne plaza minneapolis west",
+   "canonical_name": "Crowne Plaza Minneapolis West",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__plymouth",
+   "requested_url": "https://www.ihg.com/crowneplaza/hotels/us/en/plymouth/msppm/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/crowneplaza/hotels/us/en/plymouth/msppm/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\crowne-plaza-minneapolis-west\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "drury plaza hotel st paul downtown",
+   "canonical_name": "Drury Plaza Hotel St. Paul Downtown",
+   "brand": "DRURY",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__downtown-st-paul",
+   "requested_url": "https://www.druryhotels.com/locations/st-paul-mn/drury-plaza-hotel-st-paul-downtown",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.druryhotels.com/locations/st-paul-mn/drury-plaza-hotel-st-paul-downtown",
+   "title": "Drury Hotels - Drury Plaza Hotel St. Paul Downtown",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Drury Hotels - Drury Plaza Hotel St. Paul Downtown",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8003787946",
+      "6512223337",
+      "9522291084",
+      "5733348281",
+      "8004361169",
+      "8004361167",
+      "6514880971"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\drury-plaza-hotel-st-paul-downtown\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "ada8879c56055a34119d50616b85b9f5017828ec8307b2803735c101c8ba0232",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 206,
+     "pets_allowed": null,
+     "pets_allowed_quote": "",
+     "extraction": {
+      "pet_count_limit": 2,
+      "species_allowed": [
+       "cat",
+       "dog"
+      ],
+      "service_animal_exception": "Service animals are free of charge."
+     },
+     "withheld": {
+      "pets_allowed": "SOURCE_SILENT",
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "evidence_quotes": [
+      "Limit of two pets",
+      "Dogs and cats accepted",
+      "Service animals are free of charge."
+     ],
+     "service_animal_quote": "Service animals are free of charge.",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "extended stay america minneapolis maple grove",
+   "canonical_name": "Extended Stay America - Minneapolis - Maple Grove",
+   "brand": "ESA",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__maple-grove",
+   "requested_url": "https://www.extendedstayamerica.com/hotels/mn/minneapolis/maple-grove",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.extendedstayamerica.com/hotels/mn/minneapolis/maple-grove",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\extended-stay-america-minneapolis-maple-grove\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "four seasons hotel minneapolis",
+   "canonical_name": "Four Seasons Hotel Minneapolis",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "http://www.fourseasons.com/minneapolis",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.fourseasons.com/minneapolis",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\four-seasons-hotel-minneapolis\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hewing hotel",
+   "canonical_name": "Hewing Hotel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "http://hewinghotel.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://hewinghotel.com/",
+   "title": "Boutique Hotel in Downtown Minneapolis | Hewing Hotel",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Boutique Hotel in Downtown Minneapolis | Hewing Hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://hewinghotel.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "6514680400"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\hewing-hotel\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "75947ec74b14147d13e35220aac509f8fc2a06accc0ee3b48bb60870b5cef4c3",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn bloomington",
+   "canonical_name": "Holiday Inn Bloomington",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__bloomington-mall-of-america",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/bloomington/mspam/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/bloomington/mspam/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-bloomington\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites bloomington",
+   "canonical_name": "Holiday Inn Express & Suites Bloomington",
+   "brand": "IHG",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__edina",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bloomington/mspja/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bloomington/mspja/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-and-suites-bloomington\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites downtown minneapolis convention center",
+   "canonical_name": "Holiday Inn Express & Suites Downtown Minneapolis Convention Center",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/minneapolis/mspdt/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/minneapolis/mspdt/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-and-suites-downtown-minneapolis-convention-center\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites st paul woodbury",
+   "canonical_name": "Holiday Inn Express & Suites St. Paul - Woodbury",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__woodbury",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/woodbury/mspwb/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/woodbury/mspwb/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-and-suites-st-paul-woodbury\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express eagan",
+   "canonical_name": "Holiday Inn Express Eagan",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__eagan",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/eagan/eages/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/eagan/eages/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-eagan\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express golden valley",
+   "canonical_name": "Holiday Inn Express - Golden Valley",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__golden-valley-st-louis-park",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/minneapolis/mspwe/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/minneapolis/mspwe/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-golden-valley\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn maple grove",
+   "canonical_name": "Holiday Inn Maple Grove",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__maple-grove",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/maple-grove/mpgmn/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/maple-grove/mpgmn/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-maple-grove\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn st paul downtown an ihg hotel",
+   "canonical_name": "Holiday Inn St. Paul Downtown, an IHG Hotel",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__downtown-st-paul",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/st-paul/mspal/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/st-paul/mspal/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-st-paul-downtown-an-ihg-hotel\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hotel indigo minneapolis downtown",
+   "canonical_name": "Hotel Indigo Minneapolis Downtown",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "https://www.ihg.com/hotelindigo/hotels/us/en/minneapolis/mspdg/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/hotelindigo/hotels/us/en/minneapolis/mspdg/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\hotel-indigo-minneapolis-downtown\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt centric downtown minneapolis",
+   "canonical_name": "Hyatt Centric Downtown Minneapolis",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "http://www.hyattcentricdowntownminneapolis.com",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.hyattcentricdowntownminneapolis.com",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\hyatt-centric-downtown-minneapolis\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt place",
+   "canonical_name": "Hyatt Place",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__eden-prairie",
+   "requested_url": "https://www.hyatt.com/en-us/hotel/minnesota/hyatt-place-minneapolis-eden-prairie/mspze",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hyatt.com/en-us/hotel/minnesota/hyatt-place-minneapolis-eden-prairie/mspze",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\hyatt-place\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt place minneapolis airport south",
+   "canonical_name": "Hyatt Place Minneapolis Airport-South",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__bloomington-mall-of-america",
+   "requested_url": "https://www.hyatt.com/en-us/hotel/minnesota/hyatt-place-minneapolis-airport-south/mspza",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hyatt.com/en-us/hotel/minnesota/hyatt-place-minneapolis-airport-south/mspza",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\hyatt-place-minneapolis-airport-south\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt place minneapolis downtown",
+   "canonical_name": "Hyatt Place Minneapolis Downtown",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "http://minneapolisdowntown.place.hyatt.com/en/hotel/home.html?src=agn_mls_hp_lclb_gplaces_mspzd",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://minneapolisdowntown.place.hyatt.com/en/hotel/home.html?src=agn_mls_hp_lclb_gplaces_mspzd",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\hyatt-place-minneapolis-downtown\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt place st paul downtown",
+   "canonical_name": "Hyatt Place St. Paul/Downtown",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__downtown-st-paul",
+   "requested_url": "https://www.hyatt.com/hyatt-place/en-US/mspzs-hyatt-place-st-paul-downtown",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hyatt.com/hyatt-place/en-US/mspzs-hyatt-place-st-paul-downtown",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\hyatt-place-st-paul-downtown\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt regency bloomington minneapolis",
+   "canonical_name": "Hyatt Regency Bloomington - Minneapolis",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__bloomington-mall-of-america",
+   "requested_url": "https://www.hyatt.com/en-US/hotel/minnesota/hyatt-regency-bloomington-minneapolis/msprb",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hyatt.com/en-US/hotel/minnesota/hyatt-regency-bloomington-minneapolis/msprb",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\hyatt-regency-bloomington-minneapolis\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt regency minneapolis",
+   "canonical_name": "Hyatt Regency Minneapolis",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "https://www.hyatt.com/hyatt-regency/en-US/msprm-hyatt-regency-minneapolis",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hyatt.com/hyatt-regency/en-US/msprm-hyatt-regency-minneapolis",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\hyatt-regency-minneapolis\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "intercontinental minneapolis st paul airport hotel",
+   "canonical_name": "InterContinental Minneapolis - St. Paul Airport Hotel",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__msp-airport",
+   "requested_url": "https://www.intercontinentalmsp.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://www.intercontinentalmsp.com/",
+   "title": "InterContinental Minneapolis: St. Paul Airport Hotel, Minneapolis",
+   "detail": "no bounded policy block in a page that served; 0 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Intercontinental Minneapolis-St.Paul Airport",
+     "address_on_page": "5005 Glumack Drive",
+     "postal_code": "55450",
+     "phone_on_page": "(612)-725-0500",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.intercontinentalmsp.com/",
+     "pets_allowed_structured": "Yes",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "6127250500",
+      "8774242449",
+      "9528838800",
+      "6122354343",
+      "9528004422",
+      "9526585039",
+      "6517724388",
+      "6516864840",
+      "6514521311",
+      "6516901173",
+      "6127673354",
+      "6122238504",
+      "6513407175",
+      "9528079777",
+      "6127227072",
+      "6128235858",
+      "6512657800",
+      "6512281355",
+      "6512076627",
+      "6513402523",
+      "6512221857",
+      "6516003164",
+      "6126255000",
+      "6124782333",
+      "6122323232",
+      "6127708278",
+      "6123320835",
+      "6123417555",
+      "6128703000",
+      "6128222104",
+      "6123400155",
+      "6123397007"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\intercontinental-minneapolis-st-paul-airport-hotel\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "e0476fd83be9c991ecbc71df5a0fae7f4d99ff1e1fe2e09505b4a9ab6811de9f",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "intercontinental saint paul riverfront",
+   "canonical_name": "InterContinental Saint Paul Riverfront",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__downtown-st-paul",
+   "requested_url": "https://www.ihg.com/intercontinental/hotels/us/en/st-paul/mspsp/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/intercontinental/hotels/us/en/st-paul/mspsp/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\intercontinental-saint-paul-riverfront\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "intown suites extended stay minneapolis mn burnsville",
+   "canonical_name": "InTown Suites Extended Stay Minneapolis MN - Burnsville",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__burnsville-shakopee",
+   "requested_url": "https://www.intownsuites.com/extended-stay-hotels/minnesota/burnsville/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.intownsuites.com/extended-stay-hotels/minnesota/burnsville/",
+   "title": "Burnsville, MN Extended Stay Hotel",
+   "detail": "page names 'Burnsville, MN Extended Stay Hotel', which does not agree with 'InTown Suites Extended Stay Minneapolis MN - Burnsville'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Burnsville, MN Extended Stay Hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.intownsuites.com/extended-stay-hotels/minnesota/burnsville/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8447700684",
+      "8888820746",
+      "9528901575",
+      "8888820760",
+      "7637922113",
+      "8005539338"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Burnsville, MN Extended Stay Hotel', which does not agree with 'InTown Suites Extended Stay Minneapolis MN - Burnsville'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\intown-suites-extended-stay-minneapolis-mn-burnsville\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "e2dd84797b7740b12911024626b87e4765146d3be0fa380619c57615dec94f31",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "key inn",
+   "canonical_name": "Key Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__roseville",
+   "requested_url": "https://www.keyinnroseville.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://keyinnroseville.com/",
+   "title": "Key Inn, Roseville",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Key Inn",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\key-inn\\attempt-01",
+   "classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": false,
+    "phone_agrees": false,
+    "text_bound": false,
+    "document_sha256": "a33cb11383632008f890015686a5b323de2f50aede5ad78a899010264d8caebb",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "nicollet island inn",
+   "canonical_name": "Nicollet Island Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "http://www.nicolletislandinn.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.nicolletislandinn.com/",
+   "title": "Minneapolis Luxury Hotel, Restaurant & Bar | Nicollet Island Inn",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Minneapolis Luxury Hotel, Restaurant &amp; Bar | Nicollet Island Inn",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.nicolletislandinn.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "6123311800"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\nicollet-island-inn\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "881c39c0ca1a2bf1191b31edaf35c635d2531d899b46a6ef7e1b490e3c9b3892",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "omni viking lakes hotel",
+   "canonical_name": "Omni Viking Lakes Hotel",
+   "brand": "OMNI",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__eagan",
+   "requested_url": "https://www.omnihotels.com/hotels/viking-lakes-minnesota",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.omnihotels.com/hotels/viking-lakes-minnesota",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\omni-viking-lakes-hotel\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "prime rate inn",
+   "canonical_name": "Prime Rate Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__burnsville-shakopee",
+   "requested_url": "https://primerateinn.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://primerateinn.com/",
+   "title": "Hotel in Burnsville Minnesota | Prime Rate Inn | Official Site",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotel in Burnsville Minnesota | Prime Rate Inn | Official Site",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://primerateinn.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "9528948554",
+      "8003588554",
+      "9528945828"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\prime-rate-inn\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "31ae63738a69ff91a95e82531d097bd8885de5208672b0386f32ce548d608866",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "quality inn saint paul",
+   "canonical_name": "Quality Inn Saint Paul",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__st-paul-midway",
+   "requested_url": "https://www.choicehotels.com/minnesota/saint-paul/quality-inn-hotels/mn232",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/minnesota/saint-paul/quality-inn-hotels/mn232",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\quality-inn-saint-paul\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "radisson blu mall of america bloomington",
+   "canonical_name": "Radisson Blu Mall of America - Bloomington",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__bloomington-mall-of-america",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/radisson-blu-bloomington-mall-of-america",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.radissonhotels.com/en-us/hotels/radisson-blu-bloomington-mall-of-america",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\radisson-blu-mall-of-america-bloomington\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "radisson red minneapolis",
+   "canonical_name": "Radisson RED Minneapolis",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "https://www.radissonred.com/minneapolis/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.radissonred.com/minneapolis/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\radisson-red-minneapolis\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "royal sonesta minneapolis downtown",
+   "canonical_name": "Royal Sonesta Minneapolis Downtown",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "https://www.sonesta.com/royal-sonesta/mn/minneapolis/royal-sonesta-minneapolis-downtown",
+   "outcome": "VALID",
+   "final_url": "https://www.sonesta.com/royal-sonesta/mn/minneapolis/royal-sonesta-minneapolis-downtown",
+   "title": "The Royal Sonesta Minneapolis Downtown - Official Website",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Royal Sonesta Minneapolis Downtown",
+     "address_on_page": "35 S 7th Street",
+     "postal_code": "55402",
+     "phone_on_page": "612.339.4900",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/royal-sonesta/mn/minneapolis/royal-sonesta-minneapolis-downtown",
+     "pets_allowed_structured": "true",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "6123394900",
+      "3176334003"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "eec058f143428e87f984a410720d715b5af6538ccd1129f5a9ea0d978e12f8be",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\royal-sonesta-minneapolis-downtown\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 10000,
+     "fee_currency": "USD",
+     "fee_basis": "per_stay",
+     "pet_count_limit": 2
+    },
+    "evidence": [
+     {
+      "quote": "pets are permitted",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "$100 fee per stay",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "$100 fee per stay",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "Up to two pets",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "minneapolis_mn_free_static_001::royal sonesta minneapolis downtown::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are permitted",
+       "source_url": "https://www.sonesta.com/royal-sonesta/mn/minneapolis/royal-sonesta-minneapolis-downtown",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "eec058f143428e87f984a410720d715b5af6538ccd1129f5a9ea0d978e12f8be",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-04",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "minneapolis_mn_free_static_001::royal sonesta minneapolis downtown::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "$100 fee per stay",
+       "source_url": "https://www.sonesta.com/royal-sonesta/mn/minneapolis/royal-sonesta-minneapolis-downtown",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "eec058f143428e87f984a410720d715b5af6538ccd1129f5a9ea0d978e12f8be",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-04",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "minneapolis_mn_free_static_001::royal sonesta minneapolis downtown::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "$100 fee per stay",
+       "source_url": "https://www.sonesta.com/royal-sonesta/mn/minneapolis/royal-sonesta-minneapolis-downtown",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "eec058f143428e87f984a410720d715b5af6538ccd1129f5a9ea0d978e12f8be",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-04",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "minneapolis_mn_free_static_001::royal sonesta minneapolis downtown::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "$100 fee per stay",
+       "source_url": "https://www.sonesta.com/royal-sonesta/mn/minneapolis/royal-sonesta-minneapolis-downtown",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "eec058f143428e87f984a410720d715b5af6538ccd1129f5a9ea0d978e12f8be",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-04",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "minneapolis_mn_free_static_001::royal sonesta minneapolis downtown::pet_count_limit::3",
+       "field": "pet_count_limit",
+       "quote": "Up to two pets",
+       "source_url": "https://www.sonesta.com/royal-sonesta/mn/minneapolis/royal-sonesta-minneapolis-downtown",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "eec058f143428e87f984a410720d715b5af6538ccd1129f5a9ea0d978e12f8be",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-04",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "7372f18953476797e26d87fccbfabee5f36a8db419f6052b8c7642d2cc397b72",
+     "document_sha256": "eec058f143428e87f984a410720d715b5af6538ccd1129f5a9ea0d978e12f8be"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "the chambers hotel",
+   "canonical_name": "The Chambers Hotel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__downtown-minneapolis",
+   "requested_url": "https://www.chambershoteldowntown.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.chambershoteldowntown.com/",
+   "title": "Official Site | Chambers Hotel Minneapolis | Boutique Hotel",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Official Site | Chambers Hotel Minneapolis | Boutique Hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\the-chambers-hotel\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "f4e93010f0be9a5c56c090aaac6808063af7015ef2e8a51ef87807a343106720",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "the hotel landing",
+   "canonical_name": "The Hotel Landing",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__minnetonka-hopkins",
+   "requested_url": "http://www.thehotellanding.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://www.thehotellanding.com/",
+   "title": "Hotel Landing | Wayzata Luxury Hotel on Lake Minnetonka",
+   "detail": "no bounded policy block in a page that served; 2 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Hotel Landing",
+     "address_on_page": "925 Lake Street East",
+     "postal_code": "55391",
+     "phone_on_page": "+19527777900",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.thehotellanding.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "9527777900"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\the-hotel-landing\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "1010811a991ef957d8f3e44670e328d780b1309aab21fe8df078bf0c8fa9b5ed",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "the new victorian mansion bed and breakfast",
+   "canonical_name": "The New Victorian Mansion Bed & Breakfast",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__downtown-st-paul",
+   "requested_url": "https://newvictorianbb.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://newvictorianbb.com/",
+   "title": "Experience Luxury at Our Boutique Bed and Breakfast",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The New Victorian Mansion Bed &amp; Breakfast",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://newvictorianbb.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "6513218151"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\the-new-victorian-mansion-bed-and-breakfast\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "be0c06cfbfdfe60a289af88468ed87353461d800d659f8c5540f0b4b1a67b167",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "the saint paul hotel",
+   "canonical_name": "The Saint Paul Hotel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__downtown-st-paul",
+   "requested_url": "https://www.saintpaulhotel.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.saintpaulhotel.com/",
+   "title": "The Saint Paul Hotel | Historic Luxury Hotel in Downtown St. Paul",
+   "detail": "the page declares no telephone number of its own; the names agree only on hotel, paul, saint, the, which this market's hotels share; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Saint Paul Hotel | Historic Luxury Hotel in Downtown St. Paul",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.saintpaulhotel.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8002929292",
+      "6512929292",
+      "6512283860",
+      "6512247455",
+      "6512283886"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "the names agree only on hotel, paul, saint, the, which this market's hotels share",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\the-saint-paul-hotel\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "775c888e0c80428d6f2256c831895f2389e82b17df9382e62a03d37230aae8fa",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "university inn",
+   "canonical_name": "University Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "minneapolis-mn__university-dinkytown",
+   "requested_url": "https://www.universityinnmn.com",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.universityinnmn.com",
+   "title": "",
+   "detail": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\university-inn\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "university of minnesota conference and event services",
+   "canonical_name": "University of Minnesota Conference & Event Services",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "minneapolis-mn__university-dinkytown",
+   "requested_url": "https://uces.umn.edu/book/venues",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://uces.umn.edu/book/venues",
+   "title": "Campus Venues | Conference & Event Services",
+   "detail": "page names 'Campus Venues', which does not agree with 'University of Minnesota Conference & Event Services'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Campus Venues",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://uces.umn.edu/book/venues",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "6126259090"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Campus Venues', which does not agree with 'University of Minnesota Conference & Event Services'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\university-of-minnesota-conference-and-event-services\\attempt-01",
+   "classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": false,
+    "phone_agrees": true,
+    "text_bound": false,
+    "document_sha256": "bda281fd65230b6a45c861a76e9609eb5aeee2dc602bd11243c5a6fbfa3092c4",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "country inn and suites",
+   "canonical_name": "Country Inn & Suites",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-shakopee-mn",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-shakopee-mn",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\country-inn-and-suites\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "country inn and suites",
+   "canonical_name": "Country Inn & Suites",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-bloomington-mall-of-america-mn",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-shakopee-mn",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\country-inn-and-suites\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "country inn and suites",
+   "canonical_name": "Country Inn & Suites",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-roseville-mn",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-shakopee-mn",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\country-inn-and-suites\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "country inn and suites",
+   "canonical_name": "Country Inn & Suites",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-woodbury-mn",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-shakopee-mn",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\country-inn-and-suites\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "country inn and suites",
+   "canonical_name": "Country Inn & Suites",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-eagan-mn",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-shakopee-mn",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\country-inn-and-suites\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "holiday inn express bloomington",
+   "canonical_name": "Holiday Inn Express Bloomington",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bloomington/mspth/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bloomington/mspth/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-bloomington\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "holiday inn express bloomington",
+   "canonical_name": "Holiday Inn Express Bloomington",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bloomington/mspja/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bloomington/mspth/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-bloomington\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "crowne plaza bloomington",
+   "canonical_name": "Crowne Plaza Bloomington",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/crowneplaza/hotels/us/en/bloomington/mspia/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/crowneplaza/hotels/us/en/bloomington/mspia/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\crowne-plaza-bloomington\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "holiday inn express eden prairie",
+   "canonical_name": "Holiday Inn Express Eden Prairie",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/eden-prairie/mspep/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/eden-prairie/mspep/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-eden-prairie\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "holiday inn express inver grove heights",
+   "canonical_name": "Holiday Inn Express Inver Grove Heights",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/inver-grove-heights/mspig/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/inver-grove-heights/mspig/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-inver-grove-heights\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "holiday inn express minnetonka",
+   "canonical_name": "Holiday Inn Express Minnetonka",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/minnetonka/mspmk/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/minnetonka/mspmk/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-minnetonka\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "holiday inn express plymouth",
+   "canonical_name": "Holiday Inn Express Plymouth",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plymouth/msppl/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plymouth/msppl/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-plymouth\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "holiday inn express shakopee",
+   "canonical_name": "Holiday Inn Express Shakopee",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/shakopee/mspsh/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/shakopee/mspsh/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express-shakopee\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "intercontinental minneapolis",
+   "canonical_name": "InterContinental Minneapolis",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/intercontinental/hotels/us/en/minneapolis/mspha/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/intercontinental/hotels/us/en/minneapolis/mspha/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\intercontinental-minneapolis\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "staybridge suites maple grove",
+   "canonical_name": "Staybridge Suites Maple Grove",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/staybridge/hotels/us/en/maple-grove/mspmg/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/staybridge/hotels/us/en/maple-grove/mspmg/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\staybridge-suites-maple-grove\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "best western plus",
+   "canonical_name": "Best Western Plus",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.bestwestern.com/en_US/book/hotels-in-shoreview/best-western-plus-st-paul-north-shoreview/propertyCode.24143.html",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-shoreview/best-western-plus-st-paul-north-shoreview/propertyCode.24143.html",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\best-western-plus\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "holiday inn express",
+   "canonical_name": "Holiday Inn Express",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/roseville/mspro/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/roseville/mspro/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\holiday-inn-express\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "motel 6",
+   "canonical_name": "Motel 6",
+   "brand": "MOTEL6",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.motel6.com/en/home/motels.mn.roseville.9452.html",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.motel6.com/en/home/motels.mn.roseville.9452.html",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\motel-6\\attempt-01",
+   "classification": "TRANSPORT_FAILED",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "staybridge suites",
+   "canonical_name": "Staybridge Suites",
+   "brand": "IHG",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.ihg.com/staybridge/hotels/us/en/bloomington/mspbl/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/staybridge/hotels/us/en/bloomington/mspbl/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\minneapolis_mn_free_static_001\\staybridge-suites\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  }
+ ]
+}

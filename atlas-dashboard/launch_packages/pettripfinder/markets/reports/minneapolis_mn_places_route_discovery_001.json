@@ -1,0 +1,3790 @@
+{
+ "schema": "ptf-places-route-discovery/1.0",
+ "work_order": "PTF-MINNEAPOLIS-MN-HARDENED-SOURCE-READY-001",
+ "market_id": "minneapolis-mn",
+ "provider": "GOOGLE_PLACES_TEXT_SEARCH (existing GOOGLE_PLACES_API_KEY capacity)",
+ "field_mask_gap_verification": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus",
+ "field_mask_route_discovery": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus,places.websiteUri,places.nationalPhoneNumber",
+ "route_discovery_run": true,
+ "route_discovery_capacity_basis": "websiteUri is an Enterprise-SKU field; its free monthly allowance (about 1,000 requests) renewed on 2026-10-01; the only Places use on this machine since then is San Antonio's 201 requests (187 Enterprise), Seattle's 169 (149 Enterprise), Portland's 77 (49 Enterprise) and this order's own earlier runs (recorded in this report). This run stays inside that allowance (cap 200 Enterprise requests) -- existing capacity, no new paid spend.",
+ "request_cap": 400,
+ "route_discovery_cap": 200,
+ "requests_made": 135,
+ "enterprise_requests_made": 59,
+ "pro_requests_made": 76,
+ "requests_this_run": 9,
+ "answers_reused_from_prior_runs": 86,
+ "errors": {},
+ "never_policy": "A Places field is never a pet policy; a website it names is only a route.",
+ "route_discovery_targets": 47,
+ "route_discovery_bound": 56,
+ "route_discovery_bound_with_website": 55,
+ "gap_verification_targets": 12,
+ "gap_verdicts": {
+  "OUTSIDE_MARKET": 3,
+  "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 5,
+  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 22
+ },
+ "map_pin_verification_bind_meters": 400,
+ "map_pin_verdicts": {
+  "OUTSIDE_MARKET": 6,
+  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 13,
+  "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 16,
+  "NO_LODGING_RESULT_BOUND_TO_THE_ROW": 10,
+  "CLOSED_CLOSED_PERMANENTLY": 1
+ },
+ "rows": [
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "americinn by wyndham mounds view minneapolis",
+   "query": "AmericInn by Wyndham Mounds View Minneapolis 2200 Mounds View Blvd Mounds View MN 55112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJETrbqFIvs1IRLmf0NwCs1oo",
+    "display_name": "AmericInn by Wyndham Mounds View Minneapolis",
+    "formatted_address": "2200 Mounds View Blvd, Mounds View, MN 55112, USA",
+    "street_number": "2200",
+    "route": "Mounds View Boulevard",
+    "locality": "Mounds View",
+    "postal_code": "55112",
+    "phone": "(763) 515-9230",
+    "website_uri": "https://www.wyndhamhotels.com/americinn/mounds-view-minnesota/americinn-hotel-and-suites-mounds-view-minneapolis/overview?CID=LC:div7epuxsaire17:51978&iata=00093796",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.0940819,
+    "lng": -93.19485089999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "aqua city motel",
+   "query": "Aqua City Motel 5719 Lyndale Avenue South Minneapolis MN 55419",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "cambria bloomington mall of america minneapolis airport",
+   "query": "Cambria Bloomington Mall of America Minneapolis Airport 8001 Winstead Way Bloomington MN 55425",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJDxLpzZYv9ocRGPjrk0d1ozY",
+    "display_name": "Cambria Bloomington Mall of America Minneapolis Airport",
+    "formatted_address": "8001 Winstead Wy, Bloomington, MN 55425, USA",
+    "street_number": "8001",
+    "route": "Winstead Way",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "(612) 235-6538",
+    "website_uri": "https://www.choicehotels.com/minnesota/bloomington/cambria-hotels/mn175?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.8577903,
+    "lng": -93.23199199999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "cambria hotel minneapolis maple grove",
+   "query": "Cambria Hotel Minneapolis Maple Grove 9655 Grove Circle North Maple Grove MN 55369",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJNTYejlRGs1IRFVXxwIwBQhU",
+    "display_name": "Cambria Hotel Minneapolis Maple Grove",
+    "formatted_address": "9655 Grove Cir N, Maple Grove, MN 55369, USA",
+    "street_number": "9655",
+    "route": "Grove Circle North",
+    "locality": "Maple Grove",
+    "postal_code": "55369",
+    "phone": "(952) 225-2685",
+    "website_uri": "https://www.choicehotels.com/minnesota/maple-grove/cambria-hotels/mn088?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.130193999999996,
+    "lng": -93.485148
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "celeste of st paul",
+   "query": "Celeste of St Paul 26 East Exchange Street Saint Paul MN 55101",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJpXAebcLV94cRUAswS-0i_4I",
+    "display_name": "Celeste of St. Paul Hotel + Bar",
+    "formatted_address": "26 E Exchange St, St Paul, MN 55101, USA",
+    "street_number": "26",
+    "route": "East Exchange Street",
+    "locality": "Saint Paul",
+    "postal_code": "55101",
+    "phone": "(651) 222-0848",
+    "website_uri": "http://celestestpaul.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bar",
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9493589,
+    "lng": -93.0966447
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn and suites eden prairie minneapolis southwest",
+   "query": "Comfort Inn & Suites Eden Prairie - Minneapolis Southwest 11391 Viking Drive Eden Prairie MN 55344",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJV_wAvqcZ9ocRRgT9vLnhM2k",
+    "display_name": "Comfort Inn & Suites Eden Prairie - Minneapolis Southwest",
+    "formatted_address": "11391 Viking Dr, Eden Prairie, MN 55344, USA",
+    "street_number": "11391",
+    "route": "Viking Drive",
+    "locality": "Eden Prairie",
+    "postal_code": "55344",
+    "phone": "(952) 942-9100",
+    "website_uri": "https://www.choicehotels.com/minnesota/eden-prairie/comfort-inn-hotels/mn334?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.8631146,
+    "lng": -93.4217687
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn and suites shakopee downtown area",
+   "query": "Comfort Inn & Suites Shakopee Downtown Area 511 Marschall Road Shakopee MN 55379",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQZFP9FER9ocRSEkdJnSl0gQ",
+    "display_name": "Comfort Inn & Suites Shakopee Downtown Area",
+    "formatted_address": "511 Marschall Rd, Shakopee, MN 55379, USA",
+    "street_number": "511",
+    "route": "Marschall Road",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "(952) 445-9779",
+    "website_uri": "https://www.choicehotels.com/minnesota/shakopee/comfort-inn-hotels/mn105?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.795036499999995,
+    "lng": -93.507314
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn brooklyn center",
+   "query": "Comfort Inn Brooklyn Center 2200 Freeway Blvd Brooklyn Center MN 55430",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ7XHLlbsxs1IR0GwPYHNq-rM",
+    "display_name": "Comfort Inn Brooklyn Center",
+    "formatted_address": "2200 Freeway Blvd, Brooklyn Center, MN 55430, USA",
+    "street_number": "2200",
+    "route": "Freeway Boulevard",
+    "locality": "Brooklyn Center",
+    "postal_code": "55430",
+    "phone": "(763) 566-8000",
+    "website_uri": "https://www.choicehotels.com/minnesota/brooklyn-center/comfort-inn-hotels/mn158?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.0745461,
+    "lng": -93.3092264
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn eagan minneapolis st paul south",
+   "query": "Comfort Inn Eagan Minneapolis - St Paul South 3450 Washington Drive Eagan MN 55122",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJa6Rkap8t9ocRO0r-nU5LR34",
+    "display_name": "Comfort Inn Eagan Minneapolis - St Paul South",
+    "formatted_address": "3450 Washington Dr, Eagan, MN 55122, USA",
+    "street_number": "3450",
+    "route": "Washington Drive",
+    "locality": "Eagan",
+    "postal_code": "55122",
+    "phone": "(651) 280-4862",
+    "website_uri": "https://www.choicehotels.com/minnesota/eagan/comfort-inn-hotels/mn261?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.83152760000001,
+    "lng": -93.1692625
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn msp airport mall of america",
+   "query": "Comfort Inn MSP Airport - Mall of America 1321 E 78th St. Building A MN 55425",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ80nQtF8v9ocRhGTz1xC6U34",
+    "display_name": "Comfort Inn MSP Airport - Mall of America",
+    "formatted_address": "1321 E 78th St Bldg A, Bloomington, MN 55425, USA",
+    "street_number": "1321",
+    "route": "East 78th Street",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "(612) 389-2259",
+    "website_uri": "https://www.choicehotels.com/minnesota/bloomington/comfort-inn-hotels/mn015?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.861429799999996,
+    "lng": -93.2552422
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn plymouth minneapolis",
+   "query": "Comfort Inn Plymouth-Minneapolis 3000 Harbor Lane North Plymouth MN 55447",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQ-tJNS5Ks1IRYAGQrhDx1tw",
+    "display_name": "Comfort Inn Plymouth-Minneapolis",
+    "formatted_address": "3000 Harbor Ln N, Plymouth, MN 55447, USA",
+    "street_number": "3000",
+    "route": "Harbor Lane North",
+    "locality": "Plymouth",
+    "postal_code": "55447",
+    "phone": "(763) 559-1222",
+    "website_uri": "https://www.choicehotels.com/minnesota/plymouth/comfort-inn-hotels/mn055?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.015488999999995,
+    "lng": -93.459375
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn saint paul east",
+   "query": "Comfort Inn Saint Paul East 970 Helena Avenue North Oakdale MN 55128",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJqZQGzrTSslIRpuBteKkbYNs",
+    "display_name": "Comfort Inn Saint Paul East",
+    "formatted_address": "970 Helena Ave N, Oakdale, MN 55128, USA",
+    "street_number": "970",
+    "route": "Helena Avenue North",
+    "locality": "Oakdale",
+    "postal_code": "55128",
+    "phone": "(651) 578-8466",
+    "website_uri": "https://www.choicehotels.com/minnesota/oakdale/comfort-inn-hotels/mn116?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9624282,
+    "lng": -92.9551006
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "como lake bed and breakfast",
+   "query": "Como Lake Bed & Breakfast 1205 West Como Boulevard Saint Paul MN 55103",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJZeuhDh8rs1IRBMTX8Q0PODM",
+    "display_name": "Como Lake B&B",
+    "formatted_address": "1205 W Como Blvd, St Paul, MN 55103, USA",
+    "street_number": "1205",
+    "route": "West Como Boulevard",
+    "locality": "Saint Paul",
+    "postal_code": "55103",
+    "phone": "(651) 399-4111",
+    "website_uri": "http://www.comolakebnb.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.977039999999995,
+    "lng": -93.14290580000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "coratel inn and suites maple grove",
+   "query": "Coratel Inn & Suites Maple Grove 7285 Forestview Lane North Maple Grove MN 55369",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ9Qtnn6Q3s1IRf1XXAxs8hzs",
+    "display_name": "Coratel Inn & Suites Maple Grove",
+    "formatted_address": "7285 Forestview Ln N, Maple Grove, MN 55369, USA",
+    "street_number": "7285",
+    "route": "Forestview Lane North",
+    "locality": "Maple Grove",
+    "postal_code": "55369",
+    "phone": "(763) 493-2277",
+    "website_uri": "https://coratelinnandsuitesmaplegrove.xyz/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.0867569,
+    "lng": -93.42957960000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "coratel suites extended stay msp airport minneapolis richfield",
+   "query": "Coratel Suites Extended Stay MSP Airport Minneapolis Richfield 351 W 77th Street Richfield MN 55423",
+   "candidates_returned": 3,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJxa5OxMYl9ocRzS7WxJVyoqM",
+    "display_name": "Coratel Suites Extended Stay MSP Airport Minneapolis Richfield",
+    "formatted_address": "351 W 77th St Bldg 1, Richfield, MN 55423, USA",
+    "street_number": "351",
+    "route": "West 77th Street",
+    "locality": "Richfield",
+    "postal_code": "55423",
+    "phone": "(651) 472-5627",
+    "website_uri": "https://www.jasperrooms.com/hotel/coratel-inn-amp-suites-extended-stay-msp-airport",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.862677999999995,
+    "lng": -93.28432099999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "country inn and suites by radisson minneapolis west mn",
+   "query": "Country Inn & Suites by Radisson, Minneapolis West, MN 210 Carlson Parkway Plymouth MN 55447",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJZ94Efv5Ks1IRJV81MYc_bJk",
+    "display_name": "Country Inn & Suites by Radisson, Minneapolis West, MN",
+    "formatted_address": "210 Carlson Pkwy, Plymouth, MN 55447, USA",
+    "street_number": "210",
+    "route": "Carlson Parkway",
+    "locality": "Plymouth",
+    "postal_code": "55447",
+    "phone": "(763) 473-3008",
+    "website_uri": "https://www.choicehotels.com/minnesota/plymouth/country-inn-suites-hotels/mn268?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9806004,
+    "lng": -93.46126199999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "emerald inn",
+   "query": "Emerald Inn 2025 County Road D Maplewood MN 55109",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJg22D7lfRslIRW9ooxhw5a4o",
+    "display_name": "Emerald Inn",
+    "formatted_address": "2025 County Rd D, Maplewood, MN 55109, USA",
+    "street_number": "2025",
+    "route": "County Road D",
+    "locality": "Maplewood",
+    "postal_code": "55109",
+    "phone": "(651) 777-8131",
+    "website_uri": "https://www.emeraldinnmaplewood.top/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.036349699999995,
+    "lng": -93.0148871
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "envision hotel st paul south",
+   "query": "enVision Hotel St. Paul South 701 Concord Street South South St. Paul MN 55075",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJbo4a_HT94cRdUPhXvYFxJs",
+    "display_name": "enVision Hotel St. Paul South",
+    "formatted_address": "701 Concord St S, South St Paul, MN 55075, USA",
+    "street_number": "701",
+    "route": "Concord Street South",
+    "locality": "South Saint Paul",
+    "postal_code": "55075",
+    "phone": "(651) 455-3600",
+    "website_uri": "https://www.envisionhotels.com/st-paul-south/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.878853299999996,
+    "lng": -93.0309159
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america minneapolis airport eagan",
+   "query": "Extended Stay America - Minneapolis - Airport - Eagan 3384 Norwest Court Eagan MN 55121",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJF0Z_gMUt9ocRmn1oDzqnC2M",
+    "display_name": "Studio 6 Extended Stay Minneapolis Airport Eagan MN",
+    "formatted_address": "3384 Norwest Ct, Eagan, MN 55121, USA",
+    "street_number": "3384",
+    "route": "Norwest Court",
+    "locality": "Eagan",
+    "postal_code": "55121",
+    "phone": "(651) 212-7665",
+    "website_uri": "https://www.motel6.com/property/motel-minneapolis-mn-minnesota-us-357285?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.8348483,
+    "lng": -93.1652194
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites minneapolis airport mendota heights",
+   "query": "Extended Stay America Suites- Minneapolis - Airport - Mendota Heights 1380 Northland Drive Mendota Heights MN 55120",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJT5Q516wt9ocRftxIzFtKXQs",
+    "display_name": "Extended Stay America Suites- Minneapolis - Airport - Mendota Heights",
+    "formatted_address": "1380 Northland Dr, Mendota Heights, MN 55120, USA",
+    "street_number": "1380",
+    "route": "Northland Drive",
+    "locality": "Mendota Heights",
+    "postal_code": "55120",
+    "phone": "(763) 432-1170",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mn/minneapolis/airport-mendota-heights?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.863050199999996,
+    "lng": -93.16557279999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites minneapolis eden prairie technology drive",
+   "query": "Extended Stay America Suites Minneapolis - Eden Prairie - Technology Drive 11905 Technology Dr. Eden Prairie MN 55344",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJu5LDrLsY9ocROZImO4gqzfo",
+    "display_name": "Extended Stay America Suites- Minneapolis - Eden Prairie - Technology Drive",
+    "formatted_address": "11905 Technology Dr., Eden Prairie, MN 55344, USA",
+    "street_number": "11905",
+    "route": "Technology Drive",
+    "locality": "Eden Prairie",
+    "postal_code": "55344",
+    "phone": "(952) 942-6818",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mn/minneapolis/eden-prairie-technology-drive?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.861539,
+    "lng": -93.428117
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites minneapolis woodbury",
+   "query": "Extended Stay America Suites- Minneapolis - Woodbury 10020 Hudson Road Woodbury MN 55125",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJIyHo02DY94cRv8uUBCjTgMg",
+    "display_name": "Extended Stay America Suites- Minneapolis - Woodbury",
+    "formatted_address": "10020 Hudson Rd, Woodbury, MN 55125, USA",
+    "street_number": "10020",
+    "route": "Hudson Road",
+    "locality": "Woodbury",
+    "postal_code": "55125",
+    "phone": "(651) 501-1085",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mn/minneapolis/woodbury?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9467697,
+    "lng": -92.90240399999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites st paul woodbury",
+   "query": "Extended Stay America Suites- St Paul - Woodbury 975 Weir Drive Woodbury MN 55125",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJsVrNTxfX94cR5sBLl_Uy5gI",
+    "display_name": "Extended Stay America Suites- St Paul - Woodbury",
+    "formatted_address": "975 Weir Dr, Woodbury, MN 55125, USA",
+    "street_number": "975",
+    "route": "Weir Drive",
+    "locality": "Woodbury",
+    "postal_code": "55125",
+    "phone": "(763) 432-1390",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mn/minneapolis/st-paul-woodbury?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9337303,
+    "lng": -92.9628717
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "great wolf lodge minnesota",
+   "query": "Great Wolf Lodge Minnesota 1700 American Boulevard East Bloomington MN 55425",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJvaY3f10v9ocR6nVZTdf3pf8",
+    "display_name": "Great Wolf Lodge | Minnesota",
+    "formatted_address": "1700 American Blvd E, Bloomington, MN 55425, USA",
+    "street_number": "1700",
+    "route": "American Boulevard East",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "(952) 851-9653",
+    "website_uri": "https://www.greatwolf.com/minnesota?utm_source=google&utm_medium=organic&utm_campaign=gmb-bloomington",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "amusement_center",
+     "amusement_park",
+     "bowling_alley",
+     "establishment",
+     "family_restaurant",
+     "food",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "resort_hotel",
+     "restaurant",
+     "sports_activity_location",
+     "sports_complex",
+     "swimming_pool",
+     "video_arcade",
+     "water_park"
+    ],
+    "lat": 44.8606655,
+    "lng": -93.25066269999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "historic district bed and breakfast",
+   "query": "Historic District Bed and Breakfast 483 Ashland Avenue Saint Paul MN 55102",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJT74r9ZYq9ocREdXmEhOZr1E",
+    "display_name": "Historic District Bed and Breakfast",
+    "formatted_address": "483 Ashland Ave, St Paul, MN 55102, USA",
+    "street_number": "483",
+    "route": "Ashland Avenue",
+    "locality": "Saint Paul",
+    "postal_code": "55102",
+    "phone": "(763) 360-3717",
+    "website_uri": "http://hdbbsaintpaul.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.9446969,
+    "lng": -93.1204546
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "livinn hotel minneapolis south burnsville",
+   "query": "LivINN Hotel Minneapolis South/Burnsville 13080 Aldrich Ave S Burnsville MN 55337",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJlwAHafg69ocRdvseDqv1EJM",
+    "display_name": "LivINN Hotel Minneapolis South/Burnsville",
+    "formatted_address": "13080 Aldrich Ave S, Burnsville, MN 55337, USA",
+    "street_number": "13080",
+    "route": "Aldrich Avenue South",
+    "locality": "Burnsville",
+    "postal_code": "55337",
+    "phone": "(952) 890-7999",
+    "website_uri": "https://www.livinnburnsville.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.7668408,
+    "lng": -93.29032169999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "mainstay suites msp airport mall of america",
+   "query": "MainStay Suites MSP Airport - Mall of America 1321 E 78th St. Building B MN 55425",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJudBQvr8v9ocR5tCZEIThsrE",
+    "display_name": "MainStay Suites MSP Airport - Mall of America",
+    "formatted_address": "1321 E 78th St Bldg B, Bloomington, MN 55425, USA",
+    "street_number": "1321",
+    "route": "East 78th Street",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "(952) 698-5462",
+    "website_uri": "https://www.choicehotels.com/minnesota/bloomington/mainstay-hotels/mn249?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.8610404,
+    "lng": -93.2554553
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "metro inn motel",
+   "query": "Metro Inn Motel 5637 Lyndale Avenue South Minneapolis MN 55419",
+   "candidates_returned": 2,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "midwest hotel",
+   "query": "Midwest Hotel 2144 University Avenue West Saint Paul MN 55114",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJi_zt-LEss1IRvwPiJQALI4Y",
+    "display_name": "Midwest Hotel",
+    "formatted_address": "2144 University Ave W, St Paul, MN 55114, USA",
+    "street_number": "2144",
+    "route": "University Avenue West",
+    "locality": "Saint Paul",
+    "postal_code": "55114",
+    "phone": "(651) 646-4770",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.960331,
+    "lng": -93.18905699999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel 6 brooklyn center mn minneapolis",
+   "query": "Motel 6 Brooklyn Center, MN - Minneapolis 2741 Freeway Boulevard Brooklyn Center MN 55430",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJv20cN_cws1IRgvTBQ8Y5viQ",
+    "display_name": "Motel 6 Brooklyn Center, MN - Minneapolis",
+    "formatted_address": "2741 Freeway Blvd, Brooklyn Center, MN 55430, USA",
+    "street_number": "2741",
+    "route": "Freeway Boulevard",
+    "locality": "Brooklyn Center",
+    "postal_code": "55430",
+    "phone": "(763) 710-8297",
+    "website_uri": "https://www.motel6.com/property/motel-brooklyn-center-minnesota-us-294590?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.0747054,
+    "lng": -93.317126
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel 6 burnsville mn",
+   "query": "Motel 6 Burnsville, MN 12920 Aldrich Avenue South Burnsville MN 55337",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJBYFrN5079ocRXxyRg5mIbsw",
+    "display_name": "Motel 6 Burnsville, MN",
+    "formatted_address": "12920 Aldrich Ave S, Burnsville, MN 55337, USA",
+    "street_number": "12920",
+    "route": "Aldrich Avenue South",
+    "locality": "Burnsville",
+    "postal_code": "55337",
+    "phone": "(952) 681-2932",
+    "website_uri": "https://www.motel6.com/en/home/motels.mn.burnsville.9156.html",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.7689732,
+    "lng": -93.2913174
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "my place hotel shakopee mn",
+   "query": "My Place Hotel- Shakopee, MN 3912 12th Avenue East Shakopee MN 55379",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJHwNktAkX9ocR0M4R3583gvU",
+    "display_name": "My Place Hotel-Shakopee, MN",
+    "formatted_address": "3912 12th Ave E, Shakopee, MN 55379, USA",
+    "street_number": "3912",
+    "route": "12th Avenue East",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "(952) 233-2448",
+    "website_uri": "https://www.myplacehotels.com/my-place-hotel-minneapolis-shakopee-mn?utm_source=local-listing&utm_medium=referrer&utm_campaign=shakopee-mn",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "convenience_store",
+     "establishment",
+     "extended_stay_hotel",
+     "food",
+     "food_store",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "store"
+    ],
+    "lat": 44.7843362,
+    "lng": -93.4717462
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "northernaire motel",
+   "query": "Northernaire Motel 2441 Maplewood Drive West Maplewood MN 55109",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ_7P6GkjUslIRUmk2U0c3LmE",
+    "display_name": "Northernaire Motel",
+    "formatted_address": "2441 Maplewood Dr W, Maplewood, MN 55109, USA",
+    "street_number": "2441",
+    "route": "Maplewood Drive West",
+    "locality": "Maplewood",
+    "postal_code": "55109",
+    "phone": "(651) 484-3336",
+    "website_uri": "https://northernairemaplewood.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.0150424,
+    "lng": -93.053833
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "norwood inn and suites",
+   "query": "Norwood Inn & Suites 2401 Prior Avenue North Roseville MN 55113",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ1RTBP_Urs1IRPILuRQMqhuQ",
+    "display_name": "Norwood Inn Minneapolis Roseville",
+    "formatted_address": "2401 Prior Ave N #1, Roseville, MN 55113, USA",
+    "street_number": "2401",
+    "route": "Prior Avenue North",
+    "locality": "Roseville",
+    "postal_code": "55113",
+    "phone": "(651) 636-8888",
+    "website_uri": "https://norwoodinn.com/hoteldetails/Norwood-Inn-roseville/4007",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.0129194,
+    "lng": -93.1830504
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "quality inn and suites arden hills saint paul north",
+   "query": "Quality Inn & Suites Arden Hills - Saint Paul North 1125 Red Fox Road Arden Hills MN 55112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJW8WBiacps1IRDDZcyBay6oY",
+    "display_name": "Quality Inn & Suites Arden Hills - Saint Paul North",
+    "formatted_address": "1125 Red Fox Rd, Arden Hills, MN 55112, USA",
+    "street_number": "1125",
+    "route": "Red Fox Road",
+    "locality": "Arden Hills",
+    "postal_code": "55112",
+    "phone": "(612) 254-0537",
+    "website_uri": "https://www.choicehotels.com/minnesota/arden-hills/quality-inn-hotels/mn140?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.057835,
+    "lng": -93.1489295
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "quality inn brooklyn center",
+   "query": "Quality Inn Brooklyn Center 1600 James Circle North Brooklyn Center MN 55430",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJX45uKFAws1IRdc5cNz3nwcg",
+    "display_name": "Quality Inn Brooklyn Center",
+    "formatted_address": "1600 James Cir N, Brooklyn Center, MN 55430, USA",
+    "street_number": "1600",
+    "route": "James Circle North",
+    "locality": "Brooklyn Center",
+    "postal_code": "55430",
+    "phone": "(612) 254-0536",
+    "website_uri": "https://www.choicehotels.com/minnesota/brooklyn-center/quality-inn-hotels/mn423?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.07181,
+    "lng": -93.30282799999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "quality inn savage bloomington west",
+   "query": "Quality Inn Savage - Bloomington West 4601 W. Hwy 13 Savage MN 55378",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ-V7Xi2E79ocRluhtFNV1YwE",
+    "display_name": "Quality Inn Savage - Bloomington West",
+    "formatted_address": "4601 Hwy 13 W, Savage, MN 55378, USA",
+    "street_number": "4601",
+    "route": "Highway 13 West",
+    "locality": "Savage",
+    "postal_code": "55378",
+    "phone": "(612) 254-0518",
+    "website_uri": "https://www.choicehotels.com/minnesota/savage/quality-inn-hotels/mn034?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.778619,
+    "lng": -93.337368
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "radisson hotel st paul downtown",
+   "query": "Radisson Hotel St. Paul Downtown 161 Rondo Ave. St. Paul MN 55103",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ9ZNnj6Uq9ocRInGIrXj5QQg",
+    "display_name": "Radisson Hotel St. Paul Downtown",
+    "formatted_address": "161 Rondo Ave, St Paul, MN 55103, USA",
+    "street_number": "161",
+    "route": "Rondo Avenue",
+    "locality": "Saint Paul",
+    "postal_code": "55103",
+    "phone": "(651) 448-2974",
+    "website_uri": "https://www.choicehotels.com/minnesota/st-paul/radisson-hotels/mn270?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9517819,
+    "lng": -93.1070008
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "sandalwood studios and suites",
+   "query": "Sandalwood Studios & Suites 3910 12th Avenue East Shakopee MN 55379",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJysshm4X9ocRYcccxUCn3bk",
+    "display_name": "Sandalwood Studios & Suites",
+    "formatted_address": "3910 12th Ave E, Shakopee, MN 55379, USA",
+    "street_number": "3910",
+    "route": "12th Avenue East",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "(952) 277-0100",
+    "website_uri": "https://www.hotelshakopeeminnesota.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.7846681,
+    "lng": -93.4728538
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "sonesta simply suites minneapolis richfield",
+   "query": "Sonesta Simply Suites Minneapolis Richfield 351 Richfield MN 55420",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "suburban studios minneapolis bloomington",
+   "query": "Suburban Studios Minneapolis Bloomington 7956 Lyndale Ave S Bloomington MN 55420",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJT-fgDlIl9ocRJRHEna5uws4",
+    "display_name": "Suburban Studios Extended Stay by Choice Hotels",
+    "formatted_address": "7956 Lyndale Ave S, Bloomington, MN 55420, USA",
+    "street_number": "7956",
+    "route": "Lyndale Avenue South",
+    "locality": "Bloomington",
+    "postal_code": "55420",
+    "phone": "(952) 884-1400",
+    "website_uri": "https://www.choicehotels.com/minnesota/bloomington/suburban-hotels/mn310?checkInDate=2023-12-10&checkOutDate=2023-12-11",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.8587111,
+    "lng": -93.2895077
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "suburban studios minneapolis brooklyn center",
+   "query": "Suburban Studios Minneapolis Brooklyn Center 2701 Freeway Blvd Brooklyn Center MN 55430",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJnwcrcrMxs1IRrpFqHiHPjWM",
+    "display_name": "Suburban Studios Minneapolis Brooklyn Center",
+    "formatted_address": "2701 Freeway Blvd, Brooklyn Center, MN 55430, USA",
+    "street_number": "2701",
+    "route": "Freeway Boulevard",
+    "locality": "Brooklyn Center",
+    "postal_code": "55430",
+    "phone": "(612) 928-5010",
+    "website_uri": "https://www.choicehotels.com/minnesota/brooklyn-center/suburban-hotels/mn312?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.0745076,
+    "lng": -93.3163898
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "valley inn shakopee",
+   "query": "Valley Inn Shakopee 1181 1st Avenue East Shakopee MN 55379",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJeQNUqgga9ocRaX53Y5ilCjQ",
+    "display_name": "Valley Inn Shakopee",
+    "formatted_address": "1181 1st Ave E, Shakopee, MN 55379, USA",
+    "street_number": "1181",
+    "route": "1st Avenue East",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "(952) 445-9120",
+    "website_uri": "http://valleyinnshakopee.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.8011215,
+    "lng": -93.5103812
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "valu stay inn",
+   "query": "Valu Stay Inn 12855 Demcon Dr Shakopee MN 55379",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJV2Iw1SkQ9ocR-TGgevidZuQ",
+    "display_name": "Valu Stay Inn",
+    "formatted_address": "12855 Dem Con Dr, Shakopee, MN 55379, USA",
+    "street_number": "12855",
+    "route": "Dem Con Drive",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "(952) 445-7111",
+    "website_uri": "https://www.valustayshakopee.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.764082099999996,
+    "lng": -93.5813368
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "alma",
+   "query": "Alma 528 University Avenue Southeast Minneapolis MN 55414",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJM75Ao3Ets1IRftCVbIP51eY",
+    "display_name": "Alma",
+    "formatted_address": "528 University Ave SE, Minneapolis, MN 55414, USA",
+    "street_number": "528",
+    "route": "University Avenue Southeast",
+    "locality": "Minneapolis",
+    "postal_code": "55414",
+    "phone": "(612) 379-4909",
+    "website_uri": "https://www.almampls.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "american_restaurant",
+     "cafe",
+     "establishment",
+     "food",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "restaurant"
+    ],
+    "lat": 44.983883999999996,
+    "lng": -93.248088
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "super 8 by wyndham brooklyn center mpls",
+   "query": "Super 8 by Wyndham Brooklyn Center/MPLS 6445 James Circle Brooklyn Center MN 55430",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQfkk81Aws1IR-T65afG8kNk",
+    "display_name": "Super 8 by Wyndham Brooklyn Center/MPLS",
+    "formatted_address": "6445 James Cir N, Brooklyn Center, MN 55430, USA",
+    "street_number": "6445",
+    "route": "James Circle North",
+    "locality": "Brooklyn Center",
+    "postal_code": "55430",
+    "phone": "(763) 447-4388",
+    "website_uri": "https://www.wyndhamhotels.com/super-8/brooklyn-center-minnesota/super-8-brooklyn-center-mpls/overview?CID=LC:yytq4fvvehxh7se:3682&iata=00093796",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.0726124,
+    "lng": -93.30498569999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "university inn",
+   "query": "University Inn 925 SE 4th Street Minneapolis MN 55414",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ05_SSg0ts1IRMPK3e37kVtA",
+    "display_name": "University Inn",
+    "formatted_address": "925 SE 4th St, Minneapolis, MN 55414, USA",
+    "street_number": "925",
+    "route": "Southeast 4th Street",
+    "locality": "Minneapolis",
+    "postal_code": "55414",
+    "phone": "(612) 746-1300",
+    "website_uri": "http://www.universityinnmn.westsuites.club/",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9831223,
+    "lng": -93.2413967
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Best Western Plus White Bear Country Inn",
+   "query": "Best Western Plus White Bear Country Inn Minneapolis OR",
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJIym-puzQslIR19SR4fhV8PM",
+    "display_name": "Best Western Plus White Bear Country Inn",
+    "formatted_address": "4940 US-61, White Bear Lake, MN 55110, USA",
+    "street_number": "4940",
+    "route": "U.S. 61",
+    "locality": "White Bear Lake",
+    "postal_code": "55110",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "food",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "restaurant",
+     "service"
+    ],
+    "lat": 45.0905731,
+    "lng": -93.00588549999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Boutique Hotel King Queen & Kitchen Suites Easy Drive to Downtown",
+   "query": "Boutique Hotel King Queen & Kitchen Suites Easy Drive to Downtown Minneapolis OR",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJF3C6gJsys1IR8X4osVT5QRI",
+    "display_name": "Home2 Suites by Hilton Minneapolis Downtown",
+    "formatted_address": "317 2nd Ave S, Minneapolis, MN 55401, USA",
+    "street_number": "317",
+    "route": "2nd Avenue South",
+    "locality": "Minneapolis",
+    "postal_code": "55401",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.978913999999996,
+    "lng": -93.26655
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites - Minneapolis - Fridley",
+   "query": "Extended Stay America Suites - Minneapolis - Fridley Minneapolis OR",
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJg3TqPtEvs1IReAxJmSOQTqg",
+    "display_name": "Extended Stay America Suites- Minneapolis - Fridley",
+    "formatted_address": "230 57th Ave NE, Fridley, MN 55432, USA",
+    "street_number": "230",
+    "route": "57th Avenue Northeast",
+    "locality": "Fridley",
+    "postal_code": "55432",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.0694328,
+    "lng": -93.2668812
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Historic District B&B",
+   "query": "Historic District B&B Minneapolis OR",
+   "corridor": "downtown-st-paul",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJT74r9ZYq9ocREdXmEhOZr1E",
+    "display_name": "Historic District Bed and Breakfast",
+    "formatted_address": "483 Ashland Ave, St Paul, MN 55102, USA",
+    "street_number": "483",
+    "route": "Ashland Avenue",
+    "locality": "Saint Paul",
+    "postal_code": "55102",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.9446969,
+    "lng": -93.1204546
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Lyndale Church Lodge",
+   "query": "Lyndale Church Lodge Minneapolis OR",
+   "corridor": "uptown-south-minneapolis",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJtRMx6I0n9ocR49qQapZHh-c",
+    "display_name": "Lyndale Church Lodge",
+    "formatted_address": "Minneapolis, MN 55408, USA",
+    "street_number": "",
+    "route": "",
+    "locality": "Minneapolis",
+    "postal_code": "55408",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9447441,
+    "lng": -93.28275300000001
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Lyndale Church Lodge",
+   "query": "Lyndale Church Lodge Minneapolis OR",
+   "corridor": "uptown-south-minneapolis",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJtRMx6I0n9ocR49qQapZHh-c",
+    "display_name": "Lyndale Church Lodge",
+    "formatted_address": "Minneapolis, MN 55408, USA",
+    "street_number": "",
+    "route": "",
+    "locality": "Minneapolis",
+    "postal_code": "55408",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9447441,
+    "lng": -93.28275300000001
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Microtel Inn & Suites by Wyndham Inver Grove Heights/Minneap",
+   "query": "Microtel Inn & Suites by Wyndham Inver Grove Heights/Minneap Minneapolis OR",
+   "corridor": "mendota-heights-inver-grove",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ7TG9RXXT94cRqiQ6uB083FA",
+    "display_name": "Microtel Inn & Suites by Wyndham Inver Grove Heights/Minne",
+    "formatted_address": "5681 Bishop Ave, Inver Grove Heights, MN 55076, USA",
+    "street_number": "5681",
+    "route": "Bishop Avenue",
+    "locality": "Inver Grove Heights",
+    "postal_code": "55076",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.8665374,
+    "lng": -93.0581388
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Quality Inn Northtown",
+   "query": "Quality Inn Northtown Minneapolis OR",
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJrSi3dCYls1IRKr0WVozspKA",
+    "display_name": "Quality Inn near Northtown Mall & National Sports Center",
+    "formatted_address": "9052 University Ave NW, Coon Rapids, MN 55448, USA",
+    "street_number": "9052",
+    "route": "University Avenue Northwest",
+    "locality": "Coon Rapids",
+    "postal_code": "55448",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.1354639,
+    "lng": -93.26739690000001
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Ramada Hotel & Conference Center by Wyndham Plymouth",
+   "query": "Ramada Hotel & Conference Center by Wyndham Plymouth Minneapolis OR",
+   "corridor": "plymouth",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ96VtJjpKs1IRZaZmima8pHw",
+    "display_name": "Ramada by Wyndham Plymouth Hotel & Conference Center",
+    "formatted_address": "2705 Annapolis Ln N, Plymouth, MN 55441, USA",
+    "street_number": "2705",
+    "route": "Annapolis Lane North",
+    "locality": "Plymouth",
+    "postal_code": "55441",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.008312499999995,
+    "lng": -93.4555625
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "TownePlace Suites Minneapolis Near Mall of America",
+   "query": "TownePlace Suites Minneapolis Near Mall of America Minneapolis OR",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ9b7sfRQv9ocRuSP1IAKY-Cw",
+    "display_name": "TownePlace Suites by Marriott Minneapolis Mall of America",
+    "formatted_address": "2500 Lindau Ln, Bloomington, MN 55425, USA",
+    "street_number": "2500",
+    "route": "Lindau Lane",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.857124,
+    "lng": -93.23658379999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "TownePlace Suites by Marriott -Minneapolis West/StLouis Park",
+   "query": "TownePlace Suites by Marriott -Minneapolis West/StLouis Park Minneapolis OR",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJnd6FCL40s1IRMLLxoPlFG4A",
+    "display_name": "TownePlace Suites by Marriott Minneapolis West/St. Louis Park",
+    "formatted_address": "1400 Zarthan Ave S, St Louis Park, MN 55416, USA",
+    "street_number": "1400",
+    "route": "Zarthan Avenue South",
+    "locality": "St. Louis Park",
+    "postal_code": "55416",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.969108,
+    "lng": -93.355992
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "TownePlace Suites by Marriott Minneapolis Downtown/NorthLoop",
+   "query": "TownePlace Suites by Marriott Minneapolis Downtown/NorthLoop Minneapolis OR",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJmd4R6Ygys1IR7tz65f1w-ZI",
+    "display_name": "TownePlace Suites by Marriott Minneapolis Downtown/North Loop",
+    "formatted_address": "525 N 2nd St, Minneapolis, MN 55401, USA",
+    "street_number": "525",
+    "route": "North 2nd Street",
+    "locality": "Minneapolis",
+    "postal_code": "55401",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9871675,
+    "lng": -93.27430729999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "americinn|44.857215|-93.535515",
+   "census_identity_key": "americinn",
+   "query": "AmericInn MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJVT1d95sb9ocRRlsw-JE08ZA",
+    "display_name": "AmericInn by Wyndham Chanhassen",
+    "formatted_address": "570 Pond Promenade, Chanhassen, MN 55317, USA",
+    "street_number": "570",
+    "route": "Pond Promenade",
+    "locality": "Chanhassen",
+    "postal_code": "55317",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.8572571,
+    "lng": -93.53566119999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "americinn|44.987744|-93.584673",
+   "census_identity_key": "americinn",
+   "query": "AmericInn MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJ0Z6DBIdNs1IRzHqDncYOzmY",
+    "display_name": "AmericInn by Wyndham Hotel and Suites Long Lake",
+    "formatted_address": "521 Willow Dr N, Long Lake, MN 55356, USA",
+    "street_number": "521",
+    "route": "Willow Drive North",
+    "locality": "Long Lake",
+    "postal_code": "55356",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.9878449,
+    "lng": -93.58477339999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "asteria inn|45.086806|-93.429602",
+   "census_identity_key": "asteria inn",
+   "query": "Asteria Inn MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "maple-grove",
+   "candidates_returned": 3,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ9Qtnn6Q3s1IRf1XXAxs8hzs",
+    "display_name": "Coratel Inn & Suites Maple Grove",
+    "formatted_address": "7285 Forestview Ln N, Maple Grove, MN 55369, USA",
+    "street_number": "7285",
+    "route": "Forestview Lane North",
+    "locality": "Maple Grove",
+    "postal_code": "55369",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.0867569,
+    "lng": -93.42957960000001
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "comfort inn|44.861353|-93.255035",
+   "census_identity_key": "comfort inn",
+   "query": "Comfort Inn MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ80nQtF8v9ocRhGTz1xC6U34",
+    "display_name": "Comfort Inn MSP Airport - Mall of America",
+    "formatted_address": "1321 E 78th St Bldg A, Bloomington, MN 55425, USA",
+    "street_number": "1321",
+    "route": "East 78th Street",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.861429799999996,
+    "lng": -93.2552422
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "country inn and suites|44.947473|-92.984102",
+   "census_identity_key": "country inn and suites",
+   "query": "Country Inn & Suites MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJWWdISjHW94cR88MmckpohY4",
+    "display_name": "Country Inn & Suites by Radisson, Woodbury, MN",
+    "formatted_address": "6003 Hudson Rd, Woodbury, MN 55125, USA",
+    "street_number": "6003",
+    "route": "Hudson Road",
+    "locality": "Woodbury",
+    "postal_code": "55125",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9474041,
+    "lng": -92.9839683
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "crowne plaza suites|44.858266|-93.222174",
+   "census_identity_key": "crowne plaza suites",
+   "query": "Crowne Plaza Suites MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJCQdAmx4v9ocR16dqgZVt8sk",
+    "display_name": "Crowne Plaza Suites Msp Airport - Mall of America by IHG",
+    "formatted_address": "3 Appletree Square, Bloomington, MN 55425, USA",
+    "street_number": "3",
+    "route": "Appletree Square",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bar",
+     "business_center",
+     "establishment",
+     "event_venue",
+     "fitness_center",
+     "food",
+     "gym",
+     "health",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "restaurant",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 44.858404,
+    "lng": -93.22206200000001
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "days inn|45.018323|-93.186554",
+   "census_identity_key": "days inn",
+   "query": "Days Inn MN",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "extended stay america minneapolis brooklyn center|45.074484|-93.316322",
+   "census_identity_key": "extended stay america minneapolis brooklyn center",
+   "query": "Extended Stay America - Minneapolis - Brooklyn Center MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJL8M1G_cws1IRs3Jp5ejR2RE",
+    "display_name": "Extended Stay America Suites- Minneapolis - Brooklyn Center",
+    "formatted_address": "2701 Freeway Blvd, Brooklyn Center, MN 55430, USA",
+    "street_number": "2701",
+    "route": "Freeway Boulevard",
+    "locality": "Brooklyn Center",
+    "postal_code": "55430",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.0744191,
+    "lng": -93.3163489
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "extended stay america|44.847248|-93.150295",
+   "census_identity_key": "extended stay america",
+   "query": "Extended Stay America MN",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "hampton|44.860607|-93.230472",
+   "census_identity_key": "hampton",
+   "query": "Hampton MN",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "hampton|44.953435|-92.937119",
+   "census_identity_key": "hampton",
+   "query": "Hampton MN",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "hilton homes|44.893369|-93.441598",
+   "census_identity_key": "hilton homes",
+   "query": "Hilton Homes MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "CLOSED_CLOSED_PERMANENTLY",
+   "place": {
+    "google_place_id": "ChIJxzZcDRUf9ocRGzH-jZndZwM",
+    "display_name": "Hilton Homes",
+    "formatted_address": "6030 Clearwater Dr, Minnetonka, MN 55343, USA",
+    "street_number": "6030",
+    "route": "Clearwater Drive",
+    "locality": "Minnetonka",
+    "postal_code": "55343",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.893515699999995,
+    "lng": -93.441654
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "holiday inn express|44.784317|-93.461969",
+   "census_identity_key": "holiday inn express",
+   "query": "Holiday Inn Express MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJMxLfsHYX9ocRUdY7vT9iZ4k",
+    "display_name": "Holiday Inn Express & Suites Minneapolis SW - Shakopee by IHG",
+    "formatted_address": "4550 12th Ave E, Shakopee, MN 55379, USA",
+    "street_number": "4550",
+    "route": "12th Avenue East",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 44.7842273,
+    "lng": -93.46184099999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "holiday inn express|44.795115|-93.507342",
+   "census_identity_key": "holiday inn express",
+   "query": "Holiday Inn Express MN",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "holiday inn express|44.832534|-93.168851",
+   "census_identity_key": "holiday inn express",
+   "query": "Holiday Inn Express MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJX4BTJtst9ocRvtDVrhpalFU",
+    "display_name": "Holiday Inn Express & Suites Eagan - Minneapolis Area by IHG",
+    "formatted_address": "3434 Washington Dr, Eagan, MN 55122, USA",
+    "street_number": "3434",
+    "route": "Washington Drive",
+    "locality": "Eagan",
+    "postal_code": "55122",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 44.8323783,
+    "lng": -93.1688842
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "holiday inn express|44.866852|-93.058725",
+   "census_identity_key": "holiday inn express",
+   "query": "Holiday Inn Express MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJYfEvQHXT94cR9Ajval484fk",
+    "display_name": "Holiday Inn Express St Paul S - Inver Grove Hgts by IHG",
+    "formatted_address": "5653 Bishop Ave, Inver Grove Heights, MN 55076, USA",
+    "street_number": "5653",
+    "route": "Bishop Avenue",
+    "locality": "Inver Grove Heights",
+    "postal_code": "55076",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 44.8668349,
+    "lng": -93.0586812
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "holiday inn express|44.893814|-93.418875",
+   "census_identity_key": "holiday inn express",
+   "query": "Holiday Inn Express MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJU2zV6N8h9ocRtk41hChAVU4",
+    "display_name": "Holiday Inn Express & Suites Eden Prairie - Minnetonka by IHG",
+    "formatted_address": "10985 Red Cir Dr, Minnetonka, MN 55343, USA",
+    "street_number": "10985",
+    "route": "Red Circle Drive",
+    "locality": "Minnetonka",
+    "postal_code": "55343",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 44.8938395,
+    "lng": -93.4188259
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "kingsbeck home|45.044798|-92.959104",
+   "census_identity_key": "kingsbeck home",
+   "query": "Kingsbeck Home 106 Warner Way MN",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "la quinta inn and suites minneapolis northwest|45.081835|-93.390686",
+   "census_identity_key": "la quinta inn and suites minneapolis northwest",
+   "query": "La Quinta Inn & Suites Minneapolis Northwest MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "brooklyn-center-brooklyn-park",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJOeCvlXQ3s1IRslewe02HMpY",
+    "display_name": "La Quinta Inn & Suites by Wyndham Minneapolis Northwest",
+    "formatted_address": "7011 Northland Cir N, Brooklyn Park, MN 55428, USA",
+    "street_number": "7011",
+    "route": "Northland Circle North",
+    "locality": "Brooklyn Park",
+    "postal_code": "55428",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.0818607,
+    "lng": -93.39082590000001
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "livinn motel|45.063038|-93.245405",
+   "census_identity_key": "livinn motel",
+   "query": "LivINN MOTEL 5201 Central Avenue Northeast MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJW2kVyEsus1IRsePWSbmlDt0",
+    "display_name": "LivINN Hotel Minneapolis North/Fridley",
+    "formatted_address": "5201 Central Ave NE, Fridley, MN 55421, USA",
+    "street_number": "5201",
+    "route": "Central Avenue Northeast",
+    "locality": "Fridley",
+    "postal_code": "55421",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.0628327,
+    "lng": -93.2458224
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "medina inn|45.045792|-93.533406",
+   "census_identity_key": "medina inn",
+   "query": "Medina Inn MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJ-SiqmOlOs1IR_JnK3EBHhBY",
+    "display_name": "Medina Inn",
+    "formatted_address": "400 Hwy 55, Medina, MN 55340, USA",
+    "street_number": "400",
+    "route": "Highway 55",
+    "locality": "Medina",
+    "postal_code": "55340",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.04569,
+    "lng": -93.53339749999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "microtel inn and suites|44.866505|-93.058193",
+   "census_identity_key": "microtel inn and suites",
+   "query": "Microtel Inn & Suites MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ7TG9RXXT94cRqiQ6uB083FA",
+    "display_name": "Microtel Inn & Suites by Wyndham Inver Grove Heights/Minne",
+    "formatted_address": "5681 Bishop Ave, Inver Grove Heights, MN 55076, USA",
+    "street_number": "5681",
+    "route": "Bishop Avenue",
+    "locality": "Inver Grove Heights",
+    "postal_code": "55076",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.8665374,
+    "lng": -93.0581388
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "montrose moderne|44.947510|-93.196474",
+   "census_identity_key": "montrose moderne",
+   "query": "Montrose Moderne MN",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "normandy inn and suites|44.972962|-93.267341",
+   "census_identity_key": "normandy inn and suites",
+   "query": "Normandy Inn & Suites Minneapolis MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ8a3Dkpgys1IR1E-ZeYtctUU",
+    "display_name": "Best Western Plus The Normandy Inn & Suites",
+    "formatted_address": "405 S 8th St, Minneapolis, MN 55404, USA",
+    "street_number": "405",
+    "route": "South 8th Street",
+    "locality": "Minneapolis",
+    "postal_code": "55404",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.973051399999996,
+    "lng": -93.2673106
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "northcott americinn|44.859748|-93.527701",
+   "census_identity_key": "northcott americinn",
+   "query": "Northcott Americinn 250 Lake Drive East MN",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "oaklands on ninth|44.973399|-93.270648",
+   "census_identity_key": "oaklands on ninth",
+   "query": "Oaklands on Ninth MN",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "park plaza hotels|44.851075|-93.240652",
+   "census_identity_key": "park plaza hotels",
+   "query": "Park Plaza Hotels MN",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "quality inn|45.071855|-93.302924",
+   "census_identity_key": "quality inn",
+   "query": "Quality Inn MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJX45uKFAws1IRdc5cNz3nwcg",
+    "display_name": "Quality Inn Brooklyn Center",
+    "formatted_address": "1600 James Cir N, Brooklyn Center, MN 55430, USA",
+    "street_number": "1600",
+    "route": "James Circle North",
+    "locality": "Brooklyn Center",
+    "postal_code": "55430",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.07181,
+    "lng": -93.30282799999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "radisson st paul downtown||",
+   "census_identity_key": "radisson st paul downtown",
+   "query": "Radisson St. Paul Downtown 161 St Anthony Ave St Paul MN",
+   "bind_basis": "street_number",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ9ZNnj6Uq9ocRInGIrXj5QQg",
+    "display_name": "Radisson Hotel St. Paul Downtown",
+    "formatted_address": "161 Rondo Ave, St Paul, MN 55103, USA",
+    "street_number": "161",
+    "route": "Rondo Avenue",
+    "locality": "Saint Paul",
+    "postal_code": "55103",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9517819,
+    "lng": -93.1070008
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "radisson|44.951858|-93.107001",
+   "census_identity_key": "radisson",
+   "query": "Radisson MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ9ZNnj6Uq9ocRInGIrXj5QQg",
+    "display_name": "Radisson Hotel St. Paul Downtown",
+    "formatted_address": "161 Rondo Ave, St Paul, MN 55103, USA",
+    "street_number": "161",
+    "route": "Rondo Avenue",
+    "locality": "Saint Paul",
+    "postal_code": "55103",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9517819,
+    "lng": -93.1070008
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "residence inn minneapolis st paul roseville|45.031074|-93.189675",
+   "census_identity_key": "residence inn minneapolis st paul roseville",
+   "query": "Residence Inn Minneapolis St. Paul/Roseville MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJwcigaaous1IRVGlQsVbTTTQ",
+    "display_name": "Residence Inn by Marriott Minneapolis St. Paul/Roseville",
+    "formatted_address": "2985 Centre Pointe Dr, Roseville, MN 55113, USA",
+    "street_number": "2985",
+    "route": "Centre Pointe Drive",
+    "locality": "Roseville",
+    "postal_code": "55113",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 45.03101470000001,
+    "lng": -93.18966689999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "staybridge suites|45.095919|-93.447899",
+   "census_identity_key": "staybridge suites",
+   "query": "Staybridge Suites MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJPRX0bwhIs1IR4vBG846BerI",
+    "display_name": "Staybridge Suites Mpls-Maple Grove/Arbor Lakes by IHG",
+    "formatted_address": "7821 Elm Creek Blvd N, Maple Grove, MN 55369, USA",
+    "street_number": "7821",
+    "route": "Elm Creek Boulevard North",
+    "locality": "Maple Grove",
+    "postal_code": "55369",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "extended_stay_hotel",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location"
+    ],
+    "lat": 45.096,
+    "lng": -93.4482
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "valley inn|44.801122|-93.510433",
+   "census_identity_key": "valley inn",
+   "query": "Valley Inn MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "burnsville-shakopee",
+   "candidates_returned": 3,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJeQNUqgga9ocRaX53Y5ilCjQ",
+    "display_name": "Valley Inn Shakopee",
+    "formatted_address": "1181 1st Ave E, Shakopee, MN 55379, USA",
+    "street_number": "1181",
+    "route": "1st Avenue East",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.8011215,
+    "lng": -93.5103812
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "wakota inn and suites|44.832885|-92.962100",
+   "census_identity_key": "wakota inn and suites",
+   "query": "Wakota Inn & Suites MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJ3VB0KkHQ94cRnOrrlcuipic",
+    "display_name": "Wakota Inn & Suites",
+    "formatted_address": "7125 80th St S, Cottage Grove, MN 55016, USA",
+    "street_number": "7125",
+    "route": "80th Street South",
+    "locality": "Cottage Grove",
+    "postal_code": "55016",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.8328621,
+    "lng": -92.96219049999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "woodspring suites minneapolis fridley|45.069407|-93.266994",
+   "census_identity_key": "woodspring suites minneapolis fridley",
+   "query": "Woodspring Suites Minneapolis Fridley MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJg3TqPtEvs1IReAxJmSOQTqg",
+    "display_name": "Extended Stay America Suites- Minneapolis - Fridley",
+    "formatted_address": "230 57th Ave NE, Fridley, MN 55432, USA",
+    "street_number": "230",
+    "route": "57th Avenue Northeast",
+    "locality": "Fridley",
+    "postal_code": "55432",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.0694328,
+    "lng": -93.2668812
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "wyndham bloomington hotel|44.851388|-93.245944",
+   "census_identity_key": "wyndham bloomington hotel",
+   "query": "Wyndham Bloomington Hotel MN",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJTylmy7sv9ocRnATv5GhNNQI",
+    "display_name": "Wyndham Bloomington - Mall of America",
+    "formatted_address": "1901 Killebrew Dr, Bloomington, MN 55425, USA",
+    "street_number": "1901",
+    "route": "Killebrew Drive",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.8512229,
+    "lng": -93.2457046
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "alma|44.983746|-93.248109",
+   "census_identity_key": "alma",
+   "query": "Alma 528 Southeast University Avenue MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "university-dinkytown",
+   "candidates_returned": 2,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJM75Ao3Ets1IRftCVbIP51eY",
+    "display_name": "Alma",
+    "formatted_address": "528 University Ave SE, Minneapolis, MN 55414, USA",
+    "street_number": "528",
+    "route": "University Avenue Southeast",
+    "locality": "Minneapolis",
+    "postal_code": "55414",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "american_restaurant",
+     "cafe",
+     "establishment",
+     "food",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "restaurant"
+    ],
+    "lat": 44.983883999999996,
+    "lng": -93.248088
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "celeste of st paul||",
+   "census_identity_key": "celeste of st paul",
+   "query": "Celeste of St Paul 26 Exchange Street E St. Paul MN",
+   "bind_basis": "street_number",
+   "corridor": "downtown-st-paul",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJpXAebcLV94cRUAswS-0i_4I",
+    "display_name": "Celeste of St. Paul Hotel + Bar",
+    "formatted_address": "26 E Exchange St, St Paul, MN 55101, USA",
+    "street_number": "26",
+    "route": "East Exchange Street",
+    "locality": "Saint Paul",
+    "postal_code": "55101",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bar",
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9493589,
+    "lng": -93.0966447
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "como lake bed and breakfast||",
+   "census_identity_key": "como lake bed and breakfast",
+   "query": "Como Lake Bed & Breakfast 1205 W. Como Blvd. Saint Paul MN",
+   "bind_basis": "street_number",
+   "corridor": "st-paul-midway",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJZeuhDh8rs1IRBMTX8Q0PODM",
+    "display_name": "Como Lake B&B",
+    "formatted_address": "1205 W Como Blvd, St Paul, MN 55103, USA",
+    "street_number": "1205",
+    "route": "West Como Boulevard",
+    "locality": "Saint Paul",
+    "postal_code": "55103",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.977039999999995,
+    "lng": -93.14290580000001
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "emerald inn|45.036299|-93.014962",
+   "census_identity_key": "emerald inn",
+   "query": "Emerald Inn MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "maplewood-oakdale",
+   "candidates_returned": 2,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJg22D7lfRslIRW9ooxhw5a4o",
+    "display_name": "Emerald Inn",
+    "formatted_address": "2025 County Rd D, Maplewood, MN 55109, USA",
+    "street_number": "2025",
+    "route": "County Road D",
+    "locality": "Maplewood",
+    "postal_code": "55109",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.036349699999995,
+    "lng": -93.0148871
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "midway motel|44.968395|-93.167621",
+   "census_identity_key": "midway motel",
+   "query": "Midway Motel MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "st-paul-midway",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJDfeZ5UQrs1IRZhRKk8tYdpc",
+    "display_name": "Midway Motel",
+    "formatted_address": "901 Snelling Ave, St Paul, MN 55104, USA",
+    "street_number": "901",
+    "route": "Snelling Avenue",
+    "locality": "Saint Paul",
+    "postal_code": "55104",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.968384,
+    "lng": -93.167581
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "midwest hotel|44.960313|-93.189035",
+   "census_identity_key": "midwest hotel",
+   "query": "Midwest Hotel 2144 University Avenue MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "st-paul-midway",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJi_zt-LEss1IRvwPiJQALI4Y",
+    "display_name": "Midwest Hotel",
+    "formatted_address": "2144 University Ave W, St Paul, MN 55114, USA",
+    "street_number": "2144",
+    "route": "University Avenue West",
+    "locality": "Saint Paul",
+    "postal_code": "55114",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.960331,
+    "lng": -93.18905699999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "motel 6 brooklyn center mn minneapolis|45.074707|-93.317320",
+   "census_identity_key": "motel 6 brooklyn center mn minneapolis",
+   "query": "Motel 6 Brooklyn Center, MN - Minneapolis MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "brooklyn-center-brooklyn-park",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJv20cN_cws1IRgvTBQ8Y5viQ",
+    "display_name": "Motel 6 Brooklyn Center, MN - Minneapolis",
+    "formatted_address": "2741 Freeway Blvd, Brooklyn Center, MN 55430, USA",
+    "street_number": "2741",
+    "route": "Freeway Boulevard",
+    "locality": "Brooklyn Center",
+    "postal_code": "55430",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.0747054,
+    "lng": -93.317126
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "northernaire motel|45.014584|-93.054356",
+   "census_identity_key": "northernaire motel",
+   "query": "Northernaire Motel MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "maplewood-oakdale",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ_7P6GkjUslIRUmk2U0c3LmE",
+    "display_name": "Northernaire Motel",
+    "formatted_address": "2441 Maplewood Dr W, Maplewood, MN 55109, USA",
+    "street_number": "2441",
+    "route": "Maplewood Drive West",
+    "locality": "Maplewood",
+    "postal_code": "55109",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.0150424,
+    "lng": -93.053833
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "northernaire motel|45.015006|-93.054123",
+   "census_identity_key": "northernaire motel",
+   "query": "Northernaire Motel MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "maplewood-oakdale",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ_7P6GkjUslIRUmk2U0c3LmE",
+    "display_name": "Northernaire Motel",
+    "formatted_address": "2441 Maplewood Dr W, Maplewood, MN 55109, USA",
+    "street_number": "2441",
+    "route": "Maplewood Drive West",
+    "locality": "Maplewood",
+    "postal_code": "55109",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.0150424,
+    "lng": -93.053833
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "northernaire motel|45.015133|-93.054636",
+   "census_identity_key": "northernaire motel",
+   "query": "Northernaire Motel MN",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "maplewood-oakdale",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ_7P6GkjUslIRUmk2U0c3LmE",
+    "display_name": "Northernaire Motel",
+    "formatted_address": "2441 Maplewood Dr W, Maplewood, MN 55109, USA",
+    "street_number": "2441",
+    "route": "Maplewood Drive West",
+    "locality": "Maplewood",
+    "postal_code": "55109",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.0150424,
+    "lng": -93.053833
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Bloom Hotel",
+   "query": "Bloom Hotel Minneapolis OR",
+   "corridor": "bloomington-mall-of-america",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJsxkxc40j9ocRT7F4biijGXA",
+    "display_name": "Bloom Hotel - Minneapolis Bloomington W",
+    "formatted_address": "5151 American Blvd W, Bloomington, MN 55437, USA",
+    "street_number": "5151",
+    "route": "American Boulevard West",
+    "locality": "Bloomington",
+    "postal_code": "55437",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.855953299999996,
+    "lng": -93.34704289999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Comfort Inn & Suites Shakopee Downtown Area",
+   "query": "Comfort Inn & Suites Shakopee Downtown Area Minneapolis OR",
+   "corridor": "burnsville-shakopee",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJQZFP9FER9ocRSEkdJnSl0gQ",
+    "display_name": "Comfort Inn & Suites Shakopee Downtown Area",
+    "formatted_address": "511 Marschall Rd, Shakopee, MN 55379, USA",
+    "street_number": "511",
+    "route": "Marschall Road",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.795036499999995,
+    "lng": -93.507314
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Comfort Inn Eagan Minneapolis - St. Paul South",
+   "query": "Comfort Inn Eagan Minneapolis - St. Paul South Minneapolis OR",
+   "corridor": "eagan",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJa6Rkap8t9ocRO0r-nU5LR34",
+    "display_name": "Comfort Inn Eagan Minneapolis - St Paul South",
+    "formatted_address": "3450 Washington Dr, Eagan, MN 55122, USA",
+    "street_number": "3450",
+    "route": "Washington Drive",
+    "locality": "Eagan",
+    "postal_code": "55122",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.83152760000001,
+    "lng": -93.1692625
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Comfort Inn Plymouth - Minneapolis",
+   "query": "Comfort Inn Plymouth - Minneapolis Minneapolis OR",
+   "corridor": "plymouth",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJQ-tJNS5Ks1IRYAGQrhDx1tw",
+    "display_name": "Comfort Inn Plymouth-Minneapolis",
+    "formatted_address": "3000 Harbor Ln N, Plymouth, MN 55447, USA",
+    "street_number": "3000",
+    "route": "Harbor Lane North",
+    "locality": "Plymouth",
+    "postal_code": "55447",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.015488999999995,
+    "lng": -93.459375
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Coratel Suites Extended Stay MSP Airport Minneapolis Richfield",
+   "query": "Coratel Suites Extended Stay MSP Airport Minneapolis Richfield Minneapolis OR",
+   "corridor": "richfield",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJxa5OxMYl9ocRzS7WxJVyoqM",
+    "display_name": "Coratel Suites Extended Stay MSP Airport Minneapolis Richfield",
+    "formatted_address": "351 W 77th St Bldg 1, Richfield, MN 55423, USA",
+    "street_number": "351",
+    "route": "West 77th Street",
+    "locality": "Richfield",
+    "postal_code": "55423",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.862677999999995,
+    "lng": -93.28432099999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Crowne Plaza Suites MSP Airport Mall of America by IHG",
+   "query": "Crowne Plaza Suites MSP Airport Mall of America by IHG Minneapolis OR",
+   "corridor": "bloomington-mall-of-america",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJCQdAmx4v9ocR16dqgZVt8sk",
+    "display_name": "Crowne Plaza Suites Msp Airport - Mall of America by IHG",
+    "formatted_address": "3 Appletree Square, Bloomington, MN 55425, USA",
+    "street_number": "3",
+    "route": "Appletree Square",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bar",
+     "business_center",
+     "establishment",
+     "event_venue",
+     "fitness_center",
+     "food",
+     "gym",
+     "health",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "restaurant",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 44.858404,
+    "lng": -93.22206200000001
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Days Inn by Wyndham Eagan Minnesota Near Mall of America",
+   "query": "Days Inn by Wyndham Eagan Minnesota Near Mall of America Minneapolis OR",
+   "corridor": "eagan",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJzQkTBTMw9ocRCcSz75dtW2U",
+    "display_name": "Days Inn by Wyndham Eagan Minnesota Near Mall of America",
+    "formatted_address": "4510 Erin Dr, Eagan, MN 55122, USA",
+    "street_number": "4510",
+    "route": "Erin Drive",
+    "locality": "Eagan",
+    "postal_code": "55122",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.7932625,
+    "lng": -93.2202318
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites - St. Paul - Woodbury",
+   "query": "Extended Stay America Suites - St. Paul - Woodbury Minneapolis OR",
+   "corridor": "woodbury",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJsVrNTxfX94cR5sBLl_Uy5gI",
+    "display_name": "Extended Stay America Suites- St Paul - Woodbury",
+    "formatted_address": "975 Weir Dr, Woodbury, MN 55125, USA",
+    "street_number": "975",
+    "route": "Weir Drive",
+    "locality": "Woodbury",
+    "postal_code": "55125",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9337303,
+    "lng": -92.9628717
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites Minneapolis Airport - Mendota Heights",
+   "query": "Extended Stay America Suites Minneapolis Airport - Mendota Heights Minneapolis OR",
+   "corridor": "mendota-heights-inver-grove",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJT5Q516wt9ocRftxIzFtKXQs",
+    "display_name": "Extended Stay America Suites- Minneapolis - Airport - Mendota Heights",
+    "formatted_address": "1380 Northland Dr, Mendota Heights, MN 55120, USA",
+    "street_number": "1380",
+    "route": "Northland Drive",
+    "locality": "Mendota Heights",
+    "postal_code": "55120",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.863050199999996,
+    "lng": -93.16557279999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites Minneapolis Woodbury",
+   "query": "Extended Stay America Suites Minneapolis Woodbury Minneapolis OR",
+   "corridor": "woodbury",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJIyHo02DY94cRv8uUBCjTgMg",
+    "display_name": "Extended Stay America Suites- Minneapolis - Woodbury",
+    "formatted_address": "10020 Hudson Rd, Woodbury, MN 55125, USA",
+    "street_number": "10020",
+    "route": "Hudson Road",
+    "locality": "Woodbury",
+    "postal_code": "55125",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.9467697,
+    "lng": -92.90240399999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Holiday Inn Express Hotel & Suites Minneapolis SW - Shakopee by IHG",
+   "query": "Holiday Inn Express Hotel & Suites Minneapolis SW - Shakopee by IHG Minneapolis OR",
+   "corridor": "burnsville-shakopee",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJMxLfsHYX9ocRUdY7vT9iZ4k",
+    "display_name": "Holiday Inn Express & Suites Minneapolis SW - Shakopee by IHG",
+    "formatted_address": "4550 12th Ave E, Shakopee, MN 55379, USA",
+    "street_number": "4550",
+    "route": "12th Avenue East",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 44.7842273,
+    "lng": -93.46184099999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "La Quinta Inn & Suites by Wyndham Minneapolis-Minnetonka",
+   "query": "La Quinta Inn & Suites by Wyndham Minneapolis-Minnetonka Minneapolis OR",
+   "corridor": "minnetonka-hopkins",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJoX2za281s1IRQ2Q1y19Cdyg",
+    "display_name": "La Quinta Inn & Suites by Wyndham Minneapolis-Minnetonka",
+    "formatted_address": "10420 Wayzata Blvd, Minnetonka, MN 55305, USA",
+    "street_number": "10420",
+    "route": "Wayzata Boulevard",
+    "locality": "Minnetonka",
+    "postal_code": "55305",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.974054699999996,
+    "lng": -93.411243
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Motel 6 Burnsville MN",
+   "query": "Motel 6 Burnsville MN Minneapolis OR",
+   "corridor": "burnsville-shakopee",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJBYFrN5079ocRXxyRg5mIbsw",
+    "display_name": "Motel 6 Burnsville, MN",
+    "formatted_address": "12920 Aldrich Ave S, Burnsville, MN 55337, USA",
+    "street_number": "12920",
+    "route": "Aldrich Avenue South",
+    "locality": "Burnsville",
+    "postal_code": "55337",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.7689732,
+    "lng": -93.2913174
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Motel 6 Roseville MN - Minneapolis North",
+   "query": "Motel 6 Roseville MN - Minneapolis North Minneapolis OR",
+   "corridor": "roseville",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJp2sbWnUss1IRG60eZy4mcCw",
+    "display_name": "Motel 6 Roseville, MN - Minneapolis North",
+    "formatted_address": "2300 Cleveland Ave N, Roseville, MN 55113, USA",
+    "street_number": "2300",
+    "route": "Cleveland Avenue North",
+    "locality": "Roseville",
+    "postal_code": "55113",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 45.011759000000005,
+    "lng": -93.1842693
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Quality Inn Brooklyn Center",
+   "query": "Quality Inn Brooklyn Center Minneapolis OR",
+   "corridor": "brooklyn-center-brooklyn-park",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJX45uKFAws1IRdc5cNz3nwcg",
+    "display_name": "Quality Inn Brooklyn Center",
+    "formatted_address": "1600 James Cir N, Brooklyn Center, MN 55430, USA",
+    "street_number": "1600",
+    "route": "James Circle North",
+    "locality": "Brooklyn Center",
+    "postal_code": "55430",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.07181,
+    "lng": -93.30282799999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Quality Inn St Paul-Minneapolis-Midway",
+   "query": "Quality Inn St Paul-Minneapolis-Midway Minneapolis OR",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJBQgNzC4ts1IRAutMFLgkLiE",
+    "display_name": "Quality Inn St. Paul-Minneapolis-Midway",
+    "formatted_address": "1964 University Ave W, St Paul, MN 55104, USA",
+    "street_number": "1964",
+    "route": "University Avenue West",
+    "locality": "Saint Paul",
+    "postal_code": "55104",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.957518,
+    "lng": -93.1827962
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Staybridge Suites Minneapolis Bloomington by IHG",
+   "query": "Staybridge Suites Minneapolis Bloomington by IHG Minneapolis OR",
+   "corridor": "bloomington-mall-of-america",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJQ21rcY0j9ocR2VLlECB7kO0",
+    "display_name": "Staybridge Suites Minneapolis-Bloomington by IHG",
+    "formatted_address": "5150 American Blvd W, Bloomington, MN 55437, USA",
+    "street_number": "5150",
+    "route": "American Boulevard West",
+    "locality": "Bloomington",
+    "postal_code": "55437",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "extended_stay_hotel",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location"
+    ],
+    "lat": 44.855781,
+    "lng": -93.34906
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Staybridge Suites Minneapolis-Maple Grove by IHG",
+   "query": "Staybridge Suites Minneapolis-Maple Grove by IHG Minneapolis OR",
+   "corridor": "maple-grove",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJPRX0bwhIs1IR4vBG846BerI",
+    "display_name": "Staybridge Suites Mpls-Maple Grove/Arbor Lakes by IHG",
+    "formatted_address": "7821 Elm Creek Blvd N, Maple Grove, MN 55369, USA",
+    "street_number": "7821",
+    "route": "Elm Creek Boulevard North",
+    "locality": "Maple Grove",
+    "postal_code": "55369",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "extended_stay_hotel",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location"
+    ],
+    "lat": 45.096,
+    "lng": -93.4482
+   }
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "american inn by wyndham",
+   "query": "American Inn by Wyndham 4100 12th Avenue East Shakopee MN 55379",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJv7N1IHIX9ocRIFbcAraDMpA",
+    "display_name": "AmericInn by Wyndham Shakopee Near Canterbury Park",
+    "formatted_address": "4100 12th Ave E, Shakopee, MN 55379, USA",
+    "street_number": "4100",
+    "route": "12th Avenue East",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "(952) 641-7809",
+    "website_uri": "https://www.wyndhamhotels.com/americinn/shakopee-minnesota/americinn-lodge-and-suites-shakopee-near-canterbury-park/overview?CID=LC:div7epuxsaire17:51994&iata=00093796",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.783755,
+    "lng": -93.4690068
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "bloom hotel minneapolis bloomington w",
+   "query": "Bloom Hotel - Minneapolis Bloomington W 5151 American Boulevard West Bloomington MN 55437",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJsxkxc40j9ocRT7F4biijGXA",
+    "display_name": "Bloom Hotel - Minneapolis Bloomington W",
+    "formatted_address": "5151 American Blvd W, Bloomington, MN 55437, USA",
+    "street_number": "5151",
+    "route": "American Boulevard West",
+    "locality": "Bloomington",
+    "postal_code": "55437",
+    "phone": "(952) 830-1300",
+    "website_uri": "https://www.bloomhotelmn.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 44.855953299999996,
+    "lng": -93.34704289999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "cambria suites",
+   "query": "Cambria Suites 9655 Grove Circle North Maple Grove MN 55369",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJNTYejlRGs1IRFVXxwIwBQhU",
+    "display_name": "Cambria Hotel Minneapolis Maple Grove",
+    "formatted_address": "9655 Grove Cir N, Maple Grove, MN 55369, USA",
+    "street_number": "9655",
+    "route": "Grove Circle North",
+    "locality": "Maple Grove",
+    "postal_code": "55369",
+    "phone": "(952) 225-2685",
+    "website_uri": "https://www.choicehotels.com/minnesota/maple-grove/cambria-hotels/mn088?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 45.130193999999996,
+    "lng": -93.485148
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn woodbury",
+   "query": "Comfort Inn Woodbury 1321 E 78th Street Bloomington MN 55425",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ80nQtF8v9ocRhGTz1xC6U34",
+    "display_name": "Comfort Inn MSP Airport - Mall of America",
+    "formatted_address": "1321 E 78th St Bldg A, Bloomington, MN 55425, USA",
+    "street_number": "1321",
+    "route": "East 78th Street",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "(612) 389-2259",
+    "website_uri": "https://www.choicehotels.com/minnesota/bloomington/comfort-inn-hotels/mn015?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.861429799999996,
+    "lng": -93.2552422
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america minneapolis eden prairie technology drive",
+   "query": "Extended Stay America - Minneapolis - Eden Prairie - Technology Drive 11905 Technology Drive Eden Prairie MN 55344",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJu5LDrLsY9ocROZImO4gqzfo",
+    "display_name": "Extended Stay America Suites- Minneapolis - Eden Prairie - Technology Drive",
+    "formatted_address": "11905 Technology Dr., Eden Prairie, MN 55344, USA",
+    "street_number": "11905",
+    "route": "Technology Drive",
+    "locality": "Eden Prairie",
+    "postal_code": "55344",
+    "phone": "(952) 942-6818",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mn/minneapolis/eden-prairie-technology-drive?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.861539,
+    "lng": -93.428117
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "great wolf lodge",
+   "query": "Great Wolf Lodge 1700 American Boulevard East Bloomington MN 55425",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJvaY3f10v9ocR6nVZTdf3pf8",
+    "display_name": "Great Wolf Lodge | Minnesota",
+    "formatted_address": "1700 American Blvd E, Bloomington, MN 55425, USA",
+    "street_number": "1700",
+    "route": "American Boulevard East",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "(952) 851-9653",
+    "website_uri": "https://www.greatwolf.com/minnesota?utm_source=google&utm_medium=organic&utm_campaign=gmb-bloomington",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "amusement_center",
+     "amusement_park",
+     "bowling_alley",
+     "establishment",
+     "family_restaurant",
+     "food",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "resort_hotel",
+     "restaurant",
+     "sports_activity_location",
+     "sports_complex",
+     "swimming_pool",
+     "video_arcade",
+     "water_park"
+    ],
+    "lat": 44.8606655,
+    "lng": -93.25066269999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "holiday inn blmgtn arpt south mall area",
+   "query": "Holiday Inn Blmgtn Arpt South- Mall Area 1201 W 94th Street Bloomington MN 55431",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ2TFZBwMl9ocRy9eXyP2dGR0",
+    "display_name": "Holiday Inn Blmgtn Arpt South- Mall Area, an IHG Hotel",
+    "formatted_address": "1201 W 94th St, Bloomington, MN 55431, USA",
+    "street_number": "1201",
+    "route": "West 94th Street",
+    "locality": "Bloomington",
+    "postal_code": "55431",
+    "phone": "(952) 884-8211",
+    "website_uri": "https://www.ihg.com/hotels/us/en/bloomington/mspso/hoteldetail?cm_mmc=GoogleMaps-_-HI-_-US-_-MSPSO",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 44.8325543,
+    "lng": -93.2963649
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "holiday inn express and suites mall of america msp airport",
+   "query": "Holiday Inn Express & Suites Mall of America - Msp Airport 7801 12th Avenue South Bloomington MN 55425",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJUa4jYYUv9ocRghZocPvivq4",
+    "display_name": "Holiday Inn Express & Suites Mall of America - Msp Airport by IHG",
+    "formatted_address": "7801 12th Ave S, Bloomington, MN 55425, USA",
+    "street_number": "7801",
+    "route": "12th Avenue South",
+    "locality": "Bloomington",
+    "postal_code": "55425",
+    "phone": "(952) 213-3150",
+    "website_uri": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bloomington/mspth/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-MSPTH",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 44.8612599,
+    "lng": -93.2576579
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "holiday inn express and suites minneapolis sw shakopee by ihg",
+   "query": "Holiday Inn Express & Suites Minneapolis SW - Shakopee by IHG 4550 12th Avenue East Shakopee MN 55379",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJMxLfsHYX9ocRUdY7vT9iZ4k",
+    "display_name": "Holiday Inn Express & Suites Minneapolis SW - Shakopee by IHG",
+    "formatted_address": "4550 12th Ave E, Shakopee, MN 55379, USA",
+    "street_number": "4550",
+    "route": "12th Avenue East",
+    "locality": "Shakopee",
+    "postal_code": "55379",
+    "phone": "(952) 445-2244",
+    "website_uri": "https://www.ihg.com/holidayinnexpress/hotels/us/en/shakopee/mspsh/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-MSPSH",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 44.7842273,
+    "lng": -93.46184099999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "livinn",
+   "query": "LivInn 13080 Aldrich Avenue South Burnsville MN 55337",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJlwAHafg69ocRdvseDqv1EJM",
+    "display_name": "LivINN Hotel Minneapolis South/Burnsville",
+    "formatted_address": "13080 Aldrich Ave S, Burnsville, MN 55337, USA",
+    "street_number": "13080",
+    "route": "Aldrich Avenue South",
+    "locality": "Burnsville",
+    "postal_code": "55337",
+    "phone": "(952) 890-7999",
+    "website_uri": "https://www.livinnburnsville.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.7668408,
+    "lng": -93.29032169999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nicollet inn",
+   "query": "Nicollet Inn 14201 Nicollet Avenue South Burnsville MN 55337",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ78h6YhU69ocROVNbhvFYwxs",
+    "display_name": "Wyndham Minneapolis South/Burnsville",
+    "formatted_address": "14201 Nicollet Ave, Burnsville, MN 55337, USA",
+    "street_number": "14201",
+    "route": "Nicollet Avenue",
+    "locality": "Burnsville",
+    "postal_code": "55337",
+    "phone": "(952) 435-2100",
+    "website_uri": "https://www.wyndhamhotels.com/wyndham/burnsville-minnesota/wyndham-minneapolis-south-burnsville/overview?brand_id=WY&brand_tier=HR",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 44.745737,
+    "lng": -93.27672
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "staybridge suites mpls maple grove arbor lakes by ihg",
+   "query": "Staybridge Suites Mpls-Maple Grove/Arbor Lakes by IHG 7821 Elm Creek Boulevard North Maple Grove MN 55369",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJPRX0bwhIs1IR4vBG846BerI",
+    "display_name": "Staybridge Suites Mpls-Maple Grove/Arbor Lakes by IHG",
+    "formatted_address": "7821 Elm Creek Blvd N, Maple Grove, MN 55369, USA",
+    "street_number": "7821",
+    "route": "Elm Creek Boulevard North",
+    "locality": "Maple Grove",
+    "postal_code": "55369",
+    "phone": "(763) 494-8856",
+    "website_uri": "https://www.ihg.com/staybridge/hotels/us/en/maple-grove/mspmg/hoteldetail?cm_mmc=GoogleMaps-_-SB-_-US-_-MSPMG",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "extended_stay_hotel",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location"
+    ],
+    "lat": 45.096,
+    "lng": -93.4482
+   },
+   "bind_basis": "street_number+postal_code"
+  }
+ ]
+}

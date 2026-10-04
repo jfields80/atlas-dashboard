@@ -1,0 +1,4010 @@
+{
+ "schema": "ptf-destination-roster/1.0",
+ "work_order": "PTF-MINNEAPOLIS-MN-HARDENED-SOURCE-READY-001",
+ "market_id": "minneapolis-mn",
+ "phase": "9 -- the official destination-marketing rosters (Meet Minneapolis, Visit Saint Paul, Visit Roseville), measured first",
+ "as_of": "2026-10-04",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 29,
+ "bytes_read": 4986026,
+ "the_bureau_was_measured": "Every bureau was probed before it was read; the platform each one runs is recorded, never assumed.",
+ "the_category_filter_is_read_not_trusted": "Only lodging-typed partners are kept; the census decides what each row is and where it is.",
+ "a_roster_row_is_not_a_policy": "No bureau amenity chip -- including Meet Minneapolis's 'Pets Allowed' -- is read, stored or published.",
+ "the_bureau_does_not_decide_membership": "The row's own postal code does. Meet Minneapolis's directory JSON-LD address is the bureau's own office and is never read.",
+ "bureaus_measured_and_not_walked": {
+  "bloomingtonmn.org": "HTTP 403 to this plain client (home page and /plugins/core/get_simple_token/); recorded, not worked around",
+  "exploreminnesota.com": "HTTP 403 to this plain client; recorded, not worked around",
+  "visiteagan.com": "a parked domain (JavaScript redirect to /lander) -- not a bureau",
+  "visitwoodbury.com": "a parked domain (JavaScript redirect to /lander) -- not a bureau"
+ },
+ "bureaus": {
+  "meet-minneapolis": {
+   "bureau_id": "meet-minneapolis",
+   "platform": "Craft CMS + Algolia partner index",
+   "index": "prod-meet-minneapolis-listings",
+   "documents": [
+    {
+     "url": "https://EYQHJ2IY2M-dsn.algolia.net/1/indexes/prod-meet-minneapolis-listings?query=&hitsPerPage=1000&page=0&filters=sectionName%3A%22Partners%22%20AND%20%28partnerCategories%3A%22Hotels/Lodging%22%20OR%20partnerVenueTypes%3A%22Hotel%22%29",
+     "status": 200,
+     "final_url": "https://EYQHJ2IY2M-dsn.algolia.net/1/indexes/prod-meet-minneapolis-listings?query=&hitsPerPage=1000&page=0&filters=sectionName%3A%22Partners%22%20AND%20%28partnerCategories%3A%22Hotels/Lodging%22%20OR%20partnerVenueTypes%3A%22Hotel%22%29",
+     "bytes": 396494,
+     "sha256": "fb3c8c646892a63d51e838c3117aab774dbc6455ad3bbadfbf0ded884fd61da1",
+     "error": null
+    },
+    {
+     "url": "https://EYQHJ2IY2M-dsn.algolia.net/1/indexes/prod-meet-minneapolis-listings?query=&hitsPerPage=1000&page=0&filters=sectionName%3A%22Partners%22%20AND%20partnerGuestRooms%20%3E%200",
+     "status": 200,
+     "final_url": "https://EYQHJ2IY2M-dsn.algolia.net/1/indexes/prod-meet-minneapolis-listings?query=&hitsPerPage=1000&page=0&filters=sectionName%3A%22Partners%22%20AND%20partnerGuestRooms%20%3E%200",
+     "bytes": 245966,
+     "sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+     "error": null
+    }
+   ],
+   "lodging_typed_partner_records_in_index": 112,
+   "lodging_partners": 72
+  },
+  "visit-saint-paul": {
+   "bureau_id": "visit-saint-paul",
+   "platform": "Craft CMS + embedded booking widget",
+   "entry": "https://www.visitsaintpaul.com/where-to-stay/",
+   "documents": [
+    {
+     "url": "https://www.visitsaintpaul.com/where-to-stay/",
+     "status": 200,
+     "final_url": "https://www.visitsaintpaul.com/where-to-stay/",
+     "bytes": 480704,
+     "sha256": "f07389717a09959dc710b3a0ed0ca9cddcebc3954e06a7e1c3f4c658a0ebb8c4",
+     "error": null
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/celeste-st-paul-hotel-bar-boutique-hotels/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7499",
+     "bytes": 161322,
+     "sha256": "a2fd8f7fc552646e42fff64809faa3b12970a3363c1f8bb104be5be704701695",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/como-lake-bed-breakfast/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7530",
+     "bytes": 112089,
+     "sha256": "b0953d551240207a6a5416166e3e95a43a981a324eb63829e8f458533fcbfe3a",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/courtyard-by-marriott-st-paul-downtown/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7524",
+     "bytes": 168850,
+     "sha256": "9d448383d3613d40f3ebbfe15a19aa448e0c75632b0fe3be2661f2d44eabbeb0",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/delta-hotels-by-marriott-minneapolis-northeast/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7511",
+     "bytes": 154699,
+     "sha256": "9ba0fa16d70b76b1ca73b46d1dc2e28652a223553f9671c0041f350df4f798c3",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/doubletree-by-hilton-st-paul-downtown/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7498",
+     "bytes": 159087,
+     "sha256": "df3088537fb7f418abcd48a1132aaf4085d5ed83bf855c34bbba6a427b5a509c",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/doubletree-by-hilton-st-paul-east/",
+     "status": 200,
+     "final_url": "https://www.visitsaintpaul.com/directory/doubletree-by-hilton-st-paul-east/",
+     "bytes": 156876,
+     "sha256": "4e863a744155307685616c474479fdd92e1b243e11475427fe3a770838310c80",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/drury-plaza-hotel-st-paul-downtown/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7533",
+     "bytes": 204677,
+     "sha256": "4b64e8482dcca18c9f4eb07648c95438343e962ad88c9a9591fd15e85b524c16",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/hampton-inn-suites-downtown-saint-paul/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7502",
+     "bytes": 177873,
+     "sha256": "82c003300b9fbc86a446146ec68d713279a4d70650e1c586dc9aa8d8e60f3781",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/hampton-inn-suites-eagan/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7509",
+     "bytes": 149598,
+     "sha256": "a9401654d270b55ae98d8b248bc4ede873e9029ed6a35248d3601d7789f467fb",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/historic-district-bed-and-breakfast/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7529",
+     "bytes": 127502,
+     "sha256": "aa11a6cfb45f563272be350911b3323ce50584126f101d10aea02a71a9422312",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/holiday-inn-st-paul-downtown/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7503",
+     "bytes": 189498,
+     "sha256": "c15fae1645c3b2b4838c3c02021c97bed56f41bca130e7e21c067ba3a7f396e3",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/hyatt-place-saint-paul-downtown/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7504",
+     "bytes": 152133,
+     "sha256": "e7828d3466349c8098093faafdc6319f590aff7e73e216a9868d2089d9ae245e",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/intercontinental-minneapolis-st-paul-airport/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7510",
+     "bytes": 235607,
+     "sha256": "55c81d896b0ccbcc1ec1b05386e5a1ab922b29c1581c30a64ecac806489367e5",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/intercontinental-saint-paul-riverfront/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7500",
+     "bytes": 187337,
+     "sha256": "71295a86a7011318d836252c3bb266659eb55c1a60767e2c497c28190bf82f60",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/radisson-st-paul-downtown/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7532",
+     "bytes": 152675,
+     "sha256": "c7c2e6f9b3ef20dc0bac79c2714a02bece26b253934b8b20a9ba5b10752000b0",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/residence-inn-st-paul-downtown/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7505",
+     "bytes": 140068,
+     "sha256": "f8c0d22bc28d928c3bf0106fb7a11ff6f1bf7a18e3fb081aac6008847fd16cc5",
+     "error": null,
+     "attempts": 2
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/roami-at-the-fitz/",
+     "status": 200,
+     "final_url": "https://www.visitsaintpaul.com/directory/roami-at-the-fitz/",
+     "bytes": 127959,
+     "sha256": "5a2a66af1911bd5b3da98d37ebdc223b236ce605fb6b624ad7b3bbde5039a121",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/running-aces-casino-hotel-racetrack-north-metro/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7527",
+     "bytes": 122216,
+     "sha256": "12828363c575f2e1967d3b345292f6e5899e999fd143c19b0c8c248befcb13cf",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/sheraton-st-paul-woodbury-hotel/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7515",
+     "bytes": 153338,
+     "sha256": "25d7a32d5bb28a25868fc59951974bc6b3b9d238a1092ff626dd2789256ea823",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/springhill-suites-by-marriott-st-paul-downtown/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7531",
+     "bytes": 163380,
+     "sha256": "228825529ec480753a5f67dde56cdd0b2662f865aae6e42cc1036b9b24063408",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/the-confluence-hotel/",
+     "status": 200,
+     "final_url": "https://www.visitsaintpaul.com/directory/the-confluence-hotel/",
+     "bytes": 112317,
+     "sha256": "404f1bb15bc5c4fb1a3987fc41d546fb918b0f30980da57bb8281c1b3e89be07",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/the-new-victorian-mansion-bed-breakfast/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7528",
+     "bytes": 117842,
+     "sha256": "23470081cccaa75a3449c7daffe9570fadee8ad0586580506b1526f7d254b643",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/the-saint-paul-hotel/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7506",
+     "bytes": 142898,
+     "sha256": "626b9c8b20b5883ee120f41c8999d400219fb00b6833bf97ca7987828dc6c7bb",
+     "error": null,
+     "attempts": 1
+    },
+    {
+     "url": "https://www.visitsaintpaul.com/directory/water-street-inn/",
+     "status": 200,
+     "final_url": "https://stay.visitsaintpaul.com/property/7513",
+     "bytes": 147891,
+     "sha256": "992d2678640a8712fb8b96f428fd723e2cece082d0c6914a8ed812fed82c5143",
+     "error": null,
+     "attempts": 1
+    }
+   ],
+   "listing_links": 24
+  },
+  "visit-roseville": {
+   "bureau_id": "visit-roseville",
+   "entry": "https://visitroseville.com/hotels/",
+   "documents": [
+    {
+     "url": "https://visitroseville.com/hotels/",
+     "status": 200,
+     "final_url": "https://visitroseville.com/hotels/",
+     "bytes": 145130,
+     "sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+     "error": null
+    }
+   ],
+   "rows_with_a_street": 12
+  }
+ },
+ "row_count": 105,
+ "rows_in_admitted_postal_codes": 81,
+ "rows_refused_by_postal_code": 2,
+ "rows_without_a_postal_code": 22,
+ "rows_with_an_official_website": 84,
+ "rows_with_a_phone": 100,
+ "rows_with_a_full_premises": 83,
+ "census_eligible_rows_in_admitted_codes": 81,
+ "by_corridor": {
+  "downtown-minneapolis": 41,
+  "golden-valley-st-louis-park": 9,
+  "university-dinkytown": 5,
+  "msp-airport": 1,
+  "bloomington-mall-of-america": 5,
+  "plymouth": 1,
+  "northeast-minneapolis": 1,
+  "minnetonka-hopkins": 1,
+  "downtown-st-paul": 1,
+  "brooklyn-center-brooklyn-park": 1,
+  "uptown-south-minneapolis": 1,
+  "eagan": 1,
+  "edina": 1,
+  "roseville": 12
+ },
+ "by_bureau": {
+  "meet-minneapolis": 72,
+  "visit-saint-paul": 21,
+  "visit-roseville": 12
+ },
+ "rows": [
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140118",
+   "name": "Best Western Plus Normandy Inn & Suites",
+   "street": "405 South Eighth Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55404",
+   "phone": "612-370-1400",
+   "official_url": "http://www.bestwesternnormandy.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/best-western-plus-normandy-inn-suites-meeting-banquet-facilities/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/best-western-plus-normandy-inn-suites-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/best-western-plus-normandy-inn-suites/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9734782,
+   "lng": -93.267282,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55404 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140135",
+   "name": "DoubleTree by Hilton Minneapolis - Park Place",
+   "street": "1500 Park Place Boulevard",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55416",
+   "phone": "952-542-8600",
+   "official_url": "http://www.doubletreeminneapolis.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/doubletree-by-hilton-minneapolis-park-place-meeting-banquet-facilities/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/doubletree-by-hilton-minneapolis-park-place-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/doubletree-by-hilton-minneapolis-park-place/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9686886,
+   "lng": -93.3507967,
+   "geography_class": "FRINGE",
+   "corridor_slug": "golden-valley-st-louis-park",
+   "membership_reason": "postal code 55416 -> golden-valley-st-louis-park"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "216431",
+   "name": "Hampton Inn & Suites Minneapolis University",
+   "street": "2812 University Ave SE",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55414",
+   "phone": "612-259-8797",
+   "official_url": "http://hamptoninn3.hilton.com/en/hotels/minnesota/hampton-inn-and-suites-minneapolis-university-area-MSPUAHX/index.html",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 117,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hampton-inn-suites-minneapolis-university/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hampton-inn-suites-minneapolis-university/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9712218,
+   "lng": -93.2167654,
+   "geography_class": "CORE",
+   "corridor_slug": "university-dinkytown",
+   "membership_reason": "postal code 55414 -> university-dinkytown"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "218783",
+   "name": "InterContinental Minneapolis - St. Paul Airport Hotel",
+   "street": "5005 Glumack Drive",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55450",
+   "phone": "612-725-0500",
+   "official_url": "https://www.intercontinentalmsp.com/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 291,
+   "bureau_region": [
+    "South Metro includes Airport/MOA too"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/intercontinental-minneapolis-st-paul-airport-hotel/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/intercontinental-minneapolis-st-paul-airport-hotel-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/intercontinental-minneapolis-st-paul-airport-hotel/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9537029,
+   "lng": -93.0899578,
+   "geography_class": "CORE",
+   "corridor_slug": "msp-airport",
+   "membership_reason": "postal code 55450 -> msp-airport"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140138",
+   "name": "Minneapolis Marriott City Center",
+   "street": "30 South Seventh Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55402",
+   "phone": "612-349-4000",
+   "official_url": "https://www.marriott.com/en-us/hotels/mspcc-minneapolis-marriott-city-center/overview/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 585,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/minneapolis-marriott-city-center/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/minneapolis-marriott-city-center-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/minneapolis-marriott-city-center/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9775905,
+   "lng": -93.2734698,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55402 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "138754",
+   "name": "Renaissance Minneapolis Hotel, The Depot",
+   "street": "225 Third Avenue South",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "612-375-1700",
+   "official_url": "http://www.marriott.com/hotels/travel/mspdd-renaissance-minneapolis-hotel-the-depot/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 335,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/renaissance-minneapolis-hotel-the-depot/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/renaissance-minneapolis-hotel-the-depot-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/renaissance-minneapolis-hotel-the-depot/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9798306,
+   "lng": -93.2628441,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140148",
+   "name": "Sheraton Minneapolis Downtown Convention Center",
+   "street": "1313 Nicollet Mall",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "612-332-6000",
+   "official_url": "https://www.marriott.com/en-us/hotels/mspsd-sheraton-minneapolis-downtown/overview/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [
+    "Minneapolis",
+    "Minneapolis Convention Center (MCC)"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/sheraton-minneapolis-downtown-convention-center-meeting-banquet-facilities/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/sheraton-minneapolis-downtown-convention-center-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/sheraton-minneapolis-downtown-convention-center/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9705401,
+   "lng": -93.2767751,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "162707",
+   "name": "SpringHill Suites by Marriott - Minneapolis West",
+   "street": "5901 Wayzata Boulevard",
+   "city": "St. Louis Park",
+   "state": "MN",
+   "postal_code": "55416",
+   "phone": "952-738-7300",
+   "official_url": "http://www.marriott.com/mspsl",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 126,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/springhill-suites-by-marriott-minneapolis-west/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/springhill-suites-by-marriott-minneapolis-west-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/springhill-suites-by-marriott-minneapolis-west/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9697359,
+   "lng": -93.356097,
+   "geography_class": "FRINGE",
+   "corridor_slug": "golden-valley-st-louis-park",
+   "membership_reason": "postal code 55416 -> golden-valley-st-louis-park"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "217252",
+   "name": "TownePlace Suites by Marriott Minneapolis West/St. Louis Park",
+   "street": "1400 Zarthan Avenue South",
+   "city": "St. Louis Park",
+   "state": "MN",
+   "postal_code": "55416",
+   "phone": "952-847-6900",
+   "official_url": "http://www.marriott.com/hotels/travel/mspls-towneplace-suites-minneapolis-west-st-louis-park/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 106,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/towneplace-suites-by-marriott-minneapolis-west-st-louis-park/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/towneplace-suites-by-marriott-minneapolis-west-st-louis-park/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9691174,
+   "lng": -93.356064,
+   "geography_class": "FRINGE",
+   "corridor_slug": "golden-valley-st-louis-park",
+   "membership_reason": "postal code 55416 -> golden-valley-st-louis-park"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "242006",
+   "name": "Cambria Hotel Minneapolis Downtown",
+   "street": "1020 Hawthorne Avenue",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "612-295-0565",
+   "official_url": "https://www.choicehotels.com/minnesota/minneapolis/cambria-hotels/mn206#hotel-map",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 121,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/cambria-hotel-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/cambria-hotel-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9769646,
+   "lng": -93.2792768,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "252381",
+   "name": "The Confluence Hotel",
+   "street": "200 2nd Street West",
+   "city": "Hastings",
+   "state": "MN",
+   "postal_code": "55033",
+   "phone": "651-432-0202",
+   "official_url": "https://confluencehotel.com/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [],
+   "listing_url": "https://www.minneapolis.org/directory/the-confluence-hotel/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/the-confluence-hotel/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.7449138,
+   "lng": -92.8541115,
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "Stillwater / St. Croix Valley -- Stillwater, Oak Park Heights, Bayport, Lake Elmo, Lakeland, Afton, Marine on St. Croix, Hastings: WASHINGTON COUNTY east / DAKOTA COUNTY south-east; FUTURE_STANDALONE stillwater-st-croix. Stillwater's historic river-town inns and B&Bs are a destination a Twin Cities traveller drives TO, better standalone than absorbed. Hastings is the Mississippi / St. Croix confluence town on US-61. Refused by name and postal code."
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "220022",
+   "name": "Elliot Park Hotel, Autograph Collection",
+   "street": "823 5th Avenue South",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55404",
+   "phone": "612-389-2300",
+   "official_url": "http://www.Elliotparkhotel.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Event Spaces",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/elliot-park-hotel-autograph-collection-meeting-banquet-facilities/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/elliot-park-hotel-autograph-collection-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/elliot-park-hotel-autograph-collection/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.972077,
+   "lng": -93.2664272,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55404 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "241734",
+   "name": "Home2 by Hilton Minneapolis Downtown",
+   "street": "317 2nd Ave S",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "612-351-3499",
+   "official_url": "https://www.hilton.com/en/hotels/mspaaht-home2-suites-minneapolis-downtown/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 100,
+   "bureau_region": [],
+   "listing_url": "https://www.minneapolis.org/directory/home2-by-hilton-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/home2-by-hilton-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9788555,
+   "lng": -93.2663627,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "242692",
+   "name": "Hotel Indigo Minneapolis Downtown",
+   "street": "618 2nd Ave S",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55402",
+   "phone": "612-888-9222",
+   "official_url": "https://www.hotelindigo.com/mndowntown",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 218,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hotel-indigo-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hotel-indigo-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9764841,
+   "lng": -93.2702742,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55402 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140116",
+   "name": "Nicollet Island Inn",
+   "street": "95 Merriam Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "612.331.1800 or 612.",
+   "official_url": "http://www.nicolletislandinn.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 24,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/nicollet-island-inn-hotels-lodging/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/nicollet-island-inn-hotels-lodging/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9859207,
+   "lng": -93.2605058,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "252614",
+   "name": "Roami at Century Plaza",
+   "street": "1111 Third Ave South",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55404",
+   "phone": "",
+   "official_url": "https://www.roami.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/roami-at-century-plaza/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/roami-at-century-plaza/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.97103,
+   "lng": -93.271508,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55404 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "241733",
+   "name": "Tru by Hilton Minneapolis Downtown",
+   "street": "317 2nd Ave S",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "",
+   "official_url": "https://www.hilton.com/en/hotels/mspgfru-tru-minneapolis-downtown/?SEO_id=GMB-AMER-RU-MSPGFRU&y_source=1_Mjc3Mjk1NzYtNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 99,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/tru-by-hilton-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/tru-by-hilton-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9788555,
+   "lng": -93.2663627,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "216655",
+   "name": "300 Clifton Bed & Breakfast",
+   "street": "300 Clifton Ave",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "612-281-1550",
+   "official_url": "http://www.300clifton.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 6,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/300-clifton-bed-breakfast/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/300-clifton-bed-breakfast/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9662341,
+   "lng": -93.2833439,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "215884",
+   "name": "AC Hotel Minneapolis Downtown",
+   "street": "401 Hennepin Ave",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "612-338-0700",
+   "official_url": "http://www.marriott.com/hotels/travel/mspar-ac-hotel-minneapolis-downtown/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 245,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/ac-hotel-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/ac-hotel-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.98052,
+   "lng": -93.272,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "219443",
+   "name": "AC Hotel Minneapolis West End",
+   "street": "5075 Wayzata Blvd.",
+   "city": "St. Louis Park",
+   "state": "MN",
+   "postal_code": "55416",
+   "phone": "763-545-0000",
+   "official_url": "http://www.marriott.com/hotels/travel/mspaw-ac-hotel-minneapolis-west-end/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 126,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/ac-hotel-minneapolis-west-end/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/ac-hotel-minneapolis-west-end/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9693554,
+   "lng": -93.3441962,
+   "geography_class": "FRINGE",
+   "corridor_slug": "golden-valley-st-louis-park",
+   "membership_reason": "postal code 55416 -> golden-valley-st-louis-park"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "179396",
+   "name": "Aloft Minneapolis",
+   "street": "900 South Washington Ave",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55415",
+   "phone": "612-455-8400",
+   "official_url": "https://www.marriott.com/hotels/travel/mspal-aloft-minneapolis/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 155,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/aloft-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/aloft-minneapolis-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/aloft-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.97655,
+   "lng": -93.255201,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55415 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "220050",
+   "name": "Canopy by Hilton Minneapolis Mill District",
+   "street": "708 S 3rd Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55415",
+   "phone": "612-332-0696",
+   "official_url": "http://canopy3.hilton.com/en/hotels/minnesota/canopy-by-hilton-minneapolis-mill-district-MSPMIPY/index.html",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 183,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/canopy-by-hilton-minneapolis-mill-district/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/canopy-by-hilton-minneapolis-mill-district-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/canopy-by-hilton-minneapolis-mill-district/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.976821,
+   "lng": -93.258805,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55415 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "214473",
+   "name": "Cedar + Stone, Urban Table",
+   "street": "2141 Lindau Lane",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55425",
+   "phone": "612-615-0124",
+   "official_url": "http://www.cedarandstoneurbantable.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel",
+    "Venue / Restaurant"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [
+    "South Metro includes Airport/MOA too"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/cedar-stone-urban-table-meeting-banquet-facilities/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/cedar-stone-urban-table-meeting-banquet-facilities/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.8562426,
+   "lng": -93.2418642,
+   "geography_class": "CORE",
+   "corridor_slug": "bloomington-mall-of-america",
+   "membership_reason": "postal code 55425 -> bloomington-mall-of-america"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "219442",
+   "name": "Courtyard by Marriott Minneapolis West",
+   "street": "9980 Wayzata Boulevard",
+   "city": "St. Louis Park",
+   "state": "MN",
+   "postal_code": "55426",
+   "phone": "952-769-8997",
+   "official_url": "http://www.marriott.com/mspcw",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 142,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/courtyard-by-marriott-minneapolis-west/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/courtyard-by-marriott-minneapolis-west/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.974882,
+   "lng": -93.40845,
+   "geography_class": "FRINGE",
+   "corridor_slug": "golden-valley-st-louis-park",
+   "membership_reason": "postal code 55426 -> golden-valley-st-louis-park"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140090",
+   "name": "Courtyard Minneapolis Downtown",
+   "street": "1500 Washington Avenue South",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55454",
+   "phone": "612.333.4646",
+   "official_url": "https://www.marriott.com/hotels/travel/mspdc-courtyard-minneapolis-downtown/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Event Spaces",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 265,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/courtyard-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/courtyard-minneapolis-downtown-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/courtyard-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9736936,
+   "lng": -93.2474261,
+   "geography_class": "CORE",
+   "corridor_slug": "university-dinkytown",
+   "membership_reason": "postal code 55454 -> university-dinkytown"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "138183",
+   "name": "Crowne Plaza Minneapolis West",
+   "street": "3131 Campus Drive",
+   "city": "Plymouth",
+   "state": "MN",
+   "postal_code": "55441",
+   "phone": "763-559-6600",
+   "official_url": "http://www.cpplymouth.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 243,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/crowne-plaza-minneapolis-west/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/crowne-plaza-minneapolis-west-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/crowne-plaza-minneapolis-west/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 45.0162954,
+   "lng": -93.4530349,
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "plymouth",
+   "membership_reason": "postal code 55441 -> plymouth"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140130",
+   "name": "Days Hotel by Wyndham on University - Minneapolis",
+   "street": "2407 University Avenue SE",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55414",
+   "phone": "612-623-3999",
+   "official_url": "https://www.wyndhamhotels.com/days-inn/minneapolis-minnesota/days-inn-hotel-university-ave-se/overview?CID=LC:DI:20160927:RIO:Local:SM-diwnct",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 130,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/days-hotel-by-wyndham-on-university-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/days-hotel-by-wyndham-on-university-minneapolis-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/days-hotel-by-wyndham-on-university-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9742552,
+   "lng": -93.2216381,
+   "geography_class": "CORE",
+   "corridor_slug": "university-dinkytown",
+   "membership_reason": "postal code 55414 -> university-dinkytown"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140129",
+   "name": "Delta Hotels by Marriott Minneapolis Northeast",
+   "street": "1330 Industrial Blvd NE",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55413",
+   "phone": "612-331-1900",
+   "official_url": "http://www.marriott.com/MSPDE",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 246,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/delta-hotels-by-marriott-minneapolis-northeast/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/delta-hotels-by-marriott-minneapolis-northeast-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/delta-hotels-by-marriott-minneapolis-northeast/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 45.0026804,
+   "lng": -93.2128887,
+   "geography_class": "CORE",
+   "corridor_slug": "northeast-minneapolis",
+   "membership_reason": "postal code 55413 -> northeast-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140142",
+   "name": "Doubletree by Hilton Hotel Bloomington Minneapolis South",
+   "street": "7800 Normandale Blvd",
+   "city": "Bloomington",
+   "state": "MN",
+   "postal_code": "55439",
+   "phone": "952-835-7800",
+   "official_url": "https://www.hilton.com/en/hotels/mspbsdt-doubletree-bloomington-minneapolis-south/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 568,
+   "bureau_region": [
+    "South Metro includes Airport/MOA too"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/doubletree-by-hilton-hotel-bloomington-minneapolis-south/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/doubletree-by-hilton-hotel-bloomington-minneapolis-south/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.8615216,
+   "lng": -93.3525885,
+   "geography_class": "CORE",
+   "corridor_slug": "bloomington-mall-of-america",
+   "membership_reason": "postal code 55439 -> bloomington-mall-of-america"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140121",
+   "name": "DoubleTree Suites Minneapolis",
+   "street": "1101 LaSalle Avenue",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "612-332-6800",
+   "official_url": "http://www.minneapolisdowntown.doubletree.com/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 229,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/doubletree-suites-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/doubletree-suites-minneapolis-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/doubletree-suites-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9730543,
+   "lng": -93.2767868,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "224470",
+   "name": "Element Minneapolis Downtown",
+   "street": "501 North 6th Ave",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "612-215-0099",
+   "official_url": "http://www.marriott.com/mspeo",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 156,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/element-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/element-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9841615,
+   "lng": -93.2793513,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "213670",
+   "name": "Embassy Suites by Hilton Minneapolis Downtown",
+   "street": "12 6th St S",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55402",
+   "phone": "612-351-2554",
+   "official_url": "http://embassysuites3.hilton.com/en/hotels/minnesota/embassy-suites-by-hilton-minneapolis-downtown-MSPSSES/index.html",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 290,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/embassy-suites-by-hilton-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/embassy-suites-by-hilton-minneapolis-downtown-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/embassy-suites-by-hilton-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9787042,
+   "lng": -93.272935,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55402 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "170873",
+   "name": "Emery | Autograph Collection",
+   "street": "215 4th Street South",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "612-340-2000",
+   "official_url": "http://www.hotelemery.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 222,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/emery-autograph-collection/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/emery-autograph-collection-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/emery-autograph-collection/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9782211,
+   "lng": -93.2668821,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "242908",
+   "name": "Fairfield Inn & Suites - Minneapolis Downtown",
+   "street": "1028 Hawthorn Avenue",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "",
+   "official_url": "https://www.marriott.com/en-us/hotels/mspfd-fairfield-inn-and-suites-minneapolis-downtown/overview/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 111,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/fairfield-inn-suites-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/fairfield-inn-suites-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9766863,
+   "lng": -93.2797479,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "227340",
+   "name": "Four Seasons Hotel Minneapolis",
+   "street": "245 Hennepin Avenue",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "612-895-5700",
+   "official_url": "http://www.fourseasons.com/minneapolis",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 222,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/four-seasons-hotel-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/four-seasons-hotel-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.98123,
+   "lng": -93.268664,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140144",
+   "name": "Graduate Minneapolis",
+   "street": "615 Washington Avenue SE",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55455",
+   "phone": "612.379.8888",
+   "official_url": "https://www.graduatehotels.com/minneapolis/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 304,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/graduate-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/graduate-minneapolis-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/graduate-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.974379,
+   "lng": -93.2295986,
+   "geography_class": "CORE",
+   "corridor_slug": "university-dinkytown",
+   "membership_reason": "postal code 55455 -> university-dinkytown"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "211051",
+   "name": "Hampton Inn & Suites Minneapolis Downtown",
+   "street": "19 N 8th St",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "612-341-3333",
+   "official_url": "https://www.hilton.com/en/hotels/mspmdhx-hampton-suites-minneapolis-downtown/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 211,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hampton-inn-suites-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hampton-inn-suites-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9775662,
+   "lng": -93.2770037,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "215943",
+   "name": "Hewing Hotel",
+   "street": "300 Washington Ave N.",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "(651) 468-0400",
+   "official_url": "http://hewinghotel.com/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Uniquely Minneapolis"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 124,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hewing-hotel/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hewing-hotel-uniquely-minneapolis/",
+    "https://www.minneapolis.org/directory/hewing-hotel/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9848854,
+   "lng": -93.2724943,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "178347",
+   "name": "Hilton Garden Inn Minneapolis Downtown",
+   "street": "1101 Fourth Avenue South",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55404",
+   "phone": "612-339-6633",
+   "official_url": "http://www.minneapolisdowntown.hgi.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 210,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hilton-garden-inn-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hilton-garden-inn-minneapolis-downtown-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/hilton-garden-inn-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.932367,
+   "lng": -93.2701295,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55404 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140123",
+   "name": "Hilton Minneapolis",
+   "street": "1001 Marquette Avenue South",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "612-376-1000",
+   "official_url": "http://www.minneapolis.hilton.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 821,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hilton-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hilton-minneapolis-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/hilton-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.97263,
+   "lng": -93.272912,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "167399",
+   "name": "Hilton Minneapolis/Bloomington",
+   "street": "3900 American Blvd W",
+   "city": "Bloomington",
+   "state": "MN",
+   "postal_code": "55437",
+   "phone": "952-893-9500",
+   "official_url": "http://www3.hilton.com/en/hotels/minnesota/hilton-minneapolis-bloomington-MSPBWHF/index.html",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 256,
+   "bureau_region": [
+    "South Metro includes Airport/MOA too"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hilton-minneapolis-bloomington/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hilton-minneapolis-bloomington-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/hilton-minneapolis-bloomington/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.8562941,
+   "lng": -93.3303528,
+   "geography_class": "CORE",
+   "corridor_slug": "bloomington-mall-of-america",
+   "membership_reason": "postal code 55437 -> bloomington-mall-of-america"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140094",
+   "name": "Holiday Inn Express & Suites Downtown Minneapolis Convention Center",
+   "street": "225 South 11th Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "612-341-3300",
+   "official_url": "http://www.hiexmpls.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 96,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/holiday-inn-express-suites-downtown-minneapolis-convention-center/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/holiday-inn-express-suites-downtown-minneapolis-convention-center/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9710802,
+   "lng": -93.2719053,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140085",
+   "name": "Holiday Inn Express - Golden Valley",
+   "street": "6051 Golden Hills Drive",
+   "city": "Golden Valley",
+   "state": "MN",
+   "postal_code": "55416",
+   "phone": "763-545-8300",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/minneapolis/mspwe/hoteldetail?_PMID=99634975&cm_mmc=CJ-_-5250933-_-101284630&setPMCookies=true&mktgvar=CJ_498bc9eb45a811f181ee021a0a82b82a&cj_af_type_i=463075&pid=cj_int&is_retargeting=true&af_click_lookb",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 109,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/holiday-inn-express-golden-valley/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/holiday-inn-express-golden-valley/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9715266,
+   "lng": -93.3565113,
+   "geography_class": "FRINGE",
+   "corridor_slug": "golden-valley-st-louis-park",
+   "membership_reason": "postal code 55416 -> golden-valley-st-louis-park"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "217251",
+   "name": "Homewood Suites by Hilton Minneapolis-St. Louis Park",
+   "street": "5305 Wayzata Boulevard",
+   "city": "St. Louis Park",
+   "state": "MN",
+   "postal_code": "55416",
+   "phone": "952-544-0495",
+   "official_url": "http://homewoodsuites3.hilton.com/en/hotels/minnesota/homewood-suites-by-hilton-minneapolis-st-louis-park-at-west-end-MSPLPHW/index.html",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 125,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/homewood-suites-by-hilton-minneapolis-st-louis-park/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/homewood-suites-by-hilton-minneapolis-st-louis-park/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9695256,
+   "lng": -93.3471008,
+   "geography_class": "FRINGE",
+   "corridor_slug": "golden-valley-st-louis-park",
+   "membership_reason": "postal code 55416 -> golden-valley-st-louis-park"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "165940",
+   "name": "Hotel Ivy, a Luxury Collection Hotel, Minneapolis",
+   "street": "201 South Eleventh Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "612-746-4600",
+   "official_url": "http://www.thehotelivy.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 136,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hotel-ivy-a-luxury-collection-hotel-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hotel-ivy-a-luxury-collection-hotel-minneapolis-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/hotel-ivy-a-luxury-collection-hotel-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9715315,
+   "lng": -93.2726159,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "219376",
+   "name": "The Hotel Landing",
+   "street": "925 Lake Street",
+   "city": "Wayzata",
+   "state": "MN",
+   "postal_code": "55391",
+   "phone": "",
+   "official_url": "http://www.thehotellanding.com/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Event Spaces",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 92,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/the-hotel-landing/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/the-hotel-landing-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/the-hotel-landing/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9679209,
+   "lng": -93.5055911,
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "minnetonka-hopkins",
+   "membership_reason": "postal code 55391 -> minnetonka-hopkins"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "138387",
+   "name": "Hyatt Centric Downtown Minneapolis",
+   "street": "615 Second Avenue South",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55402",
+   "phone": "612-288-8888",
+   "official_url": "http://www.hyattcentricdowntownminneapolis.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 154,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hyatt-centric-downtown-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hyatt-centric-downtown-minneapolis-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/hyatt-centric-downtown-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9759249,
+   "lng": -93.268833,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55402 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "204971",
+   "name": "Hyatt Place Minneapolis Downtown",
+   "street": "425 7th St South",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55415",
+   "phone": "612-333-3111",
+   "official_url": "http://minneapolisdowntown.place.hyatt.com/en/hotel/home.html?src=agn_mls_hp_lclb_gplaces_mspzd",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 213,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hyatt-place-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hyatt-place-minneapolis-downtown-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/hyatt-place-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9689653,
+   "lng": -93.2511599,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55415 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140120",
+   "name": "Hyatt Regency Minneapolis",
+   "street": "1300 Nicollet Mall",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "612-370-1234",
+   "official_url": "https://www.hyatt.com/hyatt-regency/en-US/msprm-hyatt-regency-minneapolis",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 644,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/hyatt-regency-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/hyatt-regency-minneapolis-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/hyatt-regency-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9706403,
+   "lng": -93.2783648,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140141",
+   "name": "InterContinental Saint Paul Riverfront",
+   "street": "11 East Kellogg Boulevard",
+   "city": "St. Paul",
+   "state": "MN",
+   "postal_code": "55101",
+   "phone": "651-292-1900",
+   "official_url": "https://www.ihg.com/intercontinental/hotels/us/en/st-paul/mspsp/hoteldetail#scmisc=nav_hoteldetail_ic",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 410,
+   "bureau_region": [
+    "Saint Paul"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/intercontinental-saint-paul-riverfront/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/intercontinental-saint-paul-riverfront-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/intercontinental-saint-paul-riverfront/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9445915,
+   "lng": -93.0927499,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-st-paul",
+   "membership_reason": "postal code 55101 -> downtown-st-paul"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "213713",
+   "name": "JW Marriott Minneapolis Mall of America",
+   "street": "2141 Lindau Lane",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55425",
+   "phone": "612-615-0100",
+   "official_url": "http://www.marriott.com/hotels/travel/mspjw-jw-marriott-minneapolis-mall-of-america/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 342,
+   "bureau_region": [
+    "South Metro includes Airport/MOA too"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/jw-marriott-minneapolis-mall-of-america/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/jw-marriott-minneapolis-mall-of-america-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/jw-marriott-minneapolis-mall-of-america/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.8562426,
+   "lng": -93.2418642,
+   "geography_class": "CORE",
+   "corridor_slug": "bloomington-mall-of-america",
+   "membership_reason": "postal code 55425 -> bloomington-mall-of-america"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "247161",
+   "name": "The Lofton Hotel, A Hilton Tapestry Collection",
+   "street": "601 North First Avenue",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55403",
+   "phone": "612-677-1100",
+   "official_url": "https://www.hilton.com/en/hotels/mspupup-the-lofton-hotel/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/the-lofton-hotel-a-hilton-tapestry-collection/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/the-lofton-hotel-a-hilton-tapestry-collection-hotels-lodging/",
+    "https://www.minneapolis.org/directory/the-lofton-hotel-a-hilton-tapestry-collection/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9790046,
+   "lng": -93.27511,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55403 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140124",
+   "name": "The Marquette Hotel",
+   "street": "710 Marquette Avenue",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55402",
+   "phone": "612-333-4545",
+   "official_url": "http://www.themarquettehotel.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 281,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/the-marquette-hotel/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/the-marquette-hotel-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/the-marquette-hotel/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.976246,
+   "lng": -93.271472,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55402 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "138395",
+   "name": "Minneapolis Marriott Northwest Hotel and Conference Center",
+   "street": "7025 Northland Drive N.",
+   "city": "Brooklyn Park",
+   "state": "MN",
+   "postal_code": "55428",
+   "phone": "763-536-8300",
+   "official_url": "https://www.marriott.com/en-us/hotels/mspnw-minneapolis-marriott-northwest/overview/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 231,
+   "bureau_region": [
+    "North Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/minneapolis-marriott-northwest-hotel-and-conference-center/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/minneapolis-marriott-northwest-hotel-and-conference-center-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/minneapolis-marriott-northwest-hotel-and-conference-center/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 45.0814475,
+   "lng": -93.3949061,
+   "geography_class": "FRINGE",
+   "corridor_slug": "brooklyn-center-brooklyn-park",
+   "membership_reason": "postal code 55428 -> brooklyn-center-brooklyn-park"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140147",
+   "name": "Minneapolis Marriott West",
+   "street": "9960 Wayzata Boulevard",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55426",
+   "phone": "952-544-4400",
+   "official_url": "http://www.marriott.com/mspsp",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 195,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/minneapolis-marriott-west/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/minneapolis-marriott-west-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/minneapolis-marriott-west/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.974876,
+   "lng": -93.408448,
+   "geography_class": "FRINGE",
+   "corridor_slug": "golden-valley-st-louis-park",
+   "membership_reason": "postal code 55426 -> golden-valley-st-louis-park"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "219267",
+   "name": "Minnestay - Luxury Vacation Rentals",
+   "street": "",
+   "city": "",
+   "state": "",
+   "postal_code": "",
+   "phone": "612-216-5511",
+   "official_url": "https://minnestay.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [
+    "Minneapolis",
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/minnestay-luxury-vacation-rentals/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/minnestay-luxury-vacation-rentals/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.966925,
+   "lng": -93.2778,
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "223903",
+   "name": "Moxy Minneapolis Downtown",
+   "street": "247 Chicago Ave S",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55415",
+   "phone": "612-400-1810",
+   "official_url": "https://www.marriott.com/hotels/travel/mspod-moxy-minneapolis-downtown/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 141,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/moxy-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/moxy-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9765951,
+   "lng": -93.257429,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55415 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "218379",
+   "name": "Moxy Minneapolis Uptown",
+   "street": "1121 West Lake Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55408",
+   "phone": "612-822-5020",
+   "official_url": "https://www.marriott.com/hotels/travel/mspox-moxy-minneapolis-uptown/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 125,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/moxy-minneapolis-uptown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/moxy-minneapolis-uptown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9482127,
+   "lng": -93.2943248,
+   "geography_class": "CORE",
+   "corridor_slug": "uptown-south-minneapolis",
+   "membership_reason": "postal code 55408 -> uptown-south-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "224588",
+   "name": "Omni Viking Lakes Hotel",
+   "street": "2611 Nordic Way",
+   "city": "Eagan",
+   "state": "MN",
+   "postal_code": "55121",
+   "phone": "651-689-9803",
+   "official_url": "https://www.omnihotels.com/hotels/viking-lakes-minnesota",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 320,
+   "bureau_region": [
+    "South Metro includes Airport/MOA too"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/omni-viking-lakes-hotel/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/omni-viking-lakes-hotel-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/omni-viking-lakes-hotel/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.8608801,
+   "lng": -93.1123555,
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "eagan",
+   "membership_reason": "postal code 55121 -> eagan"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "199963",
+   "name": "Radisson Blu Mall of America - Bloomington",
+   "street": "2100 Killebrew Drive",
+   "city": "Bloomington",
+   "state": "MN",
+   "postal_code": "55425",
+   "phone": "952-881-5258",
+   "official_url": "https://www.radissonhotels.com/en-us/hotels/radisson-blu-bloomington-mall-of-america",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 500,
+   "bureau_region": [
+    "South Metro includes Airport/MOA too"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/radisson-blu-mall-of-america-bloomington/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/radisson-blu-mall-of-america-bloomington-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/radisson-blu-mall-of-america-bloomington/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.8530212,
+   "lng": -93.2421784,
+   "geography_class": "CORE",
+   "corridor_slug": "bloomington-mall-of-america",
+   "membership_reason": "postal code 55425 -> bloomington-mall-of-america"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "215782",
+   "name": "Radisson RED Minneapolis",
+   "street": "609 3rd Street South",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55415",
+   "phone": "612-252-5400",
+   "official_url": "https://www.radissonred.com/minneapolis/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 164,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/radisson-red-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/radisson-red-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9768065,
+   "lng": -93.2602508,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55415 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "216436",
+   "name": "Ramada Minneapolis Golden Valley",
+   "street": "6300 Wayzata Boulevard",
+   "city": "Golden Valley",
+   "state": "MN",
+   "postal_code": "55416",
+   "phone": "763-546-6277",
+   "official_url": "http://www.ramada.com/hotels/minnesota/golden-valley/ramada-golden-valley-minneapolis/hotel-overview",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 127,
+   "bureau_region": [
+    "West Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/ramada-minneapolis-golden-valley/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/ramada-minneapolis-golden-valley/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9716311,
+   "lng": -93.361063,
+   "geography_class": "FRINGE",
+   "corridor_slug": "golden-valley-st-louis-park",
+   "membership_reason": "postal code 55416 -> golden-valley-st-louis-park"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "225414",
+   "name": "Rand Tower, Tribute Portfolio by Marriott",
+   "street": "527 S Marquette Ave",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55402",
+   "phone": "612-688-4500",
+   "official_url": "http://www.randtowerhotel.com",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 270,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/rand-tower-tribute-portfolio-by-marriott/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/rand-tower-tribute-portfolio-by-marriott-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/rand-tower-tribute-portfolio-by-marriott/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.977346,
+   "lng": -93.269619,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55402 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "223338",
+   "name": "Residence INN Minneapolis Downtown at the Depot",
+   "street": "425 South Second Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "612-758-3212",
+   "official_url": "https://www.marriott.com/en-us/hotels/mspmw-residence-inn-minneapolis-downtown-at-the-depot/overview",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 131,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/residence-inn-minneapolis-downtown-at-the-depot/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/residence-inn-minneapolis-downtown-at-the-depot/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9799081,
+   "lng": -93.261372,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140093",
+   "name": "Residence Inn Minneapolis Downtown/City Center",
+   "street": "45 South Eighth Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55402",
+   "phone": "612-677-1000",
+   "official_url": "http://www.marriott.com/mspri",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 124,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/residence-inn-minneapolis-downtown-city-center/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/residence-inn-minneapolis-downtown-city-center/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9759971,
+   "lng": -93.2745588,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55402 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "140127",
+   "name": "Royal Sonesta Minneapolis Downtown",
+   "street": "35 South Seventh Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55402",
+   "phone": "612-339-4900",
+   "official_url": "https://www.sonesta.com/us/minnesota/minneapolis/royal-sonesta-minneapolis-downtown",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 360,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/royal-sonesta-minneapolis-downtown/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/royal-sonesta-minneapolis-downtown-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/royal-sonesta-minneapolis-downtown/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9771075,
+   "lng": -93.2735483,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55402 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "178187",
+   "name": "Running Aces Casino, Hotel & Racetrack",
+   "street": "15201 Running Aces Blvd",
+   "city": "Columbus",
+   "state": "MN",
+   "postal_code": "55025",
+   "phone": "651-925-4600",
+   "official_url": "http://www.runaces.com/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [
+    "North Minneapolis Suburbs"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/running-aces-casino-hotel-racetrack-hotels-lodging/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/running-aces-casino-hotel-racetrack-hotels-lodging/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 45.2447081,
+   "lng": -93.0339045,
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "North metro beyond the I-694 ring -- Columbia Heights, Fridley, Spring Lake Park, Blaine (National Sports Center), Coon Rapids, Anoka, Ramsey, Andover, Ham Lake, Lino Lakes, White Bear Lake, Vadnais Heights, Hugo, Forest Lake: ANOKA COUNTY / north RAMSEY / north WASHINGTON COUNTY. Not in the order's evaluation list. Refused after CAREFUL evaluation so the Twin Cities market does not silently absorb the north metro; recorded in the boundary audit, never silently dropped. A founder may move Blaine / Coon Rapids on the record."
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "251842",
+   "name": "TownePlace Suites by Marriott Minneapolis Downtown/North Loop",
+   "street": "525 North 2nd Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "612-758-3212",
+   "official_url": "https://www.marriott.com/en-us/hotels/mspts-towneplace-suites-minneapolis-downtown-north-loop/overview/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 131,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/towneplace-suites-by-marriott-minneapolis-downtown-north-loop/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/towneplace-suites-by-marriott-minneapolis-downtown-north-loop/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9873122,
+   "lng": -93.2744846,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "163588",
+   "name": "University of Minnesota Conference & Event Services",
+   "street": "210 Delaware Street SE, HRL Comstock Hall East",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55455",
+   "phone": "612-625-9090",
+   "official_url": "https://uces.umn.edu/book/venues",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Event Spaces",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 0,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/university-of-minnesota-conference-event-services/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/university-of-minnesota-conference-event-services/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9721956,
+   "lng": -93.2374072,
+   "geography_class": "CORE",
+   "corridor_slug": "university-dinkytown",
+   "membership_reason": "postal code 55455 -> university-dinkytown"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "169517",
+   "name": "W Minneapolis - The Foshay",
+   "street": "821 Marquette Avenue",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55402",
+   "phone": "612-215-3700",
+   "official_url": "https://www.marriott.com/hotels/travel/mspwh-w-minneapolis-the-foshay/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [
+    "W Minneapolis - The Foshay"
+   ],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 229,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/w-minneapolis-the-foshay/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/w-minneapolis-the-foshay-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/w-minneapolis-the-foshay/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9743607,
+   "lng": -93.2718859,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55402 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "178383",
+   "name": "The Westin Edina Galleria",
+   "street": "3201 Galleria",
+   "city": "Edina",
+   "state": "MN",
+   "postal_code": "55435",
+   "phone": "952-567-5000",
+   "official_url": "http://www.westinedinagalleria.com/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 225,
+   "bureau_region": [
+    "South Metro includes Airport/MOA too"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/the-westin-edina-galleria/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/the-westin-edina-galleria-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/the-westin-edina-galleria/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.8775745,
+   "lng": -93.3226809,
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "edina",
+   "membership_reason": "postal code 55435 -> edina"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "meet-minneapolis",
+   "partner_id": "164343",
+   "name": "The Westin Minneapolis",
+   "street": "88 South 6th Street",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "55401",
+   "phone": "612-333-4006",
+   "official_url": "https://www.marriott.com/hotels/travel/mspmi-the-westin-minneapolis/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Partner / Guest Rooms",
+    "Partner / Hotels/Lodging",
+    "Partner / Meeting & Banquet Facilities",
+    "Venue / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "guest_rooms": 214,
+   "bureau_region": [
+    "Minneapolis"
+   ],
+   "listing_url": "https://www.minneapolis.org/directory/the-westin-minneapolis/",
+   "listing_urls": [
+    "https://www.minneapolis.org/directory/the-westin-minneapolis-meeting-banquet-facilities/",
+    "https://www.minneapolis.org/directory/the-westin-minneapolis/"
+   ],
+   "listing_sha256": "41e903fffd5c47fa838639847b606810fc79732b61da26b35194ae6ad091a018",
+   "lat": 44.9778894,
+   "lng": -93.2699795,
+   "geography_class": "CORE",
+   "corridor_slug": "downtown-minneapolis",
+   "membership_reason": "postal code 55401 -> downtown-minneapolis"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "celeste-st-paul-hotel-bar-boutique-hotels",
+   "name": "Celeste of St Paul",
+   "street": "26 Exchange Street E",
+   "city": "St. Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "1-651-2220848",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/celeste-st-paul-hotel-bar-boutique-hotels/",
+   "listing_sha256": "a2fd8f7fc552646e42fff64809faa3b12970a3363c1f8bb104be5be704701695",
+   "lat": "44.949357000",
+   "lng": "-93.096629000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "como-lake-bed-breakfast",
+   "name": "Como Lake Bed & Breakfast",
+   "street": "1205 W. Como Blvd.",
+   "city": "Saint Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-402-7930",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/como-lake-bed-breakfast/",
+   "listing_sha256": "b0953d551240207a6a5416166e3e95a43a981a324eb63829e8f458533fcbfe3a",
+   "lat": "44.977048000",
+   "lng": "-93.142898000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "courtyard-by-marriott-st-paul-downtown",
+   "name": "Courtyard by Marriott St. Paul Downtown",
+   "street": "150 Smith Avenue North",
+   "city": "Saint Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-204-4050",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/courtyard-by-marriott-st-paul-downtown/",
+   "listing_sha256": "9d448383d3613d40f3ebbfe15a19aa448e0c75632b0fe3be2661f2d44eabbeb0",
+   "lat": "44.945433000",
+   "lng": "-93.103028000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "delta-hotels-by-marriott-minneapolis-northeast",
+   "name": "Delta Hotels by Marriott Minneapolis Northeast",
+   "street": "1330 Industrial Blvd NE",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "612-331-1900",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/delta-hotels-by-marriott-minneapolis-northeast/",
+   "listing_sha256": "9ba0fa16d70b76b1ca73b46d1dc2e28652a223553f9671c0041f350df4f798c3",
+   "lat": "45.002680000",
+   "lng": "-93.212889000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "doubletree-by-hilton-st-paul-downtown",
+   "name": "DoubleTree by Hilton Hotel St. Paul Downtown",
+   "street": "411 Minnesota St",
+   "city": "St. Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "1-651-291-8800",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/doubletree-by-hilton-st-paul-downtown/",
+   "listing_sha256": "df3088537fb7f418abcd48a1132aaf4085d5ed83bf855c34bbba6a427b5a509c",
+   "lat": "44.947886000",
+   "lng": "-93.093364000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "drury-plaza-hotel-st-paul-downtown",
+   "name": "Drury Plaza Hotel St. Paul Downtown",
+   "street": "175 10th St. E",
+   "city": "Saint Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-222-3337",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/drury-plaza-hotel-st-paul-downtown/",
+   "listing_sha256": "4b64e8482dcca18c9f4eb07648c95438343e962ad88c9a9591fd15e85b524c16",
+   "lat": "44.952637000",
+   "lng": "-93.092938000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "hampton-inn-suites-downtown-saint-paul",
+   "name": "Hampton Inn & Suites Downtown St. Paul",
+   "street": "200 Seventh St W",
+   "city": "St. Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-224-7400",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/hampton-inn-suites-downtown-saint-paul/",
+   "listing_sha256": "82c003300b9fbc86a446146ec68d713279a4d70650e1c586dc9aa8d8e60f3781",
+   "lat": "44.943755000",
+   "lng": "-93.103187000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "hampton-inn-suites-eagan",
+   "name": "Hampton Inn by Hilton Minneapolis/Eagan",
+   "street": "3000 Eagandale Pl",
+   "city": "Eagan",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-688-3343",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/hampton-inn-suites-eagan/",
+   "listing_sha256": "a9401654d270b55ae98d8b248bc4ede873e9029ed6a35248d3601d7789f467fb",
+   "lat": "44.847490000",
+   "lng": "-93.156635000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "historic-district-bed-and-breakfast",
+   "name": "Historic District Bed and Breakfast",
+   "street": "483 Ashland Ave",
+   "city": "St Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "763-360-3717",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/historic-district-bed-and-breakfast/",
+   "listing_sha256": "aa11a6cfb45f563272be350911b3323ce50584126f101d10aea02a71a9422312",
+   "lat": "44.944716000",
+   "lng": "-93.120500000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "holiday-inn-st-paul-downtown",
+   "name": "Holiday Inn St. Paul Downtown, an IHG Hotel",
+   "street": "175 7th Street W",
+   "city": "St. Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-225-1515",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/holiday-inn-st-paul-downtown/",
+   "listing_sha256": "c15fae1645c3b2b4838c3c02021c97bed56f41bca130e7e21c067ba3a7f396e3",
+   "lat": "44.944556000",
+   "lng": "-93.103290000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "hyatt-place-saint-paul-downtown",
+   "name": "Hyatt Place St. Paul/Downtown",
+   "street": "180 Kellogg Boulevard East",
+   "city": "St. Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-647 5000",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/hyatt-place-saint-paul-downtown/",
+   "listing_sha256": "e7828d3466349c8098093faafdc6319f590aff7e73e216a9868d2089d9ae245e",
+   "lat": "44.946232000",
+   "lng": "-93.086974000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "intercontinental-minneapolis-st-paul-airport",
+   "name": "InterContinental Minneapolis - St. Paul Airport, an IHG Hotel",
+   "street": "5005 Glumack Drive",
+   "city": "Minneapolis",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "612-725-0500",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/intercontinental-minneapolis-st-paul-airport/",
+   "listing_sha256": "55c81d896b0ccbcc1ec1b05386e5a1ab922b29c1581c30a64ecac806489367e5",
+   "lat": "44.879674000",
+   "lng": "-93.201624000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "intercontinental-saint-paul-riverfront",
+   "name": "InterContinental Saint Paul Riverfront, an IHG Hotel",
+   "street": "11 Kellogg Blvd E",
+   "city": "St. Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-292-1900",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/intercontinental-saint-paul-riverfront/",
+   "listing_sha256": "71295a86a7011318d836252c3bb266659eb55c1a60767e2c497c28190bf82f60",
+   "lat": "44.944523000",
+   "lng": "-93.092667000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "radisson-st-paul-downtown",
+   "name": "Radisson St. Paul Downtown",
+   "street": "161 St Anthony Ave",
+   "city": "St Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-227-8711",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/radisson-st-paul-downtown/",
+   "listing_sha256": "c7c2e6f9b3ef20dc0bac79c2714a02bece26b253934b8b20a9ba5b10752000b0",
+   "lat": "44.951849000",
+   "lng": "-93.106945000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "residence-inn-st-paul-downtown",
+   "name": "Residence Inn by Marriott St. Paul Downtown",
+   "street": "200 Grand Avenue",
+   "city": "St. Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-222-1000",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/residence-inn-st-paul-downtown/",
+   "listing_sha256": "f8c0d22bc28d928c3bf0106fb7a11ff6f1bf7a18e3fb081aac6008847fd16cc5",
+   "lat": "44.941025000",
+   "lng": "-93.108379000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "running-aces-casino-hotel-racetrack-north-metro",
+   "name": "Running Aces Casino, Hotel & Racetrack",
+   "street": "15201 Zurich St NE",
+   "city": "Columbus",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-925-4450",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/running-aces-casino-hotel-racetrack-north-metro/",
+   "listing_sha256": "12828363c575f2e1967d3b345292f6e5899e999fd143c19b0c8c248befcb13cf",
+   "lat": "45.244748000",
+   "lng": "-93.033962000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "sheraton-st-paul-woodbury-hotel",
+   "name": "Sheraton St. Paul Woodbury Hotel",
+   "street": "676 Bielenberg Dr",
+   "city": "Woodbury",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-209-3280",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/sheraton-st-paul-woodbury-hotel/",
+   "listing_sha256": "25d7a32d5bb28a25868fc59951974bc6b3b9d238a1092ff626dd2789256ea823",
+   "lat": "44.939028000",
+   "lng": "-92.956550000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "springhill-suites-by-marriott-st-paul-downtown",
+   "name": "SpringHill Suites by Marriott St. Paul Downtown",
+   "street": "472 Jackson St",
+   "city": "St Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-224-9700",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/springhill-suites-by-marriott-st-paul-downtown/",
+   "listing_sha256": "228825529ec480753a5f67dde56cdd0b2662f865aae6e42cc1036b9b24063408",
+   "lat": "44.950893000",
+   "lng": "-93.091721000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "the-new-victorian-mansion-bed-breakfast",
+   "name": "The New Victorian Mansion Bed & Breakfast",
+   "street": "325 Dayton Avenue",
+   "city": "St. Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-321-8151",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/the-new-victorian-mansion-bed-breakfast/",
+   "listing_sha256": "23470081cccaa75a3449c7daffe9570fadee8ad0586580506b1526f7d254b643",
+   "lat": "44.947671000",
+   "lng": "-93.113667000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "the-saint-paul-hotel",
+   "name": "The Saint Paul Hotel",
+   "street": "350 Market St",
+   "city": "St. Paul",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/the-saint-paul-hotel/",
+   "listing_sha256": "626b9c8b20b5883ee120f41c8999d400219fb00b6833bf97ca7987828dc6c7bb",
+   "lat": "44.944735000",
+   "lng": "-93.096547000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-saint-paul",
+   "partner_id": "water-street-inn",
+   "name": "Water Street Inn",
+   "street": "101 Water St South",
+   "city": "Stillwater",
+   "state": "MN",
+   "postal_code": "",
+   "phone": "651-615-5986",
+   "official_url": "",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Where to Stay / Hotel"
+   ],
+   "bureau_schema_types": [],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://www.visitsaintpaul.com/directory/water-street-inn/",
+   "listing_sha256": "992d2678640a8712fb8b96f428fd723e2cece082d0c6914a8ed812fed82c5143",
+   "lat": "45.056491000",
+   "lng": "-92.805066000",
+   "no_postal_code_stated": "the bureau's record states a street and city but no postal code; the row joins only the one building that states the same house number and street",
+   "geography_class": "OUTSIDE",
+   "corridor_slug": null,
+   "membership_reason": "postal code '' is claimed by no corridor"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "avid-by-ihg",
+   "name": "Avid by IHG",
+   "street": "3015 Centre Pointe Drive",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 401-4700",
+   "official_url": "https://www.ihg.com/avidhotels/hotels/us/en/roseville/mspav/hoteldetail",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/avid-by-ihg",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "country-inn-suites",
+   "name": "Country Inn & Suites",
+   "street": "2740 Snelling Avenue North",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 628-3500",
+   "official_url": "https://www.choicehotels.com/minnesota/roseville/country-inn-suites-hotels/mn269",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/country-inn-suites",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "courtyard-by-marriott",
+   "name": "Courtyard by Marriott",
+   "street": "2905 Centre Pointe Drive",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 746-8000",
+   "official_url": "http://www.marriott.com/msprl",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/courtyard-by-marriott",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "doubletree-by-hilton",
+   "name": "DoubleTree by Hilton",
+   "street": "2540 Cleveland Avenue North",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 636-4567",
+   "official_url": "https://www.hilton.com/en/hotels/mspacdt-doubletree-roseville-minneapolis/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/doubletree-by-hilton",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "fairfield-inn-suites",
+   "name": "Fairfield Inn & Suites",
+   "street": "3045 Centre Pointe Drive North",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 636-7869",
+   "official_url": "http://www.fairfieldinn.com/MSPRV",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/fairfield-inn-suites",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "hampton-inn",
+   "name": "Hampton Inn",
+   "street": "2050 Iona Lane W",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 209-3000",
+   "official_url": "https://www.hilton.com/en/hotels/mspmrhx-hampton-minneapolis-roseville/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/hampton-inn",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "holiday-inn-express",
+   "name": "Holiday Inn Express",
+   "street": "2715 Long Lake Road",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 294-7200",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/roseville/mspro/hoteldetail",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/holiday-inn-express",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "home2-suites-roseville",
+   "name": "Home2 Suites Roseville",
+   "street": "2020 Iona Lane W",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 925-8600",
+   "official_url": "https://www.hilton.com/en/hotels/msproht-home2-suites-roseville-minneapolis/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/home2-suites-roseville",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "key-inn",
+   "name": "Key Inn",
+   "street": "2550 Cleveland Avenue North",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 636-6730",
+   "official_url": "https://www.keyinnroseville.com/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/key-inn",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "motel-6",
+   "name": "Motel 6",
+   "street": "2300 Cleveland Avenue North",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 639-3988",
+   "official_url": "https://www.motel6.com/en/home/motels.mn.roseville.9452.html",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/motel-6",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "norwood-inn-suites",
+   "name": "Norwood Inn & Suites",
+   "street": "2401 Prior Avenue North",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 636-8888",
+   "official_url": "https://www.google.com/search?kgmid=/g/11c79tkr78",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/norwood-inn-suites",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  },
+  {
+   "lane": "DESTINATION_ROSTER",
+   "bureau_id": "visit-roseville",
+   "partner_id": "residence-inn",
+   "name": "Residence Inn",
+   "street": "2985 Centre Pointe Drive",
+   "city": "Roseville",
+   "state": "MN",
+   "postal_code": "55113",
+   "phone": "(651) 636-0680",
+   "official_url": "http://www.marriott.com/hotels/travel/mspro-residence-inn-minneapolis-st-paul-roseville/",
+   "bureau_link_refused_as_a_route": "",
+   "why_refused": "",
+   "address_extras": [],
+   "bureau_categories": [
+    "Hotels / Hotels"
+   ],
+   "bureau_schema_types": [
+    "Hotel"
+   ],
+   "census_eligible_category": true,
+   "bureau_subtype": "hotel",
+   "listing_url": "https://visitroseville.com/directory/residence-inn",
+   "listing_sha256": "6ef1426ee59b6aaba4b8e7d868f952456b432c6d1862f43461b1752249957e26",
+   "lat": "",
+   "lng": "",
+   "geography_class": "CORRIDOR",
+   "corridor_slug": "roseville",
+   "membership_reason": "postal code 55113 -> roseville"
+  }
+ ],
+ "documents_persisted_at": "data/acquisition/minneapolis_mn_destination_001",
+ "bureau_links_refused_as_a_route": [],
+ "bureau_links_refused_as_a_route_count": 0
+}
