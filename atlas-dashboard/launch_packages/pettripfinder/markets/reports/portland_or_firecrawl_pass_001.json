@@ -1,0 +1,2530 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-PORTLAND-OR-HARDENED-SOURCE-READY-001",
+ "market_id": "portland-or",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "portland_or_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 60,
+  "credit_floor": 150,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 99,
+  "static_to_attended": 62,
+  "firecrawl_candidates": 30,
+  "share_static_to_attended": 0.6263,
+  "share_firecrawl_candidates": 0.303,
+  "threshold": 0.2,
+  "warning": true,
+  "message": "30 of 99 unresolved routed rows (30%) are Firecrawl candidates: evaluate the Firecrawl lane before continuing to the attended browser"
+ },
+ "planned_rows": 45,
+ "attempted_rows": 45,
+ "stopped_by": "",
+ "credits": {
+  "before": 364,
+  "after": 336,
+  "delta": 28,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "eastside lodge": {
+    "identity_key": "eastside lodge",
+    "requested_url": "https://www.eastsidelodge.com/",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "hotel eastlund": {
+    "identity_key": "hotel eastlund",
+    "requested_url": "http://hoteleastlund.com/?utm_source=google-gmb-maps&utm_medium=gmb-website-button&utm_campaign=locl.io&utm_content=05b7cc8e-9ba6-4f5b-9f89-8359a70f0f9b",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   },
+   "motel 6": {
+    "identity_key": "motel 6",
+    "requested_url": "https://www.motel6.com/property/motel-tigard-oregon-us-294059/",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "the society hotel": {
+    "identity_key": "the society hotel",
+    "requested_url": "http://portland.thesocietyhotel.com/",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "cambria hotel portland pearl district",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "comfort suites portland",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "comfort suites portland airport",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "comfort suites southwest",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "econo lodge portland downtown",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "quality inn downtown convention center",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "econo lodge",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "rodeway inn and suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "6th avenue motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "a painted lady inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "aaron motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "bridgeway inn and suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "budget inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "capitol hill motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "caravan",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "clackamas inn and suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "country in the city",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "country inn and suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "country inn and suites by radisson portland delta park",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "fox run rv park",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "guest house motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hospitality inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "inn at marquam hill",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "kenton hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "kex",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "kex portland",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "kinley manor",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "monticello motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "motel 6",
+    "why": "UNBOUND_SECOND_RESULT_FOR_ONE_REQUEST"
+   },
+   {
+    "identity_key": "motel 6",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "oxford suites portland jantzen beach",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "pheasant ridge rv park",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "portland fairview rv park",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "radisson hotel portland airport",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "roamers rest rv park",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "slabtown village",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "the portlander inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "viking motel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "violet suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "wilsonville inn and suites",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 45,
+  "results": 45
+ },
+ "class_counts": {
+  "FIRECRAWL_BLOCKED": 17,
+  "FIRECRAWL_FAILED": 14,
+  "FIRECRAWL_IDENTITY_ONLY": 2,
+  "FIRECRAWL_MISMATCH": 9,
+  "FIRECRAWL_SOURCE_SILENT": 3
+ },
+ "outcome_counts": {
+  "ACCESS_DENIED": 11,
+  "IDENTITY_MISMATCH": 9,
+  "NAVIGATION_FAILED": 7,
+  "POLICY_NOT_FOUND": 3,
+  "UNEXPECTED_PAGE": 7,
+  "UNHYDRATED": 6,
+  "VALID": 2
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "cambria hotel portland pearl district",
+   "canonical_name": "Cambria Hotel Portland – Pearl District",
+   "family": "CHOICE",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/oregon/portland/cambria-hotels/or337?mc=llgoxxpx",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97209",
+   "expected_street": "165 Northwest Park Avenue",
+   "captured_at": "2026-10-03T23:19:48.425842+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/oregon/portland/cambria-hotels/or337?mc=llgoxxpx"
+    },
+    "envelope_sha256": "965f8cd14a68dfb3366be904be4d22f6575baae65f61ec902d1a3e653430f96a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\cambria-hotel-portland-pearl-district\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "comfort suites portland",
+   "canonical_name": "Comfort Suites Portland",
+   "family": "CHOICE",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/oregon/portland/comfort-suites-hotels/or073",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97219",
+   "expected_street": "11340 Southwest Barbur Boulevard",
+   "captured_at": "2026-10-03T23:20:03.735638+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/oregon/portland/comfort-suites-hotels/or073"
+    },
+    "envelope_sha256": "6d3a472d12b9087213c879d57321167bd2e9854723afe469e05c9b8c7280ce2d"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\comfort-suites-portland\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "comfort suites portland airport",
+   "canonical_name": "Comfort Suites – Portland Airport",
+   "family": "CHOICE",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/oregon/portland/comfort-suites-hotels/or407?mc=llgoxxpx",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97220",
+   "expected_street": "12010 Northeast Airport Way",
+   "captured_at": "2026-10-03T23:20:18.390660+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/oregon/portland/comfort-suites-hotels/or407?mc=llgoxxpx"
+    },
+    "envelope_sha256": "a61a515782f9db9a53abd1c4bc5e0f19a310f35535878dc644a3ca97e7bdf51f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\comfort-suites-portland-airport\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "comfort suites southwest",
+   "canonical_name": "Comfort Suites Southwest",
+   "family": "CHOICE",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/oregon/portland/comfort-suites-hotels/or073?mc=llgoxxpx",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97219",
+   "expected_street": "11340 SW 60th Ave",
+   "captured_at": "2026-10-03T23:20:33.399687+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/oregon/portland/comfort-suites-hotels/or073?mc=llgoxxpx"
+    },
+    "envelope_sha256": "1a2f77580ccb3df66c41aa89e53273d80f29de707469fe1510e2aab82a5f6e5c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\comfort-suites-southwest\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "econo lodge portland downtown",
+   "canonical_name": "Econo Lodge Portland Downtown",
+   "family": "CHOICE",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/oregon/portland/econo-lodge-hotels/or149?mc=llgoxxpx",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97201",
+   "expected_street": "1889 SW 4th Avenue",
+   "captured_at": "2026-10-03T23:20:48.276021+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/oregon/portland/econo-lodge-hotels/or149?mc=llgoxxpx"
+    },
+    "envelope_sha256": "eff8afaaa1dd3a388cfe7c6ef4d71f15a8a970211e0212caab10e126bb3d1c01"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\econo-lodge-portland-downtown\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "quality inn downtown convention center",
+   "canonical_name": "Quality Inn Downtown Convention Center",
+   "family": "CHOICE",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/oregon/portland/quality-inn-hotels/or014?mc=llgoxxpx",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97232",
+   "expected_street": "431 Northeast Multnomah Street",
+   "captured_at": "2026-10-03T23:21:03.470984+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/oregon/portland/quality-inn-hotels/or014?mc=llgoxxpx"
+    },
+    "envelope_sha256": "3857c7287de57b763324af459368b44d037543b4c6d9a46d6327474b03838d16"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\quality-inn-downtown-convention-center\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "econo lodge",
+   "canonical_name": "Econo Lodge",
+   "family": "CHOICE",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/oregon/portland/econo-lodge-hotels/or030",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:21:18.236981+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/oregon/portland/econo-lodge-hotels/or030"
+    },
+    "envelope_sha256": "9886c2bd2fe44ffb695708a90bdb5cc198a947ca4ef52ee10c17ce9e73c26c66"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\econo-lodge\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "rodeway inn and suites",
+   "canonical_name": "Rodeway Inn & Suites",
+   "family": "CHOICE",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/oregon/portland/rodeway-inn-hotels/or211",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:21:33.885093+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/oregon/portland/rodeway-inn-hotels/or211"
+    },
+    "envelope_sha256": "ab12ade500a702ab78e83b3e079e98ca167c94ef53d2aa3dac47b06bc9e68485"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\rodeway-inn-and-suites\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "6th avenue motel",
+   "canonical_name": "6th Avenue Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.sixthavenuemotel.com/",
+   "final_url": "https://www.concordp2c.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97201",
+   "expected_street": "2221 SW 6th Avenue",
+   "captured_at": "2026-10-03T23:21:52.171340+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.sixthavenuemotel.com/"
+    },
+    "envelope_sha256": "eed6f4da6c32df1a7fcdbeaf467455e0292375431e1325c9984d41232250474d"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\6th-avenue-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "a painted lady inn",
+   "canonical_name": "A Painted Lady Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.apaintedladyinn.com/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "FirecrawlError: HTTP 500 SCRAPE_SITE_ERROR: {\"success\":false,\"code\":\"SCRAPE_SITE_ERROR\",\"error\":\"The URL failed to load in the browser with error code \\\"ERR_EMPTY_RESPONSE\\\". The server closed the connection without sending any response. Please",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97212",
+   "expected_street": "1927 NE 16th Avenue",
+   "captured_at": "2026-10-03T23:22:02.085573+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.apaintedladyinn.com/"
+    },
+    "envelope_sha256": "b43b4e913ce88618f9e48beefc90d11b8794d514f338a1c3cbf7f438e67474e2"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\a-painted-lady-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "aaron motel",
+   "canonical_name": "Aaron Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.aaronmotelportland.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.aaronmotelportland.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily u",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:22:07.434317+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.aaronmotelportland.com"
+    },
+    "envelope_sha256": "ead45efe1865e397f2972eef661bbf5c6d691796c2cf5263de2e055add3fe1d1"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\aaron-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "bridgeway inn and suites",
+   "canonical_name": "Bridgeway Inn & Suites",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.bridgewayhotels.com",
+   "final_url": "https://www.bridgewayhotels.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Bridgeway Inn &amp; Suites Portland Airport",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "5034924000"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "97230",
+   "expected_street": "2323 NE 181st Avenue",
+   "captured_at": "2026-10-03T23:22:10.074683+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.bridgewayhotels.com"
+    },
+    "envelope_sha256": "b0b3496959b79aba40f1e5d230c425b7a642037f55f5e2e5430ac94985c67e46"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\bridgeway-inn-and-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "budget inn",
+   "canonical_name": "Budget Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.budgetinn.com/",
+   "final_url": "http://www.budgetinn.com/",
+   "outcome": "ACCESS_DENIED",
+   "detail": "status 403",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:22:20.719900+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.budgetinn.com/"
+    },
+    "envelope_sha256": "63d16c9f87f0ef7a349dee0926783d933a03ad3e8d41c14533e67c63b65e19c7"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\budget-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "capitol hill motel",
+   "canonical_name": "Capitol Hill Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.capitolhillmotel.com/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.capitolhillmotel.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily una",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97219",
+   "expected_street": "9110 Southwest Barbur Boulevard",
+   "captured_at": "2026-10-03T23:22:30.585143+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.capitolhillmotel.com/"
+    },
+    "envelope_sha256": "00424c8de45e29021adeb0aa816797a21558a395c4d4708e68f6222ea4574c15"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\capitol-hill-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "caravan",
+   "canonical_name": "Caravan",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://tinyhousehotel.com/",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97211",
+   "expected_street": "5009 NE 11th Avenue",
+   "captured_at": "2026-10-03T23:22:33.030569+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://tinyhousehotel.com/"
+    },
+    "envelope_sha256": "272a161314f521b0239606bf722f7752a47582099a41892f161a863f3df27847"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\caravan\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "clackamas inn and suites",
+   "canonical_name": "Clackamas Inn & Suites",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.clackamasinn.com/",
+   "final_url": "http://www.clackamasinn.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97015",
+   "expected_street": "16010 SE 82nd Drive",
+   "captured_at": "2026-10-03T23:23:15.773223+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.clackamasinn.com/"
+    },
+    "envelope_sha256": "b7722d48a10fc39cb110ad72173a005a912a0401d4a66d807ccca08b672b00db"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\clackamas-inn-and-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "country in the city",
+   "canonical_name": "Country in the City",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://theratzhaus.webs.com/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"theratzhaus.webs.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unavail",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97219",
+   "expected_street": "7218 SW 21st Avenue",
+   "captured_at": "2026-10-03T23:23:25.654719+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://theratzhaus.webs.com/"
+    },
+    "envelope_sha256": "b93934401190d444adc771793fd992054e155ea124e88169af9491c68e33935c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\country-in-the-city\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "country inn and suites",
+   "canonical_name": "Country Inn & Suites",
+   "family": "RADISSON",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-portland-airport-or",
+   "final_url": "https://www.radissonhotels.com/en-us/brand/country-inn",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:23:28.509127+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.radissonhotels.com/en-us/hotels/country-inn-portland-airport-or"
+    },
+    "envelope_sha256": "a92a6c5f18086ddcc6fa6b91a1dda0be22e54820f0913f5c9f27a72146420446"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\country-inn-and-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "country inn and suites by radisson portland delta park",
+   "canonical_name": "Country Inn & Suites by Radisson, Portland Delta Park",
+   "family": "RADISSON",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-portland-delta-park-or",
+   "final_url": "https://www.radissonhotels.com/en-us/brand/country-inn",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97217",
+   "expected_street": "9930 North Whitaker Road",
+   "captured_at": "2026-10-03T23:23:39.358556+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.radissonhotels.com/en-us/hotels/country-inn-portland-delta-park-or"
+    },
+    "envelope_sha256": "9a80ef0ad84feb060c7ffe5093bfa5d3c5d75412b5970817ce1c5a4e33a89d83"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\country-inn-and-suites-by-radisson-portland-delta-park\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "eastside lodge",
+   "canonical_name": "Eastside Lodge",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.eastsidelodge.com/",
+   "final_url": "https://www.eastsidelodge.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Eastside Lodge",
+     "address_on_page": "949 E Burnside St.",
+     "postal_code": "97214",
+     "phone_on_page": "+1/(503)-234-8411/",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.eastsidelodge.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5032348411"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "97214",
+   "expected_street": "949 East Burnside Street",
+   "captured_at": "2026-10-03T23:23:50.147891+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.eastsidelodge.com/"
+    },
+    "envelope_sha256": "3210a77e34ddb62e8709b3575c34b96d7bdf5b23e9574b832e9b3a7a8b059988"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\eastside-lodge\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "fox run rv park",
+   "canonical_name": "Fox Run RV Park",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.foxrunrvpark.com/",
+   "final_url": "http://www.foxrunrvpark.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:24:00.953160+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.foxrunrvpark.com/"
+    },
+    "envelope_sha256": "9a37db0011e8da7cdd491119ae50ff04e77b9df363a4363eeddf5450302e2326"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\fox-run-rv-park\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "guest house motel",
+   "canonical_name": "Guest House Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.guesthousemotel.net/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.guesthousemotel.net\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unav",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:24:10.377939+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.guesthousemotel.net/"
+    },
+    "envelope_sha256": "ce29838f997b5666118443bb2e0babace38db42ec0ff1a67d3b9aab76aa4e5ae"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\guest-house-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "hospitality inn",
+   "canonical_name": "Hospitality Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.hospitalityinnportland.com/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.hospitalityinnportland.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporari",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97219",
+   "expected_street": "10155 Southwest Capitol Highway",
+   "captured_at": "2026-10-03T23:24:12.946420+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.hospitalityinnportland.com/"
+    },
+    "envelope_sha256": "1a9e7c3b0b1c9b5c8186f17dfcd1fb4dede724c39dcb0e8affdafe5e38fd4945"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\hospitality-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "hotel eastlund",
+   "canonical_name": "Hotel Eastlund",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://hoteleastlund.com/?utm_source=google-gmb-maps&utm_medium=gmb-website-button&utm_campaign=locl.io&utm_content=05b7cc8e-9ba6-4f5b-9f89-8359a70f0f9b",
+   "final_url": "https://www.hoteleastlund.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotel Eastlund",
+     "address_on_page": "1021 Northeast Grand Avenue",
+     "postal_code": "97232",
+     "phone_on_page": "+1-503.235.2100",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.hoteleastlund.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5032352100",
+      "0764411782",
+      "0739611782",
+      "1297711790"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "97232",
+   "expected_street": "1021 Northeast Grand Avenue",
+   "captured_at": "2026-10-03T23:24:18.621413+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://hoteleastlund.com/?utm_source=google-gmb-maps&utm_medium=gmb-website-button&utm_campaign=locl.io&utm_content=05b7cc8e-9ba6-4f5b-9f89-8359a70f0f9b"
+    },
+    "envelope_sha256": "eafa4d9af8f156526233b6800245e2e289cb1df99bc6834a08a483a8567e6693"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\hotel-eastlund\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "inn at marquam hill",
+   "canonical_name": "Inn at Marquam Hill",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.innatmarquamhill.com/",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.innatmarquamhill.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily una",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97239",
+   "expected_street": "3412 SW 13th Avenue",
+   "captured_at": "2026-10-03T23:24:28.642528+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.innatmarquamhill.com/"
+    },
+    "envelope_sha256": "f7bfc3ee22611b5c006dfd778e949bed7fa29bc8845e691b11fbcf8438af4d94"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\inn-at-marquam-hill\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "kenton hotel",
+   "canonical_name": "Kenton Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.kentonhotel.net/",
+   "final_url": "https://www.vectorstays.com/s",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97217",
+   "expected_street": "8355 North Interstate Avenue",
+   "captured_at": "2026-10-03T23:24:31.243221+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.kentonhotel.net/"
+    },
+    "envelope_sha256": "70c81b23f78b9c22d12057d04f3d586444b712b5711ad15338481fc433067001"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\kenton-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "kex",
+   "canonical_name": "KEX",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://kexhotels.com/",
+   "final_url": "https://kexhotels.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:24:43.072979+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://kexhotels.com/"
+    },
+    "envelope_sha256": "b1b73d5a0da251421cdbacd8779a93db9c9d3db7162a88a04e4c7ea34d1e687b"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\kex\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "kex portland",
+   "canonical_name": "KEX Portland",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://kexhotels.com/?utm_source=GMB",
+   "final_url": "http://kexhotels.com/?utm_source=GMB",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97232",
+   "expected_street": "100 Northeast Martin Luther King Junior Boulevard",
+   "captured_at": "2026-10-03T23:24:54.116118+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://kexhotels.com/?utm_source=GMB"
+    },
+    "envelope_sha256": "ecd64e1b7ed3e0ac22542a81d4d3fd7baf6130c166cf3ad2884d5f1759f2d376"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\kex-portland\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "kinley manor",
+   "canonical_name": "Kinley Manor",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.kinleymanor.com/",
+   "final_url": "http://www.kinleymanor.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Home', which does not agree with 'Kinley Manor'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Home",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "5032497270"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Home', which does not agree with 'Kinley Manor'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "97212",
+   "expected_street": "924 Northeast Schuyler Street",
+   "captured_at": "2026-10-03T23:25:04.861919+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.kinleymanor.com/"
+    },
+    "envelope_sha256": "d02984d3f1a756173db0fec43920c77b53e3d5359611c7cc89a286e131012a53"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\kinley-manor\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "monticello motel",
+   "canonical_name": "Monticello Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.monticellomotelportland.top/",
+   "final_url": "https://www.monticellomotelportland.top/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Monticello Motel Portland – Located 14-minutes' drive from St. Johns Bridge, 5.9-miles away from Oregon Zoo, and 21-minutes' drive from Portland International Airport, Monticello Motel features budget-friendly and family-friendly environment.",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.monticellomotelportland.top/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "5032856641",
+      "4743096808",
+      "2018788483",
+      "6951158212"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "97217",
+   "expected_street": "4801 N Interstate Ave",
+   "captured_at": "2026-10-03T23:25:15.644464+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.monticellomotelportland.top/"
+    },
+    "envelope_sha256": "2aa18e79d89f993fbef425a1fc6273bfc6a6372e3c3e2bf53eb8e08d5a4baf14"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\monticello-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "motel 6",
+   "canonical_name": "Motel 6",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/property/motel-tigard-oregon-us-294059/",
+   "final_url": "https://www.motel6.com/property/motel-tigard-oregon-us-294059/",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Motel 6 Tigard, OR - Portland South - Lake Oswego",
+     "address_on_page": "17950 Southwest McEwan Road",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.motel6.com/property/motel-tigard-oregon-us-294059/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "7594353759",
+      "0424884042",
+      "0053743005",
+      "9451271976",
+      "8008999841",
+      "5036202066"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:25:28.608273+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/property/motel-tigard-oregon-us-294059/"
+    },
+    "envelope_sha256": "c67150ad7b70034cee771c941e56d2c2920cd61862c0f0ae882eab615d151283"
+   },
+   "page_sha256": "c3ee47bb5050b34d8bcd8d86dd0de4284890b674420a390f163b3f7ad825b6da",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\motel-6\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {},
+    "evidence": [],
+    "withheld_fields": {
+     "pets_allowed": "ARTIFACT_INSUFFICIENT",
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_REJECTED",
+     "reasons": [
+      "the capture produced no evidence entry to evaluate",
+      "no publication-grade evidence; the record carries only <none>"
+     ],
+     "schema_issues": [],
+     "blockers": [
+      "no publication-grade evidence; the record carries only <none>"
+     ],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {},
+     "evidence_entries": [],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "0231eade6fb4c87cc86a36f12a5d30e8d9e72031724ec31eb397d6bc52a2516f",
+     "document_sha256": "c3ee47bb5050b34d8bcd8d86dd0de4284890b674420a390f163b3f7ad825b6da"
+    }
+   },
+   "pets_allowed": null,
+   "firecrawl_class": "FIRECRAWL_IDENTITY_ONLY"
+  },
+  {
+   "identity_key": "motel 6",
+   "canonical_name": "Motel 6",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/content/g6/en/home/motels.wa.vancouver.4362.html?lid=Local_Milestone_4362&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=li",
+   "final_url": "https://www.motel6.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:25:41.230619+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/content/g6/en/home/motels.wa.vancouver.4362.html?lid=Local_Milestone_4362&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=li"
+    },
+    "envelope_sha256": "c7ac7962273066df036d8198702e027bb7119610b1bdd81c5a0a6743214e53f0"
+   },
+   "page_sha256": "c3ee47bb5050b34d8bcd8d86dd0de4284890b674420a390f163b3f7ad825b6da",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\motel-6\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "motel 6",
+   "canonical_name": "Motel 6",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/property/motel-wilsonville-oregon-us-294514/",
+   "final_url": "https://www.motel6.com/property/motel-wilsonville-oregon-us-294514/",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Motel 6 Wilsonville, OR - Portland",
+     "address_on_page": "25438 Southwest Parkway Avenue",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.motel6.com/property/motel-wilsonville-oregon-us-294514/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "7594353759",
+      "0424884042",
+      "0053743005",
+      "9451271976",
+      "8008999841",
+      "5036822088"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:25:52.545572+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/property/motel-wilsonville-oregon-us-294514/"
+    },
+    "envelope_sha256": "c2a7f608ffb8efaf064111bcdd978d20dc5336190cba3afde9e6996dc3d79ae6"
+   },
+   "page_sha256": "a4c8658b23a1b2d68eea712fe7072c9651c9ad5f62891e89eb73b9148380c1da",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\motel-6\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "observation": {
+    "extraction": {},
+    "evidence": [],
+    "withheld_fields": {
+     "pets_allowed": "ARTIFACT_INSUFFICIENT",
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_REJECTED",
+     "reasons": [
+      "the capture produced no evidence entry to evaluate",
+      "no publication-grade evidence; the record carries only <none>"
+     ],
+     "schema_issues": [],
+     "blockers": [
+      "no publication-grade evidence; the record carries only <none>"
+     ],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {},
+     "evidence_entries": [],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "626682b7555499a2e1bf073ee9981067e88518ed3af17bd51946c648d9ca57b5",
+     "document_sha256": "a4c8658b23a1b2d68eea712fe7072c9651c9ad5f62891e89eb73b9148380c1da"
+    }
+   },
+   "pets_allowed": null,
+   "firecrawl_class": "FIRECRAWL_IDENTITY_ONLY"
+  },
+  {
+   "identity_key": "motel 6",
+   "canonical_name": "Motel 6",
+   "family": "MOTEL6",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.motel6.com/en/home/motels.or.portland.4229.html",
+   "final_url": "https://www.motel6.com/property/motel-portland-or-oregon-us-294597/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:26:07.348737+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.motel6.com/en/home/motels.or.portland.4229.html"
+    },
+    "envelope_sha256": "f489c4e0a771773e108232c446af5b41a362d8a1c7673dc49a5095a56f44a895"
+   },
+   "page_sha256": "a4c8658b23a1b2d68eea712fe7072c9651c9ad5f62891e89eb73b9148380c1da",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\motel-6\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "oxford suites portland jantzen beach",
+   "canonical_name": "Oxford Suites Portland – Jantzen Beach",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.oxfordsuitesportland.com/?utm_source=gmb&utm_medium=yext",
+   "final_url": "https://www.oxfordcollection.com/hotels/suites-portland",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97217",
+   "expected_street": "12226 North Jantzen Drive",
+   "captured_at": "2026-10-03T23:26:19.341718+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.oxfordsuitesportland.com/?utm_source=gmb&utm_medium=yext"
+    },
+    "envelope_sha256": "2c4fa5486660b4f974f19c77aeeed3a5512f4a1c025d8bc986157149a3b27051"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\oxford-suites-portland-jantzen-beach\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "pheasant ridge rv park",
+   "canonical_name": "Pheasant Ridge RV Park",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.sunoutdoors.com/oregon/sun-outdoors-portland-south?utm_source=google&utm_medium=organic&utm_campaign=gbp_listing",
+   "final_url": "https://www.sunoutdoors.com/oregon/sun-outdoors-portland-south",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names \"['Sun Outdoors Portland South']\", which does not agree with 'Pheasant Ridge RV Park'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "['Sun Outdoors Portland South']",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "['(503) 682-7829']",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sunoutdoors.com/oregon/sun-outdoors-portland-south",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5036827829",
+      "8888862477",
+      "2487497685"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names \"['Sun Outdoors Portland South']\", which does not agree with 'Pheasant Ridge RV Park'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:26:29.694885+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.sunoutdoors.com/oregon/sun-outdoors-portland-south?utm_source=google&utm_medium=organic&utm_campaign=gbp_listing"
+    },
+    "envelope_sha256": "fc213c48212cfb0f991512f64e68b47a0595ec492f1e7061783e22deb2effab8"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\pheasant-ridge-rv-park\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "portland fairview rv park",
+   "canonical_name": "Portland Fairview RV Park",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://thousandtrails.com/oregon/portland-fairview-rv-park/?utm_source=BirdEye&utm_medium=directory&utm_campaign=BirdEyeDirectoryListing",
+   "final_url": "https://thousandtrails.com/oregon/portland-fairview-rv-park/?utm_source=BirdEye&utm_medium=directory&utm_campaign=BirdEyeDirectoryListing",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Portland Fairview RV Park | RV Resorts in Oregon",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "5036611047",
+      "8777771047",
+      "8778642728",
+      "8553368892",
+      "2015550123",
+      "8775702267",
+      "9797328229",
+      "8556811981",
+      "9567877571",
+      "9283448666",
+      "7278683586",
+      "9406833016",
+      "9549428688",
+      "3864399200",
+      "9283429188",
+      "9287260959",
+      "5208369031",
+      "3523945513",
+      "7178724651",
+      "3527968016",
+      "9569691557",
+      "4809821537",
+      "3527953774",
+      "9283429313",
+      "9288594639",
+      "5204267000",
+      "3052491035",
+      "9283421030",
+      "5208362531",
+      "8137821058",
+      "2394667171",
+      "9563995125",
+      "4809833760",
+      "2394668100",
+      "9416393978",
+      "9416244511",
+      "7279346782",
+      "9368563751",
+      "9365821200",
+      "8634201300",
+      "9035982800",
+      "9035235218",
+      "2546944269",
+      "9564231170",
+      "9569688412",
+      "8307512406",
+      "4804748900",
+      "4808321770",
+      "9287265814",
+      "3052335300",
+      "4808332223",
+      "8637630231",
+      "3523947575",
+      "9564256881",
+      "6239770344",
+      "9565652044",
+      "8637358888",
+      "2392832415",
+      "2395433303",
+      "9414934354",
+      "8639932111",
+      "3867674308",
+      "9414889674",
+      "4073967431",
+      "8139204185",
+      "9569683140",
+      "3523578882",
+      "3216362873",
+      "9287265941",
+      "2397311303",
+      "3866723045",
+      "3058722217",
+      "9564284137",
+      "7725897828",
+      "9417294422",
+      "3527483870",
+      "8634941744",
+      "3527960625",
+      "9569685051",
+      "9564234020",
+      "4073960380",
+      "7275315589",
+      "5207200024",
+      "9285374443",
+      "9286348158",
+      "9564647801",
+      "4803738700",
+      "5205745000",
+      "4076561415",
+      "9417452600",
+      "8139496551",
+      "8047584349",
+      "5186233207",
+      "2072884782",
+      "2076674300",
+      "8158573860",
+      "5305412222",
+      "8054897787",
+      "2523542250",
+      "2099620103",
+      "8654461500",
+      "4193799601",
+      "5012622550",
+      "7194759450",
+      "8774365063",
+      "2512441015",
+      "5592363174",
+      "7066634329",
+      "2399447700",
+      "8655058217",
+      "5013564626",
+      "7194282294",
+      "8669894429",
+      "8663203117",
+      "5033710555",
+      "7078945321",
+      "7603452236",
+      "7603451682",
+      "8129345496",
+      "8005629750",
+      "8005628607",
+      "8005627857",
+      "8003887788",
+      "8885624236",
+      "8005624788"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:26:42.729413+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://thousandtrails.com/oregon/portland-fairview-rv-park/?utm_source=BirdEye&utm_medium=directory&utm_campaign=BirdEyeDirectoryListing"
+    },
+    "envelope_sha256": "2301a93086faddee3d65cf146ede7ccdf02df9d804864ac460f906ff42baa3d7"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\portland-fairview-rv-park\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "radisson hotel portland airport",
+   "canonical_name": "Radisson Hotel Portland Airport",
+   "family": "RADISSON",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.radissonhotels.com/en-us/hotels/radisson-portland-airport",
+   "final_url": "https://www.radissonhotels.com/en-us/brand/radisson",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97218",
+   "expected_street": "6233 NE 78th Court",
+   "captured_at": "2026-10-03T23:27:01.456309+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.radissonhotels.com/en-us/hotels/radisson-portland-airport"
+    },
+    "envelope_sha256": "ef6d579d2069d6391ac24a5cb24a94941b48ca5203da498a5d52f889b4cf38de"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\radisson-hotel-portland-airport\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "roamers rest rv park",
+   "canonical_name": "Roamers Rest RV Park",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.roamersrestrvpark.com/",
+   "final_url": "https://roamersrestrvpark.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Home - Roamer', which does not agree with 'Roamers Rest RV Park'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Home - Roamer",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://roamersrestrvpark.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "5036926350"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Home - Roamer', which does not agree with 'Roamers Rest RV Park'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:27:14.316362+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.roamersrestrvpark.com/"
+    },
+    "envelope_sha256": "5d2987d71114b2840545c16a5623e37b5faca47130a0eb80093810cc07535806"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\roamers-rest-rv-park\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "slabtown village",
+   "canonical_name": "Slabtown Village",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.slabtownvillage.com/",
+   "final_url": "https://www.slabtownvillage.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Luxury Tiny Home Hotel | Portland Oregon | Slabtown Village",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.slabtownvillage.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "5039089081"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "97209",
+   "expected_street": "1836 NW Overton St",
+   "captured_at": "2026-10-03T23:27:26.424671+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.slabtownvillage.com/"
+    },
+    "envelope_sha256": "4e2713533fa3911f7a412178cf96f86a9bfc88274d1dfb06bc7d7c004e29d545"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\slabtown-village\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "the portlander inn",
+   "canonical_name": "The Portlander Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://jubitz.com/portlander-inn/",
+   "final_url": "https://jubitz.com/portlander-inn/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Portlander Inn - Jubitz Travel Center - Portland, OR",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://jubitz.com/portlander-inn/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "3605745440",
+      "5033450300",
+      "8005231193"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "97217",
+   "expected_street": "10350 North Vancouver Way",
+   "captured_at": "2026-10-03T23:27:38.380440+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://jubitz.com/portlander-inn/"
+    },
+    "envelope_sha256": "a3baa2a7dd47214841dc90fd61442dd9f47caad2a804abe5ea697fe8d86477ad"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\the-portlander-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "the society hotel",
+   "canonical_name": "The Society Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://portland.thesocietyhotel.com/",
+   "final_url": "https://portland.thesocietyhotel.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Society Hotel Portland",
+     "address_on_page": "203 NW 3rd Ave",
+     "postal_code": "97209",
+     "phone_on_page": "+15034450444",
+     "property_code_on_page": "",
+     "canonical_url": "https://portland.thesocietyhotel.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5034450444",
+      "5032783437"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "97209",
+   "expected_street": "203 NW 3rd Avenue",
+   "captured_at": "2026-10-03T23:27:48.173441+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://portland.thesocietyhotel.com/"
+    },
+    "envelope_sha256": "e4af3530b44ef03861b06b7d080f6f1858fc5f9f304214c922cbf972b781685f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\the-society-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "viking motel",
+   "canonical_name": "Viking Motel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.vikingmotelportland.com/",
+   "final_url": "https://www.vikingmotelportland.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Viking Motel | Top Motel in Portland, OR",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.vikingmotelportland.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "5032854896"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-03T23:27:59.318509+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.vikingmotelportland.com/"
+    },
+    "envelope_sha256": "4b82e207f945400e262a1f7290195be854a4ad67fe16d03473424e13ebbb20b6"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\viking-motel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "violet suites",
+   "canonical_name": "Violet Suites",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.violetsuitespdx.com/",
+   "final_url": "https://www.violetsuitespdx.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97214",
+   "expected_street": "905 SE 14th Ave",
+   "captured_at": "2026-10-03T23:28:09.926041+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.violetsuitespdx.com/"
+    },
+    "envelope_sha256": "eecbecdb3f97d35b2302618a4d7ee2e408bd6dc0700b3937b13327e5426488e7"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\violet-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "wilsonville inn and suites",
+   "canonical_name": "Wilsonville Inn & Suites",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.bestwestern.com/en_US/book/hotels-in-wilsonville/best-western-wilsonville-inn-suites/propertyCode.38165.html",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "97070",
+   "expected_street": "29769 Southwest Boones Ferry Road",
+   "captured_at": "2026-10-03T23:28:18.864894+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.bestwestern.com/en_US/book/hotels-in-wilsonville/best-western-wilsonville-inn-suites/propertyCode.38165.html"
+    },
+    "envelope_sha256": "d803ff25cb78cd43bbb13fcbeefbecd650610d5f1a52b0548846eb16a5dc556d"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\portland_or_firecrawl_001\\wilsonville-inn-and-suites\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  }
+ ]
+}

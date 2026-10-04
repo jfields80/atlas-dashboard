@@ -1,0 +1,103 @@
+{
+ "schema": "ptf-source-accounting/1.0",
+ "work_order": "PTF-PORTLAND-OR-HARDENED-SOURCE-READY-001",
+ "market_id": "portland-or",
+ "derived_from": "launch_packages/pettripfinder/markets/reports/portland_or_source_ready_accounting_001.json",
+ "headline": {
+  "total_raw_observations": 1644,
+  "raw_observations_by_lane": {
+   "REGISTRY_LICENCE": 0,
+   "OSM_OVERPASS": 622,
+   "BRAND_INVENTORY_OWNED": 47,
+   "BRAND_INVENTORY_CITY_PAGE": 36,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 51,
+   "DESTINATION_ORGANIZATION": 265,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 327,
+   "IDENTITY_VERIFIED_PLACES": 21,
+   "PROPERTY_PAGE": 275
+  },
+  "public_lodging_register_leads": 0,
+  "osm_lodging_elements": 656,
+  "brand_inventory_leads": 114,
+  "destination_roster_listings": 266,
+  "destination_roster_rows_in_admitted_codes": 173,
+  "competitor_leads_normalized": 327,
+  "graph_nodes": 933,
+  "proposed_census": 272,
+  "valid_pet_friendly": 150,
+  "valid_verified_no_pets": 47,
+  "resolved": 197,
+  "unresolved": 75,
+  "resolution_rate": 0.7243
+ },
+ "holds_by_class": {
+  "IDENTITY": 4,
+  "ROUTING": 18,
+  "ACCESS_BLOCKED": 8,
+  "EVIDENCE": 17,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 28,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "router exhausted: static NAVIGATION_FAILED, Firecrawl FIRECRAWL_FAILED": 2,
+   "router exhausted on every free/authorized lane attempted this order (s": 2,
+   "router exhausted: static UNHYDRATED, Firecrawl FIRECRAWL_MISMATCH": 2,
+   "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED": 1,
+   "the property's own site (found via Places) did not serve to the plain ": 1
+  },
+  "EVIDENCE_HOLD": {
+   "the first-party quote states neither an acceptance nor a refusal sente": 7,
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 5,
+   "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE": 3,
+   "the property's own page served and bound these premises, but its only ": 2
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "the fetched page's own identity did not confirm this census row": 4
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 9,
+   "the route the census carries served an error page (expired domain, sit": 5,
+   "NOT_FIRST_PARTY_SITE": 3,
+   "the brand's own property-code route lands on a hotel-search page: the ": 1
+  },
+  "SOURCE_SILENT": {
+   "the brand's own page served and bound these premises, and the only pet": 16,
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 6,
+   "the property's own site (found via Places, bound on its own address/ph": 6
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 48,
+  "timeshare": 3,
+  "resort_residence": 0,
+  "non_hotel": 95,
+  "closed": 0,
+  "converted_to_non_hotel": 0,
+  "military_restricted": 0,
+  "outside": 325,
+  "duplicate_listing": 1,
+  "name_only_unresolved_graph_residue": 149,
+  "identity_review_required_graph_residue": 38,
+  "same_campus_distinct_entity": 2,
+  "register_short_term_rental_and_other_rows_never_leads": 0,
+  "closed_note": "No row was classified CLOSED on a first-party closure statement; lapsed routes (an expired domain, a brand redirect to its own search) are ROUTING holds, never a closure claim."
+ },
+ "remaining_unresolved_root_causes": {
+  "ROUTING_HOLD": "no first-party route: no brand inventory row, bureau link or map website joined the building, Google Places route discovery (run inside the renewed free monthly allowance) found no first-party website for it, or the route the census carried is retired, expired or a third-party page.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible, the attended browser) was refused or walled.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a conditional, chip-only or fee/weight/count-only statement, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "dual-brand buildings awaiting a reviewed shared resolution, or a page that never confirmed this census row's premises."
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "schema": "ptf-registry-lane/1.0",
+ "work_order": "PTF-PORTLAND-OR-HARDENED-SOURCE-READY-001",
+ "market_id": "portland-or",
+ "phase": "10 -- the Oregon / Washington lodging-register lane: MEASURED, NONE EXISTS",
+ "register_exists": false,
+ "measured_on": "2026-10-03",
+ "measurements": [
+  {
+   "portal": "data.oregon.gov catalog",
+   "query": "q=lodging",
+   "answered": "8prr-d4xq State Transient Lodging Tax Return Statistics by Accommodation Type; mf7n-egve ... by Region",
+   "why_not_a_register": "aggregate tax statistics -- no premises, name or address"
+  },
+  {
+   "portal": "data.oregon.gov catalog",
+   "query": "q=hotel",
+   "answered": "no dataset",
+   "why_not_a_register": "nothing to read"
+  },
+  {
+   "portal": "Socrata catalog (all domains)",
+   "query": "q=transient lodging portland",
+   "answered": "data.orcities.org xvs2-d76x Transient Lodging Tax Revenues",
+   "why_not_a_register": "city-level revenue totals -- no premises"
+  },
+  {
+   "portal": "Socrata catalog (all domains)",
+   "query": "q=traveler's accommodation",
+   "answered": "Nova Scotia / New Brunswick datasets only",
+   "why_not_a_register": "no Oregon or Washington register"
+  },
+  {
+   "portal": "inspections.myhealthdepartment.com/multnomah",
+   "query": "GET (plain client)",
+   "answered": "HTTP 403 Forbidden",
+   "why_not_a_register": "interactive county inspection search behind an access control; not an open register and not worked around"
+  },
+  {
+   "portal": "data.wa.gov 9vm5-7kxk (measured by PTF-SEATTLE-WA-HARDENED-SOURCE-READY-001)",
+   "query": "Transient Accommodations (Lodging)",
+   "answered": "updated 2018-03-12, non-tabular",
+   "why_not_a_register": "stale and not a tabular register"
+  }
+ ],
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 6,
+ "what_replaces_it": "OpenStreetMap (Oregon + Washington extracts), the committed national brand inventory, the brands' own city pages and sitemaps, the destination organisations, Google Places identity verification inside the free allowance, the property pages themselves and the competitor gap challenge.",
+ "accommodation_rows": 0,
+ "lead_rows": 0,
+ "leads_in_admitted_postal_codes": 0,
+ "leads_by_corridor": {},
+ "leads_refused_by_their_own_postal_code": 0,
+ "leads_refused_by_future_market": {},
+ "leads_without_trade_name": 0,
+ "short_term_rental_and_other_rows_counted_not_leads": 0,
+ "pages": [],
+ "leads": []
+}
