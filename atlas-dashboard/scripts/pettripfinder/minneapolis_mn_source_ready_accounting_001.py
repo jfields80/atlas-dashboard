@@ -453,8 +453,13 @@ def main():
                                                   ("answered", bpr.get("answered", 0)),
                                                   ("with_own_address", bpr.get("with_own_address", 0)),
                                                   ("by_family", bpr.get("by_family", {}))])),
-                ("retry_pass_why", "no retry or probe pass was run in Minneapolis (0 attempts); the IHG brand-page "
-                                   "lane and the residual pass 001 are the only Firecrawl property-page reads"),
+                ("retry_pass_why", "no residual, retry or probe pass was run in Minneapolis (0 attempts): the IHG "
+                                   "brand-page lane (25 pages) is the only Firecrawl property-page read. Choice's "
+                                   "directory pages were refused at 0 credits; Marriott, Hilton, Hyatt, Best Western, "
+                                   "Choice and the independents were read in the attended browser instead, and no "
+                                   "held row is one a Firecrawl read could resolve (the remaining holds are dual-brand "
+                                   "premises, sites with no address of their own, dead or non-first-party sites, "
+                                   "and pages read silent)"),
                 ("distinct_identities_attempted", len(fc_rows)),
                 ("by_cohort", OrderedDict(sorted((k, v) for k, v in fc_cohort.items() if k))),
                 ("publication_grade", fc_class.get("FIRECRAWL_PUBLICATION_GRADE", 0)),

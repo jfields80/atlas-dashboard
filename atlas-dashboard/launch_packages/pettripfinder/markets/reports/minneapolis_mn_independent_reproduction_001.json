@@ -1,0 +1,37 @@
+{
+ "schema": "ptf-independent-reproduction/1.0",
+ "work_order": "PTF-MINNEAPOLIS-MN-HARDENED-SOURCE-READY-001",
+ "market_id": "minneapolis-mn",
+ "source_sha": "4b01913787fb0cea6c5d40e743f67b5845fd6278",
+ "main_run": {
+  "tree": "C:\\Atlas-Minneapolis-MN-Hardened-V1 (branch worktree)",
+  "work_dir": "C:/t/msp1",
+  "process": "detached python process (Start-Process, pid 11040), started 2026-10-04T18:42:21Z, receipt written 2026-10-04T18:50:29Z",
+  "receipt": "pkg-minneapolis-mn-5e356167a116c464-88a5ed7276ec6ba9.json"
+ },
+ "reproduction_run": {
+  "tree": "C:/t/msprw (git worktree add --detach at the source sha)",
+  "work_dir": "C:/t/msp2",
+  "process": "separate detached python process (pid 6168), started 2026-10-04T18:53:29Z after the main run exited, receipt written 2026-10-04T18:58:05Z",
+  "receipt": "pkg-minneapolis-mn-5e356167a116c464-0f941dccd72a96f1.json (receipt digest differs only by run metadata; not committed -- the reproduction worktree was removed)"
+ },
+ "package_id": "pkg-minneapolis-mn-5e356167a116c464",
+ "package_digest": "sha256:5e356167a116c464a4d9e78dbc5907a5b7299ed4f5a5e23dbf87301d7f5cef34",
+ "same_package_id_and_digest": true,
+ "fast_both_runs": "15/15 PASS, 0 UNKNOWN, 0 FAILED",
+ "rule_j_both": {
+  "bundle_sha256": "cdd956142e245072bb9989a69320f78886427fe360e58842483648667b00e944",
+  "file_count": 953,
+  "html_count": 937,
+  "staged_input_digest": "sha256:1ce5f7d5cf54bf8442cc5c18cc2c0808798a43d1a473d21bab1afec69e0a3267"
+ },
+ "rule_k_both": "BYTE_IDENTICAL",
+ "data_files_compared": 17,
+ "data_differences": 0,
+ "data_files_scope": "staged launch_package (8), raw captures (7), sealed package (1) and the proposed authority (1); compared after CRLF->LF normalisation (core.autocrlf rendering is not nondeterminism)",
+ "site_files_compared": 2036,
+ "site_differences": 0,
+ "site_files_scope": "the two runs' build work trees oa/ob (957 files each) and sa/sb (61 each), file sets and contents",
+ "BYTE_IDENTICAL": "YES",
+ "sequential": "the reproduction started only after the main seal process had exited; no two builds overlapped"
+}
