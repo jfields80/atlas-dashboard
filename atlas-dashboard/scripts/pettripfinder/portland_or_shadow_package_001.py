@@ -56,8 +56,8 @@ AUTHORITY = STAGING / "portland_or_proposed_authority_001.json"
 PARTITION_SRC = STAGING / "launch_package" / "portland_or_final_partition_001.json"
 #: A FIXED seal time (the package digest covers it, so it must never be the wall clock): after this order's last
 #: first-party capture (the browser recorder's real-clock stamp of its final read) and not later than the moment it
-#: was set, by the real clock. The San Antonio clone carried San Antonio's 2026-10-02T18:00:50Z.
-SEALED_AT = "2026-10-03T07:15:00Z"  # after the last capture (seq 193, 2026-10-03T07:11:54Z); the real clock read 07:15:32Z when set
+#: was set, by the real clock. The Seattle clone carried Seattle's 2026-10-03T07:15:00Z.
+SEALED_AT = "2026-10-04T01:33:00Z"  # after the last capture (seq 210, 2026-10-04T01:13:08Z); the real clock read 01:33:09Z when set
 
 
 def _read(path):
