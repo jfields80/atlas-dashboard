@@ -41,7 +41,7 @@ MARKET_ID = "portland-or"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "portland-or.json")
+CENSUS = os.path.join(PKG, "identity_census", "portland-or.json")
 OUT = os.path.join(REPORTS, "portland_or_routing_001.json")
 
 _NAME_FAMILY = [

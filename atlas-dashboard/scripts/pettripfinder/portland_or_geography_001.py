@@ -106,7 +106,7 @@ REPORTS = os.path.join(PKG, "markets", "reports")
 CONFIG_OUT = os.path.join(_DASH, "scripts", "pettripfinder", "discovery", "config", "portland_or.json")
 #: NOT registered by this order. A source-ready market's document lives under markets/proposed/ until a
 #: registration order moves it to the registry's markets/<id>.json.
-SHARD_OUT = os.path.join(PKG, "markets", "proposed", "portland-or.json")
+SHARD_OUT = os.path.join(PKG, "markets", "portland-or.json")
 REPORT_OUT = os.path.join(REPORTS, "portland_or_geography_001.json")
 REGISTRY_OUT = os.path.join(REPORTS, "portland_or_corridor_registry_001.json")
 #: Every REGISTERED market's own document: no postal code any of them admits may be admitted here.

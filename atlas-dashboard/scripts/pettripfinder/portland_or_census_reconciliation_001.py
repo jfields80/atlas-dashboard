@@ -130,8 +130,8 @@ PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 #: SHADOW_UNTIL_REGISTERED: the census goes to identity_census_proposed/ and the contract is read from
 #: markets/proposed/<id>.json. A registration order moves both; this order moves neither.
-CENSUS_DIR = os.path.join(PKG, "identity_census_proposed")
-CONTRACT_PATH = os.path.join(PKG, "markets", "proposed", "portland-or.json")
+CENSUS_DIR = os.path.join(PKG, "identity_census")
+CONTRACT_PATH = os.path.join(PKG, "markets", "portland-or.json")
 
 OSM_LANE = os.path.join(REPORTS, "portland_or_osm_lane_001.json")
 BRAND = os.path.join(REPORTS, "portland_or_brand_inventory_001.json")
