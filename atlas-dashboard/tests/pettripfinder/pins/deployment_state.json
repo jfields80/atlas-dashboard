@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-SEATTLE-WA-PRODUCTION-DEPLOYMENT-004",
+ "reviewed_by": "PTF-PORTLAND-OR-PRODUCTION-DEPLOYMENT-004",
  "live": {
-  "deploy_id": "6ac169ef7c75c383eb79f824",
-  "deployed_by": "PTF-SEATTLE-WA-PRODUCTION-DEPLOYMENT-004",
-  "authorization_id": "ptf-auth-seattle-003-cfaad64a7bcb",
-  "deployment_record_id": "ptf-deploy-seattle-004-6ac169ef7c75c383eb79f824",
-  "previous_deploy_id": "6ac064cd6a4261e60054a2f3",
-  "source_commit": "438348c712a2a57c54ac735847a7397a020b9cbe",
-  "bundle_sha256": "cfaad64a7bcb1b2b1734fe777ea577d5884aafe953054c2d80a7db1b01e0e5c3",
-  "sitemap_sha256": "63e052812b36668271aebb3f8bc933a44ac0d6150b7b8c19279d5f1e45a2b151",
+  "deploy_id": "6ac264b79e70ce6a7db4baaf",
+  "deployed_by": "PTF-PORTLAND-OR-PRODUCTION-DEPLOYMENT-004",
+  "authorization_id": "ptf-auth-portland-003-d674d2898af1",
+  "deployment_record_id": "ptf-deploy-portland-004-6ac264b79e70ce6a7db4baaf",
+  "previous_deploy_id": "6ac169ef7c75c383eb79f824",
+  "source_commit": "22ff1c941c0ee82070fdeee473f144b664a34824",
+  "bundle_sha256": "d674d2898af11565559318500650bbee1c8e59fbf0fc3ea4040dacd3a7cfecea",
+  "sitemap_sha256": "a50f1e343949ff65122e903b39a8bc9aed6318aef0a25b265aba6da772adf360",
   "participating_markets": [
    "asheville-nc",
    "atlanta-ga",
@@ -41,6 +41,7 @@
    "phoenix-az",
    "piedmont-triad-nc",
    "pittsburgh-pa",
+   "portland-or",
    "raleigh-nc",
    "richmond-va",
    "san-antonio-tx",
@@ -83,6 +84,7 @@
    "phoenix-az": 256,
    "piedmont-triad-nc": 54,
    "pittsburgh-pa": 61,
+   "portland-or": 150,
    "raleigh-nc": 63,
    "richmond-va": 93,
    "san-antonio-tx": 144,
@@ -95,19 +97,19 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 3669,
-  "sitemap_route_count": 4117,
-  "total_html_pages": 22165,
-  "total_files": 22183,
-  "rollback_target": "6ac064cd6a4261e60054a2f3",
-  "note": "Seattle / Bellevue / Puget Sound joined as the FORTIETH market and the first Washington market at 139 published pet-friendly profiles over 10 publishing corridors, on package pkg-seattle-wa-784f0147e1220f40 (founder-authorized by PTF-SEATTLE-WA-FOUNDER-LAUNCH-AUTHORIZATION-003, bound to registration commit 89d6f249). The exact authorized artifact was deployed with no rebuild; every unpublished census row returns 404, and the timeshare and military-restricted identities are absent. Rollback is the deployment Seattle replaced (San Antonio, 39 markets).",
-  "rollback_record": "ptf-deploy-san-antonio-005-6ac064cd6a4261e60054a2f3.json"
+  "total_profiles": 3819,
+  "sitemap_route_count": 4280,
+  "total_html_pages": 23052,
+  "total_files": 23070,
+  "rollback_target": "6ac169ef7c75c383eb79f824",
+  "note": "Portland / Greater Portland, Oregon joined as the FORTY-FIRST market and the first Oregon market, with the Vancouver, Washington corridor, at 150 published pet-friendly profiles over 11 publishing corridors, on package pkg-portland-or-5b6016fb253bc7a7 (founder-authorized by PTF-PORTLAND-OR-FOUNDER-LAUNCH-AUTHORIZATION-003, bound to registration commit 09850aa3). The exact authorized artifact was deployed with no rebuild; every unpublished census row and the shared campus at 11707 NE Airport Way return 404, WorldMark Portland is absent, and every Vancouver profile keeps its Washington identity. Rollback is the deployment Portland replaced (Seattle, 40 markets).",
+  "rollback_record": "ptf-deploy-seattle-004-6ac169ef7c75c383eb79f824.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "cfaad64a7bcb1b2b1734fe777ea577d5884aafe953054c2d80a7db1b01e0e5c3",
-  "sitemap_sha256": "63e052812b36668271aebb3f8bc933a44ac0d6150b7b8c19279d5f1e45a2b151",
+  "bundle_sha256": "d674d2898af11565559318500650bbee1c8e59fbf0fc3ea4040dacd3a7cfecea",
+  "sitemap_sha256": "a50f1e343949ff65122e903b39a8bc9aed6318aef0a25b265aba6da772adf360",
   "participating_markets": [
    {
     "market_id": "asheville-nc",
@@ -313,6 +315,13 @@
     "contract_disagreements": []
    },
    {
+    "market_id": "portland-or",
+    "published_profiles": 150,
+    "release_contract": "deploy/netlify/release_contracts/portland-or.json",
+    "release_contract_sha256": "01d007a57d5d378a59e6f4b0b455d32b2e7a3106f31a33c336042bf9854cbd9b",
+    "contract_disagreements": []
+   },
+   {
     "market_id": "raleigh-nc",
     "published_profiles": 63,
     "release_contract": "deploy/netlify/release_contracts/raleigh-nc.json",
@@ -420,6 +429,7 @@
    "phoenix-az": 256,
    "piedmont-triad-nc": 54,
    "pittsburgh-pa": 61,
+   "portland-or": 150,
    "raleigh-nc": 63,
    "richmond-va": 93,
    "san-antonio-tx": 144,
@@ -432,9 +442,9 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 3669,
-  "sitemap_route_count": 4117,
-  "total_html_pages": 22165,
-  "total_files": 22183
+  "total_profiles": 3819,
+  "sitemap_route_count": 4280,
+  "total_html_pages": 23052,
+  "total_files": 23070
  }
 }
