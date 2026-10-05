@@ -1,0 +1,715 @@
+{
+ "schema": "ptf-market-actionability/2.0",
+ "work_order": "PTF-KANSAS-CITY-MO-HARDENED-SOURCE-READY-001",
+ "market_id": "kansas-city-mo",
+ "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
+ "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
+ "census_total": 290,
+ "resolved": 221,
+ "unresolved_total": 69,
+ "totals_by_class": {
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 59,
+  "REQUIRES_NEW_PROVIDER": 0,
+  "REQUIRES_NEW_SPEND": 0,
+  "REQUIRES_FOUNDER": 6,
+  "HELD_UNTIL_OPENING": 4
+ },
+ "by_disposition": {
+  "ACCESS_BLOCKED": {
+   "total": 2,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 2,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "EVIDENCE_HOLD": {
+   "total": 11,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 7,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 4
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "total": 8,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 2,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 6,
+   "held_until_opening": 0
+  },
+  "ROUTING_HOLD": {
+   "total": 23,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 23,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "SOURCE_SILENT": {
+   "total": 25,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 25,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  }
+ },
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 0,
+ "founder_rows_safely_held": 6,
+ "preopening_rows_safely_excluded": 4,
+ "places_note": "Google Places route discovery ran inside the renewed free monthly allowance (existing capacity, no new spend); a row it queried and could not route is exhausted, a row it never queried is actionable",
+ "attended_browser": {
+  "attempts": 155,
+  "reads": 135,
+  "challenge_denied": 0,
+  "unbound": 5,
+  "paid_provider_calls": 0,
+  "akamai_bypassed": false,
+  "browser_js_exfiltration_used": false,
+  "local_relay_used": false
+ },
+ "coverage_conditions": {
+  "actionable_unresolved_is_zero": true,
+  "no_material_identity_gap": true,
+  "no_material_unexplained_policy_gap": true,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
+  "publication_set_safe": true,
+  "package_deterministic_and_fast_clean": false
+ },
+ "COVERAGE_READY": "NO",
+ "TECHNICAL_SOURCE_READY": "NO",
+ "rows": [
+  {
+   "identity_key": "extended stay america suites kansas city airport tiffany springs",
+   "canonical_name": "Extended Stay America Suites Kansas City-Airport-Tiffany Springs",
+   "corridor": "kansas-city-mo__mci-airport",
+   "brand_family": "ESA",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand served a DataDome CAPTCHA to the attended browser; never solved or bypassed (https://www.extendedstayamerica.com/hotels/mo/kansas-city/airport-tiffany-springs) -- Second paced attempt (about 50 minutes after seq 113): the brand again served only a DataDome CAPTCHA, which this order never s"
+  },
+  {
+   "identity_key": "kci lodge",
+   "canonical_name": "Kci Lodge",
+   "corridor": "kansas-city-mo__mci-airport",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site (found via Places) did not serve to the plain client (status 401)"
+  },
+  {
+   "identity_key": "aiden kansas city downtown",
+   "canonical_name": "Aiden Kansas City Downtown",
+   "corridor": "kansas-city-mo__downtown-kansas-city",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "comfort suites kansas city liberty",
+   "canonical_name": "Comfort Suites Kansas City-Liberty",
+   "corridor": "kansas-city-mo__liberty-gladstone",
+   "brand_family": "CHOICE",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal statement is a legal access category, never a pet acceptance: 'Pets Allowed: Yes Gen"
+  },
+  {
+   "identity_key": "crossroads hotel kansas city",
+   "canonical_name": "Crossroads Hotel Kansas City",
+   "corridor": "kansas-city-mo__crossroads-crown-center",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "holiday inn express and suites olathe south",
+   "canonical_name": "Holiday Inn Express & Suites Olathe South",
+   "corridor": "kansas-city-mo__olathe",
+   "brand_family": "IHG",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "hotel kansas city",
+   "canonical_name": "Hotel Kansas City",
+   "corridor": "kansas-city-mo__downtown-kansas-city",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "hyatt place kansas city overland park convention center",
+   "canonical_name": "Hyatt Place Kansas City/Overland Park/Convention Center",
+   "corridor": "kansas-city-mo__overland-park",
+   "brand_family": "HYATT",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "no vacancy",
+   "canonical_name": "No Vacancy",
+   "corridor": "kansas-city-mo__crossroads-crown-center",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "arrowhead inn",
+   "canonical_name": "Arrowhead Inn",
+   "corridor": "kansas-city-mo__raytown-sports-complex",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "budget motor inn",
+   "canonical_name": "Budget Motor Inn",
+   "corridor": "kansas-city-mo__independence",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "1812 overture bed and breakfast",
+   "canonical_name": "1812 Overture Bed and Breakfast",
+   "corridor": "kansas-city-mo__crossroads-crown-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "adam s mark hotel and conference center at the sports stadium complex",
+   "canonical_name": "Adam's Mark Hotel & Conference Center at the Sports Stadium Complex",
+   "corridor": "kansas-city-mo__raytown-sports-complex",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (2 candidates)"
+  },
+  {
+   "identity_key": "americas best value inn and suites kansas city",
+   "canonical_name": "Americas Best Value Inn & Suites Kansas City",
+   "corridor": "kansas-city-mo__south-kansas-city-grandview",
+   "brand_family": "SONESTA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "best western premier kansas city sports complex hotel",
+   "canonical_name": "Best Western Premier Kansas City Sports Complex Hotel",
+   "corridor": "kansas-city-mo__raytown-sports-complex",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "blue bird motel",
+   "canonical_name": "Blue Bird Motel",
+   "corridor": "kansas-city-mo__raytown-sports-complex",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "cherry warehouse hotel",
+   "canonical_name": "Cherry Warehouse Hotel",
+   "corridor": "kansas-city-mo__midtown-east-kansas-city",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "clarks motel",
+   "canonical_name": "Clarks Motel",
+   "corridor": "kansas-city-mo__kansas-city-kansas",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "crossland kansas city lenexa 95th st",
+   "canonical_name": "Crossland Kansas City - Lenexa - 95th St.",
+   "corridor": "kansas-city-mo__lenexa",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "crown lodge",
+   "canonical_name": "Crown Lodge",
+   "corridor": "kansas-city-mo__raytown-sports-complex",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "econo lodge lansing leavenworth",
+   "canonical_name": "Econo Lodge Lansing - Leavenworth",
+   "corridor": "kansas-city-mo__riverside-parkville",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "executive inn and suites",
+   "canonical_name": "Executive Inn & Suites",
+   "corridor": "kansas-city-mo__south-kansas-city-grandview",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "extended stay america kansas city country club plaza",
+   "canonical_name": "Extended Stay America - Kansas City - Country Club Plaza",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "brand_family": "ESA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Extended Stay America: the brand's own pages were read wherever a route existed (seq 104-112; Tiffany Springs served a DataDome CAPTCHA twice, seq 113 and 149, never bypassed); this row has no route in any authorized lane, including Places"
+  },
+  {
+   "identity_key": "extended stay by welcome inn",
+   "canonical_name": "Extended Stay by Welcome Inn",
+   "corridor": "kansas-city-mo__blue-springs",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://goldengrovehotels.com/bluesprings/extended-stay) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "extended stay kansas city",
+   "canonical_name": "Extended Stay Kansas City",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.facebook.com/ExtendedStayKC/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "frontier motel",
+   "canonical_name": "Frontier Motel",
+   "corridor": "kansas-city-mo__raytown-sports-complex",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "independence my place",
+   "canonical_name": "Independence My Place",
+   "corridor": "kansas-city-mo__independence",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.myplacehotels.com/my-place-hotel-independence-mo?utm_source=local-listing&utm_) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "la quinta inn and suites overland park",
+   "canonical_name": "La Quinta Inn & Suites Overland Park",
+   "corridor": "kansas-city-mo__overland-park",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.wyndhamhotels.com/laquinta/overland-park-kansas/la-quinta-overland-park/overvi) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "microtel inn and suites",
+   "canonical_name": "Microtel Inn & Suites",
+   "corridor": "kansas-city-mo__mci-airport",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.wyndhamhotels.com/microtel/kansas-city-missouri/microtel-inn-and-suites-kansas) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "quality inn and suites kansas city downtown",
+   "canonical_name": "Quality Inn & Suites Kansas City Downtown",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Places named https://www.choicehotels.com/missouri/kansas-city/quality-inn-hotels/mo377; the attended browser opened it (seq 122): NO_PROPERTY_PAGE_ROUTE_LANDS_ON_BRAND_SEARCH -- The property-code route the Google Places card names redirects, after rendering, to Choice's own Quality Inn search for Kansas City, MO, whose eight result cards do not include Quality Inn & Suites Ka"
+  },
+  {
+   "identity_key": "sky vu motel",
+   "canonical_name": "Sky Vu Motel",
+   "corridor": "kansas-city-mo__raytown-sports-complex",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "sonesta select kansas city airport tiffany springs",
+   "canonical_name": "Sonesta Select Kansas City Airport Tiffany Springs",
+   "corridor": "kansas-city-mo__mci-airport",
+   "brand_family": "SONESTA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own property-code route lands on a hotel-search page: the brand publishes no property page for these premises; no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.sonesta.com/sonesta-select/mo/kansas-city/sonesta-select-kansas-city-airport-t) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "sports stadium motel",
+   "canonical_name": "Sports Stadium Motel",
+   "corridor": "kansas-city-mo__independence",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "welcome inn",
+   "canonical_name": "Welcome Inn",
+   "corridor": "kansas-city-mo__blue-springs",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, Visit KC's, Visit Kansas City Kansas's and Visit Overland Park's rosters, the Missouri Licensed Lodging Establishment List (Kansas publishes no public lodging register -- see the registry lane's measurement record), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://goldengrovehotels.com/bluesprings/welcome-inn) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "aida boutique hotel",
+   "canonical_name": "AIDA Boutique Hotel",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "americas best value inn kansas city e independence",
+   "canonical_name": "Americas Best Value Inn Kansas City E Independence",
+   "corridor": "kansas-city-mo__independence",
+   "brand_family": "SONESTA",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "ameristar casino hotel kansas city",
+   "canonical_name": "Ameristar Casino Hotel Kansas City",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "countryside suites",
+   "canonical_name": "Countryside Suites",
+   "corridor": "kansas-city-mo__independence",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "economy hotel kansas city",
+   "canonical_name": "Economy Hotel Kansas City",
+   "corridor": "kansas-city-mo__blue-springs",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "economy suites kansas city near mci airport",
+   "canonical_name": "Economy Suites Kansas City – Near MCI Airport",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn and suites overland park conv ctr",
+   "canonical_name": "Holiday Inn & Suites Overland Park-Conv Ctr",
+   "corridor": "kansas-city-mo__overland-park",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn and suites overland park west",
+   "canonical_name": "Holiday Inn & Suites Overland Park-West",
+   "corridor": "kansas-city-mo__overland-park",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn kansas city airport",
+   "canonical_name": "Holiday Inn Kansas City Airport",
+   "corridor": "kansas-city-mo__mci-airport",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn kansas city downtown",
+   "canonical_name": "Holiday Inn Kansas City - Downtown",
+   "corridor": "kansas-city-mo__downtown-kansas-city",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn kansas city northeast",
+   "canonical_name": "Holiday Inn Kansas City - Northeast",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel lotus kansas city merriam",
+   "canonical_name": "HOTEL LOTUS KANSAS CITY MERRIAM",
+   "corridor": "kansas-city-mo__merriam-mission",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 lenexa ks kansas city southwest",
+   "canonical_name": "Motel 6 Lenexa, KS - Kansas City Southwest",
+   "corridor": "kansas-city-mo__lenexa",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 olathe ks",
+   "canonical_name": "Motel 6 Olathe, KS",
+   "corridor": "kansas-city-mo__olathe",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "motel 6 overland park ks",
+   "canonical_name": "Motel 6 Overland Park, KS",
+   "corridor": "kansas-city-mo__overland-park",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "red lion inn and suites kansas city",
+   "canonical_name": "Red Lion Inn & Suites Kansas City",
+   "corridor": "kansas-city-mo__midtown-east-kansas-city",
+   "brand_family": "SONESTA",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "river market hotel",
+   "canonical_name": "River Market Hotel",
+   "corridor": "kansas-city-mo__downtown-kansas-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "sonesta essential hotel and suites kansas city blue springs",
+   "canonical_name": "Sonesta Essential Hotel & Suites Kansas City/Blue Springs",
+   "corridor": "kansas-city-mo__blue-springs",
+   "brand_family": "SONESTA",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "southmoreland",
+   "canonical_name": "Southmoreland",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "studio 6 lenexa ks overland park",
+   "canonical_name": "Studio 6 Lenexa, KS - Overland Park",
+   "corridor": "kansas-city-mo__lenexa",
+   "brand_family": "MOTEL6",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the fontaine hotel",
+   "canonical_name": "The Fontaine Hotel",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the inn at meadowbrook",
+   "canonical_name": "The Inn at Meadowbrook",
+   "corridor": "kansas-city-mo__prairie-village-leawood",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the truitt boutique hotel",
+   "canonical_name": "The Truitt Boutique Hotel",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "woodspring suites kansas city lenexa",
+   "canonical_name": "WoodSpring Suites Kansas City Lenexa",
+   "corridor": "kansas-city-mo__lenexa",
+   "brand_family": "CHOICE",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "woodspring suites kansas city liberty",
+   "canonical_name": "WoodSpring Suites Kansas City Liberty",
+   "corridor": "kansas-city-mo__liberty-gladstone",
+   "brand_family": "CHOICE",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "doubletree by hilton kci",
+   "canonical_name": "DoubleTree by Hilton KCI",
+   "corridor": "kansas-city-mo__mci-airport",
+   "brand_family": "HILTON",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party inventory card states \"open = false; opening 2026-11-03 (the brand's own city-page card)\": the hotel is not open, so no profile publishes unti"
+  },
+  {
+   "identity_key": "home2 suites by hilton kansas city speedway",
+   "canonical_name": "Home2 Suites by Hilton Kansas City Speedway",
+   "corridor": "kansas-city-mo__village-west-legends",
+   "brand_family": "HILTON",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party inventory card states \"open = false; opening 2027-01-20 (the brand's own city-page card)\": the hotel is not open, so no profile publishes unti"
+  },
+  {
+   "identity_key": "spark by hilton kansas city airport",
+   "canonical_name": "Spark by Hilton Kansas City Airport",
+   "corridor": "kansas-city-mo__mci-airport",
+   "brand_family": "HILTON",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party inventory card states \"open = false; opening 2027-04-07 (the brand's own city-page card)\": the hotel is not open, so no profile publishes unti"
+  },
+  {
+   "identity_key": "the park hotel on the plaza",
+   "canonical_name": "The Park Hotel on the Plaza",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party inventory card states \"open = false; opening 2026-12-17 (the brand's own city-page card)\": the hotel is not open, so no profile publishes unti"
+  },
+  {
+   "identity_key": "ac hotel lenexa city center",
+   "canonical_name": "AC Hotel Lenexa City Center",
+   "corridor": "kansas-city-mo__lenexa",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "aloft by marriott north kansas city",
+   "canonical_name": "Aloft by Marriott North Kansas City",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "courtyard by marriott kansas city downtown convention center",
+   "canonical_name": "Courtyard by Marriott Kansas City Downtown/Convention Center",
+   "corridor": "kansas-city-mo__crossroads-crown-center",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "element by marriott north kansas city",
+   "canonical_name": "Element by Marriott North Kansas City",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "residence inn by marriott kansas city downtown convention center",
+   "canonical_name": "Residence Inn by Marriott Kansas City Downtown/Convention Center",
+   "corridor": "kansas-city-mo__crossroads-crown-center",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "residence inn by marriott lenexa city center",
+   "canonical_name": "Residence Inn by Marriott Lenexa City Center",
+   "corridor": "kansas-city-mo__lenexa",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  }
+ ]
+}

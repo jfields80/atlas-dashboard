@@ -1,0 +1,1273 @@
+{
+ "schema": "ptf-source-ready-accounting/1.0",
+ "work_order": "PTF-KANSAS-CITY-MO-HARDENED-SOURCE-READY-001",
+ "market_id": "kansas-city-mo",
+ "headline": {
+  "total_raw_observations": 3047,
+  "raw_observations_by_lane": {
+   "REGISTRY_LICENCE": 1013,
+   "OSM_OVERPASS": 1052,
+   "BRAND_INVENTORY_OWNED": 56,
+   "BRAND_INVENTORY_CITY_PAGE": 58,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 129,
+   "DESTINATION_ORGANIZATION": 143,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 310,
+   "IDENTITY_VERIFIED_PLACES": 11,
+   "PROPERTY_PAGE": 275
+  },
+  "public_lodging_register_leads": 1013,
+  "osm_lodging_elements": 1106,
+  "brand_inventory_leads": 181,
+  "destination_roster_listings": 143,
+  "destination_roster_rows_in_admitted_codes": 138,
+  "competitor_leads_normalized": 310,
+  "graph_nodes": 1847,
+  "proposed_census": 290,
+  "valid_pet_friendly": 161,
+  "valid_verified_no_pets": 60,
+  "resolved": 221,
+  "unresolved": 69,
+  "resolution_rate": 0.7621
+ },
+ "holds_by_class": {
+  "IDENTITY": 8,
+  "ROUTING": 23,
+  "ACCESS_BLOCKED": 2,
+  "EVIDENCE": 11,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 25,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "the brand served a DataDome CAPTCHA to the attended browser; never sol": 1,
+   "the property's own site (found via Places) did not serve to the plain ": 1
+  },
+  "EVIDENCE_HOLD": {
+   "the first-party quote states neither an acceptance nor a refusal sente": 4,
+   "PREOPENING_NOT_YET_OPEN": 4,
+   "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE": 2,
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "SAME PREMISES, TWO IDENTITIES (address_key 8710|penrose|66219): AC Hot": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 1875|diamond|64116): Aloft ": 2,
+   "the site Places names never stated this row's house number + ZIP, phon": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 1535|baltimore|64108): Cour": 2
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 14,
+   "NOT_FIRST_PARTY_SITE": 3,
+   "the route the census carries served an error page (expired domain, sit": 2,
+   "RETIRED_BRAND_ROUTE": 2,
+   "OTHER_EXPLICIT_REASON": 1,
+   "the brand's own property-code route lands on a hotel-search page: the ": 1
+  },
+  "SOURCE_SILENT": {
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 5,
+   "the property's own pages served, bound these exact premises, and state": 5,
+   "the brand's own page served and bound these premises, and the only pet": 5,
+   "the brand's own property page (read through Firecrawl, existing plan c": 4,
+   "the page served and stated no operative pet policy (BLOCK_FOUND_BUT_SI": 4,
+   "the page served and stated no operative pet policy (SOURCE_SILENT_STAT": 1,
+   "the property's own site (found via Places, bound on its own address/ph": 1
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 53,
+  "timeshare": 1,
+  "resort_residence": 0,
+  "non_hotel": 72,
+  "closed": 0,
+  "converted_to_non_hotel": 0,
+  "military_restricted": 2,
+  "outside": 1199,
+  "duplicate_listing": 0,
+  "name_only_unresolved_graph_residue": 129,
+  "identity_review_required_graph_residue": 99,
+  "same_campus_distinct_entity": 2,
+  "register_short_term_rental_and_other_rows_never_leads": 0,
+  "closed_note": "No row was classified CLOSED on a first-party closure statement; lapsed routes (an expired domain, a brand redirect to its own search) are ROUTING holds, never a closure claim."
+ },
+ "corridor_coverage": {
+  "downtown-kansas-city": {
+   "name": "Downtown Kansas City",
+   "class": "CORE",
+   "census": 15,
+   "pet_friendly": 7,
+   "no_pets": 4,
+   "unresolved": 4,
+   "resolution_rate": 0.7333,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "crossroads-crown-center": {
+   "name": "Crossroads & Crown Center",
+   "class": "CORE",
+   "census": 13,
+   "pet_friendly": 7,
+   "no_pets": 1,
+   "unresolved": 5,
+   "resolution_rate": 0.6154,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "plaza-westport": {
+   "name": "Country Club Plaza & Westport",
+   "class": "CORE",
+   "census": 20,
+   "pet_friendly": 10,
+   "no_pets": 3,
+   "unresolved": 7,
+   "resolution_rate": 0.65,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "midtown-east-kansas-city": {
+   "name": "Midtown & East Kansas City",
+   "class": "CORE",
+   "census": 3,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 2,
+   "resolution_rate": 0.3333,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "mci-airport": {
+   "name": "Kansas City International Airport (MCI)",
+   "class": "CORE",
+   "census": 30,
+   "pet_friendly": 18,
+   "no_pets": 5,
+   "unresolved": 7,
+   "resolution_rate": 0.7667,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "northland-north-kansas-city": {
+   "name": "Northland & North Kansas City",
+   "class": "CORE",
+   "census": 24,
+   "pet_friendly": 11,
+   "no_pets": 7,
+   "unresolved": 6,
+   "resolution_rate": 0.75,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "independence": {
+   "name": "Independence",
+   "class": "CORE",
+   "census": 18,
+   "pet_friendly": 9,
+   "no_pets": 4,
+   "unresolved": 5,
+   "resolution_rate": 0.7222,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "lees-summit": {
+   "name": "Lee's Summit",
+   "class": "CORE",
+   "census": 12,
+   "pet_friendly": 6,
+   "no_pets": 6,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "liberty-gladstone": {
+   "name": "Liberty & Gladstone",
+   "class": "CORRIDOR",
+   "census": 12,
+   "pet_friendly": 8,
+   "no_pets": 2,
+   "unresolved": 2,
+   "resolution_rate": 0.8333,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "blue-springs": {
+   "name": "Blue Springs",
+   "class": "CORRIDOR",
+   "census": 10,
+   "pet_friendly": 4,
+   "no_pets": 2,
+   "unresolved": 4,
+   "resolution_rate": 0.6,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "raytown-sports-complex": {
+   "name": "Raytown & Truman Sports Complex",
+   "class": "CORRIDOR",
+   "census": 11,
+   "pet_friendly": 3,
+   "no_pets": 1,
+   "unresolved": 7,
+   "resolution_rate": 0.3636,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "south-kansas-city-grandview": {
+   "name": "South Kansas City & Grandview",
+   "class": "CORRIDOR",
+   "census": 8,
+   "pet_friendly": 4,
+   "no_pets": 2,
+   "unresolved": 2,
+   "resolution_rate": 0.75,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "riverside-parkville": {
+   "name": "Riverside & Parkville",
+   "class": "FRINGE",
+   "census": 8,
+   "pet_friendly": 5,
+   "no_pets": 2,
+   "unresolved": 1,
+   "resolution_rate": 0.875,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "grain-valley": {
+   "name": "Grain Valley",
+   "class": "FRINGE",
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "belton-raymore": {
+   "name": "Belton & Raymore",
+   "class": "FRINGE",
+   "census": 4,
+   "pet_friendly": 2,
+   "no_pets": 2,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "kansas-city-kansas": {
+   "name": "Kansas City, Kansas",
+   "class": "CORE",
+   "census": 7,
+   "pet_friendly": 5,
+   "no_pets": 1,
+   "unresolved": 1,
+   "resolution_rate": 0.8571,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "village-west-legends": {
+   "name": "Village West & The Legends",
+   "class": "CORE",
+   "census": 13,
+   "pet_friendly": 9,
+   "no_pets": 3,
+   "unresolved": 1,
+   "resolution_rate": 0.9231,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "overland-park": {
+   "name": "Overland Park",
+   "class": "CORE",
+   "census": 34,
+   "pet_friendly": 28,
+   "no_pets": 1,
+   "unresolved": 5,
+   "resolution_rate": 0.8529,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "lenexa": {
+   "name": "Lenexa",
+   "class": "CORE",
+   "census": 15,
+   "pet_friendly": 4,
+   "no_pets": 5,
+   "unresolved": 6,
+   "resolution_rate": 0.6,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "olathe": {
+   "name": "Olathe",
+   "class": "CORE",
+   "census": 15,
+   "pet_friendly": 9,
+   "no_pets": 4,
+   "unresolved": 2,
+   "resolution_rate": 0.8667,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "shawnee": {
+   "name": "Shawnee",
+   "class": "CORE",
+   "census": 5,
+   "pet_friendly": 2,
+   "no_pets": 3,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "merriam-mission": {
+   "name": "Merriam & Mission",
+   "class": "CORRIDOR",
+   "census": 4,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 1,
+   "resolution_rate": 0.75,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "prairie-village-leawood": {
+   "name": "Prairie Village & Leawood",
+   "class": "CORRIDOR",
+   "census": 4,
+   "pet_friendly": 2,
+   "no_pets": 1,
+   "unresolved": 1,
+   "resolution_rate": 0.75,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "gardner": {
+   "name": "Gardner",
+   "class": "FRINGE",
+   "census": 2,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "bonner-springs-edwardsville": {
+   "name": "Bonner Springs & Edwardsville",
+   "class": "FRINGE",
+   "census": 2,
+   "pet_friendly": 1,
+   "no_pets": 1,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  }
+ },
+ "uncorridored_rows": 0,
+ "corridor_count": 25,
+ "corridors_publishing": [
+  "downtown-kansas-city",
+  "crossroads-crown-center",
+  "plaza-westport",
+  "mci-airport",
+  "northland-north-kansas-city",
+  "independence",
+  "lees-summit",
+  "liberty-gladstone",
+  "riverside-parkville",
+  "kansas-city-kansas",
+  "village-west-legends",
+  "overland-park",
+  "olathe"
+ ],
+ "brand_by_brand": {
+  "BEST_WESTERN": {
+   "census": 8,
+   "pet_friendly": 6,
+   "no_pets": 1,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 8,
+   "browser_read": 8,
+   "browser_challenge_denied": 0
+  },
+  "CHOICE": {
+   "census": 27,
+   "pet_friendly": 16,
+   "no_pets": 8,
+   "unresolved": 3,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 2,
+   "browser_read": 1,
+   "browser_challenge_denied": 0
+  },
+  "DRURY": {
+   "census": 3,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 3,
+   "browser_read": 3,
+   "browser_challenge_denied": 0
+  },
+  "EXTENDED_STAY_AMERICA": {
+   "census": 11,
+   "pet_friendly": 9,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 11,
+   "browser_read": 9,
+   "browser_challenge_denied": 2
+  },
+  "EXTENDED_STAY_OPERATORS": {
+   "census": 2,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "HILTON": {
+   "census": 48,
+   "pet_friendly": 43,
+   "no_pets": 2,
+   "unresolved": 3,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 46,
+   "browser_read": 46,
+   "browser_challenge_denied": 0
+  },
+  "HYATT": {
+   "census": 3,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 4,
+   "browser_read": 4,
+   "browser_challenge_denied": 0
+  },
+  "IHG": {
+   "census": 38,
+   "pet_friendly": 19,
+   "no_pets": 13,
+   "unresolved": 6,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 1,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "INDEPENDENT": {
+   "census": 32,
+   "pet_friendly": 4,
+   "no_pets": 7,
+   "unresolved": 21,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 15,
+   "browser_read": 6,
+   "browser_challenge_denied": 0
+  },
+  "LOEWS": {
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 1,
+   "browser_read": 1,
+   "browser_challenge_denied": 0
+  },
+  "LUXURY_INDEPENDENT": {
+   "census": 13,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 12,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "MARRIOTT": {
+   "census": 56,
+   "pet_friendly": 30,
+   "no_pets": 20,
+   "unresolved": 6,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 57,
+   "browser_read": 57,
+   "browser_challenge_denied": 0
+  },
+  "MOTEL6_STUDIO6": {
+   "census": 4,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 4,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 4,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "RADISSON": {
+   "census": 2,
+   "pet_friendly": 1,
+   "no_pets": 1,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "RESORT_INDEPENDENT": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 1,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "SONESTA": {
+   "census": 9,
+   "pet_friendly": 4,
+   "no_pets": 0,
+   "unresolved": 5,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 3,
+   "browser_read": 1,
+   "browser_challenge_denied": 0
+  },
+  "WOODSPRING": {
+   "census": 3,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "WYNDHAM": {
+   "census": 29,
+   "pet_friendly": 20,
+   "no_pets": 7,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  }
+ },
+ "providers": {
+  "static_capture": {
+   "targets": 95,
+   "free_http_requests": 94,
+   "outcomes": {
+    "ACCESS_DENIED": 42,
+    "BLANK_PAGE": 1,
+    "IDENTITY_MISMATCH": 22,
+    "NAVIGATION_FAILED": 11,
+    "POLICY_NOT_FOUND": 4,
+    "UNEXPECTED_PAGE": 5,
+    "UNHYDRATED": 2,
+    "VALID": 8
+   }
+  },
+  "wyndham_property_service": {
+   "selected": 48,
+   "read": 30,
+   "retired": 18
+  },
+  "extended_stay_america": {
+   "routes": null,
+   "served": null,
+   "faq_pet_answer": null
+  },
+  "independents_policy_pages": {
+   "targets": 32,
+   "bound": 20,
+   "free_http_requests": 59
+  },
+  "places_route_discovery": {
+   "requests": 107,
+   "route_discovery_bound": 62,
+   "with_website": 50,
+   "gap_verdicts": {
+    "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 2,
+    "NO_LODGING_RESULT": 1
+   },
+   "enterprise_requests": 70,
+   "pro_requests": 37,
+   "field_mask_route_discovery": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus,places.websiteUri,places.nationalPhoneNumber",
+   "field_mask_gap_verification": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus",
+   "route_discovery_run": true,
+   "cost_basis": "websiteUri is an Enterprise-SKU field; its free monthly allowance (about 1,000 requests) renewed on 2026-10-01; the only Places use on this machine since then is San Antonio's 201 requests (187 Enterprise), Seattle's 169 (149 Enterprise), Portland's 77 (49 Enterprise), Minneapolis's 135 (59 Enterprise) and this order's own earlier runs (recorded in this report). This run stays inside that allowance (cap 200 Enterprise requests) -- existing capacity, no new paid spend."
+  },
+  "places_discovered_sites": {
+   "targets": 12,
+   "bound": 5,
+   "free_http_requests": 17
+  },
+  "firecrawl": {
+   "eligible_planned": 19,
+   "attempted": 85,
+   "property_page_attempts": 67,
+   "first_pass_attempted": 0,
+   "retry_pass_attempted": 0,
+   "probe2_pass_attempted": 0,
+   "route_discovery_pages": 18,
+   "route_discovery_routes": 142,
+   "brand_page_reads": {
+    "attempted": 67,
+    "answered": 67,
+    "with_own_address": 67,
+    "by_family": {
+     "CHOICE": 29,
+     "IHG": 38
+    }
+   },
+   "retry_pass_why": "the Firecrawl rung's own cohort (19 rows) was planned and NOT bought (0 attempts, 0 credits): every one of those routes had already been read by the brand-page lane, the attended browser or the Places-sites lane (pay once per page ever). The Choice / IHG brand-page lane (67 pages) and the city-page route discovery (18 pages) are this order's Firecrawl property reads; Marriott, Hilton, Hyatt, Best Western, Drury, Loews, Sonesta, ESA, Motel 6 and the independents were read in the attended browser, and no held row is one a Firecrawl read could resolve (the remaining holds are dual-brand premises, preopening hotels, closed or retired routes, sites with no address of their own, a DataDome wall, and pages read silent)",
+   "distinct_identities_attempted": 0,
+   "by_cohort": {},
+   "publication_grade": 0,
+   "policy_found": 0,
+   "failed": 0,
+   "class_counts": {},
+   "credits": {
+    "first_pass": {
+     "before": 160,
+     "after": 160,
+     "delta": 0,
+     "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+    },
+    "retry_pass": {},
+    "probe2_pass": {},
+    "route_discovery": {
+     "before": 245,
+     "after": 227,
+     "delta": 18
+    },
+    "brand_page_reads": {
+     "before": 227,
+     "after": 160,
+     "delta": 67
+    }
+   }
+  },
+  "supported_browser": {
+   "attended_browser_lane": {
+    "attempts": 155,
+    "reads": 135,
+    "challenge_denied": 0,
+    "unbound": 5,
+    "attempts_by_family": {
+     "BEST_WESTERN": 8,
+     "CHOICE": 2,
+     "DRURY": 3,
+     "EXTENDED_STAY_AMERICA": 11,
+     "HILTON": 46,
+     "HYATT": 4,
+     "IHG": 1,
+     "INDEPENDENT": 15,
+     "LOEWS": 1,
+     "MARRIOTT": 57,
+     "MOTEL6_STUDIO6": 4,
+     "SONESTA": 3
+    },
+    "reads_by_family": {
+     "BEST_WESTERN": 8,
+     "CHOICE": 1,
+     "DRURY": 3,
+     "EXTENDED_STAY_AMERICA": 9,
+     "HILTON": 46,
+     "HYATT": 4,
+     "INDEPENDENT": 6,
+     "LOEWS": 1,
+     "MARRIOTT": 57,
+     "SONESTA": 1
+    },
+    "akamai_bypassed": false,
+    "js_exfiltration": false,
+    "relay": false,
+    "captcha_solved": false
+   },
+   "source_ready_001_attempts": 0,
+   "source_ready_001_outcomes": {},
+   "closure_002_queue": 155,
+   "closure_002_outcomes": {
+    "AMENITY_CHIP_ONLY_NOT_OPERATIVE": 5,
+    "CHALLENGE_DENIED_DATADOME_CAPTCHA": 2,
+    "IDENTITY_BOUND_POLICY_SOURCE_SILENT": 5,
+    "NAVIGATION_FAILED_ERROR_PAGE": 4,
+    "NO_PROPERTY_PAGE_ROUTE_LANDS_ON_BRAND_SEARCH": 3,
+    "READ": 136
+   },
+   "closure_002_reads": 136,
+   "closure_002_bindings": {
+    "BRAND_PROPERTY_CODE 17129 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 17131 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 26134 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 26169 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 26180 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 26185 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 26188 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 26200 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 293608 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 294066 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 294130 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 294588 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE kankshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE kckro on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE kckrp on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE ks269 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciaa on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciac on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE mciad on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciak on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcial on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcian on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciap on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciaphf on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciar on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcias on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciay on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcibc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcibs on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcicc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcico on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcicr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcicv on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcidt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciel on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcien on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcifa on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcife on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcifg on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcifl on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcifo on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcifp on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcigkhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcigvpe on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcihtht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcihxhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciingi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcijd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcikaht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcikc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcikcgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcikoes on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciks on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcikw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcilb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcilbru on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcilc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcilr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcils on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcilt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcimsdt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcimt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcino on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcinr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciolgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciop on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciov on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciovht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcipl on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcipo on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciprhf on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciri on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcirigi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcisl on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcism on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcisn on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciso on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcisp on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcisr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciss on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcisuht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcita on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcitp on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcitx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciun on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mciwi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mcixa on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcanup on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcaphw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcargi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcathx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcbehx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcbshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkccnup on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkccppe on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkccr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkccuqq on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcdchx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcdoht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkceehh on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcfdhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkchshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkchwhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkclbhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkclnht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkclshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcmces on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcmrhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcnehx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcolhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcpdes on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcsbru on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcsehx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcsmhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcswhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkcsyhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkczc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkczl on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE mkczm on the brand's own page": 1,
+    "UNBOUND": 5,
+    "the census route the attempt was opened from (no publication)": 4,
+    "the page's own street number 10750 + street words + postal code 66210": 1,
+    "the page's own street number 10963 + street words + postal code 66210": 1,
+    "the page's own street number 11301 + street words + postal code 64137": 1,
+    "the page's own street number 11712 + street words + postal code 64153": 1,
+    "the page's own street number 1211 + street words + postal code 64116": 1,
+    "the page's own street number 1491 + street words + postal code 66111": 1,
+    "the page's own street number 1515 + street words + postal code 64108": 1,
+    "the page's own street number 1717 + street words + postal code 64108": 1,
+    "the page's own street number 201 + street words + postal code 64050": 1,
+    "the page's own street number 20300 + street words + postal code 64015": 1,
+    "the page's own street number 2101 + street words + postal code 64108": 1,
+    "the page's own street number 3200 + street words + postal code 64161": 1,
+    "the page's own street number 3400 + street words + postal code 64015": 1,
+    "the page's own street number 3830 + street words + postal code 64133": 1,
+    "the page's own street number 415 + street words + postal code 64105": 1,
+    "the page's own street number 500 + street words + postal code 64131": 1,
+    "the page's own street number 5401 + street words + postal code 66211": 1,
+    "the page's own street number 550 + street words + postal code 64131": 1,
+    "the page's own street number 6451 + street words + postal code 66202": 1,
+    "the page's own street number 7201 + street words + postal code 66212": 1,
+    "the page's own street number 7900 + street words + postal code 64153": 1,
+    "the page's own street number 8015 + street words + postal code 66215": 1,
+    "the page's own street number 8805 + street words + postal code 64129": 1,
+    "the page's own street number 9009 + street words + postal code 66203": 1,
+    "the page's own street number 9701 + street words + postal code 64153": 1,
+    "the queue row's street number 8230 + postal code 64151, with the page's own house number and street words agreeing": 1
+   },
+   "by_family": {
+    "BEST_WESTERN": 8,
+    "CHOICE": 1,
+    "DRURY": 3,
+    "ESA": 9,
+    "HILTON": 46,
+    "HYATT": 4,
+    "INDEPENDENT": 6,
+    "LOEWS": 1,
+    "MARRIOTT": 57,
+    "SONESTA": 1
+   }
+  },
+  "other_paid_providers": {
+   "bright_data": 0,
+   "other": 0
+  },
+  "routing_by_state": {
+   "FREE_LANE_EXHAUSTED": 15,
+   "INDEPENDENT_REVIEW": 22,
+   "ROUTED_MAP_WEBSITE": 13,
+   "ROUTED_OFFICIAL_DESTINATION": 26,
+   "ROUTED_OFFICIAL_INVENTORY": 212,
+   "ROUTE_BRAND_MISMATCH": 2
+  },
+  "usd_spent": 0.0,
+  "new_paid_spend": 0.0,
+  "new_provider_authorization": "NONE"
+ },
+ "competitor_reconciliation": {
+  "competitor": "BringFido",
+  "cities_challenged": 15,
+  "competitor_raw_discovery": 486,
+  "normalized_unique": 310,
+  "matched_to_census": 152,
+  "matched_distinct_identities": 124,
+  "true_missing_qualifying_candidates": 3,
+  "true_missing_verified_by_places": {
+   "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 2,
+   "NO_LODGING_RESULT": 1
+  },
+  "true_missing_names": [
+   "1812 Overture B&B",
+   "Dubbert Resort",
+   "Motel 6 Olathe KS"
+  ],
+  "true_missing_disposition": "every BringFido lead no census node carried was put to Google Places gap verification (existing capacity): a lead Places verified as an OPERATIONAL hotel at an admitted postal code with its own street number was admitted as a census identity and routed through the first-party lanes like any other; a lead Places places at a census node's address or phone is a match, not a gap",
+  "excluded_stale_outside": 115,
+  "review": 40,
+  "matched_but_policy_unresolved": 124,
+  "counts": {
+   "ALIAS": 23,
+   "DUPLICATE": 28,
+   "EXACT_ATLAS_MATCH": 101,
+   "NON_HOTEL": 2,
+   "OUTSIDE": 5,
+   "REVIEW": 40,
+   "TRUE_MISSING": 3,
+   "VACATION_RENTAL": 108
+  }
+ },
+ "county_and_border_boundary": {
+  "method": "Every OUTSIDE graph node counted by the refused place its OWN postal code (prefix) or municipality names, plus every brand city-page card whose own address is a refused neighbour. Admission is by the corridor registry over the property's own postal code and nothing else.",
+  "lawrence": {
+   "discovered": 23,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 21,
+   "discovered_as_brand_cards": 2
+  },
+  "topeka": {
+   "discovered": 28,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 26,
+   "discovered_as_brand_cards": 2
+  },
+  "st_joseph": {
+   "discovered": 39,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 38,
+   "discovered_as_brand_cards": 1
+  },
+  "columbia": {
+   "discovered": 73,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 73,
+   "discovered_as_brand_cards": 0
+  },
+  "manhattan": {
+   "discovered": 22,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 22,
+   "discovered_as_brand_cards": 0
+  },
+  "lake_of_the_ozarks": {
+   "discovered": 94,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 94,
+   "discovered_as_brand_cards": 0
+  },
+  "leavenworth_lansing": {
+   "discovered": 12,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 9,
+   "discovered_as_brand_cards": 3
+  },
+  "outer_north_metro": {
+   "discovered": 20,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 20,
+   "discovered_as_brand_cards": 0
+  },
+  "outer_east_south_metro": {
+   "discovered": 23,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 23,
+   "discovered_as_brand_cards": 0
+  },
+  "outer_johnson_wyandotte_miami_ks": {
+   "discovered": 10,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 10,
+   "discovered_as_brand_cards": 0
+  },
+  "st_louis_live_market": {
+   "discovered": 0,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 0,
+   "discovered_as_brand_cards": 0
+  },
+  "other_greater_missouri_kansas_or_out_of_state": {
+   "discovered": 735,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 735,
+   "discovered_as_brand_cards": 0
+  },
+  "mci_northland": {
+   "evaluation": {
+    "mci_airport": "The airport's own hotel row (Tiffany Springs Parkway, NW Prairie View Road, NW 112th Street) is 64153, the mci-airport corridor. A hotel marketed 'Kansas City Airport' or 'KCI' is placed by its own code: Platte City (64079) is OUTSIDE; Riverside (64150) and Zona Rosa (64154) are where their codes put them.",
+    "northland": "North of the Missouri River inside Kansas City and North Kansas City: Briarcliff and North Kansas City (64116), Worlds of Fun / Parvin Road (64117 / 64161), Zona Rosa and Barry Road (64154 / 64151) -- the northland-north-kansas-city corridor.",
+    "liberty_gladstone": "Liberty (64068) and Gladstone (64118 / 64119), and the Kansas City-Liberty I-35 & 152 row (64158), are a STRONG corridor of their own.",
+    "one_premises_one_row": "A property is one row however many of 'Airport', 'KCI', 'Northland', 'North' and 'Kansas City' its marketing carries; identity is its own street address and brand property code."
+   },
+   "admitted_rows_mci_airport": 30,
+   "admitted_rows_northland_north_kansas_city": 24,
+   "admitted_rows_named_airport_outside_the_mci_corridor": [
+    "Economy Suites Kansas City – Near MCI Airport (64151, northland-north-kansas-city)",
+    "La Quinta Inn & Suites by Wyndham Kansas City Airport (64152, riverside-parkville)",
+    "SpringHill Suites by Marriott Kansas City Airport (64152, riverside-parkville)",
+    "Super 8 by Wyndham Kansas City at Barry Road/Airport (64152, riverside-parkville)",
+    "WoodSpring Suites Kansas City Airport (64151, northland-north-kansas-city)"
+   ]
+  },
+  "johnson_county": {
+   "evaluation": {
+    "cities_never_flattened": "Overland Park, Lenexa, Olathe, Shawnee, Merriam, Mission, Prairie Village and Leawood each keep their own municipality; none is written as Kansas City, Kansas or Kansas City, Missouri.",
+    "shawnee_mission": "'Shawnee Mission' is a USPS mailing name covering most of north Johnson County. It is never a municipality and never decides a corridor; the postal code does.",
+    "shared_codes": "66210 (Overland Park / Lenexa), 66211 (Overland Park / Leawood), 66215 (Lenexa / Overland Park), 66209 (Leawood / Overland Park) and 66203 (Merriam / Shawnee) are covered whole by one corridor each; the row keeps the city its own page states.",
+    "missouri_overland_park_trap": "A hotel marketed 'Kansas City South Overland Park' or 'Overland Park' whose own code is 64131 / 64114 is a Kansas City, MISSOURI hotel, placed by its code."
+   },
+   "admitted_rows_by_corridor": {
+    "gardner": 2,
+    "lenexa": 15,
+    "merriam-mission": 4,
+    "olathe": 15,
+    "overland-park": 34,
+    "prairie-village-leawood": 4,
+    "shawnee": 5
+   },
+   "admitted_rows_named_for_a_johnson_county_town_with_a_missouri_address": [
+    "Sonesta Select Kansas City South Overland Park (64131, MO)"
+   ]
+  },
+  "two_states_never_flattened": {
+   "admitted_rows_missouri": 189,
+   "admitted_rows_kansas": 101,
+   "ks_hotels_mislabeled_mo": 0,
+   "mo_hotels_mislabeled_ks": 0,
+   "admitted_rows_with_no_stated_state": 0,
+   "admitted_rows_city_kansas_city_missouri": 123,
+   "admitted_rows_city_kansas_city_kansas": 20,
+   "rows_held_for_a_state_postal_conflict": [],
+   "missouri_corridors": [
+    "downtown-kansas-city",
+    "crossroads-crown-center",
+    "plaza-westport",
+    "midtown-east-kansas-city",
+    "mci-airport",
+    "northland-north-kansas-city",
+    "independence",
+    "lees-summit",
+    "liberty-gladstone",
+    "blue-springs",
+    "raytown-sports-complex",
+    "south-kansas-city-grandview",
+    "riverside-parkville",
+    "grain-valley",
+    "belton-raymore"
+   ],
+   "kansas_corridors": [
+    "kansas-city-kansas",
+    "village-west-legends",
+    "overland-park",
+    "lenexa",
+    "olathe",
+    "shawnee",
+    "merriam-mission",
+    "prairie-village-leawood",
+    "gardner",
+    "bonner-springs-edwardsville"
+   ]
+  },
+  "outside_nodes_under_market_prefixes": {
+   "64011": 1,
+   "64020": 3,
+   "64024": 1,
+   "64037": 3,
+   "64040": 1,
+   "64048": 1,
+   "64060": 5,
+   "64067": 2,
+   "64070": 1,
+   "64075": 5,
+   "64076": 2,
+   "64078": 1,
+   "64079": 5,
+   "64085": 2,
+   "64089": 2,
+   "64093": 7,
+   "64098": 5,
+   "66002": 3,
+   "66018": 1,
+   "66027": 1,
+   "66043": 1,
+   "66044": 13,
+   "66046": 3,
+   "66048": 6,
+   "66049": 5,
+   "66064": 1,
+   "66067": 4
+  },
+  "kansas_city_ruling": {
+   "classification": "The metro-continuous Kansas City core is admitted on both sides of the state line -- downtown, Crossroads / Crown Center, Plaza / Westport, Midtown / east Kansas City, MCI, the Northland, Independence and Lee's Summit in Missouri, Kansas City Kansas, Village West, Overland Park, Lenexa, Olathe and Shawnee in Kansas CORE; Liberty / Gladstone, Blue Springs, Raytown, south Kansas City / Grandview, Merriam / Mission and Prairie Village / Leawood STRONG CORRIDOR; Riverside / Parkville, Grain Valley, Belton / Raymore, Gardner and Bonner Springs / Edwardsville FRINGE. Lawrence, Topeka, St. Joseph, Columbia, Manhattan, the Lake of the Ozarks, Wichita and Springfield are OUTSIDE, and so are Platte City, Kearney, Leavenworth, Oak Grove and Harrisonville.",
+   "a_marketing_phrase_admits_nothing": "'Kansas City Airport', 'KCI', 'Kansas City North', 'Kansas City South', 'Kansas City Overland Park', 'Kansas City-Lenexa', 'Kansas City Olathe', 'Kansas City Independence', 'Kansas City Plaza' and 'Kansas City Downtown' are marketing. The property's own postal code decides.",
+   "actual_location": "Decided by the property's own postal code on its own page; the state by that code.",
+   "drive_market_relationship": "MCI, the downtown loop, Crown Center, the Plaza, the Northland, Johnson County's College Boulevard and the Legends are where Kansas City travellers sleep; Lawrence, Topeka, St. Joseph and the Lake of the Ozarks are trips of their own.",
+   "traveller_intent": "Convention (Kansas City Convention Center, Overland Park Convention Center), arena and stadium (T-Mobile Center, Arrowhead, Kauffman, Children's Mercy Park, Kansas Speedway), medical (KU Medical Center, Saint Luke's, Children's Mercy, Truman Medical), university (UMKC, KU Med), corporate (Cerner / Oracle Health, Garmin, Hallmark, H&R Block, T-Mobile, Burns & McDonnell), the Plaza, Crown Center, Union Station, the Legends and MCI demand is Kansas City intent; the University of Kansas, the state capitals and the Ozarks are not.",
+   "metro_continuity": "Continuous development runs inside the I-435 loop and along I-29, I-35, I-49, I-70 and US-50 to the suburbs the order names; this registry stops there.",
+   "corridor_support": "Every admitted edge code is in a named corridor so its count is visible and a founder can move it on the record.",
+   "preserved_for": "FUTURE_STANDALONE lawrence-ks, topeka-ks, st-joseph-mo, columbia-mo, manhattan-ks, lake-of-the-ozarks-mo, wichita-ks and springfield-mo."
+  },
+  "rows_admitted_from_a_refused_postal_code": 0,
+  "zero_admitted_outside": true,
+  "county_boundary_rules": {
+   "state_line": {
+    "ruling": "ONE MARKET ACROSS THE STATE LINE, TWO STATES PRESERVED. Kansas City, Missouri and Kansas City, Kansas are both admitted, as are the Johnson County cities; every row keeps the state its own postal code and its own page state. A row whose page states a state its postal code contradicts is HELD."
+   },
+   "jackson mo": {
+    "ruling": "ADMITTED, SPLIT. Kansas City, Independence, Lee's Summit, Blue Springs, Raytown, Grandview and Grain Valley are admitted; Oak Grove and the east county are refused."
+   },
+   "clay / platte mo": {
+    "ruling": "ADMITTED INSIDE THE NORTHLAND. Kansas City north of the river, North Kansas City, Gladstone, Liberty, the airport, Riverside and Parkville are admitted; Platte City, Weston, Kearney, Smithville and Excelsior Springs are refused."
+   },
+   "cass mo": {
+    "ruling": "ADMITTED ONLY AT BELTON / RAYMORE. Peculiar, Harrisonville and Pleasant Hill are refused."
+   },
+   "wyandotte ks": {
+    "ruling": "ADMITTED. Kansas City, Kansas (east and Village West), Bonner Springs and Edwardsville."
+   },
+   "johnson ks": {
+    "ruling": "ADMITTED, SPLIT. Overland Park, Lenexa, Olathe, Shawnee, Merriam, Mission, Roeland Park, Fairway, Westwood, Prairie Village, Mission Hills, Leawood and Gardner are admitted; De Soto, Spring Hill and Edgerton are refused."
+   },
+   "douglas / shawnee / leavenworth ks; buchanan / boone mo": {
+    "ruling": "REFUSED. Lawrence, Topeka, Leavenworth, St. Joseph and Columbia are not absorbed (FUTURE_STANDALONE lawrence-ks, topeka-ks, st-joseph-mo, columbia-mo)."
+   }
+  },
+  "existing_live_markets_named": [
+   "minneapolis-mn",
+   "st-louis-mo",
+   "cleveland-akron-canton-oh",
+   "cincinnati-oh"
+  ],
+  "future_standalone_markets": [
+   "lawrence-ks",
+   "topeka-ks",
+   "st-joseph-mo",
+   "columbia-mo",
+   "manhattan-ks",
+   "lake-of-the-ozarks-mo",
+   "wichita-ks",
+   "springfield-mo"
+  ]
+ },
+ "fees": {
+  "schema": "ptf-fee-withholding/1.0",
+  "work_order": "PTF-KANSAS-CITY-MO-HARDENED-SOURCE-READY-001",
+  "market_id": "kansas-city-mo",
+  "rule": "a fee publishes only as one amount whose basis (per night / per stay) the quote itself states, with no stay-length condition, no range, no second basis and no second amount; otherwise the fee is withheld and the acceptance, weight, count and species still publish",
+  "fees_published": 25,
+  "tiered_fees_withheld": 37,
+  "unsafe_single_fees_withheld": 17,
+  "unsafe_by_reason": {
+   "BASIS_NOT_STATED": 16,
+   "STAY_LENGTH_CONDITION": 1
+  },
+  "misleading_single_fees_published": 0
+ },
+ "negation_and_parser_conflicts": [
+  {
+   "identity_key": "comfort suites kansas city liberty",
+   "name": "Comfort Suites Kansas City-Liberty",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal statement is a legal access category, never a pet acceptance: 'Pets Allowed: Yes General: Pets Are Allowed 25.00 USD Per Pet, Per Night. Maximum of 2 pets per room, Max 50 lbs. Pets are only allowed in regular King Bed and QQ Bed. Pets are not allowed in Jacuzzi Room.. Service animals are permitted, without charge.'"
+  },
+  {
+   "identity_key": "crossroads hotel kansas city",
+   "name": "Crossroads Hotel Kansas City",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "holiday inn express and suites olathe south",
+   "name": "Holiday Inn Express & Suites Olathe South",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  }
+ ],
+ "remaining_unresolved_root_causes": {
+  "ROUTING_HOLD": "no first-party route: no brand inventory row, bureau link or map website joined the building, Google Places route discovery (run inside the renewed free monthly allowance) found no first-party website for it, or the route the census carried is retired, expired or a third-party page.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible, the attended browser) was refused or walled.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a conditional, chip-only or fee/weight/count-only statement, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "dual-brand buildings awaiting a reviewed shared resolution, or a page that never confirmed this census row's premises."
+ }
+}

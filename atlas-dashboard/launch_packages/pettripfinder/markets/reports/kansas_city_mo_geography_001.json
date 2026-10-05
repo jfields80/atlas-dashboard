@@ -1,0 +1,1394 @@
+{
+ "schema": "ptf-market-geography/1.0",
+ "work_order": "PTF-KANSAS-CITY-MO-HARDENED-SOURCE-READY-001",
+ "phase": "2 + 3 + 4 + 5 + 6 + 7 -- Kansas City / Greater Kansas City cross-state travel-market geography, the Kansas City, Missouri / Kansas City, Kansas identity trap, the MCI / Northland boundary, the Johnson County cities, the residence / apartment / vacation-rental rule and the timeshare rule",
+ "market_id": "kansas-city-mo",
+ "as_of": "2026-10-05",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "registration_state": "SHADOW_UNTIL_REGISTERED. The market document is written to markets/proposed/kansas-city-mo.json. This order does not register, authorize or deploy anything.",
+ "membership_rule": "The property's OWN postal code, as its own official page or its brand's own property card states it, joined to the corridor registry. Nothing else admits a property.",
+ "cross_state_rule": "Missouri (630-658) and Kansas (660-679) are decided by the postal code. Every corridor states its state; every row keeps its own city, state, ZIP and street; a page whose stated state contradicts its own postal code is HELD, never re-labelled. 'Kansas City' in a name or a city field places nothing.",
+ "two_city_rule": "Kansas City, Missouri and Kansas City, Kansas are both central cities with their own corridors; neither is flattened into the other, and every row states the city and state its own premises are in.",
+ "classes": {
+  "CORE": "Downtown Kansas City (MO, 64101, 64102, 64105, 64106); Crossroads & Crown Center (MO, 64108); Country Club Plaza & Westport (MO, 64111, 64112, 64113); Midtown & East Kansas City (MO, 64109, 64110, 64120, 64123, 64124, 64125, 64126, 64127, 64128, 64130, 64132); Kansas City International Airport (MCI) (MO, 64153, 64163, 64164, 64195); Northland & North Kansas City (MO, 64116, 64117, 64151, 64154, 64155, 64156, 64157, 64161, 64165, 64166, 64167); Independence (MO, 64050, 64051, 64052, 64053, 64054, 64055, 64056, 64057, 64058); Lee's Summit (MO, 64063, 64064, 64065, 64081, 64082, 64086); Kansas City, Kansas (KS, 66101, 66102, 66103, 66104, 66105, 66106, 66112, 66115, 66118, 66160); Village West & The Legends (KS, 66109, 66111); Overland Park (KS, 66204, 66210, 66211, 66212, 66213, 66214, 66221, 66223); Lenexa (KS, 66215, 66219, 66220, 66227); Olathe (KS, 66061, 66062, 66063); Shawnee (KS, 66216, 66217, 66218, 66226)",
+  "CORRIDOR": "Liberty & Gladstone (MO, 64068, 64069, 64118, 64119, 64158); Blue Springs (MO, 64013, 64014, 64015); Raytown & Truman Sports Complex (MO, 64129, 64133, 64138); South Kansas City & Grandview (MO, 64114, 64131, 64134, 64136, 64137, 64139, 64145, 64146, 64147, 64149, 64030); Merriam & Mission (KS, 66202, 66203, 66205); Prairie Village & Leawood (KS, 66206, 66207, 66208, 66209, 66224)",
+  "FRINGE": "Riverside & Parkville (MO, 64150, 64152); Grain Valley (MO, 64029); Belton & Raymore (MO, 64012, 64083); Gardner (KS, 66030); Bonner Springs & Edwardsville (KS, 66012, 66113)"
+ },
+ "class_vocabulary": "The order's STRONG_CORRIDOR is registry class CORRIDOR; FUTURE_STANDALONE lives inside OUTSIDE with its future market id.",
+ "outside_class": "Everything else, refused by name with its postal codes and by postal PREFIX for the refused regions; the future standalone markets named.",
+ "future_standalone_markets": {
+  "lawrence-ks": "Lawrence / the University of Kansas -- 40 miles west on I-70.",
+  "topeka-ks": "Topeka -- 60 miles west on I-70.",
+  "st-joseph-mo": "St. Joseph -- 55 miles north on I-29.",
+  "columbia-mo": "Columbia / the University of Missouri -- 125 miles east on I-70.",
+  "manhattan-ks": "Manhattan / Kansas State / Fort Riley -- 120 miles west on I-70.",
+  "lake-of-the-ozarks-mo": "The Lake of the Ozarks -- 160 miles south-east.",
+  "wichita-ks": "Wichita -- 200 miles south-west on I-35.",
+  "springfield-mo": "Springfield / Branson -- 160 miles south."
+ },
+ "existing_live_markets": {
+  "minneapolis-mn": "Minneapolis / St. Paul, live as production market #42 (deploy 6ac3bfda7b585d009f007620) -- the CURRENT LIVE market at this order's authoring time. No shared state, no shared postal code.",
+  "st-louis-mo": "St. Louis, live -- the only other MISSOURI market. It owns the 630-633 codes; every one is refused here by prefix, and identity is decided by premises and postal code, never the state.",
+  "cleveland-akron-canton-oh": "Cleveland / Akron / Canton, live -- its region contains an Independence, OHIO; identity is decided by premises and state, never the town name.",
+  "cincinnati-oh": "Cincinnati, live -- its region contains Liberty Township, OHIO; identity is decided by premises and state, never the town name."
+ },
+ "mci_northland_evaluation": {
+  "mci_airport": "The airport's own hotel row (Tiffany Springs Parkway, NW Prairie View Road, NW 112th Street) is 64153, the mci-airport corridor. A hotel marketed 'Kansas City Airport' or 'KCI' is placed by its own code: Platte City (64079) is OUTSIDE; Riverside (64150) and Zona Rosa (64154) are where their codes put them.",
+  "northland": "North of the Missouri River inside Kansas City and North Kansas City: Briarcliff and North Kansas City (64116), Worlds of Fun / Parvin Road (64117 / 64161), Zona Rosa and Barry Road (64154 / 64151) -- the northland-north-kansas-city corridor.",
+  "liberty_gladstone": "Liberty (64068) and Gladstone (64118 / 64119), and the Kansas City-Liberty I-35 & 152 row (64158), are a STRONG corridor of their own.",
+  "one_premises_one_row": "A property is one row however many of 'Airport', 'KCI', 'Northland', 'North' and 'Kansas City' its marketing carries; identity is its own street address and brand property code."
+ },
+ "johnson_county_evaluation": {
+  "cities_never_flattened": "Overland Park, Lenexa, Olathe, Shawnee, Merriam, Mission, Prairie Village and Leawood each keep their own municipality; none is written as Kansas City, Kansas or Kansas City, Missouri.",
+  "shawnee_mission": "'Shawnee Mission' is a USPS mailing name covering most of north Johnson County. It is never a municipality and never decides a corridor; the postal code does.",
+  "shared_codes": "66210 (Overland Park / Lenexa), 66211 (Overland Park / Leawood), 66215 (Lenexa / Overland Park), 66209 (Leawood / Overland Park) and 66203 (Merriam / Shawnee) are covered whole by one corridor each; the row keeps the city its own page states.",
+  "missouri_overland_park_trap": "A hotel marketed 'Kansas City South Overland Park' or 'Overland Park' whose own code is 64131 / 64114 is a Kansas City, MISSOURI hotel, placed by its code."
+ },
+ "kansas_city_ruling": {
+  "classification": "The metro-continuous Kansas City core is admitted on both sides of the state line -- downtown, Crossroads / Crown Center, Plaza / Westport, Midtown / east Kansas City, MCI, the Northland, Independence and Lee's Summit in Missouri, Kansas City Kansas, Village West, Overland Park, Lenexa, Olathe and Shawnee in Kansas CORE; Liberty / Gladstone, Blue Springs, Raytown, south Kansas City / Grandview, Merriam / Mission and Prairie Village / Leawood STRONG CORRIDOR; Riverside / Parkville, Grain Valley, Belton / Raymore, Gardner and Bonner Springs / Edwardsville FRINGE. Lawrence, Topeka, St. Joseph, Columbia, Manhattan, the Lake of the Ozarks, Wichita and Springfield are OUTSIDE, and so are Platte City, Kearney, Leavenworth, Oak Grove and Harrisonville.",
+  "a_marketing_phrase_admits_nothing": "'Kansas City Airport', 'KCI', 'Kansas City North', 'Kansas City South', 'Kansas City Overland Park', 'Kansas City-Lenexa', 'Kansas City Olathe', 'Kansas City Independence', 'Kansas City Plaza' and 'Kansas City Downtown' are marketing. The property's own postal code decides.",
+  "actual_location": "Decided by the property's own postal code on its own page; the state by that code.",
+  "drive_market_relationship": "MCI, the downtown loop, Crown Center, the Plaza, the Northland, Johnson County's College Boulevard and the Legends are where Kansas City travellers sleep; Lawrence, Topeka, St. Joseph and the Lake of the Ozarks are trips of their own.",
+  "traveller_intent": "Convention (Kansas City Convention Center, Overland Park Convention Center), arena and stadium (T-Mobile Center, Arrowhead, Kauffman, Children's Mercy Park, Kansas Speedway), medical (KU Medical Center, Saint Luke's, Children's Mercy, Truman Medical), university (UMKC, KU Med), corporate (Cerner / Oracle Health, Garmin, Hallmark, H&R Block, T-Mobile, Burns & McDonnell), the Plaza, Crown Center, Union Station, the Legends and MCI demand is Kansas City intent; the University of Kansas, the state capitals and the Ozarks are not.",
+  "metro_continuity": "Continuous development runs inside the I-435 loop and along I-29, I-35, I-49, I-70 and US-50 to the suburbs the order names; this registry stops there.",
+  "corridor_support": "Every admitted edge code is in a named corridor so its count is visible and a founder can move it on the record.",
+  "preserved_for": "FUTURE_STANDALONE lawrence-ks, topeka-ks, st-joseph-mo, columbia-mo, manhattan-ks, lake-of-the-ozarks-mo, wichita-ks and springfield-mo."
+ },
+ "metro_structure_test": {
+  "A. Is Kansas City one market, or two?": "ONE market, kansas-city-mo, covering both Kansas Cities and the contiguous suburbs the order evaluates on both sides of the state line -- one commercial airport (MCI), one I-35 / I-70 / I-435 / I-29 / I-49 road system.",
+  "B. Missouri and Kansas are NOT flattened": "Every corridor states its state, every admitted code is checked against the state's postal prefixes, and every row keeps its own city and state. Kansas City, Kansas is never written as Kansas City, Missouri, and the reverse.",
+  "C. MCI": "Only the airport's own codes (64153 / 64163 / 64164 / 64195) are mci-airport; 'Airport' hotels elsewhere are placed by their own code (MCI_NORTHLAND_EVALUATION).",
+  "D. Johnson County": "Each city is its own municipality (JOHNSON_COUNTY_EVALUATION).",
+  "E. Power & Light / River Market / Crossroads / Crown Center / Plaza / Westport": "Overlays of their corridor, never split codes.",
+  "F. Lawrence": "OUTSIDE -- FUTURE_STANDALONE lawrence-ks.",
+  "G. Topeka": "OUTSIDE -- FUTURE_STANDALONE topeka-ks.",
+  "H. St. Joseph": "OUTSIDE -- FUTURE_STANDALONE st-joseph-mo.",
+  "I. Columbia": "OUTSIDE -- FUTURE_STANDALONE columbia-mo.",
+  "J. Manhattan": "OUTSIDE -- FUTURE_STANDALONE manhattan-ks.",
+  "K. Lake of the Ozarks / Wichita / Springfield": "OUTSIDE -- FUTURE_STANDALONE each.",
+  "L. Platte City / Kearney / Leavenworth / Oak Grove / Harrisonville": "OUTSIDE -- not absorbed."
+ },
+ "county_boundary_rules": {
+  "state_line": {
+   "ruling": "ONE MARKET ACROSS THE STATE LINE, TWO STATES PRESERVED. Kansas City, Missouri and Kansas City, Kansas are both admitted, as are the Johnson County cities; every row keeps the state its own postal code and its own page state. A row whose page states a state its postal code contradicts is HELD."
+  },
+  "jackson mo": {
+   "ruling": "ADMITTED, SPLIT. Kansas City, Independence, Lee's Summit, Blue Springs, Raytown, Grandview and Grain Valley are admitted; Oak Grove and the east county are refused."
+  },
+  "clay / platte mo": {
+   "ruling": "ADMITTED INSIDE THE NORTHLAND. Kansas City north of the river, North Kansas City, Gladstone, Liberty, the airport, Riverside and Parkville are admitted; Platte City, Weston, Kearney, Smithville and Excelsior Springs are refused."
+  },
+  "cass mo": {
+   "ruling": "ADMITTED ONLY AT BELTON / RAYMORE. Peculiar, Harrisonville and Pleasant Hill are refused."
+  },
+  "wyandotte ks": {
+   "ruling": "ADMITTED. Kansas City, Kansas (east and Village West), Bonner Springs and Edwardsville."
+  },
+  "johnson ks": {
+   "ruling": "ADMITTED, SPLIT. Overland Park, Lenexa, Olathe, Shawnee, Merriam, Mission, Roeland Park, Fairway, Westwood, Prairie Village, Mission Hills, Leawood and Gardner are admitted; De Soto, Spring Hill and Edgerton are refused."
+  },
+  "douglas / shawnee / leavenworth ks; buchanan / boone mo": {
+   "ruling": "REFUSED. Lawrence, Topeka, Leavenworth, St. Joseph and Columbia are not absorbed (FUTURE_STANDALONE lawrence-ks, topeka-ks, st-joseph-mo, columbia-mo)."
+  }
+ },
+ "condo_hotel_rule": {
+  "public_hotel_operator": "Required and proved on the operator's own page: an establishment sold nightly to the public under one name, with an official property page and an on-site hotel operation.",
+  "exact_premises": "Required: the row's own street address (house number + canonical street + ZIP). A unit designator ('Ste', 'Unit', '#', 'Apt', 'PH') in a registry address means the record is a UNIT INSIDE a building or campus, which is never a hotel identity.",
+  "hotel_vs_residence_boundary": "A property that sells both hotel rooms and residences is admitted ONLY as the hotel premises. Kansas City's specific exposures: the downtown loop, Crossroads and Plaza apartment towers with furnished short-stay units, the serviced-apartment and aparthotel operators (Sonder, Kasa, Mint House, Placemakr, Blueground, Landing), corporate-housing portfolios, UMKC and KU Med student housing, Club Wyndham / WorldMark vacation-ownership inventory and the Airbnb / Vrbo inventory.",
+  "timeshare_rule": "A vacation-ownership club or timeshare resort (Club Wyndham, WorldMark, Hilton Grand Vacations, Marriott Vacation Club, Holiday Inn Club Vacations, Bluegreen, Diamond / Hilton Vacation Club, Hyatt Vacation Club, Shell Vacations) is TIMESHARE and is never admitted to hotel accounting, even when its brand lists it beside its hotels, even when it sells a nightly rate, and even when a pet-policy page exists (the Phoenix correction-003 lesson).",
+  "shared_campus_relation": "Never merged by display name, brand, owner, phone, shared address, campus, booking engine, shared amenities or shared entrance. A dual-brand building is TWO hotels and is HELD for the split, never published as one. A hotel and its residences on one campus are distinct premises.",
+  "extended_stay": "Extended-stay hotels are hotels and are admitted on their own pages; an 'apartment hotel' or 'aparthotel' is admitted only as a public hotel operation at an exact premises, never as a residential building that rents furnished units.",
+  "patient_and_military_lodging": "Patient-family housing (the Ronald McDonald Houses, Hope Lodge), charitable family lodging (Fisher House) and on-base military lodging are never public hotels and are never admitted."
+ },
+ "military_lodging_rule": {
+  "rule": "On-base military / government lodging is MILITARY_RESTRICTED and never admitted: restricted eligibility (DoD ID or sponsorship), on-base premises behind a gate, ordinary public-hotel contract NOT satisfied. Fort Leavenworth and Whiteman AFB sit outside the partition; the on-base names are refused wherever they appear.",
+  "military_postal_codes": {},
+  "nonpublic_names": {
+   "navy lodge": "Navy Lodge on-base lodging -- MILITARY_RESTRICTED",
+   "army lodging": "on-post Army lodging -- MILITARY_RESTRICTED",
+   "army hotel": "IHG Army Hotels on-post lodging -- restricted to authorised DoD travellers; MILITARY_RESTRICTED",
+   "hoge hall": "Fort Leavenworth's IHG Army Hotels Hoge Hall -- MILITARY_RESTRICTED",
+   "fort leavenworth": "Fort Leavenworth on-post lodging -- MILITARY_RESTRICTED",
+   "air force inn": "Air Force Inns on-base lodging -- MILITARY_RESTRICTED",
+   "air national guard": "Air National Guard base lodging -- MILITARY_RESTRICTED",
+   "temporary lodging facility": "military temporary lodging facility (TLF) -- MILITARY_RESTRICTED",
+   "visiting quarters": "military visiting quarters -- MILITARY_RESTRICTED",
+   "fisher house": "Fisher House -- charitable lodging for military and veteran families; not public lodging",
+   "ronald mcdonald house": "charitable family lodging -- not public lodging",
+   "hope lodge": "American Cancer Society Hope Lodge -- patient lodging, not public lodging",
+   "family housing": "patient-family housing -- not public lodging"
+  }
+ },
+ "pet_travel_relevance": "Kansas City was selected as a high-value PetTripFinder market for its downtown and Crown Center, convention and stadium demand, medical and corporate travel, the Plaza, the Legends, extended-stay demand and MCI airport traffic, on both sides of the state line. That lowers NO evidence standard: pet acceptance is never inferred from a city's reputation. It shapes only the CENSUS: every tourist, convention, stadium, medical, corporate, airport and extended-stay lodging cluster is covered by an admitting corridor.",
+ "the_kansas_city_name_trap": "The chains put 'Kansas City' on hotels in Overland Park, Lenexa, Olathe, Shawnee, Merriam, Leawood, Independence, Lee's Summit, Liberty, Gladstone, Riverside, Grandview and Platte City, and 'Overland Park' on a Kansas City, Missouri hotel. A property's own postal code, street and brand property code decide what and where it is -- and which STATE it is in; none of those words decides anything.",
+ "notable_postal_codes": {
+  "64105": "Downtown loop / Power & Light / Library District.",
+  "64106": "River Market / Power & Light east -- overlays of downtown, never split.",
+  "64108": "Crossroads / Crown Center / Union Station.",
+  "64111": "Westport / Midtown Main Street.",
+  "64112": "Country Club Plaza.",
+  "64153": "MCI airport hotel row -- the only airport-property code with hotels.",
+  "64131": "Kansas City, MISSOURI's Bannister / I-435 side -- 'Overland Park' in a name here decides nothing.",
+  "66111": "Village West / The Legends -- Kansas City, KANSAS.",
+  "66210": "College Boulevard / Corporate Woods -- Overland Park and Lenexa.",
+  "66211": "Overland Park Convention Center / Leawood -- Overland Park and Leawood.",
+  "66044": "Lawrence -- refused (lawrence-ks)."
+ },
+ "demand_drivers": {
+  "_rule": "A demand driver informs a corridor's description and its publication priority. It NEVER alters an exact premises identity and never admits a property.",
+  "Kansas City International Airport (MCI)": "mci-airport (64153).",
+  "Kansas City Convention Center / T-Mobile Center / Power & Light": "downtown-kansas-city (64105 / 64106).",
+  "Crown Center / Union Station / WWI Museum": "crossroads-crown-center (64108).",
+  "Country Club Plaza / Westport": "plaza-westport (64112 / 64111).",
+  "Truman Sports Complex (Arrowhead / Kauffman)": "raytown-sports-complex (64129 / 64133).",
+  "Worlds of Fun": "northland-north-kansas-city (64161 / 64117).",
+  "KU Medical Center": "kansas-city-kansas (66103 / 66160).",
+  "Kansas Speedway / Legends / Children's Mercy Park": "village-west-legends (66111).",
+  "Overland Park Convention Center / College Boulevard": "overland-park (66211 / 66210).",
+  "Bass Pro / Cable Dahmer Arena": "independence (64055 / 64057)."
+ },
+ "evaluated_inclusions": {
+  "Downtown Kansas City MO": "ADMITTED (CORE, downtown-kansas-city, 64101 / 64102 / 64105 / 64106). MISSOURI CORE.",
+  "Power & Light": "ADMITTED (CORE, downtown-kansas-city, 64105 / 64106) -- reported as an overlay. MISSOURI CORE.",
+  "Crossroads": "ADMITTED (CORE, crossroads-crown-center, 64108) -- reported as an overlay. MISSOURI CORE.",
+  "Crown Center": "ADMITTED (CORE, crossroads-crown-center, 64108) -- reported as an overlay. MISSOURI CORE.",
+  "Country Club Plaza": "ADMITTED (CORE, plaza-westport, 64112 / 64111) -- reported as an overlay. MISSOURI CORE.",
+  "Westport": "ADMITTED (CORE, plaza-westport, 64111) -- reported as an overlay. MISSOURI CORE.",
+  "Midtown": "ADMITTED (CORE, midtown-east-kansas-city, 64109 / 64110 and the east-side codes; Midtown's Main Street hotel row is 64111 in plaza-westport). MISSOURI CORE.",
+  "Kansas City International Airport / MCI": "ADMITTED (CORE, mci-airport, 64153 / 64163 / 64164 / 64195). MISSOURI CORE.",
+  "Northland": "ADMITTED (CORE, northland-north-kansas-city, 64151 / 64154-64157 / 64161 / 64165-64167). MISSOURI CORE.",
+  "North Kansas City": "ADMITTED (CORE, northland-north-kansas-city, 64116). MISSOURI CORE.",
+  "Independence": "ADMITTED (CORE, independence, 64050-64058). MISSOURI CORE.",
+  "Lee's Summit": "ADMITTED (CORE, lees-summit, 64063 / 64064 / 64065 / 64081 / 64082 / 64086). MISSOURI CORE.",
+  "Kansas City KS": "ADMITTED (CORE, kansas-city-kansas 66101-66106 / 66112 / 66115 / 66118 / 66160, and village-west-legends 66109 / 66111). KANSAS CORE.",
+  "Overland Park": "ADMITTED (CORE, overland-park, 66204 / 66210-66214 / 66221 / 66223). KANSAS CORE.",
+  "Lenexa": "ADMITTED (CORE, lenexa, 66215 / 66219 / 66220 / 66227). KANSAS CORE.",
+  "Olathe": "ADMITTED (CORE, olathe, 66061 / 66062 / 66063). KANSAS CORE.",
+  "Shawnee": "ADMITTED (CORE, shawnee, 66216 / 66217 / 66218 / 66226). KANSAS CORE.",
+  "Liberty": "ADMITTED (STRONG CORRIDOR, liberty-gladstone, 64068 / 64069 / 64158). MISSOURI STRONG.",
+  "Gladstone": "ADMITTED (STRONG CORRIDOR, liberty-gladstone, 64118 / 64119). MISSOURI STRONG.",
+  "Blue Springs": "ADMITTED (STRONG CORRIDOR, blue-springs, 64013 / 64014 / 64015). MISSOURI STRONG.",
+  "Raytown": "ADMITTED (STRONG CORRIDOR, raytown-sports-complex, 64133 / 64138; the sports complex 64129). MISSOURI STRONG.",
+  "Grandview": "ADMITTED (STRONG CORRIDOR, south-kansas-city-grandview, 64030). MISSOURI STRONG.",
+  "Merriam": "ADMITTED (STRONG CORRIDOR, merriam-mission, 66202 / 66203). KANSAS STRONG.",
+  "Mission": "ADMITTED (STRONG CORRIDOR, merriam-mission, 66202 / 66205). KANSAS STRONG.",
+  "Prairie Village": "ADMITTED (STRONG CORRIDOR, prairie-village-leawood, 66207 / 66208). KANSAS STRONG.",
+  "Leawood": "ADMITTED (STRONG CORRIDOR, prairie-village-leawood, 66206 / 66209 / 66224; its 66211 College Boulevard hotels sit in overland-park's shared code, covered whole). KANSAS STRONG.",
+  "Parkville MO": "ADMITTED (FRINGE, riverside-parkville, 64152). CAREFUL.",
+  "Riverside MO": "ADMITTED (FRINGE, riverside-parkville, 64150). CAREFUL.",
+  "Grain Valley MO": "ADMITTED (FRINGE, grain-valley, 64029). CAREFUL.",
+  "Belton MO": "ADMITTED (FRINGE, belton-raymore, 64012). CAREFUL.",
+  "Raymore MO": "ADMITTED (FRINGE, belton-raymore, 64083). CAREFUL.",
+  "Gardner KS": "ADMITTED (FRINGE, gardner, 66030). CAREFUL.",
+  "Bonner Springs KS": "ADMITTED (FRINGE, bonner-springs-edwardsville, 66012). CAREFUL.",
+  "Edwardsville KS": "ADMITTED (FRINGE, bonner-springs-edwardsville, 66113; its 66111 addresses sit in village-west-legends, covered whole). CAREFUL.",
+  "Lawrence KS": "OUTSIDE -- FUTURE_STANDALONE lawrence-ks; refused by name and postal code. KEEP SEPARATE.",
+  "Topeka KS": "OUTSIDE -- FUTURE_STANDALONE topeka-ks; refused by prefix 664 / 666. KEEP SEPARATE.",
+  "St. Joseph MO": "OUTSIDE -- FUTURE_STANDALONE st-joseph-mo; refused by prefix 644 / 645. KEEP SEPARATE.",
+  "Columbia MO": "OUTSIDE -- FUTURE_STANDALONE columbia-mo; refused by prefix 652. KEEP SEPARATE.",
+  "Manhattan KS": "OUTSIDE -- FUTURE_STANDALONE manhattan-ks; refused by prefix 665. KEEP SEPARATE.",
+  "Lake of the Ozarks": "OUTSIDE -- FUTURE_STANDALONE lake-of-the-ozarks-mo; refused by name, postal code and prefix 650. KEEP SEPARATE.",
+  "Wichita": "OUTSIDE -- FUTURE_STANDALONE wichita-ks; refused by prefix 670-672. KEEP SEPARATE.",
+  "Springfield MO": "OUTSIDE -- FUTURE_STANDALONE springfield-mo; refused by prefix 656-658. KEEP SEPARATE.",
+  "Platte City / Kearney / Leavenworth / Oak Grove / Harrisonville / De Soto / Spring Hill": "OUTSIDE -- refused after careful evaluation by name and postal code, recorded in the boundary audit."
+ },
+ "nonpublic_names": {
+  "navy lodge": "Navy Lodge on-base lodging -- MILITARY_RESTRICTED",
+  "army lodging": "on-post Army lodging -- MILITARY_RESTRICTED",
+  "army hotel": "IHG Army Hotels on-post lodging -- restricted to authorised DoD travellers; MILITARY_RESTRICTED",
+  "hoge hall": "Fort Leavenworth's IHG Army Hotels Hoge Hall -- MILITARY_RESTRICTED",
+  "fort leavenworth": "Fort Leavenworth on-post lodging -- MILITARY_RESTRICTED",
+  "air force inn": "Air Force Inns on-base lodging -- MILITARY_RESTRICTED",
+  "air national guard": "Air National Guard base lodging -- MILITARY_RESTRICTED",
+  "temporary lodging facility": "military temporary lodging facility (TLF) -- MILITARY_RESTRICTED",
+  "visiting quarters": "military visiting quarters -- MILITARY_RESTRICTED",
+  "fisher house": "Fisher House -- charitable lodging for military and veteran families; not public lodging",
+  "ronald mcdonald house": "charitable family lodging -- not public lodging",
+  "hope lodge": "American Cancer Society Hope Lodge -- patient lodging, not public lodging",
+  "family housing": "patient-family housing -- not public lodging"
+ },
+ "corridor_registry_is_a_partition": true,
+ "admitted_postal_codes": [
+  "64012",
+  "64013",
+  "64014",
+  "64015",
+  "64029",
+  "64030",
+  "64050",
+  "64051",
+  "64052",
+  "64053",
+  "64054",
+  "64055",
+  "64056",
+  "64057",
+  "64058",
+  "64063",
+  "64064",
+  "64065",
+  "64068",
+  "64069",
+  "64081",
+  "64082",
+  "64083",
+  "64086",
+  "64101",
+  "64102",
+  "64105",
+  "64106",
+  "64108",
+  "64109",
+  "64110",
+  "64111",
+  "64112",
+  "64113",
+  "64114",
+  "64116",
+  "64117",
+  "64118",
+  "64119",
+  "64120",
+  "64123",
+  "64124",
+  "64125",
+  "64126",
+  "64127",
+  "64128",
+  "64129",
+  "64130",
+  "64131",
+  "64132",
+  "64133",
+  "64134",
+  "64136",
+  "64137",
+  "64138",
+  "64139",
+  "64145",
+  "64146",
+  "64147",
+  "64149",
+  "64150",
+  "64151",
+  "64152",
+  "64153",
+  "64154",
+  "64155",
+  "64156",
+  "64157",
+  "64158",
+  "64161",
+  "64163",
+  "64164",
+  "64165",
+  "64166",
+  "64167",
+  "64195",
+  "66012",
+  "66030",
+  "66061",
+  "66062",
+  "66063",
+  "66101",
+  "66102",
+  "66103",
+  "66104",
+  "66105",
+  "66106",
+  "66109",
+  "66111",
+  "66112",
+  "66113",
+  "66115",
+  "66118",
+  "66160",
+  "66202",
+  "66203",
+  "66204",
+  "66205",
+  "66206",
+  "66207",
+  "66208",
+  "66209",
+  "66210",
+  "66211",
+  "66212",
+  "66213",
+  "66214",
+  "66215",
+  "66216",
+  "66217",
+  "66218",
+  "66219",
+  "66220",
+  "66221",
+  "66223",
+  "66224",
+  "66226",
+  "66227"
+ ],
+ "admitted_postal_code_count": 118,
+ "admitted_postal_codes_by_state": {
+  "MO": [
+   "64012",
+   "64013",
+   "64014",
+   "64015",
+   "64029",
+   "64030",
+   "64050",
+   "64051",
+   "64052",
+   "64053",
+   "64054",
+   "64055",
+   "64056",
+   "64057",
+   "64058",
+   "64063",
+   "64064",
+   "64065",
+   "64068",
+   "64069",
+   "64081",
+   "64082",
+   "64083",
+   "64086",
+   "64101",
+   "64102",
+   "64105",
+   "64106",
+   "64108",
+   "64109",
+   "64110",
+   "64111",
+   "64112",
+   "64113",
+   "64114",
+   "64116",
+   "64117",
+   "64118",
+   "64119",
+   "64120",
+   "64123",
+   "64124",
+   "64125",
+   "64126",
+   "64127",
+   "64128",
+   "64129",
+   "64130",
+   "64131",
+   "64132",
+   "64133",
+   "64134",
+   "64136",
+   "64137",
+   "64138",
+   "64139",
+   "64145",
+   "64146",
+   "64147",
+   "64149",
+   "64150",
+   "64151",
+   "64152",
+   "64153",
+   "64154",
+   "64155",
+   "64156",
+   "64157",
+   "64158",
+   "64161",
+   "64163",
+   "64164",
+   "64165",
+   "64166",
+   "64167",
+   "64195"
+  ],
+  "KS": [
+   "66012",
+   "66030",
+   "66061",
+   "66062",
+   "66063",
+   "66101",
+   "66102",
+   "66103",
+   "66104",
+   "66105",
+   "66106",
+   "66109",
+   "66111",
+   "66112",
+   "66113",
+   "66115",
+   "66118",
+   "66160",
+   "66202",
+   "66203",
+   "66204",
+   "66205",
+   "66206",
+   "66207",
+   "66208",
+   "66209",
+   "66210",
+   "66211",
+   "66212",
+   "66213",
+   "66214",
+   "66215",
+   "66216",
+   "66217",
+   "66218",
+   "66219",
+   "66220",
+   "66221",
+   "66223",
+   "66224",
+   "66226",
+   "66227"
+  ]
+ },
+ "corridor_count_by_state": {
+  "MO": 15,
+  "KS": 10
+ },
+ "admitted_counties": [
+  "cass mo (belton, raymore; peculiar and harrisonville refused)",
+  "clay mo (kansas city north, north kansas city, gladstone, liberty; kearney, smithville and excelsior springs refused)",
+  "jackson mo (kansas city, independence, lee's summit, blue springs, raytown, grandview, grain valley; oak grove refused)",
+  "johnson ks (overland park, lenexa, olathe, shawnee, merriam, mission, prairie village, leawood, gardner; de soto, spring hill and edgerton refused)",
+  "platte mo (mci airport, kansas city's platte county codes, riverside, parkville; platte city and weston refused)",
+  "wyandotte ks (kansas city ks, village west / the legends, bonner springs, edwardsville)"
+ ],
+ "observed_outside_counties": {
+  "douglas ks (lawrence)": "lawrence-ks",
+  "shawnee ks (topeka)": "topeka-ks",
+  "buchanan mo (st. joseph)": "st-joseph-mo",
+  "boone mo (columbia)": "columbia-mo",
+  "riley / geary ks (manhattan, junction city, fort riley)": "manhattan-ks",
+  "camden / miller / morgan mo (lake of the ozarks)": "lake-of-the-ozarks-mo",
+  "sedgwick ks (wichita)": "wichita-ks",
+  "greene / taney mo (springfield, branson)": "springfield-mo",
+  "leavenworth ks (leavenworth, lansing, fort leavenworth)": "(none -- refused after careful evaluation)",
+  "platte / clay / clinton mo beyond the airport and liberty": "(none -- refused after careful evaluation)",
+  "jackson east / cass south / johnson mo / ray mo": "(none -- refused after careful evaluation)",
+  "miami / franklin / atchison ks": "(none -- refused, keep separate)"
+ },
+ "outside_prefixes": [
+  {
+   "prefix": "630",
+   "area": "St. Louis region (live st-louis-mo)",
+   "future_market": "st-louis-mo"
+  },
+  {
+   "prefix": "631",
+   "area": "St. Louis (live st-louis-mo)",
+   "future_market": "st-louis-mo"
+  },
+  {
+   "prefix": "633",
+   "area": "St. Charles / St. Louis region (live st-louis-mo)",
+   "future_market": "st-louis-mo"
+  },
+  {
+   "prefix": "634",
+   "area": "Hannibal / north-east Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "635",
+   "area": "Kirksville / north-east Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "636",
+   "area": "Flat River / east-central Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "637",
+   "area": "Cape Girardeau / south-east Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "638",
+   "area": "Sikeston / south-east Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "639",
+   "area": "Poplar Bluff / south-east Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "644",
+   "area": "St. Joseph region / north-west Missouri",
+   "future_market": "st-joseph-mo"
+  },
+  {
+   "prefix": "645",
+   "area": "St. Joseph",
+   "future_market": "st-joseph-mo"
+  },
+  {
+   "prefix": "646",
+   "area": "Chillicothe / north-central Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "647",
+   "area": "Harrisonville / west-central Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "648",
+   "area": "Joplin / south-west Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "650",
+   "area": "Jefferson City region / Lake of the Ozarks",
+   "future_market": "lake-of-the-ozarks-mo"
+  },
+  {
+   "prefix": "651",
+   "area": "Jefferson City",
+   "future_market": ""
+  },
+  {
+   "prefix": "652",
+   "area": "Columbia / mid-Missouri",
+   "future_market": "columbia-mo"
+  },
+  {
+   "prefix": "653",
+   "area": "Sedalia / west-central Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "654",
+   "area": "Rolla / south-central Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "655",
+   "area": "Rolla / south-central Missouri",
+   "future_market": ""
+  },
+  {
+   "prefix": "656",
+   "area": "Springfield region",
+   "future_market": "springfield-mo"
+  },
+  {
+   "prefix": "657",
+   "area": "Springfield region",
+   "future_market": "springfield-mo"
+  },
+  {
+   "prefix": "658",
+   "area": "Springfield",
+   "future_market": "springfield-mo"
+  },
+  {
+   "prefix": "664",
+   "area": "Topeka region / north-east Kansas",
+   "future_market": "topeka-ks"
+  },
+  {
+   "prefix": "665",
+   "area": "Manhattan / Junction City / north-central Kansas",
+   "future_market": "manhattan-ks"
+  },
+  {
+   "prefix": "666",
+   "area": "Topeka",
+   "future_market": "topeka-ks"
+  },
+  {
+   "prefix": "667",
+   "area": "Fort Scott / south-east Kansas",
+   "future_market": ""
+  },
+  {
+   "prefix": "668",
+   "area": "Emporia / east-central Kansas",
+   "future_market": ""
+  },
+  {
+   "prefix": "669",
+   "area": "Concordia / north-central Kansas",
+   "future_market": ""
+  },
+  {
+   "prefix": "670",
+   "area": "Wichita region",
+   "future_market": "wichita-ks"
+  },
+  {
+   "prefix": "671",
+   "area": "Wichita region",
+   "future_market": "wichita-ks"
+  },
+  {
+   "prefix": "672",
+   "area": "Wichita",
+   "future_market": "wichita-ks"
+  },
+  {
+   "prefix": "673",
+   "area": "Independence KS / south-east Kansas",
+   "future_market": ""
+  },
+  {
+   "prefix": "674",
+   "area": "Salina / central Kansas",
+   "future_market": ""
+  },
+  {
+   "prefix": "675",
+   "area": "Hutchinson / central Kansas",
+   "future_market": ""
+  },
+  {
+   "prefix": "676",
+   "area": "Hays / west-central Kansas",
+   "future_market": ""
+  },
+  {
+   "prefix": "677",
+   "area": "Colby / north-west Kansas",
+   "future_market": ""
+  },
+  {
+   "prefix": "678",
+   "area": "Dodge City / south-west Kansas",
+   "future_market": ""
+  },
+  {
+   "prefix": "679",
+   "area": "Liberal / south-west Kansas",
+   "future_market": ""
+  }
+ ],
+ "shared_postal_codes": {
+  "64105": [
+   "Downtown loop",
+   "Power & Light District",
+   "Library District",
+   "River Market (west)"
+  ],
+  "64106": [
+   "Power & Light District (east)",
+   "River Market",
+   "Columbus Park",
+   "East Village"
+  ],
+  "64108": [
+   "Crossroads Arts District",
+   "Crown Center",
+   "Union Station",
+   "18th & Vine (west)",
+   "Union Hill"
+  ],
+  "64111": [
+   "Westport",
+   "Midtown Main Street"
+  ],
+  "64112": [
+   "Country Club Plaza"
+  ],
+  "64119": [
+   "Gladstone",
+   "Kansas City (Antioch)"
+  ],
+  "64133": [
+   "Raytown",
+   "Kansas City (Truman Sports Complex)"
+  ],
+  "64152": [
+   "Parkville",
+   "Kansas City (Platte Woods)"
+  ],
+  "66111": [
+   "Kansas City KS (Village West)",
+   "Edwardsville"
+  ],
+  "66203": [
+   "Merriam",
+   "Shawnee"
+  ],
+  "66209": [
+   "Leawood",
+   "Overland Park"
+  ],
+  "66210": [
+   "Overland Park",
+   "Lenexa"
+  ],
+  "66211": [
+   "Overland Park",
+   "Leawood"
+  ],
+  "66215": [
+   "Lenexa",
+   "Overland Park"
+  ],
+  "66202": [
+   "Merriam",
+   "Mission",
+   "Overland Park (north)"
+  ]
+ },
+ "registered_market_postal_codes_checked": 1930,
+ "no_live_market_postal_code_admitted": true,
+ "first_kansas_market": true,
+ "second_missouri_market": "st-louis-mo is live and owns 630-633; none of its codes is admitted here.",
+ "corridors": [
+  {
+   "corridor_id": "kansas-city-mo__downtown-kansas-city",
+   "name": "Downtown Kansas City",
+   "geography_class": "CORE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64101",
+    "64102",
+    "64105",
+    "64106"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__crossroads-crown-center",
+   "name": "Crossroads & Crown Center",
+   "geography_class": "CORE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64108"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__plaza-westport",
+   "name": "Country Club Plaza & Westport",
+   "geography_class": "CORE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64111",
+    "64112",
+    "64113"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__midtown-east-kansas-city",
+   "name": "Midtown & East Kansas City",
+   "geography_class": "CORE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64109",
+    "64110",
+    "64120",
+    "64123",
+    "64124",
+    "64125",
+    "64126",
+    "64127",
+    "64128",
+    "64130",
+    "64132"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__mci-airport",
+   "name": "Kansas City International Airport (MCI)",
+   "geography_class": "CORE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64153",
+    "64163",
+    "64164",
+    "64195"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__northland-north-kansas-city",
+   "name": "Northland & North Kansas City",
+   "geography_class": "CORE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64116",
+    "64117",
+    "64151",
+    "64154",
+    "64155",
+    "64156",
+    "64157",
+    "64161",
+    "64165",
+    "64166",
+    "64167"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__independence",
+   "name": "Independence",
+   "geography_class": "CORE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64050",
+    "64051",
+    "64052",
+    "64053",
+    "64054",
+    "64055",
+    "64056",
+    "64057",
+    "64058"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__lees-summit",
+   "name": "Lee's Summit",
+   "geography_class": "CORE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64063",
+    "64064",
+    "64065",
+    "64081",
+    "64082",
+    "64086"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__liberty-gladstone",
+   "name": "Liberty & Gladstone",
+   "geography_class": "CORRIDOR",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64068",
+    "64069",
+    "64118",
+    "64119",
+    "64158"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__blue-springs",
+   "name": "Blue Springs",
+   "geography_class": "CORRIDOR",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64013",
+    "64014",
+    "64015"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__raytown-sports-complex",
+   "name": "Raytown & Truman Sports Complex",
+   "geography_class": "CORRIDOR",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64129",
+    "64133",
+    "64138"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__south-kansas-city-grandview",
+   "name": "South Kansas City & Grandview",
+   "geography_class": "CORRIDOR",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64114",
+    "64131",
+    "64134",
+    "64136",
+    "64137",
+    "64139",
+    "64145",
+    "64146",
+    "64147",
+    "64149",
+    "64030"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__riverside-parkville",
+   "name": "Riverside & Parkville",
+   "geography_class": "FRINGE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64150",
+    "64152"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__grain-valley",
+   "name": "Grain Valley",
+   "geography_class": "FRINGE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64029"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__belton-raymore",
+   "name": "Belton & Raymore",
+   "geography_class": "FRINGE",
+   "state_code": "MO",
+   "included_postal_codes": [
+    "64012",
+    "64083"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__kansas-city-kansas",
+   "name": "Kansas City, Kansas",
+   "geography_class": "CORE",
+   "state_code": "KS",
+   "included_postal_codes": [
+    "66101",
+    "66102",
+    "66103",
+    "66104",
+    "66105",
+    "66106",
+    "66112",
+    "66115",
+    "66118",
+    "66160"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__village-west-legends",
+   "name": "Village West & The Legends",
+   "geography_class": "CORE",
+   "state_code": "KS",
+   "included_postal_codes": [
+    "66109",
+    "66111"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__overland-park",
+   "name": "Overland Park",
+   "geography_class": "CORE",
+   "state_code": "KS",
+   "included_postal_codes": [
+    "66204",
+    "66210",
+    "66211",
+    "66212",
+    "66213",
+    "66214",
+    "66221",
+    "66223"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__lenexa",
+   "name": "Lenexa",
+   "geography_class": "CORE",
+   "state_code": "KS",
+   "included_postal_codes": [
+    "66215",
+    "66219",
+    "66220",
+    "66227"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__olathe",
+   "name": "Olathe",
+   "geography_class": "CORE",
+   "state_code": "KS",
+   "included_postal_codes": [
+    "66061",
+    "66062",
+    "66063"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__shawnee",
+   "name": "Shawnee",
+   "geography_class": "CORE",
+   "state_code": "KS",
+   "included_postal_codes": [
+    "66216",
+    "66217",
+    "66218",
+    "66226"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__merriam-mission",
+   "name": "Merriam & Mission",
+   "geography_class": "CORRIDOR",
+   "state_code": "KS",
+   "included_postal_codes": [
+    "66202",
+    "66203",
+    "66205"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__prairie-village-leawood",
+   "name": "Prairie Village & Leawood",
+   "geography_class": "CORRIDOR",
+   "state_code": "KS",
+   "included_postal_codes": [
+    "66206",
+    "66207",
+    "66208",
+    "66209",
+    "66224"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__gardner",
+   "name": "Gardner",
+   "geography_class": "FRINGE",
+   "state_code": "KS",
+   "included_postal_codes": [
+    "66030"
+   ]
+  },
+  {
+   "corridor_id": "kansas-city-mo__bonner-springs-edwardsville",
+   "name": "Bonner Springs & Edwardsville",
+   "geography_class": "FRINGE",
+   "state_code": "KS",
+   "included_postal_codes": [
+    "66012",
+    "66113"
+   ]
+  }
+ ],
+ "corridor_count": 25,
+ "corridor_count_by_class": {
+  "CORE": 14,
+  "CORRIDOR": 6,
+  "FRINGE": 5
+ },
+ "corridor_page_rule": "A corridor page publishes only when the existing publication threshold (minimum_hotel_count = 5 verified pet-friendly hotels) is met. No thin corridor page is invented for SEO, airport, stadium, convention or mall keywords; every corridor is show_in_navigation / show_in_sitemap false until a registration order publishes it.",
+ "coverage_areas": [
+  {
+   "area": "Power & Light District",
+   "anchor_lat": 39.0975,
+   "anchor_lng": -94.582,
+   "radius_km": 0.45
+  },
+  {
+   "area": "River Market",
+   "anchor_lat": 39.11,
+   "anchor_lng": -94.583,
+   "radius_km": 0.6
+  },
+  {
+   "area": "Downtown Kansas City",
+   "anchor_lat": 39.1,
+   "anchor_lng": -94.583,
+   "radius_km": 1.4
+  },
+  {
+   "area": "Crossroads Arts District",
+   "anchor_lat": 39.09,
+   "anchor_lng": -94.58,
+   "radius_km": 0.7
+  },
+  {
+   "area": "Crown Center / Union Station",
+   "anchor_lat": 39.082,
+   "anchor_lng": -94.582,
+   "radius_km": 0.7
+  },
+  {
+   "area": "Westport",
+   "anchor_lat": 39.053,
+   "anchor_lng": -94.592,
+   "radius_km": 0.7
+  },
+  {
+   "area": "Country Club Plaza",
+   "anchor_lat": 39.041,
+   "anchor_lng": -94.593,
+   "radius_km": 0.8
+  },
+  {
+   "area": "Midtown",
+   "anchor_lat": 39.062,
+   "anchor_lng": -94.58,
+   "radius_km": 1.6
+  },
+  {
+   "area": "Kansas City International Airport (MCI)",
+   "anchor_lat": 39.295,
+   "anchor_lng": -94.71,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Zona Rosa / Barry Road",
+   "anchor_lat": 39.243,
+   "anchor_lng": -94.66,
+   "radius_km": 2.0
+  },
+  {
+   "area": "North Kansas City / Briarcliff",
+   "anchor_lat": 39.142,
+   "anchor_lng": -94.575,
+   "radius_km": 2.2
+  },
+  {
+   "area": "Northland",
+   "anchor_lat": 39.22,
+   "anchor_lng": -94.58,
+   "radius_km": 6.0
+  },
+  {
+   "area": "Kansas City, Kansas / KU Medical Center",
+   "anchor_lat": 39.09,
+   "anchor_lng": -94.66,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Village West / The Legends",
+   "anchor_lat": 39.122,
+   "anchor_lng": -94.825,
+   "radius_km": 2.5
+  },
+  {
+   "area": "College Boulevard / Corporate Woods",
+   "anchor_lat": 38.927,
+   "anchor_lng": -94.675,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Overland Park",
+   "anchor_lat": 38.93,
+   "anchor_lng": -94.68,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Lenexa",
+   "anchor_lat": 38.96,
+   "anchor_lng": -94.77,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Olathe",
+   "anchor_lat": 38.88,
+   "anchor_lng": -94.8,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Shawnee",
+   "anchor_lat": 39.01,
+   "anchor_lng": -94.77,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Merriam / Mission",
+   "anchor_lat": 39.02,
+   "anchor_lng": -94.675,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Prairie Village / Leawood",
+   "anchor_lat": 38.93,
+   "anchor_lng": -94.62,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Independence",
+   "anchor_lat": 39.07,
+   "anchor_lng": -94.39,
+   "radius_km": 5.5
+  },
+  {
+   "area": "Lee's Summit",
+   "anchor_lat": 38.92,
+   "anchor_lng": -94.38,
+   "radius_km": 5.5
+  },
+  {
+   "area": "Liberty / Gladstone",
+   "anchor_lat": 39.22,
+   "anchor_lng": -94.48,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Blue Springs",
+   "anchor_lat": 39.02,
+   "anchor_lng": -94.27,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Truman Sports Complex / Raytown",
+   "anchor_lat": 39.035,
+   "anchor_lng": -94.485,
+   "radius_km": 3.0
+  },
+  {
+   "area": "South Kansas City / Grandview",
+   "anchor_lat": 38.92,
+   "anchor_lng": -94.54,
+   "radius_km": 6.0
+  }
+ ],
+ "outside_named_and_refused": [
+  {
+   "municipality": "Lawrence / University of Kansas / Douglas County",
+   "state": "KS",
+   "postal_codes": [
+    "66044",
+    "66045",
+    "66046",
+    "66047",
+    "66049"
+   ],
+   "why": "DOUGLAS COUNTY; FUTURE_STANDALONE lawrence-ks. The University of Kansas town 40 miles west on I-70 -- a trip of its own, never absorbed. Refused by name and postal code. A hotel marketed 'Kansas City / Lawrence' is placed by its code."
+  },
+  {
+   "municipality": "Topeka / Shawnee County, Kansas",
+   "state": "KS",
+   "postal_codes": [],
+   "why": "SHAWNEE COUNTY KS; FUTURE_STANDALONE topeka-ks. The state capital 60 miles west on I-70. Refused by postal PREFIX (666, and the 664 region). 'Shawnee' the Johnson County city is NOT Shawnee County."
+  },
+  {
+   "municipality": "St. Joseph, Missouri",
+   "state": "MO",
+   "postal_codes": [
+    "64501",
+    "64503",
+    "64504",
+    "64505",
+    "64506",
+    "64507"
+   ],
+   "why": "BUCHANAN COUNTY; FUTURE_STANDALONE st-joseph-mo. 55 miles north on I-29. Refused by name and postal PREFIX (645)."
+  },
+  {
+   "municipality": "Columbia / University of Missouri / Boone County",
+   "state": "MO",
+   "postal_codes": [],
+   "why": "BOONE COUNTY MO; FUTURE_STANDALONE columbia-mo. 125 miles east on I-70. Refused by postal PREFIX (652)."
+  },
+  {
+   "municipality": "Manhattan / Kansas State / Fort Riley / Junction City",
+   "state": "KS",
+   "postal_codes": [],
+   "why": "RILEY / GEARY COUNTY; FUTURE_STANDALONE manhattan-ks. 120 miles west on I-70. Refused by postal PREFIX (665)."
+  },
+  {
+   "municipality": "Lake of the Ozarks -- Osage Beach, Lake Ozark, Camdenton, Sunrise Beach, Linn Creek",
+   "state": "MO",
+   "postal_codes": [
+    "65049",
+    "65065",
+    "65020",
+    "65079",
+    "65052",
+    "65072",
+    "65787",
+    "65324",
+    "65326"
+   ],
+   "why": "CAMDEN / MILLER / MORGAN COUNTY; FUTURE_STANDALONE lake-of-the-ozarks-mo. A resort lake 160 miles south-east. Refused by name and postal code (and prefix 650)."
+  },
+  {
+   "municipality": "Wichita, Kansas",
+   "state": "KS",
+   "postal_codes": [],
+   "why": "SEDGWICK COUNTY; FUTURE_STANDALONE wichita-ks. 200 miles south-west. Refused by postal PREFIX (670-672)."
+  },
+  {
+   "municipality": "Springfield / Branson, Missouri",
+   "state": "MO",
+   "postal_codes": [],
+   "why": "GREENE / TANEY COUNTY; FUTURE_STANDALONE springfield-mo. 160 miles south. Refused by postal PREFIX (656-658)."
+  },
+  {
+   "municipality": "Leavenworth / Lansing / Fort Leavenworth",
+   "state": "KS",
+   "postal_codes": [
+    "66048",
+    "66043",
+    "66027"
+   ],
+   "why": "LEAVENWORTH COUNTY; Fort Leavenworth (66027) is an Army post whose IHG Army Hotels lodging is MILITARY_RESTRICTED. Not in the order's evaluation list; refused after careful evaluation so the market does not silently absorb eastern Kansas. Recorded in the boundary audit."
+  },
+  {
+   "municipality": "North / north-east metro beyond the evaluated suburbs -- Platte City (KCI Airport North), Kearney, Smithville, Excelsior Springs, Weston, Lathrop",
+   "state": "MO",
+   "postal_codes": [
+    "64079",
+    "64060",
+    "64089",
+    "64024",
+    "64098",
+    "64492",
+    "64048"
+   ],
+   "why": "PLATTE / CLAY / CLINTON COUNTY beyond Liberty and the airport. Platte City's motels market themselves 'KCI Airport North' and are placed by their own code: OUTSIDE. Recorded, never silently absorbed. A founder may move Platte City on the record."
+  },
+  {
+   "municipality": "East / south metro beyond the evaluated suburbs -- Oak Grove, Odessa, Bates City, Harrisonville, Peculiar, Pleasant Hill, Greenwood, Warrensburg, Richmond",
+   "state": "MO",
+   "postal_codes": [
+    "64075",
+    "64076",
+    "64011",
+    "64701",
+    "64078",
+    "64080",
+    "64034",
+    "64093",
+    "64085"
+   ],
+   "why": "JACKSON COUNTY east / CASS / JOHNSON / RAY COUNTY beyond Blue Springs, Grain Valley, Lee's Summit and Belton. Refused after careful evaluation; recorded in the boundary audit."
+  },
+  {
+   "municipality": "Johnson / Wyandotte / Miami County, Kansas beyond the evaluated suburbs -- De Soto, Spring Hill, Edgerton, Basehor, Tonganoxie, Paola, Louisburg, Ottawa, Atchison",
+   "state": "KS",
+   "postal_codes": [
+    "66018",
+    "66083",
+    "66021",
+    "66007",
+    "66086",
+    "66071",
+    "66053",
+    "66067",
+    "66002",
+    "66064"
+   ],
+   "why": "Beyond Olathe, Gardner, Bonner Springs and Edwardsville. Refused after careful evaluation; recorded in the boundary audit, never silently absorbed."
+  },
+  {
+   "municipality": "St. Louis, Missouri (the live st-louis-mo market)",
+   "state": "MO",
+   "postal_codes": [],
+   "why": "Owned by the live st-louis-mo market. Refused by postal PREFIX (630-633) -- this market never admits a code a registered market owns."
+  },
+  {
+   "municipality": "Greater Missouri, greater Kansas and out of state",
+   "state": "--",
+   "postal_codes": [],
+   "why": "Every other Missouri and Kansas postal prefix and every code outside Missouri and Kansas is refused."
+  }
+ ],
+ "vacation_rental_rule": "The census admits hotels, motels, inns, public resorts, qualifying condo-hotels with a distinct public hotel operation, qualifying extended-stay hotels and other public lodging establishments: bookable nightly rooms or suites sold to the public under one establishment name, with an official property page and an on-site hotel operation. It NEVER admits: individual condominium units; vacation homes sold by owners or managers; property-management / corporate-housing / short-term-rental portfolios; serviced-apartment operators; Airbnb / Vrbo listings; ordinary apartments; student housing; timeshare and vacation-club inventory; residential-only towers; privately managed residences; member-only club lodging; on-base military / government lodging; and privately managed units inside hotel-condo towers. Campgrounds, RV parks and hostels are NON_LODGING.",
+ "shared_campus_rule": "Never merged solely by display name, brand, owner, phone, shared address, campus, booking engine, shared amenities or shared entrance. Exact premises identity (its own street address or its own brand property code on its own page) governs. A dual-brand building is TWO hotels and is HELD for the split.",
+ "config_written": "scripts/pettripfinder/discovery/config/kansas_city_mo.json",
+ "market_document_written": "launch_packages/pettripfinder/markets/proposed/kansas-city-mo.json",
+ "cells_total": 36,
+ "cells_admitting": 25,
+ "cells_observation_only": 11
+}

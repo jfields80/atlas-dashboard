@@ -1,0 +1,109 @@
+{
+ "schema": "ptf-source-accounting/1.0",
+ "work_order": "PTF-KANSAS-CITY-MO-HARDENED-SOURCE-READY-001",
+ "market_id": "kansas-city-mo",
+ "derived_from": "launch_packages/pettripfinder/markets/reports/kansas_city_mo_source_ready_accounting_001.json",
+ "headline": {
+  "total_raw_observations": 3047,
+  "raw_observations_by_lane": {
+   "REGISTRY_LICENCE": 1013,
+   "OSM_OVERPASS": 1052,
+   "BRAND_INVENTORY_OWNED": 56,
+   "BRAND_INVENTORY_CITY_PAGE": 58,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 129,
+   "DESTINATION_ORGANIZATION": 143,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 310,
+   "IDENTITY_VERIFIED_PLACES": 11,
+   "PROPERTY_PAGE": 275
+  },
+  "public_lodging_register_leads": 1013,
+  "osm_lodging_elements": 1106,
+  "brand_inventory_leads": 181,
+  "destination_roster_listings": 143,
+  "destination_roster_rows_in_admitted_codes": 138,
+  "competitor_leads_normalized": 310,
+  "graph_nodes": 1847,
+  "proposed_census": 290,
+  "valid_pet_friendly": 161,
+  "valid_verified_no_pets": 60,
+  "resolved": 221,
+  "unresolved": 69,
+  "resolution_rate": 0.7621
+ },
+ "holds_by_class": {
+  "IDENTITY": 8,
+  "ROUTING": 23,
+  "ACCESS_BLOCKED": 2,
+  "EVIDENCE": 11,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 25,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "the brand served a DataDome CAPTCHA to the attended browser; never sol": 1,
+   "the property's own site (found via Places) did not serve to the plain ": 1
+  },
+  "EVIDENCE_HOLD": {
+   "the first-party quote states neither an acceptance nor a refusal sente": 4,
+   "PREOPENING_NOT_YET_OPEN": 4,
+   "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE": 2,
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "SAME PREMISES, TWO IDENTITIES (address_key 8710|penrose|66219): AC Hot": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 1875|diamond|64116): Aloft ": 2,
+   "the site Places names never stated this row's house number + ZIP, phon": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 1535|baltimore|64108): Cour": 2
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 14,
+   "NOT_FIRST_PARTY_SITE": 3,
+   "the route the census carries served an error page (expired domain, sit": 2,
+   "RETIRED_BRAND_ROUTE": 2,
+   "OTHER_EXPLICIT_REASON": 1,
+   "the brand's own property-code route lands on a hotel-search page: the ": 1
+  },
+  "SOURCE_SILENT": {
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 5,
+   "the property's own pages served, bound these exact premises, and state": 5,
+   "the brand's own page served and bound these premises, and the only pet": 5,
+   "the brand's own property page (read through Firecrawl, existing plan c": 4,
+   "the page served and stated no operative pet policy (BLOCK_FOUND_BUT_SI": 4,
+   "the page served and stated no operative pet policy (SOURCE_SILENT_STAT": 1,
+   "the property's own site (found via Places, bound on its own address/ph": 1
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 53,
+  "timeshare": 1,
+  "resort_residence": 0,
+  "non_hotel": 72,
+  "closed": 0,
+  "converted_to_non_hotel": 0,
+  "military_restricted": 2,
+  "outside": 1199,
+  "duplicate_listing": 0,
+  "name_only_unresolved_graph_residue": 129,
+  "identity_review_required_graph_residue": 99,
+  "same_campus_distinct_entity": 2,
+  "register_short_term_rental_and_other_rows_never_leads": 0,
+  "closed_note": "No row was classified CLOSED on a first-party closure statement; lapsed routes (an expired domain, a brand redirect to its own search) are ROUTING holds, never a closure claim."
+ },
+ "remaining_unresolved_root_causes": {
+  "ROUTING_HOLD": "no first-party route: no brand inventory row, bureau link or map website joined the building, Google Places route discovery (run inside the renewed free monthly allowance) found no first-party website for it, or the route the census carried is retired, expired or a third-party page.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible, the attended browser) was refused or walled.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a conditional, chip-only or fee/weight/count-only statement, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "dual-brand buildings awaiting a reviewed shared resolution, or a page that never confirmed this census row's premises."
+ }
+}

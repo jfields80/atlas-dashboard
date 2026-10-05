@@ -1,0 +1,4405 @@
+{
+ "schema": "ptf-free-static-capture/1.0",
+ "work_order": "PTF-KANSAS-CITY-MO-HARDENED-SOURCE-READY-001",
+ "phase": "10 and 13 -- free first-party static capture and classification",
+ "market_id": "kansas-city-mo",
+ "run_id": "kansas_city_mo_free_static_001",
+ "as_of": "2026-10-05",
+ "lane": "direct_http (first-party static; no vendor, no browser, no price)",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests_this_run": 94,
+ "no_inference_from_silence": "A page that states no pet policy is SOURCE_SILENT. It is not a refusal, it is not an acceptance, and it never becomes either here.",
+ "counts": {
+  "targets": 95,
+  "by_cohort": {
+   "IDENTITY_FILL": 14,
+   "ROUTED": 81
+  },
+  "by_outcome": {
+   "ACCESS_DENIED": 42,
+   "BLANK_PAGE": 1,
+   "IDENTITY_MISMATCH": 22,
+   "NAVIGATION_FAILED": 11,
+   "POLICY_NOT_FOUND": 4,
+   "UNEXPECTED_PAGE": 5,
+   "UNHYDRATED": 2,
+   "VALID": 8
+  },
+  "by_classification": {
+   "ACCESS_BLOCKED_PLAIN_CLIENT": 42,
+   "BLOCK_FOUND_BUT_SILENT": 4,
+   "CLEAN_PET_FRIENDLY_CANDIDATE": 4,
+   "IDENTITY_MISMATCH": 7,
+   "IDENTITY_NOT_CONFIRMED_STATIC": 1,
+   "IDENTITY_TEXT_BOUND_POLICY_SILENT": 14,
+   "NEEDS_ATTENDED_RENDER": 3,
+   "PET_FRIENDLY_READ_TEXT_BOUND": 3,
+   "SOURCE_SILENT_STATIC": 1,
+   "TRANSPORT_FAILED": 11,
+   "UNEXPECTED_PAGE": 5
+  },
+  "by_brand": {
+   "BEST_WESTERN": 5,
+   "CHOICE": 9,
+   "DRURY": 4,
+   "ESA": 4,
+   "HYATT": 4,
+   "IHG": 23,
+   "INDEPENDENT": 34,
+   "LOEWS": 2,
+   "MARRIOTT": 1,
+   "MOTEL6": 2,
+   "RADISSON": 1,
+   "SONESTA": 6
+  }
+ },
+ "rows": [
+  {
+   "cohort": "ROUTED",
+   "identity_key": "adam s mark hotel and conference center at the sports stadium complex",
+   "canonical_name": "Adam's Mark Hotel & Conference Center at the Sports Stadium Complex",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__raytown-sports-complex",
+   "requested_url": "http://adamsmarkkc.com",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "http://adamsmarkkc.com",
+   "title": "",
+   "detail": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\adam-s-mark-hotel-and-conference-center-at-the-sports-stadium-complex\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "aida boutique hotel",
+   "canonical_name": "AIDA Boutique Hotel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "requested_url": "https://www.aidakc.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.aidakc.com",
+   "title": "The Aida KC | Boutique Hotel Kansas City, MO | Plaza Hotel",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Aida KC | Boutique Hotel Kansas City, MO | Plaza Hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.aidakc.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8163253510"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\aida-boutique-hotel\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "fd6ce86cc6f7adb059667afcd50e4f4334cf77acc0cb8b00490d1528189aab67",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "aiden by best western kansas city downtown",
+   "canonical_name": "Aiden by Best Western Kansas City Downtown",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__downtown-kansas-city",
+   "requested_url": "https://www.bestwestern.com/en_US/book/hotels-in-kansas-city/aiden-by-best-western-kansas-city-downtown/propertyCode.26200.html",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-kansas-city/aiden-by-best-western-kansas-city-downtown/propertyCode.26200.html",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\aiden-by-best-western-kansas-city-downtown\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "ameristar casino hotel kansas city",
+   "canonical_name": "Ameristar Casino Hotel Kansas City",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "requested_url": "https://www.ameristarkansascity.com",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://ameristarkansascity.boydgaming.com/",
+   "title": "Ameristar Casino Hotel Kansas City | AmeristarKansasCity.BoydGaming.com",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\ameristar-casino-hotel-kansas-city\\attempt-01",
+   "classification": "UNEXPECTED_PAGE"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "argosy casino hotel and spa",
+   "canonical_name": "Argosy Casino Hotel & Spa",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__riverside-parkville",
+   "requested_url": "https://www.argosykansascity.com/hotel",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.argosykansascity.com/hotel",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\argosy-casino-hotel-and-spa\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "atwell suites",
+   "canonical_name": "Atwell Suites",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__mci-airport",
+   "requested_url": "https://www.atwellsuites.com/kansascitymo",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.atwellsuites.com/kansascitymo",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\atwell-suites\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "best western country inn",
+   "canonical_name": "Best Western Country Inn",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "requested_url": "https://www.bestwestern.com/en_US/book/hotels-in-kansas-city/surestay-by-best-western-kansas-city-country-inn-north/propertyCode.26134.html",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-kansas-city/surestay-by-best-western-kansas-city-country-inn-north/propertyCode.26134.html",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\best-western-country-inn\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "best western plus kc speedway inn and suites",
+   "canonical_name": "Best Western Plus KC Speedway Inn & Suites",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__village-west-legends",
+   "requested_url": "https://www.bestwestern.com/en_US/book/hotel-details.17131.html",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotel-details.17131.html",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\best-western-plus-kc-speedway-inn-and-suites\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "best western plus lee s summit hotel and suites",
+   "canonical_name": "Best Western Plus Lee's Summit Hotel & Suites",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__lees-summit",
+   "requested_url": "https://www.bestwestern.com/en_US/book/hotels-in-lee-s-summit/best-western-plus-lee-s-summit-hotel-suites/propertyCode.26180.html",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-lee-s-summit/best-western-plus-lee-s-summit-hotel-suites/propertyCode.26180.html",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\best-western-plus-lee-s-summit-hotel-and-suites\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "best western plus olathe hotel",
+   "canonical_name": "Best Western Plus Olathe Hotel",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__olathe",
+   "requested_url": "https://www.bestwestern.com/en_US/book/hotels-in-olathe/best-western-plus-olathe-hotel/propertyCode.17129.html",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-olathe/best-western-plus-olathe-hotel/propertyCode.17129.html",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\best-western-plus-olathe-hotel\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "birch hill suites independence",
+   "canonical_name": "Birch Hill Suites Independence",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__independence",
+   "requested_url": "https://birchhillsuites.com/birch-hill-suites-kansas-city-mo/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://birchhillsuites.com/birch-hill-suites-kansas-city-mo/",
+   "title": "Birch Hill Suites Kansas City Mo - #1 Extended Stay Hotel",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Birch Hill Suites Extended Stay Hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://birchhillsuites.com/birch-hill-suites-kansas-city-mo/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8162502151",
+      "9374262608",
+      "5738170525",
+      "5134698222",
+      "8163502151"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\birch-hill-suites-independence\\attempt-01",
+   "classification": "PET_FRIENDLY_READ_TEXT_BOUND",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "5b9e4fdd1bc5ed9be16c0510cd07b6290106c04269bc47798eb1cb67550c8f55",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 119,
+     "pets_allowed": true,
+     "pets_allowed_quote": "Pets allowed",
+     "extraction": {
+      "pets_allowed": true,
+      "pet_fee": 1000,
+      "fee_currency": "USD",
+      "fee_basis": "per_night",
+      "fee_scope": "per_pet",
+      "weight_limit": {
+       "value": 50.0,
+       "unit": "lb"
+      },
+      "pet_count_limit": 2,
+      "pet_count_scope": "per_room"
+     },
+     "withheld": {},
+     "evidence_quotes": [
+      "Pets allowed",
+      "10.00 USD per pet per night",
+      "10.00 USD per pet per night",
+      "10.00 USD per pet per night",
+      "Max 50 lbs",
+      "2 pets per room"
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "candlewood suites in overland park 135th",
+   "canonical_name": "Candlewood Suites in Overland Park (135th)",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.ihg.com/candlewood/hotels/us/en/overland-park/mkcgv/hoteldetail?fromRedirect=true&qSrt=sBR&qIta=99502056&icdv=99502056&qSlH=MKCGV&qCpid=786867259&setPMCookies=true&qSHBrC=CW&qDest=8953%20W",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/candlewood/hotels/us/en/overland-park/mkcgv/hoteldetail?fromRedirect=true&qSrt=sBR&qIta=99502056&icdv=99502056&qSlH=MKCGV&qCpid=786867259&setPMCookies=true&qSHBrC=CW&qDest=8953%20W",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\candlewood-suites-in-overland-park-135th\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "candlewood suites independence",
+   "canonical_name": "Candlewood Suites Independence",
+   "brand": "IHG",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__independence",
+   "requested_url": "https://www.ihg.com/candlewood/hotels/us/en/independence/mkcvv/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/candlewood/hotels/us/en/independence/mkcvv/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\candlewood-suites-independence\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "candlewood suites kansas city speedway",
+   "canonical_name": "Candlewood Suites Kansas City Speedway",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__village-west-legends",
+   "requested_url": "http://www.candlewoodsuites.com/kansascityks",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.candlewoodsuites.com/kansascityks",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\candlewood-suites-kansas-city-speedway\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "candlewood suites olathe kansas city area",
+   "canonical_name": "Candlewood Suites Olathe - Kansas City Area",
+   "brand": "IHG",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__olathe",
+   "requested_url": "https://www.ihg.com/candlewood/hotels/us/en/olathe/mkcee/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/candlewood/hotels/us/en/olathe/mkcee/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\candlewood-suites-olathe-kansas-city-area\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "chateau avalon resort and spa",
+   "canonical_name": "Chateau Avalon Resort & Spa",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__village-west-legends",
+   "requested_url": "https://chateauavalonhotel.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://chateauavalonhotel.com/",
+   "title": "Chateau Avalon Resort | Luxury Boutique Hotel in Kansas City",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Chateau Avalon Resort | Luxury Boutique Hotel in Kansas City",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://chateauavalonhotel.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "9135966000",
+      "2125556688",
+      "2125556699"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\chateau-avalon-resort-and-spa\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "2266180e478ae7e211a772808825f8e3546406c74acf1a83db1840153fb567a1",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "comfort inn and suites olathe kansas city",
+   "canonical_name": "Comfort Inn & Suites Olathe - Kansas City",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__olathe",
+   "requested_url": "https://www.choicehotels.com/kansas/olathe/comfort-inn-hotels/ks336",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/kansas/olathe/comfort-inn-hotels/ks336",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\comfort-inn-and-suites-olathe-kansas-city\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "comfort inn bonner springs kansas city",
+   "canonical_name": "Comfort Inn Bonner Springs Kansas City",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__bonner-springs-edwardsville",
+   "requested_url": "https://www.choicehotels.com/kansas/bonner-springs/comfort-inn-hotels/ks253",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/kansas/bonner-springs/comfort-inn-hotels/ks253",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\comfort-inn-bonner-springs-kansas-city\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "comfort inn kansas city midtown",
+   "canonical_name": "Comfort Inn Kansas City Midtown",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "requested_url": "https://www.choicehotels.com/missouri/kansas-city/comfort-inn-hotels/mo002",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/missouri/kansas-city/comfort-inn-hotels/mo002",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\comfort-inn-kansas-city-midtown\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "comfort suites speedway kansas city",
+   "canonical_name": "Comfort Suites Speedway - Kansas City",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__village-west-legends",
+   "requested_url": "http://www.choicehotels.com/kansas/kansas-city/comfort-suites-hotels/ks115",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.choicehotels.com/kansas/kansas-city/comfort-suites-hotels/ks115",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\comfort-suites-speedway-kansas-city\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "country inn and suites by radisson kansas city at village west ks",
+   "canonical_name": "Country Inn & Suites by Radisson, Kansas City at Village West, KS",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__village-west-legends",
+   "requested_url": "http://www.countryinn.com/kansascityks",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "http://www.countryinn.com/kansascityks",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\country-inn-and-suites-by-radisson-kansas-city-at-village-west-ks\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "crossroads hotel",
+   "canonical_name": "Crossroads Hotel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__crossroads-crown-center",
+   "requested_url": "https://crossroadshotelkc.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://crossroadshotelkc.com/",
+   "title": "Crossroads Hotel Kansas City | Boutique Hotel in Downtown KC",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Crossroads Hotel Kansas City | Boutique Hotel in Downtown KC",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://crossroadshotelkc.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8168978100"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\crossroads-hotel\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "382f23eee98b375b4d56039d9cecb9a337e33e19d4d71428f513e4c7983591db",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "crowne plaza kansas city downtown",
+   "canonical_name": "Crowne Plaza Kansas City Downtown",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__downtown-kansas-city",
+   "requested_url": "https://www.crowneplaza.com/kansascitydwtn",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.crowneplaza.com/kansascitydwtn",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\crowne-plaza-kansas-city-downtown\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "drury inn and suites kansas city independence",
+   "canonical_name": "Drury Inn & Suites-Kansas City Independence",
+   "brand": "DRURY",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "kansas-city-mo__blue-springs",
+   "requested_url": "https://www.druryhotels.com/locations/kansas-city-mo/drury-inn-and-suites-kansas-city-independence",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.druryhotels.com/locations/kansas-city-mo/drury-inn-and-suites-kansas-city-independence",
+   "title": "Drury Hotels - Drury Inn & Suites Kansas City Independence",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Drury Hotels - Drury Inn &amp; Suites Kansas City Independence",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8003787946",
+      "8167959393",
+      "8163818462",
+      "8004361169",
+      "8004361125",
+      "8165889500",
+      "8169887205"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\drury-inn-and-suites-kansas-city-independence\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "90019b14ceee67b98847092d2f901cc10ebc3d812f794415dbfcd1dfd583f2d4",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 206,
+     "pets_allowed": null,
+     "pets_allowed_quote": "",
+     "extraction": {
+      "pet_count_limit": 2,
+      "species_allowed": [
+       "cat",
+       "dog"
+      ],
+      "service_animal_exception": "Service animals are free of charge."
+     },
+     "withheld": {
+      "pets_allowed": "SOURCE_SILENT",
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "evidence_quotes": [
+      "Limit of two pets",
+      "Dogs and cats accepted",
+      "Service animals are free of charge."
+     ],
+     "service_animal_quote": "Service animals are free of charge.",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "drury inn and suites kc airport",
+   "canonical_name": "Drury Inn & Suites KC Airport",
+   "brand": "DRURY",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__mci-airport",
+   "requested_url": "http://www.druryhotels.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.druryhotels.com/",
+   "title": "Drury Hotels - Travel Happy",
+   "detail": "page names 'Drury Hotels - Travel Happy', which does not agree with 'Drury Inn & Suites KC Airport'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Drury Hotels - Travel Happy",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8003787946"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Drury Hotels - Travel Happy', which does not agree with 'Drury Inn & Suites KC Airport'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\drury-inn-and-suites-kc-airport\\attempt-01",
+   "classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": false,
+    "phone_agrees": false,
+    "text_bound": false,
+    "document_sha256": "e694e5634608858110de7f8195929961b61fcf7d5cb8eafebd22f34e2d4528e8",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "econolodge inn and suites",
+   "canonical_name": "EconoLodge Inn & Suites",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__merriam-mission",
+   "requested_url": "https://www.choicehotels.com/kansas/overland-park/econo-lodge-hotels/ks032?mc=llgoxxpx",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/kansas/overland-park/econo-lodge-hotels/ks032?mc=llgoxxpx",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\econolodge-inn-and-suites\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "extended stay america overland park nall ave",
+   "canonical_name": "Extended Stay America - Overland Park Nall Ave.",
+   "brand": "ESA",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.extendedstayamerica.com/hotels/ks/kansas-city/overland-park-nall-ave",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.extendedstayamerica.com/hotels/ks/kansas-city/overland-park-nall-ave",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\extended-stay-america-overland-park-nall-ave\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "extended stay america overland park quivira road",
+   "canonical_name": "Extended Stay America - Overland Park Quivira Road",
+   "brand": "ESA",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.extendedstayamerica.com/hotels/ks/kansas-city/overland-park-quivira-rd",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.extendedstayamerica.com/hotels/ks/kansas-city/overland-park-quivira-rd",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\extended-stay-america-overland-park-quivira-road\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "extended stay america suites kansas city airport",
+   "canonical_name": "Extended Stay America Suites Kansas City \u2013 Airport",
+   "brand": "ESA",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__mci-airport",
+   "requested_url": "https://www.extendedstayamerica.com/hotels/mo/kansas-city/airport?utm_campaign=gmb_listing&utm_medium=organic&channel=gmb-listing&utm_source=google",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.extendedstayamerica.com/hotels/mo/kansas-city/airport?utm_campaign=gmb_listing&utm_medium=organic&channel=gmb-listing&utm_source=google",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\extended-stay-america-suites-kansas-city-airport\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "extended stay america suites kansas city airport tiffany springs",
+   "canonical_name": "Extended Stay America Suites Kansas City-Airport-Tiffany Springs",
+   "brand": "ESA",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__mci-airport",
+   "requested_url": "https://www.extendedstayamerica.com/hotels/ks/kansas-city/airport-tiffany-springs",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.extendedstayamerica.com/hotels/ks/kansas-city/airport-tiffany-springs",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\extended-stay-america-suites-kansas-city-airport-tiffany-springs\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "extended stay kansas city",
+   "canonical_name": "Extended Stay Kansas City",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "requested_url": "https://www.crosslandstudios.com/crossland-kansas-city-northeast-worlds-of-fun/",
+   "outcome": "BLANK_PAGE",
+   "final_url": "https://www.crosslandstudios.com/crossland-kansas-city-northeast-worlds-of-fun/",
+   "title": "",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\extended-stay-kansas-city\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "great wolf lodge",
+   "canonical_name": "Great Wolf Lodge",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__village-west-legends",
+   "requested_url": "https://www.greatwolf.com/kansas-city",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.greatwolf.com/kansas-city",
+   "title": "Indoor Water Park & Resort in Kansas City, KS | Great Wolf Lodge",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Indoor Water Park &amp; Resort in Kansas City, KS | Great Wolf Lodge",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.greatwolf.com/kansas-city",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8006089653"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\great-wolf-lodge\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "5747961e29390d062203aae5abe6820d4da445cf80c5cdc9ac8965ed3cf6a8b3",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "harrah s kansas city",
+   "canonical_name": "Harrah\u2019s Kansas City",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "requested_url": "https://www.caesars.com/harrahs-kansas-city/hotel",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.caesars.com/harrahs-kansas-city/hotel.html",
+   "title": "Kansas City Casino Hotel With River Views - Harrah's KC",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\harrah-s-kansas-city\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites kansas city at ku medical center",
+   "canonical_name": "Holiday Inn Express & Suites Kansas City at KU Medical Center",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__kansas-city-kansas",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/kansas-city/mkckc/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/kansas-city/mkckc/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-and-suites-kansas-city-at-ku-medical-center\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites lees summit",
+   "canonical_name": "Holiday Inn Express and Suites Lees Summit",
+   "brand": "IHG",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__lees-summit",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lees-summit/mkcsl/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lees-summit/mkcsl/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-and-suites-lees-summit\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites lenexa overland park",
+   "canonical_name": "Holiday Inn Express & Suites Lenexa-Overland Park",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__lenexa",
+   "requested_url": "http://www.hiexpress.com/lenexaks",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.hiexpress.com/lenexaks",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-and-suites-lenexa-overland-park\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites olathe south",
+   "canonical_name": "Holiday Inn Express & Suites Olathe South",
+   "brand": "IHG",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__olathe",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/olathe/mkcoa/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/olathe/mkcoa/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-and-suites-olathe-south\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites overland park",
+   "canonical_name": "Holiday Inn Express & Suites Overland Park",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/overland-park/mkcnu/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-MKCNU",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/overland-park/mkcnu/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-MKCNU",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-and-suites-overland-park\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites overland park south",
+   "canonical_name": "Holiday Inn Express & Suites Overland Park South",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/overland-park/mkcnu/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/overland-park/mkcnu/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-and-suites-overland-park-south\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites shawnee kansas city west",
+   "canonical_name": "Holiday Inn Express & Suites Shawnee-Kansas City West",
+   "brand": "IHG",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__shawnee",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/shawnee/mkcmd/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/shawnee/mkcmd/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-and-suites-shawnee-kansas-city-west\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express kansas city at the legends",
+   "canonical_name": "Holiday Inn Express Kansas City - At The Legends",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__village-west-legends",
+   "requested_url": "http://www.hiexpress.com/villagewest",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.hiexpress.com/villagewest",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-kansas-city-at-the-legends\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express kansas city bonner springs",
+   "canonical_name": "Holiday Inn Express Kansas City - Bonner Springs",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__bonner-springs-edwardsville",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bonner-springs/mkcbn/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bonner-springs/mkcbn/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-kansas-city-bonner-springs\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express kansas city downtown",
+   "canonical_name": "Holiday Inn Express Kansas City Downtown",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__downtown-kansas-city",
+   "requested_url": "https://www.hiexkansascity.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.hiexkansascity.com/",
+   "title": "Downtown KC Hotels | Holiday Inn Express Kansas City Downtown",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Downtown KC Hotels | Holiday Inn Express Kansas City Downtown",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.hiexkansascity.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8164741000"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-kansas-city-downtown\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "5998108f7482d9705dfabef4ac8b7a9187e58be7004cf806a8c229788e098888",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express north kansas city",
+   "canonical_name": "Holiday Inn Express North Kansas City",
+   "brand": "IHG",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__northland-north-kansas-city",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/north-kansas-city/mkcnk/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/north-kansas-city/mkcnk/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-express-north-kansas-city\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn hotel and suites convention center",
+   "canonical_name": "Holiday Inn Hotel & Suites Convention Center",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/overland-park/mkcov/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/overland-park/mkcov/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-hotel-and-suites-convention-center\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn hotel and suites overland park west",
+   "canonical_name": "Holiday Inn Hotel and Suites Overland Park West",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/overland-park/mkcpk/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/overland-park/mkcpk/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-hotel-and-suites-overland-park-west\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn kci airport and expo center",
+   "canonical_name": "Holiday Inn KCI Airport and Expo Center",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__mci-airport",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/kansas-city/mkccr/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/kansas-city/mkccr/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\holiday-inn-kci-airport-and-expo-center\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hotel indigo crossroads",
+   "canonical_name": "Hotel Indigo \u2013 Crossroads",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__crossroads-crown-center",
+   "requested_url": "https://www.hotelindigo.com/hotels/us/en/reservation",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hotelindigo.com/hotels/us/en/reservation",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\hotel-indigo-crossroads\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hotel indigo downtown",
+   "canonical_name": "Hotel Indigo \u2013 Downtown",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__downtown-kansas-city",
+   "requested_url": "https://www.ihg.com/hotelindigo/hotels/us/en/kansas-city/mkcsw/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/hotelindigo/hotels/us/en/kansas-city/mkcsw/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\hotel-indigo-downtown\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hotel kansas city hyatt unbound collection",
+   "canonical_name": "Hotel Kansas City Hyatt Unbound Collection",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__downtown-kansas-city",
+   "requested_url": "https://www.hotelkc.com/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hotelkc.com/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\hotel-kansas-city-hyatt-unbound-collection\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hotel no vacancy",
+   "canonical_name": "Hotel No Vacancy",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__crossroads-crown-center",
+   "requested_url": "https://hotelnovacancy.com/",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://hotelnovacancy.com/",
+   "title": "No Vacancy",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\hotel-no-vacancy\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt place convention center",
+   "canonical_name": "Hyatt Place Convention Center",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.hyatt.com/en-US/hotel/kansas/hyatt-place-kansas-city-overland-park-convention-center/mkczc",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hyatt.com/en-US/hotel/kansas/hyatt-place-kansas-city-overland-park-convention-center/mkczc",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\hyatt-place-convention-center\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt place kansas city lenexa city center",
+   "canonical_name": "Hyatt Place Kansas City/Lenexa City Center",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__lenexa",
+   "requested_url": "https://www.hyatt.com/en-US/hotel/kansas/hyatt-place-kansas-city-lenexa-city-center/mkczl",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hyatt.com/en-US/hotel/kansas/hyatt-place-kansas-city-lenexa-city-center/mkczl",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\hyatt-place-kansas-city-lenexa-city-center\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt place metcalf",
+   "canonical_name": "Hyatt Place Metcalf",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.hyatt.com/en-US/hotel/kansas/hyatt-place-kansas-city-overland-park-metcalf/mkczm",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hyatt.com/en-US/hotel/kansas/hyatt-place-kansas-city-overland-park-metcalf/mkczm",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\hyatt-place-metcalf\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "inn of ophelia s the",
+   "canonical_name": "Inn of Ophelia's (the)",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__independence",
+   "requested_url": "https://opheliasrestaurant.com/the-inn-reservations/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://opheliasrestaurant.com/the-inn-reservations/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\inn-of-ophelia-s-the\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "intercontinental kansas city at the plaza",
+   "canonical_name": "InterContinental Kansas City at the Plaza",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "requested_url": "http://www.InterContinental.com/KansasCity",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.InterContinental.com/KansasCity",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\intercontinental-kansas-city-at-the-plaza\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "margaritaville hotel kansas city",
+   "canonical_name": "Margaritaville Hotel Kansas City",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__village-west-legends",
+   "requested_url": "https://www.margaritavilleresorts.com/margaritaville-hotel-kansas-city",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.margaritavilleresorts.com/margaritaville-hotel-kansas-city",
+   "title": "Resort-Style Kansas City Hotel | Margaritaville Hotel Kansas City",
+   "detail": "page street '1491 N 98th Terrace' does not agree with expected '1491 N 98th Terr.'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Margaritaville Hotel Kansas City",
+     "address_on_page": "1491 N 98th Terrace",
+     "postal_code": "66111",
+     "phone_on_page": "+1-913-340-1800",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.margaritavilleresorts.com/margaritaville-hotel-kansas-city",
+     "pets_allowed_structured": "True",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "9133401800",
+      "9133401843",
+      "4072032626",
+      "5305445400",
+      "8508808850",
+      "7066866829",
+      "5087713000",
+      "6159869300",
+      "6198199500",
+      "2398994001",
+      "4075366666",
+      "9042220222",
+      "2122213007",
+      "3052929800",
+      "8654304200",
+      "9364484400",
+      "8559959099",
+      "8657742300",
+      "8667762530",
+      "9567616551",
+      "4703233440",
+      "8882256255",
+      "9548744444",
+      "5733483131",
+      "8664031911",
+      "8553462489",
+      "2282716377",
+      "5416469700",
+      "9417419700",
+      "2396593500",
+      "3863568510",
+      "3528784855",
+      "8658689300",
+      "4095151970",
+      "8634557335",
+      "3376677772",
+      "3054478019",
+      "7878886000",
+      "3407758300",
+      "4705792700",
+      "7022381200",
+      "8008147100",
+      "4072242155",
+      "9133204404",
+      "9137088081",
+      "9133217223"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '1491 N 98th Terrace' does not agree with expected '1491 N 98th Terr.'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\margaritaville-hotel-kansas-city\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "c178b160c0eab072bb1dcd5c94f07259571787d2b0e8fa47646ebb13e625a809",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "motel 6 overland park ks",
+   "canonical_name": "Motel 6 Overland Park, KS",
+   "brand": "MOTEL6",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.motel6.com/us/kansas/overland-park/",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.motel6.com/us/kansas/overland-park/",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\motel-6-overland-park-ks\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "my place hotels",
+   "canonical_name": "My Place Hotels",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.myplacehotels.com/my-place-hotel-overland-park-ks",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.myplacehotels.com/locations/my-place-hotel-overland-park-ks",
+   "title": "My Place Hotel-Overland Park, KS | KC Area & Family\u2026 | My Place Hotels",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "My Place Hotel-Overland Park, KS | KC Area &amp; Family\u2026 | My Place Hotels",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "9138978996",
+      "9138972360",
+      "9133333500",
+      "9133393000",
+      "8552005685",
+      "6052756010"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\my-place-hotels\\attempt-01",
+   "classification": "PET_FRIENDLY_READ_TEXT_BOUND",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "b96b2afdcc666839c008a86b8115ae37cbebc727b154d2aa7eca10bdeb9548d3",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 261,
+     "pets_allowed": true,
+     "pets_allowed_quote": "dog-friendly",
+     "extraction": {
+      "pets_allowed": true
+     },
+     "withheld": {
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "evidence_quotes": [
+      "dog-friendly"
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "orangewood inn and suites kci",
+   "canonical_name": "Orangewood Inn & Suites KCI",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__mci-airport",
+   "requested_url": "https://orangewoodkci.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://www.orangewoodkci.com/",
+   "title": "Orangewood Inn & Suites | Kansas City Airport Hotel with Shuttle",
+   "detail": "no bounded policy block in a page that served; 0 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Orangewood Inn and Suites - Kansas City",
+     "address_on_page": "11828 NW Plaza Circle",
+     "postal_code": "64153",
+     "phone_on_page": "8164642423",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.orangewoodkci.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8164642423",
+      "8164642650"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name_partial, postal_code, street_identity, phone via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\orangewood-inn-and-suites-kci\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "b0d2117d30893d81f0c902acff64f71826b68db863b537aa43b1c202edf08784",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "origin hotel kansas city",
+   "canonical_name": "Origin Hotel Kansas City",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__midtown-east-kansas-city",
+   "requested_url": "https://www.originhotel.com/hotels/kansas-city",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.originhotel.com/hotels/kansas-city",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\origin-hotel-kansas-city\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "quality inn i 70 near kansas speedway",
+   "canonical_name": "Quality Inn I-70 Near Kansas Speedway",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__kansas-city-kansas",
+   "requested_url": "https://www.choicehotels.com/kansas/kansas-city/quality-inn-hotels/ks053",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/kansas/kansas-city/quality-inn-hotels/ks053",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\quality-inn-i-70-near-kansas-speedway\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "quality inn overland park kansas city",
+   "canonical_name": "Quality Inn Overland Park Kansas City",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.choicehotels.com/kansas/overland-park/quality-inn-hotels/ks303",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/kansas/overland-park/quality-inn-hotels/ks303",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\quality-inn-overland-park-kansas-city\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "red lion inn and suites",
+   "canonical_name": "Red Lion Inn and Suites",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "kansas-city-mo__blue-springs",
+   "requested_url": "https://www.sonesta.com/red-lion-inn-suites/mo/blue-springs/red-lion-inn-suites-blue-springs",
+   "outcome": "VALID",
+   "final_url": "https://www.sonesta.com/red-lion-inn-suites/mo/blue-springs/red-lion-inn-suites-blue-springs",
+   "title": "Red Lion Inn & Suites Blue Springs by Sonesta \u2013 Best Rates",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Red Lion Inn & Suites Blue Springs",
+     "address_on_page": "701 NW South Outer Rd",
+     "postal_code": "64015",
+     "phone_on_page": "18162207400",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/red-lion-inn-suites/mo/blue-springs/red-lion-inn-suites-blue-springs",
+     "pets_allowed_structured": "true",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8162207400",
+      "8777379275"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "ed28cfdd547a2ce59868cc97f06c4d26a473e68e0729e25ebf11c886c2cf96e4",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\red-lion-inn-and-suites\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 3500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "weight_limit": {
+      "value": 65.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2
+    },
+    "evidence": [
+     {
+      "quote": "dog-friendly",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "$35 per pet, per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "$35 per pet, per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "$35 per pet, per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_scope"
+      ]
+     },
+     {
+      "quote": "up to 65lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "up to two dogs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "fee_scope": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn and suites::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "dog-friendly",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/blue-springs/red-lion-inn-suites-blue-springs",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "ed28cfdd547a2ce59868cc97f06c4d26a473e68e0729e25ebf11c886c2cf96e4",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn and suites::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "$35 per pet, per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/blue-springs/red-lion-inn-suites-blue-springs",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "ed28cfdd547a2ce59868cc97f06c4d26a473e68e0729e25ebf11c886c2cf96e4",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn and suites::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "$35 per pet, per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/blue-springs/red-lion-inn-suites-blue-springs",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "ed28cfdd547a2ce59868cc97f06c4d26a473e68e0729e25ebf11c886c2cf96e4",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn and suites::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "$35 per pet, per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/blue-springs/red-lion-inn-suites-blue-springs",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "ed28cfdd547a2ce59868cc97f06c4d26a473e68e0729e25ebf11c886c2cf96e4",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn and suites::fee_scope::3",
+       "field": "fee_scope",
+       "quote": "$35 per pet, per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/blue-springs/red-lion-inn-suites-blue-springs",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "ed28cfdd547a2ce59868cc97f06c4d26a473e68e0729e25ebf11c886c2cf96e4",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn and suites::weight_limit::4",
+       "field": "weight_limit",
+       "quote": "up to 65lbs",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/blue-springs/red-lion-inn-suites-blue-springs",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "ed28cfdd547a2ce59868cc97f06c4d26a473e68e0729e25ebf11c886c2cf96e4",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn and suites::pet_count_limit::5",
+       "field": "pet_count_limit",
+       "quote": "up to two dogs",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/blue-springs/red-lion-inn-suites-blue-springs",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "ed28cfdd547a2ce59868cc97f06c4d26a473e68e0729e25ebf11c886c2cf96e4",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "cb3766399144311d93b29288aa5fee888d3849f36d716ddc67f859a1f0ca506e",
+     "document_sha256": "ed28cfdd547a2ce59868cc97f06c4d26a473e68e0729e25ebf11c886c2cf96e4"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "residence inn by marriott country club plaza",
+   "canonical_name": "Residence Inn by Marriott Country Club Plaza",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "requested_url": "http://www.residenceinn.com/mcikc",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.residenceinn.com/mcikc",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\residence-inn-by-marriott-country-club-plaza\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "river market hotel",
+   "canonical_name": "River Market Hotel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__downtown-kansas-city",
+   "requested_url": "https://www.rivermarkethotel.com/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.rivermarkethotel.com/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\river-market-hotel\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "sonesta essential hotels and suites blue springs",
+   "canonical_name": "Sonesta Essential Hotels & Suites-Blue Springs",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "kansas-city-mo__blue-springs",
+   "requested_url": "https://www.sonesta.com/sonesta-essential/mo/blue-springs/sonesta-essential-hotel-suites-kansas-city-blue-springs",
+   "outcome": "VALID",
+   "final_url": "https://www.sonesta.com/sonesta-essential/mo/blue-springs/sonesta-essential-hotel-suites-kansas-city-blue-springs",
+   "title": "Sonesta Essential Hotel & Suites Kansas City/Blue Springs \u2013 Best Rates",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sonesta Essential Hotel & Suites Kansas City/Blue Springs",
+     "address_on_page": "3120 NW Jefferson St",
+     "postal_code": "64015",
+     "phone_on_page": "(816) 224-1122",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/sonesta-essential/mo/blue-springs/sonesta-essential-hotel-suites-kansas-city-blue-springs",
+     "pets_allowed_structured": "false",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8162241122"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name_partial, postal_code, street_identity, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "2658d4f4a2bdbc6906566d04f7e2a8a457227d06ebf1554a59a0feadaf616cbf",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\sonesta-essential-hotels-and-suites-blue-springs\\attempt-01",
+   "observation": {
+    "extraction": {
+     "service_animal_exception": "Service Animals Welcome"
+    },
+    "evidence": [
+     {
+      "quote": "Service Animals Welcome",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::sonesta essential hotels and suites blue springs::service_animal_exception::0",
+       "field": "service_animal_exception",
+       "quote": "Service Animals Welcome",
+       "source_url": "https://www.sonesta.com/sonesta-essential/mo/blue-springs/sonesta-essential-hotel-suites-kansas-city-blue-springs",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "2658d4f4a2bdbc6906566d04f7e2a8a457227d06ebf1554a59a0feadaf616cbf",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "1057d782779ed936d8f523bca044a07cdc405b7374d212439e83176952698920",
+     "document_sha256": "2658d4f4a2bdbc6906566d04f7e2a8a457227d06ebf1554a59a0feadaf616cbf"
+    },
+    "membrane": {
+     "verdict": "REJECT_WRONG_PROPERTY",
+     "rule": "M10",
+     "detail": "identity gate: the page identifies 'Sonesta Essential Hotel & Suites Kansas City/Blue Springs', which is neither a subset nor a superset of the referenced identity 'Sonesta Essential Hotels & Suites-Blue Springs', and neither an exact property-code + street-address agreement nor a street-address + owner-qualified-name agreement establishes it another way",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": "wrong property means no evidence, whatever the text says"
+    }
+   },
+   "classification": "BLOCK_FOUND_BUT_SILENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "sonesta essential hotels overland park",
+   "canonical_name": "Sonesta Essential Hotels Overland Park",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.sonesta.com/sonesta-essential/ks/overland-park/sonesta-essential-hotels-overland-park",
+   "outcome": "VALID",
+   "final_url": "https://www.sonesta.com/sonesta-essential/ks/overland-park/sonesta-essential-hotels-overland-park",
+   "title": "Sonesta Essential Hotels Overland Park \u2013 Best Rates",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sonesta Essential Hotels Overland Park",
+     "address_on_page": "7200 W 107th St",
+     "postal_code": "66212",
+     "phone_on_page": "(913) 648-7858",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/sonesta-essential/ks/overland-park/sonesta-essential-hotels-overland-park",
+     "pets_allowed_structured": "false",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "9136487858"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "cc4548b92c0f5994def7d2f5064ef2c16ddbb411ee30a29dc1baa0ac10fca441",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\sonesta-essential-hotels-overland-park\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_deposit": 10000,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "weight_limit": {
+      "value": 50.0,
+      "unit": "lb"
+     }
+    },
+    "evidence": [
+     {
+      "quote": "Dog-Friendly",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "$100 deposit",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_deposit"
+      ]
+     },
+     {
+      "quote": "$25 charge",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "up to 50lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_deposit": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "weight_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::sonesta essential hotels overland park::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Dog-Friendly",
+       "source_url": "https://www.sonesta.com/sonesta-essential/ks/overland-park/sonesta-essential-hotels-overland-park",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cc4548b92c0f5994def7d2f5064ef2c16ddbb411ee30a29dc1baa0ac10fca441",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::sonesta essential hotels overland park::pet_deposit::1",
+       "field": "pet_deposit",
+       "quote": "$100 deposit",
+       "source_url": "https://www.sonesta.com/sonesta-essential/ks/overland-park/sonesta-essential-hotels-overland-park",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cc4548b92c0f5994def7d2f5064ef2c16ddbb411ee30a29dc1baa0ac10fca441",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::sonesta essential hotels overland park::pet_fee::2",
+       "field": "pet_fee",
+       "quote": "$25 charge",
+       "source_url": "https://www.sonesta.com/sonesta-essential/ks/overland-park/sonesta-essential-hotels-overland-park",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cc4548b92c0f5994def7d2f5064ef2c16ddbb411ee30a29dc1baa0ac10fca441",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::sonesta essential hotels overland park::fee_currency::2",
+       "field": "fee_currency",
+       "quote": "$25 charge",
+       "source_url": "https://www.sonesta.com/sonesta-essential/ks/overland-park/sonesta-essential-hotels-overland-park",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cc4548b92c0f5994def7d2f5064ef2c16ddbb411ee30a29dc1baa0ac10fca441",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::sonesta essential hotels overland park::weight_limit::3",
+       "field": "weight_limit",
+       "quote": "up to 50lbs",
+       "source_url": "https://www.sonesta.com/sonesta-essential/ks/overland-park/sonesta-essential-hotels-overland-park",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cc4548b92c0f5994def7d2f5064ef2c16ddbb411ee30a29dc1baa0ac10fca441",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "b83818bb9d2435ddba1ecf9da9dba0cbc679f1ae16d4ac82953f063fb714d2f6",
+     "document_sha256": "cc4548b92c0f5994def7d2f5064ef2c16ddbb411ee30a29dc1baa0ac10fca441"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "sonesta select kansas city airport prairie view",
+   "canonical_name": "Sonesta Select Kansas City Airport Prairie View",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__mci-airport",
+   "requested_url": "https://www.sonesta.com/us/missouri/kansas-city/sonesta-select-kansas-city-airport-prairie-view",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.sonesta.com/locations/us/missouri/kansas-city",
+   "title": "Find & Book Hotels in Kansas City, Missouri",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\sonesta-select-kansas-city-airport-prairie-view\\attempt-01",
+   "classification": "UNEXPECTED_PAGE"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "sonesta select kansas city airport tiffany springs",
+   "canonical_name": "Sonesta Select Kansas City Airport Tiffany Springs",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__mci-airport",
+   "requested_url": "https://www.sonesta.com/us/missouri/kansas-city/sonesta-select-kansas-city-airport-tiffany-springs",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.sonesta.com/locations/us/missouri/kansas-city",
+   "title": "Find & Book Hotels in Kansas City, Missouri",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\sonesta-select-kansas-city-airport-tiffany-springs\\attempt-01",
+   "classification": "UNEXPECTED_PAGE"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "sonesta select kansas city south overland park",
+   "canonical_name": "Sonesta Select Kansas City South Overland Park",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "kansas-city-mo__south-kansas-city-grandview",
+   "requested_url": "https://www.sonesta.com/sonesta-select/mo/kansas-city/sonesta-select-kansas-city-south-overland-park",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.sonesta.com/sonesta-select/mo/kansas-city/sonesta-select-kansas-city-south-overland-park",
+   "title": "Sonesta Select Kansas City South Overland Park \u2013 Best Rates",
+   "detail": "page street '500 E 105 Street' does not agree with expected '500 E 105th Street'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sonesta Select Kansas City South Overland Park",
+     "address_on_page": "500 E 105 Street",
+     "postal_code": "64131",
+     "phone_on_page": "(816) 941-3333",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/sonesta-select/mo/kansas-city/sonesta-select-kansas-city-south-overland-park",
+     "pets_allowed_structured": "true",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8169413333"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '500 E 105 Street' does not agree with expected '500 E 105th Street'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\sonesta-select-kansas-city-south-overland-park\\attempt-01",
+   "classification": "PET_FRIENDLY_READ_TEXT_BOUND",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "15729cdbdb5c7dd6994eb58bf6d50d05fb46b8411d7943df38d883c5e8818afc",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 199,
+     "pets_allowed": true,
+     "pets_allowed_quote": "pets are permitted",
+     "extraction": {
+      "pets_allowed": true,
+      "pet_fee": 7500,
+      "fee_currency": "USD",
+      "fee_basis": "per_stay",
+      "pet_count_limit": 2
+     },
+     "withheld": {},
+     "evidence_quotes": [
+      "pets are permitted",
+      "$75 fee per stay",
+      "$75 fee per stay",
+      "Up to two pets"
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "southmoreland on the plaza",
+   "canonical_name": "Southmoreland on the Plaza",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "requested_url": "http://www.southmoreland.com",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://southmoreland.com/",
+   "title": "Boutique Hotel in Kansas City Near Plaza Stay",
+   "detail": "no bounded policy block in a page that served; 0 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Southmoreland",
+     "address_on_page": "116 E 46th St",
+     "postal_code": "64112",
+     "phone_on_page": "(816) 500-1196",
+     "property_code_on_page": "",
+     "canonical_url": "https://southmoreland.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8165001196"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\southmoreland-on-the-plaza\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "1c4b9276be824874b0b9e39749ec709c378e18137b4a2bc6d0c2ace302edb018",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "staybridge suites overland park",
+   "canonical_name": "Staybridge Suites Overland Park",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://www.ihg.com/staybridge/hotels/us/en/overland-park/mkcvl/hoteldetail?cm_mmc=GoogleMaps-_-SB-_-US-_-MKCVL",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/staybridge/hotels/us/en/overland-park/mkcvl/hoteldetail?cm_mmc=GoogleMaps-_-SB-_-US-_-MKCVL",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\staybridge-suites-overland-park\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "stoney creek hotel and conference center",
+   "canonical_name": "Stoney Creek Hotel & Conference Center",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__independence",
+   "requested_url": "http://www.stoneycreekhotels.com/hotel/kansas-city/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.stoneycreekhotels.com/hotel/kansas-city/",
+   "title": "Hotels In Independence Mo - Stoney Creek Kansas City Hotels",
+   "detail": "page names 'Hotels In Independence Mo - Stoney Creek Kansas City Hotels', which does not agree with 'Stoney Creek Hotel & Conference Center'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotels In Independence Mo - Stoney Creek Kansas City Hotels",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.stoneycreekhotels.com/hotel/kansas-city/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8169089600"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Hotels In Independence Mo - Stoney Creek Kansas City Hotels', which does not agree with 'Stoney Creek Hotel & Conference Center'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\stoney-creek-hotel-and-conference-center\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "b08b5129874be08cde8c7d42caa0c7baabc26473ac3ffe947d0aaa4469a4283d",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "studio 6 lenexa ks overland park",
+   "canonical_name": "Studio 6 Lenexa, KS - Overland Park",
+   "brand": "MOTEL6",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "kansas-city-mo__lenexa",
+   "requested_url": "https://www.studio6.com/en/home/motels.ks.lenexa.5206.html",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.studio6.com/en/home/motels.ks.lenexa.5206.html",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\studio-6-lenexa-ks-overland-park\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "the fontaine a kansas city hotel",
+   "canonical_name": "The Fontaine, a Kansas City Hotel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "requested_url": "http://www.thefontainehotel.com",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://www.thefontainehotel.com/",
+   "title": "Luxury Hotel in Kansas City, MO | The Fontaine",
+   "detail": "no bounded policy block in a page that served; 0 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Fontaine Hotel",
+     "address_on_page": "901 W. 48th Place",
+     "postal_code": "64112",
+     "phone_on_page": "+1-816-753-8800",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.thefontainehotel.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8167538800",
+      "8164378455",
+      "8555963399",
+      "8167538891"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\the-fontaine-a-kansas-city-hotel\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "52b278766c7cd7227b93c025650bf3555390216ab14230c43a929bcaf8b13f05",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "the inn at meadowbrook",
+   "canonical_name": "The Inn at Meadowbrook",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__prairie-village-leawood",
+   "requested_url": "https://www.innatmeadowbrook.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.innatmeadowbrook.com/",
+   "title": "The Inn at Meadowbrook\u200e - Boutique Hotel near Kansas City",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Inn at Meadowbrook - Luxury Boutique hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.innatmeadowbrook.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "9133299000"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\the-inn-at-meadowbrook\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "c682165a4851c9503569ed311e16bba3e1c1eacf0946c4778c84ce585679c81e",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "the truitt boutique hotel",
+   "canonical_name": "The Truitt Boutique Hotel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__plaza-westport",
+   "requested_url": "https://www.thetruitt.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.thetruitt.com",
+   "title": "HOME | The Truitt",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "HOME | The Truitt",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.thetruitt.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8163253510",
+      "3145843888"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\the-truitt-boutique-hotel\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "9b86f9634a188703539cf38eaa3d44104ab2274e9c77f25a2499a65df949bbc3",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "unity village",
+   "canonical_name": "Unity Village",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__lees-summit",
+   "requested_url": "https://www.unityvillage.org/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.unityvillage.org/",
+   "title": "Unity Village: Weddings, Meetings, Hotel | Kansas City",
+   "detail": "the page declares no telephone number of its own; the names agree only on unity, village, which this market's hotels share; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Unity Village: Weddings, Meetings, Hotel | Kansas City",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.unityvillage.org/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8162513511"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "the names agree only on unity, village, which this market's hotels share",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\unity-village\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "251cf1c7980af5a1e2c680bb2393abeb9c2284ef6556512f10ccd78316818a69",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "waterwalk",
+   "canonical_name": "WaterWalk",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "kansas-city-mo__overland-park",
+   "requested_url": "https://waterwalk.com/location/kansas-city-overland-park/",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.wyndhamhotels.com/waterwalk/overland-park-kansas/waterwalk-extended-stay-kansas-city-overland-pk/overview",
+   "title": "WaterWalk Extended Stay Kansas City - Overland Pk | Extended-Stay Suites in Overland Park, KS 66211",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\waterwalk\\attempt-01",
+   "classification": "UNEXPECTED_PAGE"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "woodspring suites kansas city lenexa",
+   "canonical_name": "WoodSpring Suites Kansas City Lenexa",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "kansas-city-mo__lenexa",
+   "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/kansas/kansas-city/woodspring-suites-kansas-city-lenexa",
+   "outcome": "VALID",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/kansas/kansas-city/woodspring-suites-kansas-city-lenexa",
+   "title": "Extended Stay Hotel in Lenexa, KS | WoodSpring Suites Kansas City Lenexa",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "WoodSpring Suites Kansas City Lenexa",
+     "address_on_page": "14700 W. 112th Street",
+     "postal_code": "66215",
+     "phone_on_page": "1(913)327-1101",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/kansas/kansas-city/woodspring-suites-kansas-city-lenexa",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "9133271101",
+      "8449746835"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "fe7f2e6110e38e0a2adfe449d61fba204801cfc15eed487149ac95e371de1acb",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\woodspring-suites-kansas-city-lenexa\\attempt-01",
+   "observation": {
+    "extraction": {
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "cats_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "under 75lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Limit 2 dogs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "No cats",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "cats_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT",
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "cats_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::woodspring suites kansas city lenexa::weight_limit::0",
+       "field": "weight_limit",
+       "quote": "under 75lbs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/kansas/kansas-city/woodspring-suites-kansas-city-lenexa",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "fe7f2e6110e38e0a2adfe449d61fba204801cfc15eed487149ac95e371de1acb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::woodspring suites kansas city lenexa::pet_count_limit::1",
+       "field": "pet_count_limit",
+       "quote": "Limit 2 dogs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/kansas/kansas-city/woodspring-suites-kansas-city-lenexa",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "fe7f2e6110e38e0a2adfe449d61fba204801cfc15eed487149ac95e371de1acb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::woodspring suites kansas city lenexa::cats_allowed::2",
+       "field": "cats_allowed",
+       "quote": "No cats",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/kansas/kansas-city/woodspring-suites-kansas-city-lenexa",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "fe7f2e6110e38e0a2adfe449d61fba204801cfc15eed487149ac95e371de1acb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "63ab2316b5d73543f491d3a91527c38edecde976a0be00d20f077ff57df4147c",
+     "document_sha256": "fe7f2e6110e38e0a2adfe449d61fba204801cfc15eed487149ac95e371de1acb"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [
+      "FLAG_MULTI_POLICY_BLOCKS"
+     ],
+     "rule_statement": ""
+    }
+   },
+   "classification": "BLOCK_FOUND_BUT_SILENT"
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "americas best value inn kansas city e independence",
+   "canonical_name": "Americas Best Value Inn Kansas City E Independence",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.sonesta.com/americas-best-value-inn/mo/independence/americas-best-value-inn-kansas-city-e-independence",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://www.sonesta.com/americas-best-value-inn/mo/independence/americas-best-value-inn-kansas-city-e-independence",
+   "title": "Americas Best Value Inn Kansas City E Independence",
+   "detail": "no bounded policy block in a page that served; 0 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Americas Best Value Inn Kansas City E Independence",
+     "address_on_page": "13710 East 42nd Terrace",
+     "postal_code": "64055",
+     "phone_on_page": "(816) 373-2800",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/americas-best-value-inn/mo/independence/americas-best-value-inn-kansas-city-e-independence",
+     "pets_allowed_structured": "false",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8163732800",
+      "8777379275"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\americas-best-value-inn-kansas-city-e-independence\\attempt-01",
+   "classification": "SOURCE_SILENT_STATIC",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "bear paws bed and rest",
+   "canonical_name": "Bear Paws Bed and Rest",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://bearpaws.info/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://bearpaws.info/",
+   "title": "Bear Paws Bed and Rest \u2013 kandcpatterson at Bearpaws.info, Kit and Claudette Patterson",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Bear Paws Bed and Rest &#8211; kandcpatterson at Bearpaws.info, Kit and Claudette Patterson",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://bearpaws.info/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "9135150522",
+      "9135150834"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\bear-paws-bed-and-rest\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "drury inn and suites",
+   "canonical_name": "Drury Inn & Suites",
+   "brand": "DRURY",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.druryhotels.com/locations/kansas-city-mo/drury-inn-and-suites-kansas-city-overland-park",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.druryhotels.com/locations/kansas-city-mo/drury-inn-and-suites-kansas-city-overland-park",
+   "title": "Drury Hotels - Drury Inn & Suites Kansas City Overland Park",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Drury Hotels - Drury Inn &amp; Suites Kansas City Overland Park",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8003787946",
+      "9133451500",
+      "9136930805",
+      "8004361169",
+      "8004361125"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\drury-inn-and-suites\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "drury inn and suites kansas city airport",
+   "canonical_name": "Drury Inn And Suites Kansas City Airport",
+   "brand": "DRURY",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.druryhotels.com/locations/kansas-city-mo/drury-inn-and-suites-kansas-city-airport",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.druryhotels.com/locations/kansas-city-mo/drury-inn-and-suites-kansas-city-airport",
+   "title": "Drury Hotels - Drury Inn & Suites Kansas City Airport",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Drury Hotels - Drury Inn &amp; Suites Kansas City Airport",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8003787946",
+      "8168809700",
+      "8164485246",
+      "8004361126",
+      "8004361125"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\drury-inn-and-suites-kansas-city-airport\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "loews kansas city hotel",
+   "canonical_name": "Loews Kansas City Hotel",
+   "brand": "LOEWS",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.loewshotels.com/kansas-city-hotel",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.loewshotels.com/kansas-city-hotel",
+   "title": "Luxury Kansas City Hotel | Loews Kansas City Hotel",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Loews Kansas City Hotel",
+     "address_on_page": "1515 Wyandotte Street",
+     "postal_code": "64108",
+     "phone_on_page": "816-897-7070",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.loewshotels.com/kansas-city-hotel",
+     "pets_allowed_structured": "True",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8002356397",
+      "8168977070",
+      "8777481451",
+      "8167540400",
+      "8888252436",
+      "8883206065"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\loews-kansas-city-hotel\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "loews kansas city hotel",
+   "canonical_name": "Loews Kansas City Hotel",
+   "brand": "LOEWS",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.loewshotels.com/loews-kansas-city-hotel",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.loewshotels.com/kansas-city-hotel",
+   "title": "Luxury Kansas City Hotel | Loews Kansas City Hotel",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Loews Kansas City Hotel",
+     "address_on_page": "1515 Wyandotte Street",
+     "postal_code": "64108",
+     "phone_on_page": "816-897-7070",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.loewshotels.com/kansas-city-hotel",
+     "pets_allowed_structured": "True",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8002356397",
+      "8168977070",
+      "8777481451",
+      "8167540400",
+      "8888252436",
+      "8883206065"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\loews-kansas-city-hotel\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "woodspring suites kansas city liberty",
+   "canonical_name": "Woodspring Suites Kansas City Liberty",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city-missouri/woodspring-suites-kansas-city-liberty",
+   "outcome": "VALID",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city-missouri/woodspring-suites-kansas-city-liberty",
+   "title": "Extended Stay Hotel in Liberty, MO | WoodSpring Suites Kansas City Liberty",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "WoodSpring Suites Kansas City Liberty",
+     "address_on_page": "1911 Industrial Drive",
+     "postal_code": "64068",
+     "phone_on_page": "1(816)415-3331",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city-missouri/woodspring-suites-kansas-city-liberty",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8164153330",
+      "8449746835"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "a8daebe7088e7edec4ebed80fa4af9d08391e25bf4f0bd721acbe6bba8346740",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\woodspring-suites-kansas-city-liberty\\attempt-01",
+   "observation": {
+    "extraction": {
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "cats_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "under 75 lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Limit 2 dogs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "No cats",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "cats_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT",
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "cats_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::woodspring suites kansas city liberty::weight_limit::0",
+       "field": "weight_limit",
+       "quote": "under 75 lbs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city-missouri/woodspring-suites-kansas-city-liberty",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "a8daebe7088e7edec4ebed80fa4af9d08391e25bf4f0bd721acbe6bba8346740",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::woodspring suites kansas city liberty::pet_count_limit::1",
+       "field": "pet_count_limit",
+       "quote": "Limit 2 dogs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city-missouri/woodspring-suites-kansas-city-liberty",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "a8daebe7088e7edec4ebed80fa4af9d08391e25bf4f0bd721acbe6bba8346740",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::woodspring suites kansas city liberty::cats_allowed::2",
+       "field": "cats_allowed",
+       "quote": "No cats",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city-missouri/woodspring-suites-kansas-city-liberty",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "a8daebe7088e7edec4ebed80fa4af9d08391e25bf4f0bd721acbe6bba8346740",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "5c8f6cb5139281bdefce6274caeac551447080b2d6ede8da930715bff96d5112",
+     "document_sha256": "a8daebe7088e7edec4ebed80fa4af9d08391e25bf4f0bd721acbe6bba8346740"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [
+      "FLAG_MULTI_POLICY_BLOCKS"
+     ],
+     "rule_statement": ""
+    }
+   },
+   "classification": "BLOCK_FOUND_BUT_SILENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "kansas city",
+   "canonical_name": "Kansas City",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.loewshotels.com/kansas-city-hotel",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.loewshotels.com/kansas-city-hotel",
+   "title": "Luxury Kansas City Hotel | Loews Kansas City Hotel",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Loews Kansas City Hotel",
+     "address_on_page": "1515 Wyandotte Street",
+     "postal_code": "64108",
+     "phone_on_page": "816-897-7070",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.loewshotels.com/kansas-city-hotel",
+     "pets_allowed_structured": "True",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8002356397",
+      "8168977070",
+      "8777481451",
+      "8167540400",
+      "8888252436",
+      "8883206065"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\kansas-city\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "red lion inn suites kansas city",
+   "canonical_name": "Red Lion Inn Suites Kansas City",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.sonesta.com/red-lion-inn-suites/mo/kansas-city/red-lion-inn-suites-kansas-city",
+   "outcome": "VALID",
+   "final_url": "https://www.sonesta.com/red-lion-inn-suites/mo/kansas-city/red-lion-inn-suites-kansas-city",
+   "title": "Red Lion Inn & Suites Kansas City \u2013 Best Rates",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Red Lion Inn & Suites Kansas City",
+     "address_on_page": "1051 N Cambridge Ave",
+     "postal_code": "64120",
+     "phone_on_page": "(816) 483-7900",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/red-lion-inn-suites/mo/kansas-city/red-lion-inn-suites-kansas-city",
+     "pets_allowed_structured": "true",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8164837900"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "5442f9d82e759392d858fc0044431e821f9ec843fbef5fee0fcf42d7b078c93e",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\red-lion-inn-suites-kansas-city\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pet_fee": 5000,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "service_animal_exception": "Service animals are welcome at no charge."
+    },
+    "evidence": [
+     {
+      "quote": "$50 per pet, per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "$50 per pet, per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "$50 per pet, per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_scope"
+      ]
+     },
+     {
+      "quote": "Service animals are welcome at no charge.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "fee_scope": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites kansas city::pet_fee::0",
+       "field": "pet_fee",
+       "quote": "$50 per pet, per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/kansas-city/red-lion-inn-suites-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5442f9d82e759392d858fc0044431e821f9ec843fbef5fee0fcf42d7b078c93e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites kansas city::fee_currency::0",
+       "field": "fee_currency",
+       "quote": "$50 per pet, per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/kansas-city/red-lion-inn-suites-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5442f9d82e759392d858fc0044431e821f9ec843fbef5fee0fcf42d7b078c93e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites kansas city::fee_basis::1",
+       "field": "fee_basis",
+       "quote": "$50 per pet, per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/kansas-city/red-lion-inn-suites-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5442f9d82e759392d858fc0044431e821f9ec843fbef5fee0fcf42d7b078c93e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites kansas city::fee_scope::2",
+       "field": "fee_scope",
+       "quote": "$50 per pet, per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/kansas-city/red-lion-inn-suites-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5442f9d82e759392d858fc0044431e821f9ec843fbef5fee0fcf42d7b078c93e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites kansas city::service_animal_exception::3",
+       "field": "service_animal_exception",
+       "quote": "Service animals are welcome at no charge.",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/mo/kansas-city/red-lion-inn-suites-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "5442f9d82e759392d858fc0044431e821f9ec843fbef5fee0fcf42d7b078c93e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "23c69964050485022793713e28abf0b7749e3907fda831b78883fa973dcc4f31",
+     "document_sha256": "5442f9d82e759392d858fc0044431e821f9ec843fbef5fee0fcf42d7b078c93e"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "BLOCK_FOUND_BUT_SILENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "red lion inn suites olathe kansas city",
+   "canonical_name": "Red Lion Inn Suites Olathe Kansas City",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+   "outcome": "VALID",
+   "final_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+   "title": "Red Lion Inn & Suites Olathe Kansas City by Sonesta",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Red Lion Inn & Suites Olathe Kansas City",
+     "address_on_page": "209 E Flaming Rd",
+     "postal_code": "66061",
+     "phone_on_page": "19138291312",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+     "pets_allowed_structured": "true",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "9138291312"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "1fce76758f5b0a36f96c643feb7d4b4395a59ef85d17745c1af266f15ba95dee",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\red-lion-inn-suites-olathe-kansas-city\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_deposit": 15000,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "weight_limit": {
+      "value": 30.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2
+    },
+    "evidence": [
+     {
+      "quote": "Pets are welcome",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "$150 refundable deposit",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_deposit"
+      ]
+     },
+     {
+      "quote": "$25 per pet per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "$25 per pet per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "$25 per pet per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_scope"
+      ]
+     },
+     {
+      "quote": "up to 30lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "maximum of 2 pets",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_deposit": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "fee_scope": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites olathe kansas city::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets are welcome",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1fce76758f5b0a36f96c643feb7d4b4395a59ef85d17745c1af266f15ba95dee",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites olathe kansas city::pet_deposit::1",
+       "field": "pet_deposit",
+       "quote": "$150 refundable deposit",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1fce76758f5b0a36f96c643feb7d4b4395a59ef85d17745c1af266f15ba95dee",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites olathe kansas city::pet_fee::2",
+       "field": "pet_fee",
+       "quote": "$25 per pet per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1fce76758f5b0a36f96c643feb7d4b4395a59ef85d17745c1af266f15ba95dee",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites olathe kansas city::fee_currency::2",
+       "field": "fee_currency",
+       "quote": "$25 per pet per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1fce76758f5b0a36f96c643feb7d4b4395a59ef85d17745c1af266f15ba95dee",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites olathe kansas city::fee_basis::3",
+       "field": "fee_basis",
+       "quote": "$25 per pet per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1fce76758f5b0a36f96c643feb7d4b4395a59ef85d17745c1af266f15ba95dee",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites olathe kansas city::fee_scope::4",
+       "field": "fee_scope",
+       "quote": "$25 per pet per night",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1fce76758f5b0a36f96c643feb7d4b4395a59ef85d17745c1af266f15ba95dee",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites olathe kansas city::weight_limit::5",
+       "field": "weight_limit",
+       "quote": "up to 30lbs",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1fce76758f5b0a36f96c643feb7d4b4395a59ef85d17745c1af266f15ba95dee",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::red lion inn suites olathe kansas city::pet_count_limit::6",
+       "field": "pet_count_limit",
+       "quote": "maximum of 2 pets",
+       "source_url": "https://www.sonesta.com/red-lion-inn-suites/ks/olathe/red-lion-inn-suites-olathe-kansas-city",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "1fce76758f5b0a36f96c643feb7d4b4395a59ef85d17745c1af266f15ba95dee",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "5e59cc42167508af8ca4f4dcd645437d0f79cd097a4a9b4590ad07dcd4359e20",
+     "document_sha256": "1fce76758f5b0a36f96c643feb7d4b4395a59ef85d17745c1af266f15ba95dee"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "wodspring suites kansas city airport",
+   "canonical_name": "Wodspring Suites Kansas City Airport",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+   "outcome": "VALID",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+   "title": "Extended Stay Hotel in Kansas City, MO | WoodSpring Suites Kansas City Airport",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "WoodSpring Suites Kansas City Airport",
+     "address_on_page": "5255 NW 63rd St.",
+     "postal_code": "64151",
+     "phone_on_page": "1(816)573-3109",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8167105241",
+      "8449746835"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name_partial, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\wodspring-suites-kansas-city-airport\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_deposit": 5000,
+     "pet_fee": 1000,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room",
+     "species_allowed": [
+      "dog"
+     ]
+    },
+    "evidence": [
+     {
+      "quote": "Dogs Allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "deposit of 50.00 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_deposit"
+      ]
+     },
+     {
+      "quote": "10.00 USD Per Pet, Per Night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "10.00 USD Per Pet, Per Night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "10.00 USD Per Pet, Per Night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_scope"
+      ]
+     },
+     {
+      "quote": "Max 75 Pounds",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "2 Pet Per Room",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit",
+       "pet_count_scope"
+      ]
+     },
+     {
+      "quote": "Dogs Allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_deposit": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "fee_scope": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "pet_count_scope": "page-text.txt",
+      "species_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::wodspring suites kansas city airport::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Dogs Allowed",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::wodspring suites kansas city airport::pet_deposit::1",
+       "field": "pet_deposit",
+       "quote": "deposit of 50.00 USD",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::wodspring suites kansas city airport::pet_fee::2",
+       "field": "pet_fee",
+       "quote": "10.00 USD Per Pet, Per Night",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::wodspring suites kansas city airport::fee_currency::2",
+       "field": "fee_currency",
+       "quote": "10.00 USD Per Pet, Per Night",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::wodspring suites kansas city airport::fee_basis::3",
+       "field": "fee_basis",
+       "quote": "10.00 USD Per Pet, Per Night",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::wodspring suites kansas city airport::fee_scope::4",
+       "field": "fee_scope",
+       "quote": "10.00 USD Per Pet, Per Night",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::wodspring suites kansas city airport::weight_limit::5",
+       "field": "weight_limit",
+       "quote": "Max 75 Pounds",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::wodspring suites kansas city airport::pet_count_limit::6",
+       "field": "pet_count_limit",
+       "quote": "2 Pet Per Room",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::wodspring suites kansas city airport::pet_count_scope::6",
+       "field": "pet_count_scope",
+       "quote": "2 Pet Per Room",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "kansas_city_mo_free_static_001::wodspring suites kansas city airport::species_allowed::7",
+       "field": "species_allowed",
+       "quote": "Dogs Allowed",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/missouri/kansas-city/wodspring-suites-kansas-city-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-05",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "3100f23d8ff6b62cb689dee331fffca591f81fd5be5981c3090aab3c61c384e7",
+     "document_sha256": "dcd5d1a7cbdff0cb77ab4baeb464ed1d70f3d6c7fd58eac7c118184c87250cdc"
+    },
+    "membrane": {
+     "verdict": "REJECT_WRONG_PROPERTY",
+     "rule": "M10",
+     "detail": "identity gate: the page identifies 'WoodSpring Suites Kansas City Airport', which is neither a subset nor a superset of the referenced identity 'Wodspring Suites Kansas City Airport', and neither an exact property-code + street-address agreement nor a street-address + owner-qualified-name agreement establishes it another way",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": "wrong property means no evidence, whatever the text says"
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "america s best value inn",
+   "canonical_name": "America's Best Value Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.sonesta.com/americas-best-value-inn/mo/grain-valley/americas-best-value-inn-grain-valley-i-70",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.sonesta.com/",
+   "title": "Sonesta - Hotels, Resorts and Cruises",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\america-s-best-value-inn\\attempt-01",
+   "classification": "UNEXPECTED_PAGE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "american motel",
+   "canonical_name": "American Motel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.myamericaninn.com/kansas-city-ks",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.myamericaninn.com/kansas-city-ks",
+   "title": "Kansas City, KS \u2014 American Inn Hotels",
+   "detail": "page names 'Kansas City, KS &mdash; American Inn Hotels', which does not agree with 'American Motel'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Kansas City, KS &mdash; American Inn Hotels",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.myamericaninn.com/kansas-city-ks",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "9132992999"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Kansas City, KS &mdash; American Inn Hotels', which does not agree with 'American Motel'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\american-motel\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "mainstay suites",
+   "canonical_name": "Mainstay Suites",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.choicehotels.com/kansas/overland-park/mainstay-hotels/ks334",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/kansas/overland-park/mainstay-hotels/ks334",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\kansas_city_mo_free_static_001\\mainstay-suites\\attempt-01",
+   "classification": "TRANSPORT_FAILED",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  }
+ ]
+}

@@ -1,0 +1,2885 @@
+{
+ "schema": "ptf-places-route-discovery/1.0",
+ "work_order": "PTF-KANSAS-CITY-MO-HARDENED-SOURCE-READY-001",
+ "market_id": "kansas-city-mo",
+ "provider": "GOOGLE_PLACES_TEXT_SEARCH (existing GOOGLE_PLACES_API_KEY capacity)",
+ "field_mask_gap_verification": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus",
+ "field_mask_route_discovery": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus,places.websiteUri,places.nationalPhoneNumber",
+ "route_discovery_run": true,
+ "route_discovery_capacity_basis": "websiteUri is an Enterprise-SKU field; its free monthly allowance (about 1,000 requests) renewed on 2026-10-01; the only Places use on this machine since then is San Antonio's 201 requests (187 Enterprise), Seattle's 169 (149 Enterprise), Portland's 77 (49 Enterprise), Minneapolis's 135 (59 Enterprise) and this order's own earlier runs (recorded in this report). This run stays inside that allowance (cap 200 Enterprise requests) -- existing capacity, no new paid spend.",
+ "request_cap": 300,
+ "route_discovery_cap": 200,
+ "requests_made": 107,
+ "enterprise_requests_made": 70,
+ "pro_requests_made": 37,
+ "requests_this_run": 23,
+ "answers_reused_from_prior_runs": 53,
+ "errors": {},
+ "never_policy": "A Places field is never a pet policy; a website it names is only a route.",
+ "route_discovery_targets": 44,
+ "route_discovery_bound": 62,
+ "route_discovery_bound_with_website": 50,
+ "gap_verification_targets": 3,
+ "gap_verdicts": {
+  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 2,
+  "NO_LODGING_RESULT": 1
+ },
+ "map_pin_verification_bind_meters": 400,
+ "map_pin_verdicts": {
+  "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 14,
+  "NO_LODGING_RESULT_BOUND_TO_THE_ROW": 6,
+  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 10,
+  "CLOSED_CLOSED_PERMANENTLY": 3,
+  "CLOSED_CLOSED_TEMPORARILY": 1
+ },
+ "rows": [
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "1812 overture bed and breakfast",
+   "query": "1812 Overture Bed and Breakfast 1812 Washington Street Kansas City MO 64108",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJOVDVLkTwwIcRj3yqvJjnjSg",
+    "display_name": "1812 Overture Bed and Breakfast",
+    "formatted_address": "1812 Washington St, Kansas City, MO 64108, USA",
+    "street_number": "1812",
+    "route": "Washington Street",
+    "locality": "Kansas City",
+    "postal_code": "64108",
+    "phone": "(816) 645-2405",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0906277,
+    "lng": -94.5903402
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "american inn north kansas city mo",
+   "query": "American Inn North Kansas City, MO 1211 Armour Rd North Kansas City MO 64116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJneqieanwwIcRBN4357jVejE",
+    "display_name": "American Inn Hotel",
+    "formatted_address": "1211 Armour Rd, North Kansas City, MO 64116, USA",
+    "street_number": "1211",
+    "route": "Armour Road",
+    "locality": "North Kansas City",
+    "postal_code": "64116",
+    "phone": "(816) 471-3451",
+    "website_uri": "http://www.myamericaninn.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.142482,
+    "lng": -94.56527899999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "americas best value inn and suites kansas city",
+   "query": "Americas Best Value Inn & Suites Kansas City 11801 Blue Ridge Blvd Kansas City MO 64134",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "arrowhead inn",
+   "query": "Arrowhead Inn 6006 E 31st Street Kansas City MO 64129",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJMV3lHS37wIcRhKm_z0tvyYY",
+    "display_name": "Arrowhead Inn",
+    "formatted_address": "6006 E 31st St, Kansas City, MO 64129, USA",
+    "street_number": "6006",
+    "route": "East 31st Street",
+    "locality": "Kansas City",
+    "postal_code": "64129",
+    "phone": "(816) 924-9000",
+    "website_uri": "http://thearrowheadinn.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0689433,
+    "lng": -94.51359959999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "best western plus kansas city airport kci east",
+   "query": "Best Western Plus Kansas City Airport-KCI East 11130 N Ambassador Drive Kansas City MO 64153",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJZ_OI3otewIcRmnDl4TZl_CY",
+    "display_name": "Best Western Plus Kansas City Airport-KCI East",
+    "formatted_address": "11130 N Ambassador Dr, Kansas City, MO 64153, USA",
+    "street_number": "11130",
+    "route": "North Ambassador Drive",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "(816) 891-9111",
+    "website_uri": "https://www.bestwestern.com/en_US/book/hotel-rooms.26169.html?iata=00171880&ssob=BLBWI0004G&cid=BLBWI0004G:google:gmb:26169",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.2938396,
+    "lng": -94.68269169999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "best western premier kansas city sports complex hotel",
+   "query": "Best Western Premier Kansas City Sports Complex Hotel 4011 Blue Ridge Cutoff Kansas City MO 64133",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "best western premier liberty inn and suites",
+   "query": "Best Western Premier Liberty Inn & Suites 421 N 291 Highway Liberty MO 64068",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJqVvIVZdVwIcRHoMoKSEtEgA",
+    "display_name": "Best Western Premier Liberty Inn & Suites",
+    "formatted_address": "421 N State Rte 291, Liberty, MO 64068, USA",
+    "street_number": "421",
+    "route": "North State Route 291",
+    "locality": "Liberty",
+    "postal_code": "64068",
+    "phone": "(816) 857-7777",
+    "website_uri": "https://www.bestwestern.com/en_US/book/hotel-rooms.26185.html?iata=00171880&ssob=BLBWI0004G&cid=BLBWI0004G:google:gmb:26185",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.2518963,
+    "lng": -94.4490501
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "best western worlds of fun inn and suites",
+   "query": "Best Western Worlds of Fun Inn and Suites 4231 N. Corrington Ave Kansas City MO 64117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJBesezUD5wIcRwD7tWZXlJOo",
+    "display_name": "Best Western Worlds of Fun Inn & Suites",
+    "formatted_address": "4231 N Corrington Ave, Kansas City, MO 64117, USA",
+    "street_number": "4231",
+    "route": "North Corrington Avenue",
+    "locality": "Kansas City",
+    "postal_code": "64117",
+    "phone": "(816) 569-3650",
+    "website_uri": "https://www.bestwestern.com/en_US/book/hotel-rooms.26188.html?iata=00171880&ssob=BLBWI0004G&cid=BLBWI0004G:google:gmb:26188",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.169945999999996,
+    "lng": -94.49464359999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "blue bird motel",
+   "query": "Blue Bird Motel 8920 E 40 Hwy Kansas City MO 64129",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJi45DsFbjwIcRgtcsT-MkM4I",
+    "display_name": "Blue Bird Motel",
+    "formatted_address": "8920 E US Hwy 40, Kansas City, MO 64129, USA",
+    "street_number": "8920",
+    "route": "East US Highway 40",
+    "locality": "Kansas City",
+    "postal_code": "64129",
+    "phone": "(816) 252-5488",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.062411499999996,
+    "lng": -94.47551680000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "budget motor inn",
+   "query": "Budget Motor Inn 9900 E US 40 Hwy Independence MO 64055",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ04wI_0bjwIcR8CJjTXPUw7o",
+    "display_name": "Budget Inn",
+    "formatted_address": "9900 E US Hwy 40, Independence, MO 64055, USA",
+    "street_number": "9900",
+    "route": "East US Highway 40",
+    "locality": "Independence",
+    "postal_code": "64055",
+    "phone": "(816) 737-3425",
+    "website_uri": "https://travelmeo.com/near-arrowhead-stadium-12-best-hotels-for-kansas-city-visitors/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.0567906,
+    "lng": -94.4626078
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "cherry warehouse hotel",
+   "query": "Cherry Warehouse Hotel 2936 Cherry Street Kansas City MO 64109",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "clarks motel",
+   "query": "Clarks Motel 1807 Merriam Lane Kansas City KS 66106",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJm2IOcOPtwIcRr4OobOwQrX0",
+    "display_name": "Clarks Motel",
+    "formatted_address": "1807 Merriam Ln, Kansas City, KS 66106, USA",
+    "street_number": "1807",
+    "route": "Merriam Lane",
+    "locality": "Kansas City",
+    "postal_code": "66106",
+    "phone": "(913) 236-6626",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.0495555,
+    "lng": -94.6495084
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "countryside suites",
+   "query": "Countryside Suites 4142 S Noland Road Independence MO 64055",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJme_ynpTiwIcRATLPABeIOv4",
+    "display_name": "Countryside Suites Kansas City Independence I-70E Sports Complex Hotel",
+    "formatted_address": "4142 S Noland Rd, Independence, MO 64055, USA",
+    "street_number": "4142",
+    "route": "South Noland Road",
+    "locality": "Independence",
+    "postal_code": "64055",
+    "phone": "(217) 979-5811",
+    "website_uri": "https://www.countrysidesuiteskansascity.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest",
+     "service",
+     "travel_agency"
+    ],
+    "lat": 39.045179,
+    "lng": -94.4162277
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "crossland kansas city lenexa 95th st",
+   "query": "Crossland Kansas City - Lenexa - 95th St. 9775 Lenexa Drive Lenexa KS 66215",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJt5uM9siUwIcRbojH8uHyMJc",
+    "display_name": "Crossland Kansas City - Lenexa - 95th St.",
+    "formatted_address": "9775 Lenexa Dr, Lenexa, KS 66215, USA",
+    "street_number": "9775",
+    "route": "Lenexa Drive",
+    "locality": "Lenexa",
+    "postal_code": "66215",
+    "phone": "(913) 541-4000",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.951369,
+    "lng": -94.736052
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "crown lodge",
+   "query": "Crown Lodge 8500 East 350 Highway Kansas City MO 64133",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ2ZKFfCvlwIcRntlvicHX43k",
+    "display_name": "Crown Lodge",
+    "formatted_address": "8500 E State Rte 350, Kansas City, MO 64133, USA",
+    "street_number": "8500",
+    "route": "East State Route 350",
+    "locality": "Kansas City",
+    "postal_code": "64133",
+    "phone": "(816) 353-3000",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.0058815,
+    "lng": -94.4849423
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "econo lodge lansing leavenworth",
+   "query": "Econo Lodge Lansing - Leavenworth 504 Main Street Parkville MO 64152",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "economy hotel kansas city",
+   "query": "Economy Hotel Kansas City 3400 NW Jefferson St Blue Springs MO 64015",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJXTvByXcbwYcRznQK-5OsTeE",
+    "display_name": "Economy Hotel Kansas City",
+    "formatted_address": "3400 NW Jefferson St, Blue Springs, MO 64015, USA",
+    "street_number": "3400",
+    "route": "Northwest Jefferson Street",
+    "locality": "Blue Springs",
+    "postal_code": "64015",
+    "phone": "(678) 978-1366",
+    "website_uri": "http://economyhotelusa.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.034813,
+    "lng": -94.30298859999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "economy suites kansas city near mci airport",
+   "query": "Economy Suites Kansas City – Near MCI Airport 8230 NW Prairie View Road Kansas City MO 64151",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJsbCmHjNfwIcRkCv0iUGuhY8",
+    "display_name": "Economy Suites Kansas City - Airport",
+    "formatted_address": "8230 NW Prairie View Rd, Kansas City, MO 64151, USA",
+    "street_number": "8230",
+    "route": "Northwest Prairie View Road",
+    "locality": "Kansas City",
+    "postal_code": "64151",
+    "phone": "(816) 741-6400",
+    "website_uri": "https://www.bookeconomysuites.com/missouri/economy-suites-kansas-city-airport/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "apartment_building",
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 39.2437632,
+    "lng": -94.6594351
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "executive inn and suites",
+   "query": "Executive Inn & Suites 15014 E US 40 Kansas City MO 64136",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJv52KhBvjwIcRJCzVrOCNEHw",
+    "display_name": "Executive Inn & Suites",
+    "formatted_address": "15014 E US Hwy 40, Kansas City, MO 64136, USA",
+    "street_number": "15014",
+    "route": "East US Highway 40",
+    "locality": "Kansas City",
+    "postal_code": "64136",
+    "phone": "(816) 373-7500",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.035458,
+    "lng": -94.3993357
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america kansas city country club plaza",
+   "query": "Extended Stay America - Kansas City - Country Club Plaza 4535 Main St Kansas City MO 64111",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJmR8oicDvwIcRLxxzlz3liAQ",
+    "display_name": "Extended Stay America - Kansas City - Country Club Plaza",
+    "formatted_address": "4535 Main St, Kansas City, MO 64111, USA",
+    "street_number": "4535",
+    "route": "Main Street",
+    "locality": "Kansas City",
+    "postal_code": "64111",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0443946,
+    "lng": -94.585737
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america select suites kansas city south i 49",
+   "query": "Extended Stay America Select Suites Kansas City - South - I-49 11301 Colorado Ave Kansas City MO 64137",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ0WFtaZjnwIcRChapAW-qoo8",
+    "display_name": "Extended Stay America Select Suites- Kansas City - South - I-49",
+    "formatted_address": "11301 Colorado Ave, Kansas City, MO 64137, USA",
+    "street_number": "11301",
+    "route": "Colorado Avenue",
+    "locality": "Kansas City",
+    "postal_code": "64137",
+    "phone": "(816) 761-4545",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mo/kansas-city/south-i-49?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.919621899999996,
+    "lng": -94.52884019999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america select suites kansas city stadium",
+   "query": "Extended Stay America Select Suites Kansas City - Stadium 8805 Leeds Rd Kansas City MO 64129",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ2bFDiFjjwIcRfZPQW0qeyh0",
+    "display_name": "Extended Stay America Select Suites- Kansas City - Stadium",
+    "formatted_address": "8805 Leeds Rd, Kansas City, MO 64129, USA",
+    "street_number": "8805",
+    "route": "Leeds Road",
+    "locality": "Kansas City",
+    "postal_code": "64129",
+    "phone": "(816) 548-4070",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mo/kansas-city/stadium?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0551719,
+    "lng": -94.47948749999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites kansas city lenexa 87th st",
+   "query": "Extended Stay America Suites Kansas City - Lenexa - 87th St. 8015 Lenexa Drive Lenexa KS 66215",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJc2CkX5jswIcRVXpqxoB4jxc",
+    "display_name": "Extended Stay America Suites- Kansas City - Lenexa - 87th St.",
+    "formatted_address": "8015 Lenexa Dr, Overland Park, KS 66215, USA",
+    "street_number": "8015",
+    "route": "Lenexa Drive",
+    "locality": "Overland Park",
+    "postal_code": "66215",
+    "phone": "(913) 894-5550",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mo/kansas-city/lenexa-87th-st?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.9833905,
+    "lng": -94.70557409999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites kansas city overland park metcalf ave",
+   "query": "Extended Stay America Suites Kansas City - Overland Park - Metcalf Ave 7201 W 106th Street Overland Park KS 66212",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJmVStNEvqwIcR-liIKjpaxR0",
+    "display_name": "Extended Stay America Suites- Kansas City - Overland Park - Metcalf Ave",
+    "formatted_address": "7201 W 106th St, Overland Park, KS 66212, USA",
+    "street_number": "7201",
+    "route": "West 106th Street",
+    "locality": "Overland Park",
+    "postal_code": "66212",
+    "phone": "(913) 642-2299",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/ks/kansas-city/overland-park-metcalf-ave?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.9352496,
+    "lng": -94.6701239
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites kansas city shawnee mission",
+   "query": "Extended Stay America Suites Kansas City - Shawnee Mission 6451 E. Frontage Rd. Merriam KS 66202",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJXQA-TEjswIcRz65kHZFKnuo",
+    "display_name": "Extended Stay America Suites- Kansas City - Shawnee Mission",
+    "formatted_address": "6451 E Frontage Rd, Merriam, KS 66202, USA",
+    "street_number": "6451",
+    "route": "East Frontage Road",
+    "locality": "Merriam",
+    "postal_code": "66202",
+    "phone": "(913) 236-6006",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/ks/kansas-city/shawnee-mission?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.012450699999995,
+    "lng": -94.6925349
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america suites kansas city south",
+   "query": "Extended Stay America Suites Kansas City - South 550 E 105th St. Kansas City MO 64131",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQ-kjg1_owIcRwDEZnp1rugs",
+    "display_name": "Extended Stay America Suites- Kansas City - South",
+    "formatted_address": "550 E 105 St, Kansas City, MO 64131, USA",
+    "street_number": "550",
+    "route": "East 105 Street",
+    "locality": "Kansas City",
+    "postal_code": "64131",
+    "phone": "(816) 943-1315",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mo/kansas-city/south?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.9390268,
+    "lng": -94.58561619999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay by welcome inn",
+   "query": "Extended Stay by Welcome Inn 901 Nw Jefferson Ct Blue Springs MO 64015",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ-39-tBsbwYcRsy8I3jIJVFw",
+    "display_name": "Extended Stay by Welcome Inn",
+    "formatted_address": "901 NW Jefferson St, Blue Springs, MO 64015, USA",
+    "street_number": "901",
+    "route": "Northwest Jefferson Street",
+    "locality": "Blue Springs",
+    "postal_code": "64015",
+    "phone": "(816) 224-3312",
+    "website_uri": "http://goldengrovehotels.com/bluesprings/extended-stay",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.0318496,
+    "lng": -94.27528989999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "frontier motel",
+   "query": "Frontier Motel 12015 E 350 Hwy Kansas City MO 64138",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJO-FZOXbhwIcRLBsUvV2Fqh0",
+    "display_name": "Frontier Motel",
+    "formatted_address": "12015 E State Rte 350, Kansas City, MO 64138, USA",
+    "street_number": "12015",
+    "route": "East State Route 350",
+    "locality": "Kansas City",
+    "postal_code": "64138",
+    "phone": "(816) 356-8340",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 38.972744,
+    "lng": -94.43954269999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hotel lotus kcmo",
+   "query": "Hotel Lotus KCMO 3830 Blue Ridge Cutoff Kansas City MO 64133",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJp8OKAwrjwIcRwafsh5moKHw",
+    "display_name": "Hotel Lotus Kansas City Stadium",
+    "formatted_address": "3830 Blue Ridge Cutoff, Kansas City, MO 64133, USA",
+    "street_number": "3830",
+    "route": "Blue Ridge Cutoff",
+    "locality": "Kansas City",
+    "postal_code": "64133",
+    "phone": "(816) 921-6000",
+    "website_uri": "https://www.lotuskcmo.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0532025,
+    "lng": -94.4747156
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "independence my place",
+   "query": "Independence My Place 20105 East Valley Parkway Independence MO 64057",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ3xZuOfccwYcRbXFYSy2Uong",
+    "display_name": "My Place Hotel-Kansas City/Independence, MO",
+    "formatted_address": "20105 E Valley View Pkwy, Independence, MO 64057, USA",
+    "street_number": "20105",
+    "route": "East Valley View Parkway",
+    "locality": "Independence",
+    "postal_code": "64057",
+    "phone": "(816) 491-2598",
+    "website_uri": "https://www.myplacehotels.com/my-place-hotel-independence-mo?utm_source=local-listing&utm_medium=referrer&utm_campaign=independence-mo",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "convenience_store",
+     "establishment",
+     "extended_stay_hotel",
+     "food",
+     "food_store",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "store"
+    ],
+    "lat": 39.0363067,
+    "lng": -94.3449354
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "kci lodge",
+   "query": "Kci Lodge 11300 Nw Prairie View Road Kansas City MO 64153",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJc-772ZfwIcRpYHyLRN7zGA",
+    "display_name": "KCI Lodge",
+    "formatted_address": "11300 NW Prairie View Rd, Kansas City, MO 64153, USA",
+    "street_number": "11300",
+    "route": "Northwest Prairie View Road",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "(816) 464-5082",
+    "website_uri": "https://www.kcilodge.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.2981498,
+    "lng": -94.6871192
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel 6 lenexa ks kansas city southwest",
+   "query": "Motel 6 Lenexa, KS - Kansas City Southwest 9725 Lenexa Drive Lenexa KS 66215",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJtbkSqMmUwIcRD7mzhG_ZKjI",
+    "display_name": "Motel 6 Lenexa, KS - Kansas City Southwest",
+    "formatted_address": "9725 Lenexa Dr, Lenexa, KS 66215, USA",
+    "street_number": "9725",
+    "route": "Lenexa Drive",
+    "locality": "Lenexa",
+    "postal_code": "66215",
+    "phone": "(913) 286-7854",
+    "website_uri": "https://www.motel6.com/property/motel-lenexa-kansas-us-294066?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 38.9519653,
+    "lng": -94.7350223
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel 6 olathe ks",
+   "query": "Motel 6 Olathe, KS 1501 South Hamilton Circle Olathe KS 66061",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJ1IxU9i9wIcRQLpIimrXY28",
+    "display_name": "Motel 6 Olathe, KS",
+    "formatted_address": "1501 S Hamilton Cir, Olathe, KS 66061, USA",
+    "street_number": "1501",
+    "route": "South Hamilton Circle",
+    "locality": "Olathe",
+    "postal_code": "66061",
+    "phone": "(913) 286-7856",
+    "website_uri": "https://www.motel6.com/en/home/motels.ks.olathe.8645.html?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 38.8597113,
+    "lng": -94.81312559999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "quality inn and suites kansas city downtown",
+   "query": "Quality Inn & Suites Kansas City Downtown 3517 Main St Kansas City MO 64111",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJO3YHjUjvwIcRjuF2MAY41AQ",
+    "display_name": "Quality Inn & Suites Kansas City Downtown",
+    "formatted_address": "3517 Main St, Kansas City, MO 64111, USA",
+    "street_number": "3517",
+    "route": "Main Street",
+    "locality": "Kansas City",
+    "postal_code": "64111",
+    "phone": "(816) 226-4390",
+    "website_uri": "https://www.choicehotels.com/missouri/kansas-city/quality-inn-hotels/mo377?mc=llgoxxpx",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.062878399999995,
+    "lng": -94.58537679999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "radisson hotel lenexa overland park",
+   "query": "Radisson Hotel Lenexa Overland Park 12601 W 95th Street Lenexa KS 66215",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJb2ZqgfqVwIcRCGsrrAqMq0c",
+    "display_name": "Radisson Hotel Lenexa Overland Park",
+    "formatted_address": "12601 W 95th St, Lenexa, KS 66215, USA",
+    "street_number": "12601",
+    "route": "West 95th Street",
+    "locality": "Lenexa",
+    "postal_code": "66215",
+    "phone": "(913) 624-9035",
+    "website_uri": "https://www.choicehotels.com/kansas/lenexa/radisson-hotels/ks269?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.9548452,
+    "lng": -94.7322428
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "sky vu motel",
+   "query": "Sky Vu Motel 8300 East 40 Hwy Kansas City MO 64129",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJlc7jL6zkwIcR92DEzetK3T8",
+    "display_name": "Sky Vu Motel",
+    "formatted_address": "8300 E US Hwy 40, Kansas City, MO 64129, USA",
+    "street_number": "8300",
+    "route": "East US Highway 40",
+    "locality": "Kansas City",
+    "postal_code": "64129",
+    "phone": "(816) 924-7700",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.0637573,
+    "lng": -94.4874188
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "sports stadium motel",
+   "query": "Sports Stadium Motel 9803 E 40 Hwy Independence MO 64055",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJYaMVY0bjwIcReBjy6DGYOCI",
+    "display_name": "Sports Stadium Motel",
+    "formatted_address": "9803 E US Hwy 40, Independence, MO 64055, USA",
+    "street_number": "9803",
+    "route": "East US Highway 40",
+    "locality": "Independence",
+    "postal_code": "64055",
+    "phone": "(816) 353-0005",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.0560031,
+    "lng": -94.4635589
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "welcome inn",
+   "query": "Welcome Inn 3300 Nw Jefferson St Blue Springs MO 64015",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJW8fUOXYbwYcR3o6HJXgq1aY",
+    "display_name": "Welcome Inn Blue Springs",
+    "formatted_address": "3300 NW Jefferson St, Blue Springs, MO 64015, USA",
+    "street_number": "3300",
+    "route": "Northwest Jefferson Street",
+    "locality": "Blue Springs",
+    "postal_code": "64015",
+    "phone": "(816) 622-8171",
+    "website_uri": "http://goldengrovehotels.com/bluesprings/welcome-inn",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.0347304,
+    "lng": -94.30189130000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "woodstock inn bed and breakfast",
+   "query": "Woodstock Inn Bed and Breakfast 1212 W. Lexington Ave Independence MO 64050",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQ4RK9CL9wIcRzi_LvpBmkqQ",
+    "display_name": "Woodstock Inn Bed & Breakfast",
+    "formatted_address": "1212 W Lexington Ave, Independence, MO 64050, USA",
+    "street_number": "1212",
+    "route": "West Lexington Avenue",
+    "locality": "Independence",
+    "postal_code": "64050",
+    "phone": "(816) 886-5656",
+    "website_uri": "https://www.woodstockinnmo.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "event_venue",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0896822,
+    "lng": -94.43104310000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "adam s mark hotel and conference center at the sports stadium complex",
+   "query": "Adam's Mark Hotel & Conference Center at the Sports Stadium Complex 9103 E 39th Street South Kansas City MO 64133",
+   "candidates_returned": 2,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay kansas city",
+   "query": "Extended Stay Kansas City 4301 N Corrington Kansas City MO 64117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ_fUFHqz5wIcR8jkyNAV7MNY",
+    "display_name": "Extended Stay Kansas City",
+    "formatted_address": "4301 N Corrington Ave, Kansas City, MO 64117, USA",
+    "street_number": "4301",
+    "route": "North Corrington Avenue",
+    "locality": "Kansas City",
+    "postal_code": "64117",
+    "phone": "(816) 413-0060",
+    "website_uri": "https://www.facebook.com/ExtendedStayKC/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.1720179,
+    "lng": -94.49434219999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "la quinta inn and suites overland park",
+   "query": "La Quinta Inn & Suites Overland Park 10610 Marty Street Overland Park KS 66212",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJq0RGpUzqwIcRcUgcADjCozc",
+    "display_name": "La Quinta Inn & Suites by Wyndham Overland Park",
+    "formatted_address": "10610 Marty St, Overland Park, KS 66212, USA",
+    "street_number": "10610",
+    "route": "Marty Street",
+    "locality": "Overland Park",
+    "postal_code": "66212",
+    "phone": "(913) 648-5555",
+    "website_uri": "https://www.wyndhamhotels.com/laquinta/overland-park-kansas/la-quinta-overland-park/overview?CID=LC:LQ::GGL:RIO:National:51198&iata=00093796",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 38.9352267,
+    "lng": -94.67148990000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "microtel inn and suites",
+   "query": "Microtel Inn & Suites 11831 Nw Plaza Circle Kansas City MO 64153",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQdH5xoFewIcR_IBk4SUYGJs",
+    "display_name": "Microtel Inn & Suites by Wyndham Kansas City Airport",
+    "formatted_address": "11831 NW Plaza Cir, Kansas City, MO 64153, USA",
+    "street_number": "11831",
+    "route": "Northwest Plaza Circle",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "(816) 270-1200",
+    "website_uri": "https://www.wyndhamhotels.com/microtel/kansas-city-missouri/microtel-inn-and-suites-kansas-city-airport/overview?CID=LC:5b3ss9kd80xe5ox:28534&iata=00093796",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.3085623,
+    "lng": -94.68299189999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "sonesta select kansas city airport tiffany springs",
+   "query": "Sonesta Select Kansas City Airport Tiffany Springs 7901 Nw Tiffany Springs Pkwy Kansas City MO 64153",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJpesXyeNewIcR6EPt0hmpkOU",
+    "display_name": "Sonesta Select Kansas City Airport Tiffany Springs",
+    "formatted_address": "7901 NW Tiffany Springs Pkwy, Kansas City, MO 64153, USA",
+    "street_number": "7901",
+    "route": "Northwest Tiffany Springs Parkway",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "(816) 891-7500",
+    "website_uri": "https://www.sonesta.com/sonesta-select/mo/kansas-city/sonesta-select-kansas-city-airport-tiffany-springs?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 39.2716473,
+    "lng": -94.67159989999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "1812 Overture B&B",
+   "query": "1812 Overture B&B Kansas City, MO",
+   "corridor": "crossroads-crown-center",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJOVDVLkTwwIcRj3yqvJjnjSg",
+    "display_name": "1812 Overture Bed and Breakfast",
+    "formatted_address": "1812 Washington St, Kansas City, MO 64108, USA",
+    "street_number": "1812",
+    "route": "Washington Street",
+    "locality": "Kansas City",
+    "postal_code": "64108",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0906277,
+    "lng": -94.5903402
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Dubbert Resort",
+   "query": "Dubbert Resort Kansas City, MO",
+   "verdict": "NO_LODGING_RESULT"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Motel 6 Olathe KS",
+   "query": "Motel 6 Olathe KS Kansas City, MO",
+   "corridor": "olathe",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJJ1IxU9i9wIcRQLpIimrXY28",
+    "display_name": "Motel 6 Olathe, KS",
+    "formatted_address": "1501 S Hamilton Cir, Olathe, KS 66061, USA",
+    "street_number": "1501",
+    "route": "South Hamilton Circle",
+    "locality": "Olathe",
+    "postal_code": "66061",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 38.8597113,
+    "lng": -94.81312559999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "aloft kansas city country club plaza|39.043874|-94.590825",
+   "census_identity_key": "aloft kansas city country club plaza",
+   "query": "Aloft Kansas City Country Club Plaza",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJeZ06AMbvwIcRQ1g1jUvRjFE",
+    "display_name": "Aloft by Marriott Kansas City Country Club Plaza",
+    "formatted_address": "393 W 46th St, Kansas City, MO 64112, USA",
+    "street_number": "393",
+    "route": "West 46th Street",
+    "locality": "Kansas City",
+    "postal_code": "64112",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0440107,
+    "lng": -94.59114249999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "aloft|39.142122|-94.560165",
+   "census_identity_key": "aloft",
+   "query": "Aloft",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJAYntUAf6wIcRzdIR9ouyq0U",
+    "display_name": "Aloft by Marriott North Kansas City",
+    "formatted_address": "1875 Diamond Pkwy, North Kansas City, MO 64116, USA",
+    "street_number": "1875",
+    "route": "Diamond Parkway",
+    "locality": "North Kansas City",
+    "postal_code": "64116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.1421685,
+    "lng": -94.5601181
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "americas best value inn|39.031743|-94.275215",
+   "census_identity_key": "americas best value inn",
+   "query": "Americas Best Value Inn",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "baymont|39.245904|-94.452815",
+   "census_identity_key": "baymont",
+   "query": "Baymont",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJX9B94ZFVwIcRYHYeKG5TClg",
+    "display_name": "Baymont by Wyndham Liberty MO",
+    "formatted_address": "115 N Stewart Rd, Liberty, MO 64068, USA",
+    "street_number": "115",
+    "route": "North Stewart Road",
+    "locality": "Liberty",
+    "postal_code": "64068",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.245989,
+    "lng": -94.4529012
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "chase suite hotel overland park|38.929408|-94.659145",
+   "census_identity_key": "chase suite hotel overland park",
+   "query": "Chase Suite Hotel Overland Park",
+   "candidates_returned": 0,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "clarion hotel|39.308989|-94.684865",
+   "census_identity_key": "clarion hotel",
+   "query": "Clarion Hotel",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "crossland economy studios kansas city lenexa 95th st|38.951330|-94.736121",
+   "census_identity_key": "crossland economy studios kansas city lenexa 95th st",
+   "query": "Crossland Economy Studios - Kansas City - Lenexa - 95th St.",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "lenexa",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJt5uM9siUwIcRbojH8uHyMJc",
+    "display_name": "Crossland Kansas City - Lenexa - 95th St.",
+    "formatted_address": "9775 Lenexa Dr, Lenexa, KS 66215, USA",
+    "street_number": "9775",
+    "route": "Lenexa Drive",
+    "locality": "Lenexa",
+    "postal_code": "66215",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.951369,
+    "lng": -94.736052
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "econo lodge|39.298136|-94.687185",
+   "census_identity_key": "econo lodge",
+   "query": "Econo Lodge",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "element|39.141968|-94.560763",
+   "census_identity_key": "element",
+   "query": "Element",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJZ-H0UAf6wIcR8ciAZ70-Ib8",
+    "display_name": "Element by Marriott North Kansas City",
+    "formatted_address": "1875 Diamond Pkwy, North Kansas City, MO 64116, USA",
+    "street_number": "1875",
+    "route": "Diamond Parkway",
+    "locality": "North Kansas City",
+    "postal_code": "64116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.1424774,
+    "lng": -94.5613846
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "extended stay america kansas city airport tiffany springs|39.268899|-94.668817",
+   "census_identity_key": "extended stay america kansas city airport tiffany springs",
+   "query": "Extended Stay America Kansas City - Airport - Tiffany Springs",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJK7tp3OFewIcRf7ZD02bOtFc",
+    "display_name": "Extended Stay America Suites- Kansas City - Airport - Tiffany Springs",
+    "formatted_address": "9701 N Shannon Ave, Kansas City, MO 64153, USA",
+    "street_number": "9701",
+    "route": "North Shannon Avenue",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.26869920000001,
+    "lng": -94.669523
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "extended stay america kansas city shawnee mission|39.012259|-94.692334",
+   "census_identity_key": "extended stay america kansas city shawnee mission",
+   "query": "Extended Stay America - Kansas City - Shawnee Mission 6451",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "merriam-mission",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJXQA-TEjswIcRz65kHZFKnuo",
+    "display_name": "Extended Stay America Suites- Kansas City - Shawnee Mission",
+    "formatted_address": "6451 E Frontage Rd, Merriam, KS 66202, USA",
+    "street_number": "6451",
+    "route": "East Frontage Road",
+    "locality": "Merriam",
+    "postal_code": "66202",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.012450699999995,
+    "lng": -94.6925349
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "extended stay america|39.055262|-94.479482",
+   "census_identity_key": "extended stay america",
+   "query": "Extended Stay America",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ2bFDiFjjwIcRfZPQW0qeyh0",
+    "display_name": "Extended Stay America Select Suites- Kansas City - Stadium",
+    "formatted_address": "8805 Leeds Rd, Kansas City, MO 64129, USA",
+    "street_number": "8805",
+    "route": "Leeds Road",
+    "locality": "Kansas City",
+    "postal_code": "64129",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0551719,
+    "lng": -94.47948749999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "extended stay america|39.305306|-94.685036",
+   "census_identity_key": "extended stay america",
+   "query": "Extended Stay America",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJgSHqS4FewIcR-mYDeufNZSM",
+    "display_name": "Extended Stay America Suites- Kansas City - Airport",
+    "formatted_address": "11712 NW Plaza Cir, Kansas City, MO 64153, USA",
+    "street_number": "11712",
+    "route": "Northwest Plaza Circle",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.3052862,
+    "lng": -94.68488459999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "hawthorn suites by wyndham overland park|38.928143|-94.718307",
+   "census_identity_key": "hawthorn suites by wyndham overland park",
+   "query": "Hawthorn Suites by Wyndham Overland Park",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "CLOSED_CLOSED_PERMANENTLY",
+   "place": {
+    "google_place_id": "ChIJ7R7WmNDqwIcRKx9-MxRc2wA",
+    "display_name": "Hawthorn Suites by Wyndham Overland Park",
+    "formatted_address": "11400 College Blvd, Overland Park, KS 66210, USA",
+    "street_number": "11400",
+    "route": "College Boulevard",
+    "locality": "Overland Park",
+    "postal_code": "66210",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.928099599999996,
+    "lng": -94.7184592
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "higher ground hotel|39.093340|-94.424010",
+   "census_identity_key": "higher ground hotel",
+   "query": "Higher Ground Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "CLOSED_CLOSED_TEMPORARILY",
+   "place": {
+    "google_place_id": "ChIJ0wuubxb9wIcRnWjXQB6GnQs",
+    "display_name": "Higher Ground Hotel",
+    "formatted_address": "200 N Delaware St, Independence, MO 64050, USA",
+    "street_number": "200",
+    "route": "North Delaware Street",
+    "locality": "Independence",
+    "postal_code": "64050",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_TEMPORARILY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.09335,
+    "lng": -94.424046
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "holiday inn express|39.226279|-94.765727",
+   "census_identity_key": "holiday inn express",
+   "query": "Holiday Inn Express",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJU7mqSypgwIcR5j66PAPKqIE",
+    "display_name": "Holiday Inn Express Kansas City North – Parkville, an IHG Hotel",
+    "formatted_address": "16000 Ruth St, Parkville, MO 64152, USA",
+    "street_number": "16000",
+    "route": "Ruth Street",
+    "locality": "Parkville",
+    "postal_code": "64152",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.2266626,
+    "lng": -94.7653361
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "homewood suites|39.275129|-94.663980",
+   "census_identity_key": "homewood suites",
+   "query": "Homewood Suites",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJf1pOxN1ewIcRIYMLmIWfhUQ",
+    "display_name": "Homewood Suites by Hilton Kansas City-Airport",
+    "formatted_address": "7312 NW Polo Dr, Kansas City, MO 64153, USA",
+    "street_number": "7312",
+    "route": "Northwest Polo Drive",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.2752112,
+    "lng": -94.663935
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "motel 6 kc north|39.243732|-94.659667",
+   "census_identity_key": "motel 6 kc north",
+   "query": "Motel 6 KC North",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJk_QYl0ZfwIcRvlSR0wQg_yU",
+    "display_name": "Economy Suites Kansas City",
+    "formatted_address": "8230 NW Prairie View Rd, Kansas City, MO 64151, USA",
+    "street_number": "8230",
+    "route": "Northwest Prairie View Road",
+    "locality": "Kansas City",
+    "postal_code": "64151",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.243809299999995,
+    "lng": -94.6596283
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "my place hotel|39.036369|-94.344910",
+   "census_identity_key": "my place hotel",
+   "query": "My Place Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ3xZuOfccwYcRbXFYSy2Uong",
+    "display_name": "My Place Hotel-Kansas City/Independence, MO",
+    "formatted_address": "20105 E Valley View Pkwy, Independence, MO 64057, USA",
+    "street_number": "20105",
+    "route": "East Valley View Parkway",
+    "locality": "Independence",
+    "postal_code": "64057",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "convenience_store",
+     "establishment",
+     "extended_stay_hotel",
+     "food",
+     "food_store",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "store"
+    ],
+    "lat": 39.0363067,
+    "lng": -94.3449354
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "nights inn blue springs|39.034784|-94.303001",
+   "census_identity_key": "nights inn blue springs",
+   "query": "Nights Inn Blue Springs",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "CLOSED_CLOSED_PERMANENTLY",
+   "place": {
+    "google_place_id": "ChIJlenkvncbwYcR9fg-9TP9zMs",
+    "display_name": "Nights Inn Blue Springs",
+    "formatted_address": "3400 NW Jefferson St #8002, Blue Springs, MO 64015, USA",
+    "street_number": "3400",
+    "route": "Northwest Jefferson Street",
+    "locality": "Blue Springs",
+    "postal_code": "64015",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0348196,
+    "lng": -94.3030035
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "quality inn|38.811585|-94.501056",
+   "census_identity_key": "quality inn",
+   "query": "Quality Inn 17205 South Outer Road Belton",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "belton-raymore",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJs6o92N75wIcRIQHL_9XGrA4",
+    "display_name": "Quality Inn Belton - Kansas City South",
+    "formatted_address": "17205 US-71, Belton, MO 64012, USA",
+    "street_number": "17205",
+    "route": "U.S. 71",
+    "locality": "Belton",
+    "postal_code": "64012",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.811563,
+    "lng": -94.50084299999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "quality inn|39.013221|-94.691513",
+   "census_identity_key": "quality inn",
+   "query": "Quality Inn 6401 East Frontage Road",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "CLOSED_CLOSED_PERMANENTLY",
+   "place": {
+    "google_place_id": "ChIJl0pU-vvswIcRDjHTsSHYKdw",
+    "display_name": "Quality Inn Merriam Kansas City",
+    "formatted_address": "6401 E Frontage Rd, Merriam, KS 66202, USA",
+    "street_number": "6401",
+    "route": "East Frontage Road",
+    "locality": "Merriam",
+    "postal_code": "66202",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.013142099999996,
+    "lng": -94.6918293
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "red lion inn and suites|39.044689|-94.416508",
+   "census_identity_key": "red lion inn and suites",
+   "query": "Red Lion Inn & Suites",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "relax inn|39.032346|-94.512472",
+   "census_identity_key": "relax inn",
+   "query": "Relax Inn 6300",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "raytown-sports-complex",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJh1HLRvrkwIcRtKREfY2_CT0",
+    "display_name": "Relax Inn",
+    "formatted_address": "6300 Blue Pkwy, Kansas City, MO 64129, USA",
+    "street_number": "6300",
+    "route": "Blue Parkway",
+    "locality": "Kansas City",
+    "postal_code": "64129",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.032395799999996,
+    "lng": -94.5125267
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "relax inn|39.117159|-94.667106",
+   "census_identity_key": "relax inn",
+   "query": "Relax Inn",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "kansas-city-kansas",
+   "candidates_returned": 3,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJPeQC67jzwIcR_cN_OtJ4oOc",
+    "display_name": "Relax Inn",
+    "formatted_address": "3228 State Ave, Kansas City, KS 66102, USA",
+    "street_number": "3228",
+    "route": "State Avenue",
+    "locality": "Kansas City",
+    "postal_code": "66102",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.116959,
+    "lng": -94.6671406
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "staybridge suites|39.046213|-94.351636",
+   "census_identity_key": "staybridge suites",
+   "query": "Staybridge Suites",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ6fJvXOEcwYcRHIZudv4NWhg",
+    "display_name": "Staybridge Suites Kansas City-Independence by IHG",
+    "formatted_address": "19400 E 39th Pl S, Independence, MO 64057, USA",
+    "street_number": "19400",
+    "route": "East 39th Place South",
+    "locality": "Independence",
+    "postal_code": "64057",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "extended_stay_hotel",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location"
+    ],
+    "lat": 39.0460025,
+    "lng": -94.3515673
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "super 8 blue springs|39.034334|-94.297887",
+   "census_identity_key": "super 8 blue springs",
+   "query": "Super 8 Blue Springs",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "the treehouse|39.275893|-94.422422",
+   "census_identity_key": "the treehouse",
+   "query": "The Treehouse",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "liberty-gladstone",
+   "candidates_returned": 3,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJj2ImwxxVwIcR-pf86FU9mtw",
+    "display_name": "The TreeHouse at Liberty Hospital",
+    "formatted_address": "2533 Glenn Hendren Dr, Liberty, MO 64068, USA",
+    "street_number": "2533",
+    "route": "Glenn Hendren Drive",
+    "locality": "Liberty",
+    "postal_code": "64068",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "association_or_organization",
+     "establishment",
+     "lodging",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 39.2759232,
+    "lng": -94.4224869
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "tru by hilton|39.269822|-94.440422",
+   "census_identity_key": "tru by hilton",
+   "query": "Tru by Hilton",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJK7djhSZVwIcRJvpKp07CoD8",
+    "display_name": "Tru by Hilton Liberty Kansas City",
+    "formatted_address": "1820 N Church Rd, Liberty, MO 64068, USA",
+    "street_number": "1820",
+    "route": "North Church Road",
+    "locality": "Liberty",
+    "postal_code": "64068",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.269861299999995,
+    "lng": -94.44044699999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "bear paws bed and rest||",
+   "census_identity_key": "bear paws bed and rest",
+   "query": "Bear Paws Bed and Rest 2501 W 43rd Ave Kansas City",
+   "bind_basis": "street_number",
+   "corridor": "kansas-city-kansas",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJxVikfjruwIcR4hSVcwdS_LU",
+    "display_name": "Bear Paw's",
+    "formatted_address": "2501 W 43rd Ave, Kansas City, KS 66103, USA",
+    "street_number": "2501",
+    "route": "West 43rd Avenue",
+    "locality": "Kansas City",
+    "postal_code": "66103",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.050026599999995,
+    "lng": -94.61434
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "clarks motel|39.049614|-94.649681",
+   "census_identity_key": "clarks motel",
+   "query": "Clarks Motel",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "kansas-city-kansas",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJm2IOcOPtwIcRr4OobOwQrX0",
+    "display_name": "Clarks Motel",
+    "formatted_address": "1807 Merriam Ln, Kansas City, KS 66106, USA",
+    "street_number": "1807",
+    "route": "Merriam Lane",
+    "locality": "Kansas City",
+    "postal_code": "66106",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.0495555,
+    "lng": -94.6495084
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "extended stay america kansas city lenexa 87th st|38.983548|-94.705616",
+   "census_identity_key": "extended stay america kansas city lenexa 87th st",
+   "query": "Extended Stay America - Kansas City - Lenexa - 87th St.",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "lenexa",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJc2CkX5jswIcRVXpqxoB4jxc",
+    "display_name": "Extended Stay America Suites- Kansas City - Lenexa - 87th St.",
+    "formatted_address": "8015 Lenexa Dr, Overland Park, KS 66215, USA",
+    "street_number": "8015",
+    "route": "Lenexa Drive",
+    "locality": "Overland Park",
+    "postal_code": "66215",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.9833905,
+    "lng": -94.70557409999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "holiday inn express and suites|39.269814|-94.665816",
+   "census_identity_key": "holiday inn express and suites",
+   "query": "Holiday Inn Express & Suites",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJQSoq4VVewIcRMYMYEO_Srms",
+    "display_name": "Holiday Inn Express & Suites Kansas City Airport by IHG",
+    "formatted_address": "9550 NW Polo Dr, Kansas City, MO 64153, USA",
+    "street_number": "9550",
+    "route": "Northwest Polo Drive",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 39.2697657,
+    "lng": -94.6658783
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "hotel lotus kansas city merriam|39.013570|-94.690542",
+   "census_identity_key": "hotel lotus kansas city merriam",
+   "query": "Hotel Lotus Kansas City Merriam",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "merriam-mission",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJl8ghSeHtwIcRu0jMnKDJEuI",
+    "display_name": "Hotel Lotus Merriam",
+    "formatted_address": "9009 Shawnee Mission Pkwy, Merriam, KS 66202, USA",
+    "street_number": "9009",
+    "route": "Shawnee Mission Parkway",
+    "locality": "Merriam",
+    "postal_code": "66202",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.013564800000005,
+    "lng": -94.6904981
+   }
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "admiral motel",
+   "query": "Admiral Motel 1409 Admiral Blvd Kansas City MO 64106",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJVQxEun_wwIcROhylfaowwak",
+    "display_name": "Admiral Motel",
+    "formatted_address": "1409 Admiral Blvd, Kansas City, MO 64106, USA",
+    "street_number": "1409",
+    "route": "Admiral Boulevard",
+    "locality": "Kansas City",
+    "postal_code": "64106",
+    "phone": "(816) 842-7220",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.1047304,
+    "lng": -94.564554
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "american inn",
+   "query": "American Inn 1211 Armour Road North Kansas City MO 64116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJneqieanwwIcRBN4357jVejE",
+    "display_name": "American Inn Hotel",
+    "formatted_address": "1211 Armour Rd, North Kansas City, MO 64116, USA",
+    "street_number": "1211",
+    "route": "Armour Road",
+    "locality": "North Kansas City",
+    "postal_code": "64116",
+    "phone": "(816) 471-3451",
+    "website_uri": "http://www.myamericaninn.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.142482,
+    "lng": -94.56527899999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "americas best value inn and suites lee s summit kansas city",
+   "query": "Americas Best Value Inn & Suites Lee's Summit Kansas City 1020 Se Blue Parkway Lee's Summit MO 64063",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJRJv5NQhwYcRLJkRJDazyFw",
+    "display_name": "Quality Inn - Lees Summit, Kansas City",
+    "formatted_address": "1020 SE Blue Pkwy, Lee's Summit, MO 64063, USA",
+    "street_number": "1020",
+    "route": "Southeast Blue Parkway",
+    "locality": "Lee's Summit",
+    "postal_code": "64063",
+    "phone": "(816) 554-7600",
+    "website_uri": "http://www.choicehotels.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 38.9035377,
+    "lng": -94.3546637
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "best western plus kci east",
+   "query": "Best Western Plus Kci East 11130 Nw Ambassador Dr Kansas City MO 64153",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJZ_OI3otewIcRmnDl4TZl_CY",
+    "display_name": "Best Western Plus Kansas City Airport-KCI East",
+    "formatted_address": "11130 N Ambassador Dr, Kansas City, MO 64153, USA",
+    "street_number": "11130",
+    "route": "North Ambassador Drive",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "(816) 891-9111",
+    "website_uri": "https://www.bestwestern.com/en_US/book/hotel-rooms.26169.html?iata=00171880&ssob=BLBWI0004G&cid=BLBWI0004G:google:gmb:26169",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.2938396,
+    "lng": -94.68269169999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "best western premier",
+   "query": "Best Western Premier 421 State Hwy 291 Liberty MO 64068",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJqVvIVZdVwIcRHoMoKSEtEgA",
+    "display_name": "Best Western Premier Liberty Inn & Suites",
+    "formatted_address": "421 N State Rte 291, Liberty, MO 64068, USA",
+    "street_number": "421",
+    "route": "North State Route 291",
+    "locality": "Liberty",
+    "postal_code": "64068",
+    "phone": "(816) 857-7777",
+    "website_uri": "https://www.bestwestern.com/en_US/book/hotel-rooms.26185.html?iata=00171880&ssob=BLBWI0004G&cid=BLBWI0004G:google:gmb:26185",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.2518963,
+    "lng": -94.4490501
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "candlewood suites extended stay",
+   "query": "Candlewood Suites Extended Stay 4450 N. Randolph Road Kansas City MO 64117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ_ywQ5Dj5wIcRhW-8KpmFCmE",
+    "display_name": "Candlewood Suites Kansas City Northeast by IHG",
+    "formatted_address": "4450 N Randolph Rd, Kansas City, MO 64117, USA",
+    "street_number": "4450",
+    "route": "North Randolph Road",
+    "locality": "Kansas City",
+    "postal_code": "64117",
+    "phone": "(816) 886-9311",
+    "website_uri": "https://www.ihg.com/candlewood/hotels/us/en/kansas-city/mkcno/hoteldetail?cm_mmc=GoogleMaps-_-CW-_-US-_-MKCNO",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "extended_stay_hotel",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location"
+    ],
+    "lat": 39.17470670000001,
+    "lng": -94.4944424
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn hotel",
+   "query": "Comfort Inn Hotel 963 Se Oldham Parkway Lee's Summit MO 64063",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort suites kansas city liberty",
+   "query": "Comfort Suites Kansas City-Liberty 8200 N Church Road Kansas City MO 64158",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJZ5bYnfRVwIcR0vYqSM4SxxM",
+    "display_name": "Comfort Suites Kansas City-Liberty",
+    "formatted_address": "8200 N Church Rd, Kansas City, MO 64158, USA",
+    "street_number": "8200",
+    "route": "North Church Road",
+    "locality": "Kansas City",
+    "postal_code": "64158",
+    "phone": "(816) 781-7273",
+    "website_uri": "https://www.choicehotels.com/missouri/kansas-city/comfort-suites-hotels/mo009?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.240368000000004,
+    "lng": -94.461587
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "crowne plaza hotel kansas city downtown",
+   "query": "Crowne Plaza Hotel Kansas City Downtown 1311 Wyandotte Street Kansas City MO 64105",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america 561",
+   "query": "Extended Stay America #561 550 E 105th St Kansas City MO 64131",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQ-kjg1_owIcRwDEZnp1rugs",
+    "display_name": "Extended Stay America Suites- Kansas City - South",
+    "formatted_address": "550 E 105 St, Kansas City, MO 64131, USA",
+    "street_number": "550",
+    "route": "East 105 Street",
+    "locality": "Kansas City",
+    "postal_code": "64131",
+    "phone": "(816) 943-1315",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mo/kansas-city/south?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.9390268,
+    "lng": -94.58561619999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america kansas city overland park metcalf ave",
+   "query": "Extended Stay America - Kansas City - Overland Park - Metcalf Ave 7201 W 106th Street Overland Park KS 66212",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJmVStNEvqwIcR-liIKjpaxR0",
+    "display_name": "Extended Stay America Suites- Kansas City - Overland Park - Metcalf Ave",
+    "formatted_address": "7201 W 106th St, Overland Park, KS 66212, USA",
+    "street_number": "7201",
+    "route": "West 106th Street",
+    "locality": "Overland Park",
+    "postal_code": "66212",
+    "phone": "(913) 642-2299",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/ks/kansas-city/overland-park-metcalf-ave?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.9352496,
+    "lng": -94.6701239
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america select suites 8090",
+   "query": "Extended Stay America Select Suites #8090 11301 Colorado Ave Kansas City MO 64137",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ0WFtaZjnwIcRChapAW-qoo8",
+    "display_name": "Extended Stay America Select Suites- Kansas City - South - I-49",
+    "formatted_address": "11301 Colorado Ave, Kansas City, MO 64137, USA",
+    "street_number": "11301",
+    "route": "Colorado Avenue",
+    "locality": "Kansas City",
+    "postal_code": "64137",
+    "phone": "(816) 761-4545",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mo/kansas-city/south-i-49?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 38.919621899999996,
+    "lng": -94.52884019999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america select suites 8091",
+   "query": "Extended Stay America Select Suites 8091 8805 Leeds Road Kansas City MO 64129",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ2bFDiFjjwIcRfZPQW0qeyh0",
+    "display_name": "Extended Stay America Select Suites- Kansas City - Stadium",
+    "formatted_address": "8805 Leeds Rd, Kansas City, MO 64129, USA",
+    "street_number": "8805",
+    "route": "Leeds Road",
+    "locality": "Kansas City",
+    "postal_code": "64129",
+    "phone": "(816) 548-4070",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/mo/kansas-city/stadium?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0551719,
+    "lng": -94.47948749999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "farkas home",
+   "query": "Farkas Home 13715 E 50th Street Kansas City MO 64133",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "EisxMzcxNSBFIDUwdGggU3QsIEthbnNhcyBDaXR5LCBNTyA2NDEzMywgVVNBIjESLwoUChIJeeZaQPXiwIcR2drKS6DP1JkQk2sqFAoSCTv_nDkG48CHEYYyFSbbiaje",
+    "display_name": "13715 E 50th St",
+    "formatted_address": "13715 E 50th St, Kansas City, MO 64133, USA",
+    "street_number": "13715",
+    "route": "East 50th Street",
+    "locality": "Kansas City",
+    "postal_code": "64133",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address"
+    ],
+    "lat": 39.0302692,
+    "lng": -94.4188004
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "holiday inn express and suites olathe north",
+   "query": "Holiday Inn Express & Suites Olathe North 12070 South Strang Line Road Olathe KS 66062",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJTSwV55-VwIcR8ODxjgQoC7s",
+    "display_name": "Holiday Inn Express & Suites Olathe North by IHG",
+    "formatted_address": "12070 S Strang Line Rd, Olathe, KS 66062, USA",
+    "street_number": "12070",
+    "route": "South Strang Line Road",
+    "locality": "Olathe",
+    "postal_code": "66062",
+    "phone": "(913) 397-0100",
+    "website_uri": "https://www.ihg.com/holidayinnexpress/hotels/us/en/olathe/mkcsr/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-MKCSR",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 38.911867,
+    "lng": -94.769717
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "holiday inn express and suites olathe west",
+   "query": "Holiday Inn Express & Suites Olathe West 10360 South Ridgeview Road Olathe KS 66061",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJS4iVG7eVwIcRADxSltX_vGI",
+    "display_name": "Holiday Inn Express & Suites Olathe West by IHG",
+    "formatted_address": "10360 S Ridgeview Rd, Olathe, KS 66061, USA",
+    "street_number": "10360",
+    "route": "South Ridgeview Road",
+    "locality": "Olathe",
+    "postal_code": "66061",
+    "phone": "(913) 541-9999",
+    "website_uri": "https://www.ihg.com/holidayinnexpress/hotels/us/en/olathe/mkcrd/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-MKCRD",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 38.940351,
+    "lng": -94.799801
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "holiday inn express hotel and suites kci",
+   "query": "Holiday Inn Express Hotel & Suites Kci 9550 Nw Polo Dr Kansas City MO 64153",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQSoq4VVewIcRMYMYEO_Srms",
+    "display_name": "Holiday Inn Express & Suites Kansas City Airport by IHG",
+    "formatted_address": "9550 NW Polo Dr, Kansas City, MO 64153, USA",
+    "street_number": "9550",
+    "route": "Northwest Polo Drive",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "(816) 923-4100",
+    "website_uri": "https://www.ihg.com/holidayinnexpress/hotels/us/en/kansas-city/mkcai/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-MKCAI",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 39.2697657,
+    "lng": -94.6658783
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "holiday inn kansas city airport",
+   "query": "Holiday Inn Kansas City Airport 11728 North Ambassador Drive Kansas City MO 64153",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ3yVvHIFewIcRmGPBpC9rvK0",
+    "display_name": "Holiday Inn Kansas City Airport by IHG",
+    "formatted_address": "11728 N Ambassador Dr, Kansas City, MO 64153, USA",
+    "street_number": "11728",
+    "route": "North Ambassador Drive",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "(816) 801-8400",
+    "website_uri": "https://www.ihg.com/holidayinn/hotels/us/en/kansas-city/mkccr/hoteldetail?cm_mmc=GoogleMaps-_-HI-_-US-_-MKCCR",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 39.306303199999995,
+    "lng": -94.6836012
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "holiday inn kansas city downtown",
+   "query": "Holiday Inn Kansas City - Downtown 770 Admiral Blvd Kansas City MO 64106",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJeR1bxILxwIcRC1K6MgJ9p1Q",
+    "display_name": "Holiday Inn Kansas City - Downtown, an IHG Hotel",
+    "formatted_address": "770 Admiral Blvd, Kansas City, MO 64106, USA",
+    "street_number": "770",
+    "route": "Admiral Boulevard",
+    "locality": "Kansas City",
+    "postal_code": "64106",
+    "phone": "(816) 492-7565",
+    "website_uri": "https://www.ihg.com/holidayinn/hotels/us/en/kansas-city/mkcad/hoteldetail?cm_mmc=GoogleMaps-_-HI-_-US-_-MKCAD",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.1057803,
+    "lng": -94.57441229999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "holiday inn kansas city northeast",
+   "query": "Holiday Inn Kansas City - Northeast 4101 N Corrington Ave Kansas City MO 64117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJZU1aIKD5wIcR4MilNTmRVuE",
+    "display_name": "Holiday Inn Kansas City - Northeast by IHG",
+    "formatted_address": "4101 N Corrington Ave, Kansas City, MO 64117, USA",
+    "street_number": "4101",
+    "route": "North Corrington Avenue",
+    "locality": "Kansas City",
+    "postal_code": "64117",
+    "phone": "(816) 702-0300",
+    "website_uri": "https://www.ihg.com/holidayinn/hotels/us/en/kansas-city/mkcpv/hoteldetail?cm_mmc=GoogleMaps-_-HI-_-US-_-MKCPV",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 39.164491,
+    "lng": -94.49691299999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hotel lotus",
+   "query": "Hotel Lotus 3830 Blue Ridge Cutoff Kansas City MO 64133",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJp8OKAwrjwIcRwafsh5moKHw",
+    "display_name": "Hotel Lotus Kansas City Stadium",
+    "formatted_address": "3830 Blue Ridge Cutoff, Kansas City, MO 64133, USA",
+    "street_number": "3830",
+    "route": "Blue Ridge Cutoff",
+    "locality": "Kansas City",
+    "postal_code": "64133",
+    "phone": "(816) 921-6000",
+    "website_uri": "https://www.lotuskcmo.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.0532025,
+    "lng": -94.4747156
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel 6 423",
+   "query": "Motel 6 #423 8230 Nw Prairie View Rd Kansas City MO 64151",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJk_QYl0ZfwIcRvlSR0wQg_yU",
+    "display_name": "Economy Suites Kansas City",
+    "formatted_address": "8230 NW Prairie View Rd, Kansas City, MO 64151, USA",
+    "street_number": "8230",
+    "route": "Northwest Prairie View Road",
+    "locality": "Kansas City",
+    "postal_code": "64151",
+    "phone": "(816) 280-4769",
+    "website_uri": "https://www.bookeconomysuites.com/missouri/economy-suites-kansas-city-airport/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.243809299999995,
+    "lng": -94.6596283
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel 6 nuram llc dba economy hotel kc",
+   "query": "Motel 6/nuram Llc Dba Economy Hotel Kc 3400 W Jefferson St Blue Springs MO 64015",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJXTvByXcbwYcRznQK-5OsTeE",
+    "display_name": "Economy Hotel Kansas City",
+    "formatted_address": "3400 NW Jefferson St, Blue Springs, MO 64015, USA",
+    "street_number": "3400",
+    "route": "Northwest Jefferson Street",
+    "locality": "Blue Springs",
+    "postal_code": "64015",
+    "phone": "(678) 978-1366",
+    "website_uri": "http://economyhotelusa.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 39.034813,
+    "lng": -94.30298859999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "origin hotel",
+   "query": "Origin Hotel 151 Berkley Plaza Kansas City MO 64120",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "quality inn kci airport",
+   "query": "Quality Inn Kci Airport 7611 NW 97th Terrace Kansas City MO 64153",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJMQIjt-FewIcRuM6D19rv7sU",
+    "display_name": "Quality Inn Kansas City International Airport",
+    "formatted_address": "7611 NW 97th Terrace, Kansas City, MO 64153, USA",
+    "street_number": "7611",
+    "route": "Northwest 97th Terrace",
+    "locality": "Kansas City",
+    "postal_code": "64153",
+    "phone": "(816) 226-4383",
+    "website_uri": "https://www.choicehotels.com/missouri/kansas-city/quality-inn-hotels/mo631?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.269864299999995,
+    "lng": -94.6687279
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "sleep inn and suites indoor waterpark",
+   "query": "Sleep Inn & Suites Indoor Waterpark 1840 N Church Rd Liberty MO 64068",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJk2ETKqhVwIcR60I117Znk5c",
+    "display_name": "Sleep Inn & Suites Liberty - Kansas City",
+    "formatted_address": "1840 N Church Rd, Liberty, MO 64068, USA",
+    "street_number": "1840",
+    "route": "North Church Road",
+    "locality": "Liberty",
+    "postal_code": "64068",
+    "phone": "(816) 368-1011",
+    "website_uri": "https://www.choicehotels.com/missouri/liberty/sleep-inn-hotels/mo268?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 39.269743399999996,
+    "lng": -94.4390428
+   },
+   "bind_basis": "street_number+postal_code"
+  }
+ ]
+}

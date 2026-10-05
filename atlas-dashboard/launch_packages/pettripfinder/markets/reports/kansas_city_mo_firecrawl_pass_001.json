@@ -1,0 +1,48 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-KANSAS-CITY-MO-HARDENED-SOURCE-READY-001",
+ "market_id": "kansas-city-mo",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "kansas_city_mo_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 0,
+  "credit_floor": 400,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 61,
+  "static_to_attended": 32,
+  "firecrawl_candidates": 22,
+  "share_static_to_attended": 0.5246,
+  "share_firecrawl_candidates": 0.3607,
+  "threshold": 0.2,
+  "warning": true,
+  "message": "22 of 61 unresolved routed rows (36%) are Firecrawl candidates: evaluate the Firecrawl lane before continuing to the attended browser"
+ },
+ "planned_rows": 19,
+ "attempted_rows": 0,
+ "stopped_by": "ATTEMPT_CAP",
+ "credits": {
+  "before": 160,
+  "after": 160,
+  "delta": 0,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {},
+  "unbound": [],
+  "requests": 0,
+  "results": 0
+ },
+ "class_counts": {},
+ "outcome_counts": {},
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": []
+}
