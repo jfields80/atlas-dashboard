@@ -35,8 +35,8 @@ from scripts.pettripfinder import kansas_city_mo_registration_staging_001 as ST 
 WORK_ORDER = "PTF-KANSAS-CITY-MO-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 STAGING = os.path.join(PKG, "markets", "staging", "kansas-city-mo")
-POLICY = os.path.join(STAGING, "launch_package", "hotel_policy_facts_kansas-city-mo.json")
-AUTHORITY = os.path.join(STAGING, "kansas_city_mo_proposed_authority_001.json")
+POLICY = os.path.join(PKG, "hotel_policy_facts_kansas-city-mo.json")
+AUTHORITY = os.path.join(PKG, "kansas_city_mo_proposed_authority_001.json")
 OUT = os.path.join(PKG, "markets", "reports", "kansas_city_mo_publication_safety_audit_001.json")
 
 
@@ -45,9 +45,8 @@ def _load(p):
         return json.load(fh)
 
 
-def main():
-    policy = _load(POLICY)
-    authority = _load(AUTHORITY)
+def audit(policy, authority):
+    """The eight publication-safety findings over a policy package and its proposed authority (pure)."""
     findings = OrderedDict((k, []) for k in (
         "pet_friendly_with_explicit_refusal", "question_only_pet_friendly", "service_animal_only_pet_friendly", "preopening_or_closed_published", "timeshare_or_vacation_ownership_published",
         "military_restricted_published", "misleading_single_fee_published", "no_pets_quote_without_refusal"))
@@ -82,6 +81,13 @@ def main():
         q = " ".join(e["quote"] for e in h["evidence"] if e["field"] == "pet_fee")
         if len(ST._stated_amounts(q)) > 1 or ST._fee_withhold_reason(q):
             findings["misleading_single_fee_published"].append((h["name"], fee, q[:200]))
+    return findings
+
+
+def main():
+    policy = _load(POLICY)
+    authority = _load(AUTHORITY)
+    findings = audit(policy, authority)
     doc = OrderedDict([
         ("schema", "ptf-publication-safety-audit/1.0"), ("work_order", WORK_ORDER), ("market_id", "kansas-city-mo"),
         ("pet_friendly_records", len(authority["pet_friendly"])),

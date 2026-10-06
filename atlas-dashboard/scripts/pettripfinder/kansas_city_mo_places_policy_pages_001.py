@@ -23,7 +23,7 @@ from scripts.pettripfinder import kansas_city_mo_policy_pages_lane_001 as PP  # 
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "kansas_city_mo_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "kansas-city-mo.json")
+CENSUS = os.path.join(PKG, "identity_census", "kansas-city-mo.json")
 OUT = os.path.join(PKG, "markets", "staging", "kansas-city-mo", "raw_captures", "closure_static_rows.json")
 
 

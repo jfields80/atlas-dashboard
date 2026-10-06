@@ -42,7 +42,7 @@ MARKET_ID = "kansas-city-mo"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "kansas-city-mo.json")
+CENSUS = os.path.join(PKG, "identity_census", "kansas-city-mo.json")
 OUT = os.path.join(REPORTS, "kansas_city_mo_routing_001.json")
 
 _NAME_FAMILY = [

@@ -77,7 +77,7 @@ PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 STAGING = os.path.join(PKG, "markets", "staging", "kansas-city-mo", "raw_captures")
 READS = os.path.join(STAGING, "browser_reads_001.jsonl")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "kansas-city-mo.json")
+CENSUS = os.path.join(PKG, "identity_census", "kansas-city-mo.json")
 ROWS_OUT = os.path.join(STAGING, "browser_closure_rows.json")
 REPORT_OUT = os.path.join(REPORTS, "kansas_city_mo_browser_lane_001.json")
 
