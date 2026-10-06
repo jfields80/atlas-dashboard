@@ -42,7 +42,7 @@ MARKET_ID = "new-orleans-la"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "new-orleans-la.json")
+CENSUS = os.path.join(PKG, "identity_census", "new-orleans-la.json")
 OUT = os.path.join(REPORTS, "new_orleans_la_routing_001.json")
 
 _NAME_FAMILY = [

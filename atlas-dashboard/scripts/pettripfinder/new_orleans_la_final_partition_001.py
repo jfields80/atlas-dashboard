@@ -13,7 +13,7 @@ Two vocabularies on every row:
 
 Nothing here fetches or publishes.
 
-Output: launch_packages/pettripfinder/markets/staging/new-orleans-la/launch_package/new_orleans_la_final_partition_001.json
+Output: launch_packages/pettripfinder/new_orleans_la_final_partition_001.json
 """
 from __future__ import annotations
 
@@ -33,13 +33,12 @@ WORK_ORDER = "PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001"
 MARKET_ID = "new-orleans-la"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-#: SHADOW_UNTIL_REGISTERED: a shadow market's partition belongs INSIDE its own staging launch_package, never at
-#: the registry package root -- the root is where a REGISTERED market's release contract references it, and
-#: writing there would put an unregistered market's document into shared space. The shadow seal reads it from
-#: the staging tree.
-OUT = os.path.join(PKG, "markets", "staging", MARKET_ID, "launch_package",
-                   "new_orleans_la_final_partition_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "new-orleans-la.json")
+#: REGISTERED (PTF-NEW-ORLEANS-LA-REGISTRATION-AND-STAGING-002): the partition now lives at the registry package
+#: root, where the registered market's release contract references it. While the market was
+#: SHADOW_UNTIL_REGISTERED it was written inside its own staging launch_package (the shadow package still carries
+#: the sealed copy there).
+OUT = os.path.join(PKG, "new_orleans_la_final_partition_001.json")
+CENSUS = os.path.join(PKG, "identity_census", "new-orleans-la.json")
 CLEAN = os.path.join(REPORTS, "new_orleans_la_clean_authority_001.json")
 from scripts.pettripfinder import new_orleans_la_registration_staging_001 as _ST  # noqa: E402
 #: MINNEAPOLIS: the UTC day of this order's LAST first-party capture (the staged package's own upper bound); the reads

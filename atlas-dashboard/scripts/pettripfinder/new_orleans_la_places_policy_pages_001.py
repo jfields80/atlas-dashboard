@@ -23,7 +23,7 @@ from scripts.pettripfinder import new_orleans_la_policy_pages_lane_001 as PP  # 
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "new_orleans_la_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "new-orleans-la.json")
+CENSUS = os.path.join(PKG, "identity_census", "new-orleans-la.json")
 OUT = os.path.join(PKG, "markets", "staging", "new-orleans-la", "raw_captures", "closure_static_rows.json")
 
 
