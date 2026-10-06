@@ -1,0 +1,90 @@
+{
+ "schema": "ptf-registration-authorization-readiness/1.0",
+ "status": "AUTHORIZATION_READY",
+ "founder_status": "AWAITING_FOUNDER_AUTHORIZATION",
+ "what_this_is": "A prepared, UNSIGNED readiness document for founder review, written by the registration release lane after Regression V2 classified the registration. It authorizes nothing: no launch-participation flag has moved, no activation flag is enabled, nothing is deployed. The founder's decision, if it comes, is a separate write into deploy/netlify/deployment_authorizations/ that this document never makes.",
+ "market_id": "new-orleans-la",
+ "prepared_by": "registration_release_lane",
+ "prepared_at": "2026-10-06T21:15:24Z",
+ "authorized_by": null,
+ "authorized_at": null,
+ "regression_v2": {
+  "classification_source": "AUTOMATIC",
+  "current_live_source_commit": "117afe1105f920a8fcebd5bc1f4c4e2be9bb3ed3",
+  "registration_base": "e42ae36452c59030db86636f31958fc4f44d2d9b",
+  "trusted_factory_baseline": null,
+  "inherited_factory_paths": 0,
+  "SHARED_FACTORY_DELTA": null,
+  "base": "e42ae36452c59030db86636f31958fc4f44d2d9b",
+  "head": "WORKTREE",
+  "change_classes": [
+   "DOCUMENTATION_ONLY",
+   "GENERATED_REPORT_ONLY",
+   "MARKET_DATA_PACKAGE",
+   "COMPOSITE_FRESH_MARKET_DATA_ONLY"
+  ],
+  "release_surfaces": [
+   "MARKET_DATA_PACKAGE",
+   "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+   "NARROW_NON_RELEASE"
+  ],
+  "CHANGE_CLASS": "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+  "FULL_REGRESSION_REQUIRED": "NO",
+  "REMOTE_BROAD_JOBS_REQUIRED": 0,
+  "plan_modules": 119,
+  "assembly_required": false,
+  "reason": "every changed file classifies into a narrow class (COMPOSITE_FRESH_MARKET_DATA_ONLY, DOCUMENTATION_ONLY, GENERATED_REPORT_ONLY, MARKET_DATA_PACKAGE); no row of the matrix makes a broad regression mandatory"
+ },
+ "registration_proof": {
+  "proof_version": "ptf-registration-data-only/2.0",
+  "ELIGIBLE": "YES",
+  "checks": {
+   "change_set": "PASS",
+   "market_local_zone": "PASS",
+   "discovery_config": "PASS",
+   "registration_input": "PASS",
+   "identity_resolutions": "PASS",
+   "participation": "PASS",
+   "release_contract": "PASS",
+   "build_closure": "PASS",
+   "derived_globals": "PASS",
+   "sealed_package": "PASS",
+   "fast_receipt": "PASS",
+   "expected_release": "PASS",
+   "identity_routes": "PASS",
+   "market_state_pin": "PASS",
+   "release_integrity": "PASS"
+  },
+  "seconds": 120.672
+ },
+ "the_digests_this_readiness_binds": {
+  "parent_live_deploy_id": "6ac4dc8a39b0e7274828a32b",
+  "parent_release_digest": "sha256:3e8bcf48fa511444f349cbde69487cf6e9bd3aa0e68cf83837f7314c73222677",
+  "sealed_package_id": "pkg-new-orleans-la-0e5fef6af3af8339",
+  "sealed_package_digest": "sha256:0e5fef6af3af83397a0fae3a1bc00e75cf30575100d9100ce4d7e19c2905ff0f",
+  "fast_receipt": "launch_packages/pettripfinder/markets/receipts/new-orleans-la/pkg-new-orleans-la-0e5fef6af3af8339-ea4d8ec3d090dfc1.json",
+  "fast_receipt_digest": "sha256:ea4d8ec3d090dfc1a2f4b469eb6682c05ab25bca701f7230e81648b881f4acca",
+  "changed_market_bundle_sha256": "047825dfebc70506f2877ecd99bf29650df5428aee8d71223fd7be505550270b",
+  "expected_candidate_index_digest": "sha256:a9172b2932d6af02e60fbd9f74666c350de9bfe36399aef59b213bece37e2c98",
+  "actual_candidate_index_digest": "sha256:0f5d5334e7afd022e7b844648f4f1749d8ededbe9b741207a1d0ae83179be4b0"
+ },
+ "projected_live": {
+  "markets": 44,
+  "profiles": 4240,
+  "routes": 4663,
+  "unexpected_market_changes": 0,
+  "unexpected_profile_changes": 0,
+  "unexpected_route_changes": 0
+ },
+ "lane": {
+  "PACKAGE_REPRODUCIBLE": "YES",
+  "CANDIDATE_REPRODUCIBLE": "YES",
+  "UNCHANGED_MARKETS_REBUILT": 0,
+  "fast_rules_passed": 15
+ },
+ "what_is_not_claimed": [
+  "This document authorizes nothing. Only a founder authorization in deploy/netlify/deployment_authorizations/ admits a market to production.",
+  "The whole-site deployment artifact is built and hashed by the deployment order, under the current-parent guard, the exact-bytes rule and the rollback guard, none of which this lane touches.",
+  "The registration's participation row reads SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH."
+ ]
+}
