@@ -1,8 +1,8 @@
 {
  "schema": "ptf-fast-release-receipt/1.0",
  "lane": "FAST_DATA_ONLY_RELEASE",
- "PACKAGE_ID": "pkg-new-orleans-la-8585917af96bd963",
- "PACKAGE_DIGEST": "sha256:8585917af96bd9634daebc5aa6c5ee46c09bbedc59fe87c79bd45cddcef97f8f",
+ "PACKAGE_ID": "pkg-new-orleans-la-939f3cda64d39402",
+ "PACKAGE_DIGEST": "sha256:939f3cda64d394023919387400281d378b49e68ca747ccb7a0bbe4af5abd0126",
  "MARKET_ID": "new-orleans-la",
  "PARENT_RELEASE": {
   "live_deploy_id": "6ac4dc8a39b0e7274828a32b",
@@ -11,7 +11,7 @@
   "live_index_digest": "sha256:9774963081f690430bd048a6f49394845afb7bbf7520e05953421ce4b8449854"
  },
  "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
- "DEPENDENCY_DIGEST": "sha256:7976e59b1b1bb21f27af15832a097900afe71fb71e468e1ea018fe5f30d642a8",
+ "DEPENDENCY_DIGEST": "sha256:6d08a53f24fd3afd3c71cd62e9d89efc70a4a4ab51b244671a0d8611be484545",
  "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
  "RULES_EXECUTED": [
   {
@@ -80,11 +80,11 @@
    "rule": "A",
    "name": "package schema valid",
    "status": "PASS",
-   "seconds": 0.066,
+   "seconds": 0.068,
    "detail": {
     "schema": "ptf-sealed-market-package/1.0",
-    "package_id": "pkg-new-orleans-la-8585917af96bd963",
-    "package_digest": "sha256:8585917af96bd9634daebc5aa6c5ee46c09bbedc59fe87c79bd45cddcef97f8f"
+    "package_id": "pkg-new-orleans-la-939f3cda64d39402",
+    "package_digest": "sha256:939f3cda64d394023919387400281d378b49e68ca747ccb7a0bbe4af5abd0126"
    },
    "problems": [],
    "problem_count": 0
@@ -93,12 +93,12 @@
    "rule": "B",
    "name": "identity valid",
    "status": "PASS",
-   "seconds": 0.246,
+   "seconds": 0.248,
    "detail": {
-    "identity_records": 350,
-    "census_count": 350,
+    "identity_records": 347,
+    "census_count": 347,
     "declared_relations": 0,
-    "writer_seconds": 0.244
+    "writer_seconds": 0.246
    },
    "problems": [],
    "problem_count": 0
@@ -107,10 +107,10 @@
    "rule": "C",
    "name": "first-party policy binding valid",
    "status": "PASS",
-   "seconds": 0.377,
+   "seconds": 0.394,
    "detail": {
-    "records_evaluated": 158,
-    "eligible": 158,
+    "records_evaluated": 168,
+    "eligible": 168,
     "ineligible": 0,
     "classes": {}
    },
@@ -123,8 +123,8 @@
    "status": "PASS",
    "seconds": 0.0,
    "detail": {
-    "pet_friendly_records": 97,
-    "verified_no_pets_records": 61,
+    "pet_friendly_records": 104,
+    "verified_no_pets_records": 64,
     "policy_schema": "1.3"
    },
    "problems": [],
@@ -137,7 +137,7 @@
    "seconds": 0.0,
    "detail": {
     "official_routes": 0,
-    "public_routes": 111
+    "public_routes": 118
    },
    "problems": [],
    "problem_count": 0
@@ -148,15 +148,15 @@
    "status": "PASS",
    "seconds": 0.0,
    "detail": {
-    "partition_count": 350,
-    "unresolved_rows": 192,
+    "partition_count": 347,
+    "unresolved_rows": 179,
     "counts_by_partition_state": {
      "ACCESS_BLOCKED": 7,
-     "AWAITING_OFFICIAL_URL": 56,
-     "AWAITING_POLICY_OBSERVATION": 111,
-     "AWAITING_ROUTING_REPLACEMENT": 18,
-     "PUBLISHED_PET_FRIENDLY": 97,
-     "VERIFIED_NO_PETS": 61
+     "AWAITING_OFFICIAL_URL": 57,
+     "AWAITING_POLICY_OBSERVATION": 92,
+     "AWAITING_ROUTING_REPLACEMENT": 23,
+     "PUBLISHED_PET_FRIENDLY": 104,
+     "VERIFIED_NO_PETS": 64
     }
    },
    "problems": [],
@@ -166,10 +166,10 @@
    "rule": "G",
    "name": "proposed whole-release identity/route indexes contain no forbidden collision",
    "status": "PASS",
-   "seconds": 0.385,
+   "seconds": 0.373,
    "detail": {
     "live_digest": "sha256:9774963081f690430bd048a6f49394845afb7bbf7520e05953421ce4b8449854",
-    "proposed_digest": "sha256:492e2819542c5f61ce6199a4425c7fa6b5af99eaaa4c7c3015ddad5e340fea9e",
+    "proposed_digest": "sha256:bc46e655a8cc91eb685c586ba0cbab731e1c212ca960cf363430da8020b132bb",
     "proposed_participating": [
      "asheville-nc",
      "atlanta-ga",
@@ -216,9 +216,9 @@
      "west-palm-beach-fl",
      "wilmington-nc"
     ],
-    "proposed_total_profiles": 4233,
+    "proposed_total_profiles": 4240,
     "legacy_collisions_outside_package": 0,
-    "compare_seconds": 0.3742
+    "compare_seconds": 0.3619
    },
    "problems": [],
    "problem_count": 0
@@ -227,7 +227,7 @@
    "rule": "H",
    "name": "every unrelated live market/member is preserved",
    "status": "PASS",
-   "seconds": 0.385,
+   "seconds": 0.373,
    "detail": {
     "live_participating": [
      "asheville-nc",
@@ -284,7 +284,7 @@
    "rule": "I",
    "name": "every removal is explicitly intended",
    "status": "PASS",
-   "seconds": 0.385,
+   "seconds": 0.373,
    "detail": {
     "intended_delta": {
      "market_id": "new-orleans-la",
@@ -292,6 +292,7 @@
       "1896 o malley house",
       "925 common",
       "ac hotel new orleans french quarter",
+      "alder hotel uptown",
       "aloft new orleans downtown",
       "best western plus french quarter courtyard hotel",
       "best western plus st christopher hotel",
@@ -337,7 +338,9 @@
       "homewood suites by hilton west bank gretna",
       "hotel de la poste french quarter a renaissance hotel",
       "hotel indigo new orleans french quarter",
+      "hotel monteleone",
       "hotel peter and paul",
+      "hotel st pierre",
       "hotel theo new orleans tapestry collection by hilton",
       "hotel tonnelle new orleans a tribute portfolio hotel",
       "hyatt centric french quarter",
@@ -352,9 +355,11 @@
       "le pavillon new orleans a tribute portfolio hotel",
       "loews new orleans hotel",
       "lookout inn of new orleans",
+      "maison st charles",
       "moxy new orleans downtown french quarter area",
       "nopsi hotel new orleans",
       "omni royal orleans",
+      "one11 hotel",
       "q and c hotel and bar new orleans autograph collection",
       "quality inn new orleans i 10 east",
       "rathbone mansions",
@@ -373,10 +378,12 @@
       "suburban studios harvey new orleans",
       "super 8 by wyndham metairie",
       "the eliza jane autograph collection",
+      "the old no 77 hotel and chandlery",
       "the pontchartrain hotel",
       "the ritz carlton new orleans",
       "the roosevelt hotel new orleans a waldorf astoria hotel",
       "the royal sonesta new orleans",
+      "the troubadour hotel new orleans",
       "the warbler",
       "the westin new orleans",
       "the windsor court",
@@ -394,6 +401,7 @@
       "/pet-friendly-hotels/new-orleans-la/1896-o-malley-house/",
       "/pet-friendly-hotels/new-orleans-la/925-common/",
       "/pet-friendly-hotels/new-orleans-la/ac-hotel-new-orleans-french-quarter/",
+      "/pet-friendly-hotels/new-orleans-la/alder-hotel-uptown/",
       "/pet-friendly-hotels/new-orleans-la/aloft-new-orleans-downtown/",
       "/pet-friendly-hotels/new-orleans-la/best-western-plus-french-quarter-courtyard-hotel/",
       "/pet-friendly-hotels/new-orleans-la/best-western-plus-st-christopher-hotel/",
@@ -442,7 +450,9 @@
       "/pet-friendly-hotels/new-orleans-la/homewood-suites-by-hilton-west-bank-gretna/",
       "/pet-friendly-hotels/new-orleans-la/hotel-de-la-poste-french-quarter-a-renaissance-hotel/",
       "/pet-friendly-hotels/new-orleans-la/hotel-indigo-new-orleans-french-quarter/",
+      "/pet-friendly-hotels/new-orleans-la/hotel-monteleone/",
       "/pet-friendly-hotels/new-orleans-la/hotel-peter-paul/",
+      "/pet-friendly-hotels/new-orleans-la/hotel-st-pierre/",
       "/pet-friendly-hotels/new-orleans-la/hotel-theo-new-orleans-tapestry-collection-by-hilton/",
       "/pet-friendly-hotels/new-orleans-la/hotel-tonnelle-new-orleans-a-tribute-portfolio-hotel/",
       "/pet-friendly-hotels/new-orleans-la/hyatt-centric-french-quarter/",
@@ -457,11 +467,13 @@
       "/pet-friendly-hotels/new-orleans-la/le-pavillon-new-orleans-a-tribute-portfolio-hotel/",
       "/pet-friendly-hotels/new-orleans-la/loews-new-orleans-hotel/",
       "/pet-friendly-hotels/new-orleans-la/lookout-inn-of-new-orleans/",
+      "/pet-friendly-hotels/new-orleans-la/maison-st-charles/",
       "/pet-friendly-hotels/new-orleans-la/metairie/",
       "/pet-friendly-hotels/new-orleans-la/moxy-new-orleans-downtown-french-quarter-area/",
       "/pet-friendly-hotels/new-orleans-la/msy-airport-kenner/",
       "/pet-friendly-hotels/new-orleans-la/nopsi-hotel-new-orleans/",
       "/pet-friendly-hotels/new-orleans-la/omni-royal-orleans/",
+      "/pet-friendly-hotels/new-orleans-la/one11-hotel/",
       "/pet-friendly-hotels/new-orleans-la/q-and-c-hotel-and-bar-new-orleans-autograph-collection/",
       "/pet-friendly-hotels/new-orleans-la/quality-inn-new-orleans-i-10-east/",
       "/pet-friendly-hotels/new-orleans-la/rathbone-mansions/",
@@ -480,10 +492,12 @@
       "/pet-friendly-hotels/new-orleans-la/suburban-studios-harvey-new-orleans/",
       "/pet-friendly-hotels/new-orleans-la/super-8-by-wyndham-metairie/",
       "/pet-friendly-hotels/new-orleans-la/the-eliza-jane-autograph-collection/",
+      "/pet-friendly-hotels/new-orleans-la/the-old-no-77-hotel-chandlery/",
       "/pet-friendly-hotels/new-orleans-la/the-pontchartrain-hotel/",
       "/pet-friendly-hotels/new-orleans-la/the-ritz-carlton-new-orleans/",
       "/pet-friendly-hotels/new-orleans-la/the-roosevelt-hotel-new-orleans-a-waldorf-astoria-hotel/",
       "/pet-friendly-hotels/new-orleans-la/the-royal-sonesta-new-orleans/",
+      "/pet-friendly-hotels/new-orleans-la/the-troubadour-hotel-new-orleans/",
       "/pet-friendly-hotels/new-orleans-la/the-warbler/",
       "/pet-friendly-hotels/new-orleans-la/the-westin-new-orleans/",
       "/pet-friendly-hotels/new-orleans-la/the-windsor-court/",
@@ -497,7 +511,7 @@
      ],
      "change_routes": [],
      "remove_routes": [],
-     "expected_profile_delta": 97,
+     "expected_profile_delta": 104,
      "expected_market_count_delta": 1,
      "expected_participation_delta": [
       {
@@ -512,6 +526,7 @@
       "1896 o malley house",
       "925 common",
       "ac hotel new orleans french quarter",
+      "alder hotel uptown",
       "aloft new orleans downtown",
       "best western plus french quarter courtyard hotel",
       "best western plus st christopher hotel",
@@ -557,7 +572,9 @@
       "homewood suites by hilton west bank gretna",
       "hotel de la poste french quarter a renaissance hotel",
       "hotel indigo new orleans french quarter",
+      "hotel monteleone",
       "hotel peter and paul",
+      "hotel st pierre",
       "hotel theo new orleans tapestry collection by hilton",
       "hotel tonnelle new orleans a tribute portfolio hotel",
       "hyatt centric french quarter",
@@ -572,9 +589,11 @@
       "le pavillon new orleans a tribute portfolio hotel",
       "loews new orleans hotel",
       "lookout inn of new orleans",
+      "maison st charles",
       "moxy new orleans downtown french quarter area",
       "nopsi hotel new orleans",
       "omni royal orleans",
+      "one11 hotel",
       "q and c hotel and bar new orleans autograph collection",
       "quality inn new orleans i 10 east",
       "rathbone mansions",
@@ -593,10 +612,12 @@
       "suburban studios harvey new orleans",
       "super 8 by wyndham metairie",
       "the eliza jane autograph collection",
+      "the old no 77 hotel and chandlery",
       "the pontchartrain hotel",
       "the ritz carlton new orleans",
       "the roosevelt hotel new orleans a waldorf astoria hotel",
       "the royal sonesta new orleans",
+      "the troubadour hotel new orleans",
       "the warbler",
       "the westin new orleans",
       "the windsor court",
@@ -614,6 +635,7 @@
       "/pet-friendly-hotels/new-orleans-la/1896-o-malley-house/",
       "/pet-friendly-hotels/new-orleans-la/925-common/",
       "/pet-friendly-hotels/new-orleans-la/ac-hotel-new-orleans-french-quarter/",
+      "/pet-friendly-hotels/new-orleans-la/alder-hotel-uptown/",
       "/pet-friendly-hotels/new-orleans-la/aloft-new-orleans-downtown/",
       "/pet-friendly-hotels/new-orleans-la/best-western-plus-french-quarter-courtyard-hotel/",
       "/pet-friendly-hotels/new-orleans-la/best-western-plus-st-christopher-hotel/",
@@ -662,7 +684,9 @@
       "/pet-friendly-hotels/new-orleans-la/homewood-suites-by-hilton-west-bank-gretna/",
       "/pet-friendly-hotels/new-orleans-la/hotel-de-la-poste-french-quarter-a-renaissance-hotel/",
       "/pet-friendly-hotels/new-orleans-la/hotel-indigo-new-orleans-french-quarter/",
+      "/pet-friendly-hotels/new-orleans-la/hotel-monteleone/",
       "/pet-friendly-hotels/new-orleans-la/hotel-peter-paul/",
+      "/pet-friendly-hotels/new-orleans-la/hotel-st-pierre/",
       "/pet-friendly-hotels/new-orleans-la/hotel-theo-new-orleans-tapestry-collection-by-hilton/",
       "/pet-friendly-hotels/new-orleans-la/hotel-tonnelle-new-orleans-a-tribute-portfolio-hotel/",
       "/pet-friendly-hotels/new-orleans-la/hyatt-centric-french-quarter/",
@@ -677,11 +701,13 @@
       "/pet-friendly-hotels/new-orleans-la/le-pavillon-new-orleans-a-tribute-portfolio-hotel/",
       "/pet-friendly-hotels/new-orleans-la/loews-new-orleans-hotel/",
       "/pet-friendly-hotels/new-orleans-la/lookout-inn-of-new-orleans/",
+      "/pet-friendly-hotels/new-orleans-la/maison-st-charles/",
       "/pet-friendly-hotels/new-orleans-la/metairie/",
       "/pet-friendly-hotels/new-orleans-la/moxy-new-orleans-downtown-french-quarter-area/",
       "/pet-friendly-hotels/new-orleans-la/msy-airport-kenner/",
       "/pet-friendly-hotels/new-orleans-la/nopsi-hotel-new-orleans/",
       "/pet-friendly-hotels/new-orleans-la/omni-royal-orleans/",
+      "/pet-friendly-hotels/new-orleans-la/one11-hotel/",
       "/pet-friendly-hotels/new-orleans-la/q-and-c-hotel-and-bar-new-orleans-autograph-collection/",
       "/pet-friendly-hotels/new-orleans-la/quality-inn-new-orleans-i-10-east/",
       "/pet-friendly-hotels/new-orleans-la/rathbone-mansions/",
@@ -700,10 +726,12 @@
       "/pet-friendly-hotels/new-orleans-la/suburban-studios-harvey-new-orleans/",
       "/pet-friendly-hotels/new-orleans-la/super-8-by-wyndham-metairie/",
       "/pet-friendly-hotels/new-orleans-la/the-eliza-jane-autograph-collection/",
+      "/pet-friendly-hotels/new-orleans-la/the-old-no-77-hotel-chandlery/",
       "/pet-friendly-hotels/new-orleans-la/the-pontchartrain-hotel/",
       "/pet-friendly-hotels/new-orleans-la/the-ritz-carlton-new-orleans/",
       "/pet-friendly-hotels/new-orleans-la/the-roosevelt-hotel-new-orleans-a-waldorf-astoria-hotel/",
       "/pet-friendly-hotels/new-orleans-la/the-royal-sonesta-new-orleans/",
+      "/pet-friendly-hotels/new-orleans-la/the-troubadour-hotel-new-orleans/",
       "/pet-friendly-hotels/new-orleans-la/the-warbler/",
       "/pet-friendly-hotels/new-orleans-la/the-westin-new-orleans/",
       "/pet-friendly-hotels/new-orleans-la/the-windsor-court/",
@@ -716,8 +744,8 @@
       "/pet-friendly-hotels/new-orleans-la/wyndham-garden-new-orleans-airport/"
      ],
      "remove_routes": [],
-     "profile_delta": 97,
-     "verified_no_pets_delta": 61,
+     "profile_delta": 104,
+     "verified_no_pets_delta": 64,
      "market_count_delta": 1
     },
     "removal_authority": {}
@@ -729,31 +757,31 @@
    "rule": "J",
    "name": "changed-market artifact builds successfully",
    "status": "PASS",
-   "seconds": 106.56,
+   "seconds": 59.091,
    "detail": {
-    "bundle_sha256": "b295184d5a684137fbe47c321b124c4ac33a975e0c2bfb878fede91eb05e3b72",
-    "file_count": 602,
-    "html_count": 586,
+    "bundle_sha256": "047825dfebc70506f2877ecd99bf29650df5428aee8d71223fd7be505550270b",
+    "file_count": 644,
+    "html_count": 628,
     "output_present": true,
     "output_defects": [],
-    "staged_input_digest": "sha256:aa8eff2bd68a9eae3d7b365f2dae11c7c524e144c14ca0f30afe65683bb59ee1",
-    "contract_sha256": "sha256:5dfc9ad1fa08f4ec4146901c233a0f5a962e5d0082a2513ab5e43e631a8c7e8e",
-    "release_name": "package-new-orleans-la-nogit-959faa9f-a056c95e",
+    "staged_input_digest": "sha256:c3eb63bb18ab96f10101caf616ee9906cd6feb435d37cbcd921cbc32d9f7853d",
+    "contract_sha256": "sha256:6b3fd44d244446633920a73148c6a229892661d0dee96ed80c62c2eb8d2caba2",
+    "release_name": "package-new-orleans-la-nogit-a287f938-d26aca84",
     "cache_events": [
      {
       "verdict": "BUILD_EXECUTED",
       "assembly_kind": "generator_site",
-      "input_key": "3e649ba7a9e823199dcc646a2b96bc66f395acdb097334a1a8d0bcf20ebc5879",
-      "seconds": 25.572
+      "input_key": "852719b2c45e015c3d7b066acb4e7de524468c89214306f6544976e3bd768b22",
+      "seconds": 19.2
      },
      {
       "verdict": "BUILD_EXECUTED",
       "assembly_kind": "market_bundle",
-      "input_key": "4f95d7e067dae3085602542a5ebc6171aa36e253f34b26409a1032a3fe0561f0",
-      "seconds": 41.738
+      "input_key": "b97cff7c7c29fb56f229c1355d33b41940391c2d581bdb1a3ae8612400e36387",
+      "seconds": 37.108
      }
     ],
-    "build_seconds": 103.99
+    "build_seconds": 58.523
    },
    "problems": [],
    "problem_count": 0
@@ -762,15 +790,15 @@
    "rule": "K",
    "name": "changed-market output deterministic",
    "status": "PASS",
-   "seconds": 42.769,
+   "seconds": 45.51,
    "detail": {
-    "input_digest": "sha256:aa8eff2bd68a9eae3d7b365f2dae11c7c524e144c14ca0f30afe65683bb59ee1",
-    "output_digest_a": "b295184d5a684137fbe47c321b124c4ac33a975e0c2bfb878fede91eb05e3b72",
-    "output_digest_b": "b295184d5a684137fbe47c321b124c4ac33a975e0c2bfb878fede91eb05e3b72",
+    "input_digest": "sha256:c3eb63bb18ab96f10101caf616ee9906cd6feb435d37cbcd921cbc32d9f7853d",
+    "output_digest_a": "047825dfebc70506f2877ecd99bf29650df5428aee8d71223fd7be505550270b",
+    "output_digest_b": "047825dfebc70506f2877ecd99bf29650df5428aee8d71223fd7be505550270b",
     "result": "BYTE_IDENTICAL",
     "cold_builds_executed": 4,
     "reuse_hits": 0,
-    "build_seconds": 42.769
+    "build_seconds": 45.51
    },
    "problems": [],
    "problem_count": 0
@@ -781,13 +809,13 @@
    "status": "PASS",
    "seconds": 0.001,
    "detail": {
-    "package_digest": "sha256:8585917af96bd9634daebc5aa6c5ee46c09bbedc59fe87c79bd45cddcef97f8f",
-    "rederived_digest": "sha256:8585917af96bd9634daebc5aa6c5ee46c09bbedc59fe87c79bd45cddcef97f8f",
-    "evidence_references": 158,
+    "package_digest": "sha256:939f3cda64d394023919387400281d378b49e68ca747ccb7a0bbe4af5abd0126",
+    "rederived_digest": "sha256:939f3cda64d394023919387400281d378b49e68ca747ccb7a0bbe4af5abd0126",
+    "evidence_references": 168,
     "artifacts_available": 0,
     "artifacts_checked": 0,
     "dependency_inputs": 7,
-    "dependency_digest": "sha256:7976e59b1b1bb21f27af15832a097900afe71fb71e468e1ea018fe5f30d642a8"
+    "dependency_digest": "sha256:6d08a53f24fd3afd3c71cd62e9d89efc70a4a4ab51b244671a0d8611be484545"
    },
    "problems": [],
    "problem_count": 0
@@ -799,7 +827,7 @@
    "seconds": 0.001,
    "detail": {
     "max_age_days": 365,
-    "references": 158,
+    "references": 168,
     "revoked_registry_size": 0,
     "earliest_expiry": "2027-10-06T00:00:00Z"
    },
@@ -810,7 +838,7 @@
    "rule": "N",
    "name": "rollback/current-live preservation metadata valid",
    "status": "PASS",
-   "seconds": 0.063,
+   "seconds": 0.065,
    "detail": {
     "live": {
      "live_deploy_id": "6ac4dc8a39b0e7274828a32b",
@@ -980,22 +1008,22 @@
   }
  },
  "TIMESTAMPS": {
-  "started_at": "2026-10-06T18:52:32Z",
-  "finished_at": "2026-10-06T18:55:03Z",
-  "seconds": 150.834
+  "started_at": "2026-10-06T19:50:37Z",
+  "finished_at": "2026-10-06T19:52:23Z",
+  "seconds": 106.171
  },
  "ARTIFACT_DIGESTS": {
-  "changed_market_bundle_sha256_a": "b295184d5a684137fbe47c321b124c4ac33a975e0c2bfb878fede91eb05e3b72",
-  "changed_market_bundle_sha256_b": "b295184d5a684137fbe47c321b124c4ac33a975e0c2bfb878fede91eb05e3b72",
-  "staged_input_digest": "sha256:aa8eff2bd68a9eae3d7b365f2dae11c7c524e144c14ca0f30afe65683bb59ee1",
-  "staged_contract_sha256": "sha256:5dfc9ad1fa08f4ec4146901c233a0f5a962e5d0082a2513ab5e43e631a8c7e8e"
+  "changed_market_bundle_sha256_a": "047825dfebc70506f2877ecd99bf29650df5428aee8d71223fd7be505550270b",
+  "changed_market_bundle_sha256_b": "047825dfebc70506f2877ecd99bf29650df5428aee8d71223fd7be505550270b",
+  "staged_input_digest": "sha256:c3eb63bb18ab96f10101caf616ee9906cd6feb435d37cbcd921cbc32d9f7853d",
+  "staged_contract_sha256": "sha256:6b3fd44d244446633920a73148c6a229892661d0dee96ed80c62c2eb8d2caba2"
  },
  "GLOBAL_INDEX_DIGEST": {
   "live": "sha256:9774963081f690430bd048a6f49394845afb7bbf7520e05953421ce4b8449854",
-  "proposed": "sha256:492e2819542c5f61ce6199a4425c7fa6b5af99eaaa4c7c3015ddad5e340fea9e"
+  "proposed": "sha256:bc46e655a8cc91eb685c586ba0cbab731e1c212ca960cf363430da8020b132bb"
  },
- "PACKAGE_INDEX_DIGEST": "sha256:988fdb82a0f5bc7f456cee9a454a2ee2c0f43b088ee5cfd3643fd24d29f59269",
- "INTENDED_DELTA_DIGEST": "sha256:f7b35e18b56caa0314bd53df7eb4915bcbf45d56bd44a84cbbede116eda02328",
+ "PACKAGE_INDEX_DIGEST": "sha256:d82519701a89cb4dc3ac6d275ebcfc4babadbd5f2aea8d6b35c5406d1f49b0a6",
+ "INTENDED_DELTA_DIGEST": "sha256:3b4399b66e5aa838de3e5079f0d4ac0dc78ef49991cbad74331bf05c49edc9f6",
  "DETERMINISM_RESULT": "BYTE_IDENTICAL",
  "FIRST_PARTY_BINDING_RESULT": "PASS",
  "COLLISION_RESULT": "PASS",
@@ -1016,8 +1044,8 @@
    "hotel_exclusions": "ptf-hotel-exclusions/1.0",
    "sealed_market_package": "ptf-sealed-market-package/1.0"
   },
-  "created_from_source_sha": "5588c2fd",
-  "peak_working_set_mb": 200.7
+  "created_from_source_sha": "b31cd583",
+  "peak_working_set_mb": 214.7
  },
  "EXPIRY_REVOCATION_CONDITIONS": {
   "valid_while": [
@@ -1038,26 +1066,26 @@
  "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
  "PRODUCTION_ACTIVATION_ALLOWED": "NO",
  "PERFORMANCE": {
-  "total_seconds": 150.834,
+  "total_seconds": 106.171,
   "per_rule_seconds": {
-   "A": 0.066,
-   "B": 0.246,
-   "C": 0.377,
+   "A": 0.068,
+   "B": 0.248,
+   "C": 0.394,
    "D": 0.0,
    "E": 0.0,
    "F": 0.0,
-   "G": 0.385,
-   "H": 0.385,
-   "I": 0.385,
-   "J": 106.56,
-   "K": 42.769,
+   "G": 0.373,
+   "H": 0.373,
+   "I": 0.373,
+   "J": 59.091,
+   "K": 45.51,
    "L": 0.001,
    "M": 0.001,
-   "N": 0.063,
+   "N": 0.065,
    "O": 0.0
   },
-  "changed_market_build_seconds": 103.99,
-  "determinism_build_seconds": 42.769
+  "changed_market_build_seconds": 58.523,
+  "determinism_build_seconds": 45.51
  },
- "RECEIPT_DIGEST": "sha256:67f3be648185e60d8dc6c4b9623306f6f23e50020ea5580b82a75dc9aea18979"
+ "RECEIPT_DIGEST": "sha256:236fd45013205813c5d1ff674d9a28cf503a86e02494ed8d01e7154181989ee7"
 }
