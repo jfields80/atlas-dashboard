@@ -553,10 +553,18 @@ def main():
         ("negation_and_parser_conflicts", clean.get("negation_conflicts_caught", [])),
         ("remaining_unresolved_root_causes", root),
     ])
+    # NEW ORLEANS: the order names a MUNICIPALITY accounting of its own -- the parish / municipality publication, the
+    # Jefferson Parish and MSY evaluations, restated from the boundary section (never recomputed).
+    doc["municipality_accounting"] = OrderedDict([
+        ("parishes_and_municipalities_never_flattened", boundary["parishes_and_municipalities_never_flattened"]),
+        ("jefferson_parish", boundary["jefferson_parish"]),
+        ("msy_airport", boundary["msy_airport"]),
+        ("rule", (creport.get("municipality_publication") or {}).get("rule")),
+    ])
     with open(OUT, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(doc, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
-    # The order names SEVEN machine-readable accountings. Each is written as its own document from the
+    # The order names EIGHT machine-readable accountings. Each is written as its own document from the
     # SAME sections of this one (never recomputed, so the files cannot disagree); the actionability and competitor
     # reconciliation documents are their own modules' outputs.
     for name, keys in (("source", ("headline", "holds_by_class", "holds_exact_sub_causes", "exclusions",
@@ -564,7 +572,8 @@ def main():
                        ("provider", ("providers",)), ("brand", ("brand_by_brand",)),
                        ("corridor", ("corridor_coverage", "uncorridored_rows", "corridor_count",
                                      "corridors_publishing")),
-                       ("boundary", ("county_and_border_boundary",))):
+                       ("boundary", ("county_and_border_boundary",)),
+                       ("municipality", ("municipality_accounting",))):
         part = OrderedDict([("schema", "ptf-%s-accounting/1.0" % name), ("work_order", WORK_ORDER),
                             ("market_id", "new-orleans-la"),
                             ("derived_from", os.path.relpath(OUT, _DASH).replace("\\", "/"))])
