@@ -1,0 +1,1314 @@
+{
+ "schema": "ptf-source-ready-accounting/1.0",
+ "work_order": "PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+ "market_id": "new-orleans-la",
+ "headline": {
+  "total_raw_observations": 2076,
+  "raw_observations_by_lane": {
+   "REGISTRY_LICENCE": 410,
+   "OSM_OVERPASS": 601,
+   "BRAND_INVENTORY_OWNED": 37,
+   "BRAND_INVENTORY_CITY_PAGE": 32,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 81,
+   "DESTINATION_ORGANIZATION": 291,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 269,
+   "IDENTITY_VERIFIED_PLACES": 12,
+   "PROPERTY_PAGE": 343
+  },
+  "public_lodging_register_leads": 410,
+  "osm_lodging_elements": 652,
+  "brand_inventory_leads": 109,
+  "destination_roster_listings": 293,
+  "destination_roster_rows_in_admitted_codes": 287,
+  "competitor_leads_normalized": 269,
+  "graph_nodes": 1113,
+  "proposed_census": 350,
+  "valid_pet_friendly": 97,
+  "valid_verified_no_pets": 61,
+  "resolved": 158,
+  "unresolved": 192,
+  "resolution_rate": 0.4514
+ },
+ "holds_by_class": {
+  "IDENTITY": 18,
+  "ROUTING": 56,
+  "ACCESS_BLOCKED": 7,
+  "EVIDENCE": 12,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 99,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "router exhausted on every free/authorized lane attempted this order (s": 2,
+   "the property's own site (found via Places) did not serve to the plain ": 2,
+   "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED": 1,
+   "router exhausted: static ACCESS_DENIED, Firecrawl FIRECRAWL_MISMATCH": 1,
+   "the brand's own page served, but its pet-policy accordion never expose": 1
+  },
+  "EVIDENCE_HOLD": {
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 4,
+   "the first-party quote states neither an acceptance nor a refusal sente": 3,
+   "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE": 2,
+   "CLOSED_PERMANENTLY": 1,
+   "PREOPENING_NOT_YET_OPEN": 1,
+   "the property's own page served and bound these premises, but its only ": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "the site Places names never stated this row's house number + ZIP, phon": 10,
+   "the fetched page's own identity did not confirm this census row": 3,
+   "the page the census route serves states no address, phone or postal co": 2,
+   "SAME PREMISES, TWO IDENTITIES (address_key 1600|canal|70112): SpringHi": 2,
+   "the page read did not bind to this row's exact premises (property code": 1
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 35,
+   "the route the census carries served an error page (expired domain, sit": 10,
+   "NOT_FIRST_PARTY_SITE": 8,
+   "the brand's own property-code route lands on a hotel-search page: the ": 2,
+   "OTHER_EXPLICIT_REASON": 1
+  },
+  "SOURCE_SILENT": {
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 49,
+   "the property's own pages served, bound these exact premises, and state": 25,
+   "the property's own site (found via Places, bound on its own address/ph": 24,
+   "the brand's own page served and bound these premises, and the only pet": 1
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 58,
+  "timeshare": 7,
+  "resort_residence": 0,
+  "non_hotel": 65,
+  "closed": 1,
+  "preopening": 1,
+  "converted_to_non_hotel": 0,
+  "military_restricted": 2,
+  "outside": 321,
+  "duplicate_listing": 0,
+  "name_only_unresolved_graph_residue": 144,
+  "identity_review_required_graph_residue": 167,
+  "same_campus_distinct_entity": 0,
+  "register_short_term_rental_and_other_rows_never_leads": 0,
+  "closed_note": "A row is CLOSED only on the property's own first-party closure statement (The Claiborne Mansion: 'The Claiborne Mansion has closed.'), held and never published; lapsed routes (an expired or hijacked domain, a brand redirect to its own search) are ROUTING holds, never a closure claim.",
+  "closed_rows": [
+   {
+    "identity_key": "claiborne mansion",
+    "canonical_name": "Claiborne Mansion",
+    "street": "2111 Dauphine St.",
+    "postal_code": "70116",
+    "stated_closure": "The Claiborne Mansion has closed. Thank you for making us a part of your adventures with this extraordinary city for the last 25 years.",
+    "stated_on": "https://www.claibornemansion.com/",
+    "disposition_before_hold": "IDENTITY_MISMATCH_HOLD"
+   }
+  ],
+  "preopening_rows": [
+   {
+    "identity_key": "fairmont new orleans",
+    "canonical_name": "Fairmont New Orleans",
+    "street": "1010 Common St",
+    "postal_code": "70112",
+    "official_url": "https://www.fairmont.com/en/hotels/new-orleans/fairmont-new-orleans.html",
+    "stated_opening": "When is Fairmont New Orleans opening? -- The hotel is set to open in 2026, introducing a vibrant new chapter of luxury in the heart of the ci[ty]",
+    "stated_on": "page",
+    "disposition_before_hold": "SOURCE_SILENT"
+   }
+  ]
+ },
+ "corridor_coverage": {
+  "french-quarter-marigny-bywater": {
+   "name": "French Quarter, Marigny & Bywater",
+   "class": "CORE",
+   "census": 76,
+   "pet_friendly": 7,
+   "no_pets": 5,
+   "unresolved": 64,
+   "resolution_rate": 0.1579,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "cbd-canal-street": {
+   "name": "CBD & Canal Street",
+   "class": "CORE",
+   "census": 54,
+   "pet_friendly": 21,
+   "no_pets": 7,
+   "unresolved": 26,
+   "resolution_rate": 0.5185,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "warehouse-district-convention-center": {
+   "name": "Warehouse District & Convention Center",
+   "class": "CORE",
+   "census": 94,
+   "pet_friendly": 39,
+   "no_pets": 15,
+   "unresolved": 40,
+   "resolution_rate": 0.5745,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "garden-district-uptown": {
+   "name": "Garden District & Uptown",
+   "class": "CORE",
+   "census": 15,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 13,
+   "resolution_rate": 0.1333,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "mid-city": {
+   "name": "Mid-City & Bayou St. John",
+   "class": "CORE",
+   "census": 18,
+   "pet_friendly": 1,
+   "no_pets": 3,
+   "unresolved": 14,
+   "resolution_rate": 0.2222,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "msy-airport-kenner": {
+   "name": "MSY Airport & Kenner",
+   "class": "CORE",
+   "census": 15,
+   "pet_friendly": 5,
+   "no_pets": 7,
+   "unresolved": 3,
+   "resolution_rate": 0.8,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "metairie": {
+   "name": "Metairie",
+   "class": "CORE",
+   "census": 21,
+   "pet_friendly": 6,
+   "no_pets": 6,
+   "unresolved": 9,
+   "resolution_rate": 0.5714,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "elmwood-jefferson-harahan": {
+   "name": "Elmwood, Jefferson & Harahan",
+   "class": "CORRIDOR",
+   "census": 4,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 1,
+   "resolution_rate": 0.75,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "gretna-west-bank": {
+   "name": "Gretna & Terrytown",
+   "class": "CORRIDOR",
+   "census": 5,
+   "pet_friendly": 3,
+   "no_pets": 1,
+   "unresolved": 1,
+   "resolution_rate": 0.8,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "harvey-west-bank": {
+   "name": "Harvey",
+   "class": "CORRIDOR",
+   "census": 10,
+   "pet_friendly": 6,
+   "no_pets": 4,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "westwego": {
+   "name": "Westwego",
+   "class": "CORRIDOR",
+   "census": 4,
+   "pet_friendly": 1,
+   "no_pets": 2,
+   "unresolved": 1,
+   "resolution_rate": 0.75,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "algiers": {
+   "name": "Algiers",
+   "class": "CORRIDOR",
+   "census": 5,
+   "pet_friendly": 1,
+   "no_pets": 1,
+   "unresolved": 3,
+   "resolution_rate": 0.4,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "new-orleans-east": {
+   "name": "New Orleans East & Gentilly",
+   "class": "CORRIDOR",
+   "census": 23,
+   "pet_friendly": 1,
+   "no_pets": 7,
+   "unresolved": 15,
+   "resolution_rate": 0.3478,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "marrero": {
+   "name": "Marrero",
+   "class": "FRINGE",
+   "census": 3,
+   "pet_friendly": 0,
+   "no_pets": 1,
+   "unresolved": 2,
+   "resolution_rate": 0.3333,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "chalmette-arabi": {
+   "name": "Chalmette & Arabi",
+   "class": "FRINGE",
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 2,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "belle-chasse": {
+   "name": "Belle Chasse",
+   "class": "FRINGE",
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  }
+ },
+ "uncorridored_rows": 0,
+ "corridor_count": 16,
+ "corridors_publishing": [
+  "french-quarter-marigny-bywater",
+  "cbd-canal-street",
+  "warehouse-district-convention-center",
+  "msy-airport-kenner",
+  "metairie",
+  "harvey-west-bank"
+ ],
+ "brand_by_brand": {
+  "ACCOR": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "BEST_WESTERN": {
+   "census": 4,
+   "pet_friendly": 2,
+   "no_pets": 2,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 6,
+   "browser_read": 5,
+   "browser_challenge_denied": 0
+  },
+  "CHOICE": {
+   "census": 16,
+   "pet_friendly": 4,
+   "no_pets": 8,
+   "unresolved": 4,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 4,
+   "browser_read": 3,
+   "browser_challenge_denied": 0
+  },
+  "DRURY": {
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 1,
+   "browser_read": 1,
+   "browser_challenge_denied": 0
+  },
+  "EXTENDED_STAY_AMERICA": {
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 1,
+   "browser_read": 1,
+   "browser_challenge_denied": 0
+  },
+  "EXTENDED_STAY_OPERATORS": {
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 2,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "FOUR_SEASONS": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "HILTON": {
+   "census": 27,
+   "pet_friendly": 22,
+   "no_pets": 4,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 28,
+   "browser_read": 26,
+   "browser_challenge_denied": 0
+  },
+  "HYATT": {
+   "census": 4,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 5,
+   "browser_read": 5,
+   "browser_challenge_denied": 0
+  },
+  "IHG": {
+   "census": 17,
+   "pet_friendly": 7,
+   "no_pets": 6,
+   "unresolved": 4,
+   "firecrawl_attempted": 1,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 5,
+   "browser_read": 2,
+   "browser_challenge_denied": 0
+  },
+  "INDEPENDENT": {
+   "census": 191,
+   "pet_friendly": 18,
+   "no_pets": 18,
+   "unresolved": 155,
+   "firecrawl_attempted": 19,
+   "firecrawl_success": 0,
+   "access_blocked": 5,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 88,
+   "browser_read": 19,
+   "browser_challenge_denied": 0
+  },
+  "KIMPTON": {
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "LOEWS": {
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 1,
+   "browser_read": 1,
+   "browser_challenge_denied": 0
+  },
+  "LUXURY_INDEPENDENT": {
+   "census": 14,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 11,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "MARRIOTT": {
+   "census": 43,
+   "pet_friendly": 24,
+   "no_pets": 13,
+   "unresolved": 6,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 40,
+   "browser_read": 40,
+   "browser_challenge_denied": 0
+  },
+  "MOTEL6_STUDIO6": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 1,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "OMNI": {
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 1,
+   "browser_read": 1,
+   "browser_challenge_denied": 0
+  },
+  "RADISSON": {
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 1,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "RED_ROOF": {
+   "census": 2,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 2,
+   "browser_read": 2,
+   "browser_challenge_denied": 0
+  },
+  "SONESTA": {
+   "census": 4,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 1,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 2,
+   "browser_read": 2,
+   "browser_challenge_denied": 0
+  },
+  "WYNDHAM": {
+   "census": 16,
+   "pet_friendly": 4,
+   "no_pets": 7,
+   "unresolved": 5,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 1,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  }
+ },
+ "providers": {
+  "static_capture": {
+   "targets": 210,
+   "free_http_requests": 202,
+   "outcomes": {
+    "ACCESS_DENIED": 50,
+    "IDENTITY_MISMATCH": 67,
+    "NAVIGATION_FAILED": 34,
+    "POLICY_NOT_FOUND": 30,
+    "UNEXPECTED_PAGE": 10,
+    "UNHYDRATED": 14,
+    "VALID": 5
+   }
+  },
+  "wyndham_property_service": {
+   "selected": 35,
+   "read": 17,
+   "retired": 18
+  },
+  "extended_stay_america": {
+   "routes": null,
+   "served": null,
+   "faq_pet_answer": null
+  },
+  "independents_policy_pages": {
+   "targets": 147,
+   "bound": 101,
+   "free_http_requests": 287
+  },
+  "places_route_discovery": {
+   "requests": 239,
+   "route_discovery_bound": 130,
+   "with_website": 87,
+   "gap_verdicts": {
+    "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 2,
+    "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 1
+   },
+   "enterprise_requests": 189,
+   "pro_requests": 50,
+   "field_mask_route_discovery": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus,places.websiteUri,places.nationalPhoneNumber",
+   "field_mask_gap_verification": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus",
+   "route_discovery_run": true,
+   "cost_basis": "websiteUri is an Enterprise-SKU field; its free monthly allowance (about 1,000 requests) renewed on 2026-10-01; the only Places use on this machine since then is San Antonio's 201 requests (187 Enterprise), Seattle's 169 (149 Enterprise), Portland's 77 (49 Enterprise), Minneapolis's 135 (59 Enterprise), Kansas City's 107 (70 Enterprise) and this order's own earlier runs (recorded in this report). This run stays inside that allowance (cap 300 Enterprise requests) -- existing capacity, no new paid spend."
+  },
+  "places_discovered_sites": {
+   "targets": 60,
+   "bound": 40,
+   "free_http_requests": 91
+  },
+  "firecrawl": {
+   "eligible_planned": 47,
+   "attempted": 84,
+   "property_page_attempts": 76,
+   "first_pass_attempted": 36,
+   "retry_pass_attempted": 0,
+   "probe2_pass_attempted": 0,
+   "route_discovery_pages": 8,
+   "route_discovery_routes": 48,
+   "brand_page_reads": {
+    "attempted": 40,
+    "answered": 40,
+    "with_own_address": 30,
+    "by_family": {
+     "CHOICE": 23,
+     "IHG": 17
+    }
+   },
+   "retry_pass_why": "no retry or probe pass was bought: the existing plan's reserve floor (60 credits) was reached by the first pass (36 attempts), the Choice / IHG brand-page lane (40 pages) and the city-page route discovery (8 pages); every route a retry would have bought was read instead by the attended browser, the Wyndham property service or the free static lanes (pay once per page ever). Marriott, Hilton, Hyatt, Best Western, Drury, Loews, Omni, Sonesta, Red Roof, InTown, Choice and the independents were read in the attended browser.",
+   "distinct_identities_attempted": 35,
+   "by_cohort": {
+    "PROBE": 32,
+    "ROUTED": 3
+   },
+   "publication_grade": 0,
+   "policy_found": 0,
+   "failed": 35,
+   "class_counts": {
+    "FIRECRAWL_BLOCKED": 14,
+    "FIRECRAWL_FAILED": 15,
+    "FIRECRAWL_MISMATCH": 5,
+    "FIRECRAWL_SOURCE_SILENT": 1
+   },
+   "credits": {
+    "first_pass": {
+     "before": 87,
+     "after": 60,
+     "delta": 27,
+     "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+    },
+    "retry_pass": {},
+    "probe2_pass": {},
+    "route_discovery": {
+     "before": 127,
+     "after": 127,
+     "delta": 0
+    },
+    "brand_page_reads": {
+     "before": 127,
+     "after": 87,
+     "delta": 40
+    }
+   }
+  },
+  "supported_browser": {
+   "attended_browser_lane": {
+    "attempts": 188,
+    "reads": 106,
+    "challenge_denied": 0,
+    "unbound": 20,
+    "attempts_by_family": {
+     "BEST_WESTERN": 6,
+     "CHOICE": 4,
+     "DRURY": 1,
+     "EXTENDED_STAY_AMERICA": 1,
+     "HILTON": 28,
+     "HYATT": 5,
+     "IHG": 5,
+     "INDEPENDENT": 88,
+     "INTOWN": 2,
+     "LOEWS": 1,
+     "MARRIOTT": 40,
+     "MOTEL_6": 1,
+     "OMNI": 1,
+     "RED_ROOF": 2,
+     "SONESTA": 2,
+     "WYNDHAM": 1
+    },
+    "reads_by_family": {
+     "BEST_WESTERN": 5,
+     "CHOICE": 3,
+     "DRURY": 1,
+     "EXTENDED_STAY_AMERICA": 1,
+     "HILTON": 26,
+     "HYATT": 5,
+     "IHG": 2,
+     "INDEPENDENT": 19,
+     "INTOWN": 2,
+     "LOEWS": 1,
+     "MARRIOTT": 40,
+     "OMNI": 1,
+     "RED_ROOF": 2,
+     "SONESTA": 2
+    },
+    "akamai_bypassed": false,
+    "js_exfiltration": false,
+    "relay": false,
+    "captcha_solved": false
+   },
+   "recorded_attempts": 188,
+   "outcomes": {
+    "AMENITY_CHIP_ONLY_NOT_OPERATIVE": 1,
+    "BROWSER_SITE_PERMISSION_DENIED": 2,
+    "IDENTITY_BOUND_POLICY_SOURCE_SILENT": 40,
+    "IDENTITY_NOT_BOUND": 4,
+    "NAVIGATION_FAILED_ERROR_PAGE": 22,
+    "NO_OPERATIVE_STATEMENT": 2,
+    "NO_PROPERTY_PAGE_ROUTE_LANDS_ON_BRAND_SEARCH": 5,
+    "READ": 110,
+    "REJECTED_STALE_DOM_ADDRESS_MISMATCH": 1,
+    "RENDER_FAILED_POLICY_PANEL_NOT_EXPOSED": 1
+   },
+   "reads": 110,
+   "bindings": {
+    "BRAND_PROPERTY_CODE 19045 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 19087 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 19094 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 19095 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 19111 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE la170 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE la174 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE la508 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyac on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyahhh on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyak on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyal on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE msybghw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msybr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msycces on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyci on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msycl on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msycm on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msycn on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msycy on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msydt on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE msydthx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyed on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyej on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyelhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyeshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyew on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyfd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyfehx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyfm on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyfqhf on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyfrhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msygd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msygdhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msygigi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msygr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyhahx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyhtht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyhv on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyhwhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyis on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyjd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyjw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msykeht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msykndt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyla on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE msylahx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msymc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msymd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyme on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msymlhw on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE msymm on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyms on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msymthx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msynf on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msynhhh on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msynoup on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyof on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyorgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msypypy on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyqc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyqf on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyrf on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE msyrhwa on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyrm on the brand's own page": 2,
+    "BRAND_PROPERTY_CODE msyrn on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyrvqq on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyrz on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msysh on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msysi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msytcdt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msytd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msytm on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msytx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msywb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msywi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyxd on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyxe on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE msyzc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rri1087 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rri1166 on the brand's own page": 1,
+    "UNBOUND": 20,
+    "the census route the attempt was opened from": 28,
+    "the page's own street number 1008 + street words + postal co": 1,
+    "the page's own street number 1010 + street words + postal co": 1,
+    "the page's own street number 1101 + street words + postal co": 2,
+    "the page's own street number 1225 + street words + postal co": 1,
+    "the page's own street number 129 + street words + postal cod": 1,
+    "the page's own street number 14740 + street words + postal c": 1,
+    "the page's own street number 1730 + street words + postal co": 1,
+    "the page's own street number 1923 + street words + postal co": 1,
+    "the page's own street number 2 + street words + postal code ": 1,
+    "the page's own street number 2023 + street words + postal co": 1,
+    "the page's own street number 212 + street words + postal cod": 1,
+    "the page's own street number 222 + street words + postal cod": 1,
+    "the page's own street number 2300 + street words + postal co": 1,
+    "the page's own street number 2317 + street words + postal co": 1,
+    "the page's own street number 2552 + street words + postal co": 1,
+    "the page's own street number 2727 + street words + postal co": 1,
+    "the page's own street number 2820 + street words + postal co": 1,
+    "the page's own street number 2836 + street words + postal co": 1,
+    "the page's own street number 300 + street words + postal cod": 3,
+    "the page's own street number 310 + street words + postal cod": 1,
+    "the page's own street number 320 + street words + postal cod": 1,
+    "the page's own street number 345 + street words + postal cod": 1,
+    "the page's own street number 3522 + street words + postal co": 1,
+    "the page's own street number 3610 + street words + postal co": 1,
+    "the page's own street number 3701 + street words + postal co": 1,
+    "the page's own street number 3811 + street words + postal co": 1,
+    "the page's own street number 500 + street words + postal cod": 1,
+    "the page's own street number 550 + street words + postal cod": 1,
+    "the page's own street number 600 + street words + postal cod": 1,
+    "the page's own street number 621 + street words + postal cod": 1,
+    "the page's own street number 623 + street words + postal cod": 1,
+    "the page's own street number 6303 + street words + postal co": 1,
+    "the page's own street number 701 + street words + postal cod": 1,
+    "the page's own street number 7214 + street words + postal co": 1,
+    "the page's own street number 7800 + street words + postal co": 1,
+    "the page's own street number 820 + street words + postal cod": 1,
+    "the page's own street number 830 + street words + postal cod": 1,
+    "the queue row's street number 1001 + postal code 70117, with": 1,
+    "the queue row's street number 1021 + postal code 70116, with": 1,
+    "the queue row's street number 1101 + postal code 70058, with": 1,
+    "the queue row's street number 1261 + postal code 70116, with": 1,
+    "the queue row's street number 2483 + postal code 70117, with": 1,
+    "the queue row's street number 3819 + postal code 70114, with": 1,
+    "the queue row's street number 4409 + postal code 70001, with": 1,
+    "the queue row's street number 523 + postal code 70130, with ": 1,
+    "the queue row's street number 547 + postal code 70116, with ": 1,
+    "the queue row's street number 616 + postal code 70116, with ": 1,
+    "the queue row's street number 714 + postal code 70117, with ": 1,
+    "the queue row's street number 717 + postal code 70116, with ": 1,
+    "the queue row's street number 747 + postal code 70130, with ": 1
+   },
+   "by_family": {
+    "BEST_WESTERN": 5,
+    "CHOICE": 3,
+    "DRURY": 1,
+    "ESA": 1,
+    "HILTON": 26,
+    "HYATT": 5,
+    "IHG": 2,
+    "INDEPENDENT": 19,
+    "INTOWN": 2,
+    "LOEWS": 1,
+    "MARRIOTT": 40,
+    "OMNI": 1,
+    "RED_ROOF": 2,
+    "SONESTA": 2
+   }
+  },
+  "other_paid_providers": {
+   "bright_data": 0,
+   "other": 0
+  },
+  "routing_by_state": {
+   "FREE_LANE_EXHAUSTED": 12,
+   "INDEPENDENT_REVIEW": 89,
+   "ROUTED_MAP_WEBSITE": 7,
+   "ROUTED_OFFICIAL_DESTINATION": 129,
+   "ROUTED_OFFICIAL_INVENTORY": 111,
+   "ROUTE_BRAND_MISMATCH": 2
+  },
+  "usd_spent": 0.0,
+  "new_paid_spend": 0.0,
+  "new_provider_authorization": "NONE"
+ },
+ "competitor_reconciliation": {
+  "competitor": "BringFido",
+  "cities_challenged": 9,
+  "competitor_raw_discovery": 380,
+  "normalized_unique": 269,
+  "matched_to_census": 116,
+  "matched_distinct_identities": 101,
+  "true_missing_qualifying_candidates": 0,
+  "true_missing_verified_by_places": {
+   "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 2,
+   "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 1
+  },
+  "true_missing_names": [],
+  "true_missing_disposition": "every BringFido lead no census node carried was worked through an authorized identity lane: Google Places gap verification (existing capacity) and, for the two the automatic match could not place, the attended browser and a reviewer's reading of the census -- 'Maison Saint Charles by Hotel RL' is the admitted Maison St. Charles (1319 St Charles Ave); 'Royal Frenchmen Hotel and Bar' has no premises in any authorized lane and its former domain now serves an unrelated gambling site, so it is held name-only. A competitor name never admits an identity and its pet claims are never read.",
+  "excluded_stale_outside": 116,
+  "review": 37,
+  "matched_but_policy_unresolved": 26,
+  "counts": {
+   "ALIAS": 15,
+   "DUPLICATE": 15,
+   "EXACT_ATLAS_MATCH": 86,
+   "NON_HOTEL": 2,
+   "OUTSIDE": 6,
+   "REVIEW": 37,
+   "VACATION_RENTAL": 108
+  }
+ },
+ "county_and_border_boundary": {
+  "method": "Every OUTSIDE graph node counted by the refused place its OWN postal code (prefix) or municipality names, plus every brand city-page card whose own address is a refused neighbour. Admission is by the corridor registry over the property's own postal code and nothing else.",
+  "baton_rouge": {
+   "discovered": 72,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 72,
+   "discovered_as_brand_cards": 0
+  },
+  "northshore": {
+   "discovered": 48,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 44,
+   "discovered_as_brand_cards": 4
+  },
+  "houma_thibodaux": {
+   "discovered": 26,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 25,
+   "discovered_as_brand_cards": 1
+  },
+  "st_charles_and_river_parishes": {
+   "discovered": 13,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 12,
+   "discovered_as_brand_cards": 1
+  },
+  "st_bernard_beyond_chalmette": {
+   "discovered": 0,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 0,
+   "discovered_as_brand_cards": 0
+  },
+  "plaquemines_beyond_belle_chasse_and_nas_jrb": {
+   "discovered": 2,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 2,
+   "discovered_as_brand_cards": 0
+  },
+  "jefferson_south_of_the_west_bank": {
+   "discovered": 1,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 1,
+   "discovered_as_brand_cards": 0
+  },
+  "mississippi_gulf_coast": {
+   "discovered": 53,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 53,
+   "discovered_as_brand_cards": 0
+  },
+  "other_greater_louisiana_mississippi_or_out_of_state": {
+   "discovered": 4,
+   "admitted": 0,
+   "discovered_as_graph_nodes": 4,
+   "discovered_as_brand_cards": 0
+  },
+  "msy_airport": {
+   "evaluation": {
+    "airport_terminal": "Louis Armstrong New Orleans International Airport (1 Terminal Drive) is in the CITY OF KENNER, Jefferson Parish, 70062. No hotel stands inside the terminal.",
+    "kenner_airport_hotels": "The airport's own hotel row -- Airline Drive, Loyola Drive, Williams Boulevard and Kenner's Veterans Boulevard -- is 70062 / 70065: the msy-airport-kenner corridor, municipality KENNER, whatever 'New Orleans Airport' the name carries.",
+    "veterans_blvd": "Veterans Memorial Boulevard runs through BOTH Kenner (70062 / 70065) and Metairie (70001-70006); a Veterans Boulevard hotel is placed by its own code, never by the road.",
+    "metairie_airport_marketed": "A Metairie hotel marketed 'New Orleans Airport' is a METAIRIE hotel (metairie corridor).",
+    "st_charles_airport_marketed": "St. Rose / Destrehan 'New Orleans Airport' hotels (St. Charles Parish, 70087 / 70047) are OUTSIDE.",
+    "one_premises_one_row": "A property is one row however many of 'Airport', 'MSY', 'Kenner', 'Metairie' and 'New Orleans' its marketing carries; identity is its own street address, phone and brand property code."
+   },
+   "admitted_rows_msy_airport_kenner": 15,
+   "admitted_rows_named_airport_outside_the_msy_corridor": [
+    "Clarion Hotel & Suites New Orleans Airport (70001, metairie)"
+   ],
+   "airport_named_rows_refused_outside_the_market": [
+    "Comfort Inn & Suites Airport (70807)",
+    "Comfort Inn New Orleans Airport South (70087)",
+    "Days Inn by Wyndham Baton Rouge Airport (70807)",
+    "Hilton Garden Inn Baton Rouge Airport (70807)",
+    "Holiday Inn Express & Suites New Orleans Airport South (70087)",
+    "Holiday Inn Gulfport-Airport ()",
+    "SpringHill Suites Baton Rouge North/Airport (70807)"
+   ]
+  },
+  "jefferson_parish": {
+   "evaluation": {
+    "municipalities_never_flattened": "Kenner, Metairie, Elmwood, Jefferson, Harahan, River Ridge, Gretna, Terrytown, Harvey, Westwego and Marrero each keep their own municipality; none is written as New Orleans.",
+    "new_orleans_mailing_name": "USPS's default mailing name for 70121 and 70123 is 'New Orleans' and some operators print it; those premises are in JEFFERSON PARISH and the row publishes the municipality its own code puts it in (municipality_for_postal).",
+    "west_bank_marketing": "'New Orleans West Bank', 'New Orleans Downtown West Bank' and 'New Orleans Gretna' are marketing; the property's own postal code decides Gretna, Terrytown, Harvey, Westwego or Marrero, and Algiers (70114 / 70131) is the City of New Orleans.",
+    "shared_codes": "70003 (Metairie / Kenner), 70056 (Gretna / Terrytown), 70094 (Westwego / Avondale / Bridge City / Waggaman), 70121 (Jefferson / Elmwood / Harahan) and 70123 (Elmwood / Harahan / River Ridge) are covered whole by one corridor each; the row keeps the municipality its own page states when that municipality is one the code carries."
+   },
+   "admitted_rows_by_corridor": {
+    "elmwood-jefferson-harahan": 4,
+    "gretna-west-bank": 5,
+    "harvey-west-bank": 10,
+    "marrero": 3,
+    "metairie": 21,
+    "msy-airport-kenner": 15,
+    "westwego": 4
+   },
+   "admitted_rows_named_new_orleans_with_a_jefferson_address": [
+    "Americas Best Value Inn-New Orleans/Gretna (70053, Gretna)",
+    "Boomtown Casino New Orleans (70058, Harvey)",
+    "Candlewood Suites Avondale-New Orleans (70094, Avondale)",
+    "Clarion Hotel & Suites New Orleans Airport (70001, Metairie)",
+    "Comfort Inn & Suites New Orleans Airport North (70062, Kenner)",
+    "Comfort Inn Marrero - New Orleans West (70072, Marrero)",
+    "Comfort Suites Harvey - New Orleans West (70058, Harvey)",
+    "Comfort Suites New Orleans (70062, Kenner)",
+    "Country Inn & Suites by Radisson, Metairie (New Orleans), LA (70002, Metairie)",
+    "Courtyard by Marriott New Orleans Metairie (70001, Metairie)",
+    "Courtyard by Marriott New Orleans Westbank/Gretna (70053, Gretna)",
+    "Crowne Plaza Hotel New Orleans Airport (70062, Kenner)",
+    "DoubleTree by Hilton Hotel New Orleans Airport (70062, Kenner)",
+    "Extended Stay America Select Suites - New Orleans - Airport (70062, Kenner)",
+    "Fairfield Inn & Suites New Orleans Metairie (70002, Metairie)",
+    "Hampton Inn & Suites Harvey/New Orleans West Bank (70058, Harvey)",
+    "Hampton Inn & Suites New Orleans-Elmwood/Clearview Parkway Area (70123, Harahan)",
+    "Hilton New Orleans Airport (70062, Kenner)",
+    "Holiday Inn Express Kenner - New Orleans Airport (70065, Kenner)",
+    "Holiday Inn Metairie New Orleans (70001, Metairie)",
+    "Holiday Inn New Orleans Airport North (70062, Kenner)",
+    "Holiday Inn New Orleans West Bank Tower (70053, Gretna)",
+    "Home2 Suites by Hilton Harvey New Orleans Westbank (70058, Harvey)",
+    "Home2 Suites by Hilton Kenner New Orleans Airport (70062, Kenner)",
+    "Homewood Suites by Hilton Metairie New Orleans (70002, Metairie)",
+    "InTown Suites Extended Stay New Orleans LA - Metairie (70001, Metairie)",
+    "InTown Suites Select Extended Stay New Orleans LA - Harvey (70058, Harvey)",
+    "La Quinta Inn & Suites by Wyndham New Orleans Airport (70062, Kenner)",
+    "La Quinta Inn by Wyndham New Orleans West Bank / Gretna (70056, Gretna)",
+    "New Orleans Marriott Metairie at Lakeway (70002, Metairie)",
+    "Ramada by Wyndham Kenner/New Orleans Airport South (70062, Kenner)",
+    "Red Roof Inn Kenner - New Orleans Airport NE (70062, Kenner)",
+    "Red Roof Inn New Orleans - Westbank (70058, Harvey)",
+    "Residence Inn New Orleans Metairie (70001, Metairie)",
+    "Residence Inn by Marriott New Orleans Elmwood (70123, Elmwood)",
+    "Rodeway Inn Metairie - New Orleans West (70003, Metairie)",
+    "Sheraton Metairie - New Orleans Hotel (70001, Metairie)",
+    "Sleep Inn & Suites Metairie - New Orleans West (70006, Metairie)",
+    "Suburban Studios Harvey - New Orleans (70058, Harvey)",
+    "TownePlace Suites New Orleans Metairie (70123, Harahan)",
+    "TownePlace Suites by Marriott New Orleans Harvey/West Bank (70058, Harvey)",
+    "Wyndham Garden New Orleans Airport (70065, Kenner)",
+    "Wyndham New Orleans Airport & Conference Center (70062, Kenner)"
+   ]
+  },
+  "parishes_and_municipalities_never_flattened": {
+   "admitted_rows_by_parish": {
+    "Jefferson": 62,
+    "Orleans": 285,
+    "Plaquemines": 1,
+    "St. Bernard": 2
+   },
+   "admitted_rows_by_published_municipality": {
+    "Avondale": 2,
+    "Belle Chasse": 1,
+    "Bridge City": 1,
+    "Chalmette": 2,
+    "Elmwood": 1,
+    "Gretna": 5,
+    "Harahan": 2,
+    "Harvey": 10,
+    "Jefferson": 1,
+    "Kenner": 15,
+    "Marrero": 3,
+    "Metairie": 21,
+    "New Orleans": 285,
+    "Westwego": 1
+   },
+   "NEW_ORLEANS_WRONG_CITY_IDENTITIES": 0,
+   "rows_relabelled_to_their_own_municipality": 5,
+   "relabelled_rows": [
+    {
+     "identity_key": "brent house hotel",
+     "canonical_name": "Brent House Hotel",
+     "postal_code": "70121",
+     "stated_city": "New Orleans",
+     "published_city": "Jefferson",
+     "parish": "Jefferson",
+     "multi_municipality_code": true
+    },
+    {
+     "identity_key": "jw marriott new orleans",
+     "canonical_name": "JW Marriott New Orleans",
+     "postal_code": "70130",
+     "stated_city": "(Driveway Entrance on 611 Common Street)",
+     "published_city": "New Orleans",
+     "parish": "Orleans",
+     "multi_municipality_code": false
+    },
+    {
+     "identity_key": "residence inn by marriott new orleans elmwood",
+     "canonical_name": "Residence Inn by Marriott New Orleans Elmwood",
+     "postal_code": "70123",
+     "stated_city": "New Orleans",
+     "published_city": "Elmwood",
+     "parish": "Jefferson",
+     "multi_municipality_code": true
+    },
+    {
+     "identity_key": "suburban studios harvey new orleans",
+     "canonical_name": "Suburban Studios Harvey - New Orleans",
+     "postal_code": "70058",
+     "stated_city": "Building B",
+     "published_city": "Harvey",
+     "parish": "Jefferson",
+     "multi_municipality_code": false
+    },
+    {
+     "identity_key": "the melody hotel",
+     "canonical_name": "The Melody Hotel",
+     "postal_code": "70130",
+     "stated_city": "",
+     "published_city": "New Orleans",
+     "parish": "Orleans",
+     "multi_municipality_code": false
+    }
+   ],
+   "admitted_rows_not_louisiana": 0,
+   "rows_held_for_a_municipality_or_state_conflict": []
+  },
+  "french_quarter_and_neighbourhood_overlays": {
+   "Algiers": 5,
+   "Belle Chasse": 1,
+   "Bywater": 4,
+   "CBD": 32,
+   "Canal Street": 32,
+   "Chalmette / Arabi": 2,
+   "Convention Center": 4,
+   "Elmwood / Jefferson": 7,
+   "French Quarter": 73,
+   "Garden District": 5,
+   "Gretna": 6,
+   "Harvey / West Bank": 16,
+   "Lower Garden District": 13,
+   "MSY / Kenner": 17,
+   "Marigny": 28,
+   "Metairie": 16,
+   "Mid-City": 16,
+   "New Orleans East": 23,
+   "University / Audubon": 1,
+   "Uptown": 12,
+   "Warehouse / Arts District": 37
+  },
+  "outside_nodes_under_market_prefixes": {
+   "70012": 2,
+   "70039": 1,
+   "70040": 1,
+   "70067": 1,
+   "70068": 5,
+   "70070": 4,
+   "70083": 1,
+   "70087": 2
+  },
+  "new_orleans_ruling": {
+   "classification": "The metro-continuous New Orleans core is admitted across four parishes -- the French Quarter, Marigny and Bywater, the CBD and Canal Street, the Warehouse District / Convention Center / Lower Garden District, the Garden District and Uptown, Mid-City, MSY / Kenner and Metairie CORE; Elmwood / Jefferson / Harahan, Gretna / Terrytown, Harvey, Westwego, Algiers and New Orleans East / Gentilly STRONG CORRIDOR; Marrero, Chalmette / Arabi and Belle Chasse FRINGE. Baton Rouge, the Northshore (Covington, Mandeville, Slidell, Hammond), Houma, the river parishes (St. Rose, Destrehan, LaPlace) and the Mississippi Gulf Coast are OUTSIDE.",
+   "a_marketing_phrase_admits_nothing": "'New Orleans Airport', 'MSY', 'New Orleans Metairie', 'New Orleans West Bank', 'New Orleans Downtown', 'French Quarter' and 'Near the Quarter' are marketing. The property's own postal code decides membership and its municipality.",
+   "actual_location": "Decided by the property's own postal code on its own page; the parish and the municipality by that code.",
+   "drive_market_relationship": "The French Quarter, the CBD, the Warehouse District, the Garden District, Uptown, Mid-City, MSY / Kenner, Metairie and the West Bank are where New Orleans travellers sleep; Baton Rouge, the Northshore, Houma and the Gulf Coast are trips of their own.",
+   "traveller_intent": "Leisure (the French Quarter, Mardi Gras, Jazz Fest, the Fair Grounds, Frenchmen Street), convention (the Ernest N. Morial Convention Center), arena and stadium (the Caesars Superdome, the Smoothie King Center), medical (the Tulane / LSU / University Medical Center district, Ochsner), university (Tulane, Loyola, UNO, Xavier), cruise (the Port of New Orleans terminals) and MSY airport demand is New Orleans intent.",
+   "metro_continuity": "Continuous development runs along I-10 from Kenner to New Orleans East, across the Crescent City Connection to the West Bank and down LA-23 to Belle Chasse; this registry stops there.",
+   "corridor_support": "Every admitted edge code is in a named corridor so its count is visible and a founder can move it on the record.",
+   "preserved_for": "FUTURE_STANDALONE baton-rouge-la, northshore-la, houma-la and mississippi-gulf-coast-ms."
+  },
+  "rows_admitted_from_a_refused_postal_code": 0,
+  "zero_admitted_outside": true,
+  "parish_boundary_rules": {
+   "orleans": {
+    "ruling": "ADMITTED WHOLE. Orleans Parish is the City of New Orleans; every Orleans Parish lodging code is claimed by a corridor, Algiers and New Orleans East included."
+   },
+   "jefferson": {
+    "ruling": "ADMITTED, SPLIT, MUNICIPALITIES PRESERVED. Kenner (MSY), Metairie, Elmwood / Jefferson / Harahan / River Ridge, Gretna / Terrytown, Harvey, Westwego and Marrero are admitted, each row keeping its own municipality -- never flattened into New Orleans. Lafitte, Barataria and Grand Isle are refused."
+   },
+   "st. bernard": {
+    "ruling": "ADMITTED ONLY AT ARABI / CHALMETTE (FRINGE). Meraux, Violet and St. Bernard are refused."
+   },
+   "plaquemines": {
+    "ruling": "ADMITTED ONLY AT BELLE CHASSE (FRINGE). NAS JRB New Orleans and lower Plaquemines are refused."
+   },
+   "st. charles / st. john": {
+    "ruling": "REFUSED. St. Rose / Destrehan 'New Orleans Airport' hotels and LaPlace are placed by their own code: OUTSIDE."
+   },
+   "st. tammany / tangipahoa / east baton rouge / terrebonne; mississippi gulf coast": {
+    "ruling": "REFUSED. The Northshore (Covington, Mandeville, Slidell), Hammond, Baton Rouge, Houma and the Mississippi Gulf Coast are not absorbed (FUTURE_STANDALONE northshore-la, baton-rouge-la, houma-la, mississippi-gulf-coast-ms)."
+   }
+  },
+  "existing_live_markets_named": [
+   "kansas-city-mo",
+   "san-antonio-tx",
+   "jacksonville-fl"
+  ],
+  "future_standalone_markets": [
+   "baton-rouge-la",
+   "northshore-la",
+   "houma-la",
+   "mississippi-gulf-coast-ms"
+  ]
+ },
+ "fees": {
+  "schema": "ptf-fee-withholding/1.0",
+  "work_order": "PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+  "market_id": "new-orleans-la",
+  "rule": "a fee publishes only as one amount whose basis (per night / per stay) the quote itself states, with no stay-length condition, no range, no second basis and no second amount; otherwise the fee is withheld and the acceptance, weight, count and species still publish",
+  "fees_published": 28,
+  "tiered_fees_withheld": 22,
+  "unsafe_single_fees_withheld": 9,
+  "unsafe_by_reason": {
+   "BASIS_NOT_STATED": 7,
+   "STAY_LENGTH_CONDITION": 2
+  },
+  "misleading_single_fees_published": 0
+ },
+ "negation_and_parser_conflicts": [
+  {
+   "identity_key": "country inn and suites by radisson metairie new orleans la",
+   "name": "Country Inn & Suites by Radisson, Metairie (New Orleans), LA",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'mi Show more Info Essential details Check-In 3:00 PM Check-Out 12:00 PM No Smoking 100% Smoke Free Hotel Phone Number (504) 383-6201 Children Anyone aged 18 and under, at time of booking, stay for free Fax (504) 833-6942 Office Hours 24/7 Pets Pets Allowed: No General: Only service animals are permitted, free of charge. Learn More Amenities Hotel Amenities Family & Pet Services No Pets Allowed Only service animals are permitted, free of charge.'"
+  },
+  {
+   "identity_key": "dew drop inn",
+   "name": "Dew Drop Inn",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "hubbard mansion",
+   "name": "Hubbard Mansion",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'Hubbard Mansion - Policies Stay stay with us Explore rooms Amenities Learn Our History FAQs Book Book a room Special Events Contact US stay Learn Book book a room Policies - Reservations, Deposits And Cancellations Children & Pets Children under 12 and pets would be happier in a more conventional environment. Pets Our property is not pet friendly. Service dogs are permitted. Service dogs are those trained to do work or perform tasks for guests with a physical, sensory, psychiatric, intellectual,'"
+  },
+  {
+   "identity_key": "the chloe",
+   "name": "The Chloe",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote FEE_ONLY: a fee, count or weight alone does not establish acceptance: 'IS THE CHLOE PET FRIENDLY? We welcome one dog per guest room at $50 per night.'"
+  },
+  {
+   "identity_key": "the lanaux mansion",
+   "name": "The Lanaux Mansion",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "wyndham garden new orleans downtown",
+   "name": "Wyndham Garden New Orleans Downtown",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'Only service animals accepted'"
+  }
+ ],
+ "remaining_unresolved_root_causes": {
+  "ROUTING_HOLD": "no first-party route: no brand inventory row, bureau link or map website joined the building, Google Places route discovery (run inside the renewed free monthly allowance) found no first-party website for it, or the route the census carried is retired, expired or a third-party page.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible, the attended browser) was refused or walled.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a conditional, chip-only or fee/weight/count-only statement, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "dual-brand buildings awaiting a reviewed shared resolution, or a page that never confirmed this census row's premises."
+ }
+}

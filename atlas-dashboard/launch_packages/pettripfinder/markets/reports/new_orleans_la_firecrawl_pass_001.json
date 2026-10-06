@@ -1,0 +1,1775 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+ "market_id": "new-orleans-la",
+ "phase": "13 -- the Firecrawl rung, after the free static pass",
+ "run_id": "new_orleans_la_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "EXISTING AUTHORIZED PROVIDER CAPACITY (FIRECRAWL_API_KEY present as an environment variable, existing plan credits, presence-only confirmed); no new purchase, no new provider authorization",
+  "cap_attempts": 40,
+  "credit_floor": 60,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "why_the_cap_is_on_attempts": "Firecrawl costs one credit on a successful fetch and zero when the origin refuses every engine, so no per-row price exists to budget against and no credit figure is a ceiling. Attempts are the thing this run controls; the credit delta is what it reports.",
+ "cohort_source": "ladder.plan_cohort over this order's committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 108,
+  "static_to_attended": 60,
+  "firecrawl_candidates": 36,
+  "share_static_to_attended": 0.5556,
+  "share_firecrawl_candidates": 0.3333,
+  "threshold": 0.2,
+  "warning": true,
+  "message": "36 of 108 unresolved routed rows (33%) are Firecrawl candidates: evaluate the Firecrawl lane before continuing to the attended browser"
+ },
+ "planned_rows": 47,
+ "attempted_rows": 36,
+ "stopped_by": "CREDIT_FLOOR",
+ "credits": {
+  "before": 87,
+  "after": 60,
+  "delta": 27,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "four seasons hotel new orleans": {
+    "identity_key": "four seasons hotel new orleans",
+    "requested_url": "http://www.fourseasons.com/neworleans",
+    "identity_confirmed": true,
+    "outcome": "POLICY_NOT_FOUND"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "holiday inn express saint charles avenue",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "holiday inn new orleans west bank tower",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "wyndham garden hotel baronne plaza",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "846 baronne st development llc",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "balcony guesthouse",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "bed and breakfast on the point",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "blue60 guest house",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "bon maison guest house",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "boomtown hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "caesars new orleans",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "claiborne mansion",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "coccinelle",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "columns",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "contempra inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "crescent city guest house",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "fairmont new orleans",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "french quarter suites hotel",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "gentry house",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel henrietta",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel henrietta",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel peter and paul",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "hotel sainte helene",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "la maison marigny b and b on bourbon",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "lafitte guest house",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "le papillon guesthouse",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "little eazy guest house",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "loft 523",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "maison de macarty",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "maison mazant",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "memoir residential new orleans warehouse district",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "mentone bed and breakfast",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "nopsi hotel new orleans",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "olde town inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "rose manor bed and breakfast inn",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "site 61 guesthouse",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 36,
+  "results": 36
+ },
+ "class_counts": {
+  "FIRECRAWL_BLOCKED": 15,
+  "FIRECRAWL_FAILED": 15,
+  "FIRECRAWL_MISMATCH": 5,
+  "FIRECRAWL_SOURCE_SILENT": 1
+ },
+ "outcome_counts": {
+  "ACCESS_DENIED": 3,
+  "BLANK_PAGE": 1,
+  "IDENTITY_MISMATCH": 5,
+  "NAVIGATION_FAILED": 8,
+  "POLICY_NOT_FOUND": 1,
+  "UNEXPECTED_PAGE": 7,
+  "UNHYDRATED": 11
+ },
+ "authority_mutation": "NONE",
+ "shared_ledgers_written": "NONE",
+ "rows": [
+  {
+   "identity_key": "holiday inn express saint charles avenue",
+   "canonical_name": "Holiday Inn Express - Saint Charles Avenue",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/spnd/hotels/us/en/new-orleans/msyst/hoteldetail",
+   "final_url": "https://www.ihg.com/spnd/hotels/us/en/new-orleans/msyst/hoteldetail",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-06T16:59:03.963748+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/spnd/hotels/us/en/new-orleans/msyst/hoteldetail"
+    },
+    "envelope_sha256": "f3e6457871545999963157273c83b3d8a5b2b291ac1e94db41ad91efb7b5769f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\holiday-inn-express-saint-charles-avenue\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "holiday inn new orleans west bank tower",
+   "canonical_name": "Holiday Inn New Orleans West Bank Tower",
+   "family": "IHG",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "https://www.holidayinn.com/hotels/us/en/gretna/msywb/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/new-orleans/msywb/hoteldetail",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70053",
+   "expected_street": "275 Whitney Avenue",
+   "captured_at": "2026-10-06T16:59:14.680110+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.holidayinn.com/hotels/us/en/gretna/msywb/hoteldetail"
+    },
+    "envelope_sha256": "d7e3ef0d4122473ab4786314b026f1d030e2ab2652dc5fab50b6287f40ef2276"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\holiday-inn-new-orleans-west-bank-tower\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "wyndham garden hotel baronne plaza",
+   "canonical_name": "Wyndham Garden Hotel Baronne Plaza",
+   "family": "WYNDHAM",
+   "cohort": "ROUTED",
+   "property_code": "",
+   "requested_url": "http://www.wyndhamgardenbaronneplaza.com",
+   "final_url": "https://www.wyndhamhotels.com/wyndham-garden/search-results",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-06T16:59:27.097737+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.wyndhamgardenbaronneplaza.com"
+    },
+    "envelope_sha256": "8153ca89fb5aea36cba8781adbc72c810eddfc48c154c13fbe24554ea312e8ac"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\wyndham-garden-hotel-baronne-plaza\\attempt-01",
+   "ladder_reason": "static channel failure (UNEXPECTED_PAGE) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "846 baronne st development llc",
+   "canonical_name": "846 Baronne St Development Llc",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://baronne.staydomio.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"baronne.staydomio.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unavai",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-06T16:59:39.324150+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://baronne.staydomio.com"
+    },
+    "envelope_sha256": "ff0a11e024a788b3a921cfa6fca850c500766c758f6bf23077de6b574be72f3c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\846-baronne-st-development-llc\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "balcony guesthouse",
+   "canonical_name": "Balcony Guesthouse",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.balconyguesthouse.com",
+   "final_url": "https://www.balconyguesthouse.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70117",
+   "expected_street": "2483 Royal St",
+   "captured_at": "2026-10-06T16:59:41.805473+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.balconyguesthouse.com"
+    },
+    "envelope_sha256": "ba0340607167fadee227a70bc5c665f8bce66e397235c0504d037ee8319a2023"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\balcony-guesthouse\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "bed and breakfast on the point",
+   "canonical_name": "Bed and Breakfast on the Point",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.bedandbreakfastonthepoint.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.bedandbreakfastonthepoint.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are tempor",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70114",
+   "expected_street": "405 Delaronde St",
+   "captured_at": "2026-10-06T16:59:51.413901+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.bedandbreakfastonthepoint.com"
+    },
+    "envelope_sha256": "440b7e7d09f30c2ff31eca3140239cacedd8801ca8cab036888ee682af679948"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\bed-and-breakfast-on-the-point\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "blue60 guest house",
+   "canonical_name": "Blue60 Guest House",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.blue60guesthouse.com",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70117",
+   "expected_street": "1008 Elysian Fields Ave.",
+   "captured_at": "2026-10-06T16:59:53.886307+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.blue60guesthouse.com"
+    },
+    "envelope_sha256": "6e1cca274a84b9bdaf20255e283319f58456865d56d31fe1c0180637fa29cafb"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\blue60-guest-house\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "bon maison guest house",
+   "canonical_name": "Bon Maison Guest House",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://bonmaison.com",
+   "final_url": "http://bonmaison.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Guesthouse in New Orleans · ★4.85 · 2 bedrooms · 2 beds · 2 baths', which does not agree with 'Bon Maison Guest House'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Guesthouse in New Orleans · ★4.85 · 2 bedrooms · 2 beds · 2 baths",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "4121781408",
+      "3898921349",
+      "3898921146",
+      "4819061146",
+      "7298771233",
+      "8218921349",
+      "8218921458",
+      "7996051494",
+      "7368951242",
+      "5283731295",
+      "4748881369",
+      "4748881495",
+      "5291531495",
+      "7368951369",
+      "1013621079",
+      "2354731079",
+      "3461931079",
+      "6596381079",
+      "7703571079",
+      "9044681079",
+      "9755091005",
+      "3898923175",
+      "4130983139",
+      "7996053226",
+      "8218923285",
+      "8218923489",
+      "7298773489",
+      "4819063401",
+      "3898923285",
+      "7368953139",
+      "5291533191",
+      "4748883266",
+      "4748883393",
+      "5283733393",
+      "7368953266",
+      "3898922723",
+      "4181822699",
+      "5162172741",
+      "4748882800",
+      "4748882888",
+      "5130972888",
+      "4577332923",
+      "3898922827",
+      "5325921954",
+      "4865852027",
+      "4865852058",
+      "4881442070",
+      "4211771911",
+      "3898922244",
+      "4130982208",
+      "7996052295",
+      "8218922353",
+      "8218922557",
+      "7298772557",
+      "4819062470",
+      "3898922353",
+      "7368952208",
+      "5291532259",
+      "4748882334",
+      "4748882461",
+      "5283732461",
+      "7368952334",
+      "2269171642",
+      "2543261642",
+      "3219341669",
+      "3493431703",
+      "3493431764",
+      "3219341764",
+      "2543261737",
+      "2269171703",
+      "1014011079",
+      "2355641079",
+      "3463261079",
+      "4344681008",
+      "5717511008",
+      "6598921079",
+      "7706551079",
+      "9048171079",
+      "9755091006"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Guesthouse in New Orleans · ★4.85 · 2 bedrooms · 2 beds · 2 baths', which does not agree with 'Bon Maison Guest House'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-06T17:00:36.761767+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://bonmaison.com"
+    },
+    "envelope_sha256": "0c93239e503bfb89eb039aeec0eeef8691860cc28b670142118f10e1dc6d05d0"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\bon-maison-guest-house\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "boomtown hotel",
+   "canonical_name": "Boomtown Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.boomtownneworleans.com/hotel",
+   "final_url": "https://www.boomtownneworleans.com/hotel",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page names 'Boomtown New Orleans', which does not agree with 'Boomtown Hotel'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Boomtown New Orleans",
+     "address_on_page": "4132 Peters Road",
+     "postal_code": "70058",
+     "phone_on_page": "702-797-1215",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.boomtownneworleans.com/hotel",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8777707867",
+      "7027971215",
+      "5043667711"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Boomtown New Orleans', which does not agree with 'Boomtown Hotel'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-06T17:00:50.954863+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.boomtownneworleans.com/hotel"
+    },
+    "envelope_sha256": "941169df80142d583536c00137a02d99528893fa1b32b5b69212759ebc982673"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\boomtown-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "caesars new orleans",
+   "canonical_name": "Caesars New Orleans",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.caesars.com/meetings/properties/caesars-new-orleans",
+   "final_url": "https://www.caesars.com/meetings/properties/caesars-new-orleans.html",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "",
+   "expected_street": "",
+   "captured_at": "2026-10-06T17:01:01.565918+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.caesars.com/meetings/properties/caesars-new-orleans"
+    },
+    "envelope_sha256": "2b2bdaf773b0f5bb65351c3e3953253861525ad8db9d83085ef83ec5d462af1b"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\caesars-new-orleans\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "claiborne mansion",
+   "canonical_name": "Claiborne Mansion",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.claibornemansion.com",
+   "final_url": "https://www.claibornemansion.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70116",
+   "expected_street": "2111 Dauphine St.",
+   "captured_at": "2026-10-06T17:01:12.687226+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.claibornemansion.com"
+    },
+    "envelope_sha256": "6124d1d45b9f4d2f0e37fab274252a53b05a03d627af2b60151087657510f647"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\claiborne-mansion\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "coccinelle",
+   "canonical_name": "Coccinelle",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.coccinellebandb.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.coccinellebandb.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unav",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70116",
+   "expected_street": "2119 Decatur St.",
+   "captured_at": "2026-10-06T17:01:22.748018+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.coccinellebandb.com"
+    },
+    "envelope_sha256": "8b783f33a5a6d0e91db2fd174f3a5c83d3b05a058b5761e8886449e5f6f4dfb6"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\coccinelle\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "columns",
+   "canonical_name": "Columns",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.thecolumns.com",
+   "final_url": "http://www.thecolumns.com",
+   "outcome": "ACCESS_DENIED",
+   "detail": "status 403",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70115",
+   "expected_street": "3811 St Charles Ave",
+   "captured_at": "2026-10-06T17:01:25.262759+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.thecolumns.com"
+    },
+    "envelope_sha256": "e069ab280b8767087b1ec5333f6283c46fefb72d4f9c6589159d9e347119c246"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\columns\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "contempra inn",
+   "canonical_name": "Contempra Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.contemprainn.com",
+   "final_url": "http://www.contemprainn.com",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70062",
+   "expected_street": "2820 Williams Boulevard",
+   "captured_at": "2026-10-06T17:01:34.352501+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.contemprainn.com"
+    },
+    "envelope_sha256": "f6fa09dd8f2ff285e52bfd4d0451fc7a3b00ecae6c02108b280286a1bb2f0bec"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\contempra-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "crescent city guest house",
+   "canonical_name": "Crescent City Guest House",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.crescentcitygh.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.crescentcitygh.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unava",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70117",
+   "expected_street": "612 Marigny St",
+   "captured_at": "2026-10-06T17:01:45.032899+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.crescentcitygh.com"
+    },
+    "envelope_sha256": "75989b0a66ed2f4306f0df76aa570605c5f5de076318380d99cc8d85c82acbed"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\crescent-city-guest-house\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "fairmont new orleans",
+   "canonical_name": "Fairmont New Orleans",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.fairmont-new-orleans.com/",
+   "final_url": "https://www.fairmont.com/en/hotels/new-orleans/fairmont-new-orleans.html",
+   "outcome": "ACCESS_DENIED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70112",
+   "expected_street": "1010 Common St",
+   "captured_at": "2026-10-06T17:01:47.709531+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.fairmont-new-orleans.com/"
+    },
+    "envelope_sha256": "72867a5beca8eb4c31ea042921d2c60bfb3f25c6078aedaad9bbfd5cf50305e1"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\fairmont-new-orleans\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "four seasons hotel new orleans",
+   "canonical_name": "Four Seasons Hotel New Orleans",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.fourseasons.com/neworleans",
+   "final_url": "https://www.fourseasons.com/neworleans/",
+   "outcome": "POLICY_NOT_FOUND",
+   "detail": "no bounded policy block in a page that rendered; 0 candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Four Seasons Hotel New Orleans",
+     "address_on_page": "2 Canal Street",
+     "postal_code": "70130",
+     "phone_on_page": "+1 (504) 434-5100",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.fourseasons.com/neworleans/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5044345100",
+      "5044347095"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "70130",
+   "expected_street": "2 Canal St.",
+   "captured_at": "2026-10-06T17:02:00.924419+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.fourseasons.com/neworleans"
+    },
+    "envelope_sha256": "aed67497a2ab2ec8c0af968b5d4a79256637ff701c807c1b4a14d09a27679ccd"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\four-seasons-hotel-new-orleans\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_SOURCE_SILENT"
+  },
+  {
+   "identity_key": "french quarter suites hotel",
+   "canonical_name": "French Quarter Suites Hotel",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.frenchquartersuites.com",
+   "final_url": "https://www.neworleanscourtyardfrenchquarter.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70116",
+   "expected_street": "1119 N Rampart St",
+   "captured_at": "2026-10-06T17:02:43.403900+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.frenchquartersuites.com"
+    },
+    "envelope_sha256": "268b4413db5551f90b63afd9a6de9a47f8d2efb4a64017fa73e28b5882d3fa13"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\french-quarter-suites-hotel\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "gentry house",
+   "canonical_name": "Gentry House",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.gentryhouse.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.gentryhouse.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unavaila",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70116",
+   "expected_street": "1031 St. Ann St.",
+   "captured_at": "2026-10-06T17:02:54.003175+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.gentryhouse.com"
+    },
+    "envelope_sha256": "2ea85e5965c5be9e33626425d2486169d4d3ee399962f911ead1e1168d8c763a"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\gentry-house\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "hotel henrietta",
+   "canonical_name": "Hotel Henrietta",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.hotelhenrietta.com",
+   "final_url": "http://www.hotelhenrietta.com",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70115",
+   "expected_street": "3500 St Charles Ave",
+   "captured_at": "2026-10-06T17:03:06.463342+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.hotelhenrietta.com"
+    },
+    "envelope_sha256": "4d7330f26ca5097c26910f8a89471bf3768a66baa4a94b878c1ab5ed9c0045da"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\hotel-henrietta\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "hotel henrietta",
+   "canonical_name": "Hotel Henrietta",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://hotelhenrietta.com/",
+   "final_url": "https://hotelhenrietta.com/",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70115",
+   "expected_street": "3500 St Charles Ave",
+   "captured_at": "2026-10-06T17:03:17.527396+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://hotelhenrietta.com/"
+    },
+    "envelope_sha256": "042ac954c09b26da46b5f73273fd404a781a9721403f1a56fca6c6584720f059"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\hotel-henrietta\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "hotel peter and paul",
+   "canonical_name": "Hotel Peter and Paul",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.hotelpeterandpaul.com",
+   "final_url": "https://ash.world/hotels/peter-and-paul/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70117",
+   "expected_street": "2317 Burgundy St",
+   "captured_at": "2026-10-06T17:03:20.340621+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.hotelpeterandpaul.com"
+    },
+    "envelope_sha256": "152b18f95f4b20507b25fdb9ae94ca726abc3acf2c693a3ba0fc6ce6a8e69e8c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\hotel-peter-and-paul\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "hotel sainte helene",
+   "canonical_name": "Hotel Sainte Helene",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://www.frenchquarterhotelcollection.com/hotel-st-helene.html",
+   "final_url": "https://www.frenchquarterhotelcollection.com/hotel-st-helene.html",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70130",
+   "expected_street": "508 Chartres St",
+   "captured_at": "2026-10-06T17:03:31.807462+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.frenchquarterhotelcollection.com/hotel-st-helene.html"
+    },
+    "envelope_sha256": "c34dafba13d676c4b3be7819e50b344c235550a120c694494a6205733b0150ed"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\hotel-sainte-helene\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "la maison marigny b and b on bourbon",
+   "canonical_name": "La Maison Marigny B and B on Bourbon",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.lamaisonmarigny.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.lamaisonmarigny.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unav",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70116",
+   "expected_street": "1421 Bourbon St",
+   "captured_at": "2026-10-06T17:03:41.983861+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.lamaisonmarigny.com"
+    },
+    "envelope_sha256": "67da47e07d2d0dbdea23d112b87b06b0c47ea1d8df346ec096a3549d0885308c"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\la-maison-marigny-b-and-b-on-bourbon\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "lafitte guest house",
+   "canonical_name": "Lafitte Guest House",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.lafitteguesthouse.com",
+   "final_url": "https://www.lafittehotelandbar.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70116",
+   "expected_street": "1003 Bourbon St",
+   "captured_at": "2026-10-06T17:03:44.629919+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.lafitteguesthouse.com"
+    },
+    "envelope_sha256": "07b52e387e8f4a22736acdca189c2889ffd7adb43b570d97e1fd1ca313ea310f"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\lafitte-guest-house\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "le papillon guesthouse",
+   "canonical_name": "Le Papillon Guesthouse",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.lepapillongh.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.lepapillongh.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unavail",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70116",
+   "expected_street": "2011 N. Rampart St.",
+   "captured_at": "2026-10-06T17:03:55.656929+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.lepapillongh.com"
+    },
+    "envelope_sha256": "bd2e8496da1659e2285fc2dd62670e7de419e55453b5b0e460ada23b979bd542"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\le-papillon-guesthouse\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "little eazy guest house",
+   "canonical_name": "Little Eazy Guest House",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.littleeazy.com",
+   "final_url": "http://www.littleeazy.com",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70116",
+   "expected_street": "1526 Pauger St",
+   "captured_at": "2026-10-06T17:03:58.216585+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.littleeazy.com"
+    },
+    "envelope_sha256": "9891f2775f29dfc2e935623c9d1967e9972486bd0140024a52a5d6249c3bb3a9"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\little-eazy-guest-house\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "loft 523",
+   "canonical_name": "Loft 523",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.loft523.com",
+   "final_url": "http://www.loft523.com",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70130",
+   "expected_street": "523 Gravier St",
+   "captured_at": "2026-10-06T17:04:08.514444+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.loft523.com"
+    },
+    "envelope_sha256": "c349e1bf6312849781ef25489cd50f08030e15577efa748e39ef8f6657b10cdc"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\loft-523\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "maison de macarty",
+   "canonical_name": "Maison de Macarty",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.maisonmacarty.com",
+   "final_url": "http://www.maisonmacarty.com",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70117",
+   "expected_street": "3820 Burgundy St",
+   "captured_at": "2026-10-06T17:04:18.722889+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.maisonmacarty.com"
+    },
+    "envelope_sha256": "fc073a0a80c86b12a4579f8563f3f636f319c54ee59f5d7b59a9dcb06cea8046"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\maison-de-macarty\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "maison mazant",
+   "canonical_name": "Maison Mazant",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.ddicataldo.wordpress.com",
+   "final_url": "https://ddicataldo.wordpress.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Maison Mazant",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://ddicataldo.wordpress.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "70117",
+   "expected_street": "721 Mazant St.",
+   "captured_at": "2026-10-06T17:04:33.352723+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.ddicataldo.wordpress.com"
+    },
+    "envelope_sha256": "9af20a54dc73cb92fb3e7a3f2328606ded99b9b10e58aa52a7614b0735b2b207"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\maison-mazant\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "memoir residential new orleans warehouse district",
+   "canonical_name": "Memoir Residential New Orleans - Warehouse District",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.memoirresidential.com/properties/warehousedistrict",
+   "final_url": "http://www.memoirresidential.com/properties/warehousedistrict",
+   "outcome": "UNHYDRATED",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70130",
+   "expected_street": "808 Constance St",
+   "captured_at": "2026-10-06T17:04:43.572052+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.memoirresidential.com/properties/warehousedistrict"
+    },
+    "envelope_sha256": "9d09ad92f133212c98c1fcf76c088c07bf3250546d420443ced1b6f3be644518"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\memoir-residential-new-orleans-warehouse-district\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "mentone bed and breakfast",
+   "canonical_name": "Mentone Bed & Breakfast",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.mentonebandb.com",
+   "final_url": "",
+   "outcome": "NAVIGATION_FAILED",
+   "detail": "status None: DNS resolution failed for hostname \"www.mentonebandb.com\". This means the domain name could not be translated to an IP address. Possible causes: (1) The domain name is misspelled (check for typos), (2) The domain does not exist or has expired, (3) The DNS servers are temporarily unavail",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70116",
+   "expected_street": "1437 Pauger St.",
+   "captured_at": "2026-10-06T17:04:54.714238+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.mentonebandb.com"
+    },
+    "envelope_sha256": "8412e17cd9ef3a3bdc3bd137f8b1af311fc54a6b21f3016c9df5f2b8246fdddb"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\mentone-bed-and-breakfast\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "nopsi hotel new orleans",
+   "canonical_name": "NOPSI Hotel, New Orleans",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.nopsihotel.com",
+   "final_url": "https://www.nopsihotel.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '317 Baronne Street, Central Business District' does not agree with expected '317 Baronne St'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "NOPSI Hotel, New Orleans",
+     "address_on_page": "317 Baronne Street, Central Business District",
+     "postal_code": "70112",
+     "phone_on_page": "(504) 962-6500",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.nopsihotel.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5049626500",
+      "8444391463"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '317 Baronne Street, Central Business District' does not agree with expected '317 Baronne St'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "70112",
+   "expected_street": "317 Baronne St",
+   "captured_at": "2026-10-06T17:04:57.152597+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.nopsihotel.com"
+    },
+    "envelope_sha256": "d248507edd7d9b365a01296f9ede1958626c4b9e64250a41d56684502ddb84a6"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\nopsi-hotel-new-orleans\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "olde town inn",
+   "canonical_name": "Olde Town Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.oldetowninn.com",
+   "final_url": "https://historicmardigrasinn.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70117",
+   "expected_street": "1001 Marigny St",
+   "captured_at": "2026-10-06T17:05:07.759287+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.oldetowninn.com"
+    },
+    "envelope_sha256": "0a529822b185df5a975302984c8f5260292428046f9ed9fcebbbbc4865e8dba1"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\olde-town-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "rose manor bed and breakfast inn",
+   "canonical_name": "Rose Manor Bed & Breakfast Inn",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "http://www.Rosemanor.com",
+   "final_url": "http://www.Rosemanor.com",
+   "outcome": "BLANK_PAGE",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "70124",
+   "expected_street": "7214 Pontchartrain Blvd",
+   "captured_at": "2026-10-06T17:05:28.314305+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "http://www.Rosemanor.com"
+    },
+    "envelope_sha256": "3a20089911df449fd63e1dbc171c3b612d5adbb0fbc6a817e1aa8a15c1d3d744"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\rose-manor-bed-and-breakfast-inn\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "site 61 guesthouse",
+   "canonical_name": "Site 61 Guesthouse",
+   "family": "INDEPENDENT",
+   "cohort": "PROBE",
+   "property_code": "",
+   "requested_url": "https://site61nola.com/",
+   "final_url": "https://site61nola.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Site 61 New Orleans Guesthouse",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://site61nola.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "5043049974"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "70119",
+   "expected_street": "3701 Tulane Ave.",
+   "captured_at": "2026-10-06T17:05:40.809025+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://site61nola.com/"
+    },
+    "envelope_sha256": "4486ff09a9179e1774560de5fd8b0bc386675796a8ad2511b2129585566dc86e"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\new_orleans_la_firecrawl_001\\site-61-guesthouse\\attempt-01",
+   "ladder_reason": "FIRECRAWL_PROBE_UNMEASURED_FAMILY",
+   "firecrawl_measured_by": "",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  }
+ ]
+}

@@ -1,0 +1,5357 @@
+{
+ "schema": "ptf-competitor-challenge/1.0",
+ "work_order": "PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+ "market_id": "new-orleans-la",
+ "competitor": "BringFido",
+ "observed_at": "2026-10-06",
+ "capture_lane": "plain HTTP GET of each city's own page; every listing is read from the page's own schema.org JSON-LD ItemList of @type Hotel entries (name, BringFido URL, petsAllowed claim), paginated with ?page=N until a page returns zero Hotel entries. No browser, no page script.",
+ "never_policy_authority": "Names and BringFido's own URL only. A competitor lead proposes an identity and is reconciled against the census; petsAllowed and every other BringFido claim is never read as policy and can never publish one.",
+ "method_note": "BringFido's own server-rendered JSON-LD is read with a plain HTTP GET, so there is no lazy-render coverage caveat. Two hazards are inherited as fixes rather than rediscovered: (1) BringFido caps results at 20 pages (page 21 answers 404) but silently WIDENS THE SEARCH RADIUS past a small city's own stated total and returns neighbouring cities' hotels under that city's URL, so this lane stops paginating once a city's captured count reaches its own page-1 stated total; (2) the Hotel-typed entries include vacation-rental and condo-unit listings, so every lead is reconciled before it can be read as a hotel. In THIS market the radius widening is expected to reach St. Rose, LaPlace, Slidell and the Northshore -- that is reported as an OUTSIDE count, not corrected, and no refused city's own page is ever challenged, because a refused place's inventory is not this market's gap.",
+ "refused_cities_never_challenged": [
+  "baton_rouge_la_us",
+  "slidell_la_us",
+  "covington_la_us",
+  "mandeville_la_us",
+  "hammond_la_us",
+  "houma_la_us",
+  "laplace_la_us",
+  "saint_rose_la_us",
+  "destrehan_la_us",
+  "gulfport_ms_us",
+  "biloxi_ms_us",
+  "bay_saint_louis_ms_us"
+ ],
+ "cities_challenged": 9,
+ "cities": {
+  "new_orleans_la_us": {
+   "city_slug": "new_orleans_la_us",
+   "display_name": "New Orleans",
+   "corridor_slug": "french-quarter-marigny-bywater",
+   "source_first_page": "https://www.bringfido.com/lodging/city/new_orleans_la_us/",
+   "stated_total_hotels": 261,
+   "pages_fetched": 17,
+   "pages": [
+    {
+     "page": 1,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/",
+     "status": 200,
+     "bytes": 442642,
+     "sha256": "03a363c25aa300b4e0aca0d8f1f98c12f7130a88c20262c796b08a563599bb73",
+     "hotel_items_on_page": 19
+    },
+    {
+     "page": 2,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2",
+     "status": 200,
+     "bytes": 448315,
+     "sha256": "1f03e74f74fe895bbca4589167640255764a84a1a295db431d1fa38bd9cc4813",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 3,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3",
+     "status": 200,
+     "bytes": 437312,
+     "sha256": "beba5b357f8befc75fb1ff5e76a7aa504f087022a6a88672ef90a88082f79a8e",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 4,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4",
+     "status": 200,
+     "bytes": 442245,
+     "sha256": "21c4979a18b82f0e46322461c3ede6892af9488a2a7aba1c45e78bbb4f804d97",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 5,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5",
+     "status": 200,
+     "bytes": 430367,
+     "sha256": "99c6c0a73e9c4efe018a0ceb15d623eb94064edc4b6022d715966e383653b4b1",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 6,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6",
+     "status": 200,
+     "bytes": 423708,
+     "sha256": "cf66b98f897c13062cac3eadb7ef28ff0c946f06cb15d9d1f694a776013f2f72",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 7,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7",
+     "status": 200,
+     "bytes": 434410,
+     "sha256": "10d74ad7d1de22ebd4627e5b50e5068fc97e449d105db4747574d2b1fdbf33e9",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 8,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8",
+     "status": 200,
+     "bytes": 450529,
+     "sha256": "d4ab7abfab33e161504769be0854615a5ffa064dfa67f3648e5ede9d9b595a08",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 9,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=9",
+     "status": 200,
+     "bytes": 443934,
+     "sha256": "3571c40350653d01a62d1581ec6c34ec738072c313d0ea14fa03b29eab3a3e6d",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 10,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=10",
+     "status": 200,
+     "bytes": 438685,
+     "sha256": "dd26dc3fd8d29ab0e293aa6124d0b178ebb4013e3afb77147962a6082de00d82",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 11,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11",
+     "status": 200,
+     "bytes": 435661,
+     "sha256": "9c1c33044f9bf7387b6b6ab723983b8deb1382419be733ce376d9cd0bf5bb6e6",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 12,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12",
+     "status": 200,
+     "bytes": 440995,
+     "sha256": "960420ef5c66129b6d070ab3d12970bb08dc41349b9cc7012b869cf329f5c3ce",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 13,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13",
+     "status": 200,
+     "bytes": 440368,
+     "sha256": "f30ae878f0b78bcc485d1c1c757955316e5e604ca8aac85f7a5c2ccb5c9376e0",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 14,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14",
+     "status": 200,
+     "bytes": 436751,
+     "sha256": "3e3b0f45b2dafe13b09d77060d86d2c06278be7a1d4870f2f9dfc4e43a1d2683",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 15,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15",
+     "status": 200,
+     "bytes": 439131,
+     "sha256": "606abe3fecb791e4fb008172afea2e0dad55418158ed311822a4e70a9051a740",
+     "hotel_items_on_page": 20
+    },
+    {
+     "page": 16,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=16",
+     "status": 200,
+     "bytes": 409843,
+     "sha256": "0f0c65f2bea481e6342b905dbff379a6370d8785b04d37b44205fcebbcfc540f",
+     "hotel_items_on_page": 15
+    },
+    {
+     "page": 17,
+     "url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=17",
+     "status": 404,
+     "bytes": 5575,
+     "sha256": "655126e7d99d2c7c7a6b61d65ac410d2ba87266e7ddb39a3f4f7967fee3f0f30",
+     "hotel_items_on_page": 0
+    }
+   ],
+   "hotel_items_captured": 247,
+   "hotels": [
+    {
+     "name": "Kimpton Hotel Fontenot by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/79440",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Virgin Hotels New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/882324",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Bon Maison Guest House",
+     "bringfido_url": "https://www.bringfido.com/lodging/2119282",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "St Charles Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/79341",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Creole Gardens Guesthouse and Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/108733",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Bienville House",
+     "bringfido_url": "https://www.bringfido.com/lodging/79343",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Hotel Monteleone",
+     "bringfido_url": "https://www.bringfido.com/lodging/79383",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Andrew Jackson Hotel a French Quarter Inns Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79336",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Loews New Orleans Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/167786",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "The Old No 77 Hotel & Chandlery",
+     "bringfido_url": "https://www.bringfido.com/lodging/79333",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Three Oaks and a Pine RV Park",
+     "bringfido_url": "https://www.bringfido.com/lodging/485331",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "St. Philip Manor French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/1399552",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Mangosteen",
+     "bringfido_url": "https://www.bringfido.com/lodging/1775481",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Drury Plaza Hotel New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79361",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Hotel Peter and Paul",
+     "bringfido_url": "https://www.bringfido.com/lodging/864572",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Haunted Hotel New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1322779",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "The Pontchartrain Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79444",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Hilton New Orleans St. Charles Avenue",
+     "bringfido_url": "https://www.bringfido.com/lodging/79373",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Sonesta ES Suites New Orleans Convention Center",
+     "bringfido_url": "https://www.bringfido.com/lodging/79426",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/"
+    },
+    {
+     "name": "Hotel Indigo New Orleans French Quarter by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/79429",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "2BR House Close to the French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/981157",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Creole Victorian for Groups Large & Small",
+     "bringfido_url": "https://www.bringfido.com/lodging/598102",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Four Seasons Hotel New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1260575",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Bourbon Orleans Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79344",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Best Western Plus French Quarter Courtyard Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79340",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Carondelet Creole Cottage",
+     "bringfido_url": "https://www.bringfido.com/lodging/599902",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "1212 S Rampart",
+     "bringfido_url": "https://www.bringfido.com/lodging/885841",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Private Garden Apartment 1 Block Off St Charles",
+     "bringfido_url": "https://www.bringfido.com/lodging/1064366",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Louisiana Ave Villa-Sleeps 8/ 2full Baths",
+     "bringfido_url": "https://www.bringfido.com/lodging/1086584",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "La Belle Veranda Cottage Sleeps4 Walk to Streetcar",
+     "bringfido_url": "https://www.bringfido.com/lodging/1086578",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Spacious Historic Apartment Blocks from Bourbon",
+     "bringfido_url": "https://www.bringfido.com/lodging/1070884",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "La Belle Vintage 3qn Bd/2bath Sleeps 6",
+     "bringfido_url": "https://www.bringfido.com/lodging/1086625",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "5-Bedroom Home with Great Outdoor Space",
+     "bringfido_url": "https://www.bringfido.com/lodging/1116671",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Hermanor Cottage",
+     "bringfido_url": "https://www.bringfido.com/lodging/599923",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Modern Spacious Home with Movie Room",
+     "bringfido_url": "https://www.bringfido.com/lodging/1136632",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Arts District Gem Walkable to French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/984676",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "6BR Luxury Nola Oasis",
+     "bringfido_url": "https://www.bringfido.com/lodging/1123048",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Maison Saint Charles by Hotel RL",
+     "bringfido_url": "https://www.bringfido.com/lodging/79417",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "The Lookout Inn of New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/282914",
+     "pets_allowed_claim": true,
+     "page": 2,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=2"
+    },
+    {
+     "name": "Hotel St Pierre a French Quarter Inns Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79439",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "TownePlace Suites by Marriott New Orleans Downtown/Canal Street",
+     "bringfido_url": "https://www.bringfido.com/lodging/472614",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Q&C Hotel and Bar New Orleans Autograph Collection",
+     "bringfido_url": "https://www.bringfido.com/lodging/79419",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Lovely St Claude Newly Renovated Apt",
+     "bringfido_url": "https://www.bringfido.com/lodging/766503",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "La Belle Luxe",
+     "bringfido_url": "https://www.bringfido.com/lodging/1086585",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "2BR Cottage with Park View",
+     "bringfido_url": "https://www.bringfido.com/lodging/1056145",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Courtyard by Marriott New Orleans Near the French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/79355",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Pet-Friendly Algiers Loft W Kitchen & TV",
+     "bringfido_url": "https://www.bringfido.com/lodging/2446099",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Motel 6 New Orleans LA - Near Downtown",
+     "bringfido_url": "https://www.bringfido.com/lodging/174681",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Loft 523",
+     "bringfido_url": "https://www.bringfido.com/lodging/79399",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "One11 Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/932911",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Omni Royal Orleans Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79410",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "The Royal Sonesta New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79428",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Catahoula Hotel New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/943566",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "InterContinental New Orleans by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/79389",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Holiday Inn French Quarter-Chateau LeMoyne",
+     "bringfido_url": "https://www.bringfido.com/lodging/79379",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Hyatt Centric French Quarter New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79349",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "The Westin New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79447",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Aloft by Marriott New Orleans Downtown",
+     "bringfido_url": "https://www.bringfido.com/lodging/176728",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Hotel Henrietta",
+     "bringfido_url": "https://www.bringfido.com/lodging/1262247",
+     "pets_allowed_claim": true,
+     "page": 3,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=3"
+    },
+    {
+     "name": "Cbd Superflat",
+     "bringfido_url": "https://www.bringfido.com/lodging/600057",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Uptown Charm",
+     "bringfido_url": "https://www.bringfido.com/lodging/599982",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Lively Uptown Getaway Steps from Historic Magazine",
+     "bringfido_url": "https://www.bringfido.com/lodging/901611",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Faubourg Marigny Cottage",
+     "bringfido_url": "https://www.bringfido.com/lodging/134958",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Quiet Retreat Off Magazine W Balcony Parking",
+     "bringfido_url": "https://www.bringfido.com/lodging/1888504",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Avenue Gardens",
+     "bringfido_url": "https://www.bringfido.com/lodging/857200",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Historic 6-Bedroom Dollhouse",
+     "bringfido_url": "https://www.bringfido.com/lodging/1061118",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Jazznest",
+     "bringfido_url": "https://www.bringfido.com/lodging/894796",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "New Orleans Home Two Miles to Bourbon Street",
+     "bringfido_url": "https://www.bringfido.com/lodging/1107828",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Hotel Saint Vincent",
+     "bringfido_url": "https://www.bringfido.com/lodging/1172079",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Quality Inn New Orleans I-10 East",
+     "bringfido_url": "https://www.bringfido.com/lodging/79359",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "The Lola",
+     "bringfido_url": "https://www.bringfido.com/lodging/1072989",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Historic Mid-City Home on Streetcar Route",
+     "bringfido_url": "https://www.bringfido.com/lodging/1064658",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Governors Apartment - Steps to French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/1137183",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "SpringHill Suites by Marriott New Orleans Downtown/Canal Street",
+     "bringfido_url": "https://www.bringfido.com/lodging/1305990",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "The Lola Studio",
+     "bringfido_url": "https://www.bringfido.com/lodging/1072949",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "3 Story Luxury Residence Unit 201",
+     "bringfido_url": "https://www.bringfido.com/lodging/1035982",
+     "pets_allowed_claim": true,
+     "page": 4,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=4"
+    },
+    {
+     "name": "Historic Home Close Streetcar & Greenway Access",
+     "bringfido_url": "https://www.bringfido.com/lodging/897104",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Federal City Inn & Suites",
+     "bringfido_url": "https://www.bringfido.com/lodging/167784",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Hampton Inn & Suites New Orleans Downtown (French QTR Area)",
+     "bringfido_url": "https://www.bringfido.com/lodging/79367",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "The Ritz-Carlton New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79427",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "The Frenchmen New Orleans by Kasa Living",
+     "bringfido_url": "https://www.bringfido.com/lodging/2228824",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Grenoble House",
+     "bringfido_url": "https://www.bringfido.com/lodging/377202",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "3BR Home Steps to Saint Charles Ave",
+     "bringfido_url": "https://www.bringfido.com/lodging/1062057",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Sonesta ES Suites New Orleans Downtown",
+     "bringfido_url": "https://www.bringfido.com/lodging/1298864",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "NOPSI Hotel New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/468706",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Hyatt Place New Orleans Convention Center",
+     "bringfido_url": "https://www.bringfido.com/lodging/79384",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Hampton Inn & Suites New Orleans Convention Center",
+     "bringfido_url": "https://www.bringfido.com/lodging/79366",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Moxy New Orleans Downtown French Quarter Area",
+     "bringfido_url": "https://www.bringfido.com/lodging/79416",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "The Eleanor New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1221908",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Fabulous Franklin 2BR Steps from St Claude Ave",
+     "bringfido_url": "https://www.bringfido.com/lodging/1120101",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Best Western Plus St. Christopher Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79342",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Crowne Plaza New Orleans French QTR - Astor by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/79357",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Fleur de Lis Mansion",
+     "bringfido_url": "https://www.bringfido.com/lodging/1442925",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Hampton Inn & Suites New Orleans Canal St. French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/79397",
+     "pets_allowed_claim": true,
+     "page": 5,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=5"
+    },
+    {
+     "name": "Roami at Motorworks",
+     "bringfido_url": "https://www.bringfido.com/lodging/1432094",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Le Pavillon New Orleans a Tribute Portfolio Hotel by Marriott",
+     "bringfido_url": "https://www.bringfido.com/lodging/79395",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Embassy Suites by Hilton New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79363",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Stunning Home Minutes to French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/794308",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Hampton Inn New Orleans-St Charles Ave/Garden District",
+     "bringfido_url": "https://www.bringfido.com/lodging/79368",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Hampton Inn New Orleans French Quarter Market Area",
+     "bringfido_url": "https://www.bringfido.com/lodging/1305208",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Cambria Hotel New Orleans Downtown Warehouse District",
+     "bringfido_url": "https://www.bringfido.com/lodging/1181638",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Magazine Mansion",
+     "bringfido_url": "https://www.bringfido.com/lodging/1745885",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Quarter House Suites",
+     "bringfido_url": "https://www.bringfido.com/lodging/1462014",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Canopy by Hilton New Orleans Downtown",
+     "bringfido_url": "https://www.bringfido.com/lodging/1315231",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Hotel De La Poste French Quarter A Renaissance Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79451",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "The Windsor Court",
+     "bringfido_url": "https://www.bringfido.com/lodging/79452",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Upscale Loft Downtown Nola (2835)",
+     "bringfido_url": "https://www.bringfido.com/lodging/1084506",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Hotel Theo New Orleans Tapestry Collection by Hilton",
+     "bringfido_url": "https://www.bringfido.com/lodging/1978953",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "The Troubadour Hotel New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/2362282",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Doubletree By Hilton New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79360",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Blake Hotel New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79411",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Homewood Suites by Hilton New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79380",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "SpringHill Suites by Marriott New Orleans Warehouse Arts District",
+     "bringfido_url": "https://www.bringfido.com/lodging/79435",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Le Méridien New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79450",
+     "pets_allowed_claim": true,
+     "page": 6,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=6"
+    },
+    {
+     "name": "Guitar House of New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/598291",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Luxurious Modern Condo in Excellent Neighborhood",
+     "bringfido_url": "https://www.bringfido.com/lodging/926476",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Carondelet Street Apartment by Stay  Alfred",
+     "bringfido_url": "https://www.bringfido.com/lodging/377247",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Hip Oasis",
+     "bringfido_url": "https://www.bringfido.com/lodging/778654",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "La Galerie French Quarter Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79347",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Restored Rustic Uptown Getaway Walk to Everything",
+     "bringfido_url": "https://www.bringfido.com/lodging/921908",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Maison D Or",
+     "bringfido_url": "https://www.bringfido.com/lodging/1770966",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "2/2 Apartment with Internet",
+     "bringfido_url": "https://www.bringfido.com/lodging/600179",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Lower Garden Home",
+     "bringfido_url": "https://www.bringfido.com/lodging/1123070",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Alder Hotel Uptown New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/472305",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Royal Frenchmen Hotel and Bar",
+     "bringfido_url": "https://www.bringfido.com/lodging/1217175",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Two Level Warehouse Dist Apt ",
+     "bringfido_url": "https://www.bringfido.com/lodging/600042",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "The Harlequin by AvantStay",
+     "bringfido_url": "https://www.bringfido.com/lodging/1462009",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Memoir Warehouse District",
+     "bringfido_url": "https://www.bringfido.com/lodging/1728179",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "The Celestine",
+     "bringfido_url": "https://www.bringfido.com/lodging/1682723",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Where Y'at",
+     "bringfido_url": "https://www.bringfido.com/lodging/937944",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Jack's House 2118 Camp St Nola",
+     "bringfido_url": "https://www.bringfido.com/lodging/598910",
+     "pets_allowed_claim": true,
+     "page": 7,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=7"
+    },
+    {
+     "name": "Charming Authentic MidCity",
+     "bringfido_url": "https://www.bringfido.com/lodging/134929",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "Treme Dream Home",
+     "bringfido_url": "https://www.bringfido.com/lodging/598220",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "1812 S Gayoso",
+     "bringfido_url": "https://www.bringfido.com/lodging/598119",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "Philip",
+     "bringfido_url": "https://www.bringfido.com/lodging/598620",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "La Maison Carondelet",
+     "bringfido_url": "https://www.bringfido.com/lodging/599006",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "1/1 House with Patio/Balcony",
+     "bringfido_url": "https://www.bringfido.com/lodging/598773",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "3/2 Garden & Off-Street Parking",
+     "bringfido_url": "https://www.bringfido.com/lodging/778092",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "The Mazant",
+     "bringfido_url": "https://www.bringfido.com/lodging/600021",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "French Quarter Condo",
+     "bringfido_url": "https://www.bringfido.com/lodging/815228",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "Lavender House",
+     "bringfido_url": "https://www.bringfido.com/lodging/874558",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "The Lola Studio",
+     "bringfido_url": "https://www.bringfido.com/lodging/1072941",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "New Orleans Home 5 Min from the French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/597865",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "415 Dupre Bon Temps",
+     "bringfido_url": "https://www.bringfido.com/lodging/780802",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "The Lola",
+     "bringfido_url": "https://www.bringfido.com/lodging/1072991",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "Elegant & Modern Apartment in Garden District",
+     "bringfido_url": "https://www.bringfido.com/lodging/990790",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "Luxury Warehouse District Apt",
+     "bringfido_url": "https://www.bringfido.com/lodging/598717",
+     "pets_allowed_claim": true,
+     "page": 8,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=8"
+    },
+    {
+     "name": "Modern 3/2 Apartment with Beautiful Balcony",
+     "bringfido_url": "https://www.bringfido.com/lodging/1108711",
+     "pets_allowed_claim": true,
+     "page": 9,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=9"
+    },
+    {
+     "name": "Nola Home Just for You",
+     "bringfido_url": "https://www.bringfido.com/lodging/911433",
+     "pets_allowed_claim": true,
+     "page": 9,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=9"
+    },
+    {
+     "name": "Homewood Suites by Hilton New Orleans French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/282921",
+     "pets_allowed_claim": true,
+     "page": 9,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=9"
+    },
+    {
+     "name": "The Napoleon House",
+     "bringfido_url": "https://www.bringfido.com/lodging/597770",
+     "pets_allowed_claim": true,
+     "page": 9,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=9"
+    },
+    {
+     "name": "Elysian Historic Cottage",
+     "bringfido_url": "https://www.bringfido.com/lodging/1136621",
+     "pets_allowed_claim": true,
+     "page": 9,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=9"
+    },
+    {
+     "name": "Kerlerec Victorian Cottage",
+     "bringfido_url": "https://www.bringfido.com/lodging/1136693",
+     "pets_allowed_claim": true,
+     "page": 9,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=9"
+    },
+    {
+     "name": "Historic Warehouse Rental",
+     "bringfido_url": "https://www.bringfido.com/lodging/598791",
+     "pets_allowed_claim": true,
+     "page": 9,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=9"
+    },
+    {
+     "name": "1BR Vintage Uptown Hidden Gem in New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/906097",
+     "pets_allowed_claim": true,
+     "page": 9,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=9"
+    },
+    {
+     "name": "Historical Home on Streetcar Line + Greenway",
+     "bringfido_url": "https://www.bringfido.com/lodging/891589",
+     "pets_allowed_claim": true,
+     "page": 10,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=10"
+    },
+    {
+     "name": "2316 - Vibrant Blue Luxury Loft",
+     "bringfido_url": "https://www.bringfido.com/lodging/2048631",
+     "pets_allowed_claim": true,
+     "page": 10,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=10"
+    },
+    {
+     "name": "Minutes from the French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/1090377",
+     "pets_allowed_claim": true,
+     "page": 10,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=10"
+    },
+    {
+     "name": "Luxurious 2BR House in New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1030668",
+     "pets_allowed_claim": true,
+     "page": 10,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=10"
+    },
+    {
+     "name": "4BR Luxury House with Private Pool",
+     "bringfido_url": "https://www.bringfido.com/lodging/1117470",
+     "pets_allowed_claim": true,
+     "page": 10,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=10"
+    },
+    {
+     "name": "Hyatt Regency New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/152811",
+     "pets_allowed_claim": true,
+     "page": 10,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=10"
+    },
+    {
+     "name": "Style & Location 2/2 Home",
+     "bringfido_url": "https://www.bringfido.com/lodging/777039",
+     "pets_allowed_claim": true,
+     "page": 10,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=10"
+    },
+    {
+     "name": "Courtyard by Marriott New Orleans French Quarter/Iberville",
+     "bringfido_url": "https://www.bringfido.com/lodging/79388",
+     "pets_allowed_claim": true,
+     "page": 10,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=10"
+    },
+    {
+     "name": "Valence Villa Vibrant",
+     "bringfido_url": "https://www.bringfido.com/lodging/991669",
+     "pets_allowed_claim": true,
+     "page": 10,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=10"
+    },
+    {
+     "name": "VRBO New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/524410",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Luxury Home by Bayou St John & Lafitte Greenway",
+     "bringfido_url": "https://www.bringfido.com/lodging/789895",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Premium Waterfront View & Stay",
+     "bringfido_url": "https://www.bringfido.com/lodging/807729",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Affordable & Quiet Living in New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/598027",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Local Art-Filled Hideaway",
+     "bringfido_url": "https://www.bringfido.com/lodging/1130939",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Guesthouse in Lower Garden District",
+     "bringfido_url": "https://www.bringfido.com/lodging/938417",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "1/1 Condo with Pool Near Bourbon St",
+     "bringfido_url": "https://www.bringfido.com/lodging/1108084",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "The Tchoup",
+     "bringfido_url": "https://www.bringfido.com/lodging/920307",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Cadillac Cottage",
+     "bringfido_url": "https://www.bringfido.com/lodging/1840749",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Charming 3BR Home",
+     "bringfido_url": "https://www.bringfido.com/lodging/950987",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Lower Garden District Apartment",
+     "bringfido_url": "https://www.bringfido.com/lodging/2215077",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Stylish Stay Haven 6",
+     "bringfido_url": "https://www.bringfido.com/lodging/1772494",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Nola Home W/ Front Porch 1 Mi to French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/2450566",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "New Orleans Airbnb Rentals",
+     "bringfido_url": "https://www.bringfido.com/lodging/267528",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Maison Métier",
+     "bringfido_url": "https://www.bringfido.com/lodging/1157967",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Pontchartrain Landing",
+     "bringfido_url": "https://www.bringfido.com/lodging/160771",
+     "pets_allowed_claim": true,
+     "page": 11,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=11"
+    },
+    {
+     "name": "Artist Tanner 2-Bed Cottage Off the Streetcar Line",
+     "bringfido_url": "https://www.bringfido.com/lodging/1128657",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "The Barnett - JDV by Hyatt",
+     "bringfido_url": "https://www.bringfido.com/lodging/1705466",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "Residence Inn by Marriott New Orleans French Quarter Area",
+     "bringfido_url": "https://www.bringfido.com/lodging/1281706",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "The Library at the Townhouse on Magazine Street",
+     "bringfido_url": "https://www.bringfido.com/lodging/599765",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "New Orleans Getaway - 5 Mi to French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/1909740",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "Charming Authentic Mid City Unit 1",
+     "bringfido_url": "https://www.bringfido.com/lodging/879089",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "Mid-City Home Minutes to French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/1076843",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "Hilton Garden Inn New Orleans French Quarter/CBD",
+     "bringfido_url": "https://www.bringfido.com/lodging/79371",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "Sheraton New Orleans Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79433",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "Villeré Historic Mansion",
+     "bringfido_url": "https://www.bringfido.com/lodging/1137114",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "Voco St. James Hotel by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/79436",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "Amazing Traditional Home in New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/854603",
+     "pets_allowed_claim": true,
+     "page": 12,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=12"
+    },
+    {
+     "name": "Private Lush Bywater Cottage",
+     "bringfido_url": "https://www.bringfido.com/lodging/918290",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Nola Central Historical Charm",
+     "bringfido_url": "https://www.bringfido.com/lodging/1115986",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Uptown Prime",
+     "bringfido_url": "https://www.bringfido.com/lodging/2215072",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Balcony Beauty",
+     "bringfido_url": "https://www.bringfido.com/lodging/600075",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Six18 House Residences",
+     "bringfido_url": "https://www.bringfido.com/lodging/811815",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Paradise Park",
+     "bringfido_url": "https://www.bringfido.com/lodging/795436",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Cozy Furnished Corporate Apartment",
+     "bringfido_url": "https://www.bringfido.com/lodging/883024",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "New Orleans Nest of Beauty",
+     "bringfido_url": "https://www.bringfido.com/lodging/599842",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Radiant Lofty Sunlit 1BR Apartment",
+     "bringfido_url": "https://www.bringfido.com/lodging/996303",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "The Roosevelt New Orleans, a Waldorf Astoria Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/107430",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Sophisticated on Salcedo",
+     "bringfido_url": "https://www.bringfido.com/lodging/1770967",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Julia at Saint Charles",
+     "bringfido_url": "https://www.bringfido.com/lodging/1906511",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Uptown Spacious 4BD W Historic Charm",
+     "bringfido_url": "https://www.bringfido.com/lodging/1893096",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Spacious House Near Fairgrounds for Jazz Festival",
+     "bringfido_url": "https://www.bringfido.com/lodging/874794",
+     "pets_allowed_claim": true,
+     "page": 13,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=13"
+    },
+    {
+     "name": "Baymont by Wyndham Slidell",
+     "bringfido_url": "https://www.bringfido.com/lodging/79523",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Econo Lodge Gretna - New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1288985",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Motel 6 Luling, LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/79276",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Residence Inn by Marriott New Orleans Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79297",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Studio 6 Luling LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/1179239",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Hampton Inn & Suites New Orleans-Elmwood/Clearview Pkway LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/79178",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Home2 Suites by Hilton Kenner New Orleans Airport",
+     "bringfido_url": "https://www.bringfido.com/lodging/1104692",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "TownePlace Suites New Orleans Harvey/West Bank",
+     "bringfido_url": "https://www.bringfido.com/lodging/282892",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Homewood Suites by Hilton Metairie New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/282907",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "TownePlace Suites by Marriott Metairie New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79179",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Extended Stay America Suites New Orleans Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79287",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "La Quinta Inn & Suites by Wyndham New Orleans Airport",
+     "bringfido_url": "https://www.bringfido.com/lodging/79210",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Hampton Inn Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79289",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Red Roof Inn Kenner - New Orleans Airport NE",
+     "bringfido_url": "https://www.bringfido.com/lodging/79200",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Candlewood Suites Avondale - New Orleans by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/152097",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "New Orleans West KOA",
+     "bringfido_url": "https://www.bringfido.com/lodging/129592",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Extended Stay America Suites - New Orleans - Airport - I-10",
+     "bringfido_url": "https://www.bringfido.com/lodging/1622739",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Extended Stay America Suites New Orleans Airport",
+     "bringfido_url": "https://www.bringfido.com/lodging/79206",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Lafitte Bayou Vacation",
+     "bringfido_url": "https://www.bringfido.com/lodging/134901",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Courtyard by Marriott New Orleans Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79285",
+     "pets_allowed_claim": true,
+     "page": 14,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=14"
+    },
+    {
+     "name": "Upper Lakefront Comfort",
+     "bringfido_url": "https://www.bringfido.com/lodging/597467",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "Hampton Inn & Suites Harvey/New Orleans West Bank",
+     "bringfido_url": "https://www.bringfido.com/lodging/377164",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "Patio Apartment",
+     "bringfido_url": "https://www.bringfido.com/lodging/850890",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "Quality Inn Harvey - New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79184",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "1/1 Apartment with Fenced Yard",
+     "bringfido_url": "https://www.bringfido.com/lodging/974964",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "Lakefront Comfort #2",
+     "bringfido_url": "https://www.bringfido.com/lodging/1064488",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "3BR Delacroix Fish/Hunt Camp & Lodge",
+     "bringfido_url": "https://www.bringfido.com/lodging/1094893",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "Wyndham Garden New Orleans Airport",
+     "bringfido_url": "https://www.bringfido.com/lodging/79208",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "Lakefront Comfort Close to Downtown",
+     "bringfido_url": "https://www.bringfido.com/lodging/990170",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "Home2 Suites by Hilton Harvey New Orleans Westbank",
+     "bringfido_url": "https://www.bringfido.com/lodging/1344452",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "La Quinta Inn by Wyndham New Orleans West Bank Gretna",
+     "bringfido_url": "https://www.bringfido.com/lodging/79170",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "Homewood Suites by Hilton New Orleans Westbank",
+     "bringfido_url": "https://www.bringfido.com/lodging/1179636",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "5-Bedroom Monthly Rental",
+     "bringfido_url": "https://www.bringfido.com/lodging/758682",
+     "pets_allowed_claim": true,
+     "page": 15,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=15"
+    },
+    {
+     "name": "WeStay Suites - Belle Chasse",
+     "bringfido_url": "https://www.bringfido.com/lodging/1141736",
+     "pets_allowed_claim": true,
+     "page": 16,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=16"
+    },
+    {
+     "name": "2-Bedroom Near French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/607755",
+     "pets_allowed_claim": true,
+     "page": 16,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=16"
+    },
+    {
+     "name": "New Orleans Area Home 5 Mi to City Park",
+     "bringfido_url": "https://www.bringfido.com/lodging/1836211",
+     "pets_allowed_claim": true,
+     "page": 16,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=16"
+    },
+    {
+     "name": "River Ridge Cottage Near French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/1088205",
+     "pets_allowed_claim": true,
+     "page": 16,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=16"
+    },
+    {
+     "name": "Spacious Family Home 2 Mi to Lake Pontchartrain",
+     "bringfido_url": "https://www.bringfido.com/lodging/2457703",
+     "pets_allowed_claim": true,
+     "page": 16,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=16"
+    },
+    {
+     "name": "Bayou Segnette State Park Campground",
+     "bringfido_url": "https://www.bringfido.com/lodging/129453",
+     "pets_allowed_claim": true,
+     "page": 16,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=16"
+    },
+    {
+     "name": "Walk to Bayou Lery",
+     "bringfido_url": "https://www.bringfido.com/lodging/1787522",
+     "pets_allowed_claim": true,
+     "page": 16,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=16"
+    },
+    {
+     "name": "Pet-Friendly St. Bernard Home Near Fishing",
+     "bringfido_url": "https://www.bringfido.com/lodging/1787250",
+     "pets_allowed_claim": true,
+     "page": 16,
+     "source_url": "https://www.bringfido.com/lodging/city/new_orleans_la_us/?page=16"
+    }
+   ]
+  },
+  "metairie_la_us": {
+   "city_slug": "metairie_la_us",
+   "display_name": "Metairie",
+   "corridor_slug": "metairie",
+   "source_first_page": "https://www.bringfido.com/lodging/city/metairie_la_us/",
+   "stated_total_hotels": 17,
+   "pages_fetched": 1,
+   "pages": [
+    {
+     "page": 1,
+     "url": "https://www.bringfido.com/lodging/city/metairie_la_us/",
+     "status": 200,
+     "bytes": 430514,
+     "sha256": "c73818cb7651aca5106121dfda948784958493270fa8a6bb9046f33bf71dd55b",
+     "hotel_items_on_page": 19
+    }
+   ],
+   "hotel_items_captured": 19,
+   "hotels": [
+    {
+     "name": "Residence Inn by Marriott New Orleans Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79297",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Homewood Suites by Hilton Metairie New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/282907",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Extended Stay America Suites New Orleans Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79287",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Hampton Inn Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79289",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Courtyard by Marriott New Orleans Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79285",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "5-Bedroom Monthly Rental",
+     "bringfido_url": "https://www.bringfido.com/lodging/758682",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Super 8 by Wyndham Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/1305843",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Rodeway Inn Metairie - New Orleans West",
+     "bringfido_url": "https://www.bringfido.com/lodging/377185",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Upper Lakefront Comfort",
+     "bringfido_url": "https://www.bringfido.com/lodging/597467",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Quiet Cozy Cottage Close to French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/1025122",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "New Orleans Area Home Near the Lake & City Park",
+     "bringfido_url": "https://www.bringfido.com/lodging/1821441",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "VRBO Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/524408",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "New Orleans Area Home 5 Mi to City Park",
+     "bringfido_url": "https://www.bringfido.com/lodging/1836211",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Metairie Airbnb Rentals",
+     "bringfido_url": "https://www.bringfido.com/lodging/268513",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Lakefront Comfort Close to Downtown",
+     "bringfido_url": "https://www.bringfido.com/lodging/990170",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Lakefront Comfort #2",
+     "bringfido_url": "https://www.bringfido.com/lodging/1064488",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "1/1 Apartment with Fenced Yard",
+     "bringfido_url": "https://www.bringfido.com/lodging/974964",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Kimpton Hotel Fontenot by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/79440",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    },
+    {
+     "name": "Virgin Hotels New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/882324",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/metairie_la_us/"
+    }
+   ]
+  },
+  "kenner_la_us": {
+   "city_slug": "kenner_la_us",
+   "display_name": "Kenner",
+   "corridor_slug": "msy-airport-kenner",
+   "source_first_page": "https://www.bringfido.com/lodging/city/kenner_la_us/",
+   "stated_total_hotels": 9,
+   "pages_fetched": 1,
+   "pages": [
+    {
+     "page": 1,
+     "url": "https://www.bringfido.com/lodging/city/kenner_la_us/",
+     "status": 200,
+     "bytes": 430058,
+     "sha256": "58e53ccf3b08b7ba14a9b66fa4e00ea468849a4daf8ef243e06203db13cbb243",
+     "hotel_items_on_page": 19
+    }
+   ],
+   "hotel_items_captured": 19,
+   "hotels": [
+    {
+     "name": "Home2 Suites by Hilton Kenner New Orleans Airport",
+     "bringfido_url": "https://www.bringfido.com/lodging/1104692",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "La Quinta Inn & Suites by Wyndham New Orleans Airport",
+     "bringfido_url": "https://www.bringfido.com/lodging/79210",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Red Roof Inn Kenner - New Orleans Airport NE",
+     "bringfido_url": "https://www.bringfido.com/lodging/79200",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Extended Stay America Suites - New Orleans - Airport - I-10",
+     "bringfido_url": "https://www.bringfido.com/lodging/1622739",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Extended Stay America Suites New Orleans Airport",
+     "bringfido_url": "https://www.bringfido.com/lodging/79206",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Wyndham Garden New Orleans Airport",
+     "bringfido_url": "https://www.bringfido.com/lodging/79208",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "VRBO Kenner",
+     "bringfido_url": "https://www.bringfido.com/lodging/524406",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Spacious Family Home 2 Mi to Lake Pontchartrain",
+     "bringfido_url": "https://www.bringfido.com/lodging/2457703",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Kenner Airbnb Rentals",
+     "bringfido_url": "https://www.bringfido.com/lodging/273492",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Kimpton Hotel Fontenot by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/79440",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Virgin Hotels New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/882324",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Bon Maison Guest House",
+     "bringfido_url": "https://www.bringfido.com/lodging/2119282",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "St Charles Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/79341",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Econo Lodge Gretna - New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1288985",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Motel 6 Luling, LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/79276",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Creole Gardens Guesthouse and Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/108733",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Residence Inn by Marriott New Orleans Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79297",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Bienville House",
+     "bringfido_url": "https://www.bringfido.com/lodging/79343",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    },
+    {
+     "name": "Hotel Monteleone",
+     "bringfido_url": "https://www.bringfido.com/lodging/79383",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/kenner_la_us/"
+    }
+   ]
+  },
+  "harvey_la_us": {
+   "city_slug": "harvey_la_us",
+   "display_name": "Harvey",
+   "corridor_slug": "harvey-west-bank",
+   "source_first_page": "https://www.bringfido.com/lodging/city/harvey_la_us/",
+   "stated_total_hotels": 7,
+   "pages_fetched": 1,
+   "pages": [
+    {
+     "page": 1,
+     "url": "https://www.bringfido.com/lodging/city/harvey_la_us/",
+     "status": 200,
+     "bytes": 426418,
+     "sha256": "32b9e34f870e26709b93cf1a4013cacd00ad342cd6226ee4580e10aec4bf3970",
+     "hotel_items_on_page": 19
+    }
+   ],
+   "hotel_items_captured": 19,
+   "hotels": [
+    {
+     "name": "Harvey Airbnb Rentals",
+     "bringfido_url": "https://www.bringfido.com/lodging/273484",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "VRBO Harvey",
+     "bringfido_url": "https://www.bringfido.com/lodging/524404",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Red Roof Inn New Orleans - Westbank",
+     "bringfido_url": "https://www.bringfido.com/lodging/1241913",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Quality Inn Harvey - New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79184",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Hampton Inn & Suites Harvey/New Orleans West Bank",
+     "bringfido_url": "https://www.bringfido.com/lodging/377164",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "TownePlace Suites New Orleans Harvey/West Bank",
+     "bringfido_url": "https://www.bringfido.com/lodging/282892",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Home2 Suites by Hilton Harvey New Orleans Westbank",
+     "bringfido_url": "https://www.bringfido.com/lodging/1344452",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Best Western Plus French Quarter Courtyard Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79340",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Creole Gardens Guesthouse and Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/108733",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Hampton Inn Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79289",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Rodeway Inn Metairie - New Orleans West",
+     "bringfido_url": "https://www.bringfido.com/lodging/377185",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Super 8 by Wyndham Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/1305843",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Hotel St Pierre a French Quarter Inns Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79439",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Andrew Jackson Hotel a French Quarter Inns Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79336",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Motel 6 New Orleans LA - Near Downtown",
+     "bringfido_url": "https://www.bringfido.com/lodging/174681",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Aloft by Marriott New Orleans Downtown",
+     "bringfido_url": "https://www.bringfido.com/lodging/176728",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Econo Lodge Gretna - New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1288985",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "The Lookout Inn of New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/282914",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    },
+    {
+     "name": "Studio 6 Luling LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/1179239",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harvey_la_us/"
+    }
+   ]
+  },
+  "gretna_la_us": {
+   "city_slug": "gretna_la_us",
+   "display_name": "Gretna",
+   "corridor_slug": "gretna-west-bank",
+   "source_first_page": "https://www.bringfido.com/lodging/city/gretna_la_us/",
+   "stated_total_hotels": 5,
+   "pages_fetched": 1,
+   "pages": [
+    {
+     "page": 1,
+     "url": "https://www.bringfido.com/lodging/city/gretna_la_us/",
+     "status": 200,
+     "bytes": 434150,
+     "sha256": "3196bd0bf5539d5cf18bd075202b6c45964e1769030a515db182bb39ffb12a40",
+     "hotel_items_on_page": 19
+    }
+   ],
+   "hotel_items_captured": 19,
+   "hotels": [
+    {
+     "name": "Econo Lodge Gretna - New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1288985",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Homewood Suites by Hilton New Orleans Westbank",
+     "bringfido_url": "https://www.bringfido.com/lodging/1179636",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "VRBO Gretna",
+     "bringfido_url": "https://www.bringfido.com/lodging/524402",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Gretna Airbnb Rentals",
+     "bringfido_url": "https://www.bringfido.com/lodging/273481",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "La Quinta Inn by Wyndham New Orleans West Bank Gretna",
+     "bringfido_url": "https://www.bringfido.com/lodging/79170",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Kimpton Hotel Fontenot by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/79440",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Virgin Hotels New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/882324",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Bon Maison Guest House",
+     "bringfido_url": "https://www.bringfido.com/lodging/2119282",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "St Charles Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/79341",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Motel 6 Luling, LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/79276",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Creole Gardens Guesthouse and Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/108733",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Residence Inn by Marriott New Orleans Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79297",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Bienville House",
+     "bringfido_url": "https://www.bringfido.com/lodging/79343",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Hotel Monteleone",
+     "bringfido_url": "https://www.bringfido.com/lodging/79383",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Andrew Jackson Hotel a French Quarter Inns Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79336",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Studio 6 Luling LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/1179239",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "Loews New Orleans Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/167786",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "The Old No 77 Hotel & Chandlery",
+     "bringfido_url": "https://www.bringfido.com/lodging/79333",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    },
+    {
+     "name": "The Pontchartrain Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79444",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/gretna_la_us/"
+    }
+   ]
+  },
+  "harahan_la_us": {
+   "city_slug": "harahan_la_us",
+   "display_name": "Harahan",
+   "corridor_slug": "elmwood-jefferson-harahan",
+   "source_first_page": "https://www.bringfido.com/lodging/city/harahan_la_us/",
+   "stated_total_hotels": 4,
+   "pages_fetched": 1,
+   "pages": [
+    {
+     "page": 1,
+     "url": "https://www.bringfido.com/lodging/city/harahan_la_us/",
+     "status": 200,
+     "bytes": 432791,
+     "sha256": "9a1b70f5cc63c27f13d3d8a678877c1ff5e95ed4ab225da3ab4047359d651069",
+     "hotel_items_on_page": 19
+    }
+   ],
+   "hotel_items_captured": 19,
+   "hotels": [
+    {
+     "name": "Harahan Airbnb Rentals",
+     "bringfido_url": "https://www.bringfido.com/lodging/273483",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "VRBO Harahan",
+     "bringfido_url": "https://www.bringfido.com/lodging/524403",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "TownePlace Suites by Marriott Metairie New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/79179",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Hampton Inn & Suites New Orleans-Elmwood/Clearview Pkway LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/79178",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Best Western Plus French Quarter Courtyard Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79340",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Creole Gardens Guesthouse and Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/108733",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Hampton Inn Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79289",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Rodeway Inn Metairie - New Orleans West",
+     "bringfido_url": "https://www.bringfido.com/lodging/377185",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Super 8 by Wyndham Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/1305843",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Hotel St Pierre a French Quarter Inns Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79439",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Andrew Jackson Hotel a French Quarter Inns Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79336",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Motel 6 New Orleans LA - Near Downtown",
+     "bringfido_url": "https://www.bringfido.com/lodging/174681",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Aloft by Marriott New Orleans Downtown",
+     "bringfido_url": "https://www.bringfido.com/lodging/176728",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Econo Lodge Gretna - New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1288985",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "The Lookout Inn of New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/282914",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Studio 6 Luling LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/1179239",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "St Charles Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/79341",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "Southern Charm in Nola",
+     "bringfido_url": "https://www.bringfido.com/lodging/869748",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    },
+    {
+     "name": "5-Bedroom Monthly Rental",
+     "bringfido_url": "https://www.bringfido.com/lodging/758682",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/harahan_la_us/"
+    }
+   ]
+  },
+  "marrero_la_us": {
+   "city_slug": "marrero_la_us",
+   "display_name": "Marrero",
+   "corridor_slug": "marrero",
+   "source_first_page": "https://www.bringfido.com/lodging/city/marrero_la_us/",
+   "stated_total_hotels": 2,
+   "pages_fetched": 1,
+   "pages": [
+    {
+     "page": 1,
+     "url": "https://www.bringfido.com/lodging/city/marrero_la_us/",
+     "status": 200,
+     "bytes": 433150,
+     "sha256": "7196289059033d644254f187c86b127c1c015a91272926f0723c427bbeee0fb1",
+     "hotel_items_on_page": 19
+    }
+   ],
+   "hotel_items_captured": 19,
+   "hotels": [
+    {
+     "name": "VRBO Marrero",
+     "bringfido_url": "https://www.bringfido.com/lodging/524407",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Marrero Airbnb Rentals",
+     "bringfido_url": "https://www.bringfido.com/lodging/273504",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Kimpton Hotel Fontenot by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/79440",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Virgin Hotels New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/882324",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Bon Maison Guest House",
+     "bringfido_url": "https://www.bringfido.com/lodging/2119282",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "St Charles Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/79341",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Econo Lodge Gretna - New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1288985",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Motel 6 Luling, LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/79276",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Creole Gardens Guesthouse and Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/108733",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Bienville House",
+     "bringfido_url": "https://www.bringfido.com/lodging/79343",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Hotel Monteleone",
+     "bringfido_url": "https://www.bringfido.com/lodging/79383",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Andrew Jackson Hotel a French Quarter Inns Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79336",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "La Quinta by Wyndham Boutte",
+     "bringfido_url": "https://www.bringfido.com/lodging/174797",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Studio 6 Luling LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/1179239",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Loews New Orleans Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/167786",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "The Old No 77 Hotel & Chandlery",
+     "bringfido_url": "https://www.bringfido.com/lodging/79333",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Residence Inn by Marriott New Orleans Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79297",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "Three Oaks and a Pine RV Park",
+     "bringfido_url": "https://www.bringfido.com/lodging/485331",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    },
+    {
+     "name": "St. Philip Manor French Quarter",
+     "bringfido_url": "https://www.bringfido.com/lodging/1399552",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/marrero_la_us/"
+    }
+   ]
+  },
+  "westwego_la_us": {
+   "city_slug": "westwego_la_us",
+   "display_name": "Westwego",
+   "corridor_slug": "westwego",
+   "source_first_page": "https://www.bringfido.com/lodging/city/westwego_la_us/",
+   "stated_total_hotels": 5,
+   "pages_fetched": 1,
+   "pages": [
+    {
+     "page": 1,
+     "url": "https://www.bringfido.com/lodging/city/westwego_la_us/",
+     "status": 200,
+     "bytes": 431457,
+     "sha256": "6fa050154dc95ec060cca813660d87e8949c6fc2aedf3566156936e7c4914125",
+     "hotel_items_on_page": 19
+    }
+   ],
+   "hotel_items_captured": 19,
+   "hotels": [
+    {
+     "name": "Candlewood Suites Avondale - New Orleans by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/152097",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Eclectic Westwego Retreat With Sunroom & Patio",
+     "bringfido_url": "https://www.bringfido.com/lodging/1773411",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "VRBO Westwego",
+     "bringfido_url": "https://www.bringfido.com/lodging/524413",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Westwego Airbnb Rentals",
+     "bringfido_url": "https://www.bringfido.com/lodging/273545",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Bayou Segnette State Park Campground",
+     "bringfido_url": "https://www.bringfido.com/lodging/129453",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Kimpton Hotel Fontenot by IHG",
+     "bringfido_url": "https://www.bringfido.com/lodging/79440",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Virgin Hotels New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/882324",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Bon Maison Guest House",
+     "bringfido_url": "https://www.bringfido.com/lodging/2119282",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "St Charles Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/79341",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Econo Lodge Gretna - New Orleans",
+     "bringfido_url": "https://www.bringfido.com/lodging/1288985",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Motel 6 Luling, LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/79276",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Creole Gardens Guesthouse and Inn",
+     "bringfido_url": "https://www.bringfido.com/lodging/108733",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Residence Inn by Marriott New Orleans Metairie",
+     "bringfido_url": "https://www.bringfido.com/lodging/79297",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Bienville House",
+     "bringfido_url": "https://www.bringfido.com/lodging/79343",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Hotel Monteleone",
+     "bringfido_url": "https://www.bringfido.com/lodging/79383",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Andrew Jackson Hotel a French Quarter Inns Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/79336",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "La Quinta by Wyndham Boutte",
+     "bringfido_url": "https://www.bringfido.com/lodging/174797",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Studio 6 Luling LA",
+     "bringfido_url": "https://www.bringfido.com/lodging/1179239",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    },
+    {
+     "name": "Loews New Orleans Hotel",
+     "bringfido_url": "https://www.bringfido.com/lodging/167786",
+     "pets_allowed_claim": true,
+     "page": 1,
+     "source_url": "https://www.bringfido.com/lodging/city/westwego_la_us/"
+    }
+   ]
+  },
+  "chalmette_la_us": {
+   "city_slug": "chalmette_la_us",
+   "display_name": "Chalmette",
+   "corridor_slug": "chalmette-arabi",
+   "source_first_page": "https://www.bringfido.com/lodging/city/chalmette_la_us/",
+   "stated_total_hotels": null,
+   "pages_fetched": 1,
+   "pages": [
+    {
+     "page": 1,
+     "url": "https://www.bringfido.com/lodging/city/chalmette_la_us/",
+     "status": 404,
+     "bytes": 5533,
+     "sha256": "8c340a920aee08a5dc57bcb072411280dc23bfbfa3be7d2e581effca394a61b9",
+     "hotel_items_on_page": 0
+    }
+   ],
+   "hotel_items_captured": 0,
+   "hotels": []
+  }
+ },
+ "raw_captured": 380,
+ "normalized_unique": 269,
+ "duplicates_across_city_pages": 111,
+ "leads": [
+  {
+   "name": "Kimpton Hotel Fontenot by IHG",
+   "bringfido_url": "https://www.bringfido.com/lodging/79440",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie",
+    "Kenner",
+    "Gretna",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Virgin Hotels New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/882324",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie",
+    "Kenner",
+    "Gretna",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Bon Maison Guest House",
+   "bringfido_url": "https://www.bringfido.com/lodging/2119282",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner",
+    "Gretna",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "St Charles Inn",
+   "bringfido_url": "https://www.bringfido.com/lodging/79341",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner",
+    "Gretna",
+    "Harahan",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Creole Gardens Guesthouse and Inn",
+   "bringfido_url": "https://www.bringfido.com/lodging/108733",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner",
+    "Harvey",
+    "Gretna",
+    "Harahan",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Bienville House",
+   "bringfido_url": "https://www.bringfido.com/lodging/79343",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner",
+    "Gretna",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Hotel Monteleone",
+   "bringfido_url": "https://www.bringfido.com/lodging/79383",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner",
+    "Gretna",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Andrew Jackson Hotel a French Quarter Inns Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/79336",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey",
+    "Gretna",
+    "Harahan",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Loews New Orleans Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/167786",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Gretna",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "The Old No 77 Hotel & Chandlery",
+   "bringfido_url": "https://www.bringfido.com/lodging/79333",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Gretna",
+    "Marrero"
+   ]
+  },
+  {
+   "name": "Three Oaks and a Pine RV Park",
+   "bringfido_url": "https://www.bringfido.com/lodging/485331",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Marrero"
+   ]
+  },
+  {
+   "name": "St. Philip Manor French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/1399552",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Marrero"
+   ]
+  },
+  {
+   "name": "Mangosteen",
+   "bringfido_url": "https://www.bringfido.com/lodging/1775481",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Drury Plaza Hotel New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79361",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hotel Peter and Paul",
+   "bringfido_url": "https://www.bringfido.com/lodging/864572",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Haunted Hotel New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/1322779",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Pontchartrain Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/79444",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Gretna"
+   ]
+  },
+  {
+   "name": "Hilton New Orleans St. Charles Avenue",
+   "bringfido_url": "https://www.bringfido.com/lodging/79373",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Sonesta ES Suites New Orleans Convention Center",
+   "bringfido_url": "https://www.bringfido.com/lodging/79426",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hotel Indigo New Orleans French Quarter by IHG",
+   "bringfido_url": "https://www.bringfido.com/lodging/79429",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "2BR House Close to the French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/981157",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Creole Victorian for Groups Large & Small",
+   "bringfido_url": "https://www.bringfido.com/lodging/598102",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Four Seasons Hotel New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/1260575",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Bourbon Orleans Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/79344",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Best Western Plus French Quarter Courtyard Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/79340",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey",
+    "Harahan"
+   ]
+  },
+  {
+   "name": "Carondelet Creole Cottage",
+   "bringfido_url": "https://www.bringfido.com/lodging/599902",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "1212 S Rampart",
+   "bringfido_url": "https://www.bringfido.com/lodging/885841",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Private Garden Apartment 1 Block Off St Charles",
+   "bringfido_url": "https://www.bringfido.com/lodging/1064366",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Louisiana Ave Villa-Sleeps 8/ 2full Baths",
+   "bringfido_url": "https://www.bringfido.com/lodging/1086584",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "La Belle Veranda Cottage Sleeps4 Walk to Streetcar",
+   "bringfido_url": "https://www.bringfido.com/lodging/1086578",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Spacious Historic Apartment Blocks from Bourbon",
+   "bringfido_url": "https://www.bringfido.com/lodging/1070884",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "La Belle Vintage 3qn Bd/2bath Sleeps 6",
+   "bringfido_url": "https://www.bringfido.com/lodging/1086625",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "5-Bedroom Home with Great Outdoor Space",
+   "bringfido_url": "https://www.bringfido.com/lodging/1116671",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hermanor Cottage",
+   "bringfido_url": "https://www.bringfido.com/lodging/599923",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Modern Spacious Home with Movie Room",
+   "bringfido_url": "https://www.bringfido.com/lodging/1136632",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Arts District Gem Walkable to French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/984676",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "6BR Luxury Nola Oasis",
+   "bringfido_url": "https://www.bringfido.com/lodging/1123048",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Maison Saint Charles by Hotel RL",
+   "bringfido_url": "https://www.bringfido.com/lodging/79417",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Lookout Inn of New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/282914",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey",
+    "Harahan"
+   ]
+  },
+  {
+   "name": "Hotel St Pierre a French Quarter Inns Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/79439",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey",
+    "Harahan"
+   ]
+  },
+  {
+   "name": "TownePlace Suites by Marriott New Orleans Downtown/Canal Street",
+   "bringfido_url": "https://www.bringfido.com/lodging/472614",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Q&C Hotel and Bar New Orleans Autograph Collection",
+   "bringfido_url": "https://www.bringfido.com/lodging/79419",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Lovely St Claude Newly Renovated Apt",
+   "bringfido_url": "https://www.bringfido.com/lodging/766503",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "La Belle Luxe",
+   "bringfido_url": "https://www.bringfido.com/lodging/1086585",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "2BR Cottage with Park View",
+   "bringfido_url": "https://www.bringfido.com/lodging/1056145",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Courtyard by Marriott New Orleans Near the French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/79355",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Pet-Friendly Algiers Loft W Kitchen & TV",
+   "bringfido_url": "https://www.bringfido.com/lodging/2446099",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Motel 6 New Orleans LA - Near Downtown",
+   "bringfido_url": "https://www.bringfido.com/lodging/174681",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey",
+    "Harahan"
+   ]
+  },
+  {
+   "name": "Loft 523",
+   "bringfido_url": "https://www.bringfido.com/lodging/79399",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "One11 Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/932911",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Omni Royal Orleans Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/79410",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Royal Sonesta New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79428",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Catahoula Hotel New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/943566",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "InterContinental New Orleans by IHG",
+   "bringfido_url": "https://www.bringfido.com/lodging/79389",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Holiday Inn French Quarter-Chateau LeMoyne",
+   "bringfido_url": "https://www.bringfido.com/lodging/79379",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hyatt Centric French Quarter New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79349",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Westin New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79447",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Aloft by Marriott New Orleans Downtown",
+   "bringfido_url": "https://www.bringfido.com/lodging/176728",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey",
+    "Harahan"
+   ]
+  },
+  {
+   "name": "Hotel Henrietta",
+   "bringfido_url": "https://www.bringfido.com/lodging/1262247",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Cbd Superflat",
+   "bringfido_url": "https://www.bringfido.com/lodging/600057",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Uptown Charm",
+   "bringfido_url": "https://www.bringfido.com/lodging/599982",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Lively Uptown Getaway Steps from Historic Magazine",
+   "bringfido_url": "https://www.bringfido.com/lodging/901611",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Faubourg Marigny Cottage",
+   "bringfido_url": "https://www.bringfido.com/lodging/134958",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Quiet Retreat Off Magazine W Balcony Parking",
+   "bringfido_url": "https://www.bringfido.com/lodging/1888504",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Avenue Gardens",
+   "bringfido_url": "https://www.bringfido.com/lodging/857200",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Historic 6-Bedroom Dollhouse",
+   "bringfido_url": "https://www.bringfido.com/lodging/1061118",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Jazznest",
+   "bringfido_url": "https://www.bringfido.com/lodging/894796",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "New Orleans Home Two Miles to Bourbon Street",
+   "bringfido_url": "https://www.bringfido.com/lodging/1107828",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hotel Saint Vincent",
+   "bringfido_url": "https://www.bringfido.com/lodging/1172079",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Quality Inn New Orleans I-10 East",
+   "bringfido_url": "https://www.bringfido.com/lodging/79359",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Lola",
+   "bringfido_url": "https://www.bringfido.com/lodging/1072989",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Historic Mid-City Home on Streetcar Route",
+   "bringfido_url": "https://www.bringfido.com/lodging/1064658",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Governors Apartment - Steps to French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/1137183",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "SpringHill Suites by Marriott New Orleans Downtown/Canal Street",
+   "bringfido_url": "https://www.bringfido.com/lodging/1305990",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Lola Studio",
+   "bringfido_url": "https://www.bringfido.com/lodging/1072949",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "3 Story Luxury Residence Unit 201",
+   "bringfido_url": "https://www.bringfido.com/lodging/1035982",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Historic Home Close Streetcar & Greenway Access",
+   "bringfido_url": "https://www.bringfido.com/lodging/897104",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Federal City Inn & Suites",
+   "bringfido_url": "https://www.bringfido.com/lodging/167784",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hampton Inn & Suites New Orleans Downtown (French QTR Area)",
+   "bringfido_url": "https://www.bringfido.com/lodging/79367",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Ritz-Carlton New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79427",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Frenchmen New Orleans by Kasa Living",
+   "bringfido_url": "https://www.bringfido.com/lodging/2228824",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Grenoble House",
+   "bringfido_url": "https://www.bringfido.com/lodging/377202",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "3BR Home Steps to Saint Charles Ave",
+   "bringfido_url": "https://www.bringfido.com/lodging/1062057",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Sonesta ES Suites New Orleans Downtown",
+   "bringfido_url": "https://www.bringfido.com/lodging/1298864",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "NOPSI Hotel New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/468706",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hyatt Place New Orleans Convention Center",
+   "bringfido_url": "https://www.bringfido.com/lodging/79384",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hampton Inn & Suites New Orleans Convention Center",
+   "bringfido_url": "https://www.bringfido.com/lodging/79366",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Moxy New Orleans Downtown French Quarter Area",
+   "bringfido_url": "https://www.bringfido.com/lodging/79416",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Eleanor New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/1221908",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Fabulous Franklin 2BR Steps from St Claude Ave",
+   "bringfido_url": "https://www.bringfido.com/lodging/1120101",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Best Western Plus St. Christopher Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/79342",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Crowne Plaza New Orleans French QTR - Astor by IHG",
+   "bringfido_url": "https://www.bringfido.com/lodging/79357",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Fleur de Lis Mansion",
+   "bringfido_url": "https://www.bringfido.com/lodging/1442925",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hampton Inn & Suites New Orleans Canal St. French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/79397",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Roami at Motorworks",
+   "bringfido_url": "https://www.bringfido.com/lodging/1432094",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Le Pavillon New Orleans a Tribute Portfolio Hotel by Marriott",
+   "bringfido_url": "https://www.bringfido.com/lodging/79395",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Embassy Suites by Hilton New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79363",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Stunning Home Minutes to French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/794308",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hampton Inn New Orleans-St Charles Ave/Garden District",
+   "bringfido_url": "https://www.bringfido.com/lodging/79368",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hampton Inn New Orleans French Quarter Market Area",
+   "bringfido_url": "https://www.bringfido.com/lodging/1305208",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Cambria Hotel New Orleans Downtown Warehouse District",
+   "bringfido_url": "https://www.bringfido.com/lodging/1181638",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Magazine Mansion",
+   "bringfido_url": "https://www.bringfido.com/lodging/1745885",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Quarter House Suites",
+   "bringfido_url": "https://www.bringfido.com/lodging/1462014",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Canopy by Hilton New Orleans Downtown",
+   "bringfido_url": "https://www.bringfido.com/lodging/1315231",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hotel De La Poste French Quarter A Renaissance Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/79451",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Windsor Court",
+   "bringfido_url": "https://www.bringfido.com/lodging/79452",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Upscale Loft Downtown Nola (2835)",
+   "bringfido_url": "https://www.bringfido.com/lodging/1084506",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hotel Theo New Orleans Tapestry Collection by Hilton",
+   "bringfido_url": "https://www.bringfido.com/lodging/1978953",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Troubadour Hotel New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/2362282",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Doubletree By Hilton New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79360",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Blake Hotel New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79411",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Homewood Suites by Hilton New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79380",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "SpringHill Suites by Marriott New Orleans Warehouse Arts District",
+   "bringfido_url": "https://www.bringfido.com/lodging/79435",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Le Méridien New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79450",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Guitar House of New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/598291",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Luxurious Modern Condo in Excellent Neighborhood",
+   "bringfido_url": "https://www.bringfido.com/lodging/926476",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Carondelet Street Apartment by Stay  Alfred",
+   "bringfido_url": "https://www.bringfido.com/lodging/377247",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hip Oasis",
+   "bringfido_url": "https://www.bringfido.com/lodging/778654",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "La Galerie French Quarter Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/79347",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Restored Rustic Uptown Getaway Walk to Everything",
+   "bringfido_url": "https://www.bringfido.com/lodging/921908",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Maison D Or",
+   "bringfido_url": "https://www.bringfido.com/lodging/1770966",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "2/2 Apartment with Internet",
+   "bringfido_url": "https://www.bringfido.com/lodging/600179",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Lower Garden Home",
+   "bringfido_url": "https://www.bringfido.com/lodging/1123070",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Alder Hotel Uptown New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/472305",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Royal Frenchmen Hotel and Bar",
+   "bringfido_url": "https://www.bringfido.com/lodging/1217175",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Two Level Warehouse Dist Apt ",
+   "bringfido_url": "https://www.bringfido.com/lodging/600042",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Harlequin by AvantStay",
+   "bringfido_url": "https://www.bringfido.com/lodging/1462009",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Memoir Warehouse District",
+   "bringfido_url": "https://www.bringfido.com/lodging/1728179",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Celestine",
+   "bringfido_url": "https://www.bringfido.com/lodging/1682723",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Where Y'at",
+   "bringfido_url": "https://www.bringfido.com/lodging/937944",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Jack's House 2118 Camp St Nola",
+   "bringfido_url": "https://www.bringfido.com/lodging/598910",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Charming Authentic MidCity",
+   "bringfido_url": "https://www.bringfido.com/lodging/134929",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Treme Dream Home",
+   "bringfido_url": "https://www.bringfido.com/lodging/598220",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "1812 S Gayoso",
+   "bringfido_url": "https://www.bringfido.com/lodging/598119",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Philip",
+   "bringfido_url": "https://www.bringfido.com/lodging/598620",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "La Maison Carondelet",
+   "bringfido_url": "https://www.bringfido.com/lodging/599006",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "1/1 House with Patio/Balcony",
+   "bringfido_url": "https://www.bringfido.com/lodging/598773",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "3/2 Garden & Off-Street Parking",
+   "bringfido_url": "https://www.bringfido.com/lodging/778092",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Mazant",
+   "bringfido_url": "https://www.bringfido.com/lodging/600021",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "French Quarter Condo",
+   "bringfido_url": "https://www.bringfido.com/lodging/815228",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Lavender House",
+   "bringfido_url": "https://www.bringfido.com/lodging/874558",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Lola Studio",
+   "bringfido_url": "https://www.bringfido.com/lodging/1072941",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "New Orleans Home 5 Min from the French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/597865",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "415 Dupre Bon Temps",
+   "bringfido_url": "https://www.bringfido.com/lodging/780802",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Lola",
+   "bringfido_url": "https://www.bringfido.com/lodging/1072991",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Elegant & Modern Apartment in Garden District",
+   "bringfido_url": "https://www.bringfido.com/lodging/990790",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Luxury Warehouse District Apt",
+   "bringfido_url": "https://www.bringfido.com/lodging/598717",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Modern 3/2 Apartment with Beautiful Balcony",
+   "bringfido_url": "https://www.bringfido.com/lodging/1108711",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Nola Home Just for You",
+   "bringfido_url": "https://www.bringfido.com/lodging/911433",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Homewood Suites by Hilton New Orleans French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/282921",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Napoleon House",
+   "bringfido_url": "https://www.bringfido.com/lodging/597770",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Elysian Historic Cottage",
+   "bringfido_url": "https://www.bringfido.com/lodging/1136621",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Kerlerec Victorian Cottage",
+   "bringfido_url": "https://www.bringfido.com/lodging/1136693",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Historic Warehouse Rental",
+   "bringfido_url": "https://www.bringfido.com/lodging/598791",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "1BR Vintage Uptown Hidden Gem in New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/906097",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Historical Home on Streetcar Line + Greenway",
+   "bringfido_url": "https://www.bringfido.com/lodging/891589",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "2316 - Vibrant Blue Luxury Loft",
+   "bringfido_url": "https://www.bringfido.com/lodging/2048631",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Minutes from the French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/1090377",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Luxurious 2BR House in New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/1030668",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "4BR Luxury House with Private Pool",
+   "bringfido_url": "https://www.bringfido.com/lodging/1117470",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hyatt Regency New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/152811",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Style & Location 2/2 Home",
+   "bringfido_url": "https://www.bringfido.com/lodging/777039",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Courtyard by Marriott New Orleans French Quarter/Iberville",
+   "bringfido_url": "https://www.bringfido.com/lodging/79388",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Valence Villa Vibrant",
+   "bringfido_url": "https://www.bringfido.com/lodging/991669",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "VRBO New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/524410",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Luxury Home by Bayou St John & Lafitte Greenway",
+   "bringfido_url": "https://www.bringfido.com/lodging/789895",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Premium Waterfront View & Stay",
+   "bringfido_url": "https://www.bringfido.com/lodging/807729",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Affordable & Quiet Living in New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/598027",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Local Art-Filled Hideaway",
+   "bringfido_url": "https://www.bringfido.com/lodging/1130939",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Guesthouse in Lower Garden District",
+   "bringfido_url": "https://www.bringfido.com/lodging/938417",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "1/1 Condo with Pool Near Bourbon St",
+   "bringfido_url": "https://www.bringfido.com/lodging/1108084",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Tchoup",
+   "bringfido_url": "https://www.bringfido.com/lodging/920307",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Cadillac Cottage",
+   "bringfido_url": "https://www.bringfido.com/lodging/1840749",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Charming 3BR Home",
+   "bringfido_url": "https://www.bringfido.com/lodging/950987",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Lower Garden District Apartment",
+   "bringfido_url": "https://www.bringfido.com/lodging/2215077",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Stylish Stay Haven 6",
+   "bringfido_url": "https://www.bringfido.com/lodging/1772494",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Nola Home W/ Front Porch 1 Mi to French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/2450566",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "New Orleans Airbnb Rentals",
+   "bringfido_url": "https://www.bringfido.com/lodging/267528",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Maison Métier",
+   "bringfido_url": "https://www.bringfido.com/lodging/1157967",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Pontchartrain Landing",
+   "bringfido_url": "https://www.bringfido.com/lodging/160771",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Artist Tanner 2-Bed Cottage Off the Streetcar Line",
+   "bringfido_url": "https://www.bringfido.com/lodging/1128657",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Barnett - JDV by Hyatt",
+   "bringfido_url": "https://www.bringfido.com/lodging/1705466",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Residence Inn by Marriott New Orleans French Quarter Area",
+   "bringfido_url": "https://www.bringfido.com/lodging/1281706",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Library at the Townhouse on Magazine Street",
+   "bringfido_url": "https://www.bringfido.com/lodging/599765",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "New Orleans Getaway - 5 Mi to French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/1909740",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Charming Authentic Mid City Unit 1",
+   "bringfido_url": "https://www.bringfido.com/lodging/879089",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Mid-City Home Minutes to French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/1076843",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Hilton Garden Inn New Orleans French Quarter/CBD",
+   "bringfido_url": "https://www.bringfido.com/lodging/79371",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Sheraton New Orleans Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/79433",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Villeré Historic Mansion",
+   "bringfido_url": "https://www.bringfido.com/lodging/1137114",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Voco St. James Hotel by IHG",
+   "bringfido_url": "https://www.bringfido.com/lodging/79436",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Amazing Traditional Home in New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/854603",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Private Lush Bywater Cottage",
+   "bringfido_url": "https://www.bringfido.com/lodging/918290",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Nola Central Historical Charm",
+   "bringfido_url": "https://www.bringfido.com/lodging/1115986",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Uptown Prime",
+   "bringfido_url": "https://www.bringfido.com/lodging/2215072",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Balcony Beauty",
+   "bringfido_url": "https://www.bringfido.com/lodging/600075",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Six18 House Residences",
+   "bringfido_url": "https://www.bringfido.com/lodging/811815",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Paradise Park",
+   "bringfido_url": "https://www.bringfido.com/lodging/795436",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Cozy Furnished Corporate Apartment",
+   "bringfido_url": "https://www.bringfido.com/lodging/883024",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "New Orleans Nest of Beauty",
+   "bringfido_url": "https://www.bringfido.com/lodging/599842",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Radiant Lofty Sunlit 1BR Apartment",
+   "bringfido_url": "https://www.bringfido.com/lodging/996303",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "The Roosevelt New Orleans, a Waldorf Astoria Hotel",
+   "bringfido_url": "https://www.bringfido.com/lodging/107430",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Sophisticated on Salcedo",
+   "bringfido_url": "https://www.bringfido.com/lodging/1770967",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Julia at Saint Charles",
+   "bringfido_url": "https://www.bringfido.com/lodging/1906511",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Uptown Spacious 4BD W Historic Charm",
+   "bringfido_url": "https://www.bringfido.com/lodging/1893096",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Spacious House Near Fairgrounds for Jazz Festival",
+   "bringfido_url": "https://www.bringfido.com/lodging/874794",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Baymont by Wyndham Slidell",
+   "bringfido_url": "https://www.bringfido.com/lodging/79523",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Econo Lodge Gretna - New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/1288985",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner",
+    "Harvey",
+    "Gretna",
+    "Harahan",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Motel 6 Luling, LA",
+   "bringfido_url": "https://www.bringfido.com/lodging/79276",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner",
+    "Gretna",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Residence Inn by Marriott New Orleans Metairie",
+   "bringfido_url": "https://www.bringfido.com/lodging/79297",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie",
+    "Kenner",
+    "Gretna",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Studio 6 Luling LA",
+   "bringfido_url": "https://www.bringfido.com/lodging/1179239",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey",
+    "Gretna",
+    "Harahan",
+    "Marrero",
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Hampton Inn & Suites New Orleans-Elmwood/Clearview Pkway LA",
+   "bringfido_url": "https://www.bringfido.com/lodging/79178",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harahan"
+   ]
+  },
+  {
+   "name": "Home2 Suites by Hilton Kenner New Orleans Airport",
+   "bringfido_url": "https://www.bringfido.com/lodging/1104692",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner"
+   ]
+  },
+  {
+   "name": "TownePlace Suites New Orleans Harvey/West Bank",
+   "bringfido_url": "https://www.bringfido.com/lodging/282892",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey"
+   ]
+  },
+  {
+   "name": "Homewood Suites by Hilton Metairie New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/282907",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie"
+   ]
+  },
+  {
+   "name": "TownePlace Suites by Marriott Metairie New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79179",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harahan"
+   ]
+  },
+  {
+   "name": "Extended Stay America Suites New Orleans Metairie",
+   "bringfido_url": "https://www.bringfido.com/lodging/79287",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie"
+   ]
+  },
+  {
+   "name": "La Quinta Inn & Suites by Wyndham New Orleans Airport",
+   "bringfido_url": "https://www.bringfido.com/lodging/79210",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner"
+   ]
+  },
+  {
+   "name": "Hampton Inn Metairie",
+   "bringfido_url": "https://www.bringfido.com/lodging/79289",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie",
+    "Harvey",
+    "Harahan"
+   ]
+  },
+  {
+   "name": "Red Roof Inn Kenner - New Orleans Airport NE",
+   "bringfido_url": "https://www.bringfido.com/lodging/79200",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner"
+   ]
+  },
+  {
+   "name": "Candlewood Suites Avondale - New Orleans by IHG",
+   "bringfido_url": "https://www.bringfido.com/lodging/152097",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Westwego"
+   ]
+  },
+  {
+   "name": "New Orleans West KOA",
+   "bringfido_url": "https://www.bringfido.com/lodging/129592",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Extended Stay America Suites - New Orleans - Airport - I-10",
+   "bringfido_url": "https://www.bringfido.com/lodging/1622739",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner"
+   ]
+  },
+  {
+   "name": "Extended Stay America Suites New Orleans Airport",
+   "bringfido_url": "https://www.bringfido.com/lodging/79206",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner"
+   ]
+  },
+  {
+   "name": "Lafitte Bayou Vacation",
+   "bringfido_url": "https://www.bringfido.com/lodging/134901",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Courtyard by Marriott New Orleans Metairie",
+   "bringfido_url": "https://www.bringfido.com/lodging/79285",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie"
+   ]
+  },
+  {
+   "name": "Upper Lakefront Comfort",
+   "bringfido_url": "https://www.bringfido.com/lodging/597467",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie"
+   ]
+  },
+  {
+   "name": "Hampton Inn & Suites Harvey/New Orleans West Bank",
+   "bringfido_url": "https://www.bringfido.com/lodging/377164",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey"
+   ]
+  },
+  {
+   "name": "Patio Apartment",
+   "bringfido_url": "https://www.bringfido.com/lodging/850890",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Quality Inn Harvey - New Orleans",
+   "bringfido_url": "https://www.bringfido.com/lodging/79184",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey"
+   ]
+  },
+  {
+   "name": "1/1 Apartment with Fenced Yard",
+   "bringfido_url": "https://www.bringfido.com/lodging/974964",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie"
+   ]
+  },
+  {
+   "name": "Lakefront Comfort #2",
+   "bringfido_url": "https://www.bringfido.com/lodging/1064488",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie"
+   ]
+  },
+  {
+   "name": "3BR Delacroix Fish/Hunt Camp & Lodge",
+   "bringfido_url": "https://www.bringfido.com/lodging/1094893",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Wyndham Garden New Orleans Airport",
+   "bringfido_url": "https://www.bringfido.com/lodging/79208",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner"
+   ]
+  },
+  {
+   "name": "Lakefront Comfort Close to Downtown",
+   "bringfido_url": "https://www.bringfido.com/lodging/990170",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie"
+   ]
+  },
+  {
+   "name": "Home2 Suites by Hilton Harvey New Orleans Westbank",
+   "bringfido_url": "https://www.bringfido.com/lodging/1344452",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Harvey"
+   ]
+  },
+  {
+   "name": "La Quinta Inn by Wyndham New Orleans West Bank Gretna",
+   "bringfido_url": "https://www.bringfido.com/lodging/79170",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Gretna"
+   ]
+  },
+  {
+   "name": "Homewood Suites by Hilton New Orleans Westbank",
+   "bringfido_url": "https://www.bringfido.com/lodging/1179636",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Gretna"
+   ]
+  },
+  {
+   "name": "5-Bedroom Monthly Rental",
+   "bringfido_url": "https://www.bringfido.com/lodging/758682",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie",
+    "Harahan"
+   ]
+  },
+  {
+   "name": "WeStay Suites - Belle Chasse",
+   "bringfido_url": "https://www.bringfido.com/lodging/1141736",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "2-Bedroom Near French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/607755",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "New Orleans Area Home 5 Mi to City Park",
+   "bringfido_url": "https://www.bringfido.com/lodging/1836211",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Metairie"
+   ]
+  },
+  {
+   "name": "River Ridge Cottage Near French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/1088205",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Spacious Family Home 2 Mi to Lake Pontchartrain",
+   "bringfido_url": "https://www.bringfido.com/lodging/2457703",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Kenner"
+   ]
+  },
+  {
+   "name": "Bayou Segnette State Park Campground",
+   "bringfido_url": "https://www.bringfido.com/lodging/129453",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": [
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Walk to Bayou Lery",
+   "bringfido_url": "https://www.bringfido.com/lodging/1787522",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Pet-Friendly St. Bernard Home Near Fishing",
+   "bringfido_url": "https://www.bringfido.com/lodging/1787250",
+   "pets_allowed_claim": true,
+   "first_seen_city": "New Orleans",
+   "first_seen_corridor_slug": "french-quarter-marigny-bywater",
+   "also_listed_under": []
+  },
+  {
+   "name": "Super 8 by Wyndham Metairie",
+   "bringfido_url": "https://www.bringfido.com/lodging/1305843",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Metairie",
+   "first_seen_corridor_slug": "metairie",
+   "also_listed_under": [
+    "Harvey",
+    "Harahan"
+   ]
+  },
+  {
+   "name": "Rodeway Inn Metairie - New Orleans West",
+   "bringfido_url": "https://www.bringfido.com/lodging/377185",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Metairie",
+   "first_seen_corridor_slug": "metairie",
+   "also_listed_under": [
+    "Harvey",
+    "Harahan"
+   ]
+  },
+  {
+   "name": "Quiet Cozy Cottage Close to French Quarter",
+   "bringfido_url": "https://www.bringfido.com/lodging/1025122",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Metairie",
+   "first_seen_corridor_slug": "metairie",
+   "also_listed_under": []
+  },
+  {
+   "name": "New Orleans Area Home Near the Lake & City Park",
+   "bringfido_url": "https://www.bringfido.com/lodging/1821441",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Metairie",
+   "first_seen_corridor_slug": "metairie",
+   "also_listed_under": []
+  },
+  {
+   "name": "VRBO Metairie",
+   "bringfido_url": "https://www.bringfido.com/lodging/524408",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Metairie",
+   "first_seen_corridor_slug": "metairie",
+   "also_listed_under": []
+  },
+  {
+   "name": "Metairie Airbnb Rentals",
+   "bringfido_url": "https://www.bringfido.com/lodging/268513",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Metairie",
+   "first_seen_corridor_slug": "metairie",
+   "also_listed_under": []
+  },
+  {
+   "name": "VRBO Kenner",
+   "bringfido_url": "https://www.bringfido.com/lodging/524406",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Kenner",
+   "first_seen_corridor_slug": "msy-airport-kenner",
+   "also_listed_under": []
+  },
+  {
+   "name": "Kenner Airbnb Rentals",
+   "bringfido_url": "https://www.bringfido.com/lodging/273492",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Kenner",
+   "first_seen_corridor_slug": "msy-airport-kenner",
+   "also_listed_under": []
+  },
+  {
+   "name": "Harvey Airbnb Rentals",
+   "bringfido_url": "https://www.bringfido.com/lodging/273484",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Harvey",
+   "first_seen_corridor_slug": "harvey-west-bank",
+   "also_listed_under": []
+  },
+  {
+   "name": "VRBO Harvey",
+   "bringfido_url": "https://www.bringfido.com/lodging/524404",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Harvey",
+   "first_seen_corridor_slug": "harvey-west-bank",
+   "also_listed_under": []
+  },
+  {
+   "name": "Red Roof Inn New Orleans - Westbank",
+   "bringfido_url": "https://www.bringfido.com/lodging/1241913",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Harvey",
+   "first_seen_corridor_slug": "harvey-west-bank",
+   "also_listed_under": []
+  },
+  {
+   "name": "VRBO Gretna",
+   "bringfido_url": "https://www.bringfido.com/lodging/524402",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Gretna",
+   "first_seen_corridor_slug": "gretna-west-bank",
+   "also_listed_under": []
+  },
+  {
+   "name": "Gretna Airbnb Rentals",
+   "bringfido_url": "https://www.bringfido.com/lodging/273481",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Gretna",
+   "first_seen_corridor_slug": "gretna-west-bank",
+   "also_listed_under": []
+  },
+  {
+   "name": "Harahan Airbnb Rentals",
+   "bringfido_url": "https://www.bringfido.com/lodging/273483",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Harahan",
+   "first_seen_corridor_slug": "elmwood-jefferson-harahan",
+   "also_listed_under": []
+  },
+  {
+   "name": "VRBO Harahan",
+   "bringfido_url": "https://www.bringfido.com/lodging/524403",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Harahan",
+   "first_seen_corridor_slug": "elmwood-jefferson-harahan",
+   "also_listed_under": []
+  },
+  {
+   "name": "Southern Charm in Nola",
+   "bringfido_url": "https://www.bringfido.com/lodging/869748",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Harahan",
+   "first_seen_corridor_slug": "elmwood-jefferson-harahan",
+   "also_listed_under": []
+  },
+  {
+   "name": "VRBO Marrero",
+   "bringfido_url": "https://www.bringfido.com/lodging/524407",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Marrero",
+   "first_seen_corridor_slug": "marrero",
+   "also_listed_under": []
+  },
+  {
+   "name": "Marrero Airbnb Rentals",
+   "bringfido_url": "https://www.bringfido.com/lodging/273504",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Marrero",
+   "first_seen_corridor_slug": "marrero",
+   "also_listed_under": []
+  },
+  {
+   "name": "La Quinta by Wyndham Boutte",
+   "bringfido_url": "https://www.bringfido.com/lodging/174797",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Marrero",
+   "first_seen_corridor_slug": "marrero",
+   "also_listed_under": [
+    "Westwego"
+   ]
+  },
+  {
+   "name": "Eclectic Westwego Retreat With Sunroom & Patio",
+   "bringfido_url": "https://www.bringfido.com/lodging/1773411",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Westwego",
+   "first_seen_corridor_slug": "westwego",
+   "also_listed_under": []
+  },
+  {
+   "name": "VRBO Westwego",
+   "bringfido_url": "https://www.bringfido.com/lodging/524413",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Westwego",
+   "first_seen_corridor_slug": "westwego",
+   "also_listed_under": []
+  },
+  {
+   "name": "Westwego Airbnb Rentals",
+   "bringfido_url": "https://www.bringfido.com/lodging/273545",
+   "pets_allowed_claim": true,
+   "first_seen_city": "Westwego",
+   "first_seen_corridor_slug": "westwego",
+   "also_listed_under": []
+  }
+ ],
+ "stated_totals_by_city": {
+  "New Orleans": 261,
+  "Metairie": 17,
+  "Kenner": 9,
+  "Harvey": 7,
+  "Gretna": 5,
+  "Harahan": 4,
+  "Marrero": 2,
+  "Westwego": 5,
+  "Chalmette": null
+ },
+ "earlier_runs": [
+  {
+   "name": "firecrawl",
+   "why": "the plain client is refused by Cloudflare's interstitial on every BringFido page (measured by this order on its own first page); the challenge is never solved or bypassed",
+   "attempts": 17,
+   "cap_attempts": 22,
+   "credits_before": 160,
+   "credits_after": 143,
+   "credits_used": 17,
+   "max_pages_per_city": 20
+  }
+ ],
+ "transport": {
+  "name": "firecrawl",
+  "why": "the plain client is refused by Cloudflare's interstitial on every BringFido page (measured by this order on its own first page); the challenge is never solved or bypassed",
+  "attempts": 8,
+  "cap_attempts": 18,
+  "credits_before": 143,
+  "credits_after": 135,
+  "credits_used": 8,
+  "max_pages_per_city": 2
+ },
+ "credits_used_all_runs": 25
+}

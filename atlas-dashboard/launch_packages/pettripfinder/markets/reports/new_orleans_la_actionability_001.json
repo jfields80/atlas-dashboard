@@ -1,0 +1,1822 @@
+{
+ "schema": "ptf-market-actionability/2.0",
+ "work_order": "PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+ "market_id": "new-orleans-la",
+ "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
+ "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
+ "census_total": 350,
+ "resolved": 158,
+ "unresolved_total": 192,
+ "totals_by_class": {
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 189,
+  "REQUIRES_NEW_PROVIDER": 0,
+  "REQUIRES_NEW_SPEND": 0,
+  "REQUIRES_FOUNDER": 2,
+  "HELD_UNTIL_OPENING": 1
+ },
+ "by_disposition": {
+  "ACCESS_BLOCKED": {
+   "total": 7,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 7,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "EVIDENCE_HOLD": {
+   "total": 12,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 11,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "total": 18,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 16,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 2,
+   "held_until_opening": 0
+  },
+  "ROUTING_HOLD": {
+   "total": 56,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 56,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "SOURCE_SILENT": {
+   "total": 99,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 99,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  }
+ },
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 0,
+ "founder_rows_safely_held": 2,
+ "preopening_rows_safely_excluded": 1,
+ "places_note": "Google Places route discovery ran inside the renewed free monthly allowance (existing capacity, no new spend); a row it queried and could not route is exhausted, a row it never queried is actionable",
+ "attended_browser": {
+  "attempts": 188,
+  "reads": 106,
+  "challenge_denied": 0,
+  "unbound": 20,
+  "paid_provider_calls": 0,
+  "akamai_bypassed": false,
+  "browser_js_exfiltration_used": false,
+  "local_relay_used": false
+ },
+ "coverage_conditions": {
+  "actionable_unresolved_is_zero": true,
+  "no_material_identity_gap": true,
+  "no_material_unexplained_policy_gap": true,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
+  "publication_set_safe": true,
+  "package_deterministic_and_fast_clean": false
+ },
+ "COVERAGE_READY": "NO",
+ "TECHNICAL_SOURCE_READY": "NO",
+ "rows": [
+  {
+   "identity_key": "econo lodge new orleans",
+   "canonical_name": "Econo Lodge New Orleans",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "CHOICE",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "engine 24 firehouse",
+   "canonical_name": "Engine 24 Firehouse",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site (found via Places) did not serve to the plain client (status 403)"
+  },
+  {
+   "identity_key": "fleur de lis mansion",
+   "canonical_name": "Fleur De Lis Mansion",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site (found via Places) did not serve to the plain client (status 403)"
+  },
+  {
+   "identity_key": "french quarter suites hotel",
+   "canonical_name": "French Quarter Suites Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted: static UNEXPECTED_PAGE, Firecrawl FIRECRAWL_FAILED"
+  },
+  {
+   "identity_key": "maison mazant",
+   "canonical_name": "Maison Mazant",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted: static ACCESS_DENIED, Firecrawl FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "maison metier",
+   "canonical_name": "Maison Metier",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own page served, but its pet-policy accordion never exposed its text to the attended browser on two bounded attempts (the panel did not open or the renderer froze); nothing was read and nothing is inferred (https://maisonmetier.com/) -- Only a cookie-consent interface rendered; the banne"
+  },
+  {
+   "identity_key": "motel 6 new orleans la near downtown",
+   "canonical_name": "Motel 6 New Orleans, LA - Near Downtown",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "MOTEL6",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "router exhausted on every free/authorized lane attempted this order (static NAVIGATION_FAILED)"
+  },
+  {
+   "identity_key": "claiborne mansion",
+   "canonical_name": "Claiborne Mansion",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- CLOSED_PERMANENTLY -- the property's own site (https://www.claibornemansion.com/) states 'The Claiborne Mansion has closed. Thank you for making us a part of your adventures with this extraordinary ci"
+  },
+  {
+   "identity_key": "country inn and suites by radisson metairie new orleans la",
+   "canonical_name": "Country Inn & Suites by Radisson, Metairie (New Orleans), LA",
+   "corridor": "new-orleans-la__metairie",
+   "brand_family": "RADISSON",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'mi Show more Info Essential "
+  },
+  {
+   "identity_key": "dew drop inn",
+   "canonical_name": "Dew Drop Inn",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "grand victorian bed and breakfast",
+   "canonical_name": "Grand Victorian Bed & Breakfast",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "hubbard mansion",
+   "canonical_name": "Hubbard Mansion",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Hubbard Mansion - Policies S"
+  },
+  {
+   "identity_key": "hyatt regency new orleans",
+   "canonical_name": "Hyatt Regency New Orleans",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "HYATT",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "inn on st ann",
+   "canonical_name": "Inn on St. Ann",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refus"
+  },
+  {
+   "identity_key": "the barnett",
+   "canonical_name": "The Barnett",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "the chloe",
+   "canonical_name": "The Chloe",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote FEE_ONLY (a fee, count or weight alone does not establish acceptance: 'IS THE CHLOE PET FRIENDLY? We welcome one dog per g"
+  },
+  {
+   "identity_key": "the lanaux mansion",
+   "canonical_name": "The Lanaux Mansion",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "wyndham garden new orleans downtown",
+   "canonical_name": "Wyndham Garden New Orleans Downtown",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Only service animals accepte"
+  },
+  {
+   "identity_key": "antebellum guest house",
+   "canonical_name": "Antebellum Guest House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the page the census route serves states no address, phone or postal code of its own, so it binds no premises (and states no pet policy) (http://www.antebellumguesthouse.com/) -- The property's own home page and its Reservations / Policies page were read in full; neither says anything about pets, and"
+  },
+  {
+   "identity_key": "empress hotel",
+   "canonical_name": "Empress Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "express inn and suites",
+   "canonical_name": "Express Inn & Suites",
+   "corridor": "new-orleans-la__westwego",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "hotel sainte helene",
+   "canonical_name": "Hotel Sainte Helene",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the page read did not bind to this row's exact premises (property code, name + postal code, or full street) (https://www.frenchquarterhotelcollection.com/hotel-st-helene.html) -- The route is the operating company's collection page; the only address it prints is the company's Metairie office (3330 N"
+  },
+  {
+   "identity_key": "india house backpackers hotel",
+   "canonical_name": "India House Backpackers Hotel",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "lafitte guest house",
+   "canonical_name": "Lafitte Guest House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the page the census route serves states no address, phone or postal code of its own, so it binds no premises (and states no pet policy) (https://www.lafittehotelandbar.com/344427537081) -- The old route redirects to 'Lafitte Hotel & Bar' (a rebrand at the same premises, '1003 [Bourbon]' on its own I"
+  },
+  {
+   "identity_key": "maison dubois bed and breakfast",
+   "canonical_name": "Maison DuBois Bed and Breakfast",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "maison dupuy hotel",
+   "canonical_name": "Maison Dupuy Hotel",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "mazant holding",
+   "canonical_name": "Mazant Holding",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "new orleans guest house",
+   "canonical_name": "New Orleans Guest House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "nitey nite inn llc",
+   "canonical_name": "Nitey Nite Inn Llc",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "olivier house hotel",
+   "canonical_name": "Olivier House Hotel",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "schaeffer hotel",
+   "canonical_name": "Schaeffer Hotel",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "st peter guest house",
+   "canonical_name": "St. Peter Guest House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "the joe",
+   "canonical_name": "The Joe",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the site Places names never stated this row's house number + ZIP, phone or JSON-LD address; it is not bound to this identity"
+  },
+  {
+   "identity_key": "the railyard nola",
+   "canonical_name": "The Railyard Nola",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the fetched page's own identity did not confirm this census row"
+  },
+  {
+   "identity_key": "1329 carondelet",
+   "canonical_name": "1329 Carondelet",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://stayheirloom.com/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "7muses",
+   "canonical_name": "7muses",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "accessory b and b",
+   "canonical_name": "Accessory B and b",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://dragonflytreme.com/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "americas best value inn new orleans gretna",
+   "canonical_name": "Americas Best Value Inn-New Orleans/Gretna",
+   "corridor": "new-orleans-la__gretna-west-bank",
+   "brand_family": "SONESTA",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "avant stay",
+   "canonical_name": "Avant Stay",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "baymont marrero",
+   "canonical_name": "Baymont Marrero",
+   "corridor": "new-orleans-la__marrero",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own property-code route lands on a hotel-search page: the brand publishes no property page for these premises; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.wyndhamhotels.com/baymont/marrero-louisiana/baymont-inn-and-suites-marrero/ove) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "bayou st john bed and breakfast",
+   "canonical_name": "Bayou St. John Bed & Breakfast",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "bed and breakfast on the point",
+   "canonical_name": "Bed and Breakfast on the Point",
+   "corridor": "new-orleans-la__algiers",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "chez nous",
+   "canonical_name": "Chez Nous",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "chuck s place hotel",
+   "canonical_name": "Chuck's Place Hotel",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "clarion",
+   "canonical_name": "Clarion",
+   "corridor": "new-orleans-la__metairie",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "coccinelle",
+   "canonical_name": "Coccinelle",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "comfort suites new orleans",
+   "canonical_name": "Comfort Suites New Orleans",
+   "corridor": "new-orleans-la__msy-airport-kenner",
+   "brand_family": "CHOICE",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Places named https://www.choicehotels.com/louisiana/kenner/comfort-suites-hotels/la079; the attended browser opened it (seq 160): NO_PROPERTY_PAGE_ROUTE_LANDS_ON_BRAND_SEARCH -- The code's page lands on a brand search whose two results are other Comfort Suites (Bullard Ave, Harvey); no card at 2710 Idaho Avenue -- the property is no longer listed by Choice"
+  },
+  {
+   "identity_key": "cornstalk hotel",
+   "canonical_name": "Cornstalk Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "crescent city guest house",
+   "canonical_name": "Crescent City Guest House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "crowne plaza hotel new orleans airport",
+   "canonical_name": "Crowne Plaza Hotel New Orleans Airport",
+   "corridor": "new-orleans-la__msy-airport-kenner",
+   "brand_family": "IHG",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "deep south motel",
+   "canonical_name": "Deep South Motel",
+   "corridor": "new-orleans-la__metairie",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://deep-south-motel.jany.io/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "evergreen plaza inn",
+   "canonical_name": "Evergreen Plaza Inn",
+   "corridor": "new-orleans-la__metairie",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "fortuna 1317 columbus",
+   "canonical_name": "Fortuna 1317 Columbus",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "gentry house",
+   "canonical_name": "Gentry House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "glenrose motel",
+   "canonical_name": "Glenrose Motel",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "hampton inn six flags area",
+   "canonical_name": "Hampton Inn-Six Flags Area",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "HILTON",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own property-code route lands on a hotel-search page: the brand publishes no property page for these premises; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://hamptoninn3.hilton.com/en/hotels/louisiana/hampton-inn-and-suites-new-orleans-downt) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "harcol house",
+   "canonical_name": "Harcol House",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "hosteva",
+   "canonical_name": "Hosteva",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://www.hosteeva.com/travel) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "hotel henrietta",
+   "canonical_name": "Hotel Henrietta",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://hotelhenrietta.com/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "jacks motel",
+   "canonical_name": "Jacks Motel",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "jazz quarters at the chartres marigny",
+   "canonical_name": "Jazz Quarters at the Chartres Marigny",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "kate and daves bed and breakfast",
+   "canonical_name": "Kate & Daves Bed & Breakfast",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "keystone motel",
+   "canonical_name": "Keystone Motel",
+   "corridor": "new-orleans-la__metairie",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "la maison marigny b and b on bourbon",
+   "canonical_name": "La Maison Marigny B and B on Bourbon",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "la quinta inn and suites bullard",
+   "canonical_name": "La Quinta Inn and Suites - Bullard",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "la quinta inn and suites crowder",
+   "canonical_name": "La Quinta Inn and Suites - Crowder",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "laurel street bed and breakfast",
+   "canonical_name": "Laurel Street Bed & Breakfast",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "le papillon guesthouse",
+   "canonical_name": "Le Papillon Guesthouse",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "magnolia mansion hotel",
+   "canonical_name": "Magnolia Mansion Hotel",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "mason motel inc",
+   "canonical_name": "Mason Motel Inc",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "mentone bed and breakfast",
+   "canonical_name": "Mentone Bed & Breakfast",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "monte carlo motel",
+   "canonical_name": "Monte Carlo Motel",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.montecarlomotelneworleans.top/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "new orleans festival house",
+   "canonical_name": "New Orleans Festival House",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "nine o five royal hotel",
+   "canonical_name": "Nine-O-Five Royal Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "nola grand canal hotel",
+   "canonical_name": "Nola Grand Canal Hotel",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "pecan tree inn",
+   "canonical_name": "Pecan Tree Inn",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "pontchartrain landing",
+   "canonical_name": "Pontchartrain Landing",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://www.neworleansrvresort.com/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "ramada inn new orleans highrise",
+   "canonical_name": "Ramada Inn - New Orleans Highrise",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (1 candidates)"
+  },
+  {
+   "identity_key": "relax inn and suites",
+   "canonical_name": "Relax Inn & Suites",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "royal barracks guest house",
+   "canonical_name": "Royal Barracks Guest House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://rbgh.com/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "royal inn of new orleans",
+   "canonical_name": "Royal Inn of New Orleans",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "siesta motel",
+   "canonical_name": "Siesta Motel",
+   "corridor": "new-orleans-la__marrero",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://siesta-motel-marrero.poi.place/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "st charles guesthouse",
+   "canonical_name": "St. Charles Guesthouse",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (2 candidates)"
+  },
+  {
+   "identity_key": "suite jazz on frenchmen",
+   "canonical_name": "Suite Jazz on Frenchmen",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "the gisele hotel llc",
+   "canonical_name": "The Gisele Hotel Llc",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "the gregory",
+   "canonical_name": "The Gregory",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "the luzianne",
+   "canonical_name": "The Luzianne",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "the queen anne hotel",
+   "canonical_name": "The Queen Anne Hotel",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (2 candidates)"
+  },
+  {
+   "identity_key": "webber s motel llc",
+   "canonical_name": "Webber's Motel Llc",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "zora bed and breakfast",
+   "canonical_name": "Zora Bed & Breakfast",
+   "corridor": "new-orleans-la__algiers",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the route the census carries served an error page; no first-party route exists in any authorized lane: the brand inventories, New Orleans & Company's and Visit Jefferson Parish's rosters, the City of New Orleans lodging-licence register (data.nola.gov), the map, the brands' own area lists and directories, and Google Places route discovery (existing free allowance), which queried this identity and returned no place at this row's own house number and ZIP (3 candidates)"
+  },
+  {
+   "identity_key": "1830 dauphine house",
+   "canonical_name": "1830 Dauphine House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "747 saint charles",
+   "canonical_name": "747 Saint Charles",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "airyn monet",
+   "canonical_name": "Airyn Monet",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "alder hotel uptown",
+   "canonical_name": "Alder Hotel Uptown",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "andrew jackson hotel",
+   "canonical_name": "Andrew Jackson Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "audubon cottages",
+   "canonical_name": "Audubon Cottages",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "auld sweet olive bed and breakfast",
+   "canonical_name": "Auld Sweet Olive Bed & Breakfast",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "b and w courtyards",
+   "canonical_name": "B & W Courtyards",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "balcony guesthouse",
+   "canonical_name": "Balcony Guesthouse",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "blake hotel new orleans",
+   "canonical_name": "Blake Hotel New Orleans",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "blue crawfish",
+   "canonical_name": "Blue Crawfish",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "blue60 marigny inn",
+   "canonical_name": "Blue60 Marigny Inn",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "bourgoyne guest house",
+   "canonical_name": "Bourgoyne Guest House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "brent house hotel",
+   "canonical_name": "Brent House Hotel",
+   "corridor": "new-orleans-la__elmwood-jefferson-harahan",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "bywater suite hotel",
+   "canonical_name": "Bywater Suite Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "castle day",
+   "canonical_name": "Castle Day",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "chimes bed and breakfast",
+   "canonical_name": "Chimes Bed & Breakfast",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "comfort inn and suites at copeland tower",
+   "canonical_name": "Comfort Inn & Suites at Copeland Tower",
+   "corridor": "new-orleans-la__metairie",
+   "brand_family": "CHOICE",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "compass point",
+   "canonical_name": "Compass Point",
+   "corridor": "new-orleans-la__algiers",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "contempra inn",
+   "canonical_name": "Contempra Inn",
+   "corridor": "new-orleans-la__msy-airport-kenner",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "creole inn",
+   "canonical_name": "Creole Inn",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "da empire",
+   "canonical_name": "Da Empire",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "degas house",
+   "canonical_name": "Degas House",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "elysian fields inn",
+   "canonical_name": "Elysian Fields Inn",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "four seasons hotel new orleans",
+   "canonical_name": "Four Seasons Hotel New Orleans",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "french market inn",
+   "canonical_name": "French Market Inn",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "french quarter mansion boutique hotel",
+   "canonical_name": "French Quarter Mansion Boutique Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "garden district bed and breakfast",
+   "canonical_name": "Garden District Bed and Breakfast",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "henry howard hotel",
+   "canonical_name": "Henry Howard Hotel",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hh whitney house",
+   "canonical_name": "HH Whitney House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "historic street car inn",
+   "canonical_name": "Historic Street Car Inn",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn french quarter chateau lemoyne",
+   "canonical_name": "Holiday Inn French Quarter-Chateau LeMoyne",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn metairie new orleans",
+   "canonical_name": "Holiday Inn Metairie New Orleans",
+   "corridor": "new-orleans-la__metairie",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "holiday inn new orleans downtown superdome",
+   "canonical_name": "Holiday Inn New Orleans - Downtown Superdome",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "IHG",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel 10 extended stay",
+   "canonical_name": "Hotel 10 Extended Stay",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel le marais",
+   "canonical_name": "Hotel Le Marais",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel maison pierre lafitte ltd",
+   "canonical_name": "Hotel Maison Pierre Lafitte Ltd",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel mazarin",
+   "canonical_name": "Hotel Mazarin",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel monteleone",
+   "canonical_name": "Hotel Monteleone",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel pompadour llc",
+   "canonical_name": "Hotel Pompadour Llc",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel provincial",
+   "canonical_name": "Hotel Provincial",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel royal",
+   "canonical_name": "Hotel Royal",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel saint vincent new orleans",
+   "canonical_name": "Hotel Saint Vincent — New Orleans",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel st marie",
+   "canonical_name": "Hotel St. Marie",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel st pierre",
+   "canonical_name": "Hotel St. Pierre",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel storyville",
+   "canonical_name": "Hotel Storyville",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "hotel villa convento",
+   "canonical_name": "Hotel Villa Convento",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "international house hotel",
+   "canonical_name": "International House Hotel",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "jean lafitte house",
+   "canonical_name": "Jean Lafitte House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "la belle esplanade",
+   "canonical_name": "La Belle Esplanade",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "le richelieu hotel",
+   "canonical_name": "Le Richelieu Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "loft 523",
+   "canonical_name": "Loft 523",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "louis park hotel",
+   "canonical_name": "Louis Park Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "madame isabelle s house in new orleans",
+   "canonical_name": "Madame Isabelle's House in New Orleans",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "maison grace",
+   "canonical_name": "Maison Grace",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "maison perrier",
+   "canonical_name": "Maison Perrier",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "maison st charles",
+   "canonical_name": "Maison St. Charles",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "margaret place",
+   "canonical_name": "Margaret Place",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "mayfair canal",
+   "canonical_name": "Mayfair Canal",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "melrose mansion",
+   "canonical_name": "Melrose Mansion",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "monrose row bed and breakfast",
+   "canonical_name": "Monrose Row Bed & Breakfast",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "new orleans courtyard",
+   "canonical_name": "New Orleans Courtyard",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "oakview bed and breakfast",
+   "canonical_name": "Oakview Bed and Breakfast",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "one11 hotel",
+   "canonical_name": "ONE11 Hotel",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "orleans courtyard inn",
+   "canonical_name": "Orleans Courtyard Inn",
+   "corridor": "new-orleans-la__metairie",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "parkview guest house",
+   "canonical_name": "Parkview Guest House",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "pierre coulon guest house",
+   "canonical_name": "Pierre Coulon Guest House",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "place d armes hotel",
+   "canonical_name": "Place d'Armes Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "prince conti hotel",
+   "canonical_name": "Prince Conti Hotel",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "rose manor bed and breakfast inn",
+   "canonical_name": "Rose Manor Bed & Breakfast Inn",
+   "corridor": "new-orleans-la__new-orleans-east",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "royal street courtyard bed and breakfast",
+   "canonical_name": "Royal Street Courtyard Bed & Breakfast",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "site 61 new orleans guesthouse",
+   "canonical_name": "Site 61 New Orleans Guesthouse",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "stay heirloom",
+   "canonical_name": "Stay Heirloom",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "sully mansion bed and breakfast",
+   "canonical_name": "Sully Mansion Bed and Breakfast",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "terrell house",
+   "canonical_name": "Terrell House",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "texas motel",
+   "canonical_name": "Texas Motel",
+   "corridor": "new-orleans-la__metairie",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the brakeman hotel",
+   "canonical_name": "The Brakeman Hotel",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the burgundy bed and breakfast",
+   "canonical_name": "The Burgundy Bed and Breakfast",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the california building",
+   "canonical_name": "The California Building",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the celestine",
+   "canonical_name": "The Celestine",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the chateau hotel",
+   "canonical_name": "The Chateau Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the columns",
+   "canonical_name": "The Columns",
+   "corridor": "new-orleans-la__garden-district-uptown",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the dauphine orleans hotel",
+   "canonical_name": "The Dauphine Orleans Hotel",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the french market inn",
+   "canonical_name": "The French Market Inn",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the garden district hotel",
+   "canonical_name": "The Garden District Hotel",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the haunted hotel",
+   "canonical_name": "The Haunted Hotel",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the iris motel",
+   "canonical_name": "The Iris Motel",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the jung hotel and residences",
+   "canonical_name": "The Jung Hotel & Residences",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the laurel guest home",
+   "canonical_name": "The Laurel Guest Home",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the maidstone new orleans",
+   "canonical_name": "The Maidstone New Orleans",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the melody hotel",
+   "canonical_name": "The Melody Hotel",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the okra inn",
+   "canonical_name": "The Okra Inn",
+   "corridor": "new-orleans-la__mid-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the old no 77 hotel and chandlery",
+   "canonical_name": "The Old No. 77 Hotel & Chandlery",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the pelham hotel",
+   "canonical_name": "The Pelham Hotel",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the quisby",
+   "canonical_name": "The Quisby",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the rubenstein hotel",
+   "canonical_name": "The Rubenstein Hotel",
+   "corridor": "new-orleans-la__warehouse-district-convention-center",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "the troubadour hotel new orleans",
+   "canonical_name": "The Troubadour Hotel New Orleans",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "vcay",
+   "canonical_name": "Vcay",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "wg creole house",
+   "canonical_name": "Wg Creole House",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own page served, bound, and states no operative pet policy; silence is never a refusal, and only the operator publishing a policy changes it"
+  },
+  {
+   "identity_key": "fairmont new orleans",
+   "canonical_name": "Fairmont New Orleans",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party page states 'When is Fairmont New Orleans opening? -- The hotel is set to open in 2026, introducing a vibrant new chapter of luxury in the hea"
+  },
+  {
+   "identity_key": "springhill suites new orleans downtown canal street",
+   "canonical_name": "SpringHill Suites New Orleans Downtown/Canal Street",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "towneplace suites new orleans downtown canal street",
+   "canonical_name": "TownePlace Suites New Orleans Downtown/Canal Street",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  }
+ ]
+}

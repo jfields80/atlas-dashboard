@@ -1,0 +1,5555 @@
+{
+ "schema": "ptf-places-route-discovery/1.0",
+ "work_order": "PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+ "market_id": "new-orleans-la",
+ "provider": "GOOGLE_PLACES_TEXT_SEARCH (existing GOOGLE_PLACES_API_KEY capacity)",
+ "field_mask_gap_verification": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus",
+ "field_mask_route_discovery": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus,places.websiteUri,places.nationalPhoneNumber",
+ "route_discovery_run": true,
+ "route_discovery_capacity_basis": "websiteUri is an Enterprise-SKU field; its free monthly allowance (about 1,000 requests) renewed on 2026-10-01; the only Places use on this machine since then is San Antonio's 201 requests (187 Enterprise), Seattle's 169 (149 Enterprise), Portland's 77 (49 Enterprise), Minneapolis's 135 (59 Enterprise), Kansas City's 107 (70 Enterprise) and this order's own earlier runs (recorded in this report). This run stays inside that allowance (cap 300 Enterprise requests) -- existing capacity, no new paid spend.",
+ "request_cap": 25,
+ "route_discovery_cap": 300,
+ "requests_made": 239,
+ "enterprise_requests_made": 189,
+ "pro_requests_made": 50,
+ "requests_this_run": 21,
+ "answers_reused_from_prior_runs": 88,
+ "errors": {},
+ "never_policy": "A Places field is never a pet policy; a website it names is only a route.",
+ "route_discovery_targets": 121,
+ "route_discovery_bound": 130,
+ "route_discovery_bound_with_website": 87,
+ "gap_verification_targets": 0,
+ "gap_verdicts": {
+  "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 2,
+  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 1
+ },
+ "map_pin_verification_bind_meters": 400,
+ "map_pin_verdicts": {
+  "NO_LODGING_RESULT_BOUND_TO_THE_ROW": 7,
+  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 11,
+  "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 25,
+  "CLOSED_CLOSED_PERMANENTLY": 3,
+  "CLOSED_CLOSED_TEMPORARILY": 1
+ },
+ "rows": [
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "1329 carondelet",
+   "query": "1329 Carondelet 1329 Carondelet St New Orleans LA 70113",
+   "candidates_returned": 3,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJYxwS5b6lIIYRFxzpd1RtLug",
+    "display_name": "The 1300 by Stay Heirloom",
+    "formatted_address": "1329 Carondelet St, New Orleans, LA 70113, USA",
+    "street_number": "1329",
+    "route": "Carondelet Street",
+    "locality": "New Orleans",
+    "postal_code": "70113",
+    "phone": "(504) 507-0523",
+    "website_uri": "https://stayheirloom.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.940687399999998,
+    "lng": -90.0763212
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "1830 dauphine house",
+   "query": "1830 Dauphine House 1830 Dauphine St New Orleans LA 70116",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ3bzcgRmmIIYR3D_CT1izCDc",
+    "display_name": "Dauphine House B & B",
+    "formatted_address": "1830 Dauphine St, New Orleans, LA 70116, USA",
+    "street_number": "1830",
+    "route": "Dauphine Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 940-0943",
+    "website_uri": "http://www.dauphinehouse.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.965201099999998,
+    "lng": -90.06038149999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "7muses",
+   "query": "7muses 1466 Magazine St New Orleans LA 70130",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJh-NaxzKnIIYRshuRylCzuAs",
+    "display_name": "7 Muses, LLC",
+    "formatted_address": "1466 Magazine St, New Orleans, LA 70130, USA",
+    "street_number": "1466",
+    "route": "Magazine Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(540) 974-2271",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.934724,
+    "lng": -90.07214719999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "925 common",
+   "query": "925 Common 925 Common St New Orleans LA 70112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ_0H7_QqmIIYRpzhUF_USuo8",
+    "display_name": "925 Common Luxury Apartments",
+    "formatted_address": "925 Common St, New Orleans, LA 70112, USA",
+    "street_number": "925",
+    "route": "Common Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "(504) 525-7377",
+    "website_uri": "http://www.925common.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "apartment_building",
+     "apartment_complex",
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 29.9536818,
+    "lng": -90.0727478
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "accessory b and b",
+   "query": "Accessory B and b 1210 N Galvez St New Orleans LA 70119",
+   "candidates_returned": 3,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJmUgbN_SnIIYRQGVGvXPnWY4",
+    "display_name": "The Dragonfly Tremé",
+    "formatted_address": "1210 N Galvez St, New Orleans, LA 70119, USA",
+    "street_number": "1210",
+    "route": "North Galvez Street",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "(504) 439-6884",
+    "website_uri": "https://dragonflytreme.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "guest_house",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.971178499999997,
+    "lng": -90.073971
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "airyn monet",
+   "query": "Airyn Monet 1816 Marengo St New Orleans LA 70115",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJhX65arOlIIYRXDSCcHtTdGg",
+    "display_name": "Airyn Monet Guest House",
+    "formatted_address": "1816 Marengo St, New Orleans, LA 70115, USA",
+    "street_number": "1816",
+    "route": "Marengo Street",
+    "locality": "New Orleans",
+    "postal_code": "70115",
+    "phone": "(504) 812-1736",
+    "website_uri": "http://www.airynmonet.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "guest_house",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.929275099999995,
+    "lng": -90.0990903
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "americas best value inn new orleans gretna",
+   "query": "Americas Best Value Inn-New Orleans/Gretna 1411 Claire Avenue Gretna LA 70053",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "avant stay",
+   "query": "Avant Stay 623 Canal St New Orleans LA 70130",
+   "candidates_returned": 3,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJw1tp8QymIIYRlUBuJq7TM3c",
+    "display_name": "Sleeps 16 4 Units, Steps to the French Quarter The Harlequin by Avantstay",
+    "formatted_address": "623 Canal St Apt 403, New Orleans, LA 70130, USA",
+    "street_number": "623",
+    "route": "Canal Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(424) 372-8268",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.953329000000004,
+    "lng": -90.068492
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "bayou st john bed and breakfast",
+   "query": "Bayou St. John Bed & Breakfast 1318 Moss St. New Orleans LA 70119",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "best western plus chalmette hotel",
+   "query": "Best Western Plus Chalmette Hotel 3400 Paris Road Chalmette LA 70043",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJP9r7gOAcnogRfyudD6xcJ7M",
+    "display_name": "Best Western Plus Chalmette Hotel",
+    "formatted_address": "3400 Paris Rd, Chalmette, LA 70043, USA",
+    "street_number": "3400",
+    "route": "Paris Road",
+    "locality": "Chalmette",
+    "postal_code": "70043",
+    "phone": "(504) 309-6360",
+    "website_uri": "https://www.bestwestern.com/en_US/book/hotel-rooms.19111.html?iata=00171880&ssob=BLBWI0004G&cid=BLBWI0004G:google:gmb:19111",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9509485,
+    "lng": -89.96033829999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "blue crawfish",
+   "query": "Blue Crawfish 1620 Dumaine St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJfxJqP56nIIYRVAei8H3E5xg",
+    "display_name": "the Blue Crawfish Hotel & Bar",
+    "formatted_address": "1620 Dumaine St, New Orleans, LA 70116, USA",
+    "street_number": "1620",
+    "route": "Dumaine Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 559-0959",
+    "website_uri": "https://bluecrawfish.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bar",
+     "bar_and_grill",
+     "establishment",
+     "event_venue",
+     "food",
+     "hotel",
+     "lodging",
+     "lounge_bar",
+     "night_club",
+     "point_of_interest",
+     "restaurant",
+     "seafood_restaurant",
+     "service",
+     "sports_activity_location",
+     "swimming_pool",
+     "wedding_venue"
+    ],
+    "lat": 29.965180800000002,
+    "lng": -90.0715986
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "bywater suite hotel",
+   "query": "Bywater Suite Hotel 3500 St Claude Ave New Orleans LA 70117",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ2ydk9iymIIYRhGLc4ilSvpI",
+    "display_name": "Bywater Suite Hotel",
+    "formatted_address": "3500 St Claude Ave, New Orleans, LA 70117, USA",
+    "street_number": "3500",
+    "route": "Saint Claude Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(650) 735-0080",
+    "website_uri": "https://www.thebywaterhotel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "resort_hotel",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 29.9661268,
+    "lng": -90.0392145
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "canal street inn",
+   "query": "Canal Street Inn 3620 Canal St New Orleans LA 70119",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJSwNlSYqlIIYR2oAfMeuN2P0",
+    "display_name": "Canal Street Inn",
+    "formatted_address": "3620 Canal St, New Orleans, LA 70119, USA",
+    "street_number": "3620",
+    "route": "Canal Street",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "(504) 483-3033",
+    "website_uri": "https://www.canalstreetinn.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 29.9714406,
+    "lng": -90.096775
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "castle day",
+   "query": "Castle Day 1319 Japonica St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJLyPtICSnIIYRgXv2ugbtsfc",
+    "display_name": "CastleDay",
+    "formatted_address": "1319 Japonica St, New Orleans, LA 70117, USA",
+    "street_number": "1319",
+    "route": "Japonica Street",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(504) 322-1210",
+    "website_uri": "https://www.castledayretreats.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "real_estate_agency",
+     "service",
+     "travel_agency"
+    ],
+    "lat": 29.966455000000003,
+    "lng": -90.02830499999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "chez nous",
+   "query": "Chez Nous 825 - 27 Touro St. New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "chuck s place hotel",
+   "query": "Chuck's Place Hotel 310 Baronne St New Orleans LA 70112",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "clarion",
+   "query": "Clarion  Metairie LA 70001",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort suites new orleans",
+   "query": "Comfort Suites New Orleans 2710 Idaho Avenue Kenner LA 70062",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJZ0Mbhzu3IIYRwNR_x-uQMYw",
+    "display_name": "Comfort Suites Airport",
+    "formatted_address": "2710 Idaho Ave, Kenner, LA 70062, USA",
+    "street_number": "2710",
+    "route": "Idaho Avenue",
+    "locality": "Kenner",
+    "postal_code": "70062",
+    "phone": "(504) 636-8377",
+    "website_uri": "https://www.choicehotels.com/louisiana/kenner/comfort-suites-hotels/la079?mc=llgoxxpx",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.005497,
+    "lng": -90.237785
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "cornstalk hotel",
+   "query": "Cornstalk Hotel 915 Royal St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJiZPFVhCmIIYRaeQJfucQ5eg",
+    "display_name": "The Cornstalk Hotel",
+    "formatted_address": "915 Royal St, New Orleans, LA 70116, USA",
+    "street_number": "915",
+    "route": "Royal Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 523-1515",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.960109700000004,
+    "lng": -90.0632739
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "crowne plaza hotel new orleans airport",
+   "query": "Crowne Plaza Hotel New Orleans Airport 2929 Williams Boulevard Kenner LA 70062",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "da empire",
+   "query": "Da Empire 2222 Poydras St New Orleans LA 70119",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJGVu9mQGlIIYRqOGaOL0XmhU",
+    "display_name": "Empire",
+    "formatted_address": "2222 Poydras St, New Orleans, LA 70119, USA",
+    "street_number": "2222",
+    "route": "Poydras Street",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "(504) 766-7954",
+    "website_uri": "http://www.empireorleans.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "association_or_organization",
+     "establishment",
+     "event_venue",
+     "live_music_venue",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 29.9561784,
+    "lng": -90.0893093
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "deep south motel",
+   "query": "Deep South Motel 5021 Airline Drive Metairie LA 70001",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJPWiXeoCwIIYR52o71rwuA6Q",
+    "display_name": "Deep South Motel",
+    "formatted_address": "5021 Airline Dr, Metairie, LA 70001, USA",
+    "street_number": "5021",
+    "route": "Airline Drive",
+    "locality": "Metairie",
+    "postal_code": "70001",
+    "phone": "(504) 571-5115",
+    "website_uri": "http://deep-south-motel.jany.io/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 29.9763009,
+    "lng": -90.1869203
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "empress hotel",
+   "query": "Empress Hotel 1317 Ursulines Ave New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJYbz9_wSmIIYRnFiWlJ5WCwg",
+    "display_name": "Empress Hotel",
+    "formatted_address": "1317 Ursulines Ave, New Orleans, LA 70116, USA",
+    "street_number": "1317",
+    "route": "Ursulines Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 529-4100",
+    "website_uri": "http://empresshotelneworleans.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9655479,
+    "lng": -90.0674913
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "engine 24 firehouse",
+   "query": "Engine 24 Firehouse 2711 Dauphine St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJSwfRWCSmIIYRcxcvvPN1Uvg",
+    "display_name": "Engine 24 Firehouse Bed & Breakfast",
+    "formatted_address": "2711 Dauphine St, New Orleans, LA 70117, USA",
+    "street_number": "2711",
+    "route": "Dauphine Street",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(504) 224-8151",
+    "website_uri": "http://www.engine24nola.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "guest_house",
+     "lodging",
+     "point_of_interest",
+     "real_estate_agency",
+     "service"
+    ],
+    "lat": 29.965667599999996,
+    "lng": -90.0498563
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "evergreen plaza inn",
+   "query": "Evergreen Plaza Inn 6590 Veterans Memorial Boulevard Metairie LA 70003",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJRU73ATO3IIYRxfyYmVnWP60",
+    "display_name": "Evergreen Plaza Inn",
+    "formatted_address": "6590 Veterans Memorial Blvd, Metairie, LA 70003, USA",
+    "street_number": "6590",
+    "route": "Veterans Memorial Boulevard",
+    "locality": "Metairie",
+    "postal_code": "70003",
+    "phone": "(504) 885-4800",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.004333999999997,
+    "lng": -90.2130445
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "express inn and suites",
+   "query": "Express Inn & Suites 7800 Westbank Expressway Westwego LA 70094",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJA5R_40m7IIYRv9gYH4yRdLY",
+    "display_name": "Express Inn & Suites",
+    "formatted_address": "7800 Westbank Expy, Westwego, LA 70094, USA",
+    "street_number": "7800",
+    "route": "Westbank Expressway",
+    "locality": "Westwego",
+    "postal_code": "70094",
+    "phone": "(504) 301-1969",
+    "website_uri": "https://www.expressinnwestwego.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.904376400000004,
+    "lng": -90.1538444
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america select suites new orleans airport",
+   "query": "Extended Stay America Select Suites- New Orleans - Airport 2300 Veterans Boulevard Kenner LA 70062",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJxwKkbbm3IIYRxy3BMigokw8",
+    "display_name": "Extended Stay America Select Suites- New Orleans - Airport",
+    "formatted_address": "2300 Veterans Blvd, Kenner, LA 70062, USA",
+    "street_number": "2300",
+    "route": "Veterans Boulevard",
+    "locality": "Kenner",
+    "postal_code": "70062",
+    "phone": "(504) 465-8300",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/la/new-orleans/airport?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.007813300000002,
+    "lng": -90.2359716
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "fleur de lis mansion",
+   "query": "Fleur De Lis Mansion 1216 Annunciation St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJbaehb3qmIIYRGQFtldHlorY",
+    "display_name": "Fleur De Lis Mansion Bed and Breakfast",
+    "formatted_address": "1216 Annunciation St, New Orleans, LA 70130, USA",
+    "street_number": "1216",
+    "route": "Annunciation Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 400-0111",
+    "website_uri": "https://www.fleurdelismansion.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "event_venue",
+     "guest_house",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest",
+     "private_guest_room",
+     "real_estate_agency",
+     "service",
+     "travel_agency"
+    ],
+    "lat": 29.938439799999994,
+    "lng": -90.06835869999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "fortuna 1317 columbus",
+   "query": "Fortuna 1317 Columbus 1317 Columbus St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJDag3vBymIIYRsz5RDaxu5Sg",
+    "display_name": "1317 Columbus St",
+    "formatted_address": "1317 Columbus St, New Orleans, LA 70116, USA",
+    "street_number": "1317",
+    "route": "Columbus Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.969221399999995,
+    "lng": -90.064404
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "french quarter mansion boutique hotel",
+   "query": "French Quarter Mansion Boutique Hotel 730 Dumaine St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQ1acSRCmIIYR9YEqVNEtbqM",
+    "display_name": "French Quarter Mansion",
+    "formatted_address": "730 Dumaine St, New Orleans, LA 70116, USA",
+    "street_number": "730",
+    "route": "Dumaine Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "http://www.frenchquartermansion.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "apartment_building",
+     "establishment",
+     "lodging",
+     "point_of_interest",
+     "real_estate_agency",
+     "service"
+    ],
+    "lat": 29.9600021,
+    "lng": -90.0640311
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "glenrose motel",
+   "query": "Glenrose Motel 7930 Chef Menteur Hwy New Orleans LA 70126",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ3c7kN4QCnogRI9sl2urX4po",
+    "display_name": "Glenrose Motel",
+    "formatted_address": "7930 US-90, New Orleans, LA 70126, USA",
+    "street_number": "7930",
+    "route": "U.S. 90",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "(504) 766-0741",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.013102,
+    "lng": -89.99353219999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "harcol house",
+   "query": "Harcol House 614 Baronne St New Orleans LA 70113",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJic_8DHWmIIYR6XIcXebQmQM",
+    "display_name": "Harcol House",
+    "formatted_address": "614 Baronne St, New Orleans, LA 70113, USA",
+    "street_number": "614",
+    "route": "Baronne Street",
+    "locality": "New Orleans",
+    "postal_code": "70113",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.948542,
+    "lng": -90.073397
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hosteva",
+   "query": "Hosteva 201 Magazine St New Orleans LA 70130",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJr5m81QymIIYRVZ-woe2w8Pg",
+    "display_name": "Gorgeous 1BD's in Merchant Lofts by Hosteeva",
+    "formatted_address": "201 Magazine St, New Orleans, LA 70130, USA",
+    "street_number": "201",
+    "route": "Magazine Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(650) 735-0080",
+    "website_uri": "http://www.hosteeva.com/travel",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 29.9510737,
+    "lng": -90.0676664
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hotel de la monnaie owners association inc",
+   "query": "Hotel De La Monnaie Owners Association Inc 405 Esplanade Ave New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQUEe7RemIIYRDIWewvhclRg",
+    "display_name": "Hotel de la Monnaie",
+    "formatted_address": "405 Esplanade Ave, New Orleans, LA 70116, USA",
+    "street_number": "405",
+    "route": "Esplanade Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 947-0009",
+    "website_uri": "http://www.hoteldelamonnaie.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.961693600000004,
+    "lng": -90.05693819999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hotel maison pierre lafitte ltd",
+   "query": "Hotel Maison Pierre Lafitte Ltd 108 Roosevelt Way New Orleans LA 70112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJe6ZfsQumIIYRp5bX8Mti_so",
+    "display_name": "Hotel Maison Pierre Lafitte",
+    "formatted_address": "108 Roosevelt Way, New Orleans, LA 70112, USA",
+    "street_number": "108",
+    "route": "Roosevelt Way",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "(504) 527-5800",
+    "website_uri": "https://www.maisonpierrelafitte.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9546587,
+    "lng": -90.07201309999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hotel pompadour llc",
+   "query": "Hotel Pompadour Llc 527 Elysian Fields Ave New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJoQJAvEKnIIYR2id6uBORaRs",
+    "display_name": "The Hotel Pompadour",
+    "formatted_address": "527 Elysian Fields Ave, New Orleans, LA 70117, USA",
+    "street_number": "527",
+    "route": "Elysian Fields Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(504) 355-2595",
+    "website_uri": "http://hotelpompadour.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.963393,
+    "lng": -90.0561489
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "india house backpackers hotel",
+   "query": "India House Backpackers Hotel 124 S Lopez St New Orleans LA 70119",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJS2suXvOlIIYRKiImG2e6FqQ",
+    "display_name": "India House Hostel",
+    "formatted_address": "124 S Lopez St, New Orleans, LA 70119, USA",
+    "street_number": "124",
+    "route": "South Lopez Street",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "(504) 821-1904",
+    "website_uri": "http://the.indiahousehostel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hostel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.968027299999996,
+    "lng": -90.0922531
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "jacks motel",
+   "query": "Jacks Motel 7700 Chef Menteur Hwy New Orleans LA 70126",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJv5O9u4MCnogRvMumMD3-lRQ",
+    "display_name": "Jack's Motel",
+    "formatted_address": "7700 Chef Menteur Hwy, New Orleans, LA 70126, USA",
+    "street_number": "7700",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "(504) 244-9108",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.0121707,
+    "lng": -89.99700159999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "jazz quarters at the chartres marigny",
+   "query": "Jazz Quarters at the Chartres Marigny 1418 Chartres St. New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "jean lafitte house",
+   "query": "Jean Lafitte House 613 Esplanade Ave New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJwexa2xmmIIYRtTQbT8yHZe0",
+    "display_name": "Jean Lafitte House",
+    "formatted_address": "613 Esplanade Ave, New Orleans, LA 70116, USA",
+    "street_number": "613",
+    "route": "Esplanade Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 943-2543",
+    "website_uri": "https://www.jeanlafittehouse.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.963131599999993,
+    "lng": -90.0592037
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "kate and daves bed and breakfast",
+   "query": "Kate & Daves Bed & Breakfast 715 St Ferdinand St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJBY1f-ySmIIYRYU5V3cqLQXk",
+    "display_name": "Kate & Dave's Bed & Breakfast",
+    "formatted_address": "715 St Ferdinand St, New Orleans, LA 70117, USA",
+    "street_number": "715",
+    "route": "Saint Ferdinand Street",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(504) 943-9863",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.964738599999993,
+    "lng": -90.0492975
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "keystone motel",
+   "query": "Keystone Motel 8825 Airline Drive Metairie LA 70003",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJTRq_VVe3IIYRzXf9szTqzTc",
+    "display_name": "Keystone Motel",
+    "formatted_address": "8825 Airline Dr, Metairie, LA 70003, USA",
+    "street_number": "8825",
+    "route": "Airline Drive",
+    "locality": "Metairie",
+    "postal_code": "70003",
+    "phone": "(504) 467-5501",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 29.9797833,
+    "lng": -90.2335774
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "la quinta inn and suites bullard",
+   "query": "La Quinta Inn and Suites - Bullard 12001 I-10 Service Rd. New Orleans LA 70128",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "la quinta inn and suites crowder",
+   "query": "La Quinta Inn and Suites - Crowder 8400 I-10 Service Rd. New Orleans LA 70127",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "laurel street bed and breakfast",
+   "query": "Laurel Street Bed & Breakfast 5127 Laurel St. New Orleans LA 70115",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "louis park hotel",
+   "query": "Louis Park Hotel 1129 St Philip St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ8XONKOSnIIYRvU246YcJb1k",
+    "display_name": "Louis Park Hotel",
+    "formatted_address": "1129 St Philip St, New Orleans, LA 70116, USA",
+    "street_number": "1129",
+    "route": "Saint Philip Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 323-7211",
+    "website_uri": "https://www.louisparkhotel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 29.963500999999994,
+    "lng": -90.0668029
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "magnolia mansion hotel",
+   "query": "Magnolia Mansion Hotel 2127 Prytania St New Orleans LA 70130",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJRVzR0tqlIIYRqnZAaxw-6rg",
+    "display_name": "2127 Prytania",
+    "formatted_address": "2127 Prytania St, New Orleans, LA 70130, USA",
+    "street_number": "2127",
+    "route": "Prytania Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.933427599999998,
+    "lng": -90.0794549
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "maison grace",
+   "query": "Maison Grace 2222 Burgundy St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJg9_KpoenIIYRah-uTryQiSM",
+    "display_name": "Maison Grace",
+    "formatted_address": "2222 Burgundy St, New Orleans, LA 70117, USA",
+    "street_number": "2222",
+    "route": "Burgundy Street",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "",
+    "website_uri": "https://www.maisongracenola.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.966408200000004,
+    "lng": -90.0559574
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "margaret place",
+   "query": "Margaret Place 1133 Margaret Pl New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJSXaSoXemIIYRnLTxaPYZzvU",
+    "display_name": "Margaret Place",
+    "formatted_address": "1133 Margaret Pl, New Orleans, LA 70130, USA",
+    "street_number": "1133",
+    "route": "Margaret Place",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 264-6045",
+    "website_uri": "https://www.margaretplacehotel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 29.9408306,
+    "lng": -90.0724201
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "mason motel inc",
+   "query": "Mason Motel Inc 2309 S Claiborne Ave New Orleans LA 70125",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJpXXIjVKlIIYRZlLxp6ltFD0",
+    "display_name": "Mason's Motel",
+    "formatted_address": "2309 S Claiborne Ave, New Orleans, LA 70125, USA",
+    "street_number": "2309",
+    "route": "South Claiborne Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70125",
+    "phone": "(504) 372-9337",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 29.944953899999998,
+    "lng": -90.091342
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "mayfair canal",
+   "query": "Mayfair Canal 1011 Canal St New Orleans LA 70112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJAxogWeOnIIYRKxFdBO-8OkQ",
+    "display_name": "The Mayfair Hotel",
+    "formatted_address": "1011 Canal St, New Orleans, LA 70112, USA",
+    "street_number": "1011",
+    "route": "Canal Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "(504) 910-6099",
+    "website_uri": "https://mayfaironcanal.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.955466700000002,
+    "lng": -90.0717274
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "mazant holding",
+   "query": "Mazant Holding 906 Mazant St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJbURJidKnIIYRaJIP7sGJtEY",
+    "display_name": "The Mazant",
+    "formatted_address": "906 Mazant St, New Orleans, LA 70117, USA",
+    "street_number": "906",
+    "route": "Mazant Street",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(504) 517-3193",
+    "website_uri": "http://www.mazant.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "event_venue",
+     "guest_house",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "real_estate_agency",
+     "service",
+     "travel_agency",
+     "wedding_venue"
+    ],
+    "lat": 29.9635097,
+    "lng": -90.0352657
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "monte carlo motel",
+   "query": "Monte Carlo Motel 6061 Chef Menteur Hwy New Orleans LA 70126",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJPQUXwzeoIIYRWrRmglu5UxA",
+    "display_name": "Monte Carlo Motel",
+    "formatted_address": "6061 Chef Menteur Hwy, New Orleans, LA 70126, USA",
+    "street_number": "6061",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "(504) 246-0255",
+    "website_uri": "https://www.montecarlomotelneworleans.top/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.010866,
+    "lng": -90.018146
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "new orleans festival house",
+   "query": "New Orleans Festival House 1653 N Broad St New Orleans LA 70119",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ49FGuUyvIIYRWeEvl42madg",
+    "display_name": "New Orleans Festival House",
+    "formatted_address": "1653 N Broad St, New Orleans, LA 70119, USA",
+    "street_number": "1653",
+    "route": "North Broad Street",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9805136,
+    "lng": -90.0746949
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "new orleans guest house",
+   "query": "New Orleans Guest House 1118 Ursulines Ave New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJT2g5OAWmIIYR_aWyyGU8nTw",
+    "display_name": "New Orleans Guest House",
+    "formatted_address": "1118 Ursulines Ave, New Orleans, LA 70116, USA",
+    "street_number": "1118",
+    "route": "Ursulines Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 566-1177",
+    "website_uri": "http://neworleansguest.house/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "guest_house",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9639655,
+    "lng": -90.06612849999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nine o five royal hotel",
+   "query": "Nine-O-Five Royal Hotel 905 Royal St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJAdUFVBCmIIYRR_A50Yg_akI",
+    "display_name": "Nine O Five Royal Hotel",
+    "formatted_address": "905 Royal St, New Orleans, LA 70116, USA",
+    "street_number": "905",
+    "route": "Royal Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 523-0219",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.959922899999995,
+    "lng": -90.06323599999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nitey nite inn llc",
+   "query": "Nitey Nite Inn Llc 1502 Elysian Fields Ave New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJn1SFLV2nIIYRUoHElArszPA",
+    "display_name": "Nitey Nite Inn",
+    "formatted_address": "1502 Elysian Fields Ave, New Orleans, LA 70117, USA",
+    "street_number": "1502",
+    "route": "Elysian Fields Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "",
+    "website_uri": "https://niteyniteinn.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9726782,
+    "lng": -90.0576317
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nola grand canal hotel",
+   "query": "Nola Grand Canal Hotel 4333 Canal St New Orleans LA 70119",
+   "candidates_returned": 3,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ8wBqdzGvIIYRj_nlhmoHLAc",
+    "display_name": "Canal express studios",
+    "formatted_address": "4333 Canal St, New Orleans, LA 70119, USA",
+    "street_number": "4333",
+    "route": "Canal Street",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 29.9772134,
+    "lng": -90.1036203
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "olivier house hotel",
+   "query": "Olivier House Hotel 828 Toulouse St New Orleans LA 70112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJnSraZw6mIIYRLA_ot50IgfI",
+    "display_name": "Olivier House Hotel",
+    "formatted_address": "828 Toulouse St, New Orleans, LA 70112, USA",
+    "street_number": "828",
+    "route": "Toulouse Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "(504) 525-8456",
+    "website_uri": "http://olivierhouse.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "guest_house",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.958149599999995,
+    "lng": -90.06705269999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "orleans courtyard inn",
+   "query": "Orleans Courtyard Inn 3800 Hessmer Avenue Metairie LA 70002",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ8ynGVDewIIYRItupXqE9yP8",
+    "display_name": "Orleans Courtyard Inn",
+    "formatted_address": "3800 Hessmer Ave, Metairie, LA 70002, USA",
+    "street_number": "3800",
+    "route": "Hessmer Avenue",
+    "locality": "Metairie",
+    "postal_code": "70002",
+    "phone": "(504) 383-3801",
+    "website_uri": "http://orleanscourtyardinn.weebly.com/",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.008901599999994,
+    "lng": -90.1635718
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "parkview guest house",
+   "query": "Parkview Guest House 7004 St Charles Ave New Orleans LA 70118",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJbxtU0RulIIYR2E4iitJ1djU",
+    "display_name": "Park View Historic Hotel",
+    "formatted_address": "7004 St Charles Ave, New Orleans, LA 70118, USA",
+    "street_number": "7004",
+    "route": "Saint Charles Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70118",
+    "phone": "(504) 861-7564",
+    "website_uri": "https://parkviewguesthouse.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "guest_house",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.936117199999998,
+    "lng": -90.12572060000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "pecan tree inn",
+   "query": "Pecan Tree Inn 2525 North Rampart St. New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "pontchartrain landing",
+   "query": "Pontchartrain Landing 6001 France Rd New Orleans LA 70126",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ17AMxqupIIYRJEttTWLSH8Y",
+    "display_name": "New Orleans RV Resort & Marina",
+    "formatted_address": "6001 France Rd, New Orleans, LA 70126, USA",
+    "street_number": "6001",
+    "route": "France Road",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "(504) 286-8157",
+    "website_uri": "http://www.neworleansrvresort.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "campground",
+     "establishment",
+     "lodging",
+     "marina",
+     "point_of_interest",
+     "rv_park",
+     "service"
+    ],
+    "lat": 30.025709999999997,
+    "lng": -90.03469489999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "ramada inn new orleans highrise",
+   "query": "Ramada Inn - New Orleans Highrise 6324 Chef Menteur Hwy. New Orleans LA 70126",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "red roof inn kenner new orleans airport ne",
+   "query": "Red Roof Inn Kenner - New Orleans Airport NE 2125 Veterans Boulevard Kenner LA 70062",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ25eU64m3IIYRf_y2bFSXLR4",
+    "display_name": "Red Roof Inn Kenner - New Orleans Airport NE",
+    "formatted_address": "2125 Veterans Blvd, Kenner, LA 70062, USA",
+    "street_number": "2125",
+    "route": "Veterans Boulevard",
+    "locality": "Kenner",
+    "postal_code": "70062",
+    "phone": "(504) 684-5922",
+    "website_uri": "https://www.redroof.com/property/la/Kenner/RRI1166?utm_source=GMB&utm_medium=Google&utm_campaign=GMB_Performance_RRI1166",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.005556600000002,
+    "lng": -90.24007519999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "red roof inn new orleans westbank",
+   "query": "Red Roof Inn New Orleans - Westbank 3750 Westbank Expressway Harvey LA 70058",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJNVLs8sWlIIYR5webdHavYuE",
+    "display_name": "Red Roof Inn New Orleans - Westbank",
+    "formatted_address": "3750 Westbank Expy, Harvey, LA 70058, USA",
+    "street_number": "3750",
+    "route": "Westbank Expressway",
+    "locality": "Harvey",
+    "postal_code": "70058",
+    "phone": "(504) 322-1635",
+    "website_uri": "https://www.redroof.com/property/la/Harvey/RRI1087?utm_source=GMB&utm_medium=Google&utm_campaign=GMB_Performance_RRI1087",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 29.8954907,
+    "lng": -90.08819729999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "relax inn and suites",
+   "query": "Relax Inn & Suites 13552 Chef Menteur Hwy New Orleans LA 70129",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJSVD1jncEnogR1AxkHPs9xQk",
+    "display_name": "Relax Inn & suites",
+    "formatted_address": "13552 Chef Menteur Hwy, New Orleans, LA 70129, USA",
+    "street_number": "13552",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70129",
+    "phone": "(504) 254-9140",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.0317897,
+    "lng": -89.92410269999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "royal barracks guest house",
+   "query": "Royal Barracks Guest House 717 Barracks St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJlbMeAxqmIIYRnHJsoAvT010",
+    "display_name": "Royal Barracks Guest House",
+    "formatted_address": "717 Barracks St, New Orleans, LA 70116, USA",
+    "street_number": "717",
+    "route": "Barracks Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 529-7269",
+    "website_uri": "http://rbgh.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.963176199999996,
+    "lng": -90.0607943
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "royal inn of new orleans",
+   "query": "Royal Inn of New Orleans 4950 Chef Menteur Hwy New Orleans LA 70126",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJUa2TNlqoIIYR4E0lFk-uNz0",
+    "display_name": "Royal Inn of New Orleans",
+    "formatted_address": "4950 Chef Menteur Hwy, New Orleans, LA 70126, USA",
+    "street_number": "4950",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "(504) 943-2481",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.0063171,
+    "lng": -90.0315856
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "royal palms motel and rv park",
+   "query": "Royal Palms Motel & Rv Park 7800 Chef Menteur Hwy New Orleans LA 70126",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJgwlIjoMCnogRM10i3LNX1ac",
+    "display_name": "Royal Palms Motel & RV Park",
+    "formatted_address": "7800 Chef Menteur Hwy, New Orleans, LA 70126, USA",
+    "street_number": "7800",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "(504) 245-4444",
+    "website_uri": "https://www.royalpalmsnola.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "campground",
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest",
+     "rv_park",
+     "service",
+     "tourist_attraction"
+    ],
+    "lat": 30.0125301,
+    "lng": -89.9957742
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "schaeffer hotel",
+   "query": "Schaeffer Hotel 201 N Rampart St New Orleans LA 70112",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ5Q2WIq-nIIYRrghDDidxxs4",
+    "display_name": "Schaeffer Hotel",
+    "formatted_address": "201 N Rampart St, New Orleans, LA 70112, USA",
+    "street_number": "201",
+    "route": "North Rampart Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "(504) 302-0450",
+    "website_uri": "https://schaeffer.holidayfuture.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9569105,
+    "lng": -90.0720894
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "siesta motel",
+   "query": "Siesta Motel 5353 Westbank Expressway Marrero LA 70072",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJwcr6OWWkIIYRK1ERWyaWl8s",
+    "display_name": "Siesta Motel",
+    "formatted_address": "5353 Westbank Expy, Marrero, LA 70072, USA",
+    "street_number": "5353",
+    "route": "Westbank Expressway",
+    "locality": "Marrero",
+    "postal_code": "70072",
+    "phone": "(504) 341-2216",
+    "website_uri": "http://siesta-motel-marrero.poi.place/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 29.892968399999994,
+    "lng": -90.1043201
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "st peter guest house",
+   "query": "St. Peter Guest House 1005 St Peter St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJSxx0vQ-mIIYRKJlB1W1z2HA",
+    "display_name": "Inn on St Peter",
+    "formatted_address": "1005 St Peter, New Orleans, LA 70116, USA",
+    "street_number": "1005",
+    "route": "Saint Peter",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 524-9232",
+    "website_uri": "https://www.frenchquarterguesthouses.com/our-hotels/inn-on-st-peter",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "guest_house",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.959932700000003,
+    "lng": -90.06757220000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "stay heirloom",
+   "query": "Stay Heirloom 1401 Delachaise St New Orleans LA 70115",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJEwMY5NmlIIYRNzCzX3Onb8Y",
+    "display_name": "The Estella by Stay Heirloom",
+    "formatted_address": "1401 Delachaise St, New Orleans, LA 70115, USA",
+    "street_number": "1401",
+    "route": "Delachaise Street",
+    "locality": "New Orleans",
+    "postal_code": "70115",
+    "phone": "(504) 507-0523",
+    "website_uri": "https://stayheirloom.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.925458999999996,
+    "lng": -90.0912142
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "suburban studios harvey new orleans",
+   "query": "Suburban Studios Harvey - New Orleans 2200 Westbank Expressway Harvey LA 70058",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJido4IMynIIYRCwL7Bj8k8uY",
+    "display_name": "Suburban Studios Harvey - New Orleans",
+    "formatted_address": "2200 Westbank Expy Bldg B, Harvey, LA 70058, USA",
+    "street_number": "2200",
+    "route": "Westbank Expressway",
+    "locality": "Harvey",
+    "postal_code": "70058",
+    "phone": "(504) 326-1642",
+    "website_uri": "https://www.choicehotels.com/louisiana/harvey/suburban-hotels/la508?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.8995292,
+    "lng": -90.0725353
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "suite jazz on frenchmen",
+   "query": "Suite Jazz on Frenchmen 628 Frenchmen St. New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJneksRwCnIIYRg8chfK5SqPM",
+    "display_name": "Suite Jazz on Frenchmen",
+    "formatted_address": "628 Frenchmen St, New Orleans, LA 70116, USA",
+    "street_number": "628",
+    "route": "Frenchmen Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.964153999999994,
+    "lng": -90.058016
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "terrell house",
+   "query": "Terrell House 1441 Magazine St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJtdMvHHmmIIYRo-5jeLj6rBI",
+    "display_name": "Terrell House Bed & Breakfast",
+    "formatted_address": "1441 Magazine St, New Orleans, LA 70130, USA",
+    "street_number": "1441",
+    "route": "Magazine Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 237-2076",
+    "website_uri": "https://terrellhouse.com/?utm_source=cumulus&utm_medium=onlinepresence&utm_campaign=gbp",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.935332100000004,
+    "lng": -90.0723359
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "texas motel",
+   "query": "Texas Motel 3520 Airline Drive Metairie LA 70001",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ70LtMAiwIIYRpxU2auKfh0Q",
+    "display_name": "Texas Motel",
+    "formatted_address": "3520 Airline Dr, Metairie, LA 70001, USA",
+    "street_number": "3520",
+    "route": "Airline Drive",
+    "locality": "Metairie",
+    "postal_code": "70001",
+    "phone": "(504) 831-4196",
+    "website_uri": "http://www.texasmotel.weebly.com/",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 29.974659,
+    "lng": -90.161492
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the gisele hotel llc",
+   "query": "The Gisele Hotel Llc 1620 Martin Luther King Jr Blvd New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJD_L2idelIIYRFoymxei3WUk",
+    "display_name": "Gisele Hotel",
+    "formatted_address": "1620 Martin Luther King Jr Blvd, New Orleans, LA 70130, USA",
+    "street_number": "1620",
+    "route": "Martin Luther King Junior Boulevard",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 235-3676",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.939225900000004,
+    "lng": -90.07630089999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the gregory",
+   "query": "The Gregory 131 Carondelet St New Orleans LA 70112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ44Z4RACnIIYRSdYdY5dKOK0",
+    "display_name": "THE GREGORY HOTEL",
+    "formatted_address": "131 Carondelet St, New Orleans, LA 70112, USA",
+    "street_number": "131",
+    "route": "Carondelet Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "(504) 975-8490",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.953229,
+    "lng": -90.07081199999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the joe",
+   "query": "The Joe 468 St Joseph St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJhX3yhUanIIYRjwP8XbNLV4A",
+    "display_name": "The Joe Hotel New Orleans",
+    "formatted_address": "468 St Joseph St, New Orleans, LA 70130, USA",
+    "street_number": "468",
+    "route": "Saint Joseph Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 507-0523",
+    "website_uri": "http://www.thejoehotelneworleans.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "resort_hotel"
+    ],
+    "lat": 29.9436399,
+    "lng": -90.0694436
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the laurel guest home",
+   "query": "The Laurel Guest Home 3626 Delgado Dr New Orleans LA 70119",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJA9U3LFyvIIYRXuIC6dqMB0Q",
+    "display_name": "The Laurel Bed and Breakfast",
+    "formatted_address": "3626 Delgado Dr, New Orleans, LA 70119, USA",
+    "street_number": "3626",
+    "route": "Delgado Drive",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "(504) 486-2284",
+    "website_uri": "http://laurelbedandbreakfast.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.980313600000002,
+    "lng": -90.0908074
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the luzianne",
+   "query": "The Luzianne 451 Girod St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJi8WruXOmIIYRcPX_W-UQzQY",
+    "display_name": "The Luzianne",
+    "formatted_address": "451 Girod St, New Orleans, LA 70130, USA",
+    "street_number": "451",
+    "route": "Girod Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(844) 746-1324",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9468805,
+    "lng": -90.0682149
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the okra inn",
+   "query": "The Okra Inn 4320 S Carrollton Ave New Orleans LA 70119",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJf8sugiulIIYR8E48lzc9Tpc",
+    "display_name": "The Okra Inn Carrollton",
+    "formatted_address": "4320 S Carrollton Ave, New Orleans, LA 70119, USA",
+    "street_number": "4320",
+    "route": "South Carrollton Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "(504) 400-5920",
+    "website_uri": "http://www.theokrainn.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.970692699999997,
+    "lng": -90.10417439999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the pelham hotel",
+   "query": "The Pelham Hotel 444 Common St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJRS1ELQ2mIIYRSlomlO3oMkw",
+    "display_name": "The Pelham Hotel",
+    "formatted_address": "444 Common St, New Orleans, LA 70130, USA",
+    "street_number": "444",
+    "route": "Common Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 522-4444",
+    "website_uri": "http://www.thepelhamhotel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9509937,
+    "lng": -90.0672534
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the queen anne hotel",
+   "query": "The Queen Anne Hotel 1625 Prytania St New Orleans LA 70130",
+   "candidates_returned": 2,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the syd",
+   "query": "The Syd 1730 Clio St New Orleans LA 70113",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ5QgqBqSlIIYRFVbAaOZjpgc",
+    "display_name": "The Syd",
+    "formatted_address": "1730 Clio St, New Orleans, LA 70113, USA",
+    "street_number": "1730",
+    "route": "Clio Street",
+    "locality": "New Orleans",
+    "postal_code": "70113",
+    "phone": "",
+    "website_uri": "https://thesyd.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.942331799999998,
+    "lng": -90.07585449999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "vcay",
+   "query": "Vcay 1000 Howard Ave New Orleans LA 70113",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJD4FL0pelIIYRhUGF8CKdSDk",
+    "display_name": "VCAY Suites",
+    "formatted_address": "1000 Howard Ave, New Orleans, LA 70113, USA",
+    "street_number": "1000",
+    "route": "Howard Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70113",
+    "phone": "(504) 370-7715",
+    "website_uri": "https://www.vcay.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9455752,
+    "lng": -90.0767694
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "webber s motel llc",
+   "query": "Webber's Motel Llc 9300 Chef Menteur Hwy New Orleans LA 70127",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJc6pqPfQCnogRLowtsGy_zXs",
+    "display_name": "Webber's Motel",
+    "formatted_address": "9300 Chef Menteur Hwy, New Orleans, LA 70127, USA",
+    "street_number": "9300",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70127",
+    "phone": "(504) 242-5150",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.015920599999994,
+    "lng": -89.97717279999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "westay suites belle chasse",
+   "query": "WeStay Suites Belle Chasse 14740 Louisiana 23 Belle Chasse LA 70037",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJMWRRcb4hnogRC6PTNXgWoRo",
+    "display_name": "WeStay Suites Belle Chasse",
+    "formatted_address": "14740 LA-23, Belle Chasse, LA 70037, USA",
+    "street_number": "14740",
+    "route": "Louisiana 23",
+    "locality": "Belle Chasse",
+    "postal_code": "70037",
+    "phone": "(504) 684-8541",
+    "website_uri": "https://westaysuites.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.7009288,
+    "lng": -89.9905641
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "wg creole house",
+   "query": "Wg Creole House 1724 Clio St New Orleans LA 70113",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJZ2lmitilIIYRl-u6S5wmie0",
+    "display_name": "W.G. Creole House 1850",
+    "formatted_address": "1724 Clio St, New Orleans, LA 70113, USA",
+    "street_number": "1724",
+    "route": "Clio Street",
+    "locality": "New Orleans",
+    "postal_code": "70113",
+    "phone": "(504) 356-8700",
+    "website_uri": "http://wgcreolehouse1850.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.942195299999998,
+    "lng": -90.07578450000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "baymont marrero",
+   "query": "Baymont Marrero 6589 Westbank Expressway Marrero LA 70072",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJU-Gafo-kIIYR-zMpjSP3MHs",
+    "display_name": "Baymont by Wyndham Marrero",
+    "formatted_address": "6589 Westbank Expy, Marrero, LA 70072, USA",
+    "street_number": "6589",
+    "route": "Westbank Expressway",
+    "locality": "Marrero",
+    "postal_code": "70072",
+    "phone": "(504) 309-5700",
+    "website_uri": "https://www.wyndhamhotels.com/baymont/marrero-louisiana/baymont-inn-and-suites-marrero/overview?CID=LC:cfixxwa8fefdt79:46316&iata=00093796",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 29.8951477,
+    "lng": -90.11998439999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "bed and breakfast on the point",
+   "query": "Bed and Breakfast on the Point 405 Delaronde St New Orleans LA 70114",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "blake hotel best western signature",
+   "query": "Blake Hotel-Best Western Signature 500 St Charles Ave New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJt8wHmnSmIIYR40l9rJ-EEtA",
+    "display_name": "Blake Hotel New Orleans",
+    "formatted_address": "500 St Charles Ave, New Orleans, LA 70130, USA",
+    "street_number": "500",
+    "route": "Saint Charles Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 522-9000",
+    "website_uri": "https://www.blakehotelneworleans.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.949247099999997,
+    "lng": -90.070604
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "blue60 guest house",
+   "query": "Blue60 Guest House 1008 Elysian Fields Ave. New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJfQNQthimIIYRhs9aidikIXc",
+    "display_name": "Blue60 Marigny Inn",
+    "formatted_address": "1008 Elysian Fields Ave, New Orleans, LA 70117, USA",
+    "street_number": "1008",
+    "route": "Elysian Fields Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(504) 324-4311",
+    "website_uri": "https://www.marignyinn.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "guest_house",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.967750000000002,
+    "lng": -90.0571367
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "coccinelle",
+   "query": "Coccinelle 2119 Decatur St. New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ-01SHximIIYRL4CkTJpa2ek",
+    "display_name": "2119 Decatur St",
+    "formatted_address": "2119 Decatur St, New Orleans, LA 70116, USA",
+    "street_number": "2119",
+    "route": "Decatur Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.962643999999997,
+    "lng": -90.0571817
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "crescent city guest house",
+   "query": "Crescent City Guest House 612 Marigny St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJWYBJliKmIIYRpl1wuw7rn1w",
+    "display_name": "Crescent City Guest House",
+    "formatted_address": "612 Marigny St, New Orleans, LA 70117, USA",
+    "street_number": "612",
+    "route": "Marigny Street",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(504) 944-8722",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "guest_house",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.964052,
+    "lng": -90.055382
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "gentry house",
+   "query": "Gentry House 1031 St. Ann St. New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJbdWMmA-mIIYRGOcnA1dEhE4",
+    "display_name": "Gentry House",
+    "formatted_address": "1031 St Ann St., New Orleans, LA 70116, USA",
+    "street_number": "1031",
+    "route": "Saint Ann Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 525-4433",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.96125,
+    "lng": -90.06724679999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hampton inn six flags area",
+   "query": "Hampton Inn-Six Flags Area 12340 Interstate 10 Service Rd New Orleans LA 70128",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJiT03RMkDnogR-LEZs0_j1no",
+    "display_name": "Hampton Inn New Orleans",
+    "formatted_address": "12340 I-10 Service Rd, New Orleans, LA 70128, USA",
+    "street_number": "12340",
+    "route": "I-10 Service Road",
+    "locality": "New Orleans",
+    "postal_code": "70128",
+    "phone": "(504) 335-0200",
+    "website_uri": "http://hamptoninn3.hilton.com/en/hotels/louisiana/hampton-inn-and-suites-new-orleans-downtown-french-quarter-area-MSYDTHX/index.html",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.049556199999998,
+    "lng": -89.9551599
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hotel henrietta",
+   "query": "Hotel Henrietta 3500 St Charles Ave New Orleans LA 70115",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJDxtAwwSlIIYRWeH6Z4m5_Uc",
+    "display_name": "Hotel Henrietta",
+    "formatted_address": "3500 St Charles Ave, New Orleans, LA 70115, USA",
+    "street_number": "3500",
+    "route": "Saint Charles Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70115",
+    "phone": "(504) 358-8818",
+    "website_uri": "http://hotelhenrietta.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bar",
+     "cafe",
+     "cocktail_bar",
+     "coffee_shop",
+     "establishment",
+     "food",
+     "food_store",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "store"
+    ],
+    "lat": 29.927355499999997,
+    "lng": -90.09289389999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hotel peter and paul",
+   "query": "Hotel Peter and Paul 2317 Burgundy St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ44RPRCSnIIYRIqqlgM9lTAs",
+    "display_name": "Hotel Peter and Paul",
+    "formatted_address": "2317 Burgundy St, New Orleans, LA 70117, USA",
+    "street_number": "2317",
+    "route": "Burgundy Street",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(504) 356-5200",
+    "website_uri": "https://ash.world/hotels/peter-and-paul",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.966749199999995,
+    "lng": -90.05521159999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "la maison marigny b and b on bourbon",
+   "query": "La Maison Marigny B and B on Bourbon 1421 Bourbon St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQeiOjhmmIIYRTE2bo08yUBg",
+    "display_name": "La Maison Marigny Inn on Bourbon",
+    "formatted_address": "1421 Bourbon St, New Orleans, LA 70116, USA",
+    "street_number": "1421",
+    "route": "Bourbon Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 308-1061",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "guest_house",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "real_estate_agency",
+     "service",
+     "travel_agency"
+    ],
+    "lat": 29.9643359,
+    "lng": -90.06027639999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "le papillon guesthouse",
+   "query": "Le Papillon Guesthouse 2011 N. Rampart St. New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "maison de macarty",
+   "query": "Maison de Macarty 3820 Burgundy St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJkeNNSy2mIIYR3ksqoYmnRqE",
+    "display_name": "Macarty House",
+    "formatted_address": "3820 Burgundy St, New Orleans, LA 70117, USA",
+    "street_number": "3820",
+    "route": "Burgundy Street",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(504) 267-1564",
+    "website_uri": "http://www.macartyhouse.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "event_venue",
+     "guest_house",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 29.963538999999997,
+    "lng": -90.03737989999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "mentone bed and breakfast",
+   "query": "Mentone Bed & Breakfast 1437 Pauger St. New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "rose manor bed and breakfast inn",
+   "query": "Rose Manor Bed & Breakfast Inn 7214 Pontchartrain Blvd New Orleans LA 70124",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJV--81VSuIIYRUO_c90WcgSY",
+    "display_name": "Rose Manor Bed & Breakfast Inn",
+    "formatted_address": "7214 Pontchartrain Blvd, New Orleans, LA 70124, USA",
+    "street_number": "7214",
+    "route": "Pontchartrain Boulevard",
+    "locality": "New Orleans",
+    "postal_code": "70124",
+    "phone": "(504) 282-8200",
+    "website_uri": "https://www.rosemanorbb.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.0205611,
+    "lng": -90.11488059999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "st charles guesthouse",
+   "query": "St. Charles Guesthouse 1748 Prytania St New Orleans LA 70130",
+   "candidates_returned": 2,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "zora bed and breakfast",
+   "query": "Zora Bed & Breakfast 420 Bouny St. New Orleans LA 70114",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "casa n orleans|29.949231|-90.105125",
+   "census_identity_key": "casa n orleans",
+   "query": "Casa N Orleans",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "best way inn and suites|30.009533|-90.018402",
+   "census_identity_key": "best way inn and suites",
+   "query": "Best Way Inn & Suites",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "new-orleans-east",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJtwm--DeoIIYRgTuJFgD_pLE",
+    "display_name": "BEST WAY INN & SUITES",
+    "formatted_address": "6042 Chef Menteur Hwy, New Orleans, LA 70126, USA",
+    "street_number": "6042",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.0094309,
+    "lng": -90.01847149999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "chateau orleans resort|29.956423|-90.070204",
+   "census_identity_key": "chateau orleans resort",
+   "query": "Chateau Orleans Resort 238 Burgundy Street",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "extended stay america new orleans kenner|30.007825|-90.235853",
+   "census_identity_key": "extended stay america new orleans kenner",
+   "query": "Extended Stay America - New Orleans - Kenner",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "msy-airport-kenner",
+   "candidates_returned": 2,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJxwKkbbm3IIYRxy3BMigokw8",
+    "display_name": "Extended Stay America Select Suites- New Orleans - Airport",
+    "formatted_address": "2300 Veterans Blvd, Kenner, LA 70062, USA",
+    "street_number": "2300",
+    "route": "Veterans Boulevard",
+    "locality": "Kenner",
+    "postal_code": "70062",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.007813300000002,
+    "lng": -90.2359716
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "harrah s hotel|29.947903|-90.065644",
+   "census_identity_key": "harrah s hotel",
+   "query": "Harrah's Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJB0gbDgCnIIYRUUB0FiIC7vo",
+    "display_name": "Harrah’s New Orleans Hotel & Casino - A Caesars Rewards Destination",
+    "formatted_address": "228 Poydras St, New Orleans, LA 70130, USA",
+    "street_number": "228",
+    "route": "Poydras Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9480933,
+    "lng": -90.065647
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "holiday inn express and suites chalmette new orleans s|29.957751|-89.987667",
+   "census_identity_key": "holiday inn express and suites chalmette new orleans s",
+   "query": "Holiday Inn Express & Suites Chalmette - New Orleans S",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "chalmette-arabi",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJJfVHkEQdnogRM_vw5LHX9zU",
+    "display_name": "Holiday Inn Express & Suites Chalmette - New Orleans S by IHG",
+    "formatted_address": "7905 W Judge Perez Dr, Chalmette, LA 70043, USA",
+    "street_number": "7905",
+    "route": "West Judge Perez Drive",
+    "locality": "Chalmette",
+    "postal_code": "70043",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 29.957439,
+    "lng": -89.987715
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "holiday inn express new orleans st charles|29.943775|-90.071850",
+   "census_identity_key": "holiday inn express new orleans st charles",
+   "query": "Holiday Inn Express New Orleans - St Charles",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ1wIw83amIIYRKvGe8Spumqs",
+    "display_name": "Holiday Inn Express New Orleans - Arts District by IHG",
+    "formatted_address": "936 St Charles Ave, New Orleans, LA 70130, USA",
+    "street_number": "936",
+    "route": "Saint Charles Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 29.943718999999998,
+    "lng": -90.07188599999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "holiday inn metairie new orleans airport|29.993542|-90.154892",
+   "census_identity_key": "holiday inn metairie new orleans airport",
+   "query": "Holiday Inn Metairie New Orleans Airport",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJJT65PBmwIIYR-oBKxhYsS4E",
+    "display_name": "Holiday Inn Metairie New Orleans by IHG",
+    "formatted_address": "2261 N Causeway Blvd, Metairie, LA 70001, USA",
+    "street_number": "2261",
+    "route": "North Causeway Boulevard",
+    "locality": "Metairie",
+    "postal_code": "70001",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 29.993514,
+    "lng": -90.154906
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "homewood suites by hilton new orleans french quarter|29.950681|-90.073080",
+   "census_identity_key": "homewood suites by hilton new orleans french quarter",
+   "query": "Homewood Suites by Hilton New Orleans French Quarter",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "hotel 10 extended stay|30.011503|-90.014977",
+   "census_identity_key": "hotel 10 extended stay",
+   "query": "Hotel 10 Extended Stay",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJf8flIDeoIIYRHw0nE2tbHC0",
+    "display_name": "Hotel 10 Extended Stay",
+    "formatted_address": "6303 Chef Menteur Hwy, New Orleans, LA 70126, USA",
+    "street_number": "6303",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.011482999999995,
+    "lng": -90.014961
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "hotel de l eau vive|29.949723|-90.066830",
+   "census_identity_key": "hotel de l eau vive",
+   "query": "Hotel de L'Eau Vive",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJQ9DmxnKmIIYRmWvdX3xgJ3E",
+    "display_name": "Hotel De L'eau Vive",
+    "formatted_address": "315 Tchoupitoulas St, New Orleans, LA 70130, USA",
+    "street_number": "315",
+    "route": "Tchoupitoulas Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.949712,
+    "lng": -90.06692149999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "hotel henrietta|29.927406|-90.092860",
+   "census_identity_key": "hotel henrietta",
+   "query": "Hotel Henrietta 3500 St Charles Avenue",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJDxtAwwSlIIYRWeH6Z4m5_Uc",
+    "display_name": "Hotel Henrietta",
+    "formatted_address": "3500 St Charles Ave, New Orleans, LA 70115, USA",
+    "street_number": "3500",
+    "route": "Saint Charles Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70115",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bar",
+     "cafe",
+     "cocktail_bar",
+     "coffee_shop",
+     "establishment",
+     "food",
+     "food_store",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "store"
+    ],
+    "lat": 29.927355499999997,
+    "lng": -90.09289389999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "hotel provincial|29.960183|-90.061035",
+   "census_identity_key": "hotel provincial",
+   "query": "Hotel Provincial 1032 Chartres Street",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJYf7nzxCmIIYRvB65V_BBlBU",
+    "display_name": "Hotel Provincial",
+    "formatted_address": "1024 Chartres St, New Orleans, LA 70116, USA",
+    "street_number": "1024",
+    "route": "Chartres Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 29.9600722,
+    "lng": -90.0610969
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "hotel st pierre|29.961780|-90.065859",
+   "census_identity_key": "hotel st pierre",
+   "query": "Hotel St. Pierre 913 Burgundy Street",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJX1N2-A-mIIYRN23y0oJCywA",
+    "display_name": "Hotel St. Pierre",
+    "formatted_address": "911 Burgundy St, New Orleans, LA 70116, USA",
+    "street_number": "911",
+    "route": "Burgundy Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.961781000000002,
+    "lng": -90.065895
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "inn on st peter|29.960023|-90.067555",
+   "census_identity_key": "inn on st peter",
+   "query": "Inn on St. Peter",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJSxx0vQ-mIIYRKJlB1W1z2HA",
+    "display_name": "Inn on St Peter",
+    "formatted_address": "1005 St Peter, New Orleans, LA 70116, USA",
+    "street_number": "1005",
+    "route": "Saint Peter",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "guest_house",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.959932700000003,
+    "lng": -90.06757220000001
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "intown suites harvey|29.898450|-90.062299",
+   "census_identity_key": "intown suites harvey",
+   "query": "InTown Suites Harvey",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJEaj27LumIIYR-mTYnJn5ueU",
+    "display_name": "InTown Suites Extended Stay Select New Orleans LA - Harvey",
+    "formatted_address": "1101 Manhattan Blvd, Harvey, LA 70058, USA",
+    "street_number": "1101",
+    "route": "Manhattan Boulevard",
+    "locality": "Harvey",
+    "postal_code": "70058",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.899140999999997,
+    "lng": -90.0622933
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "la bella motel|29.963460|-90.159896",
+   "census_identity_key": "la bella motel",
+   "query": "La Bella Motel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "CLOSED_CLOSED_PERMANENTLY",
+   "place": {
+    "google_place_id": "ChIJubKUWqW6IIYR7eIW7xwkPa8",
+    "display_name": "Labella Motel",
+    "formatted_address": "3321 Jefferson Hwy, New Orleans, LA 70121, USA",
+    "street_number": "3321",
+    "route": "Jefferson Highway",
+    "locality": "New Orleans",
+    "postal_code": "70121",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 29.963341,
+    "lng": -90.1598544
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "la quinta inn|30.004300|-90.240149",
+   "census_identity_key": "la quinta inn",
+   "query": "La Quinta Inn 2610 Williams Boulevard",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "msy-airport-kenner",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ6946Rjy3IIYR0-i1CZ5PAm0",
+    "display_name": "La Quinta Inn & Suites by Wyndham New Orleans Airport",
+    "formatted_address": "2610 Williams Blvd, Kenner, LA 70062, USA",
+    "street_number": "2610",
+    "route": "Williams Boulevard",
+    "locality": "Kenner",
+    "postal_code": "70062",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.004091499999998,
+    "lng": -90.24023729999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "le richelieu in the french quarter|29.961840|-90.059506",
+   "census_identity_key": "le richelieu in the french quarter",
+   "query": "Le Richelieu in the French Quarter",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJh8SaXBemIIYRPcyO7o_N3ZE",
+    "display_name": "Le Richelieu Hotel",
+    "formatted_address": "1234 Chartres St, New Orleans, LA 70116, USA",
+    "street_number": "1234",
+    "route": "Chartres Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.961833299999995,
+    "lng": -90.0596444
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "london lodge|29.972340|-90.122123",
+   "census_identity_key": "london lodge",
+   "query": "London Lodge",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "CLOSED_CLOSED_PERMANENTLY",
+   "place": {
+    "google_place_id": "ChIJAQJ7z2KlIIYRAzM1y5i08Aw",
+    "display_name": "London Lodge Motel",
+    "formatted_address": "9301 Airline Hwy, New Orleans, LA 70118, USA",
+    "street_number": "9301",
+    "route": "Airline Highway",
+    "locality": "New Orleans",
+    "postal_code": "70118",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 29.9722044,
+    "lng": -90.1222164
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "midtown hotel new orleans|29.967509|-90.104141",
+   "census_identity_key": "midtown hotel new orleans",
+   "query": "Midtown Hotel New Orleans 3940 Tulane Avenue",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJc3cU44WlIIYR8cXJK44AwjI",
+    "display_name": "Midtown Hotel New Orleans",
+    "formatted_address": "3900 Tulane Ave, New Orleans, LA 70119, USA",
+    "street_number": "3900",
+    "route": "Tulane Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.967519399999997,
+    "lng": -90.10368729999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "monte carlo motel|30.010825|-90.018245",
+   "census_identity_key": "monte carlo motel",
+   "query": "Monte Carlo Motel 6061 Chef Menteur Highway",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJPQUXwzeoIIYRWrRmglu5UxA",
+    "display_name": "Monte Carlo Motel",
+    "formatted_address": "6061 Chef Menteur Hwy, New Orleans, LA 70126, USA",
+    "street_number": "6061",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.010866,
+    "lng": -90.018146
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "motel 6 new orleans near downtown|30.002354|-90.038734",
+   "census_identity_key": "motel 6 new orleans near downtown",
+   "query": "Motel 6 New Orleans - Near Downtown",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "new-orleans-east",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ86nr4PWoIIYRAt_MBB5_VXU",
+    "display_name": "Motel 6 New Orleans, LA - Near Downtown",
+    "formatted_address": "4200 Old Gentilly Rd, New Orleans, LA 70126, USA",
+    "street_number": "4200",
+    "route": "Old Gentilly Road",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.002364399999998,
+    "lng": -90.038961
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "new orleans courtyard hotel|29.964122|-90.065658",
+   "census_identity_key": "new orleans courtyard hotel",
+   "query": "New Orleans Courtyard Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJUSmkNAWmIIYRJ9EXWs_lcC8",
+    "display_name": "New Orleans Courtyard Hotel",
+    "formatted_address": "1101 N Rampart St, New Orleans, LA 70116, USA",
+    "street_number": "1101",
+    "route": "North Rampart Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.963987900000003,
+    "lng": -90.0656382
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "new orleans inn|30.007728|-90.031562",
+   "census_identity_key": "new orleans inn",
+   "query": "New Orleans Inn 5001 Chef Menteur Highway",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "new-orleans-east",
+   "candidates_returned": 3,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJo6VkcVqoIIYR0H0-gzxRENY",
+    "display_name": "New Orleans Inn",
+    "formatted_address": "5035 Chef Menteur Hwy, New Orleans, LA 70126, USA",
+    "street_number": "5035",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.0077672,
+    "lng": -90.0308752
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "prytania oaks hotel|29.937120|-90.074762",
+   "census_identity_key": "prytania oaks hotel",
+   "query": "Prytania Oaks Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "CLOSED_CLOSED_PERMANENTLY",
+   "place": {
+    "google_place_id": "ChIJxZ_v59elIIYRtd6qw0ZDNc8",
+    "display_name": "The Prytania Oaks Hotel",
+    "formatted_address": "1618 Prytania St, New Orleans, LA 70130, USA",
+    "street_number": "1618",
+    "route": "Prytania Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.937079899999997,
+    "lng": -90.07493439999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "q and c hotelbar new orleans autograph collection|29.950003|-90.068832",
+   "census_identity_key": "q and c hotelbar new orleans autograph collection",
+   "query": "Q and C HotelBar New Orleans, Autograph Collection",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJh-xNRnOmIIYRadlqGLHMsyw",
+    "display_name": "Q&C Hotel and Bar New Orleans, Autograph Collection",
+    "formatted_address": "344 Camp St, New Orleans, LA 70130, USA",
+    "street_number": "344",
+    "route": "Camp Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 29.949974,
+    "lng": -90.0688402
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "quality inn|30.036777|-89.973406",
+   "census_identity_key": "quality inn",
+   "query": "Quality Inn",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "new-orleans-east",
+   "candidates_returned": 3,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJOZSB2cQDnogRRE1OJDvv_pk",
+    "display_name": "Quality Inn New Orleans I-10 East",
+    "formatted_address": "10020 I-10 Service Rd, New Orleans, LA 70127, USA",
+    "street_number": "10020",
+    "route": "I-10 Service Road",
+    "locality": "New Orleans",
+    "postal_code": "70127",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.0371529,
+    "lng": -89.9740946
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "rathbone mansions|29.967105|-90.065740",
+   "census_identity_key": "rathbone mansions",
+   "query": "Rathbone Mansions",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "french-quarter-marigny-bywater",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJS7XZsASmIIYR1y250zG9Ec8",
+    "display_name": "Rathbone Mansions",
+    "formatted_address": "1244 Esplanade Ave, New Orleans, LA 70116, USA",
+    "street_number": "1244",
+    "route": "Esplanade Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.967041899999998,
+    "lng": -90.0658255
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "red carpet inn and suites|30.009175|-90.017760",
+   "census_identity_key": "red carpet inn and suites",
+   "query": "Red Carpet Inn & Suites",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "red roof inn|30.005633|-90.239941",
+   "census_identity_key": "red roof inn",
+   "query": "Red Roof Inn",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "msy-airport-kenner",
+   "candidates_returned": 3,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ25eU64m3IIYRf_y2bFSXLR4",
+    "display_name": "Red Roof Inn Kenner - New Orleans Airport NE",
+    "formatted_address": "2125 Veterans Blvd, Kenner, LA 70062, USA",
+    "street_number": "2125",
+    "route": "Veterans Boulevard",
+    "locality": "Kenner",
+    "postal_code": "70062",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 30.005556600000002,
+    "lng": -90.24007519999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "renaissance new orleans pere marquette french quarter area hotel|29.953323|-90.071727",
+   "census_identity_key": "renaissance new orleans pere marquette french quarter area hotel",
+   "query": "Renaissance New Orleans Pere Marquette French Quarter Area Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJna3SBQumIIYR2fK0BHLkNI4",
+    "display_name": "Renaissance New Orleans Pere Marquette French Quarter Area Hotel",
+    "formatted_address": "817 Common St, New Orleans, LA 70112, USA",
+    "street_number": "817",
+    "route": "Common Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 29.9532311,
+    "lng": -90.0717092
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "riverside hotel|29.856685|-89.986422",
+   "census_identity_key": "riverside hotel",
+   "query": "Riverside Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "belle-chasse",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJM-sfcT4enogRFhQdKeCFfKc",
+    "display_name": "Riverside Hotel",
+    "formatted_address": "8280 LA-23, Belle Chasse, LA 70037, USA",
+    "street_number": "8280",
+    "route": "Louisiana 23",
+    "locality": "Belle Chasse",
+    "postal_code": "70037",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.8564723,
+    "lng": -89.9863834
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "roosevelt hotel|29.953942|-90.071650",
+   "census_identity_key": "roosevelt hotel",
+   "query": "Roosevelt Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJTz6VoQumIIYRh45jAKY_fsA",
+    "display_name": "The Roosevelt New Orleans, A Waldorf Astoria Hotel",
+    "formatted_address": "130 Roosevelt Way, New Orleans, LA 70112, USA",
+    "street_number": "130",
+    "route": "Roosevelt Way",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.954342800000003,
+    "lng": -90.0722983
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "rose inn motel|29.965766|-90.100376",
+   "census_identity_key": "rose inn motel",
+   "query": "Rose Inn Motel",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "sentry inn|29.917158|-90.044977",
+   "census_identity_key": "sentry inn",
+   "query": "Sentry Inn",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "sonesta es suites|29.954140|-90.074782",
+   "census_identity_key": "sonesta es suites",
+   "query": "Sonesta ES Suites",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJhWgConKnIIYRXAFQ8oJOdV4",
+    "display_name": "Sonesta ES Suites New Orleans Downtown",
+    "formatted_address": "212 Loyola Ave, New Orleans, LA 70112, USA",
+    "street_number": "212",
+    "route": "Loyola Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.954089800000002,
+    "lng": -90.0746219
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "springhill suites new orleans|29.958261|-90.077378",
+   "census_identity_key": "springhill suites new orleans",
+   "query": "Springhill Suites-New Orleans",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJS1HfteOlIIYRslqR7VHrcz8",
+    "display_name": "SpringHill Suites by Marriott New Orleans Downtown/Canal Street",
+    "formatted_address": "1600 Canal St, New Orleans, LA 70112, USA",
+    "street_number": "1600",
+    "route": "Canal Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.958287900000002,
+    "lng": -90.077269
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "st james hotel an ascend collection hotel|29.949684|-90.067766",
+   "census_identity_key": "st james hotel an ascend collection hotel",
+   "query": "St. James Hotel, an Ascend Collection Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJo2vYIHOmIIYRngZeYrXt_eY",
+    "display_name": "voco St. James Hotel by IHG",
+    "formatted_address": "330 Magazine St, New Orleans, LA 70130, USA",
+    "street_number": "330",
+    "route": "Magazine Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "food",
+     "gym",
+     "health",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "restaurant",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 29.949791599999994,
+    "lng": -90.06771040000001
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "suburban studios|29.899079|-90.072154",
+   "census_identity_key": "suburban studios",
+   "query": "Suburban Studios",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "harvey-west-bank",
+   "candidates_returned": 2,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJido4IMynIIYRCwL7Bj8k8uY",
+    "display_name": "Suburban Studios Harvey - New Orleans",
+    "formatted_address": "2200 Westbank Expy Bldg B, Harvey, LA 70058, USA",
+    "street_number": "2200",
+    "route": "Westbank Expressway",
+    "locality": "Harvey",
+    "postal_code": "70058",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.8995292,
+    "lng": -90.0725353
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "sweet s inn motel|29.966130|-90.100974",
+   "census_identity_key": "sweet s inn motel",
+   "query": "Sweet's Inn Motel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJc3cU44WlIIYR8cXJK44AwjI",
+    "display_name": "Midtown Hotel New Orleans",
+    "formatted_address": "3900 Tulane Ave, New Orleans, LA 70119, USA",
+    "street_number": "3900",
+    "route": "Tulane Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.967519399999997,
+    "lng": -90.10368729999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "the blake hotel new orleans an ascend hotel collection member|29.949022|-90.070203",
+   "census_identity_key": "the blake hotel new orleans an ascend hotel collection member",
+   "query": "The Blake Hotel New Orleans, an Ascend Hotel Collection Member",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJt8wHmnSmIIYR40l9rJ-EEtA",
+    "display_name": "Blake Hotel New Orleans",
+    "formatted_address": "500 St Charles Ave, New Orleans, LA 70130, USA",
+    "street_number": "500",
+    "route": "Saint Charles Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.949247099999997,
+    "lng": -90.070604
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "the eliza jane in the unbound collection|29.950117|-90.068279",
+   "census_identity_key": "the eliza jane in the unbound collection",
+   "query": "The Eliza Jane - In the Unbound Collection",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ-99wKHOmIIYRbbnVXJ4sSCo",
+    "display_name": "The Eliza Jane, Autograph Collection",
+    "formatted_address": "315 Magazine St, New Orleans, LA 70130, USA",
+    "street_number": "315",
+    "route": "Magazine Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.950277300000003,
+    "lng": -90.0680758
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "the frenchmen hotel|29.962264|-90.057444",
+   "census_identity_key": "the frenchmen hotel",
+   "query": "The Frenchmen Hotel 415 Frenchmen Street",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJqxr3iBemIIYRN6-V0vRhmg4",
+    "display_name": "The Frenchmen New Orleans by Kasa",
+    "formatted_address": "417 Frenchmen St, New Orleans, LA 70116, USA",
+    "street_number": "417",
+    "route": "Frenchmen Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.962212,
+    "lng": -90.05755099999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "the prytania park hotel|29.938041|-90.074721",
+   "census_identity_key": "the prytania park hotel",
+   "query": "The Prytania Park Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "CLOSED_CLOSED_TEMPORARILY",
+   "place": {
+    "google_place_id": "ChIJfxXEdHimIIYR8aGxN2iHam0",
+    "display_name": "Prytania Park Hotel",
+    "formatted_address": "1525 Prytania St, New Orleans, LA 70130, USA",
+    "street_number": "1525",
+    "route": "Prytania Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_TEMPORARILY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.938076000000002,
+    "lng": -90.07472899999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "woodspring suites|30.008024|-90.236985",
+   "census_identity_key": "woodspring suites",
+   "query": "WoodSpring Suites",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "wyndham garden baronne plaza new orleans|29.953254|-90.072618",
+   "census_identity_key": "wyndham garden baronne plaza new orleans",
+   "query": "Wyndham Garden Baronne Plaza New Orleans",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJk7mG_AqmIIYRLYufZZVJ9Cw",
+    "display_name": "Wyndham Garden New Orleans Downtown",
+    "formatted_address": "201 Baronne St, New Orleans, LA 70112, USA",
+    "street_number": "201",
+    "route": "Baronne Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.953209999999995,
+    "lng": -90.0725963
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Maison Saint Charles by Hotel RL",
+   "query": "Maison Saint Charles by Hotel RL New Orleans LA",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJZ2XFCNilIIYRcF4Obf5gC2w",
+    "display_name": "Maison Saint Charles",
+    "formatted_address": "1319 St Charles Ave, New Orleans, LA 70130, USA",
+    "street_number": "1319",
+    "route": "Saint Charles Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.940243199999998,
+    "lng": -90.07511500000001
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Royal Frenchmen Hotel and Bar",
+   "query": "Royal Frenchmen Hotel and Bar New Orleans LA",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJqxr3iBemIIYRN6-V0vRhmg4",
+    "display_name": "The Frenchmen New Orleans by Kasa",
+    "formatted_address": "417 Frenchmen St, New Orleans, LA 70116, USA",
+    "street_number": "417",
+    "route": "Frenchmen Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.962212,
+    "lng": -90.05755099999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "WeStay Suites - Belle Chasse",
+   "query": "WeStay Suites - Belle Chasse New Orleans LA",
+   "corridor": "belle-chasse",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJMWRRcb4hnogRC6PTNXgWoRo",
+    "display_name": "WeStay Suites Belle Chasse",
+    "formatted_address": "14740 LA-23, Belle Chasse, LA 70037, USA",
+    "street_number": "14740",
+    "route": "Louisiana 23",
+    "locality": "Belle Chasse",
+    "postal_code": "70037",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.7009288,
+    "lng": -89.9905641
+   }
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "1130 baronne",
+   "query": "1130 Baronne 1130 Baronne St New Orleans LA 70113",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "1208 ursulines bed and breakfast",
+   "query": "1208 Ursulines Bed & Breakfast 1208 Ursulines Ave New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "1501 oretha castle haley blvd",
+   "query": "1501 Oretha Castle Haley Blvd, 1212 Magazine St New Orleans LA 70130",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "1615 och",
+   "query": "1615 Och 1615 Oretha Castle Haley Blvd New Orleans LA 70113",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "1679 n roman",
+   "query": "1679 N Roman 1679 N Roman St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "EjIxNjc5IE4gUm9tYW4gU3QgMTY3OSBuLCBOZXcgT3JsZWFucywgTEEgNzAxMTYsIFVTQSIiGiAKFgoUChIJ60L_DKioIIYR0lOw7whWG3YSBjE2Nzkgbg",
+    "display_name": "1679 N Roman St 1679 n",
+    "formatted_address": "1679 N Roman St 1679 n, New Orleans, LA 70116, USA",
+    "street_number": "1679",
+    "route": "North Roman Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.9752789,
+    "lng": -90.0657416
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "2036 38 iberville",
+   "query": "2036-38 Iberville 2036 Iberville St New Orleans LA 70112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ7at5teSlIIYRiEd83zP4M2k",
+    "display_name": "2036 Iberville St",
+    "formatted_address": "2036 Iberville St, New Orleans, LA 70112, USA",
+    "street_number": "2036",
+    "route": "Iberville Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.962301000000004,
+    "lng": -90.0804977
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "222 loyola tenant",
+   "query": "222 Loyola Tenant 222 Loyola Ave New Orleans LA 70112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJSTJZVLylIIYR463XIeB3ELg",
+    "display_name": "The Eleanor New Orleans",
+    "formatted_address": "222 Loyola Ave, New Orleans, LA 70112, USA",
+    "street_number": "222",
+    "route": "Loyola Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "(504) 200-8000",
+    "website_uri": "https://www.theeleanorneworleans.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "real_estate_agency",
+     "service",
+     "travel_agency"
+    ],
+    "lat": 29.953869,
+    "lng": -90.074891
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "2545 bayou road",
+   "query": "2545 Bayou Road 2545 Bayou Rd New Orleans LA 70119",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "Ei8yNTQ1IEJheW91IFJkICMyNTQ1LCBOZXcgT3JsZWFucywgTEEgNzAxMTksIFVTQSIgGh4KFgoUChIJC4Es41SvIIYRv4B2K8pZMWMSBDI1NDU",
+    "display_name": "2545 Bayou Rd #2545",
+    "formatted_address": "2545 Bayou Rd #2545, New Orleans, LA 70119, USA",
+    "street_number": "2545",
+    "route": "Bayou Road",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.977103099999997,
+    "lng": -90.07641269999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "333 n diamond hotel",
+   "query": "333 N Diamond Hotel 333 N Diamond St New Orleans LA 70130",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "422 gravier",
+   "query": "422 Gravier 422 Gravier St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJcaO2nKmIIYRtrtlhzK10lg",
+    "display_name": "422 Gravier St",
+    "formatted_address": "422 Gravier St, New Orleans, LA 70130, USA",
+    "street_number": "422",
+    "route": "Gravier Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.950161200000004,
+    "lng": -90.0672206
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "833 baronne st",
+   "query": "833 Baronne St 833 Baronne St New Orleans LA 70113",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "Ei84MzMgQmFyb25uZSBTdCAjODMzLCBOZXcgT3JsZWFucywgTEEgNzAxMTMsIFVTQSIfGh0KFgoUChIJfSToV9-lIIYRy4EuRYcRD4USAzgzMw",
+    "display_name": "833 Baronne St #833",
+    "formatted_address": "833 Baronne St #833, New Orleans, LA 70113, USA",
+    "street_number": "833",
+    "route": "Baronne Street",
+    "locality": "New Orleans",
+    "postal_code": "70113",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.945790600000002,
+    "lng": -90.0745451
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "alfreds away",
+   "query": "Alfreds Away 800 Common St New Orleans LA 70112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ0TbdFAumIIYROM4CpD5BlGk",
+    "display_name": "Common Street Apartment by Stay Alfred",
+    "formatted_address": "800 Common St, New Orleans, LA 70112, USA",
+    "street_number": "800",
+    "route": "Common Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "(866) 232-3864",
+    "website_uri": "https://www.stayalfred.com/new-orleans-vacation-rentals/?utm_source=google&utm_medium=maps&utm_campaign=maritime",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.952689299999996,
+    "lng": -90.0711745
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "bernardo de galvez inn",
+   "query": "Bernardo De Galvez Inn 1630 N Galvez St New Orleans LA 70119",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "campeche",
+   "query": "Campeche 634 N White St New Orleans LA 70119",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "collinwood",
+   "query": "Collinwood 2408 Dauphine St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJM8yuVSKmIIYRzy1RrJfEyjw",
+    "display_name": "Collinwood House",
+    "formatted_address": "2408 Dauphine St, New Orleans, LA 70117, USA",
+    "street_number": "2408",
+    "route": "Dauphine Street",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "(504) 301-4353",
+    "website_uri": "https://www.vrbo.com/2328424",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.965520500000004,
+    "lng": -90.0538243
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn and suites new orleans",
+   "query": "Comfort Inn & Suites New Orleans 1501 Veterans Memorial Boulevard Kenner LA 70062",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJL2QYMhe3IIYRTF5e11iAJAM",
+    "display_name": "Comfort Inn & Suites New Orleans Airport North",
+    "formatted_address": "1501 Veterans Memorial Blvd, Kenner, LA 70062, USA",
+    "street_number": "1501",
+    "route": "Veterans Memorial Boulevard",
+    "locality": "Kenner",
+    "postal_code": "70062",
+    "phone": "(504) 305-6800",
+    "website_uri": "https://www.choicehotels.com/louisiana/kenner/comfort-inn-hotels/la460?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.0063613,
+    "lng": -90.2477249
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "country inn and suites new orleans i 10 east la",
+   "query": "Country Inn & Suites, New Orleans I-10 East, LA 5801 Read Blvd New Orleans LA 70127",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJw5PCqP4DnogRMR0p8ETcCR8",
+    "display_name": "Country Inn & Suites by Radisson, New Orleans I-10 East, LA",
+    "formatted_address": "5801 Read Blvd, New Orleans, LA 70127, USA",
+    "street_number": "5801",
+    "route": "Read Boulevard",
+    "locality": "New Orleans",
+    "postal_code": "70127",
+    "phone": "(504) 684-8560",
+    "website_uri": "https://www.choicehotels.com/louisiana/new-orleans/country-inn-suites-hotels/la138?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.035547899999994,
+    "lng": -89.9734371
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "couzan s lagniappe bed and bre",
+   "query": "Couzan's Lagniappe Bed and Bre 100 Berkley Dr New Orleans LA 70131",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "emanuel and shena s bed and breakf",
+   "query": "Emanuel & Shena’s Bed & Breakf 3350 Nevada St New Orleans LA 70114",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "five continents",
+   "query": "Five Continents 1731 Esplanade Ave New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJM3mH1gOmIIYRXYjdNhsh-Zw",
+    "display_name": "Five Continents Bed And Breakfast",
+    "formatted_address": "1731 Esplanade Ave, New Orleans, LA 70116, USA",
+    "street_number": "1731",
+    "route": "Esplanade Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 324-8594",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.970693099999995,
+    "lng": -90.0699257
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "fleur de marigny",
+   "query": "Fleur De Marigny 919 Touro St New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "florville manor",
+   "query": "Florville Manor 1447 N Villere St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "frenchmen orleans at 519",
+   "query": "Frenchmen Orleans at 519 519 Frenchmen St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ291tJRimIIYRgWjVmpgqSCI",
+    "display_name": "Frenchmen Orleans at 519, Ascend Hotel Collection",
+    "formatted_address": "519 Frenchmen St, New Orleans, LA 70116, USA",
+    "street_number": "519",
+    "route": "Frenchmen Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 943-3100",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.963090899999997,
+    "lng": -90.05757059999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "gravier",
+   "query": "Gravier 427 Gravier St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ79bC0XKmIIYRBmCGJPVL5mk",
+    "display_name": "427 Gravier St",
+    "formatted_address": "427 Gravier St, New Orleans, LA 70130, USA",
+    "street_number": "427",
+    "route": "Gravier Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.9504444,
+    "lng": -90.0671485
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "gray street hotel",
+   "query": "Gray Street Hotel 1618 Prytania St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "h h whitney house",
+   "query": "H H Whitney House 1923 Esplanade Ave New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJZ7VbpAGmIIYRnf9GobC-VzE",
+    "display_name": "HH Whitney House - A Bed & Breakfast on the Historic Esplanade",
+    "formatted_address": "1923 Esplanade Ave, New Orleans, LA 70116, USA",
+    "street_number": "1923",
+    "route": "Esplanade Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 948-9448",
+    "website_uri": "https://bed-and-breakfast-new-orleans.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.971767900000003,
+    "lng": -90.0715706
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "harrah s new orleans hotel and casino a caesars rewards destination",
+   "query": "Harrah’s New Orleans Hotel & Casino - A Caesars Rewards Destination 228 Poydras St New Orleans LA 70130",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJB0gbDgCnIIYRUUB0FiIC7vo",
+    "display_name": "Harrah’s New Orleans Hotel & Casino - A Caesars Rewards Destination",
+    "formatted_address": "228 Poydras St, New Orleans, LA 70130, USA",
+    "street_number": "228",
+    "route": "Poydras Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(800) 427-7247",
+    "website_uri": "https://www.caesars.com/harrahs-hotel-new-orleans?utm_campaign=gmb&utm_source=google&utm_medium=local&utm_term=CN2&utm_content=hotel&y_source=1_MjA2NjM5OTMwNC03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9480933,
+    "lng": -90.065647
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "historic elysian cottage",
+   "query": "Historic Elysian Cottage 1334 Elysian Fields Ave New Orleans LA 70117",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "historic ursulines cottage",
+   "query": "Historic Ursulines Cottage 1520 Ursulines Ave New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "historic villere mansion",
+   "query": "Historic Villere Mansion 917 N Villere St New Orleans LA 70116",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "hotel tremellc",
+   "query": "Hotel Tremellc 2552 St Philip St New Orleans LA 70119",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJNWKY0vilIIYRc9unTIL-E5Q",
+    "display_name": "Inn at the Old Jail",
+    "formatted_address": "2552 St Philip St, New Orleans, LA 70119, USA",
+    "street_number": "2552",
+    "route": "Saint Philip Street",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "(504) 301-5743",
+    "website_uri": "https://innattheoldjail.com/?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "guest_house",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 29.971823399999998,
+    "lng": -90.0794148
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "intown suites extended stay new orleans metairie",
+   "query": "InTown Suites Extended Stay New Orleans - Metairie 4409 Hearst Street Metairie LA 70001",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJlW2rgF2wIIYRjMuL_tidfos",
+    "display_name": "InTown Suites Extended Stay New Orleans LA - Metairie",
+    "formatted_address": "4409 Hearst St, Metairie, LA 70001, USA",
+    "street_number": "4409",
+    "route": "Hearst Street",
+    "locality": "Metairie",
+    "postal_code": "70001",
+    "phone": "(877) 804-0889",
+    "website_uri": "https://www.intownsuites.com/extended-stay-hotels/louisiana/metairie/french-quarter/?utm_source=google&utm_medium=GMB",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.99728,
+    "lng": -90.18018000000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "jeremy reneau",
+   "query": "Jeremy Reneau 2028 Dumaine St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJUY7v5P2lIIYRswugn52qv1E",
+    "display_name": "2028 Dumaine St",
+    "formatted_address": "2028 Dumaine St, New Orleans, LA 70116, USA",
+    "street_number": "2028",
+    "route": "Dumaine Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.9677667,
+    "lng": -90.07537420000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "jimmy s on canal st",
+   "query": "Jimmy's on Canal St 617 Canal St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJY7UfBW6nIIYRt5DwFXwfFTQ",
+    "display_name": "Jimmy’s on Canal Street",
+    "formatted_address": "617 Canal St Ste 2, New Orleans, LA 70130, USA",
+    "street_number": "617",
+    "route": "Canal Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 256-8831",
+    "website_uri": "https://abnb.me/TF20qi92jBb",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.953096,
+    "lng": -90.068304
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "katherine b senter",
+   "query": "Katherine B Senter 43 Fontainebleau Dr New Orleans LA 70125",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJg5H2EXSlIIYR7fJr4zPHXN8",
+    "display_name": "43 Fontainebleau Dr",
+    "formatted_address": "43 Fontainebleau Dr, New Orleans, LA 70125, USA",
+    "street_number": "43",
+    "route": "Fontainebleau Drive",
+    "locality": "New Orleans",
+    "postal_code": "70125",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 29.955577899999998,
+    "lng": -90.1161162
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "l auberge placage",
+   "query": "L'auberge Placage 1724 Marais St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "la femme francaise natasha ll",
+   "query": "La Femme Francaise Natasha, Ll 2030 St Claude Ave New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "la rue esplanade",
+   "query": "La Rue Esplanade 1834 Esplanade Ave New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ52VXCgGmIIYRoXzpZZJQNtM",
+    "display_name": "La Rue Esplanade",
+    "formatted_address": "1834 Esplanade Ave, New Orleans, LA 70116, USA",
+    "street_number": "1834",
+    "route": "Esplanade Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "establishment",
+     "point_of_interest"
+    ],
+    "lat": 29.9710046,
+    "lng": -90.07134579999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "le shackteau",
+   "query": "Le Shackteau 2110 Marais St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ8RB9JB-mIIYRWx_ceDeI_OM",
+    "display_name": "2110 Marais St",
+    "formatted_address": "2110 Marais St, New Orleans, LA 70116, USA",
+    "street_number": "2110",
+    "route": "Marais Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "premise",
+     "street_address"
+    ],
+    "lat": 29.9692218,
+    "lng": -90.0578929
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "lions gate mansion",
+   "query": "Lions Gate Mansion 1700 Jackson Ave New Orleans LA 70113",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "lions inn",
+   "query": "Lions Inn 2515 Chartres St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "little lagniappe hotel llc",
+   "query": "Little Lagniappe Hotel Llc 747 St Charles Ave New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJydrwqQ2nIIYRlk-4l0v2uXM",
+    "display_name": "Little Lagniappe Hotel",
+    "formatted_address": "747 St Charles Ave, New Orleans, LA 70130, USA",
+    "street_number": "747",
+    "route": "Saint Charles Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 229-8991",
+    "website_uri": "https://neworleansluxurycollection.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9465245,
+    "lng": -90.07186639999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "louanger",
+   "query": "Louanger 2555 Valence St New Orleans LA 70115",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "mag s 940 guest house",
+   "query": "Mag’s 940 Guest House 940 Elysian Fields Ave New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "maison de lagniappe",
+   "query": "Maison De Lagniappe 1021 Kerlerec St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJZROuxumIIYR_69aTy4DQzQ",
+    "display_name": "Madame Isabelle's House In New Orleans",
+    "formatted_address": "1021 Kerlerec St, New Orleans, LA 70116, USA",
+    "street_number": "1021",
+    "route": "Kerlerec Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 509-4422",
+    "website_uri": "http://isabellenola.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hostel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.966461799999998,
+    "lng": -90.0623147
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "maison lafayette",
+   "query": "Maison Lafayette 1221 Harmony St New Orleans LA 70115",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "maison marais",
+   "query": "Maison Marais 2360 Marais St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "maison royal",
+   "query": "Maison Royal 2036 Royal St New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "maison touriste",
+   "query": "Maison Touriste 430 Bermuda St New Orleans LA 70114",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "mark and ron s b and b",
+   "query": "Mark & Ron's B and b 1625 Pauger St New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "marquette house",
+   "query": "Marquette House 2253 Carondelet St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "marsh hotel llc",
+   "query": "Marsh Hotel Llc 3435 Dryades St New Orleans LA 70115",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "mason d or",
+   "query": "Mason D'or 1911 Royal St New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "michael henderson jhensy patricia velasquez salgado",
+   "query": "Michael Henderson, Jhensy Patricia Velasquez Salgado 1238 N Robertson St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ7-ZFfwSmIIYR3nPs0wQl1as",
+    "display_name": "1238 N Robertson St",
+    "formatted_address": "1238 N Robertson St, New Orleans, LA 70116, USA",
+    "street_number": "1238",
+    "route": "North Robertson Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.968163699999998,
+    "lng": -90.06787840000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "new orleans harvey extended stay hotel",
+   "query": "New Orleans/Harvey Extended Stay Hotel 1101 Manhattan Boulevard Harvey LA 70058",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJEaj27LumIIYR-mTYnJn5ueU",
+    "display_name": "InTown Suites Extended Stay Select New Orleans LA - Harvey",
+    "formatted_address": "1101 Manhattan Blvd, Harvey, LA 70058, USA",
+    "street_number": "1101",
+    "route": "Manhattan Boulevard",
+    "locality": "Harvey",
+    "postal_code": "70058",
+    "phone": "(844) 776-0314",
+    "website_uri": "https://www.intownsuites.com/extended-stay-hotels/louisiana/harvey/new-orleans-harvey/?utm_source=google&utm_medium=GMB",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.899140999999997,
+    "lng": -90.0622933
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nola fm hotel llc",
+   "query": "Nola Fm Hotel, Llc 417 Frenchmen St New Orleans LA 70116",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJqxr3iBemIIYRN6-V0vRhmg4",
+    "display_name": "The Frenchmen New Orleans by Kasa",
+    "formatted_address": "417 Frenchmen St, New Orleans, LA 70116, USA",
+    "street_number": "417",
+    "route": "Frenchmen Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "(504) 318-3438",
+    "website_uri": "https://kasa.com/properties/the-frenchmen-new-orleans-by-kasa?utm_source=Google&utm_medium=nonpaid&utm_campaign=GMB&utm_term=VisitHotelWebsiteButton&utm_content=FNO",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.962212,
+    "lng": -90.05755099999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nola place",
+   "query": "Nola Place 616 Louisa St New Orleans LA 70117",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ7XZgKC6mIIYRwn6BDegn1K0",
+    "display_name": "616 Louisa St",
+    "formatted_address": "616 Louisa St, New Orleans, LA 70117, USA",
+    "street_number": "616",
+    "route": "Louisa Street",
+    "locality": "New Orleans",
+    "postal_code": "70117",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.962595800000003,
+    "lng": -90.0441211
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nola st claude",
+   "query": "Nola St Claude 1919 St Claude Ave New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJDbiDsR6mIIYRVQdoseMhvyo",
+    "display_name": "1919 St Claude Ave",
+    "formatted_address": "1919 St Claude Ave, New Orleans, LA 70116, USA",
+    "street_number": "1919",
+    "route": "Saint Claude Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.9684516,
+    "lng": -90.0598512
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "nola10llc",
+   "query": "Nola10llc 6303 Chef Menteur Hwy New Orleans LA 70126",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJf8flIDeoIIYRHw0nE2tbHC0",
+    "display_name": "Hotel 10 Extended Stay",
+    "formatted_address": "6303 Chef Menteur Hwy, New Orleans, LA 70126, USA",
+    "street_number": "6303",
+    "route": "Chef Menteur Highway",
+    "locality": "New Orleans",
+    "postal_code": "70126",
+    "phone": "(504) 756-3336",
+    "website_uri": "http://www.hotel10extendedstay.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.011482999999995,
+    "lng": -90.014961
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "old la la s creole cottage",
+   "query": "Old La La's Creole Cottage 2125 Laurel St New Orleans LA 70130",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "parisian courtyard inn",
+   "query": "Parisian Courtyard Inn 1726 Prytania St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJw7zbNdalIIYRXQkOJmBvMiQ",
+    "display_name": "Parisian Courtyard Inn Bed and Breakfast New Orleans",
+    "formatted_address": "1726 Prytania St, New Orleans, LA 70130, USA",
+    "street_number": "1726",
+    "route": "Prytania Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 256-5854",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.936247899999994,
+    "lng": -90.0753381
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "penelope b b",
+   "query": "Penelope B B 1211 Governor Nicholls St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "quarter house hotel",
+   "query": "Quarter House Hotel 3819 Patterson St New Orleans LA 70114",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJm1lyOWWnIIYRwMxK2h09da4",
+    "display_name": "The Patterson",
+    "formatted_address": "3819 Patterson Dr, New Orleans, LA 70114, USA",
+    "street_number": "3819",
+    "route": "Patterson Drive",
+    "locality": "New Orleans",
+    "postal_code": "70114",
+    "phone": "(504) 233-2544",
+    "website_uri": "http://www.thepattersonnola.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "point_of_interest",
+     "service",
+     "wedding_venue"
+    ],
+    "lat": 29.942615399999998,
+    "lng": -90.0151466
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "re new orleans property manage",
+   "query": "Re New Orleans Property Manage 1531 Ursulines Ave New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "runway inn and suites airport",
+   "query": "Runway Inn & Suites Airport 1801 32nd Street Kenner LA 70065",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ85g_HiK3IIYRB5q5XfZBL74",
+    "display_name": "Holiday Inn Express Kenner - New Orleans Airport by IHG",
+    "formatted_address": "1801 32nd St, Kenner, LA 70065, USA",
+    "street_number": "1801",
+    "route": "32nd Street",
+    "locality": "Kenner",
+    "postal_code": "70065",
+    "phone": "(504) 443-9800",
+    "website_uri": "https://www.ihg.com/holidayinnexpress/hotels/us/en/kenner/msyke/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-MSYKE",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 30.013778399999996,
+    "lng": -90.24217999999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "springfield causeway dba country inn and suites",
+   "query": "Springfield Causeway DBA Country Inn & Suites 2713 North Causeway Boulevard Metairie LA 70002",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJk1Id7COwIIYRwYztNXaQKrg",
+    "display_name": "Country Inn & Suites by Radisson, Metairie (New Orleans), LA",
+    "formatted_address": "2713 N Causeway Blvd, Metairie, LA 70002, USA",
+    "street_number": "2713",
+    "route": "North Causeway Boulevard",
+    "locality": "Metairie",
+    "postal_code": "70002",
+    "phone": "(504) 383-6201",
+    "website_uri": "https://www.choicehotels.com/louisiana/metairie/country-inn-suites-hotels/la498?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.000975999999994,
+    "lng": -90.1546931
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "st amacea s guesthouse",
+   "query": "St. Amacea's Guesthouse 7225 St Charles Ave New Orleans LA 70118",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "stately home guest house",
+   "query": "Stately Home Guest House 1247 Esplanade Ave New Orleans LA 70116",
+   "candidates_returned": 2,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "sun oak museum and guest house",
+   "query": "Sun Oak Museum and Guest House 2020 Burgundy St New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "sycamore house",
+   "query": "Sycamore House 5200 Danneel St New Orleans LA 70115",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "tessier house",
+   "query": "Tessier House 1617 Peniston St New Orleans LA 70115",
+   "candidates_returned": 0,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the cats medallion",
+   "query": "The Cats' Medallion 1100 Ursulines Ave New Orleans LA 70116",
+   "candidates_returned": 3,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the diamond",
+   "query": "The Diamond 329 N Diamond St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the esplanade",
+   "query": "The Esplanade 427 Esplanade Ave New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the grand victorian bed and breakfast",
+   "query": "The Grand Victorian Bed & Breakfast 2727 St Charles Ave New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ0ZEArs2lIIYR2Y-xcau9rjM",
+    "display_name": "Grand Victorian Bed & Breakfast",
+    "formatted_address": "2727 St Charles Ave, New Orleans, LA 70130, USA",
+    "street_number": "2727",
+    "route": "Saint Charles Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 450-8524",
+    "website_uri": "https://gvbb.com/?utm_source=google&utm_medium=GBP",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.931375099999997,
+    "lng": -90.086068
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the mary beth",
+   "query": "The Mary Beth 310 S Rampart St New Orleans LA 70112",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJO3r0Na-nIIYR4QAIDnirTFU",
+    "display_name": "The Mary Beth",
+    "formatted_address": "310 S Rampart St, New Orleans, LA 70112, USA",
+    "street_number": "310",
+    "route": "South Rampart Street",
+    "locality": "New Orleans",
+    "postal_code": "70112",
+    "phone": "",
+    "website_uri": "https://themarybethhotel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.952787700000002,
+    "lng": -90.0741908
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the melody",
+   "query": "The Melody 300 Magazine St New Orleans LA 70130",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ_dzHuWinIIYR3l0F5smITaU",
+    "display_name": "The Melody Hotel NOLA",
+    "formatted_address": "300 Magazine St, New Orleans, LA 70130, USA",
+    "street_number": "300",
+    "route": "Magazine Street",
+    "locality": "New Orleans",
+    "postal_code": "70130",
+    "phone": "(504) 699-1423",
+    "website_uri": "https://themelodyhotel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.9503268,
+    "lng": -90.0674854
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the roosevelt hotel wac",
+   "query": "The Roosevelt Hotel Wac 123 Baronne St New Orleans LA 70112",
+   "candidates_returned": 1,
+   "bound": false
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "tulane hotel group",
+   "query": "Tulane Hotel Group 3900 Tulane Ave New Orleans LA 70119",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJc3cU44WlIIYR8cXJK44AwjI",
+    "display_name": "Midtown Hotel New Orleans",
+    "formatted_address": "3900 Tulane Ave, New Orleans, LA 70119, USA",
+    "street_number": "3900",
+    "route": "Tulane Avenue",
+    "locality": "New Orleans",
+    "postal_code": "70119",
+    "phone": "(504) 941-7112",
+    "website_uri": "http://neworleansmidtownhotel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 29.967519399999997,
+    "lng": -90.10368729999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "w m cox",
+   "query": "W.m.cox 2109 Chartres St New Orleans LA 70116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJy_VFORimIIYRV0Hy0FwnOQg",
+    "display_name": "2109 Chartres St",
+    "formatted_address": "2109 Chartres St, New Orleans, LA 70116, USA",
+    "street_number": "2109",
+    "route": "Chartres Street",
+    "locality": "New Orleans",
+    "postal_code": "70116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "",
+    "types": [
+     "street_address",
+     "subpremise"
+    ],
+    "lat": 29.963625,
+    "lng": -90.0574901
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "wyndham garden new orleans east",
+   "query": "Wyndham Garden New Orleans East 10100 I 10 Service Rd New Orleans LA 70127",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJDdJH_ccDnogR4DH06mxnr7k",
+    "display_name": "City Express by Marriott New Orleans I-10",
+    "formatted_address": "10100 I-10 Service Rd, New Orleans, LA 70127, USA",
+    "street_number": "10100",
+    "route": "I-10 Service Road",
+    "locality": "New Orleans",
+    "postal_code": "70127",
+    "phone": "(504) 378-7000",
+    "website_uri": "https://www.marriott.com/en-us/hotels/msyxe-city-express-new-orleans-i-10/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 30.038251799999998,
+    "lng": -89.9722007
+   },
+   "bind_basis": "street_number+postal_code"
+  }
+ ]
+}
