@@ -427,7 +427,10 @@ def main():
             ("preopening", len(clean.get("preopening_held") or [])),
             ("converted_to_non_hotel", sum(1 for r in non if r["classification"] == "NON_LODGING"
                                            and "CONVERTED" in (r.get("classification_reason") or ""))),
-            ("military_restricted", sum(1 for r in non if "MILITARY_RESTRICTED" in (r.get("classification_reason") or ""))),
+            # a row's exclusion CLASS is the head of its reason; an OUTSIDE row whose reason merely names the NAS JRB
+            # Navy Lodge rule (Fanny Ranch Lodge, Woodland Plantation in Plaquemines) is not military-restricted
+            ("military_restricted", sum(1 for r in non if str(r.get("classification_reason") or "")
+                                        .startswith("MILITARY_RESTRICTED"))),
             ("outside", ncls.get("OUTSIDE_MARKET", 0)),
             ("duplicate_listing", ncls.get("DUPLICATE_LISTING", 0)),
             ("name_only_unresolved_graph_residue", ncls.get("NAME_ONLY_UNRESOLVED", 0)),
