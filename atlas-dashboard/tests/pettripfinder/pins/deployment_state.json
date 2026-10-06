@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-MINNEAPOLIS-MN-PRODUCTION-DEPLOYMENT-004",
+ "reviewed_by": "PTF-KANSAS-CITY-MO-PRODUCTION-DEPLOYMENT-004",
  "live": {
-  "deploy_id": "6ac3bfda7b585d009f007620",
-  "deployed_by": "PTF-MINNEAPOLIS-MN-PRODUCTION-DEPLOYMENT-004",
-  "authorization_id": "ptf-auth-minneapolis-003-3d7c53a1ba2a",
-  "deployment_record_id": "ptf-deploy-minneapolis-004-6ac3bfda7b585d009f007620",
-  "previous_deploy_id": "6ac264b79e70ce6a7db4baaf",
-  "source_commit": "239c28360c95adbdf4371eabcec99ede00e3270c",
-  "bundle_sha256": "3d7c53a1ba2adc6ca9141e88384a7ef1e1e84abf7bdf21a4417ae664ff33af24",
-  "sitemap_sha256": "524d9d35c96668eaff45dfeb4f95edf7659ff815c7eb2d3f69a57658723ca7a1",
+  "deploy_id": "6ac4dc8a39b0e7274828a32b",
+  "deployed_by": "PTF-KANSAS-CITY-MO-PRODUCTION-DEPLOYMENT-004",
+  "authorization_id": "ptf-auth-kansas-city-003-6a35c23829f9",
+  "deployment_record_id": "ptf-deploy-kansas-city-004-6ac4dc8a39b0e7274828a32b",
+  "previous_deploy_id": "6ac3bfda7b585d009f007620",
+  "source_commit": "c6609370ec22ac74bd1c8cd881d25ee147ce3d0c",
+  "bundle_sha256": "6a35c23829f9c0a0a1713acc721f3fcf317a94d7f57120379ffc951fdc60ed5f",
+  "sitemap_sha256": "3d5d9425a4e0a90b6aca13f3d02866a815ebc934df8382e4fcf03c0ecc10967b",
   "participating_markets": [
    "asheville-nc",
    "atlanta-ga",
@@ -31,6 +31,7 @@
    "indianapolis-in",
    "jacksonville-fl",
    "jacksonville-nc",
+   "kansas-city-mo",
    "lexington-ky",
    "louisville-ky",
    "miami-fl",
@@ -75,6 +76,7 @@
    "indianapolis-in": 82,
    "jacksonville-fl": 94,
    "jacksonville-nc": 16,
+   "kansas-city-mo": 161,
    "lexington-ky": 20,
    "louisville-ky": 53,
    "miami-fl": 123,
@@ -99,19 +101,19 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 3975,
-  "sitemap_route_count": 4452,
-  "total_html_pages": 23984,
-  "total_files": 24002,
-  "rollback_target": "6ac264b79e70ce6a7db4baaf",
-  "note": "Minneapolis / St. Paul / Twin Cities, Minnesota joined as the FORTY-SECOND market and the first Minnesota market, at 156 published pet-friendly profiles over 14 publishing corridors, on package pkg-minneapolis-mn-dd62d3082411d1d5 (founder-authorized by PTF-MINNEAPOLIS-MN-FOUNDER-LAUNCH-AUTHORIZATION-003, bound to registration commit 4c3abd44). The exact authorized artifact was deployed with no rebuild; every unpublished census row -- the six dual-brand rows in three buildings and Microtel Inver Grove Heights among them -- returns 404, and every live profile states MN and its own postal code. Rollback is the deployment Minneapolis replaced (Portland, 41 markets).",
-  "rollback_record": "ptf-deploy-portland-004-6ac264b79e70ce6a7db4baaf.json"
+  "total_profiles": 4136,
+  "sitemap_route_count": 4628,
+  "total_html_pages": 24939,
+  "total_files": 24957,
+  "rollback_target": "6ac3bfda7b585d009f007620",
+  "note": "Kansas City / Greater Kansas City, Missouri & Kansas joined as the FORTY-THIRD market and the first market spanning two states, at 161 published pet-friendly profiles (96 Missouri, 65 Kansas) over 13 publishing corridors, on package pkg-kansas-city-mo-140e35291a2195c3 (founder-authorized by PTF-KANSAS-CITY-MO-FOUNDER-LAUNCH-AUTHORIZATION-003, bound to registration commit d054d6c0). The exact authorized artifact was deployed with no rebuild; every unpublished census row -- the six dual-brand rows in three buildings, ESA Tiffany Springs, the Crossland identity and the four preopening hotels among them -- and both rebrand holds return 404, and every live profile states its own state, postal code and city. Rollback is the deployment Kansas City replaced (Minneapolis, 42 markets).",
+  "rollback_record": "ptf-deploy-minneapolis-004-6ac3bfda7b585d009f007620.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "3d7c53a1ba2adc6ca9141e88384a7ef1e1e84abf7bdf21a4417ae664ff33af24",
-  "sitemap_sha256": "524d9d35c96668eaff45dfeb4f95edf7659ff815c7eb2d3f69a57658723ca7a1",
+  "bundle_sha256": "6a35c23829f9c0a0a1713acc721f3fcf317a94d7f57120379ffc951fdc60ed5f",
+  "sitemap_sha256": "3d5d9425a4e0a90b6aca13f3d02866a815ebc934df8382e4fcf03c0ecc10967b",
   "participating_markets": [
    {
     "market_id": "asheville-nc",
@@ -244,6 +246,13 @@
     "published_profiles": 16,
     "release_contract": "deploy/netlify/release_contracts/jacksonville-nc.json",
     "release_contract_sha256": "ddc47d442bcad580eef4ef85871066c34288d26358e59cd06534eef4aff33c6a",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "kansas-city-mo",
+    "published_profiles": 161,
+    "release_contract": "deploy/netlify/release_contracts/kansas-city-mo.json",
+    "release_contract_sha256": "8f4f59f4f564a244e22a93ef32e42ad67449ca53c5cf57dd529ab5ddc4b6308f",
     "contract_disagreements": []
    },
    {
@@ -428,6 +437,7 @@
    "indianapolis-in": 82,
    "jacksonville-fl": 94,
    "jacksonville-nc": 16,
+   "kansas-city-mo": 161,
    "lexington-ky": 20,
    "louisville-ky": 53,
    "miami-fl": 123,
@@ -452,9 +462,9 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 3975,
-  "sitemap_route_count": 4452,
-  "total_html_pages": 23984,
-  "total_files": 24002
+  "total_profiles": 4136,
+  "sitemap_route_count": 4628,
+  "total_html_pages": 24939,
+  "total_files": 24957
  }
 }
