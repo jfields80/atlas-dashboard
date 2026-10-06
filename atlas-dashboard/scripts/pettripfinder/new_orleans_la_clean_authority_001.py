@@ -142,7 +142,12 @@ _REFUSAL = re.compile(
     # reader on the exact quote: The Mary Beth's own FAQ, "we have a no-pets policy within the building" (the
     # "no pets policy" exclusion above exists for fee/policy NOUNS, so the hyphenated policy statement needs its own
     # shape), and Royal Barracks Guest House's own rules, "We are a pet-free facility."
-    r"|\bhave\s+a\s+no[- ]pets?\s+policy\b"
+    r"|\bhave\s+a\s+(?:strict\s+)?no[- ]pets?\s+policy\b"
+    # (The Mayfair's own FAQ: "We have a strict no-pets policy.") ...and The Chimes Bed and Breakfast's own Policies page, "Regretfully, we do not accommodate pets."
+    r"|\bwe\s+do\s+not\s+accommodate\s+(?:any\s+)?pets?\b"
+    # ...and Sully Mansion's own Policies page, "Pets, except service dogs, are not permitted." (the service-animal
+    # carve-out sits between the noun and the verb).
+    r"|\bpets?\s*,\s*except\s+[^,.|]{0,40},\s*(?:are|is)\s+not\s+(?:allowed|accepted|permitted)\b"
     r"|(?<!&\s)\bpet[- ]free\s+facility\b", re.I)
 #: DENVER: the site's title limit -- a profile page's title is its H1 cut at this many characters by the shared SEO
 #: engine (engines/website_generation/constants/seo.py TITLE_MAX_LENGTH). Stated here, not imported: a market-local

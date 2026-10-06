@@ -73,6 +73,23 @@ NOT_LODGING_WHY = {
     "macarty house":
         "VACATION_RENTAL -- its own site: 'This historic mansion accommodates up to 16 guests for overnight stays', "
         "with one maximum guest count for the whole home and cottages; a whole-house rental, not a public inn",
+    # The Syd (1730 Clio St), its own FAQ: "Six villas around a shared tropical courtyard ... You rent one villa,
+    # several, or all six", each sleeping 14 to 24, also sold on listing sites.
+    "the syd":
+        "VACATION_RENTAL -- its own FAQ: six group villas rented whole ('You rent one villa, several, or all six'), "
+        "each sleeping 14 to 24 and also sold on the listing platforms; a group villa rental, not a public hotel",
+    # Castle Day (1319 Japonica St), its own FAQ: "Up to 30 per villa ... Each villa has 12 bedrooms".
+    "castle day":
+        "VACATION_RENTAL -- its own FAQ rents whole villas ('Up to 30 per villa ... Each villa has 12 bedrooms'); "
+        "a group villa rental, not a public hotel",
+    # Compass Point (137 Eliza St / 200 Opelousas Ave): the site Places names is a wedding venue that rents guest
+    # cottages.
+    "compass point":
+        "NON_HOTEL -- the site Places names for these premises is a wedding and events venue ('Compass Point "
+        "Events') that rents guest cottages to its parties; a venue, not a public hotel",
+    "compass point events":
+        "NON_HOTEL -- the site Places names for these premises is a wedding and events venue ('Compass Point "
+        "Events') that rents guest cottages to its parties; a venue, not a public hotel",
     # Memoir Residential (808 Constance St): the operator names itself a RESIDENTIAL brand; the bureau's route 404s.
     "memoir residential new orleans warehouse district":
         "VACATION_RENTAL -- the operator names itself 'Memoir Residential' (furnished residences rented by the unit); "

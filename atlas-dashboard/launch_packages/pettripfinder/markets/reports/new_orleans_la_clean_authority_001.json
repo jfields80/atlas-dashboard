@@ -22,9 +22,24 @@
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'Hubbard Mansion - Policies Stay stay with us Explore rooms Amenities Learn Our History FAQs Book Book a room Special Events Contact US stay Learn Book book a room Policies - Reservations, Deposits And Cancellations Children & Pets Children under 12 and pets would be happier in a more conventional environment. Pets Our property is not pet friendly. Service dogs are permitted. Service dogs are those trained to do work or perform tasks for guests with a physical, sensory, psychiatric, intellectual,'"
   },
   {
+   "identity_key": "jean lafitte house",
+   "name": "Jean Lafitte House",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'Our hotel does not allow any pets in the rooms. ADA Compliant Service animals do not apply.'"
+  },
+  {
+   "identity_key": "maison pierre lafitte",
+   "name": "Maison Pierre Lafitte",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote SERVICE_ANIMAL_ONLY: a service-animal sentence is not a refusal unless the reader reads one: 'Our hotel does not allow any pets in the rooms. ADA Compliant Service animals do not apply.'"
+  },
+  {
    "identity_key": "the chloe",
    "name": "The Chloe",
    "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote FEE_ONLY: a fee, count or weight alone does not establish acceptance: 'IS THE CHLOE PET FRIENDLY? We welcome one dog per guest room at $50 per night.'"
+  },
+  {
+   "identity_key": "the garden district hotel",
+   "name": "The Garden District Hotel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Do you allow pets? What is your pet policy? | Pets are not permitted at The Garden District Hotel.'"
   },
   {
    "identity_key": "the lanaux mansion",
@@ -53,6 +68,22 @@
    "kept_claim": true,
    "not_displaced_by_lane": "PROPERTY_PAGE_STATIC",
    "not_displaced_by": "https://www.bourbonorleans.com/",
+   "its_claim": false
+  },
+  {
+   "identity_key": "chimes bed and breakfast",
+   "kept": "https://www.chimesneworleans.com/policies.htm",
+   "kept_claim": false,
+   "not_displaced_by_lane": "PROPERTY_PAGE_STATIC",
+   "not_displaced_by": "https://www.chimesneworleans.com/",
+   "its_claim": false
+  },
+  {
+   "identity_key": "sully mansion",
+   "kept": "https://www.sullymansion.com/policies",
+   "kept_claim": false,
+   "not_displaced_by_lane": "PROPERTY_PAGE_STATIC",
+   "not_displaced_by": "https://www.sullymansion.com/",
    "its_claim": false
   },
   {
@@ -140,7 +171,9 @@
   "1329 carondelet": "https://stayheirloom.com/",
   "222 loyola tenant": "https://www.theeleanorneworleans.com/",
   "accessory b and b": "https://www.dragonflytreme.com/",
+  "castle day": "https://www.castledayretreats.com/",
   "comfort inn and suites at copeland tower": "https://www.nolahotels.com/",
+  "compass point": "https://www.compasspointevents.com/",
   "deep south motel": "https://deep-south-motel.edan.io/",
   "gotham lofts": "https://gothamloftsnola.com/",
   "hosteva": "https://www.hosteeva.com/",
@@ -165,17 +198,17 @@
  "one_artifact_many_premises_rule": "A document that is the only policy evidence for more than one census premises establishes a policy for NONE of them. A multi-property operator's shared landing page is the common case in Fort Lauderdale (Hollywood's Richard's Motel family of lodgings), and re-armed here. The inverse of the rule that two pages claiming one address publish neither.",
  "counts": {
   "ACCESS_BLOCKED": 7,
-  "CLEAN_PET_FRIENDLY": 97,
-  "CLEAN_VERIFIED_NO_PETS": 61,
-  "EVIDENCE_HOLD": 12,
-  "IDENTITY_MISMATCH_HOLD": 18,
-  "ROUTING_HOLD": 56,
-  "SOURCE_SILENT": 99
+  "CLEAN_PET_FRIENDLY": 104,
+  "CLEAN_VERIFIED_NO_PETS": 64,
+  "EVIDENCE_HOLD": 21,
+  "IDENTITY_MISMATCH_HOLD": 23,
+  "ROUTING_HOLD": 57,
+  "SOURCE_SILENT": 71
  },
- "valid_pet_friendly": 97,
- "valid_verified_no_pets": 61,
- "resolved": 158,
- "unresolved": 192,
+ "valid_pet_friendly": 104,
+ "valid_verified_no_pets": 64,
+ "resolved": 168,
+ "unresolved": 179,
  "rows": [
   {
    "identity_key": "1329 carondelet",
@@ -195,7 +228,7 @@
    "street": "1830 Dauphine St",
    "postal_code": "70116",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://dauphinehouse.com/) -- Static-silent sweep: the property's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "1896 o malley house",
@@ -307,8 +340,8 @@
    "corridor": "new-orleans-la__garden-district-uptown",
    "street": "1816 Marengo St",
    "postal_code": "70115",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "hold_reason": "the page the census route serves states no address, phone or postal code of its own, so it binds no premises (and states no pet policy) (https://airynmonet.com/) -- Static-silent sweep: the site renders only a booking prompt and a house rule ('We ask that no parties occur during your stay'); no address and nothing about pets"
   },
   {
    "identity_key": "alder hotel uptown",
@@ -317,8 +350,23 @@
    "corridor": "new-orleans-la__garden-district-uptown",
    "street": "4545 Magnolia St",
    "postal_code": "70115",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://alderhotel.com/faq/",
+    "pets_allowed_claim": true,
+    "quote": "Are pets welcome at The Alder Hotel? | Yes! We are a pet-friendly New Orleans hotel. At The Alder Hotel, we welcome dogs and cats, and look forward to hosting you and your pets when you stay in Uptown New Orleans. | $65 one-time fee will apply per room (non-refundable). | Pets must be smaller than 50 pounds – limit 2 pets per guest room",
+    "document_sha256": "cf2faaf404e0320a857512e3943b573d28ac7b8a29e83ac6ed572677b4dbaa30",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 4545 + street words + postal code 70115"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "aloft new orleans downtown",
@@ -362,8 +410,8 @@
    "corridor": "new-orleans-la__french-quarter-marigny-bywater",
    "street": "919 Royal St",
    "postal_code": "70116",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the property's own page served and bound these premises, but its only pet statement is conditional ('may be accepted, please contact the hotel') or was not exposed -- neither an acceptance nor a refusal (http://www.andrewjacksonhotel.com/faq) -- Static-silent sweep: the hotel's own FAQ answers 'Can I bring my pet?' with 'Yes, we are now pet-friendly. Your best pal is more than welcome at the Hotel St. Pierre...' -- the answer names a DIFFERENT hotel (a template carried across the operator's sites), so it states no policy for these premises; held, never published"
   },
   {
    "identity_key": "antebellum guest house",
@@ -401,7 +449,7 @@
    "street": "509 Dauphine St",
    "postal_code": "70112",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.auduboncottages.com/faqs/) -- Static-silent sweep: home page (address) and FAQ (17 questions) say nothing about pets"
   },
   {
    "identity_key": "auld sweet olive bed and breakfast",
@@ -428,10 +476,10 @@
    "canonical_name": "B & W Courtyards",
    "brand": "",
    "corridor": "new-orleans-la__french-quarter-marigny-bywater",
-   "street": "2425 Chartres St",
+   "street": "2425 Chartres Street",
    "postal_code": "70117",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.bandwcourtyards.com/faqs) -- Static-silent sweep: home page (address) and FAQs (cancellation, airport, parking) say nothing about pets"
   },
   {
    "identity_key": "balcony guesthouse",
@@ -626,7 +674,7 @@
    "street": "1620 Dumaine St",
    "postal_code": "70116",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://bluecrawfish.com/) -- Static-silent sweep: the property's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "blue60 marigny inn",
@@ -688,7 +736,7 @@
    "street": "839 Bourbon St.",
    "postal_code": "70116",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (http://www.bourgoynehouse.com) -- Static-silent sweep: the property's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "brent house hotel",
@@ -708,7 +756,7 @@
    "street": "3500 St Claude Ave",
    "postal_code": "70117",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://thebywaterhotel.com/) -- Static-silent sweep: the hotel's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "cambria hotel new orleans downtown warehouse district",
@@ -801,16 +849,6 @@
    }
   },
   {
-   "identity_key": "castle day",
-   "canonical_name": "Castle Day",
-   "brand": "",
-   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
-   "street": "1319 Japonica St",
-   "postal_code": "70117",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
-  },
-  {
    "identity_key": "catahoula hotel new orleans",
    "canonical_name": "Catahoula Hotel New Orleans",
    "brand": "",
@@ -833,6 +871,16 @@
     "max_pet_weight_lbs": 75.0,
     "max_pet_count": null
    }
+  },
+  {
+   "identity_key": "chateau hotel",
+   "canonical_name": "Chateau Hotel",
+   "brand": "",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "street": "1001 Chartres St",
+   "postal_code": "70116",
+   "disposition": "SOURCE_SILENT",
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://chateauneworleans.com/faq) -- Static-silent sweep: home page (address) and FAQ (11 questions) say nothing about pets"
   },
   {
    "identity_key": "chez nous",
@@ -863,13 +911,21 @@
   },
   {
    "identity_key": "chimes bed and breakfast",
-   "canonical_name": "Chimes Bed & Breakfast",
+   "canonical_name": "Chimes Bed and Breakfast",
    "brand": "",
    "corridor": "new-orleans-la__garden-district-uptown",
    "street": "1146 Constantinople St",
    "postal_code": "70115",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.chimesneworleans.com/policies.htm",
+    "pets_allowed_claim": false,
+    "quote": "Regretfully, we do not accommodate pets.",
+    "document_sha256": "ca877fa521e2c8e82ca8d77bbb73c4aa012aef106da06b91313430a79fd78c9a",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 1146 + street words + postal code 70115"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "chuck s place hotel",
@@ -954,8 +1010,8 @@
    "corridor": "new-orleans-la__metairie",
    "street": "2601 Severn Avenue, Building A",
    "postal_code": "70002",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "hold_reason": "the page read did not bind to this row's exact premises (property code, name + postal code, or full street) (https://www.nolahotels.com/) -- Static-silent sweep: the route is a three-hotel collection site (Best Western Plus French Quarter Courtyard, St. Charles Coach House, Comfort Inn & Suites at Copeland Tower); one artifact for several premises establishes nothing for any of them, and it says nothing about pets"
   },
   {
    "identity_key": "comfort inn and suites new orleans airport north",
@@ -1035,16 +1091,6 @@
     "captured_via": "the brand's own property page (route discovered on the brand's own city page), Firecrawl rendered scrape, existing plan credits"
    },
    "disposition": "CLEAN_VERIFIED_NO_PETS"
-  },
-  {
-   "identity_key": "compass point",
-   "canonical_name": "Compass Point",
-   "brand": "",
-   "corridor": "new-orleans-la__algiers",
-   "street": "137 Eliza St.",
-   "postal_code": "70114",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
   },
   {
    "identity_key": "contempra inn",
@@ -1251,7 +1297,7 @@
    "street": "2471 Dauphine St",
    "postal_code": "70117",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://creoleinn.com/) -- Static-silent sweep: the property's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "crescent city guest house",
@@ -1284,8 +1330,8 @@
     "lane": "PROPERTY_PAGE_ATTENDED",
     "source_url": "https://www.ihg.com/crowneplaza/hotels/us/en/new-orleans/msyla/hoteldetail",
     "pets_allowed_claim": true,
-    "quote": "Can I bring my pet to Crowne Plaza New Orleans French Qtr - Astor? | Pets are welcome at Crowne Plaza New Orleans French Qtr - Astor. We allow up to 2 dogs per room with a nightly fee of 35 USD with a maximum of 2 pets allowed.",
-    "document_sha256": "651abcb243cd9c7244cced0d633c2a2de599f5e1d30814ffcbe7d196ec0c2e2e",
+    "quote": "Can I bring my pet to Crowne Plaza New Orleans French Qtr - Astor? | Pets are welcome at Crowne Plaza New Orleans French Qtr - Astor. | Pet policy description. We allow up to 2 dogs per room with a nightly fee of 35 USD with a maximum fee of 70 USD. | Pet fee per night: 35 USD | Pet weight limit: No weight limit per pet | 2 pets allowed | Pets allowed: Only dogs allowed",
+    "document_sha256": "eeefffc6644a6fd0f17ac5a9befa6b261f4f63575b5eee8fcf13b52cfe1308df",
     "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
     "binding": "BRAND_PROPERTY_CODE msyla on the brand's own page"
    },
@@ -1299,14 +1345,14 @@
    }
   },
   {
-   "identity_key": "da empire",
-   "canonical_name": "Da Empire",
+   "identity_key": "dauphine orleans hotel",
+   "canonical_name": "Dauphine Orleans Hotel",
    "brand": "",
-   "corridor": "new-orleans-la__mid-city",
-   "street": "2222 Poydras St",
-   "postal_code": "70119",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "street": "415 Dauphine St",
+   "postal_code": "70112",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.dauphineorleans.com/faq/) -- Static-silent sweep: home page (address) and FAQ (13 questions) say nothing about pets"
   },
   {
    "identity_key": "days inn by wyndham new orleans pontchartrain",
@@ -1343,7 +1389,7 @@
    "street": "2306 Esplanade Ave",
    "postal_code": "70119",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.degashouse.com/event-space-new-orleans/frequently-asked-questions-degas-house.html) -- Static-silent sweep: home page (address) and FAQ (distance, transport, parking) say nothing about pets"
   },
   {
    "identity_key": "dew drop inn",
@@ -1474,8 +1520,17 @@
    "corridor": "new-orleans-la__french-quarter-marigny-bywater",
    "street": "930 Elysian Fields Ave",
    "postal_code": "70117",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://elysianfieldsinn.com/policies/",
+    "pets_allowed_claim": null,
+    "quote": "We do not host dogs or other pets.",
+    "document_sha256": "c8f916cdff853a4066619d81cc80c2054d6368121ec0b8630c1f69760e6242b8",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 930 + street words + postal code 70117"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
   },
   {
    "identity_key": "embassy suites by hilton new orleans",
@@ -1501,6 +1556,16 @@
     "max_pet_weight_lbs": null,
     "max_pet_count": null
    }
+  },
+  {
+   "identity_key": "empire",
+   "canonical_name": "Empire",
+   "brand": "",
+   "corridor": "new-orleans-la__mid-city",
+   "street": "2222 Poydras St",
+   "postal_code": "70119",
+   "disposition": "SOURCE_SILENT",
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://empireorleans.com/) -- Static-silent sweep: the site is an events and dining venue at the licensed address; nothing about pets"
   },
   {
    "identity_key": "empress hotel",
@@ -1553,8 +1618,8 @@
     "lane": "PROPERTY_PAGE_ATTENDED",
     "source_url": "https://www.extendedstayamerica.com/hotels/la/new-orleans/airport",
     "pets_allowed_claim": true,
-    "quote": "Pet Policy | A maximum of two pets are allowed in each suite. Height and length restrictions apply-- pets can be no taller than 18 inches and no longer than 36 inches. Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet.",
-    "document_sha256": "6cee741ec6b96b3bd4314b16985a90194a3847c894a19e04bf92b84b4092cf9e",
+    "quote": "Pet Policy | A maximum of two pets are allowed in each suite.",
+    "document_sha256": "be34f0fb1e58b43576b0770e18e756d701600b1e29c5346a2ad1c56bfff89242",
     "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
     "binding": "the page's own street number 2300 + street words + postal code 70062"
    },
@@ -1702,7 +1767,7 @@
    "street": "2 Canal Street",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.fourseasons.com/neworleans/) -- The property's own home, FAQ (/neworleans/faq/) and Services & Amenities pages were read; none states anything about pets (the Firecrawl rung also read the route as silent)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.fourseasons.com/neworleans/services-and-amenities/) -- Luxury spot-check of a static SOURCE_SILENT row: the brand's own home page and Services & Amenities page, read in the attended browser, state the address and nothing about pets; /faq/ renders the home page"
   },
   {
    "identity_key": "french market inn",
@@ -1712,7 +1777,7 @@
    "street": "509 Decatur St.",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.frenchmarketinn.com/faq) -- Static-silent sweep: home page (address) and FAQ (check-in, shuttle, parking, guests, pool, roll-aways, smoking) say nothing about pets"
   },
   {
    "identity_key": "french quarter mansion boutique hotel",
@@ -1722,7 +1787,7 @@
    "street": "730 Dumaine St",
    "postal_code": "70116",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://frenchquartermansion.com/) -- Static-silent sweep: the hotel's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "french quarter suites hotel",
@@ -1741,8 +1806,17 @@
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "2418 Magazine St",
    "postal_code": "70130",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "http://www.gardendistrictbb.com/policies.html",
+    "pets_allowed_claim": null,
+    "quote": "The B&B is ANIMAL-FREE and SMOKE-FREE.",
+    "document_sha256": "530d14f03c6d15b53a8305d7c4e19d76258b6e6d0cfbf1891f18c4be11502546",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 2418 + street words + postal code 70130"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
   },
   {
    "identity_key": "gentry house",
@@ -2051,8 +2125,17 @@
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "2041 Prytania St",
    "postal_code": "70130",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.henryhowardhotel.com/policies",
+    "pets_allowed_claim": null,
+    "quote": "No smoking or pets",
+    "document_sha256": "c4bca3a46eaec94c2f3b28b67ebdc0573bf9e798ffafd110a852cc3e852e1dd5",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 2041 + street words + postal code 70130"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
   },
   {
    "identity_key": "hh whitney house",
@@ -2208,7 +2291,7 @@
    "street": "1509 St Charles Ave",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.historicstreetcarinn.com/) -- Static-silent sweep: the inn's own home page states its address and nothing about pets; no policy page beyond privacy and accessibility"
   },
   {
    "identity_key": "holiday inn express and suites chalmette new orleans s",
@@ -2645,17 +2728,7 @@
    "street": "717 Conti St",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
-  },
-  {
-   "identity_key": "hotel maison pierre lafitte ltd",
-   "canonical_name": "Hotel Maison Pierre Lafitte Ltd",
-   "brand": "",
-   "corridor": "new-orleans-la__cbd-canal-street",
-   "street": "108 Roosevelt Way",
-   "postal_code": "70112",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.hotellemarais.com/faq) -- Static-silent sweep: home page (address) and FAQ (12 questions) say nothing about pets"
   },
   {
    "identity_key": "hotel mazarin",
@@ -2665,7 +2738,7 @@
    "street": "730 Bienville St",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.hotelmazarin.com/faqs) -- Static-silent sweep: home page (address) and FAQ (8 questions) say nothing about pets"
   },
   {
    "identity_key": "hotel monteleone",
@@ -2674,8 +2747,23 @@
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "214 Royal St",
    "postal_code": "70130",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hotelmonteleone.com/faqs/",
+    "pets_allowed_claim": true,
+    "quote": "Dogs & cats are allowed as part of our pet-friendly policy. | No, there is not a weight limit on pets.",
+    "document_sha256": "6e1e518cea92d438fe36407403a7a0d3ebb56fe9b941774b4f3c691f1edf207c",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the queue row's street number 214 + postal code 70130, with the page's own house number and street words agreeing"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "hotel perle",
@@ -2720,24 +2808,14 @@
    }
   },
   {
-   "identity_key": "hotel pompadour llc",
-   "canonical_name": "Hotel Pompadour Llc",
-   "brand": "",
-   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
-   "street": "527 Elysian Fields Ave",
-   "postal_code": "70117",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
-  },
-  {
    "identity_key": "hotel provincial",
    "canonical_name": "Hotel Provincial",
    "brand": "",
    "corridor": "new-orleans-la__french-quarter-marigny-bywater",
    "street": "1024 Chartres St",
    "postal_code": "70116",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "hold_reason": "the page the census route serves states no address, phone or postal code of its own, so it binds no premises (and states no pet policy) (https://www.hotelprovincial.com/) -- Static-silent sweep: the hotel's own home page (footer '1024 Chartres') says nothing about pets; no policy page beyond privacy and terms"
   },
   {
    "identity_key": "hotel royal",
@@ -2747,17 +2825,17 @@
    "street": "1006 Royal St",
    "postal_code": "70116",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.hotelroyalnola.com/faq/) -- Static-silent sweep: home page (address) and FAQ (11 questions) say nothing about pets"
   },
   {
-   "identity_key": "hotel saint vincent new orleans",
-   "canonical_name": "Hotel Saint Vincent — New Orleans",
+   "identity_key": "hotel saint vincent",
+   "canonical_name": "Hotel Saint Vincent",
    "brand": "",
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "1507 Magazine St",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://saintvincentnola.com/) -- Luxury spot-check: the hotel's own home page states its address and nothing about pets; /faq/ answers 404"
   },
   {
    "identity_key": "hotel sainte helene",
@@ -2786,8 +2864,23 @@
    "corridor": "new-orleans-la__french-quarter-marigny-bywater",
    "street": "911 Burgundy St",
    "postal_code": "70116",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.hotelstpierre.com/faq",
+    "pets_allowed_claim": true,
+    "quote": "Can I bring my pet? | The Hotel St. Pierre is pet friendly! There is a $45.00 per stay fee and two pets maximum per room with a 50 lbs. limit. We require that your four-legged pal stay on a leash while in public areas.",
+    "document_sha256": "81f399ada51340e703e50370a7add4c8b03ea5ef99b2b2c3725c237e3402c53d",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 911 + street words + postal code 70116"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 4500,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "hotel storyville",
@@ -3058,7 +3151,7 @@
    "street": "221 Camp St",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.ihhotel.com/faqs) -- Static-silent sweep: home page (address) and FAQs say nothing about pets"
   },
   {
    "identity_key": "intown suites extended stay new orleans la metairie",
@@ -3123,8 +3216,17 @@
    "corridor": "new-orleans-la__french-quarter-marigny-bywater",
    "street": "613 Esplanade Ave",
    "postal_code": "70116",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.jeanlafittehouse.com/termsandconditions",
+    "pets_allowed_claim": false,
+    "quote": "Our hotel does not allow any pets in the rooms. ADA Compliant Service animals do not apply.",
+    "document_sha256": "36c8efc38c8cacc790093d7676fa46e90932f3c1e54898ac4de88926abb205c0",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 613 + street words + postal code 70116"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Our hotel does not allow any pets in the rooms. ADA Compliant Service animals do not apply.'), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
   },
   {
    "identity_key": "jw marriott new orleans",
@@ -3195,8 +3297,17 @@
    "corridor": "new-orleans-la__mid-city",
    "street": "2216 Esplanade Ave.",
    "postal_code": "70119",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://labelleesplanade.com/faq",
+    "pets_allowed_claim": null,
+    "quote": "Are pets allowed? | No. One of us is a professional dog trainer who travels the country with her dog to compete. If she says no, the answer is no.",
+    "document_sha256": "70e91afef4a3dd00dd5c9d49636767b88587d09ff1fc2ce7790d2cc790062605",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the queue row's street number 2216 + postal code 70119, with the page's own house number and street words agreeing"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
   },
   {
    "identity_key": "la dauphine residence des artistes",
@@ -3423,7 +3534,7 @@
    "street": "1234 Chartres St",
    "postal_code": "70116",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.lerichelieuhotelnola.com/faqs/) -- Static-silent sweep: home page (address) and FAQs (9 questions) say nothing about pets"
   },
   {
    "identity_key": "loews new orleans hotel",
@@ -3492,7 +3603,7 @@
    "street": "1129 St Philip St",
    "postal_code": "70116",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.louisparkhotel.com/) -- Static-silent sweep: the hotel's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "madame isabelle s house in new orleans",
@@ -3542,7 +3653,7 @@
    "street": "2222 Burgundy St",
    "postal_code": "70117",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.maisongracenola.com/) -- Static-silent sweep: the property's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "maison mazant",
@@ -3572,7 +3683,26 @@
    "street": "4117 Perrier St",
    "postal_code": "70115",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://maisonperrier.com/cancellation-policy/) -- Static-silent sweep: home page (address) and Policies & Event Periods page say nothing about pets"
+  },
+  {
+   "identity_key": "maison pierre lafitte",
+   "canonical_name": "Maison Pierre Lafitte",
+   "brand": "",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "street": "108 Roosevelt Way",
+   "postal_code": "70112",
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.maisonpierrelafitte.com/termsandconditions",
+    "pets_allowed_claim": false,
+    "quote": "Our hotel does not allow any pets in the rooms. ADA Compliant Service animals do not apply.",
+    "document_sha256": "22db25fb3e7e1d5c4e7d014bf14cd3754f374cd3ebd3fdf8a8bf2fe3d72ac12b",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 108 + street words + postal code 70112"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal sentence is not a refusal unless the reader reads one: 'Our hotel does not allow any pets in the rooms. ADA Compliant Service animals do not apply.'), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
   },
   {
    "identity_key": "maison st charles",
@@ -3581,8 +3711,23 @@
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "1319 St Charles Ave",
    "postal_code": "70130",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.maisonstcharles.com/faqs/",
+    "pets_allowed_claim": true,
+    "quote": "Are pets allowed at Maison St. Charles? | Yes, we accept pets with a $50 pet fee of up to 2 pets for 7 days.",
+    "document_sha256": "e388dcc6cc505efad9fe9d058a38c44bd2d5fc531c02f99f6b6acbbf0f33de97",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 1319 + street words + postal code 70130"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": 2
+   }
   },
   {
    "identity_key": "margaret place",
@@ -3592,7 +3737,7 @@
    "street": "1133 Margaret Pl",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://margaretplacehotel.com/) -- Static-silent sweep: the hotel's own home page states its address; its only pet words are a 'Wedding Party Pets' blog tag, not a policy"
   },
   {
    "identity_key": "mason motel inc",
@@ -3603,16 +3748,6 @@
    "postal_code": "70125",
    "disposition": "ROUTING_HOLD",
    "hold_reason": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website"
-  },
-  {
-   "identity_key": "mayfair canal",
-   "canonical_name": "Mayfair Canal",
-   "brand": "",
-   "corridor": "new-orleans-la__cbd-canal-street",
-   "street": "1011 Canal St",
-   "postal_code": "70112",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
   },
   {
    "identity_key": "mazant holding",
@@ -3632,7 +3767,7 @@
    "street": "937 Esplanade Ave",
    "postal_code": "70116",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.melrosemansion.com/) -- Static-silent sweep: the property's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "mentone bed and breakfast",
@@ -3645,14 +3780,22 @@
    "hold_reason": "the route the census carries served an error page (expired domain, site error or browser error page) and no other first-party route was proved for these premises (http://www.mentonebandb.com) -- The site serves the browser's own error page"
   },
   {
-   "identity_key": "monrose row bed and breakfast",
-   "canonical_name": "Monrose Row Bed & Breakfast",
+   "identity_key": "monrose row",
+   "canonical_name": "Monrose Row",
    "brand": "",
    "corridor": "new-orleans-la__french-quarter-marigny-bywater",
    "street": "1303 Governor Nicholls St",
    "postal_code": "70116",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.monroserow.com/fine-print.html",
+    "pets_allowed_claim": false,
+    "quote": "Guest Pets Allowed: No",
+    "document_sha256": "95557dce99df87d86abd277292f0c4da4f72a5b737448454d759540c568e0a10",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 1303 + street words + postal code 70116"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "monte carlo motel",
@@ -3845,7 +3988,7 @@
    "street": "1172 City Park Ave",
    "postal_code": "70119",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://oakviewbnb.com/) -- Static-silent sweep: the B&B's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "olivier house hotel",
@@ -3889,8 +4032,23 @@
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "111 Iberville St",
    "postal_code": "70130",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.one11hotel.com/faqs/",
+    "pets_allowed_claim": true,
+    "quote": "Is ONE11 Hotel pet-friendly? | Yes, the hotel welcomes up to two pets per room for a $100 fee per stay (plus tax).",
+    "document_sha256": "97b021dbef023648ce4302d707b84d77793135b0644137f36ce223422f07dd98",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 111 + street words + postal code 70130"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": 2
+   }
   },
   {
    "identity_key": "orleans courtyard inn",
@@ -3900,17 +4058,17 @@
    "street": "3800 Hessmer Avenue",
    "postal_code": "70002",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (http://orleanscourtyardinn.weebly.com/) -- Static-silent sweep: the property's own site states its address and nothing about pets"
   },
   {
-   "identity_key": "parkview guest house",
-   "canonical_name": "Parkview Guest House",
+   "identity_key": "park view guest house",
+   "canonical_name": "Park View Guest House",
    "brand": "",
    "corridor": "new-orleans-la__garden-district-uptown",
    "street": "7004 St Charles Ave",
    "postal_code": "70118",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://parkviewguesthouse.com/policies/) -- Static-silent sweep: the inn's own Policies page (page text: rates, cancellations, arrivals, children, smoking, booking) says nothing about pets"
   },
   {
    "identity_key": "pecan tree inn",
@@ -3940,7 +4098,17 @@
    "street": "625 St Ann St",
    "postal_code": "70116",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.placedarmes.com/faq) -- Static-silent sweep: home page (address) and FAQ say nothing about pets"
+  },
+  {
+   "identity_key": "pompadour hotel",
+   "canonical_name": "Pompadour Hotel",
+   "brand": "",
+   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
+   "street": "527 Elysian Fields Ave",
+   "postal_code": "70117",
+   "disposition": "SOURCE_SILENT",
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.hotelpompadour.com/) -- Static-silent sweep: the hotel's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "pontchartrain landing",
@@ -4348,14 +4516,14 @@
    "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
-   "identity_key": "royal street courtyard bed and breakfast",
-   "canonical_name": "Royal Street Courtyard Bed & Breakfast",
+   "identity_key": "royal street courtyard",
+   "canonical_name": "Royal Street Courtyard",
    "brand": "",
    "corridor": "new-orleans-la__french-quarter-marigny-bywater",
-   "street": "2438 Royal St",
+   "street": "2438 Royal Street",
    "postal_code": "70117",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.royalstcourtyard.com/) -- Static-silent sweep: the property's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "schaeffer hotel",
@@ -4673,14 +4841,22 @@
    "hold_reason": "NO_OFFICIAL_WEB_PRESENCE_FOUND -- Places bound this building (street number + ZIP) but its card names no website"
   },
   {
-   "identity_key": "sully mansion bed and breakfast",
-   "canonical_name": "Sully Mansion Bed and Breakfast",
+   "identity_key": "sully mansion",
+   "canonical_name": "Sully Mansion",
    "brand": "",
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "2631 Prytania St",
    "postal_code": "70130",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.sullymansion.com/policies",
+    "pets_allowed_claim": false,
+    "quote": "Pets, except service dogs, are not permitted.",
+    "document_sha256": "5e777d799a17fa005985da13ee4a14d64adef0aa3a84e37e3fc0902686f3c9d0",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 2631 + street words + postal code 70130"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
    "identity_key": "super 8 by wyndham metairie",
@@ -4724,14 +4900,14 @@
    "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
-   "identity_key": "terrell house",
-   "canonical_name": "Terrell House",
+   "identity_key": "terrell house bed and breakfast",
+   "canonical_name": "Terrell House Bed and Breakfast",
    "brand": "",
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "1441 Magazine St",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://terrellhouse.com/) -- Static-silent sweep: the B&B's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "texas motel",
@@ -4740,8 +4916,8 @@
    "corridor": "new-orleans-la__metairie",
    "street": "3520 Airline Drive",
    "postal_code": "70001",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "hold_reason": "the page the census route serves states no address, phone or postal code of its own, so it binds no premises (and states no pet policy) (http://texasmotel.weebly.com/) -- Static-silent sweep: the site states nothing about pets and no address"
   },
   {
    "identity_key": "the barnett",
@@ -4787,7 +4963,7 @@
    "street": "501 Basin St",
    "postal_code": "70112",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://brakemanhotel.com/faq) -- Static-silent sweep: home page (address) and FAQ say nothing about pets"
   },
   {
    "identity_key": "the burgundy bed and breakfast",
@@ -4797,7 +4973,7 @@
    "street": "2513 Burgundy St",
    "postal_code": "70117",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://theburgundy.com/policies/) -- Static-silent sweep: home page (address) and Policies page say nothing about pets"
   },
   {
    "identity_key": "the california building",
@@ -4807,7 +4983,7 @@
    "street": "1111 Tulane Ave",
    "postal_code": "70112",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.thecaliforniabuilding.com/faq) -- Static-silent sweep: home page ('Apartment privacy. Hotel luxury.') and FAQ (suites, amenities, parking, housekeeping) say nothing about pets"
   },
   {
    "identity_key": "the celestine",
@@ -4816,18 +4992,17 @@
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "727 Toulouse St",
    "postal_code": "70130",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
-  },
-  {
-   "identity_key": "the chateau hotel",
-   "canonical_name": "The Chateau Hotel",
-   "brand": "",
-   "corridor": "new-orleans-la__french-quarter-marigny-bywater",
-   "street": "1001 Chartres St",
-   "postal_code": "70116",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.thecelestinenola.com/faqs",
+    "pets_allowed_claim": null,
+    "quote": "Is the hotel pet-friendly? | Yes, for dogs up to 40lbs and $150/night.",
+    "document_sha256": "6e6dc2a4ca102a5235ac268db8ffdee1e0499ff5dd6657f04e872c08355e1b74",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 727 + street words + postal code 70130"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
   },
   {
    "identity_key": "the chloe",
@@ -4856,16 +5031,6 @@
    "postal_code": "70115",
    "disposition": "SOURCE_SILENT",
    "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (http://www.thecolumns.com) -- The property's own home page, read in the attended browser, states its address and nothing about pets; no policy or FAQ link was exposed"
-  },
-  {
-   "identity_key": "the dauphine orleans hotel",
-   "canonical_name": "The Dauphine Orleans Hotel",
-   "brand": "",
-   "corridor": "new-orleans-la__cbd-canal-street",
-   "street": "415 Dauphine St",
-   "postal_code": "70112",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
   },
   {
    "identity_key": "the eliza jane autograph collection",
@@ -4909,8 +5074,17 @@
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "1525 Prytania St",
    "postal_code": "70130",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.gdhnola.com/statements-policies/reservations-policies/",
+    "pets_allowed_claim": false,
+    "quote": "Do you allow pets? What is your pet policy? | Pets are not permitted at The Garden District Hotel.",
+    "document_sha256": "c1750e7bbcd430f8e74af98835f5c142cc0bf0b57b5698b81c1c269697cca657",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 1525 + street words + postal code 70130"
+   },
+   "disposition": "EVIDENCE_HOLD",
+   "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Do you allow pets? What is your pet policy? | Pets are not permitted at The Garden District Hotel.'), not an operative no_pets statement; held rather than published on a disagreement this order does not get to override"
   },
   {
    "identity_key": "the gisele hotel llc",
@@ -4988,7 +5162,7 @@
    "street": "1500 Canal St",
    "postal_code": "70112",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.junghotel.com/faq) -- Luxury spot-check: the hotel's own home page (address) and FAQ (fitness, views, streetcar, Superdome, parking, pool) say nothing about pets"
   },
   {
    "identity_key": "the lanaux mansion",
@@ -5010,14 +5184,14 @@
    "negation_conflict": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
   },
   {
-   "identity_key": "the laurel guest home",
-   "canonical_name": "The Laurel Guest Home",
+   "identity_key": "the laurel bed and breakfast",
+   "canonical_name": "The Laurel Bed and Breakfast",
    "brand": "",
    "corridor": "new-orleans-la__mid-city",
    "street": "3626 Delgado Dr",
    "postal_code": "70119",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://laurelbedandbreakfast.com/) -- Static-silent sweep: the B&B's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "the luzianne",
@@ -5054,6 +5228,24 @@
     "document_sha256": "dedc757228c6085c05b1651dbb1fdda6a82937202f5cc08621bac8a3626e12bb",
     "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
     "binding": "the page's own street number 310 + street words + postal code 70112"
+   },
+   "disposition": "CLEAN_VERIFIED_NO_PETS"
+  },
+  {
+   "identity_key": "the mayfair",
+   "canonical_name": "The Mayfair",
+   "brand": "",
+   "corridor": "new-orleans-la__cbd-canal-street",
+   "street": "1011 Canal St",
+   "postal_code": "70112",
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://mayfaironcanal.com/faqs/",
+    "pets_allowed_claim": false,
+    "quote": "Are pets allowed? | We have a strict no-pets policy.",
+    "document_sha256": "d0213c29cf0db355130b3b9063be3cf772056e72296cf911ab2365dde20760fa",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 1011 + street words + postal code 70112"
    },
    "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
@@ -5108,8 +5300,8 @@
    "corridor": "new-orleans-la__mid-city",
    "street": "4320 S Carrollton Ave",
    "postal_code": "70119",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "disposition": "ROUTING_HOLD",
+   "hold_reason": "the route the census carries served an error page (expired domain, site error or browser error page) and no other first-party route was proved for these premises (https://theokrainn.com/) -- Static-silent sweep: the site rendered no readable content in the attended browser"
   },
   {
    "identity_key": "the old no 77 hotel and chandlery",
@@ -5118,8 +5310,23 @@
    "corridor": "new-orleans-la__warehouse-district-convention-center",
    "street": "535 Tchoupitoulas St",
    "postal_code": "70130",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.old77hotel.com/hotel/pets/",
+    "pets_allowed_claim": true,
+    "quote": "PET-FRIENDLY STAYS AT THE OLD NO. 77 HOTEL NEW ORLEANS | At The Old No. 77 Hotel & Chandlery, a pet friendly hotel New Orleans and one of the most welcoming dog friendly hotels New Orleans, we understand the joy of exploring the vibrant streets of the Big Easy with your pet by your side",
+    "document_sha256": "edf9b7180b4b57fdea8099dd89dc155702334639730f21fb421b5ac7442b5c01",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 535 + street words + postal code 70130"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "the pelham hotel",
@@ -5129,7 +5336,7 @@
    "street": "444 Common St",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.thepelhamhotel.com/) -- Static-silent sweep: the hotel's own home page states its address and nothing about pets"
   },
   {
    "identity_key": "the pontchartrain hotel",
@@ -5268,7 +5475,7 @@
    "street": "104 St Charles Ave",
    "postal_code": "70130",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "hold_reason": "the property's own pages served, bound these exact premises, and state no operative pet policy anywhere the reader reached; silence is never a refusal (Phase 17) (https://www.therubensteinhotel.com/faqs/) -- Static-silent sweep: home page (address) and FAQs say nothing about pets"
   },
   {
    "identity_key": "the saint hotel new orleans french quarter autograph collection",
@@ -5289,32 +5496,29 @@
    "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
-   "identity_key": "the syd",
-   "canonical_name": "The Syd",
-   "brand": "",
-   "corridor": "new-orleans-la__cbd-canal-street",
-   "street": "1730 Clio St",
-   "postal_code": "70113",
-   "evidence": {
-    "lane": "PROPERTY_PAGE_ATTENDED",
-    "source_url": "https://thesyd.com/faq",
-    "pets_allowed_claim": false,
-    "quote": "Can we bring a dog? | No. Pets are not allowed at The Syd. Service animals are always welcome.",
-    "document_sha256": "764841989f287e49dd78596e8b43e78b2378af586a5c402c5c486d04cda3ccd7",
-    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
-    "binding": "the page's own street number 1730 + street words + postal code 70113"
-   },
-   "disposition": "CLEAN_VERIFIED_NO_PETS"
-  },
-  {
    "identity_key": "the troubadour hotel new orleans",
    "canonical_name": "The Troubadour Hotel New Orleans",
    "brand": "",
    "corridor": "new-orleans-la__cbd-canal-street",
    "street": "1111 Gravier St",
    "postal_code": "70112",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUND_POLICY_SILENT)"
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.thetroubadour.com/",
+    "pets_allowed_claim": true,
+    "quote": "PETS ARE WELCOME | *Under additional fee",
+    "document_sha256": "3e16c6861a0b1be87eb649540d361d69ac0310bf5653ff53fcd0333c1cba3a86",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-NEW-ORLEANS-LA-HARDENED-SOURCE-READY-001",
+    "binding": "the page's own street number 1111 + street words + postal code 70112"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   }
   },
   {
    "identity_key": "the warbler",
@@ -5484,14 +5688,14 @@
    "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
-   "identity_key": "vcay",
-   "canonical_name": "Vcay",
+   "identity_key": "vcay suites",
+   "canonical_name": "VCAY Suites",
    "brand": "",
    "corridor": "new-orleans-la__cbd-canal-street",
    "street": "1000 Howard Ave",
    "postal_code": "70113",
    "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "hold_reason": "the brand's own page served and bound these premises, and the only pet wording on it is an amenity chip, which is never acceptance (Phase 17) (https://vcay.com/) -- Static-silent sweep: the only pet text is an amenity label 'Pet friendly'; a label is never an operative statement"
   },
   {
    "identity_key": "virgin hotels new orleans",
@@ -5584,8 +5788,8 @@
    "corridor": "new-orleans-la__cbd-canal-street",
    "street": "1724 Clio St",
    "postal_code": "70113",
-   "disposition": "SOURCE_SILENT",
-   "hold_reason": "the property's own site (found via Places, bound on its own address/phone) states no operative pet policy on its home or policy/FAQ pages"
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "hold_reason": "the page the census route serves states no address, phone or postal code of its own, so it binds no premises (and states no pet policy) (http://wgcreolehouse1850.com/) -- Static-silent sweep: the home page names no street address and says nothing about pets; no policy page"
   },
   {
    "identity_key": "wyndham garden new orleans airport",
