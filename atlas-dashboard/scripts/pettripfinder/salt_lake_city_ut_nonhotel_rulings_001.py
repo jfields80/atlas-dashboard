@@ -66,6 +66,9 @@ NOT_LODGING_WHY = {
     "the lodge at crystal ranch": "NON_HOTEL -- the business's own site is a guided fly-fishing and snowmobiling "
                                   "outfitter whose only Salt Lake address is an office suite (428 W 4800 S, STE 2C)",
     "the other side": _VENUE + " (its own site: an event venue with event and conference rooms, no lodging)",
+    # A BringFido REVIEW lead Places placed at 156 E 900 S (84111): the business's own 'stay' route is a 404 and its own
+    # site sells only 'MAVEN LIVE' residences on 12+ month leases.
+    "maven stay": _APARTMENTS + " (its own site: 'MAVEN LIVE' residences, '6 weeks free on 12+ month lease')",
 }
 
 #: KANSAS CITY: a register or bureau row whose OWN name is a retreat / renewal / pastoral centre, a winery, an orchard or

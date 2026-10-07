@@ -73,6 +73,18 @@ BRAND_DIRECTORY_GAPS = [
     {"bringfido_name": "LivAway Suites Salt Lake City Draper 13673 S 600 W", "listed_city": "Draper",
      "lead_source": "BRAND_OWN_DIRECTORY -- livawaysuites.com home page ('Now Open'), location page "
                     "/locations/ut/salt-lake-city/draper"},
+    # SALT LAKE CITY: the BringFido REVIEW leads that no census node matched and that carry no street, phone or
+    # vacation-rental word -- verified rather than assumed to be rentals (one Pro request each).
+    {"bringfido_name": "The Ruth Downtown Slc", "listed_city": "Salt Lake City",
+     "lead_source": "BRINGFIDO_REVIEW -- name only, no address on the competitor card"},
+    {"bringfido_name": "Maven", "listed_city": "Salt Lake City",
+     "lead_source": "BRINGFIDO_REVIEW -- name only, no address on the competitor card"},
+    {"bringfido_name": "Maven West", "listed_city": "Salt Lake City",
+     "lead_source": "BRINGFIDO_REVIEW -- name only, no address on the competitor card"},
+    {"bringfido_name": "Imperial", "listed_city": "Salt Lake City",
+     "lead_source": "BRINGFIDO_REVIEW -- name only, no address on the competitor card"},
+    {"bringfido_name": "Kensington Garden", "listed_city": "Salt Lake City",
+     "lead_source": "BRINGFIDO_REVIEW -- name only, no address on the competitor card"},
 ]
 
 

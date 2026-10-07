@@ -2488,6 +2488,12 @@ _INN_HOTEL_SUBCATEGORIES = {"Hotels", "Bed & Breakfasts", "Guest Houses/Inns", "
                             "Hotels & Housing", "Hotel", "Hotels & Lodges", "Meeting Hotels"}
 
 
+#: The hotel brands' own hosts: a first-party page on one of these is a brand's statement that it sells the premises as
+#: a hotel.
+_BRAND_HOTEL_HOST = re.compile(r"^https?://(?:www\.)?(?:ihg|marriott|hilton|hyatt|choicehotels|wyndhamhotels|"
+                               r"bestwestern|radissonhotels|sonesta|extendedstayamerica)\.com/", re.I)
+
+
 def lodging_qualification(node):
     """PHASES 4, 5 AND 8: the reason a Park City / Snyderville Basin row that no brand inventory reached has NOT proved
     a public lodging operation, or None. Proof is the destination bureau's own hotel / lodge typing, or an operational
@@ -2498,6 +2504,12 @@ def lodging_qualification(node):
         return None
     lanes = {o.get("lane") for o in node.observations}
     if any(str(l or "").startswith("BRAND_INVENTORY") for l in lanes):
+        return None
+    # SALT LAKE CITY: a hotel BRAND's own property page, read first-party and bound to these premises, proves a public
+    # hotel operation exactly as the brand's inventory would. Holiday Inn Express & Suites Park City (IHG code pkcty,
+    # 1501 West Ute Boulevard) was held here only because IHG's inventory refused the plain client.
+    if any(o.get("lane") == "PROPERTY_PAGE_ATTENDED" and _BRAND_HOTEL_HOST.search(o.get("source_url") or "")
+           for o in node.observations):
         return None
     subs = {s for o in node.observations if o.get("lane") == "DESTINATION_ORGANIZATION"
             for s in (o.get("bureau_all_subcategories") or []) if s}

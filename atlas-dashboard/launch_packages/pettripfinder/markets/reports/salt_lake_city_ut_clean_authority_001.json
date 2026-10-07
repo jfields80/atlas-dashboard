@@ -82,16 +82,16 @@
  "one_artifact_many_premises_rule": "A document that is the only policy evidence for more than one census premises establishes a policy for NONE of them. A multi-property operator's shared landing page is the common case (an earlier market's family of motels behind one site), and re-armed here. The inverse of the rule that two pages claiming one address publish neither.",
  "counts": {
   "ACCESS_BLOCKED": 16,
-  "CLEAN_PET_FRIENDLY": 132,
+  "CLEAN_PET_FRIENDLY": 133,
   "CLEAN_VERIFIED_NO_PETS": 29,
   "EVIDENCE_HOLD": 14,
   "IDENTITY_MISMATCH_HOLD": 1,
   "ROUTING_HOLD": 9,
   "SOURCE_SILENT": 7
  },
- "valid_pet_friendly": 132,
+ "valid_pet_friendly": 133,
  "valid_verified_no_pets": 29,
- "resolved": 161,
+ "resolved": 162,
  "unresolved": 47,
  "rows": [
   {
@@ -1895,6 +1895,31 @@
    "disposition": "CLEAN_VERIFIED_NO_PETS"
   },
   {
+   "identity_key": "holiday inn express and suites park city",
+   "canonical_name": "Holiday Inn Express & Suites Park City",
+   "brand": "IHG",
+   "corridor": "salt-lake-city-ut__canyons-kimball-junction",
+   "street": "1501 West Ute Boulevard",
+   "postal_code": "84098",
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/park-city/pkcty/hoteldetail/amenities",
+    "pets_allowed_claim": true,
+    "quote": "Pet policy | Pets are welcome at our hotel! Our pet friendly policy is 50 dollars plus tax per night with a maxim | Pet fee per night: 50 USD | Pet weight limit: 50 pounds | 2 pets allowed | Pets allowed: All pets allowed",
+    "document_sha256": "e4e7ac84cfe8e400fe33e931982255a4a055f896ece42b4a6f2fc7c6b27685a7",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-SALT-LAKE-CITY-UT-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE pkcty on the brand's own page"
+   },
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": null,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   }
+  },
+  {
    "identity_key": "holiday inn express and suites salt lake city airport east",
    "canonical_name": "Holiday Inn Express & Suites Salt Lake City-Airport East",
    "brand": "IHG",
@@ -2747,7 +2772,7 @@
     "quote": "Amenities | Pet-friendly rooms",
     "document_sha256": "c598208c26c279ea28eeb15c4caae819108adf2dca6c7c281e59c3d706f600fb",
     "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-SALT-LAKE-CITY-UT-HARDENED-SOURCE-READY-001",
-    "binding": "the page's own street number 13673 + street words + municipality Draper (the page prints no postal code)"
+    "binding": "the queue row's street number 13673 + postal code 84020, with the page's own house number and street words agreeing"
    },
    "disposition": "EVIDENCE_HOLD",
    "hold_reason": "the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'Amenities | Pet-friendly rooms'), not an operative pet_friendly statement; held rather than published on a disagreement this order does not get to override"

@@ -6,24 +6,24 @@
  "field_mask_gap_verification": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus",
  "field_mask_route_discovery": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus,places.websiteUri,places.nationalPhoneNumber",
  "route_discovery_run": true,
- "route_discovery_capacity_basis": "websiteUri is an Enterprise-SKU field; its free monthly allowance (about 1,000 requests) renewed on 2026-10-01; the only Places use on this machine since then is San Antonio's 201 requests (187 Enterprise), Seattle's 169 (149 Enterprise), Portland's 77 (49 Enterprise), Minneapolis's 135 (59 Enterprise), Kansas City's 107 (70 Enterprise), New Orleans's 239 (189 Enterprise) and this order's own earlier runs (recorded in this report). This run stays inside that allowance (cap 250 Enterprise requests) -- existing capacity, no new paid spend.",
+ "route_discovery_capacity_basis": "websiteUri is an Enterprise-SKU field; its free monthly allowance (about 1,000 requests) renewed on 2026-10-01; the only Places use on this machine since then is six earlier market orders' 928 requests (703 Enterprise, each recorded in that order's own places report) and this order's own runs (recorded in this report). This run stays inside that allowance (cap 250 Enterprise requests) -- existing capacity, no new paid spend.",
  "request_cap": 400,
  "route_discovery_cap": 250,
- "requests_made": 67,
- "enterprise_requests_made": 22,
- "pro_requests_made": 45,
- "requests_this_run": 9,
- "answers_reused_from_prior_runs": 54,
+ "requests_made": 77,
+ "enterprise_requests_made": 27,
+ "pro_requests_made": 50,
+ "requests_this_run": 2,
+ "answers_reused_from_prior_runs": 68,
  "errors": {},
  "never_policy": "A Places field is never a pet policy; a website it names is only a route.",
- "route_discovery_targets": 21,
- "route_discovery_bound": 22,
- "route_discovery_bound_with_website": 16,
- "gap_verification_targets": 20,
+ "route_discovery_targets": 23,
+ "route_discovery_bound": 27,
+ "route_discovery_bound_with_website": 21,
+ "gap_verification_targets": 25,
  "gap_verdicts": {
-  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 10,
+  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 11,
   "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 6,
-  "NO_LODGING_RESULT": 3,
+  "NO_LODGING_RESULT": 7,
   "OUTSIDE_MARKET": 1
  },
  "map_pin_verification_bind_meters": 400,
@@ -206,9 +206,9 @@
   },
   {
    "cohort": "ROUTE_DISCOVERY",
-   "identity_key": "extended stay america west valley",
-   "query": "Extended Stay America - West Valley 2310 West City Center Court West Valley City UT 84119",
-   "candidates_returned": 2,
+   "identity_key": "extended stay america suites salt lake city west valley center",
+   "query": "Extended Stay America Suites Salt Lake City - West Valley Center 2310 W. City Center Ct. West Valley City UT 84119",
+   "candidates_returned": 1,
    "bound": true,
    "place": {
     "google_place_id": "ChIJ81xnoGGLUocRu10RBQedClY",
@@ -230,6 +230,42 @@
     ],
     "lat": 40.6995048,
     "lng": -111.9508863
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "holiday inn express and suites park city",
+   "query": "Holiday Inn Express & Suites Park City 1501 West Ute Boulevard Park City UT 84098",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJjb8XEHZsUocRjo8XJwI-8XA",
+    "display_name": "Holiday Inn Express & Suites Park City by IHG",
+    "formatted_address": "1501 W Ute Blvd, Park City, UT 84098, USA",
+    "street_number": "1501",
+    "route": "West Ute Boulevard",
+    "locality": "Park City",
+    "postal_code": "84098",
+    "phone": "(435) 658-1600",
+    "website_uri": "https://www.ihg.com/holidayinnexpress/hotels/us/en/park-city/pkcty/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-PKCTY",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 40.7244354,
+    "lng": -111.54031499999999
    },
    "bind_basis": "street_number+postal_code"
   },
@@ -264,8 +300,8 @@
   },
   {
    "cohort": "ROUTE_DISCOVERY",
-   "identity_key": "in town suites",
-   "query": "In Town Suites 151 West 7200 South Midvale UT 84047",
+   "identity_key": "intown suites extended stay salt lake city ut midvale",
+   "query": "InTown Suites Extended Stay Salt Lake City UT – Midvale 151 W 7200 S Midvale UT 84047",
    "candidates_returned": 1,
    "bound": true,
    "place": {
@@ -288,6 +324,35 @@
     ],
     "lat": 40.619290899999996,
     "lng": -111.8950989
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "livaway suites salt lake city draper",
+   "query": "LivAway Suites Salt Lake City-Draper 13673 South 600 West Draper UT 84020",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJwccn3tWGUocRq_Qq7Vbecy0",
+    "display_name": "LivAway Suites Salt Lake City-Draper",
+    "formatted_address": "13673 S 600 W, Draper, UT 84020, USA",
+    "street_number": "13673",
+    "route": "South 600 West",
+    "locality": "Draper",
+    "postal_code": "84020",
+    "phone": "(801) 340-8242",
+    "website_uri": "https://www.livawaysuites.com/locations/ut/salt-lake-city/draper",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.5026027,
+    "lng": -111.9065176
    },
    "bind_basis": "street_number+postal_code"
   },
@@ -350,30 +415,30 @@
   },
   {
    "cohort": "ROUTE_DISCOVERY",
-   "identity_key": "motel 6 lehi ut thanksgiving point",
-   "query": "Motel 6 Lehi, UT – Thanksgiving Point 210 South 1200 East Lehi UT 84043",
+   "identity_key": "maven stay",
+   "query": "Maven STAY 156 East 900 South Salt Lake City UT 84111",
    "candidates_returned": 1,
    "bound": true,
    "place": {
-    "google_place_id": "ChIJRRRgJriBTYcRyfljCKeX4Xo",
-    "display_name": "Motel 6 Lehi, UT – Thanksgiving Point",
-    "formatted_address": "210 S 1200 E, Lehi, UT 84043, USA",
-    "street_number": "210",
-    "route": "South 1200 East",
-    "locality": "Lehi",
-    "postal_code": "84043",
-    "phone": "(801) 340-1390",
-    "website_uri": "https://www.motel6.com/property/motel-lehi-utah-us-294297?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+    "google_place_id": "ChIJK9CG7vf1UocRUug91nY9Qd8",
+    "display_name": "Maven STAY",
+    "formatted_address": "156 E 900 S, Salt Lake City, UT 84111, USA",
+    "street_number": "156",
+    "route": "East 900 South",
+    "locality": "Salt Lake City",
+    "postal_code": "84111",
+    "phone": "(801) 410-4180",
+    "website_uri": "https://www.mavenslc.com/collections/stay",
     "business_status": "OPERATIONAL",
     "types": [
      "establishment",
      "hotel",
      "lodging",
-     "motel",
-     "point_of_interest"
+     "point_of_interest",
+     "shopping_mall"
     ],
-    "lat": 40.3860634,
-    "lng": -111.8314802
+    "lat": 40.74951,
+    "lng": -111.88620639999999
    },
    "bind_basis": "street_number+postal_code"
   },
@@ -1135,6 +1200,63 @@
    }
   },
   {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "The Ruth Downtown Slc",
+   "query": "The Ruth Downtown Slc Salt Lake City UT",
+   "lead_source": "BRINGFIDO_REVIEW -- name only, no address on the competitor card",
+   "verdict": "NO_LODGING_RESULT"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Maven",
+   "query": "Maven Salt Lake City UT",
+   "lead_source": "BRINGFIDO_REVIEW -- name only, no address on the competitor card",
+   "corridor": "downtown-salt-lake-city",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJK9CG7vf1UocRUug91nY9Qd8",
+    "display_name": "Maven STAY",
+    "formatted_address": "156 E 900 S, Salt Lake City, UT 84111, USA",
+    "street_number": "156",
+    "route": "East 900 South",
+    "locality": "Salt Lake City",
+    "postal_code": "84111",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "shopping_mall"
+    ],
+    "lat": 40.74951,
+    "lng": -111.88620639999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Maven West",
+   "query": "Maven West Salt Lake City UT",
+   "lead_source": "BRINGFIDO_REVIEW -- name only, no address on the competitor card",
+   "verdict": "NO_LODGING_RESULT"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Imperial",
+   "query": "Imperial Salt Lake City UT",
+   "lead_source": "BRINGFIDO_REVIEW -- name only, no address on the competitor card",
+   "verdict": "NO_LODGING_RESULT"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Kensington Garden",
+   "query": "Kensington Garden Salt Lake City UT",
+   "lead_source": "BRINGFIDO_REVIEW -- name only, no address on the competitor card",
+   "verdict": "NO_LODGING_RESULT"
+  },
+  {
    "cohort": "MAP_PIN_VERIFICATION",
    "map_row": "allstar travel motor hotels|40.772190|-111.912981",
    "census_identity_key": "allstar travel motor hotels",
@@ -1718,6 +1840,93 @@
     "lat": 40.6457674,
     "lng": -111.49730319999999
    }
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america west valley",
+   "query": "Extended Stay America - West Valley 2310 West City Center Court West Valley City UT 84119",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ81xnoGGLUocRu10RBQedClY",
+    "display_name": "Extended Stay America Suites- Salt Lake City - West Valley Center",
+    "formatted_address": "2310 City Center Ct, West Valley City, UT 84119, USA",
+    "street_number": "2310",
+    "route": "City Center Court",
+    "locality": "West Valley City",
+    "postal_code": "84119",
+    "phone": "(801) 886-2400",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/ut/salt-lake-city/west-valley-center?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6995048,
+    "lng": -111.9508863
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "in town suites",
+   "query": "In Town Suites 151 West 7200 South Midvale UT 84047",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ7aMbqK2JUocRpyD1f36Grhs",
+    "display_name": "InTown Suites Extended Stay Salt Lake City UT - Midvale",
+    "formatted_address": "151 W 7200 S, Midvale, UT 84047, USA",
+    "street_number": "151",
+    "route": "West 7200 South",
+    "locality": "Midvale",
+    "postal_code": "84047",
+    "phone": "(888) 882-7138",
+    "website_uri": "https://www.intownsuites.com/extended-stay-hotels/utah/midvale/murray-city-park/?utm_source=google&utm_medium=GMB",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.619290899999996,
+    "lng": -111.8950989
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel 6 lehi ut thanksgiving point",
+   "query": "Motel 6 Lehi, UT – Thanksgiving Point 210 South 1200 East Lehi UT 84043",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJRRRgJriBTYcRyfljCKeX4Xo",
+    "display_name": "Motel 6 Lehi, UT – Thanksgiving Point",
+    "formatted_address": "210 S 1200 E, Lehi, UT 84043, USA",
+    "street_number": "210",
+    "route": "South 1200 East",
+    "locality": "Lehi",
+    "postal_code": "84043",
+    "phone": "(801) 340-1390",
+    "website_uri": "https://www.motel6.com/property/motel-lehi-utah-us-294297?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.3860634,
+    "lng": -111.8314802
+   },
+   "bind_basis": "street_number+postal_code"
   },
   {
    "cohort": "ROUTE_DISCOVERY",

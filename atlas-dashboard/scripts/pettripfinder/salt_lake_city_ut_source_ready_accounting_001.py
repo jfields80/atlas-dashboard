@@ -516,6 +516,18 @@ def main():
              "Places gap verification (existing free allowance) placed each at its own postal code or refused it; a "
              "verified missing hotel became a census identity through the Places lane and its own page decided its "
              "policy. A competitor name never admits an identity and its pet claims are never read."),
+            ("review_leads_audit", OrderedDict([
+                ("review_total", (recon.get("counts") or {}).get("REVIEW")),
+                ("rule", "a REVIEW lead is one the automatic match could not place. Every REVIEW lead carrying a hotel "
+                         "brand word was found in the census by its own brand page (Fairfield Inn & Suites Salt Lake "
+                         "City Cottonwood and Southwest, Le Meridien Salt Lake City Downtown, Residence Inn Salt Lake "
+                         "City-Sandy, Ramada by Wyndham Draper; Holiday Inn Express Park City was ADMITTED by this audit "
+                         "from IHG's own page); the five name-only leads with no rental word were verified through "
+                         "Places (verdicts below); the rest are private homes and condos by their own names."),
+                ("places_verdicts", [OrderedDict([("lead", r.get("bringfido_name")), ("verdict", r.get("verdict")),
+                                                  ("place", (r.get("place") or {}).get("formatted_address"))])
+                                     for r in places.get("rows", []) if "BRINGFIDO_REVIEW" in (r.get("lead_source") or "")]),
+            ])),
             ("excluded_stale_outside", recon.get("excluded_stale_outside")),
             ("review", recon.get("review")),
             ("matched_but_policy_unresolved", recon.get("matched_but_policy_unresolved")),
