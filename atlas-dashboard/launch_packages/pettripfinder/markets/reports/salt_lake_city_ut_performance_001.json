@@ -1,0 +1,30 @@
+{
+ "schema": "ptf-source-ready-performance/1.0",
+ "work_order": "PTF-SALT-LAKE-CITY-UT-HARDENED-SOURCE-READY-001",
+ "market_id": "salt-lake-city-ut",
+ "attended_browser": {
+  "attempts_recorded": 199,
+  "first_read_utc": "2026-10-07T14:24:21Z",
+  "last_read_utc": "2026-10-07T17:04:03Z",
+  "families": 14,
+  "challenge_denied": 0,
+  "note": "one hotel per batch for Marriott; Akamai interstitials (Marriott, Choice) cleared on their own and were waited out, never bypassed; Vail's Park City Mountain pages answered server errors and were not hammered (one attempt each, two for Grand Summit)"
+ },
+ "places": {
+  "requests_total": 77,
+  "enterprise": 27,
+  "pro": 50,
+  "basis": "existing free monthly allowance (renewed 2026-10-01); no new spend"
+ },
+ "firecrawl": {"credits_used": 0, "why": "the plan balance equals its protected reserve (60)"},
+ "seals": [
+  {"package": "cb60864b", "source_sha": "a28bb9e8", "fast": "15/15", "superseded": true},
+  {"package": "f084558e", "source_sha": "bb0ac0d4", "fast": "15/15",
+   "fast_started_utc": "2026-10-07T17:08:14Z", "fast_finished_utc": "2026-10-07T17:10:19Z", "fast_seconds": 124.869,
+   "rule_j_seconds": 63.127, "rule_k_seconds": 60.395}
+ ],
+ "reproduction": {"package": "f084558e", "fast_started_utc": "2026-10-07T17:13:14Z",
+                  "fast_finished_utc": "2026-10-07T17:15:50Z", "fast_seconds": 155.896, "result": "BYTE_IDENTICAL"},
+ "memory_safety": "every seal and the reproduction ran detached and ALONE (never two whole-site builds at once), each with its own short forward-slash work dir (C:/t/slc0, C:/t/slc1, C:/t/slc2); no pytest and no broad regression ran",
+ "broad_regression_runs": 0
+}
