@@ -42,7 +42,7 @@ MARKET_ID = "salt-lake-city-ut"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "salt-lake-city-ut.json")
+CENSUS = os.path.join(PKG, "identity_census", "salt-lake-city-ut.json")
 OUT = os.path.join(REPORTS, "salt_lake_city_ut_routing_001.json")
 
 _NAME_FAMILY = [

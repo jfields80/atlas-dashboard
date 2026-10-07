@@ -23,7 +23,7 @@ from scripts.pettripfinder import salt_lake_city_ut_policy_pages_lane_001 as PP 
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "salt_lake_city_ut_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "salt-lake-city-ut.json")
+CENSUS = os.path.join(PKG, "identity_census", "salt-lake-city-ut.json")
 OUT = os.path.join(PKG, "markets", "staging", "salt-lake-city-ut", "raw_captures", "closure_static_rows.json")
 
 

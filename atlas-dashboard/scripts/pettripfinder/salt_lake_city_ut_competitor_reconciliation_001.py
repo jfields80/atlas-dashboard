@@ -36,7 +36,7 @@ from scripts.pettripfinder import salt_lake_city_ut_census_reconciliation_001 as
 WORK_ORDER = "PTF-SALT-LAKE-CITY-UT-HARDENED-SOURCE-READY-001"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "salt-lake-city-ut.json")
+CENSUS = os.path.join(PKG, "identity_census", "salt-lake-city-ut.json")
 COMPETITOR = os.path.join(REPORTS, "salt_lake_city_ut_competitor_challenge_001.json")
 CLEAN = os.path.join(REPORTS, "salt_lake_city_ut_clean_authority_001.json")
 OUT = os.path.join(REPORTS, "salt_lake_city_ut_competitor_reconciliation_001.json")

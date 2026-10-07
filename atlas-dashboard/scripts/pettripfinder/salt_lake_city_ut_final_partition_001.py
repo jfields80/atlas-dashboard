@@ -37,9 +37,8 @@ REPORTS = os.path.join(PKG, "markets", "reports")
 #: the registry package root -- the root is where a REGISTERED market's release contract references it, and
 #: writing there would put an unregistered market's document into shared space. The shadow seal reads it from
 #: the staging tree.
-OUT = os.path.join(PKG, "markets", "staging", MARKET_ID, "launch_package",
-                   "salt_lake_city_ut_final_partition_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "salt-lake-city-ut.json")
+OUT = os.path.join(PKG, "salt_lake_city_ut_final_partition_001.json")
+CENSUS = os.path.join(PKG, "identity_census", "salt-lake-city-ut.json")
 CLEAN = os.path.join(REPORTS, "salt_lake_city_ut_clean_authority_001.json")
 from scripts.pettripfinder import salt_lake_city_ut_registration_staging_001 as _ST  # noqa: E402
 #: MINNEAPOLIS: the UTC day of this order's LAST first-party capture (the staged package's own upper bound); the reads

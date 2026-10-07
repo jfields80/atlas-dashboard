@@ -41,12 +41,12 @@ OUT = os.path.join(PKG, "markets", "reports", "salt_lake_city_ut_clone_residue_s
 STAGING = os.path.join(PKG, "markets", "staging", MARKET_ID)
 
 DATA_DOCUMENTS = [
-    os.path.join(PKG, "markets", "proposed", MARKET_ID + ".json"),
-    os.path.join(PKG, "identity_census_proposed", MARKET_ID + ".json"),
+    os.path.join(PKG, "markets", MARKET_ID + ".json"),
+    os.path.join(PKG, "identity_census", MARKET_ID + ".json"),
     os.path.join(SCRIPTS, "discovery", "config", "salt_lake_city_ut.json"),
-    os.path.join(STAGING, "launch_package", "hotel_policy_facts_%s.json" % MARKET_ID),
-    os.path.join(STAGING, "salt_lake_city_ut_proposed_authority_001.json"),
-    os.path.join(STAGING, "launch_package", "salt_lake_city_ut_final_partition_001.json"),
+    os.path.join(PKG, "hotel_policy_facts_%s.json" % MARKET_ID),
+    os.path.join(PKG, "salt_lake_city_ut_proposed_authority_001.json"),
+    os.path.join(PKG, "salt_lake_city_ut_final_partition_001.json"),
 ]
 #: Utah's extent, generously rounded (37.0 N to 42.0 N, 114.05 W to 109.04 W).
 UT_LAT = (36.9, 42.1)
@@ -62,7 +62,14 @@ EXCUSED_WORDS = {
 #: makes about live markets that share no state with it. Their strings are reported, never counted.
 CROSS_MARKET_REFERENCE_CONSTANTS = {
     "salt_lake_city_ut_geography_001.py": ("EXISTING_LIVE_MARKETS",),
+    # the release contract reads the project-wide release rules (canonical host, minimum gates, forbidden tokens,
+    # publish rules) from a contract already in force
+    "salt_lake_city_ut_release_contract_002.py": ("TEMPLATE",),
+    # the registration gate's own residue DETECTORS: patterns that name other markets in order to find them
+    "salt_lake_city_ut_registration_checks_002.py": ("RESIDUE", "RESIDUE_ALLOWED", "text_safety"),
 }
+#: The lineage this market was built on, stated by name in the registered documents (allowed, never residue).
+LINEAGE_RX = re.compile(r"new orleans-live", re.I)
 CROSS_MARKET_REFERENCES = []
 _LAT_LNG_PAIR = re.compile(r"(?<![\d.])(-?\d{2,3}\.\d{2,})\s*,\s*(-?\d{2,3}\.\d{2,})(?![\d.])")
 
@@ -107,7 +114,7 @@ def _walk(obj, path=""):
 
 
 #: Documents whose EVERY string is market-level text (the market's own definition and its discovery config).
-MARKET_LEVEL = {"markets/proposed/%s.json" % MARKET_ID, "discovery/config/salt_lake_city_ut.json"}
+MARKET_LEVEL = {"markets/%s.json" % MARKET_ID, "discovery/config/salt_lake_city_ut.json"}
 #: Row collections inside the census and the staged documents, and the row fields that state WHERE a row is and
 #: WHICH market owns it. A row's NAME or STREET may legitimately carry a word another market is named for
 #: (Washington School House in Park City, Washington Boulevard in Ogden, Indiana Avenue in Salt Lake City);
@@ -209,7 +216,7 @@ def scan_code(rx, zips):
             if line in excused:
                 CROSS_MARKET_REFERENCES.append((fn, line, s[:120]))
                 continue
-            m = rx.search(s)
+            m = rx.search(LINEAGE_RX.sub(" ", s))
             if m:
                 text_hits.append((fn, line, m.group(1), s[:160]))
             for z in re.findall(r"(?<!\d)(\d{5})(?!\d)", s):
