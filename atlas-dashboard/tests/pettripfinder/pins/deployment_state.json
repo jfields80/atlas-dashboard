@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-KANSAS-CITY-MO-PRODUCTION-DEPLOYMENT-004",
+ "reviewed_by": "PTF-NEW-ORLEANS-LA-PRODUCTION-DEPLOYMENT-004",
  "live": {
-  "deploy_id": "6ac4dc8a39b0e7274828a32b",
-  "deployed_by": "PTF-KANSAS-CITY-MO-PRODUCTION-DEPLOYMENT-004",
-  "authorization_id": "ptf-auth-kansas-city-003-6a35c23829f9",
-  "deployment_record_id": "ptf-deploy-kansas-city-004-6ac4dc8a39b0e7274828a32b",
-  "previous_deploy_id": "6ac3bfda7b585d009f007620",
-  "source_commit": "c6609370ec22ac74bd1c8cd881d25ee147ce3d0c",
-  "bundle_sha256": "6a35c23829f9c0a0a1713acc721f3fcf317a94d7f57120379ffc951fdc60ed5f",
-  "sitemap_sha256": "3d5d9425a4e0a90b6aca13f3d02866a815ebc934df8382e4fcf03c0ecc10967b",
+  "deploy_id": "6ac5ba3bcda3a604f7e467e0",
+  "deployed_by": "PTF-NEW-ORLEANS-LA-PRODUCTION-DEPLOYMENT-004",
+  "authorization_id": "ptf-auth-new-orleans-003-af70e0aa8a64",
+  "deployment_record_id": "ptf-deploy-new-orleans-004-6ac5ba3bcda3a604f7e467e0",
+  "previous_deploy_id": "6ac4dc8a39b0e7274828a32b",
+  "source_commit": "4c7e7b90b95042576f12f885e94684e7a7f54a08",
+  "bundle_sha256": "af70e0aa8a64496e53c67750668c33029cbda3cf318d9d3ecb1198af346a0a41",
+  "sitemap_sha256": "beb98d7a9f4687c337dfcbd5eaa1d301ac7d74eecddba5dcebf7d7b05c2a8508",
   "participating_markets": [
    "asheville-nc",
    "atlanta-ga",
@@ -38,6 +38,7 @@
    "milwaukee-wi",
    "minneapolis-mn",
    "nashville-tn",
+   "new-orleans-la",
    "orlando-fl",
    "outer-banks-nc",
    "phoenix-az",
@@ -83,6 +84,7 @@
    "milwaukee-wi": 73,
    "minneapolis-mn": 156,
    "nashville-tn": 79,
+   "new-orleans-la": 104,
    "orlando-fl": 201,
    "outer-banks-nc": 26,
    "phoenix-az": 256,
@@ -101,19 +103,19 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 4136,
-  "sitemap_route_count": 4628,
-  "total_html_pages": 24939,
-  "total_files": 24957,
-  "rollback_target": "6ac3bfda7b585d009f007620",
-  "note": "Kansas City / Greater Kansas City, Missouri & Kansas joined as the FORTY-THIRD market and the first market spanning two states, at 161 published pet-friendly profiles (96 Missouri, 65 Kansas) over 13 publishing corridors, on package pkg-kansas-city-mo-140e35291a2195c3 (founder-authorized by PTF-KANSAS-CITY-MO-FOUNDER-LAUNCH-AUTHORIZATION-003, bound to registration commit d054d6c0). The exact authorized artifact was deployed with no rebuild; every unpublished census row -- the six dual-brand rows in three buildings, ESA Tiffany Springs, the Crossland identity and the four preopening hotels among them -- and both rebrand holds return 404, and every live profile states its own state, postal code and city. Rollback is the deployment Kansas City replaced (Minneapolis, 42 markets).",
-  "rollback_record": "ptf-deploy-minneapolis-004-6ac3bfda7b585d009f007620.json"
+  "total_profiles": 4240,
+  "sitemap_route_count": 4740,
+  "total_html_pages": 25562,
+  "total_files": 25580,
+  "rollback_target": "6ac4dc8a39b0e7274828a32b",
+  "note": "New Orleans / Greater New Orleans, Louisiana joined as the FORTY-FOURTH market and the first Louisiana market, at 104 published pet-friendly profiles (79 Orleans, 24 Jefferson, 1 Plaquemines Parish) over 6 publishing corridors, on package pkg-new-orleans-la-0e5fef6af3af8339 (founder-authorized by PTF-NEW-ORLEANS-LA-FOUNDER-LAUNCH-AUTHORIZATION-003, bound to registration commit 85e7c13e). The exact authorized artifact was deployed with no rebuild; every unpublished census row -- SpringHill Suites and TownePlace Suites at 1600 Canal St, The Garden District Hotel, Maison DuBois, Maison Dupuy, the preopening Fairmont and the closed Claiborne Mansion among them -- returns 404, every live profile states its own municipality and postal code, and the Wyndham Garden name twin is live exactly as proven. Rollback is the deployment New Orleans replaced (Kansas City, 43 markets).",
+  "rollback_record": "ptf-deploy-kansas-city-004-6ac4dc8a39b0e7274828a32b.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "6a35c23829f9c0a0a1713acc721f3fcf317a94d7f57120379ffc951fdc60ed5f",
-  "sitemap_sha256": "3d5d9425a4e0a90b6aca13f3d02866a815ebc934df8382e4fcf03c0ecc10967b",
+  "bundle_sha256": "af70e0aa8a64496e53c67750668c33029cbda3cf318d9d3ecb1198af346a0a41",
+  "sitemap_sha256": "beb98d7a9f4687c337dfcbd5eaa1d301ac7d74eecddba5dcebf7d7b05c2a8508",
   "participating_markets": [
    {
     "market_id": "asheville-nc",
@@ -298,6 +300,13 @@
     "contract_disagreements": []
    },
    {
+    "market_id": "new-orleans-la",
+    "published_profiles": 104,
+    "release_contract": "deploy/netlify/release_contracts/new-orleans-la.json",
+    "release_contract_sha256": "c48a4f00b042b07ea2a438c38e2311a247f50fae27650e68c08516ea711d4f0a",
+    "contract_disagreements": []
+   },
+   {
     "market_id": "orlando-fl",
     "published_profiles": 201,
     "release_contract": "deploy/netlify/release_contracts/orlando-fl.json",
@@ -444,6 +453,7 @@
    "milwaukee-wi": 73,
    "minneapolis-mn": 156,
    "nashville-tn": 79,
+   "new-orleans-la": 104,
    "orlando-fl": 201,
    "outer-banks-nc": 26,
    "phoenix-az": 256,
@@ -462,9 +472,9 @@
    "west-palm-beach-fl": 49,
    "wilmington-nc": 29
   },
-  "total_profiles": 4136,
-  "sitemap_route_count": 4628,
-  "total_html_pages": 24939,
-  "total_files": 24957
+  "total_profiles": 4240,
+  "sitemap_route_count": 4740,
+  "total_html_pages": 25562,
+  "total_files": 25580
  }
 }
