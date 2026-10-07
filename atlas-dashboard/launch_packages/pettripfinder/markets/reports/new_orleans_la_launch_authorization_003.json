@@ -1,0 +1,536 @@
+{
+ "schema": "ptf-launch-authorization-accounting/1.0",
+ "work_order": "PTF-NEW-ORLEANS-LA-FOUNDER-LAUNCH-AUTHORIZATION-003",
+ "market_id": "new-orleans-la",
+ "live_bundle": {
+  "bundle_sha256": "6a35c23829f9c0a0a1713acc721f3fcf317a94d7f57120379ffc951fdc60ed5f",
+  "markets": 43,
+  "profiles": 4136,
+  "served_sitemap_routes": 4628,
+  "release_index_routes": 4552,
+  "non_market_served_surface": 76,
+  "verified_live": true,
+  "live_index_problems": []
+ },
+ "candidate_bundle": {
+  "bundle_sha256": "af70e0aa8a64496e53c67750668c33029cbda3cf318d9d3ecb1198af346a0a41",
+  "sitemap_sha256": "beb98d7a9f4687c337dfcbd5eaa1d301ac7d74eecddba5dcebf7d7b05c2a8508",
+  "markets": 44,
+  "profiles": 4240,
+  "served_sitemap_routes": 4740,
+  "release_index_routes": 4663,
+  "non_market_served_surface": 77,
+  "all_gates_pass": true
+ },
+ "route_accounting_note": "RELEASE-INDEX routes count what markets OWN; SERVED SITEMAP routes count what the composed bundle publishes. The difference on each side is the release-global surface no market owns (the apex, the category root, the editorial and legal pages and the market directory). It is the same set before and after, which is why the served delta equals New Orleans' owned-route delta plus its own policy-comparison page.",
+ "new_orleans": {
+  "profiles": 104,
+  "verified_no_pets": 64,
+  "census": 347,
+  "unresolved": 179,
+  "hub_routes": 1,
+  "corridor_routes": 6,
+  "hotel_routes": 104,
+  "other_routes": 0,
+  "release_index_routes": 111,
+  "served_routes": 112,
+  "comparison_route": "/pet-friendly-hotels/new-orleans-la/policy-comparison/",
+  "publishing_corridors": [
+   "cbd-canal-street",
+   "french-quarter-marigny-bywater",
+   "harvey-west-bank",
+   "metairie",
+   "msy-airport-kenner",
+   "warehouse-district-convention-center"
+  ],
+  "suppressed_corridors": [
+   "algiers",
+   "belle-chasse",
+   "chalmette-arabi",
+   "elmwood-jefferson-harahan",
+   "garden-district-uptown",
+   "gretna-west-bank",
+   "marrero",
+   "mid-city",
+   "new-orleans-east",
+   "westwego"
+  ],
+  "forced_corridors": 0
+ },
+ "delta_safety": {
+  "release_diff_passed": true,
+  "finding_counts": {},
+  "findings": [],
+  "unexpected_market_delta": [],
+  "unexpected_profile_delta": [],
+  "unexpected_route_delta": [],
+  "unexpected_served_route_delta": [],
+  "parent_markets_preserved": true,
+  "parent_routes_preserved": true,
+  "parent_profiles_preserved": true
+ },
+ "byte_preservation": {
+  "files_live": 24957,
+  "files_candidate": 25580,
+  "files_added": 623,
+  "files_removed": 0,
+  "files_changed": 1,
+  "added_by_class": {
+   "new_orleans": 623,
+   "global_regenerated": 0,
+   "prior_market": 0,
+   "unclassified": 0
+  },
+  "removed_by_class": {
+   "new_orleans": 0,
+   "global_regenerated": 0,
+   "prior_market": 0,
+   "unclassified": 0
+  },
+  "changed_by_class": {
+   "new_orleans": 0,
+   "global_regenerated": 1,
+   "prior_market": 0,
+   "unclassified": 0
+  },
+  "changed_global_artifacts": [
+   "sitemap.xml"
+  ],
+  "prior_market_files_changed": [],
+  "unclassified_paths": []
+ },
+ "hold_safety": {
+  "approved_profiles": 104,
+  "new_orleans_pages_in_candidate": 112,
+  "new_orleans_hotel_profile_pages": 104,
+  "unapproved_profiles_in_candidate": 0,
+  "unapproved_examples": [],
+  "unresolved_kept_unpublished": 179,
+  "verified_no_pets_are_exclusions_not_profiles": 64
+ },
+ "cross_market_collision_safety": {
+  "registry_rows": 1857,
+  "duplicate_canonical_names": 0,
+  "duplicate_examples": [],
+  "collision_canaries": {
+   "name_twin": null,
+   "name_twin_registry_rows": 0,
+   "name_twin_collisions": [],
+   "bare_chain_names": [],
+   "bare_chain_exposure": {},
+   "bare_chain_collisions": [],
+   "names_held_by_another_market": []
+  },
+  "NAME_TWIN_COLLISIONS": 0,
+  "BARE_CHAIN_NAMES": 0,
+  "BARE_CHAIN_COLLISIONS": 0,
+  "KNOWN_LATENT_RISK": "a bare-chain-shaped verified-no-pets exclusion name is matched by name in every market and could shadow a future, unrelated hotel of the same name; recorded, not repaired, by the founder's order",
+  "ANY_MARKET_DUPLICATE_COLLISIONS": 0,
+  "CROSS_MARKET_COLLISION_SAFE": "PASS"
+ },
+ "identity_safety": {
+  "MUNICIPALITY_PAGES": {
+   "profile_pages_checked": 104,
+   "profile_pages_by_parish": {
+    "Jefferson": 24,
+    "Orleans": 79,
+    "Plaquemines": 1
+   },
+   "profile_pages_by_municipality": {
+    "Avondale": 1,
+    "Belle Chasse": 1,
+    "Elmwood": 1,
+    "Gretna": 3,
+    "Harahan": 2,
+    "Harvey": 6,
+    "Kenner": 5,
+    "Metairie": 6,
+    "New Orleans": 79
+   },
+   "WRONG_STATE_CITY_OR_ZIP_PAGES": 0,
+   "wrong": [],
+   "OTHER_MARKET_TEXT_PAGES": 0,
+   "residue": [],
+   "fixed_identities": {
+    "residence inn by marriott new orleans elmwood": {
+     "admitted": true,
+     "postal_code": "70123",
+     "city": "Elmwood",
+     "profile_page_built": true,
+     "expected_profile_page": true,
+     "correct": true
+    },
+    "holiday inn new orleans west bank tower": {
+     "admitted": true,
+     "postal_code": "70053",
+     "city": "Gretna",
+     "profile_page_built": true,
+     "expected_profile_page": true,
+     "correct": true
+    },
+    "red roof inn new orleans westbank": {
+     "admitted": true,
+     "postal_code": "70058",
+     "city": "Harvey",
+     "profile_page_built": true,
+     "expected_profile_page": true,
+     "correct": true
+    },
+    "wyndham garden new orleans airport": {
+     "admitted": true,
+     "postal_code": "70065",
+     "city": "Kenner",
+     "profile_page_built": true,
+     "expected_profile_page": true,
+     "correct": true
+    },
+    "clarion hotel and suites new orleans airport": {
+     "admitted": true,
+     "postal_code": "70001",
+     "city": "Metairie",
+     "profile_page_built": false,
+     "expected_profile_page": false,
+     "correct": true
+    },
+    "hilton new orleans airport": {
+     "admitted": true,
+     "postal_code": "70062",
+     "city": "Kenner",
+     "profile_page_built": false,
+     "expected_profile_page": false,
+     "correct": true
+    },
+    "brent house hotel": {
+     "admitted": true,
+     "postal_code": "70121",
+     "city": "Jefferson",
+     "profile_page_built": false,
+     "expected_profile_page": false,
+     "correct": true
+    }
+   }
+  },
+  "WYNDHAM_GARDEN_NAME_TWIN": {
+   "held_map_rows": [
+    {
+     "street": "6401 Veterans Memorial Boulevard",
+     "postal_code": "70003",
+     "classification": "IDENTITY_REVIEW_REQUIRED",
+     "lanes": [
+      "OSM_OVERPASS"
+     ]
+    }
+   ],
+   "published_street": "4535 Williams Blvd",
+   "published_postal_code": "70065",
+   "published_city": "Kenner",
+   "published_property_code": "46094",
+   "published_lanes": [
+    "BRAND_INVENTORY_SITEMAP",
+    "COMPETITOR_LEAD",
+    "DESTINATION_ORGANIZATION",
+    "OSM_OVERPASS",
+    "PROPERTY_PAGE_STATIC"
+   ],
+   "KENNER_PROPERTY_BOUND_TO_FIRST_PARTY_CODE": true,
+   "built_page_states_kenner_building": true,
+   "METAIRIE_MAP_ROW_PUBLISHED": 0,
+   "held_map_row_shape_exact": true,
+   "CURRENT_CROSS_BUILDING_COLLISION": 0
+  },
+  "HELD_ROWS_PUBLISHED": false,
+  "VERIFIED_NO_PETS_PUBLISHED_AS_PROFILES": false,
+  "groups": {
+   "dual_brand_rows": {
+    "rows": 2,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "other_founder_rows": {
+    "rows": 1,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "preopening_rows": {
+    "rows": 1,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "founder_named_dual_brand_rows": {
+    "rows": 2,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "founder_named_garden_district_hotel": {
+    "rows": 1,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "founder_named_permission_declined": {
+    "rows": 2,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "founder_named_preopening": {
+    "rows": 1,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "closed_rows": {
+    "rows": 1,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "router_exhausted_rows": {
+    "rows": 175,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "all_unresolved_rows": {
+    "rows": 179,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   },
+   "verified_no_pets_rows": {
+    "rows": 64,
+    "profile_pages": 0,
+    "sitemap_routes": 0,
+    "release_index_routes": 0,
+    "go_files": 0,
+    "published": false
+   }
+  },
+  "identity_resolutions_ruling_written": false,
+  "fee_safety": {
+   "tiered_fee_rows": 22,
+   "multi_amount_rows": 27,
+   "misleading_single_fees_published": 0
+  }
+ },
+ "timeshare_rental_and_military_safety": {
+  "TIMESHARE_PROFILES_PUBLISHED": 0,
+  "PRIVATE_OR_VENUE_RENTALS_PUBLISHED": 0,
+  "MILITARY_RESTRICTED_PROFILES_PUBLISHED": 0,
+  "files_scanned": 628,
+  "manifest_paths_not_found_under_site": 0,
+  "scan_scope": "pet-friendly-hotels/new-orleans-la/, go/new-orleans-la/ and the global surface",
+  "classes": {
+   "timeshare": {
+    "rows": 7,
+    "distinct_names": 7,
+    "PUBLISHED": 0,
+    "properties": {
+     "Bluegreen Club La Pension": {
+      "site_route": "/pet-friendly-hotels/new-orleans-la/bluegreen-club-la-pension/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Bluegreen Vacations Club La Pension, an Ascend Collection Resort": {
+      "site_route": "/pet-friendly-hotels/new-orleans-la/bluegreen-vacations-club-la-pension-an-ascend-collection-resort/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Club Wyndham Avenue Plaza": {
+      "site_route": "/pet-friendly-hotels/new-orleans-la/club-wyndham-avenue-plaza/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Club Wyndham La Belle Maison": {
+      "site_route": "/pet-friendly-hotels/new-orleans-la/club-wyndham-la-belle-maison/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Holiday Inn Club Vacation New Orleans Resort": {
+      "site_route": "/pet-friendly-hotels/new-orleans-la/holiday-inn-club-vacation-new-orleans-resort/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Holiday Inn Club Vacations New Orleans": {
+      "site_route": "/pet-friendly-hotels/new-orleans-la/holiday-inn-club-vacations-new-orleans/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "WorldMark Hotel": {
+      "site_route": "/pet-friendly-hotels/new-orleans-la/worldmark-hotel/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     }
+    }
+   },
+   "private_or_venue_rental": {
+    "rows": 4,
+    "distinct_names": 3,
+    "PUBLISHED": 0,
+    "properties": {
+     "Castle Day": {
+      "site_route": "/pet-friendly-hotels/new-orleans-la/castle-day/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "Compass Point Events": {
+      "site_route": "/pet-friendly-hotels/new-orleans-la/compass-point-events/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     },
+     "The Syd": {
+      "site_route": "/pet-friendly-hotels/new-orleans-la/the-syd/",
+      "hotel_profile": false,
+      "served_route": false,
+      "release_index_route": false,
+      "go_file": false,
+      "files_naming_it": 0,
+      "pet_friendly_record": false,
+      "verified_no_pets_hotel_exclusion": false,
+      "qualifying_census_row": false
+     }
+    }
+   },
+   "military_restricted": {
+    "rows": 0,
+    "distinct_names": 0,
+    "PUBLISHED": 0,
+    "properties": {}
+   }
+  }
+ },
+ "reader_safety": {
+  "PET_FRIENDLY_WITH_EXPLICIT_REFUSAL": 0,
+  "QUESTION_ONLY_PET_FRIENDLY": 0,
+  "SERVICE_ANIMAL_ONLY_PET_FRIENDLY": 0,
+  "PREOPENING_OR_CLOSED_PUBLISHED": 0,
+  "TIMESHARE_OR_VACATION_OWNERSHIP_PUBLISHED": 0,
+  "MILITARY_RESTRICTED_PUBLISHED": 0,
+  "MISLEADING_SINGLE_FEE_PUBLISHED": 0,
+  "NO_PETS_QUOTE_WITHOUT_REFUSAL": 0
+ },
+ "fast_receipt_safety": {
+  "selected": "pkg-new-orleans-la-0e5fef6af3af8339-ea4d8ec3d090dfc1.json",
+  "current_eligibility": "YES",
+  "bundle_sha256": "047825dfebc70506f2877ecd99bf29650df5428aee8d71223fd7be505550270b",
+  "file_count": 644,
+  "html_count": 628,
+  "defects": [],
+  "augusta_historical_receipt_preserved": true,
+  "augusta_currently_eligible": false,
+  "augusta_defects_today": [
+   "EMPTY_BUNDLE",
+   "NO_HTML_OUTPUT"
+  ]
+ },
+ "release_factory_accounting": {
+  "UNCHANGED_BUNDLES_REUSED": 43,
+  "UNCHANGED_MARKETS_REBUILT": 0,
+  "NEW_ORLEANS_BUNDLES_BUILT": 1,
+  "PHYSICAL_FRAGMENTS_RERENDERED": 44,
+  "market_scopes_in_build_log": 39,
+  "note": "REUSE counts live market index entries carried into the candidate unchanged. The whole-site composer has no populated release store in this worktree, so it physically renders every participating market's fragment; that count is PHYSICAL_FRAGMENTS_RERENDERED and is not reuse."
+ },
+ "candidate_determinism": {
+  "measured": true,
+  "second_assembly": "C:/t/nola4b",
+  "candidate_bundle_sha256": "af70e0aa8a64496e53c67750668c33029cbda3cf318d9d3ecb1198af346a0a41",
+  "rebuild_bundle_sha256": "af70e0aa8a64496e53c67750668c33029cbda3cf318d9d3ecb1198af346a0a41",
+  "files_compared": 25580,
+  "files_differing": 0,
+  "examples": [],
+  "result": "BYTE_IDENTICAL"
+ },
+ "deployment_eligibility": {
+  "checked": true,
+  "authorization_id": "ptf-auth-new-orleans-003-af70e0aa8a64",
+  "authorization_status": "AUTHORIZED",
+  "bound_to_candidate_bytes": true,
+  "deployability_problems": [],
+  "verify_authorization_problems": [],
+  "deployable": true,
+  "consumed": false,
+  "deployment_record_exists": false
+ },
+ "problems": [],
+ "ALL_ACCOUNTING_GATES": "PASS",
+ "nothing_deployed": true
+}
