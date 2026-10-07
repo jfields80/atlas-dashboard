@@ -1,0 +1,1751 @@
+{
+ "schema": "ptf-places-route-discovery/1.0",
+ "work_order": "PTF-SALT-LAKE-CITY-UT-HARDENED-SOURCE-READY-001",
+ "market_id": "salt-lake-city-ut",
+ "provider": "GOOGLE_PLACES_TEXT_SEARCH (existing GOOGLE_PLACES_API_KEY capacity)",
+ "field_mask_gap_verification": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus",
+ "field_mask_route_discovery": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus,places.websiteUri,places.nationalPhoneNumber",
+ "route_discovery_run": true,
+ "route_discovery_capacity_basis": "websiteUri is an Enterprise-SKU field; its free monthly allowance (about 1,000 requests) renewed on 2026-10-01; the only Places use on this machine since then is San Antonio's 201 requests (187 Enterprise), Seattle's 169 (149 Enterprise), Portland's 77 (49 Enterprise), Minneapolis's 135 (59 Enterprise), Kansas City's 107 (70 Enterprise), New Orleans's 239 (189 Enterprise) and this order's own earlier runs (recorded in this report). This run stays inside that allowance (cap 250 Enterprise requests) -- existing capacity, no new paid spend.",
+ "request_cap": 400,
+ "route_discovery_cap": 250,
+ "requests_made": 67,
+ "enterprise_requests_made": 22,
+ "pro_requests_made": 45,
+ "requests_this_run": 9,
+ "answers_reused_from_prior_runs": 54,
+ "errors": {},
+ "never_policy": "A Places field is never a pet policy; a website it names is only a route.",
+ "route_discovery_targets": 21,
+ "route_discovery_bound": 22,
+ "route_discovery_bound_with_website": 16,
+ "gap_verification_targets": 20,
+ "gap_verdicts": {
+  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 10,
+  "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 6,
+  "NO_LODGING_RESULT": 3,
+  "OUTSIDE_MARKET": 1
+ },
+ "map_pin_verification_bind_meters": 400,
+ "map_pin_verdicts": {
+  "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE": 6,
+  "NO_LODGING_RESULT_BOUND_TO_THE_ROW": 8,
+  "OUTSIDE_MARKET": 3,
+  "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE": 8
+ },
+ "rows": [
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "allstar travel motel",
+   "query": "Allstar Travel Motel 754 W. North Temple Salt Lake City UT 84116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJzdh6FQD1UocRVxbmFjp7tbQ",
+    "display_name": "ALLSTAR MOTEL",
+    "formatted_address": "754 W North Temple St, Salt Lake City, UT 84116, USA",
+    "street_number": "754",
+    "route": "West North Temple Street",
+    "locality": "Salt Lake City",
+    "postal_code": "84116",
+    "phone": "(801) 531-7300",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.771847099999995,
+    "lng": -111.91290400000001
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "alta motel and lodge",
+   "query": "Alta Motel & Lodge 1899 South State Street Salt Lake City UT 84115",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJjUOlpM6KUocRx7mgbxIG1V8",
+    "display_name": "Alta Motor Lodge Motel",
+    "formatted_address": "1899 State St, South Salt Lake, UT 84115, USA",
+    "street_number": "1899",
+    "route": "State Street",
+    "locality": "South Salt Lake",
+    "postal_code": "84115",
+    "phone": "(801) 414-2185",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.7288573,
+    "lng": -111.8877824
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "castle creek inn",
+   "query": "Castle Creek Inn 7391 South Creek Road Cottonwood Heights UT 84093",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJbfEniYJiUocRckuxwV8AVCA",
+    "display_name": "Castle Creek Inn",
+    "formatted_address": "7391 Creek Rd, Cottonwood Heights, UT 84093, USA",
+    "street_number": "7391",
+    "route": "Creek Road",
+    "locality": "Cottonwood Heights",
+    "postal_code": "84093",
+    "phone": "(801) 567-9437",
+    "website_uri": "http://castlecreekbb.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6170134,
+    "lng": -111.8561179
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "comfort inn lehi thanksgiving point area",
+   "query": "Comfort Inn Lehi - Thanksgiving Point Area 125 South 850 East Lehi UT 84043",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJAQCQbMiBTYcRkjfyv3Fe-Qg",
+    "display_name": "Comfort Inn Lehi - Thanksgiving Point Area",
+    "formatted_address": "125 S 850 E, Lehi, UT 84043, USA",
+    "street_number": "125",
+    "route": "South 850 East",
+    "locality": "Lehi",
+    "postal_code": "84043",
+    "phone": "(801) 766-8800",
+    "website_uri": "https://www.choicehotels.com/utah/lehi/comfort-inn-hotels/ut116?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.387075599999996,
+    "lng": -111.83464079999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "copper vu motel",
+   "query": "Copper-Vu Motel 7353 S State St Midvale UT 84047",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJdc9GLE2IUocR6y-66bv5zA8",
+    "display_name": "Copper Vu Motel",
+    "formatted_address": "7353 State St, Midvale, UT 84047, USA",
+    "street_number": "7353",
+    "route": "State Street",
+    "locality": "Midvale",
+    "postal_code": "84047",
+    "phone": "(801) 255-7976",
+    "website_uri": "http://coppervumotel.com/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.6175241,
+    "lng": -111.89018499999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america select suites salt lake city union park",
+   "query": "Extended Stay America Select Suites- Salt Lake City - Union Park 7555 Union Park Avenue Midvale UT 84047",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJu4Jm5SeIUocRQCkXwKIGhXc",
+    "display_name": "Extended Stay America Select Suites- Salt Lake City - Union Park",
+    "formatted_address": "7555 Union Park Ave, Midvale, UT 84047, USA",
+    "street_number": "7555",
+    "route": "Union Park Avenue",
+    "locality": "Midvale",
+    "postal_code": "84047",
+    "phone": "(801) 567-0404",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/ut/salt-lake-city/union-park?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.614535599999996,
+    "lng": -111.85690509999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "extended stay america west valley",
+   "query": "Extended Stay America - West Valley 2310 West City Center Court West Valley City UT 84119",
+   "candidates_returned": 2,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ81xnoGGLUocRu10RBQedClY",
+    "display_name": "Extended Stay America Suites- Salt Lake City - West Valley Center",
+    "formatted_address": "2310 City Center Ct, West Valley City, UT 84119, USA",
+    "street_number": "2310",
+    "route": "City Center Court",
+    "locality": "West Valley City",
+    "postal_code": "84119",
+    "phone": "(801) 886-2400",
+    "website_uri": "https://www.extendedstayamerica.com/hotels/ut/salt-lake-city/west-valley-center?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6995048,
+    "lng": -111.9508863
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "homeinn",
+   "query": "HomeInn 4180 West 5415 South Kearns UT 84118",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ3a8fBTeMUocRHov9bEBSfD4",
+    "display_name": "HomeInn Kearns Hotel",
+    "formatted_address": "4180 W 5415 S, Kearns, UT 84118, USA",
+    "street_number": "4180",
+    "route": "West 5415 South",
+    "locality": "Kearns",
+    "postal_code": "84118",
+    "phone": "(801) 965-8628",
+    "website_uri": "https://www.atallorder.org/kearn",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "apartment_building",
+     "establishment",
+     "lodging",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 40.6530209,
+    "lng": -111.9903763
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "in town suites",
+   "query": "In Town Suites 151 West 7200 South Midvale UT 84047",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ7aMbqK2JUocRpyD1f36Grhs",
+    "display_name": "InTown Suites Extended Stay Salt Lake City UT - Midvale",
+    "formatted_address": "151 W 7200 S, Midvale, UT 84047, USA",
+    "street_number": "151",
+    "route": "West 7200 South",
+    "locality": "Midvale",
+    "postal_code": "84047",
+    "phone": "(888) 882-7138",
+    "website_uri": "https://www.intownsuites.com/extended-stay-hotels/utah/midvale/murray-city-park/?utm_source=google&utm_medium=GMB",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.619290899999996,
+    "lng": -111.8950989
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "livaway suites salt lake city west jordan",
+   "query": "LivAway Suites Salt Lake City West Jordan 7372 South Campus View Drive West Jordan UT 84084",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJD1Nep0iPUocRBSvvAABlXec",
+    "display_name": "LivAway Suites Salt Lake City West Jordan",
+    "formatted_address": "7372 S Campus View Dr, West Jordan, UT 84084, USA",
+    "street_number": "7372",
+    "route": "South Campus View Drive",
+    "locality": "West Jordan",
+    "postal_code": "84084",
+    "phone": "(801) 998-2582",
+    "website_uri": "https://www.livawaysuites.com/locations/ut/salt-lake-city/west-jordan",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6170094,
+    "lng": -111.9848289
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "main street motel",
+   "query": "Main Street Motel 1518 South Main Street Salt Lake City UT 84115",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJg_dIYTL1UocR9ZzhNdQcAIM",
+    "display_name": "Main Street Motel",
+    "formatted_address": "1518 S Main St, Salt Lake City, UT 84115, USA",
+    "street_number": "1518",
+    "route": "South Main Street",
+    "locality": "Salt Lake City",
+    "postal_code": "84115",
+    "phone": "(801) 486-8171",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.736516099999996,
+    "lng": -111.8916605
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "motel 6 lehi ut thanksgiving point",
+   "query": "Motel 6 Lehi, UT – Thanksgiving Point 210 South 1200 East Lehi UT 84043",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJRRRgJriBTYcRyfljCKeX4Xo",
+    "display_name": "Motel 6 Lehi, UT – Thanksgiving Point",
+    "formatted_address": "210 S 1200 E, Lehi, UT 84043, USA",
+    "street_number": "210",
+    "route": "South 1200 East",
+    "locality": "Lehi",
+    "postal_code": "84043",
+    "phone": "(801) 340-1390",
+    "website_uri": "https://www.motel6.com/property/motel-lehi-utah-us-294297?lid=Local_Milestone&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=organic%20listing&utm_campaign=visit%20website&utm_content=global",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.3860634,
+    "lng": -111.8314802
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "park inn by radisson salt lake city downtown",
+   "query": "Park Inn by Radisson, Salt Lake City Downtown 176 W 600 S Salt Lake City UT 84101",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJ0xBzN_1UocRTgLCfiqF3Mw",
+    "display_name": "Park Inn by Radisson, Salt Lake City Downtown",
+    "formatted_address": "176 W 600 S, Salt Lake City, UT 84101, USA",
+    "street_number": "176",
+    "route": "West 600 South",
+    "locality": "Salt Lake City",
+    "postal_code": "84101",
+    "phone": "(385) 509-6910",
+    "website_uri": "https://www.choicehotels.com/utah/salt-lake-city/park-inn-hotels/ut325?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.7569613,
+    "lng": -111.89631019999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "radisson hotel salt lake city airport",
+   "query": "Radisson Hotel Salt Lake City Airport 2177 West North Temple Salt Lake City UT 84116",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ18mQ2Hf0UocRkArKsR3iODg",
+    "display_name": "Radisson Hotel Salt Lake City Airport",
+    "formatted_address": "2177 W North Temple St, Salt Lake City, UT 84116, USA",
+    "street_number": "2177",
+    "route": "West North Temple Street",
+    "locality": "Salt Lake City",
+    "postal_code": "84116",
+    "phone": "(385) 341-4904",
+    "website_uri": "https://www.choicehotels.com/utah/salt-lake-city/radisson-hotels/ut300?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.771147299999996,
+    "lng": -111.95255999999999
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "skyline inn",
+   "query": "Skyline Inn 2475 East 1700 South Salt Lake City UT 84108",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJQQ1iqp9hUocRSgfVimakwdA",
+    "display_name": "Skyline",
+    "formatted_address": "2475 E 1700 S, Salt Lake City, UT 84108, USA",
+    "street_number": "2475",
+    "route": "East 1700 South",
+    "locality": "Salt Lake City",
+    "postal_code": "84108",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "CLOSED_PERMANENTLY",
+    "types": [
+     "apartment_building",
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 40.733778699999995,
+    "lng": -111.819751
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "staybridge suites lehi traverse ridge center",
+   "query": "Staybridge Suites Lehi -Traverse Ridge Center 3380 Triumph Boulevard Lehi UT 84043",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJsUd2622BUocRO5iYkT4txy0",
+    "display_name": "Staybridge Suites Lehi - Traverse Ridge Center by IHG",
+    "formatted_address": "3380 Triumph Blvd, Lehi, UT 84043, USA",
+    "street_number": "3380",
+    "route": "Triumph Boulevard",
+    "locality": "Lehi",
+    "postal_code": "84043",
+    "phone": "(801) 753-0034",
+    "website_uri": "https://www.ihg.com/staybridge/hotels/us/en/lehi/pvuli/hoteldetail?cm_mmc=GoogleMaps-_-SB-_-US-_-PVULI",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "extended_stay_hotel",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location"
+    ],
+    "lat": 40.430365099999996,
+    "lng": -111.8806802
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the belvedere",
+   "query": "The Belvedere 29 South State Street Salt Lake City UT 84111",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJmY_ySQn1UocRVWoXpIIwmlY",
+    "display_name": "The Belvedere",
+    "formatted_address": "29 State St, Salt Lake City, UT 84111, USA",
+    "street_number": "29",
+    "route": "State Street",
+    "locality": "Salt Lake City",
+    "postal_code": "84111",
+    "phone": "(801) 364-1901",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "condominium_complex",
+     "establishment",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 40.7684165,
+    "lng": -111.8879757
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "the engen hus bed and breakfast",
+   "query": "The Engen Hus Bed & Breakfast 2275 East 6200 South Cottonwood Heights UT 84121",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJw2Zna1tiUocRwxcCS416XRo",
+    "display_name": "The Engen Hus Bed & Breakfast",
+    "formatted_address": "2275 E 6200 S, Salt Lake City, UT 84121, USA",
+    "street_number": "2275",
+    "route": "East 6200 South",
+    "locality": "Salt Lake City",
+    "postal_code": "84121",
+    "phone": "(336) 793-7000",
+    "website_uri": "http://www.engenhusutah.com/?utm_source=google&utm_medium=organic&utm_campaign=gmblisting",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6388721,
+    "lng": -111.8256316
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "uptown motel and bungalows",
+   "query": "Uptown Motel and Bungalows 1185 State Street Salt Lake City UT 84111",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJdf9JvDD1UocRWePDdgBxFpc",
+    "display_name": "Uptown Motel and Bungalows",
+    "formatted_address": "1185 State St, Salt Lake City, UT 84111, USA",
+    "street_number": "1185",
+    "route": "State Street",
+    "locality": "Salt Lake City",
+    "postal_code": "84111",
+    "phone": "(801) 521-4150",
+    "website_uri": "https://www.facebook.com/Uptown-Motel-449016105492551/",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.7430776,
+    "lng": -111.8878108
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "zion s motel",
+   "query": "Zion's Motel 1829 South State Street Salt Lake City UT 84115",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJ109cEcyKUocRaGjzJPNy5rA",
+    "display_name": "Zions Motel",
+    "formatted_address": "1829 State St, Salt Lake City, UT 84115, USA",
+    "street_number": "1829",
+    "route": "State Street",
+    "locality": "Salt Lake City",
+    "postal_code": "84115",
+    "phone": "(801) 819-7553",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.730472899999995,
+    "lng": -111.8875109
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "baymont murray salt lake city",
+   "query": "Baymont Murray/Salt Lake City 4465 South Century Drive Murray UT 84123",
+   "candidates_returned": 3,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJW4ES0myLUocR1GrIlSJckMI",
+    "display_name": "The Oslo",
+    "formatted_address": "4465 S Century Dr, Murray, UT 84123, USA",
+    "street_number": "4465",
+    "route": "South Century Drive",
+    "locality": "Murray",
+    "postal_code": "84123",
+    "phone": "(385) 257-6003",
+    "website_uri": "https://www.liveatoslo.com/?switch_cls[id]=105686&utm_source=google%20-%20entratammb&utm_medium=organic&utm_campaign=gmb&utm_content=websiteclick",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "apartment_building",
+     "apartment_complex",
+     "condominium_complex",
+     "establishment",
+     "point_of_interest",
+     "real_estate_agency",
+     "service"
+    ],
+    "lat": 40.675141499999995,
+    "lng": -111.9034336
+   },
+   "bind_basis": "street_number+postal_code"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Best Western Plus Airport Inn & Suites",
+   "query": "Best Western Plus Airport Inn & Suites Salt Lake City UT",
+   "corridor": "slc-airport-west-side",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJk-Ds4DzyUocRw2tajFPr8B0",
+    "display_name": "Best Western Plus Airport Inn & Suites",
+    "formatted_address": "5433 Wiley Post Way, Salt Lake City, UT 84116, USA",
+    "street_number": "5433",
+    "route": "Wiley Post Way",
+    "locality": "Salt Lake City",
+    "postal_code": "84116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.773838399999995,
+    "lng": -112.0214591
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Best Western Plus Cotton Tree Inn",
+   "query": "Best Western Plus Cotton Tree Inn Sandy UT",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJJXpcl7eHUocRW-LTQuz66SM",
+    "display_name": "Best Western Plus Cotton Tree Inn",
+    "formatted_address": "10695 S Auto Mall Dr, Sandy, UT 84070, USA",
+    "street_number": "10695",
+    "route": "South Auto Mall Drive",
+    "locality": "Sandy",
+    "postal_code": "84070",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.5571984,
+    "lng": -111.893008
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Best Western Timpanogos Inn",
+   "query": "Best Western Timpanogos Inn Lehi UT",
+   "corridor": "lehi",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJnYUVVMiBTYcR9fK5473L9Sw",
+    "display_name": "Best Western Timpanogos Inn",
+    "formatted_address": "195 S 850 E, Lehi, UT 84043, USA",
+    "street_number": "195",
+    "route": "South 850 East",
+    "locality": "Lehi",
+    "postal_code": "84043",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.3864848,
+    "lng": -111.8343495
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Downtown Designer Hideout with 2 Master Suites",
+   "query": "Downtown Designer Hideout with 2 Master Suites Salt Lake City UT",
+   "verdict": "NO_LODGING_RESULT"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Econo Lodge Midvale",
+   "query": "Econo Lodge Midvale Midvale UT",
+   "corridor": "midvale",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJqdCqN6qJUocRBB5xkmzrcSI",
+    "display_name": "Econo Lodge Midvale",
+    "formatted_address": "7263 Catalpa St, Midvale, UT 84047, USA",
+    "street_number": "7263",
+    "route": "Catalpa Street",
+    "locality": "Midvale",
+    "postal_code": "84047",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6192089,
+    "lng": -111.9021527
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites Salt Lake City Sandy",
+   "query": "Extended Stay America Suites Salt Lake City Sandy Sandy UT",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ_byzp7eHUocRaPtbRAEb9XI",
+    "display_name": "Extended Stay America Select Suites- Salt Lake City - Sandy",
+    "formatted_address": "10715 S Auto Mall Dr, Sandy, UT 84070, USA",
+    "street_number": "10715",
+    "route": "South Auto Mall Drive",
+    "locality": "Sandy",
+    "postal_code": "84070",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.556443699999996,
+    "lng": -111.8936832
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Extended Stay America Suites Salt Lake City Union Park",
+   "query": "Extended Stay America Suites Salt Lake City Union Park Midvale UT",
+   "corridor": "midvale",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJu4Jm5SeIUocRQCkXwKIGhXc",
+    "display_name": "Extended Stay America Select Suites- Salt Lake City - Union Park",
+    "formatted_address": "7555 Union Park Ave, Midvale, UT 84047, USA",
+    "street_number": "7555",
+    "route": "Union Park Avenue",
+    "locality": "Midvale",
+    "postal_code": "84047",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.614535599999996,
+    "lng": -111.85690509999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Holiday Inn Express Hotel & Stes Salt Lake City-Airport East by IHG",
+   "query": "Holiday Inn Express Hotel & Stes Salt Lake City-Airport East by IHG Salt Lake City UT",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJGWMtPHb0UocRzV0IqxXiiB4",
+    "display_name": "Holiday Inn Express & Suites Salt Lake City-Airport East by IHG",
+    "formatted_address": "200 N 2100 W, Salt Lake City, UT 84116, USA",
+    "street_number": "200",
+    "route": "North 2100 West",
+    "locality": "Salt Lake City",
+    "postal_code": "84116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "business_center",
+     "establishment",
+     "fitness_center",
+     "gym",
+     "health",
+     "hotel",
+     "inn",
+     "lodging",
+     "point_of_interest",
+     "service",
+     "sports_activity_location",
+     "swimming_pool"
+    ],
+    "lat": 40.774079799999996,
+    "lng": -111.95008349999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Hotel Condo with Pool",
+   "query": "Hotel Condo with Pool Park City UT",
+   "corridor": "canyons-kimball-junction",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ7-7pOjNsUocREikUnVe_18U",
+    "display_name": "Westgate Park City Resort & Spa",
+    "formatted_address": "3000 Canyons Resort Dr, Park City, UT 84098, USA",
+    "street_number": "3000",
+    "route": "Canyons Resort Drive",
+    "locality": "Park City",
+    "postal_code": "84098",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "health",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "resort_hotel",
+     "ski_resort",
+     "spa",
+     "sports_activity_location"
+    ],
+    "lat": 40.684431499999995,
+    "lng": -111.5547043
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "La Quinta Inn by Wyndham Salt Lake City Midvale",
+   "query": "La Quinta Inn by Wyndham Salt Lake City Midvale Midvale UT",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJB0KyMqqJUocR66YI_FesLHw",
+    "display_name": "La Quinta Inn by Wyndham Salt Lake City Midvale",
+    "formatted_address": "7231 Catalpa St, Midvale, UT 84047, USA",
+    "street_number": "7231",
+    "route": "Catalpa Street",
+    "locality": "Midvale",
+    "postal_code": "84047",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.6196871,
+    "lng": -111.9014469
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "LivAway Suites Salt Lake City- West Jordan",
+   "query": "LivAway Suites Salt Lake City- West Jordan West Jordan UT",
+   "corridor": "west-jordan",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJD1Nep0iPUocRBSvvAABlXec",
+    "display_name": "LivAway Suites Salt Lake City West Jordan",
+    "formatted_address": "7372 S Campus View Dr, West Jordan, UT 84084, USA",
+    "street_number": "7372",
+    "route": "South Campus View Drive",
+    "locality": "West Jordan",
+    "postal_code": "84084",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6170094,
+    "lng": -111.9848289
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Motel 6 Lehi UT - Thanksgiving Point",
+   "query": "Motel 6 Lehi UT - Thanksgiving Point Lehi UT",
+   "corridor": "lehi",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJRRRgJriBTYcRyfljCKeX4Xo",
+    "display_name": "Motel 6 Lehi, UT – Thanksgiving Point",
+    "formatted_address": "210 S 1200 E, Lehi, UT 84043, USA",
+    "street_number": "210",
+    "route": "South 1200 East",
+    "locality": "Lehi",
+    "postal_code": "84043",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.3860634,
+    "lng": -111.8314802
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Private Downtown Avenues Suite",
+   "query": "Private Downtown Avenues Suite Salt Lake City UT",
+   "corridor": "downtown-salt-lake-city",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJO4UwSAv1UocRQThevLkK9a4",
+    "display_name": "All New Suite Downtown Salt Lake City",
+    "formatted_address": "Salt Lake City, UT 84103, USA",
+    "street_number": "",
+    "route": "",
+    "locality": "Salt Lake City",
+    "postal_code": "84103",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.7706452,
+    "lng": -111.8813095
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Quality Inn & Suites Salt Lake City Airport West",
+   "query": "Quality Inn & Suites Salt Lake City Airport West Salt Lake City UT",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJpbLssCLyUocR_Tj_jijp5WA",
+    "display_name": "Quality Inn & Suites Salt Lake City Airport West",
+    "formatted_address": "315 Admiral Byrd Rd, Salt Lake City, UT 84116, USA",
+    "street_number": "315",
+    "route": "Admiral Byrd Road",
+    "locality": "Salt Lake City",
+    "postal_code": "84116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.775462,
+    "lng": -112.02293999999999
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Quality Inn Salt Lake City Downtown",
+   "query": "Quality Inn Salt Lake City Downtown Salt Lake City UT",
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ5dulbhn1UocRhZjnLFTiaQ4",
+    "display_name": "Quality Inn Salt Lake City Downtown",
+    "formatted_address": "616 S 200 W, Salt Lake City, UT 84101, USA",
+    "street_number": "616",
+    "route": "South 200 West",
+    "locality": "Salt Lake City",
+    "postal_code": "84101",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.755741,
+    "lng": -111.897257
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "The Amber Suite",
+   "query": "The Amber Suite Salt Lake City UT",
+   "verdict": "NO_LODGING_RESULT"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "The Lodge at Blue Sky Auberge Collection",
+   "query": "The Lodge at Blue Sky Auberge Collection Park City UT",
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJjc3IYhQVUocRvaf2RayqWv8",
+    "display_name": "The Lodge at Blue Sky, Auberge Collection",
+    "formatted_address": "27649 Old Lincoln Hwy, Wanship, UT 84017, USA",
+    "street_number": "27649",
+    "route": "Old Lincoln Highway",
+    "locality": "Wanship",
+    "postal_code": "84017",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "resort_hotel"
+    ],
+    "lat": 40.812926700000006,
+    "lng": -111.4457693
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "The Ruby Suite",
+   "query": "The Ruby Suite Salt Lake City UT",
+   "corridor": "downtown-salt-lake-city",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJYXIYOUv1UocR9pOgPxn6uYk",
+    "display_name": "The Ruby SLC",
+    "formatted_address": "830 S W Temple St, Salt Lake City, UT 84101, USA",
+    "street_number": "830",
+    "route": "South West Temple Street",
+    "locality": "Salt Lake City",
+    "postal_code": "84101",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "guest_house",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.7510724,
+    "lng": -111.8945157
+   }
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "Welcome to the Bees Together Lodge",
+   "query": "Welcome to the Bees Together Lodge Park City UT",
+   "verdict": "NO_LODGING_RESULT"
+  },
+  {
+   "cohort": "GAP_VERIFICATION",
+   "bringfido_name": "LivAway Suites Salt Lake City Draper 13673 S 600 W",
+   "query": "LivAway Suites Salt Lake City Draper 13673 S 600 W Draper UT",
+   "lead_source": "BRAND_OWN_DIRECTORY -- livawaysuites.com home page ('Now Open'), location page /locations/ut/salt-lake-city/draper",
+   "corridor": "draper",
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJwccn3tWGUocRq_Qq7Vbecy0",
+    "display_name": "LivAway Suites Salt Lake City-Draper",
+    "formatted_address": "13673 S 600 W, Draper, UT 84020, USA",
+    "street_number": "13673",
+    "route": "South 600 West",
+    "locality": "Draper",
+    "postal_code": "84020",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.5026027,
+    "lng": -111.9065176
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "allstar travel motor hotels|40.772190|-111.912981",
+   "census_identity_key": "allstar travel motor hotels",
+   "query": "Allstar Travel Motor Hotels North Temple Salt Lake City",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJzdh6FQD1UocRVxbmFjp7tbQ",
+    "display_name": "ALLSTAR MOTEL",
+    "formatted_address": "754 W North Temple St, Salt Lake City, UT 84116, USA",
+    "street_number": "754",
+    "route": "West North Temple Street",
+    "locality": "Salt Lake City",
+    "postal_code": "84116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.771847099999995,
+    "lng": -111.91290400000001
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "alpine lodge|40.603858|-111.583738",
+   "census_identity_key": "alpine lodge",
+   "query": "Alpine Lodge",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "beckham lodge|40.404171|-111.602211",
+   "census_identity_key": "beckham lodge",
+   "query": "Beckham Lodge",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJI_pC-smOTYcR-r0n-1Asblw",
+    "display_name": "BYU Aspen Grove Family Camp & Conference Center",
+    "formatted_address": "9521 Alpine Loop Scenic Byway, Provo, UT 84604, USA",
+    "street_number": "9521",
+    "route": "Alpine Loop Scenic Byway",
+    "locality": "Provo",
+    "postal_code": "84604",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "resort_hotel",
+     "service",
+     "summer_camp_organizer"
+    ],
+    "lat": 40.4042835,
+    "lng": -111.6011592
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "cathedral rectory|40.769745|-111.881410",
+   "census_identity_key": "cathedral rectory",
+   "query": "Cathedral Rectory 331 East South Temple",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "cirque lodge|40.395919|-111.585427",
+   "census_identity_key": "cirque lodge",
+   "query": "Cirque Lodge",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "extended stay america|40.614454|-111.856823",
+   "census_identity_key": "extended stay america",
+   "query": "Extended Stay America 7555 S Union Park Avenue Sandy",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "midvale",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJu4Jm5SeIUocRQCkXwKIGhXc",
+    "display_name": "Extended Stay America Select Suites- Salt Lake City - Union Park",
+    "formatted_address": "7555 Union Park Ave, Midvale, UT 84047, USA",
+    "street_number": "7555",
+    "route": "Union Park Avenue",
+    "locality": "Midvale",
+    "postal_code": "84047",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.614535599999996,
+    "lng": -111.85690509999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "extended stay america|40.699815|-111.951336",
+   "census_identity_key": "extended stay america",
+   "query": "Extended Stay America",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 3,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ81xnoGGLUocRu10RBQedClY",
+    "display_name": "Extended Stay America Suites- Salt Lake City - West Valley Center",
+    "formatted_address": "2310 City Center Ct, West Valley City, UT 84119, USA",
+    "street_number": "2310",
+    "route": "City Center Court",
+    "locality": "West Valley City",
+    "postal_code": "84119",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6995048,
+    "lng": -111.9508863
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "haxton manor|40.769669|-111.863771",
+   "census_identity_key": "haxton manor",
+   "query": "Haxton Manor",
+   "candidates_returned": 1,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "legacy lodge|40.651293|-111.506767",
+   "census_identity_key": "legacy lodge",
+   "query": "Legacy Lodge",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "park-city",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJkbeERJxyUocRGz1l0JYGvGo",
+    "display_name": "Legacy Lodge",
+    "formatted_address": "1325 Lowell Ave, Park City, UT 84060, USA",
+    "street_number": "1325",
+    "route": "Lowell Avenue",
+    "locality": "Park City",
+    "postal_code": "84060",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.651041899999996,
+    "lng": -111.5074234
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "minute suites|40.785956|-111.982692",
+   "census_identity_key": "minute suites",
+   "query": "Minute Suites",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "slc-airport-west-side",
+   "candidates_returned": 2,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ2dsdik7zUocRJHwpddoK1ng",
+    "display_name": "Minute Suites SLC",
+    "formatted_address": "SLC Concourse A, W Terminal Dr near A33, Salt Lake City, UT 84122, USA",
+    "street_number": "",
+    "route": "West Terminal Drive",
+    "locality": "Salt Lake City",
+    "postal_code": "84122",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.7856634,
+    "lng": -111.98550759999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "newpark hotel|40.722059|-111.539375",
+   "census_identity_key": "newpark hotel",
+   "query": "Newpark Hotel",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJxVaXwXZsUocRRoQVKNse7D8",
+    "display_name": "Newpark Resort",
+    "formatted_address": "1476 Newpark Blvd, Park City, UT 84098, USA",
+    "street_number": "1476",
+    "route": "Newpark Boulevard",
+    "locality": "Park City",
+    "postal_code": "84098",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "extended_stay_hotel",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "resort_hotel",
+     "service"
+    ],
+    "lat": 40.7220995,
+    "lng": -111.5390398
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "park inn by radisson|40.757028|-111.896212",
+   "census_identity_key": "park inn by radisson",
+   "query": "Park Inn by Radisson",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJJ0xBzN_1UocRTgLCfiqF3Mw",
+    "display_name": "Park Inn by Radisson, Salt Lake City Downtown",
+    "formatted_address": "176 W 600 S, Salt Lake City, UT 84101, USA",
+    "street_number": "176",
+    "route": "West 600 South",
+    "locality": "Salt Lake City",
+    "postal_code": "84101",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.7569613,
+    "lng": -111.89631019999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "park plaza resort|40.664454|-111.495004",
+   "census_identity_key": "park plaza resort",
+   "query": "Park Plaza Resort",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJ0yBKwUBtUocRryb37f_ywMM",
+    "display_name": "Park Plaza Resort - Park City, an Ascend Collection Hotel",
+    "formatted_address": "2060 Sidewinder Dr, Park City, UT 84060, USA",
+    "street_number": "2060",
+    "route": "Sidewinder Drive",
+    "locality": "Park City",
+    "postal_code": "84060",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6643751,
+    "lng": -111.49496409999999
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "peruvian lodge|40.588420|-111.642394",
+   "census_identity_key": "peruvian lodge",
+   "query": "Peruvian Lodge",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 2,
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJufsAqIpwUocROspEJdihMGc",
+    "display_name": "Alta Peruvian Lodge",
+    "formatted_address": "Alta, UT 84092, USA",
+    "street_number": "",
+    "route": "",
+    "locality": "Alta",
+    "postal_code": "84092",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.5890389,
+    "lng": -111.6429596
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "silver baron lodge|40.642748|-111.477263",
+   "census_identity_key": "silver baron lodge",
+   "query": "Silver Baron Lodge",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "park-city",
+   "candidates_returned": 2,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJ07DJHbVyUocRms02lTjUwRg",
+    "display_name": "Silver Baron Lodge",
+    "formatted_address": "2800 Deer Valley Dr E, Park City, UT 84060, USA",
+    "street_number": "2800",
+    "route": "Deer Valley Drive East",
+    "locality": "Park City",
+    "postal_code": "84060",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "condominium_complex",
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "service"
+    ],
+    "lat": 40.642814800000004,
+    "lng": -111.4772285
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "silver queen|40.646221|-111.497111",
+   "census_identity_key": "silver queen",
+   "query": "Silver Queen",
+   "candidates_returned": 2,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "the lodge at the mountain village|40.652571|-111.508210",
+   "census_identity_key": "the lodge at the mountain village",
+   "query": "The Lodge at the Mountain Village",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "park-city",
+   "candidates_returned": 3,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJUTiGy3hzUocR6ceJw5hr3WU",
+    "display_name": "The Lodge at Mountain Village - All Seasons Resort Lodging",
+    "formatted_address": "1415 Lowell Ave, Park City, UT 84060, USA",
+    "street_number": "1415",
+    "route": "Lowell Avenue",
+    "locality": "Park City",
+    "postal_code": "84060",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6526771,
+    "lng": -111.508682
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "the manor|40.769676|-111.882668",
+   "census_identity_key": "the manor",
+   "query": "The Manor",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "the rooste at sundance|40.386823|-111.589329",
+   "census_identity_key": "the rooste at sundance",
+   "query": "The Rooste at Sundance",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "the rooste on ridgetop at sundance|40.386804|-111.589524",
+   "census_identity_key": "the rooste on ridgetop at sundance",
+   "query": "The Rooste on Ridgetop at Sundance",
+   "candidates_returned": 3,
+   "verdict": "NO_LODGING_RESULT_BOUND_TO_THE_ROW"
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "uptown motel|40.743093|-111.887913",
+   "census_identity_key": "uptown motel",
+   "query": "Uptown Motel",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "downtown-salt-lake-city",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJdf9JvDD1UocRWePDdgBxFpc",
+    "display_name": "Uptown Motel and Bungalows",
+    "formatted_address": "1185 State St, Salt Lake City, UT 84111, USA",
+    "street_number": "1185",
+    "route": "State Street",
+    "locality": "Salt Lake City",
+    "postal_code": "84111",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.7430776,
+    "lng": -111.8878108
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "zermatt resort|40.525196|-111.489397",
+   "census_identity_key": "zermatt resort",
+   "query": "Zermatt Resort",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "OUTSIDE_MARKET",
+   "place": {
+    "google_place_id": "ChIJUdUo0zl1UocRynZg5mmD434",
+    "display_name": "Zermatt Utah Resort & Spa",
+    "formatted_address": "784 W Resort Dr, Midway, UT 84049, USA",
+    "street_number": "784",
+    "route": "West Resort Drive",
+    "locality": "Midway",
+    "postal_code": "84049",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "event_venue",
+     "hotel",
+     "lodging",
+     "point_of_interest",
+     "resort_hotel",
+     "service",
+     "ski_resort",
+     "spa",
+     "sports_activity_location"
+    ],
+    "lat": 40.5252414,
+    "lng": -111.4889437
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "engen hus|40.638859|-111.825607",
+   "census_identity_key": "engen hus",
+   "query": "Engen Hus",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "cottonwood-heights-holladay",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJw2Zna1tiUocRwxcCS416XRo",
+    "display_name": "The Engen Hus Bed & Breakfast",
+    "formatted_address": "2275 E 6200 S, Salt Lake City, UT 84121, USA",
+    "street_number": "2275",
+    "route": "East 6200 South",
+    "locality": "Salt Lake City",
+    "postal_code": "84121",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "bed_and_breakfast",
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6388721,
+    "lng": -111.8256316
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "la quinta inn and suites salt lake city airport|40.772962|-112.008387",
+   "census_identity_key": "la quinta inn and suites salt lake city airport",
+   "query": "La Quinta Inn & Suites Salt Lake City Airport",
+   "bind_basis": "map_pin_within_400m",
+   "candidates_returned": 1,
+   "verdict": "ALREADY_IN_CENSUS_BY_ADDRESS_OR_PHONE",
+   "place": {
+    "google_place_id": "ChIJhXlv2jbyUocRrs14OraVwkQ",
+    "display_name": "La Quinta Inn & Suites by Wyndham Salt Lake City Airport",
+    "formatted_address": "4905 Wiley Post Way, Salt Lake City, UT 84116, USA",
+    "street_number": "4905",
+    "route": "Wiley Post Way",
+    "locality": "Salt Lake City",
+    "postal_code": "84116",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "inn",
+     "lodging",
+     "motel",
+     "point_of_interest"
+    ],
+    "lat": 40.772638,
+    "lng": -112.008234
+   }
+  },
+  {
+   "cohort": "MAP_PIN_VERIFICATION",
+   "map_row": "park hotel|40.645792|-111.497297",
+   "census_identity_key": "park hotel",
+   "query": "Park Hotel 605 Main Street",
+   "bind_basis": "map_pin_within_400m",
+   "corridor": "park-city",
+   "candidates_returned": 1,
+   "verdict": "VERIFIED_MISSING_AT_ADMITTED_POSTAL_CODE",
+   "place": {
+    "google_place_id": "ChIJUZt_O71yUocRmVEa291I9eU",
+    "display_name": "Park Hotel",
+    "formatted_address": "605 Main St #201, Park City, UT 84060, USA",
+    "street_number": "605",
+    "route": "Main Street",
+    "locality": "Park City",
+    "postal_code": "84060",
+    "phone": "",
+    "website_uri": "",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.6457674,
+    "lng": -111.49730319999999
+   }
+  },
+  {
+   "cohort": "ROUTE_DISCOVERY",
+   "identity_key": "park inn by radisson downtown",
+   "query": "Park Inn by Radisson, Downtown 176 West 600 South Salt Lake City UT 84101",
+   "candidates_returned": 1,
+   "bound": true,
+   "place": {
+    "google_place_id": "ChIJJ0xBzN_1UocRTgLCfiqF3Mw",
+    "display_name": "Park Inn by Radisson, Salt Lake City Downtown",
+    "formatted_address": "176 W 600 S, Salt Lake City, UT 84101, USA",
+    "street_number": "176",
+    "route": "West 600 South",
+    "locality": "Salt Lake City",
+    "postal_code": "84101",
+    "phone": "(385) 509-6910",
+    "website_uri": "https://www.choicehotels.com/utah/salt-lake-city/park-inn-hotels/ut325?mc=llgoxxpx",
+    "business_status": "OPERATIONAL",
+    "types": [
+     "establishment",
+     "hotel",
+     "lodging",
+     "point_of_interest"
+    ],
+    "lat": 40.7569613,
+    "lng": -111.89631019999999
+   },
+   "bind_basis": "street_number+postal_code"
+  }
+ ]
+}

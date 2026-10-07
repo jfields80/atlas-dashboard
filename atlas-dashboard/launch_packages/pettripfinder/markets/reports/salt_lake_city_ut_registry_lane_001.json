@@ -1,0 +1,35 @@
+{
+ "schema": "ptf-registry-lane/1.0",
+ "work_order": "PTF-SALT-LAKE-CITY-UT-HARDENED-SOURCE-READY-001",
+ "market_id": "salt-lake-city-ut",
+ "phase": "11 -- the Utah / Salt Lake City lodging-register lane, measured",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 7,
+ "property_level_register_exists": false,
+ "measured": [
+  {
+   "surface": "https://api.us.socrata.com/api/catalog/v1?domains=opendata.utah.gov",
+   "answered": "HTTP 200 {\"error\":\"Domain not found: opendata.utah.gov\"}",
+   "verdict": "NO_SOCRATA_CATALOG"
+  },
+  {
+   "surface": "https://opendata.utah.gov/",
+   "answered": "HTTP 400",
+   "verdict": "NO_OPEN_DATA_PORTAL_ANSWERING"
+  },
+  {
+   "surface": "https://hub.arcgis.com/api/search/v1/collections/dataset/items?q=salt lake city business licenses / park city business license / utah hotels / salt lake county business",
+   "answered": "no Utah business-licence or lodging register; UGRC 'Utah Open Source Places' (services1.arcgis.com/99lidPhWCzftIe9K/.../OpenSourcePlaces) is an OpenStreetMap derivative",
+   "verdict": "NO_INDEPENDENT_REGISTER"
+  },
+  {
+   "surface": "Utah State Tax Commission transient-room-tax licences; Salt Lake County Health Department lodging inspections; Summit County / Park City nightly-rental licences",
+   "answered": "no open bulk list published",
+   "verdict": "NOT_PUBLISHED"
+  }
+ ],
+ "consequence": "No register row exists to read. The census is built from the independent lanes; no row is admitted or refused on a register's evidence in this market.",
+ "leads": [],
+ "lead_count": 0
+}

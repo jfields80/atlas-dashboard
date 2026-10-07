@@ -1,0 +1,111 @@
+{
+ "schema": "ptf-source-accounting/1.0",
+ "work_order": "PTF-SALT-LAKE-CITY-UT-HARDENED-SOURCE-READY-001",
+ "market_id": "salt-lake-city-ut",
+ "derived_from": "launch_packages/pettripfinder/markets/reports/salt_lake_city_ut_source_ready_accounting_001.json",
+ "headline": {
+  "total_raw_observations": 1632,
+  "raw_observations_by_lane": {
+   "REGISTRY_LICENCE": 0,
+   "OSM_OVERPASS": 381,
+   "BRAND_INVENTORY_OWNED": 43,
+   "BRAND_INVENTORY_CITY_PAGE": 53,
+   "BRAND_INVENTORY_STATE_SITEMAP": 1,
+   "BRAND_INVENTORY_SITEMAP": 48,
+   "DESTINATION_ORGANIZATION": 346,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 523,
+   "IDENTITY_VERIFIED_PLACES": 14,
+   "PROPERTY_PAGE": 223
+  },
+  "public_lodging_register_leads": 0,
+  "osm_lodging_elements": 402,
+  "brand_inventory_leads": 125,
+  "destination_roster_listings": 346,
+  "destination_roster_rows_in_admitted_codes": 303,
+  "competitor_leads_normalized": 523,
+  "graph_nodes": 897,
+  "proposed_census": 208,
+  "valid_pet_friendly": 132,
+  "valid_verified_no_pets": 29,
+  "resolved": 161,
+  "unresolved": 47,
+  "resolution_rate": 0.774
+ },
+ "holds_by_class": {
+  "IDENTITY": 1,
+  "ROUTING": 9,
+  "ACCESS_BLOCKED": 16,
+  "EVIDENCE": 14,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 7,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "ACCESS_BLOCKED": {
+   "router exhausted on every free/authorized lane attempted this order (s": 15,
+   "the property's own site (found via Places) did not serve to the plain ": 1
+  },
+  "EVIDENCE_HOLD": {
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 7,
+   "the first-party quote states neither an acceptance nor a refusal sente": 6,
+   "PREOPENING_NOT_YET_OPEN": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "the fetched page's own identity did not confirm this census row": 1
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 6,
+   "RETIRED_BRAND_ROUTE": 1,
+   "NOT_FIRST_PARTY_SITE": 1,
+   "OTHER_EXPLICIT_REASON": 1
+  },
+  "SOURCE_SILENT": {
+   "the page served and stated no operative pet policy (IDENTITY_TEXT_BOUN": 7
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 162,
+  "timeshare": 19,
+  "resort_residence": 0,
+  "non_hotel": 79,
+  "closed": 0,
+  "preopening": 1,
+  "converted_to_non_hotel": 0,
+  "military_restricted": 4,
+  "outside": 153,
+  "duplicate_listing": 0,
+  "name_only_unresolved_graph_residue": 215,
+  "identity_review_required_graph_residue": 61,
+  "same_campus_distinct_entity": 0,
+  "register_short_term_rental_and_other_rows_never_leads": 0,
+  "closed_note": "A row is CLOSED only on the property's own first-party closure statement, held and never published; lapsed routes (a parked or retired domain, a brand redirect to its own search, a brand directory that no longer lists the building) are ROUTING / ACCESS holds, never a closure claim.",
+  "closed_rows": [],
+  "preopening_rows": [
+   {
+    "identity_key": "the ascent park city tapestry collection by hilton",
+    "canonical_name": "The Ascent Park City, Tapestry Collection by Hilton",
+    "street": "4080 North Cooper Lane",
+    "postal_code": "84098",
+    "official_url": "https://www.hilton.com/en/hotels/slchaup-the-ascent-park-city/",
+    "stated_opening": "open = false; opening 2027-10-05 (the brand's own city-page card)",
+    "stated_on": "inventory card",
+    "disposition_before_hold": "CLEAN_PET_FRIENDLY"
+   }
+  ]
+ },
+ "remaining_unresolved_root_causes": {
+  "ROUTING_HOLD": "no first-party route: no brand inventory row, bureau link or map website joined the building, Google Places route discovery (run inside the renewed free monthly allowance) found no first-party website for it, or the route the census carried is retired, expired or a third-party page.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible, the attended browser) was refused or walled.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a conditional, chip-only or fee/weight/count-only statement, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "dual-brand buildings awaiting a reviewed shared resolution, or a page that never confirmed this census row's premises."
+ }
+}

@@ -1,0 +1,134 @@
+{
+ "schema": "ptf-municipality-accounting/1.0",
+ "work_order": "PTF-SALT-LAKE-CITY-UT-HARDENED-SOURCE-READY-001",
+ "market_id": "salt-lake-city-ut",
+ "derived_from": "launch_packages/pettripfinder/markets/reports/salt_lake_city_ut_source_ready_accounting_001.json",
+ "municipality_accounting": {
+  "counties_and_municipalities_never_flattened": {
+   "admitted_rows_by_county": {
+    "Davis": 5,
+    "Salt Lake": 159,
+    "Summit": 31,
+    "Utah": 13
+   },
+   "admitted_rows_by_published_municipality": {
+    "Bluffdale": 1,
+    "Bountiful": 1,
+    "Cottonwood Heights": 6,
+    "Draper": 7,
+    "Herriman": 1,
+    "Holladay": 2,
+    "Kearns": 1,
+    "Lehi": 13,
+    "Midvale": 14,
+    "Murray": 10,
+    "North Salt Lake": 1,
+    "Park City": 31,
+    "Salt Lake City": 80,
+    "Sandy": 8,
+    "South Jordan": 7,
+    "South Salt Lake": 1,
+    "West Jordan": 4,
+    "West Valley City": 17,
+    "Woods Cross": 3
+   },
+   "SALT_LAKE_CITY_WRONG_CITY_IDENTITIES": 0,
+   "rows_relabelled_to_their_own_municipality": 8,
+   "relabelled_rows": [
+    {
+     "identity_key": "clarion inn salt lake city airport",
+     "canonical_name": "Clarion Inn Salt Lake City Airport",
+     "postal_code": "84116",
+     "stated_city": "Building A",
+     "published_city": "Salt Lake City",
+     "county": "Salt Lake",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "fairfield inn and suites salt lake city south",
+     "canonical_name": "Fairfield Inn & Suites Salt Lake City South",
+     "postal_code": "84123",
+     "stated_city": "Salt Lake City",
+     "published_city": "Murray",
+     "county": "Salt Lake",
+     "multi_municipality_code": true,
+     "settled_by_lane": "OSM_OVERPASS"
+    },
+    {
+     "identity_key": "hyatt place salt lake city cottonwood",
+     "canonical_name": "Hyatt Place Salt Lake City/Cottonwood",
+     "postal_code": "84121",
+     "stated_city": "Salt Lake City",
+     "published_city": "Cottonwood Heights",
+     "county": "Salt Lake",
+     "multi_municipality_code": true,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "mainstay suites salt lake city fort union",
+     "canonical_name": "MainStay Suites Salt Lake City Fort Union",
+     "postal_code": "84121",
+     "stated_city": "Salt Lake City",
+     "published_city": "Cottonwood Heights",
+     "county": "Salt Lake",
+     "multi_municipality_code": true,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "residence inn salt lake city cottonwood",
+     "canonical_name": "Residence Inn Salt Lake City Cottonwood",
+     "postal_code": "84121",
+     "stated_city": "Salt Lake City",
+     "published_city": "Cottonwood Heights",
+     "county": "Salt Lake",
+     "multi_municipality_code": true,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "sleep inn west valley city salt lake city south",
+     "canonical_name": "Sleep Inn West Valley City - Salt Lake City South",
+     "postal_code": "84119",
+     "stated_city": "Salt Lake City",
+     "published_city": "West Valley City",
+     "county": "Salt Lake",
+     "multi_municipality_code": true,
+     "settled_by_lane": "OSM_OVERPASS"
+    },
+    {
+     "identity_key": "the engen hus bed and breakfast",
+     "canonical_name": "The Engen Hus Bed & Breakfast",
+     "postal_code": "84121",
+     "stated_city": "Salt Lake City",
+     "published_city": "Cottonwood Heights",
+     "county": "Salt Lake",
+     "multi_municipality_code": true,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "the kimball at temple square",
+     "canonical_name": "The Kimball at Temple Square",
+     "postal_code": "84103",
+     "stated_city": "SALT LAKE CTY",
+     "published_city": "Salt Lake City",
+     "county": "Salt Lake",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    }
+   ],
+   "admitted_rows_not_utah": 0,
+   "rows_held_for_a_municipality_or_state_or_postal_conflict": []
+  },
+  "slc_airport": {
+   "evaluation": {
+    "airport_terminal": "Salt Lake City International Airport (SLC) is in the CITY OF SALT LAKE CITY, 84122. No hotel stands inside the terminal.",
+    "airport_hotel_row": "The airport's own hotel row -- West North Temple, Wright Brothers Drive, Admiral Byrd Road, Amelia Earhart Drive, Jimmy Doolittle Road -- is 84116 / 84122: the slc-airport-west-side corridor, municipality SALT LAKE CITY.",
+    "airport_marketed_elsewhere": "'Salt Lake City Airport' hotels on 2100 South / Bangerter Highway / 3500 South in West Valley City (84119 / 84120 / 84128) and in Woods Cross / North Salt Lake are placed by their own code and keep their own municipality.",
+    "one_premises_one_row": "A property is one row however many of 'Airport', 'SLC', 'Salt Lake', 'Downtown' and 'Temple Square' its marketing carries; identity is its own street address, phone and brand property code."
+   },
+   "admitted_rows_slc_airport_west_side": 27,
+   "admitted_rows_named_airport_outside_the_airport_corridor": []
+  },
+  "rule": "Every admitted row publishes the municipality its OWN postal code carries (GEO.POSTAL_PARISH); 'Park City' only for 84060 / 84068 / 84098, and those codes publish nothing else. A stated 'Salt Lake City' on a code that does not carry it (Murray, West Valley City, Midvale, Sandy...) is kept as stated_city evidence and never published."
+ }
+}

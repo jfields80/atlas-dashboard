@@ -1,0 +1,517 @@
+{
+ "schema": "ptf-market-actionability/2.0",
+ "work_order": "PTF-SALT-LAKE-CITY-UT-HARDENED-SOURCE-READY-001",
+ "market_id": "salt-lake-city-ut",
+ "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
+ "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
+ "census_total": 208,
+ "resolved": 161,
+ "unresolved_total": 47,
+ "totals_by_class": {
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 45,
+  "REQUIRES_NEW_PROVIDER": 0,
+  "REQUIRES_NEW_SPEND": 0,
+  "REQUIRES_FOUNDER": 1,
+  "HELD_UNTIL_OPENING": 1
+ },
+ "by_disposition": {
+  "ACCESS_BLOCKED": {
+   "total": 16,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 16,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "EVIDENCE_HOLD": {
+   "total": 14,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 12,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 1,
+   "held_until_opening": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "total": 1,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 1,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "ROUTING_HOLD": {
+   "total": 9,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 9,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  },
+  "SOURCE_SILENT": {
+   "total": 7,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 7,
+   "requires_new_provider": 0,
+   "requires_new_spend": 0,
+   "requires_founder": 0,
+   "held_until_opening": 0
+  }
+ },
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 0,
+ "founder_rows_safely_held": 1,
+ "preopening_rows_safely_excluded": 1,
+ "places_note": "Google Places route discovery ran inside the renewed free monthly allowance (existing capacity, no new spend); a row it queried and could not route is exhausted, a row it never queried is actionable",
+ "attended_browser": {
+  "attempts": 195,
+  "reads": 167,
+  "challenge_denied": 0,
+  "unbound": 9,
+  "paid_provider_calls": 0,
+  "akamai_bypassed": false,
+  "browser_js_exfiltration_used": false,
+  "local_relay_used": false
+ },
+ "coverage_conditions": {
+  "actionable_unresolved_is_zero": true,
+  "no_material_identity_gap": true,
+  "no_material_unexplained_policy_gap": true,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
+  "publication_set_safe": true,
+  "package_deterministic_and_fast_clean": false
+ },
+ "COVERAGE_READY": "NO",
+ "TECHNICAL_SOURCE_READY": "NO",
+ "rows": [
+  {
+   "identity_key": "copper vu motel",
+   "canonical_name": "Copper-Vu Motel",
+   "corridor": "salt-lake-city-ut__midvale",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site renders an empty page in the attended browser (attended browser seq 195, http://coppervumotel.com/): the Places-named site renders an empty page (blank screenshot, an accessibility tree with no content)"
+  },
+  {
+   "identity_key": "country inn and suites bountiful ut",
+   "canonical_name": "Country Inn & Suites, Bountiful, UT",
+   "corridor": "salt-lake-city-ut__north-salt-lake-bountiful",
+   "brand_family": "RADISSON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own city directory, read in the attended browser, does not list this building -- the brand has left it and its current operator is unproven (attended browser seq 158, https://www.choicehotels.com/utah/bountiful/hotels): radissonhotels.com/en-us/hotels/country-inn-bountiful-ut answers an error page; Choice's own Bountiful directory (which carries Radisson Americas) lists no Country Inn & Suites Bountiful -- current op"
+  },
+  {
+   "identity_key": "discovery inn",
+   "canonical_name": "Discovery Inn",
+   "corridor": "salt-lake-city-ut__midvale",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own domain shows only 'Website In Progress' (attended browser seq 188, http://www.discoveryinnsaltlakecity.com): the property's own domain shows only 'Website In Progress'"
+  },
+  {
+   "identity_key": "grand summit hotel at canyons village",
+   "canonical_name": "Grand Summit Hotel at Canyons Village",
+   "corridor": "salt-lake-city-ut__canyons-kimball-junction",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the operator's own page answered a server error on two attended attempts; not retried further (no hammering, no bypass) (attended browser seq 181, https://www.parkcitymountain.com/Plan-Your-Trip/stay/details/Grand-Summit-Hotel): the resort operator's own page answered 'This page couldn't load -- A server error occurred' twice, 10 s apart; not retried further (no hammering); the same operator serves Silverado Lodge and Sundial"
+  },
+  {
+   "identity_key": "hampton inn murray",
+   "canonical_name": "Hampton Inn, Murray",
+   "corridor": "salt-lake-city-ut__murray",
+   "brand_family": "HILTON",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own city directory, read in the attended browser, does not list this building -- the brand has left it and its current operator is unproven (attended browser seq 157, https://www.hilton.com/en/locations/usa/utah/murray/): the brand's own Murray locations page lists four Hampton Inns (Cottonwood, West Jordan, University-Foothill, Sandy) and no Hampton Inn Murray; the census route hampton-inn.com/hi/saltlake-murray is a "
+  },
+  {
+   "identity_key": "hyatt place salt lake city lehi",
+   "canonical_name": "Hyatt Place Salt Lake City/Lehi",
+   "corridor": "salt-lake-city-ut__lehi",
+   "brand_family": "HYATT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the attended browser read the property's own page (seq 104), but the page's own address line ('3700 N Outlet Parkway, Lehi, UT 84048, United States of America') contradicts this row's census address, so the read is never bound and the row is held on the conflict -- the hotel's own /policies page text. The brand's OWN page prints the postal code 84048 beside Lehi, where the map and the census state 84043 -- recorded verbati"
+  },
+  {
+   "identity_key": "inn on the hill",
+   "canonical_name": "Inn on the Hill",
+   "corridor": "salt-lake-city-ut__downtown-salt-lake-city",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 185, https://inn-on-the-hill.com/): home page read: no element mentions pets; it links rooms, contact, reservations and privacy pages only"
+  },
+  {
+   "identity_key": "montage deer valley",
+   "canonical_name": "Montage Deer Valley",
+   "corridor": "salt-lake-city-ut__park-city",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 164, https://www.montage.com/deervalley/): home page, /faq/ (spa questions only) and /accommodations/ read in the attended browser: no element mentions pets or dogs; SOURCE_SILENT on its own site"
+  },
+  {
+   "identity_key": "silverado lodge at canyons village",
+   "canonical_name": "Silverado Lodge at Canyons Village",
+   "corridor": "salt-lake-city-ut__canyons-kimball-junction",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the operator's own page answered a server error on two attended attempts; not retried further (no hammering, no bypass) (attended browser seq 196, https://www.parkcitymountain.com/Plan-Your-Trip/stay/details/silverado-lodge): the resort operator's own lodging page answered 'This page couldn't load -- A server error occurred' (one attempt; the operator's Grand Summit page answered the same twice, seq 184)"
+  },
+  {
+   "identity_key": "spiking tourist lodge",
+   "canonical_name": "Spiking Tourist Lodge",
+   "corridor": "salt-lake-city-ut__south-salt-lake-millcreek",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own route answers an error page or a 404 in the attended browser (attended browser seq 193, https://spiking-tourist-lodge.business.site/): the census route (a retired Google business.site page) answers 404"
+  },
+  {
+   "identity_key": "sundial lodge at canyons village",
+   "canonical_name": "Sundial Lodge at Canyons Village",
+   "corridor": "salt-lake-city-ut__canyons-kimball-junction",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the operator's own page answered a server error on two attended attempts; not retried further (no hammering, no bypass) (attended browser seq 197, https://www.parkcitymountain.com/Plan-Your-Trip/stay/details/sundial-lodge): the resort operator's own lodging page redirected to its own 500 page (one attempt)"
+  },
+  {
+   "identity_key": "super 8 salt lake midvalley",
+   "canonical_name": "Super 8 Salt Lake/Midvalley",
+   "corridor": "salt-lake-city-ut__midvale",
+   "brand_family": "WYNDHAM",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own city directory, read in the attended browser, does not list this building -- the brand has left it and its current operator is unproven (attended browser seq 160, https://www.wyndhamhotels.com/en-us/hotels/murray-utah): see baymont-murray: the brand's own search near Murray does not list Super 8 Salt Lake/Midvalley (7048 South 900 East, Midvale)"
+  },
+  {
+   "identity_key": "the anniversary inn fifth south",
+   "canonical_name": "The Anniversary Inn-Fifth South",
+   "corridor": "salt-lake-city-ut__downtown-salt-lake-city",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the attended browser read the property's own page (seq 186), but the page's own address line ('') contradicts this row's census address, so the read is never bound and the row is held on the conflict -- the operator's own Hotel Policies page (an operator-wide policy: 'at any Anniversary Inn property'); read_page gives the sentence with its bold span 'no pets ar"
+  },
+  {
+   "identity_key": "the carlton hotel",
+   "canonical_name": "The Carlton Hotel",
+   "corridor": "salt-lake-city-ut__downtown-salt-lake-city",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own route answers an error page or a 404 in the attended browser (attended browser seq 161, https://carltonsaltlakecity.com/): the property's own site answers a browser error page"
+  },
+  {
+   "identity_key": "treasure mountain inn hotel and conference center",
+   "canonical_name": "Treasure Mountain Inn Hotel & Conference Center",
+   "corridor": "salt-lake-city-ut__park-city",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 171, https://www.treasuremountaininn.com/faq): home page and its own F.A.Q page read (page text): ten questions, none about pets"
+  },
+  {
+   "identity_key": "valley inn",
+   "canonical_name": "Valley Inn",
+   "corridor": "salt-lake-city-ut__west-valley-city",
+   "brand_family": "",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand's own property route is retired (it redirects to the brand's search, which does not list the building) (attended browser seq 137, https://www.bestwestern.com/en_US/book/hotel-rooms.45097.html): the census route for 'Valley Inn' (3540 South 2200 West, West Valley City) is a retired Best Western property code: it redirects to the brand's hotel search, which does not list the premises"
+  },
+  {
+   "identity_key": "best western plus cottontree inn",
+   "canonical_name": "Best Western Plus CottonTree Inn",
+   "corridor": "salt-lake-city-ut__north-salt-lake-bountiful",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "best western timpanogos inn",
+   "canonical_name": "Best Western Timpanogos Inn",
+   "corridor": "salt-lake-city-ut__lehi",
+   "brand_family": "BEST_WESTERN",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "black diamond lodge",
+   "canonical_name": "Black Diamond Lodge",
+   "corridor": "salt-lake-city-ut__park-city",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "livaway suites salt lake city draper",
+   "canonical_name": "LivAway Suites Salt Lake City-Draper",
+   "corridor": "salt-lake-city-ut__draper",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'Amenities | Pet-friendly rooms'), not an operative pet_friendly sta"
+  },
+  {
+   "identity_key": "livaway suites salt lake city west jordan",
+   "canonical_name": "LivAway Suites Salt Lake City West Jordan",
+   "corridor": "salt-lake-city-ut__west-jordan",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'Amenities | Pet-friendly rooms'), not an operative pet_friendly sta"
+  },
+  {
+   "identity_key": "lodges at deer valley",
+   "canonical_name": "Lodges at Deer Valley",
+   "corridor": "salt-lake-city-ut__park-city",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "metropolitan inn",
+   "canonical_name": "Metropolitan Inn",
+   "corridor": "salt-lake-city-ut__downtown-salt-lake-city",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'Amenities | Pet friendly'), not an operative pet_friendly statement"
+  },
+  {
+   "identity_key": "microtel inn and suites by wyndham salt lake city airport",
+   "canonical_name": "Microtel Inn & Suites by Wyndham Salt Lake City Airport",
+   "corridor": "salt-lake-city-ut__slc-airport-west-side",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal statement is a legal access category, never a pet acceptance: 'Service Animals - ADA"
+  },
+  {
+   "identity_key": "motel 6 lehi ut thanksgiving point",
+   "canonical_name": "Motel 6 Lehi, UT – Thanksgiving Point",
+   "corridor": "salt-lake-city-ut__lehi",
+   "brand_family": "MOTEL6",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote AMENITY_CHIP_ONLY (an amenity label states no policy: 'Amenities | Pets Allowed'), not an operative pet_friendly statement"
+  },
+  {
+   "identity_key": "silver baron lodge",
+   "canonical_name": "Silver Baron Lodge",
+   "corridor": "salt-lake-city-ut__park-city",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "super 8 by wyndham s jordan sandy slc area",
+   "canonical_name": "Super 8 by Wyndham S Jordan/Sandy/Slc Area",
+   "corridor": "salt-lake-city-ut__south-jordan",
+   "brand_family": "WYNDHAM",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the shared reader that FAST rule C re-runs at seal time classifies this quote SERVICE_ANIMAL_ONLY (a service-animal statement is a legal access category, never a pet acceptance: 'ADA-defined service a"
+  },
+  {
+   "identity_key": "the engen hus bed and breakfast",
+   "canonical_name": "The Engen Hus Bed & Breakfast",
+   "corridor": "salt-lake-city-ut__cottonwood-heights-holladay",
+   "brand_family": "",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the first-party evidence was read and is not publishable as stated (conditional, fee/weight-only, chip-only, or the shared reader disagrees); no further acquisition changes the page's own wording -- the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
+  },
+  {
+   "identity_key": "university guest house and conference center",
+   "canonical_name": "University Guest House & Conference Center",
+   "corridor": "salt-lake-city-ut__university-foothill",
+   "brand_family": "",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 192, https://www.universityguesthouse.com/University-Guest-House/): home page and its own Accommodations page read: no element mentions pets"
+  },
+  {
+   "identity_key": "allstar travel motel",
+   "canonical_name": "Allstar Travel Motel",
+   "corridor": "salt-lake-city-ut__slc-airport-west-side",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit Salt Lake's and Visit Park City's rosters, the Utah registry probe (no public lodging register exists), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "alta motel and lodge",
+   "canonical_name": "Alta Motel & Lodge",
+   "corridor": "salt-lake-city-ut__south-salt-lake-millcreek",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit Salt Lake's and Visit Park City's rosters, the Utah registry probe (no public lodging register exists), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "baymont murray salt lake city",
+   "canonical_name": "Baymont Murray/Salt Lake City",
+   "corridor": "salt-lake-city-ut__murray",
+   "brand_family": "WYNDHAM",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "RETIRED_BRAND_ROUTE -- the Wyndham lane read this route and the brand redirects it to its own city search: the brand no longer publishes a property page for these premises; no first-party route exists in any authorized lane: the brand inventories, Visit Salt Lake's and Visit Park City's rosters, the Utah registry probe (no public lodging register exists), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.liveatoslo.com/?switch_cls[id]=105686&utm_source=google%20-%20entratammb&utm_m) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "homeinn",
+   "canonical_name": "HomeInn",
+   "corridor": "salt-lake-city-ut__taylorsville-kearns",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, Visit Salt Lake's and Visit Park City's rosters, the Utah registry probe (no public lodging register exists), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.atallorder.org/kearn) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "main street motel",
+   "canonical_name": "Main Street Motel",
+   "corridor": "salt-lake-city-ut__south-salt-lake-millcreek",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit Salt Lake's and Visit Park City's rosters, the Utah registry probe (no public lodging register exists), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "skyline inn",
+   "canonical_name": "Skyline Inn",
+   "corridor": "salt-lake-city-ut__university-foothill",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit Salt Lake's and Visit Park City's rosters, the Utah registry probe (no public lodging register exists), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "the belvedere",
+   "canonical_name": "The Belvedere",
+   "corridor": "salt-lake-city-ut__downtown-salt-lake-city",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit Salt Lake's and Visit Park City's rosters, the Utah registry probe (no public lodging register exists), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "uptown motel and bungalows",
+   "canonical_name": "Uptown Motel and Bungalows",
+   "corridor": "salt-lake-city-ut__downtown-salt-lake-city",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "Places named only a social or third-party booking page (https://www.facebook.com/Uptown-Motel-449016105492551/), never a first-party policy source; no other authorized lane routes this row"
+  },
+  {
+   "identity_key": "zion s motel",
+   "canonical_name": "Zion's Motel",
+   "corridor": "salt-lake-city-ut__south-salt-lake-millcreek",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "no first-party route exists in any authorized lane: the brand inventories, Visit Salt Lake's and Visit Park City's rosters, the Utah registry probe (no public lodging register exists), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "chateau apres",
+   "canonical_name": "Chateau Apres",
+   "corridor": "salt-lake-city-ut__park-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 172, https://chateauapres.com/): home page read: no element mentions pets"
+  },
+  {
+   "identity_key": "main and sky",
+   "canonical_name": "Main & SKY",
+   "corridor": "salt-lake-city-ut__park-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 173, http://www.theskylodgeparkcity.com): home page read: no element mentions pets"
+  },
+  {
+   "identity_key": "newpark resort",
+   "canonical_name": "Newpark Resort",
+   "corridor": "salt-lake-city-ut__canyons-kimball-junction",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 170, https://www.newparkresort.com/park-city-utah-hotel-faqs/): home page and its own FAQ page read (page text): no question mentions pets; the footer carries an 'Owner's Login' (a condominium hotel)"
+  },
+  {
+   "identity_key": "stein eriksen lodge",
+   "canonical_name": "Stein Eriksen Lodge",
+   "corridor": "salt-lake-city-ut__park-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 165, https://www.steinlodge.com/): home page FAQ section and /terms-and-conditions read: no question, answer or term mentions pets; SOURCE_SILENT on its own site"
+  },
+  {
+   "identity_key": "the chateaux deer valley",
+   "canonical_name": "The Chateaux Deer Valley",
+   "corridor": "salt-lake-city-ut__park-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 169, https://www.the-chateaux.com/): home page read: no element mentions pets, and no FAQ or policy page is linked"
+  },
+  {
+   "identity_key": "the kimball at temple square",
+   "canonical_name": "The Kimball at Temple Square",
+   "corridor": "salt-lake-city-ut__downtown-salt-lake-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 151, http://www.thekimball.com): the property's own site read in the attended browser: no element mentions pets, dogs or animals, and it links no FAQ or policy page that would; SOURCE_SILENT on its own site"
+  },
+  {
+   "identity_key": "washington school house",
+   "canonical_name": "Washington School House",
+   "corridor": "salt-lake-city-ut__park-city",
+   "brand_family": "",
+   "disposition": "SOURCE_SILENT",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the property's own site was read in the attended browser and states no pet policy anywhere reachable (silence is never a refusal) (attended browser seq 168, https://washingtonschoolhouse.com/): home page read: no element mentions pets, and no FAQ or policy page is linked"
+  },
+  {
+   "identity_key": "the ascent park city tapestry collection by hilton",
+   "canonical_name": "The Ascent Park City, Tapestry Collection by Hilton",
+   "corridor": "salt-lake-city-ut__canyons-kimball-junction",
+   "brand_family": "HILTON",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "HELD_UNTIL_OPENING",
+   "why": "nonpublishing until the hotel opens and its first-party policy is revalidated (PREOPENING PUBLISHED = 0) -- PREOPENING_NOT_YET_OPEN -- the property's own first-party inventory card states \"open = false; opening 2027-10-05 (the brand's own city-page card)\": the hotel is not open, so no profile publishes unti"
+  },
+  {
+   "identity_key": "hyatt place salt lake city cottonwood",
+   "canonical_name": "Hyatt Place Salt Lake City/Cottonwood",
+   "corridor": "salt-lake-city-ut__cottonwood-heights-holladay",
+   "brand_family": "HYATT",
+   "disposition": "EVIDENCE_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "the property's own page states a refusal this order read as one, but the SHARED reader FAST rule C re-runs cannot interpret it (a shared-factory change this order may not make); held, never published -- the shared reader that FAST rule C re-runs at seal time classifies this quote QUOTE_NOT_OPERATIVE (no refusal the reader will interpret: 'Pet Policy | Bring your beloved pooch to one of the best pet-f"
+  }
+ ]
+}
