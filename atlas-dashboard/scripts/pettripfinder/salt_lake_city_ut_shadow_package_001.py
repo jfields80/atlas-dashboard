@@ -57,7 +57,7 @@ PARTITION_SRC = STAGING / "launch_package" / "salt_lake_city_ut_final_partition_
 #: A FIXED seal time (the package digest covers it, so it must never be the wall clock): after this order's last
 #: first-party capture (the browser recorder's real-clock stamp of its final read) and not later than the moment it
 #: was set, by the real clock. The New Orleans clone carried New Orleans' own seal time; it is never inherited.
-SEALED_AT = "2026-10-07T16:51:00Z"  # after the last capture (seq 197, 2026-10-07T16:38:22Z); the real clock read 16:51:01Z when set
+SEALED_AT = "2026-10-07T17:06:00Z"  # after the last capture (seq 199, 2026-10-07T17:04:03Z); the real clock read 17:06:59Z when set
 
 
 def _read(path):
