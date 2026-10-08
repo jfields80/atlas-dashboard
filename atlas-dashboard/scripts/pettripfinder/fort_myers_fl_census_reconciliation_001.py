@@ -2339,6 +2339,11 @@ adgroupid keyword device gad_source gad_campaignid sceid scmid trackingid clicki
 def route_not_campaign_link(url):
     """Strip HTML entities and tracking/session parameters from a route; keep everything a page needs."""
     u = html.unescape(html.unescape((url or "").strip()))
+    # FORT MYERS: the attended-browser route recorder stored the Choice directory's routes as host + path
+    # ("www.choicehotels.com/florida/..."), and the site builder refuses a scheme-less /go/ destination (FAST rule J,
+    # seal 1). A route that begins with a host name and no scheme is the same https page.
+    if u and not re.match(r"^[a-z][a-z0-9+.-]*://", u, re.I) and re.match(r"^(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+/", u, re.I):
+        u = "https://" + u
     if "?" not in u:
         return u
     base, _, query = u.partition("?")

@@ -418,6 +418,50 @@ def main():
         _signals.setdefault(_hit["identity_key"] if _hit else ("(route) " + _u), []).append(
             "Wyndham route retired to the brand's own search: %s" % _u)
     _pub = {i["identity_key"] for i in items if i["resolved"]}
+    # EVERY ADMITTED ROW'S CURRENT OPERATING STATUS, in the order's own vocabulary, from evidence observed THIS order.
+    # CURRENTLY_OPEN needs FIRST-PARTY evidence served today (the property's or brand's own page served and bound
+    # these premises -- a published row, a silent own page, or a held own-page read); REOPENED needs the property's
+    # own words (re-opening, rebuilt or renovated since Hurricane Ian, 'Now Open', 'is open'); a Places status or a
+    # retired route is a signal, never proof of operation. Anything else is STATUS_UNKNOWN -- never published.
+    _first_party = {"CLEAN_PET_FRIENDLY", "CLEAN_VERIFIED_NO_PETS", "SOURCE_SILENT", "EVIDENCE_HOLD"}
+    _reopen_rx = re.compile(r"re-opening|reopen|renovated since Hurricane Ian|rebuilt after Hurricane Ian|"
+                            r"rebuild|Now Open|is open!|re-?constitut", re.I)
+    _places_status = {}
+    for _p in places.get("rows", []):
+        if _p.get("identity_key") and _p.get("bound"):
+            _places_status[_p["identity_key"]] = (_p.get("place") or {}).get("business_status") or ""
+    _reads_by_key = {}
+    for _r in _bl.get("rows", []):
+        if _r.get("identity_key"):
+            _reads_by_key.setdefault(_r["identity_key"], []).append(_r)
+    status_rows = []
+    for h in census["hotels"]:
+        k = h["identity_key"]
+        disp = (clean_by_key.get(k) or {}).get("disposition") or ""
+        sigs = _signals.get(k) or []
+        notes = " ".join((_r.get("note") or "") for _r in _reads_by_key.get(k, []))
+        pst = _places_status.get(k, "")
+        if any("redevelopment" in x or "rebuild" in x.lower() for x in sigs if "closure statement" in x):
+            st = "CLOSED_FOR_REBUILD"
+        elif pst == "CLOSED_PERMANENTLY":
+            st = "PERMANENTLY_CLOSED"
+        elif pst == "CLOSED_TEMPORARILY" or any("closure statement" in x for x in sigs):
+            st = "TEMPORARILY_CLOSED"
+        elif sigs:
+            st = "STATUS_UNKNOWN"
+        elif _reopen_rx.search(notes):
+            st = "REOPENED"
+        elif disp in _first_party:
+            st = "CURRENTLY_OPEN"
+        else:
+            st = "STATUS_UNKNOWN"
+        status_rows.append(OrderedDict([
+            ("identity_key", k), ("canonical_name", h["canonical_name"]), ("postal_code", h.get("postal_code")),
+            ("beach_or_island", (h.get("postal_code") or "")[:5] in _bi_all), ("status", st),
+            ("published", k in _pub), ("disposition", disp), ("places_business_status", pst or None),
+            ("signals", sigs)]))
+    _status_counts = Counter(r["status"] for r in status_rows)
+    _status_bi = Counter(r["status"] for r in status_rows if r["beach_or_island"])
     _psa = L("fort_myers_fl_publication_safety_audit_001.json", {}) or {}
     operating = OrderedDict([
         ("rule", GEO.OPERATING_STATUS_RULE),
@@ -434,6 +478,23 @@ def main():
                                                     _r.get("note") or "", re.I))),
         ("note", "A closure is published nowhere: a row with a closure statement or a retired route is held "
                  "(ROUTING / EVIDENCE) and never verified-no-pets; a later reopening is revalidated first-party."),
+        ("vocabulary", ["CURRENTLY_OPEN", "REOPENED", "PARTIALLY_OPEN", "SEASONAL", "TEMPORARILY_CLOSED",
+                        "CLOSED_FOR_REBUILD", "PERMANENTLY_CLOSED", "DEMOLISHED", "REBRANDED", "PREOPENING",
+                        "STATUS_UNKNOWN"]),
+        ("admitted_rows_by_status", OrderedDict((s, _status_counts.get(s, 0)) for s in (
+            "CURRENTLY_OPEN", "REOPENED", "PARTIALLY_OPEN", "SEASONAL", "TEMPORARILY_CLOSED", "CLOSED_FOR_REBUILD",
+            "PERMANENTLY_CLOSED", "DEMOLISHED", "REBRANDED", "PREOPENING", "STATUS_UNKNOWN"))),
+        ("beach_island_rows_by_status", OrderedDict((s, _status_bi.get(s, 0)) for s in (
+            "CURRENTLY_OPEN", "REOPENED", "TEMPORARILY_CLOSED", "CLOSED_FOR_REBUILD", "PERMANENTLY_CLOSED",
+            "DEMOLISHED", "PREOPENING", "STATUS_UNKNOWN"))),
+        ("rebranded_held_for_founder", sorted("%s -- %s" % (r.get("canonical_name"), (r.get("classification_reason")
+                                                                                     or "")[:140])
+                                              for r in non if r["classification"] == "SAME_IDENTITY_REBRAND_SUCCESSOR")),
+        ("published_rows_not_proven_operating", sorted(r["canonical_name"] for r in status_rows if r["published"]
+                                                       and r["status"] not in ("CURRENTLY_OPEN", "REOPENED"))),
+        ("CURRENT_OPERATION_PROVEN_FOR_EVERY_PUBLISHED_PROPERTY",
+         all(r["status"] in ("CURRENTLY_OPEN", "REOPENED") for r in status_rows if r["published"])),
+        ("rows", status_rows),
     ])
 
     root = OrderedDict([
