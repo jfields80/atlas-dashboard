@@ -67,6 +67,9 @@ CROSS_MARKET_REFERENCE_CONSTANTS = {
     "salt_lake_city_ut_release_contract_002.py": ("TEMPLATE",),
     # the registration gate's own residue DETECTORS: patterns that name other markets in order to find them
     "salt_lake_city_ut_registration_checks_002.py": ("RESIDUE", "RESIDUE_ALLOWED", "text_safety"),
+    # the launch-authorization accounting's residue DETECTOR, and the historical empty FAST receipt it must keep
+    # ineligible (PTF-SALT-LAKE-CITY-UT-FOUNDER-LAUNCH-AUTHORIZATION-003)
+    "salt_lake_city_ut_candidate_accounting_003.py": ("RESIDUE", "EMPTY_RECEIPT_CANARY"),
 }
 #: The lineage this market was built on, stated by name in the registered documents (allowed, never residue).
 LINEAGE_RX = re.compile(r"new orleans-live", re.I)
