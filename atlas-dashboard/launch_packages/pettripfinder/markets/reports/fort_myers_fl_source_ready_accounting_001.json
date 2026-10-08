@@ -1,0 +1,1403 @@
+{
+ "schema": "ptf-source-ready-accounting/1.0",
+ "work_order": "PTF-FORT-MYERS-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "fort-myers-fl",
+ "headline": {
+  "total_raw_observations": 1236,
+  "raw_observations_by_lane": {
+   "REGISTRY_LICENCE": 304,
+   "OSM_OVERPASS": 309,
+   "BRAND_INVENTORY_OWNED": 17,
+   "BRAND_INVENTORY_CITY_PAGE": 29,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 40,
+   "DESTINATION_ORGANIZATION": 187,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 196,
+   "IDENTITY_VERIFIED_PLACES": 5,
+   "PROPERTY_PAGE": 149
+  },
+  "public_lodging_register_leads": 304,
+  "osm_lodging_elements": 418,
+  "brand_inventory_leads": 122,
+  "destination_roster_listings": 200,
+  "destination_roster_rows_in_admitted_codes": 184,
+  "competitor_leads_normalized": 196,
+  "graph_nodes": 658,
+  "proposed_census": 142,
+  "valid_pet_friendly": 57,
+  "valid_verified_no_pets": 34,
+  "resolved": 91,
+  "unresolved": 51,
+  "resolution_rate": 0.6408
+ },
+ "holds_by_class": {
+  "IDENTITY": 2,
+  "ROUTING": 25,
+  "ACCESS_BLOCKED": 0,
+  "EVIDENCE": 8,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 16,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "EVIDENCE_HOLD": {
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 3,
+   "the property's own site lists its units as individual rental listings ": 2,
+   "the first-party quote states neither an acceptance nor a refusal sente": 2,
+   "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "the fetched page's own identity did not confirm this census row": 2
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 15,
+   "OTHER_EXPLICIT_REASON": 4,
+   "NOT_FIRST_PARTY_SITE": 3,
+   "RETIRED_BRAND_ROUTE": 2,
+   "the route the census carries served an error page (expired domain, sit": 1
+  },
+  "SOURCE_SILENT": {
+   "the property's own pages served, bound these exact premises, and state": 12,
+   "the property's own site (found via Places, bound on its own address/ph": 2,
+   "the brand's own page served and bound these premises, and the only pet": 2
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 93,
+  "timeshare": 5,
+  "resort_residence": 0,
+  "non_hotel": 45,
+  "closed": 0,
+  "preopening": 0,
+  "converted_to_non_hotel": 0,
+  "military_restricted": 0,
+  "outside": 196,
+  "duplicate_listing": 0,
+  "name_only_unresolved_graph_residue": 105,
+  "identity_review_required_graph_residue": 69,
+  "same_campus_distinct_entity": 2,
+  "register_short_term_rental_and_other_rows_never_leads": 8825,
+  "closed_note": "A row is CLOSED only on the property's own first-party closure statement, held and never published; lapsed routes (a parked or retired domain, a brand redirect to its own search, a brand directory that no longer lists the building) are ROUTING / ACCESS holds, never a closure claim.",
+  "closed_rows": [],
+  "preopening_rows": []
+ },
+ "corridor_coverage": {
+  "downtown-fort-myers": {
+   "name": "Downtown Fort Myers & River District",
+   "class": "CORE",
+   "census": 7,
+   "pet_friendly": 2,
+   "no_pets": 3,
+   "unresolved": 2,
+   "resolution_rate": 0.7143,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "colonial-cleveland": {
+   "name": "Colonial Boulevard & Cleveland Avenue (US-41)",
+   "class": "CORE",
+   "census": 17,
+   "pet_friendly": 9,
+   "no_pets": 4,
+   "unresolved": 4,
+   "resolution_rate": 0.7647,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "daniels-six-mile": {
+   "name": "Daniels Parkway & Six Mile Cypress",
+   "class": "CORE",
+   "census": 14,
+   "pet_friendly": 11,
+   "no_pets": 2,
+   "unresolved": 1,
+   "resolution_rate": 0.9286,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "rsw-airport-gateway": {
+   "name": "RSW Airport, Gateway & Treeline",
+   "class": "CORE",
+   "census": 12,
+   "pet_friendly": 7,
+   "no_pets": 4,
+   "unresolved": 1,
+   "resolution_rate": 0.9167,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "east-fort-myers-i75": {
+   "name": "East Fort Myers & I-75 (Forum / Palm Beach Boulevard)",
+   "class": "CORE",
+   "census": 9,
+   "pet_friendly": 2,
+   "no_pets": 3,
+   "unresolved": 4,
+   "resolution_rate": 0.5556,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "cape-coral": {
+   "name": "Cape Coral",
+   "class": "CORRIDOR",
+   "census": 10,
+   "pet_friendly": 4,
+   "no_pets": 2,
+   "unresolved": 4,
+   "resolution_rate": 0.6,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "fort-myers-beach": {
+   "name": "Fort Myers Beach",
+   "class": "CORRIDOR",
+   "census": 16,
+   "pet_friendly": 4,
+   "no_pets": 0,
+   "unresolved": 12,
+   "resolution_rate": 0.25,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "summerlin-iona": {
+   "name": "South Fort Myers, Iona & Sanibel Causeway",
+   "class": "CORRIDOR",
+   "census": 6,
+   "pet_friendly": 3,
+   "no_pets": 2,
+   "unresolved": 1,
+   "resolution_rate": 0.8333,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "sanibel": {
+   "name": "Sanibel Island",
+   "class": "CORRIDOR",
+   "census": 18,
+   "pet_friendly": 0,
+   "no_pets": 6,
+   "unresolved": 12,
+   "resolution_rate": 0.3333,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "estero": {
+   "name": "Estero & Coconut Point",
+   "class": "CORRIDOR",
+   "census": 5,
+   "pet_friendly": 4,
+   "no_pets": 1,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "bonita-springs": {
+   "name": "Bonita Springs",
+   "class": "CORRIDOR",
+   "census": 13,
+   "pet_friendly": 6,
+   "no_pets": 3,
+   "unresolved": 4,
+   "resolution_rate": 0.6923,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": true
+  },
+  "north-fort-myers": {
+   "name": "North Fort Myers",
+   "class": "FRINGE",
+   "census": 10,
+   "pet_friendly": 2,
+   "no_pets": 2,
+   "unresolved": 6,
+   "resolution_rate": 0.4,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "lehigh-acres-alva": {
+   "name": "Lehigh Acres & Alva",
+   "class": "FRINGE",
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 1,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  },
+  "captiva": {
+   "name": "Captiva Island",
+   "class": "FRINGE",
+   "census": 4,
+   "pet_friendly": 3,
+   "no_pets": 1,
+   "unresolved": 0,
+   "resolution_rate": 1.0,
+   "threshold": "a corridor page publishes with 5 or more pet-friendly profiles; a thinner corridor is never forced",
+   "page_publishes": false
+  }
+ },
+ "uncorridored_rows": 0,
+ "corridor_count": 14,
+ "corridors_publishing": [
+  "colonial-cleveland",
+  "daniels-six-mile",
+  "rsw-airport-gateway",
+  "bonita-springs"
+ ],
+ "brand_by_brand": {
+  "ACCOR": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 1,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "BEST_WESTERN": {
+   "census": 3,
+   "pet_friendly": 2,
+   "no_pets": 1,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 1,
+   "browser_read": 1,
+   "browser_challenge_denied": 0
+  },
+  "CHOICE": {
+   "census": 6,
+   "pet_friendly": 1,
+   "no_pets": 5,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 10,
+   "browser_read": 10,
+   "browser_challenge_denied": 0
+  },
+  "DRURY": {
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 1,
+   "browser_read": 1,
+   "browser_challenge_denied": 0
+  },
+  "EXTENDED_STAY_AMERICA": {
+   "census": 2,
+   "pet_friendly": 2,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 2,
+   "browser_read": 2,
+   "browser_challenge_denied": 0
+  },
+  "EXTENDED_STAY_OPERATORS": {
+   "census": 1,
+   "pet_friendly": 0,
+   "no_pets": 1,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "HILTON": {
+   "census": 18,
+   "pet_friendly": 16,
+   "no_pets": 2,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 18,
+   "browser_read": 18,
+   "browser_challenge_denied": 0
+  },
+  "HYATT": {
+   "census": 3,
+   "pet_friendly": 3,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 3,
+   "browser_read": 3,
+   "browser_challenge_denied": 0
+  },
+  "IHG": {
+   "census": 9,
+   "pet_friendly": 6,
+   "no_pets": 3,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 8,
+   "browser_read": 8,
+   "browser_challenge_denied": 0
+  },
+  "INDEPENDENT": {
+   "census": 42,
+   "pet_friendly": 2,
+   "no_pets": 7,
+   "unresolved": 33,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 34,
+   "browser_read": 10,
+   "browser_challenge_denied": 0
+  },
+  "LUXURY_INDEPENDENT": {
+   "census": 9,
+   "pet_friendly": 2,
+   "no_pets": 2,
+   "unresolved": 5,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "MARRIOTT": {
+   "census": 17,
+   "pet_friendly": 12,
+   "no_pets": 5,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 17,
+   "browser_read": 17,
+   "browser_challenge_denied": 0
+  },
+  "MOTEL6_STUDIO6": {
+   "census": 2,
+   "pet_friendly": 0,
+   "no_pets": 0,
+   "unresolved": 2,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 2,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "RESORT_INDEPENDENT": {
+   "census": 12,
+   "pet_friendly": 2,
+   "no_pets": 2,
+   "unresolved": 8,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "SONESTA": {
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "WOODSPRING": {
+   "census": 1,
+   "pet_friendly": 1,
+   "no_pets": 0,
+   "unresolved": 0,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  },
+  "WYNDHAM": {
+   "census": 14,
+   "pet_friendly": 6,
+   "no_pets": 5,
+   "unresolved": 3,
+   "firecrawl_attempted": 0,
+   "firecrawl_success": 0,
+   "access_blocked": 0,
+   "browser_capture_needed": 0,
+   "actionable_remaining": 0,
+   "browser_attempted": 0,
+   "browser_read": 0,
+   "browser_challenge_denied": 0
+  }
+ },
+ "providers": {
+  "static_capture": {
+   "targets": 81,
+   "free_http_requests": 81,
+   "outcomes": {
+    "ACCESS_DENIED": 21,
+    "BLANK_PAGE": 2,
+    "IDENTITY_MISMATCH": 28,
+    "NAVIGATION_FAILED": 11,
+    "POLICY_NOT_FOUND": 3,
+    "UNEXPECTED_PAGE": 3,
+    "UNHYDRATED": 5,
+    "VALID": 8
+   }
+  },
+  "wyndham_property_service": {
+   "selected": 20,
+   "read": 12,
+   "retired": 7
+  },
+  "independents_policy_pages": {
+   "targets": 58,
+   "bound": 29,
+   "free_http_requests": 100
+  },
+  "places_route_discovery": {
+   "requests": 78,
+   "route_discovery_bound": 41,
+   "with_website": 28,
+   "gap_verdicts": {},
+   "enterprise_requests": 45,
+   "pro_requests": 33,
+   "field_mask_route_discovery": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus,places.websiteUri,places.nationalPhoneNumber",
+   "field_mask_gap_verification": "places.id,places.displayName,places.formattedAddress,places.addressComponents,places.location,places.primaryType,places.types,places.businessStatus",
+   "route_discovery_run": true,
+   "cost_basis": "websiteUri is an Enterprise-SKU field; its free monthly allowance (about 1,000 requests) renewed on 2026-10-01; the only Places use on this machine since then is seven earlier market orders' 1,005 requests (730 Enterprise, 275 Pro, each recorded in that order's own places report) and this order's own runs (recorded in this report). This run stays inside that allowance (cap 200 Enterprise requests) -- existing capacity, no new paid spend."
+  },
+  "places_discovered_sites": {
+   "targets": 17,
+   "bound": 12,
+   "free_http_requests": 24
+  },
+  "firecrawl": {
+   "eligible_planned": 0,
+   "attempted": 0,
+   "property_page_attempts": 0,
+   "first_pass_attempted": 0,
+   "retry_pass_attempted": 0,
+   "probe2_pass_attempted": 0,
+   "route_discovery_pages": 0,
+   "route_discovery_routes": 0,
+   "brand_page_reads": {
+    "attempted": 0,
+    "answered": 0,
+    "with_own_address": 0,
+    "by_family": {}
+   },
+   "not_used_why": "Firecrawl was not used by this order: every route a Firecrawl pass would have bought was read instead by the attended browser, the Wyndham property service or the free static lanes (pay once per page ever). No protected reserve was consumed and no new capacity was bought.",
+   "distinct_identities_attempted": 0,
+   "by_cohort": {},
+   "publication_grade": 0,
+   "policy_found": 0,
+   "failed": 0,
+   "class_counts": {},
+   "credits": {
+    "first_pass": {},
+    "retry_pass": {},
+    "probe2_pass": {},
+    "route_discovery": {},
+    "brand_page_reads": {}
+   }
+  },
+  "supported_browser": {
+   "attended_browser_lane": {
+    "attempts": 98,
+    "reads": 69,
+    "challenge_denied": 0,
+    "unbound": 7,
+    "attempts_by_family": {
+     "BEST_WESTERN": 1,
+     "CHOICE": 10,
+     "DRURY": 1,
+     "EXTENDED_STAY_AMERICA": 2,
+     "HILTON": 18,
+     "HYATT": 3,
+     "IHG": 8,
+     "INDEPENDENT": 34,
+     "MARRIOTT": 17,
+     "MOTEL6_STUDIO6": 2,
+     "OYO": 1,
+     "RED_ROOF": 1
+    },
+    "reads_by_family": {
+     "BEST_WESTERN": 1,
+     "CHOICE": 10,
+     "DRURY": 1,
+     "EXTENDED_STAY_AMERICA": 2,
+     "HILTON": 18,
+     "HYATT": 3,
+     "IHG": 8,
+     "INDEPENDENT": 10,
+     "MARRIOTT": 17,
+     "OYO": 1,
+     "RED_ROOF": 1
+    },
+    "akamai_bypassed": false,
+    "js_exfiltration": false,
+    "relay": false,
+    "captcha_solved": false
+   },
+   "recorded_attempts": 98,
+   "outcomes": {
+    "AMENITY_CHIP_ONLY_NOT_OPERATIVE": 3,
+    "CLOSURE_STATED_BY_OPERATOR": 1,
+    "IDENTITY_BOUND_POLICY_SOURCE_SILENT": 12,
+    "NAVIGATION_FAILED_ERROR_PAGE": 1,
+    "OPERATOR_STATUS_PAGE_NO_PREMISES": 1,
+    "PAGE_PRINTS_NO_PREMISES_ADDRESS": 1,
+    "READ": 72,
+    "ROUTE_BOUND_POLICY_SOURCE_SILENT": 3,
+    "ROUTE_RETIRED_REDIRECTS_TO_BRAND_HOME": 2,
+    "UNIT_LISTING_HOUSE_RULE_ONLY": 2
+   },
+   "reads": 72,
+   "bindings": {
+    "BRAND_PROPERTY_CODE 101999 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 10277 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 8081 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE 9349 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE apfbohw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE apfbshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE bspfl on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE drury-fort-myers-airport-fgcu on the bra": 1,
+    "BRAND_PROPERTY_CODE fl075 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fl363 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fl472 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fl795 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fl967 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE flf65 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fll60 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyaphx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyar on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyarhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmybtdt on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmycb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmycchx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmycf on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmycl on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyclhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmycw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmydppe on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyeses on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyethx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyfmup on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyhshx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyhtht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyhwhw on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmypr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE fmyta on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE hts1442 on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE naprn on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE napzc on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswak on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswap on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswch on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswco on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswfb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswfi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswfm on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswfmgi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswfrhx on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswftht on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswra on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswri on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswrs on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswsb on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswse on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswsh on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswsp on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswsr on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswte on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswwi on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE rswzf on the brand's own page": 1,
+    "BRAND_PROPERTY_CODE tpafmgi on the brand's own page": 1,
+    "UNBOUND": 7,
+    "street number 27750 + postal code 34135, disambiguated by th": 1,
+    "the census route the attempt was opened from": 5,
+    "the page's own street number 1051 + street words + postal co": 1,
+    "the page's own street number 11282 + street words + postal c": 1,
+    "the page's own street number 11508 + street words + postal c": 1,
+    "the page's own street number 12251 + street words + postal c": 1,
+    "the page's own street number 1231 + street words + postal co": 1,
+    "the page's own street number 1245 + street words + postal co": 1,
+    "the page's own street number 126 + street words + postal cod": 1,
+    "the page's own street number 1400 + street words + postal co": 1,
+    "the page's own street number 1502 + street words + postal co": 1,
+    "the page's own street number 15107 + street words + postal c": 1,
+    "the page's own street number 15951 + street words + postal c": 1,
+    "the page's own street number 17863 + street words + postal c": 1,
+    "the page's own street number 17990 + street words + postal c": 1,
+    "the page's own street number 2000 + street words + postal co": 1,
+    "the page's own street number 2135 + street words + postal co": 1,
+    "the page's own street number 2255 + street words + postal co": 1,
+    "the page's own street number 275 + street words + postal cod": 1,
+    "the page's own street number 285 + street words + postal cod": 1,
+    "the page's own street number 3401 + street words + postal co": 1,
+    "the page's own street number 414 + street words + postal cod": 1,
+    "the page's own street number 4330 + street words + postal co": 1,
+    "the page's own street number 5400 + street words + postal co": 1,
+    "the page's own street number 642 + street words + postal cod": 1,
+    "the page's own street number 706 + street words + postal cod": 1,
+    "the page's own street number 932 + street words + postal cod": 1,
+    "the page's own street number 9740 + street words + postal co": 1
+   },
+   "by_family": {
+    "BEST_WESTERN": 1,
+    "CHOICE": 10,
+    "DRURY": 1,
+    "ESA": 2,
+    "HILTON": 18,
+    "HYATT": 3,
+    "IHG": 8,
+    "INDEPENDENT": 10,
+    "MARRIOTT": 17,
+    "OYO": 1,
+    "RED_ROOF": 1
+   }
+  },
+  "other_paid_providers": {
+   "bright_data": 0,
+   "other": 0
+  },
+  "routing_by_state": {
+   "FREE_LANE_EXHAUSTED": 5,
+   "INDEPENDENT_REVIEW": 35,
+   "ROUTED_MAP_WEBSITE": 3,
+   "ROUTED_OFFICIAL_DESTINATION": 47,
+   "ROUTED_OFFICIAL_INVENTORY": 52
+  },
+  "usd_spent": 0.0,
+  "new_paid_spend": 0.0,
+  "new_provider_authorization": "NONE"
+ },
+ "competitor_reconciliation": {
+  "competitor": "BringFido",
+  "cities_challenged": 9,
+  "competitor_raw_discovery": 310,
+  "normalized_unique": 196,
+  "matched_to_census": 60,
+  "matched_distinct_identities": 58,
+  "true_missing_qualifying_candidates": 0,
+  "true_missing_verified_by_places": {},
+  "true_missing_names": [],
+  "true_missing_disposition": "every BringFido lead no census node carried was worked through an authorized identity lane: Google Places gap verification (existing free allowance) placed each at its own postal code or refused it; a verified missing hotel became a census identity through the Places lane and its own page decided its policy. A competitor name never admits an identity and its pet claims are never read.",
+  "review_leads_audit": {
+   "review_total": 33,
+   "rule": "a REVIEW lead is one the automatic match could not place. The REVIEW leads carrying a hotel brand word (Comfort Suites Fort Myers East I-75, MainStay Suites Fort Myers East I-75, Quality Inn Fort Myers Cape Coral) match census nodes HELD for a founder ruling -- a dual-brand campus at 9455 Old Luckett Rd and a rebrand at 4760 S Cleveland Ave -- each read first-party on choicehotels.com; '23 Palms at Ivy Inn' names no licensed premises; the rest are private homes, condos, RV spots and unit listings by their own names.",
+   "places_verdicts": []
+  },
+  "excluded_stale_outside": 103,
+  "review": 33,
+  "matched_but_policy_unresolved": 8,
+  "counts": {
+   "ALIAS": 9,
+   "DUPLICATE": 2,
+   "EXACT_ATLAS_MATCH": 49,
+   "NON_HOTEL": 4,
+   "OUTSIDE": 12,
+   "REVIEW": 33,
+   "VACATION_RENTAL": 87
+  }
+ },
+ "county_and_border_boundary": {
+  "method": "Every OUTSIDE graph node counted by the refused place its OWN postal code (or prefix) or municipality names, plus every brand city-page card whose own address is a refused neighbour. Admission is by the corridor registry over the property's own postal code and nothing else.",
+  "refused_places": {
+   "NAPLES_NORTH_NAPLES_GOLDEN_GATE_EAST_NAPLES": {
+    "discovered_as_graph_nodes": 71,
+    "discovered_as_brand_cards": 0,
+    "admitted": 0
+   },
+   "MARCO_ISLAND_GOODLAND": {
+    "discovered_as_graph_nodes": 11,
+    "discovered_as_brand_cards": 0,
+    "admitted": 0
+   },
+   "EVERGLADES_CITY_CHOKOLOSKEE_OCHOPEE": {
+    "discovered_as_graph_nodes": 6,
+    "discovered_as_brand_cards": 0,
+    "admitted": 0
+   },
+   "IMMOKALEE_AVE_MARIA": {
+    "discovered_as_graph_nodes": 4,
+    "discovered_as_brand_cards": 0,
+    "admitted": 0
+   },
+   "PUNTA_GORDA_BABCOCK_RANCH_HARBOUR_HEIGHTS": {
+    "discovered_as_graph_nodes": 14,
+    "discovered_as_brand_cards": 0,
+    "admitted": 0
+   },
+   "PORT_CHARLOTTE": {
+    "discovered_as_graph_nodes": 11,
+    "discovered_as_brand_cards": 0,
+    "admitted": 0
+   },
+   "ENGLEWOOD_PLACIDA_ROTONDA_BOCA_GRANDE": {
+    "discovered_as_graph_nodes": 19,
+    "discovered_as_brand_cards": 0,
+    "admitted": 0
+   },
+   "PINE_ISLAND_BOKEELIA_ST_JAMES_CITY_PINELAND_AND_CABBAGE_KEY": {
+    "discovered_as_graph_nodes": 9,
+    "discovered_as_brand_cards": 0,
+    "admitted": 0
+   },
+   "LABELLE_CLEWISTON_FELDA_MOORE_HAVEN": {
+    "discovered_as_graph_nodes": 14,
+    "discovered_as_brand_cards": 0,
+    "admitted": 0
+   },
+   "SARASOTA_BRADENTON_VENICE_NORTH_PORT_ARCADIA": {
+    "discovered_as_graph_nodes": 2,
+    "discovered_as_brand_cards": 1,
+    "admitted": 0
+   },
+   "GREATER_FLORIDA_AND_OUT_OF_STATE": {
+    "discovered_as_graph_nodes": 0,
+    "discovered_as_brand_cards": 0,
+    "admitted": 0
+   }
+  },
+  "outside_nodes_not_placed_by_name_or_code": 35,
+  "boat_access_islands_pine_island_gasparilla": {
+   "rule": "Useppa, Cabbage Key, North and Upper Captiva (boat-access islands carrying Captiva's 33924), Pine Island (Bokeelia 33922, St. James City 33956, Pineland 33945) and Boca Grande / Gasparilla Island are refused; a premises whose own name or street names one is refused even under an admitted code; Matlacha shares 33993 with Cape Coral and is covered whole under its own municipality.",
+   "municipality_refusals": [
+    [
+     "33924",
+     "useppa"
+    ],
+    [
+     "33924",
+     "north captiva"
+    ],
+    [
+     "33924",
+     "upper captiva"
+    ]
+   ],
+   "refused_graph_nodes_by_own_name_or_street": [
+    "Boca Grande Hotel (33921)",
+    "Boca Grande Real Estate, Inc. (33921)",
+    "Cabbage Key Hideaway (33945)",
+    "Cabbage Key Inn (33922)",
+    "Gasparilla Inn & #46 #47 & #59 (33921)",
+    "North Captiva Island Club Resort (33924)",
+    "The Gasparilla Inn (33921)",
+    "Useppa Island Club (33922)"
+   ],
+   "admitted_rows_naming_a_refused_island": []
+  },
+  "naples_and_collier_county": {
+   "rule": "Naples, North Naples, Marco Island, Immokalee and every Collier County premises are refused (FUTURE_STANDALONE naples-fl); Bonita Springs and Estero are Lee County and admitted by their own codes. A 'Naples North' marketing name on a Bonita Springs premises admits it by its own Lee code and publishes Bonita Springs, never Naples.",
+   "NAPLES_ADMITTED": 0,
+   "admitted_rows_marketed_naples_north": [
+    "Baymont by Wyndham Bonita Springs Naples North (Bonita Springs, 34135)",
+    "Days Inn & Suites by Wyndham Bonita Springs North Naples (Bonita Springs, 34135)",
+    "Hampton Inn Bonita Springs/Naples-North (Bonita Springs, 34135)",
+    "Holiday Inn Express & Suites Naples North - Bonita Springs (Bonita Springs, 34135)",
+    "Homewood Suites by Hilton Bonita Springs Naples North, FL (Bonita Springs, 34135)",
+    "La Quinta Inn & Suites by Wyndham Bonita Springs Naples N. (Bonita Springs, 34134)"
+   ],
+   "held_by_state_licence_county": [
+    "Latitude 26 Waterfront Inn & Suites (4701 Bonita Beach Rd 34134) -- FUTURE_SUBMARKET naples-fl -- COUNTY_REFUSAL -- the State licence for these premises names Collier County: a premises th"
+   ],
+   "licence_county_vs_postal_code_conflicts_for_founder": [
+    {
+     "premises": "Latitude 26 Waterfront Inn & Suites, 4701 Bonita Beach Rd 34134",
+     "postal_code_county": "Lee",
+     "state_licence_county": "Collier",
+     "held": "OUTSIDE (COUNTY_REFUSAL) -- a geography ruling, never self-decided"
+    }
+   ]
+  },
+  "rsw_airport": {
+   "evaluation": {
+    "airport_terminal": "Southwest Florida International Airport (RSW) is 11000 Terminal Access Road, Fort Myers, FL 33913 -- unincorporated Lee County at Gateway. No hotel stands inside the terminal.",
+    "airport_hotel_rows": "RSW's hotels are the Daniels Parkway / Chamberlin Parkway / Airkraft Court, Interstate Commerce Drive, Gulf Center Drive, Treeline Avenue, Global Parkway and Corporate Commerce Way rows east of I-75 (33913, rsw-airport-gateway) and the Daniels Parkway / Market Place Road rows west of I-75 (33912, daniels-six-mile).",
+    "airport_marketed_elsewhere": "'Fort Myers Airport' or 'RSW' hotels in Estero (33928) or on Colonial Boulevard are placed by their own code and keep their own municipality.",
+    "one_premises_one_row": "A property is one row however many of 'RSW', 'Airport', 'Gateway', 'FGCU', 'Estero' and 'Fort Myers' its marketing carries; identity is its own street address, phone and brand property code."
+   },
+   "admitted_rows_rsw_airport_gateway": 12,
+   "admitted_rows_named_airport_outside_the_airport_corridor": [
+    "Extended Stay America Premier Suites Fort Myers - Airport (33912, daniels-six-mile)",
+    "Hampton Inn Ft. Myers-Airport I-75 (33912, daniels-six-mile)",
+    "SpringHill Suites Fort Myers Airport (33912, daniels-six-mile)",
+    "StudioRes by Marriott Fort Myers Airport (33912, daniels-six-mile)",
+    "Travelodge by Wyndham Fort Myers Airport (33912, daniels-six-mile)"
+   ]
+  },
+  "counties_and_municipalities_never_flattened": {
+   "admitted_rows_by_county": {
+    "Lee": 142
+   },
+   "admitted_rows_by_published_municipality": {
+    "Bonita Springs": 13,
+    "Cape Coral": 9,
+    "Captiva": 4,
+    "Estero": 5,
+    "Fort Myers": 65,
+    "Fort Myers Beach": 16,
+    "Lehigh Acres": 1,
+    "Matlacha": 1,
+    "North Fort Myers": 10,
+    "Sanibel": 18
+   },
+   "FORT_MYERS_WRONG_CITY_IDENTITIES": 0,
+   "FORT_MYERS_LABEL_ON_ANOTHER_MUNICIPALITY": 0,
+   "COLLIER_CHARLOTTE_HENDRY_LICENSED_ADMITTED": 0,
+   "rows_relabelled_to_their_own_municipality": 3,
+   "relabelled_rows": [
+    {
+     "identity_key": "best western fort myers waterfront",
+     "canonical_name": "Best Western Fort Myers Waterfront",
+     "postal_code": "33903",
+     "stated_city": "Fort Myers",
+     "published_city": "North Fort Myers",
+     "county": "Lee",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "econo lodge fort myers cape coral",
+     "canonical_name": "Econo Lodge Fort Myers Cape Coral",
+     "postal_code": "33903",
+     "stated_city": "Fort Myers",
+     "published_city": "North Fort Myers",
+     "county": "Lee",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "ranch house motel",
+     "canonical_name": "Ranch House Motel",
+     "postal_code": "34135",
+     "stated_city": "Bonita Spings",
+     "published_city": "Bonita Springs",
+     "county": "Lee",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    }
+   ],
+   "admitted_rows_not_florida": 0,
+   "rows_held_for_a_municipality_or_state_or_postal_conflict": []
+  },
+  "neighbourhood_overlays": {
+   "Bell Tower": 2,
+   "Bonita Springs": 12,
+   "Cape Coral": 10,
+   "Captiva": 4,
+   "Coconut Point": 3,
+   "Colonial Boulevard": 16,
+   "Daniels Parkway": 5,
+   "Downtown Fort Myers": 4,
+   "East Fort Myers / Forum": 11,
+   "Estero": 3,
+   "Estero Island (Fort Myers Beach)": 11,
+   "Gulf Coast Town Center": 3,
+   "Iona / Punta Rassa": 5,
+   "Lehigh Acres": 1,
+   "North Fort Myers": 10,
+   "RSW Airport": 3,
+   "River District": 3,
+   "San Carlos Island / Summerlin Square": 4,
+   "Sanibel": 19,
+   "Times Square (Fort Myers Beach)": 1,
+   "Treeline / Gateway": 12
+  },
+  "outside_nodes_under_market_prefixes": {
+   "33921": 7,
+   "33922": 6,
+   "33924": 1,
+   "33935": 2,
+   "33945": 1,
+   "33948": 1,
+   "33950": 9,
+   "33952": 2,
+   "33954": 2,
+   "33955": 2,
+   "33956": 2,
+   "33980": 4,
+   "33981": 1,
+   "33982": 1,
+   "33983": 2,
+   "34102": 19,
+   "34103": 11,
+   "34104": 2,
+   "34105": 2,
+   "34108": 7,
+   "34109": 4,
+   "34110": 4,
+   "34112": 4,
+   "34113": 7,
+   "34114": 5,
+   "34117": 5,
+   "34119": 1,
+   "34134": 1,
+   "34138": 2,
+   "34139": 3,
+   "34140": 1,
+   "34142": 4,
+   "34145": 10
+  },
+  "fort_myers_ruling": {
+   "classification": "The Fort Myers / Cape Coral market is admitted as Lee County's traveller lodging -- Downtown / River District, Colonial Boulevard & Cleveland Avenue, Daniels Parkway & Six Mile Cypress, RSW / Gateway and East Fort Myers / I-75 CORE; Cape Coral, Fort Myers Beach, South Fort Myers / Iona, Sanibel, Estero and Bonita Springs STRONG CORRIDOR; North Fort Myers, Lehigh Acres / Alva and Captiva FRINGE. Naples, Marco Island, Everglades City, Punta Gorda, Port Charlotte, Englewood / Boca Grande, Pine Island, LaBelle, Sarasota, Bradenton and Venice are OUTSIDE.",
+   "a_marketing_phrase_admits_nothing": "'Fort Myers', 'Fort Myers Area', 'Southwest Florida', 'Beaches of Fort Myers & Sanibel', 'RSW Airport', 'Naples-Fort Myers' and 'Naples North' are marketing. The property's own postal code decides membership and its municipality.",
+   "actual_location": "Decided by the property's own postal code on its own page; the county and the municipality by that code; a State licence naming Collier, Charlotte or Hendry County refuses.",
+   "drive_market_relationship": "Downtown, the US-41 / Colonial / Daniels hotel rows, the airport, Cape Coral, the beach and the islands, Estero and Bonita Springs are where Fort Myers travellers sleep; Naples, Marco Island, Punta Gorda and Sarasota are trips of their own.",
+   "traveller_intent": "Leisure (Fort Myers Beach, Sanibel and Captiva, the Edison and Ford Winter Estates), spring training (JetBlue Park, Hammond Stadium), RSW airport, Florida Gulf Coast University, medical (Lee Health, Gulf Coast Medical Center, Golisano Children's), Hertz Arena and Coconut Point demand is this market's intent.",
+   "metro_continuity": "Continuous development runs along US-41 and I-75 from North Fort Myers through Fort Myers, Estero and Bonita Springs to the Collier County line at Bonita Beach Road; this registry stops there.",
+   "corridor_support": "Every admitted edge code is in a named corridor so its count is visible and a founder can move it on the record.",
+   "preserved_for": "FUTURE_STANDALONE naples-fl, marco-island-fl, everglades-city-fl, punta-gorda-port-charlotte-fl, englewood-boca-grande-fl, sarasota-fl, bradenton-fl and venice-fl."
+  },
+  "rows_admitted_from_a_refused_postal_code": 0,
+  "zero_admitted_outside": true,
+  "county_boundary_rules": {
+   "lee": {
+    "ruling": "ADMITTED, MUNICIPALITIES PRESERVED. Fort Myers, Cape Coral, Fort Myers Beach, Sanibel, Estero and Bonita Springs are admitted with Gateway / RSW, South Fort Myers / Iona and East Fort Myers; North Fort Myers, Lehigh Acres / Alva and Captiva at FRINGE. Pine Island (Bokeelia, St. James City, Pineland), Cabbage Key, Useppa, North Captiva and Boca Grande (Gasparilla Island) are refused."
+   },
+   "collier": {
+    "ruling": "REFUSED WHOLE. Naples, North Naples, Marco Island, Everglades City, Immokalee and Ave Maria are future standalone markets. A premises the State licenses in Collier County is refused even where its mailing label reads Bonita Springs (34134 north of the county line) -- COUNTY_REFUSALS."
+   },
+   "charlotte": {
+    "ruling": "REFUSED WHOLE. Punta Gorda, Port Charlotte, Englewood, Placida and Rotonda are future standalone markets; Boca Grande (Lee County, Gasparilla Island) is refused with them."
+   },
+   "hendry / glades / sarasota / manatee / desoto": {
+    "ruling": "REFUSED. LaBelle, Clewiston, Sarasota, Bradenton, Venice, North Port and Arcadia are not absorbed."
+   }
+  },
+  "existing_live_markets_named": [
+   "salt-lake-city-ut",
+   "tampa-fl",
+   "orlando-fl",
+   "miami-fl",
+   "fort-lauderdale-fl",
+   "west-palm-beach-fl",
+   "jacksonville-fl"
+  ],
+  "future_standalone_markets": [
+   "naples-fl",
+   "marco-island-fl",
+   "everglades-city-fl",
+   "punta-gorda-port-charlotte-fl",
+   "englewood-boca-grande-fl",
+   "sarasota-fl",
+   "bradenton-fl",
+   "venice-fl"
+  ]
+ },
+ "fees": {
+  "schema": "ptf-fee-withholding/1.0",
+  "work_order": "PTF-FORT-MYERS-FL-HARDENED-SOURCE-READY-001",
+  "market_id": "fort-myers-fl",
+  "rule": "a fee publishes only as one amount whose basis (per night / per stay) the quote itself states, with no stay-length condition, no range, no second basis and no second amount; otherwise the fee is withheld and the acceptance, weight, count and species still publish",
+  "fees_published": 5,
+  "tiered_fees_withheld": 22,
+  "unsafe_single_fees_withheld": 5,
+  "unsafe_by_reason": {
+   "AMOUNT_FLOOR": 1,
+   "BASIS_NOT_STATED": 3,
+   "FEE_SENTENCE_CUT": 1
+  },
+  "misleading_single_fees_published": 0
+ },
+ "negation_and_parser_conflicts": [
+  {
+   "identity_key": "edison beach house hotel",
+   "name": "Edison Beach House Hotel",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'No Pets Even though they may be adorable and extremely well-behaved, pets are not allowed on Edison Beach House grounds or in the suites.'"
+  },
+  {
+   "identity_key": "howard johnson by wyndham ft myers fl",
+   "name": "Howard Johnson by Wyndham Ft. Myers FL",
+   "why": "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE -- held rather than published on a fee/weight/count sentence alone"
+  },
+  {
+   "identity_key": "pink shell beach resort and marina",
+   "name": "Pink Shell Beach Resort & Marina",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_VERIFIED_NO_PETS; the shared first_party_binding reader classifies the same quote QUOTE_NOT_OPERATIVE: no refusal the reader will interpret: 'Pets are not permitted at Pink Shell Beach Resort & Marina.'"
+  },
+  {
+   "identity_key": "sanibel island beach resort",
+   "name": "Sanibel Island Beach Resort",
+   "why": "SHARED_READER_DISAGREES -- this order read CLEAN_PET_FRIENDLY; the shared first_party_binding reader classifies the same quote FEE_ONLY: a fee, count or weight alone does not establish acceptance: 'Pet Policy | We welcome well-mannered dogs at our beachfront hotel. Guests bringing dogs must always have them leashed when outside the guestroom and will be charged a non-refundable fee disclosed at the time of booking per night, per dog; maximum of two dogs per room.'"
+  }
+ ],
+ "remaining_unresolved_root_causes": {
+  "ROUTING_HOLD": "no first-party route: no brand inventory row, bureau link or map website joined the building, Google Places route discovery (run inside the renewed free monthly allowance) found no first-party website for it, or the route the census carried is retired, expired or a third-party page.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible, the attended browser) was refused or walled.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a conditional, chip-only or fee/weight/count-only statement, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "dual-brand buildings awaiting a reviewed shared resolution, or a page that never confirmed this census row's premises."
+ },
+ "beach_island_accounting": {
+  "rule": "Fort Myers Beach (33931 / 33932), Sanibel (33957) and Captiva (33924) are admitted under their OWN municipality and never labelled Fort Myers; condominiums, vacation rentals and timeshares on the islands are refused; a beach or island property publishes only with current-operation evidence.",
+  "evaluation": {
+   "fort_myers_beach": "The Town of Fort Myers Beach is Estero Island (33931). The mainland approach -- San Carlos Island, Summerlin Square -- shares 33931 and the mailing name Fort Myers Beach; its rows publish as Fort Myers Beach and report under the 'San Carlos Island / Summerlin Square' overlay, never as island beach resorts.",
+   "sanibel": "The City of Sanibel (33957) is its own municipality: never Fort Myers, never Captiva.",
+   "captiva": "Captiva (33924) is its own unincorporated island: never Sanibel. Useppa, North / Upper Captiva and Safety Harbor share 33924 and are boat-access islands of private clubs and vacation homes, refused by name.",
+   "current_operation": "Hurricane Ian (2022), Helene and Milton (2024) destroyed or closed much of the beach and island lodging. A beach / island row publishes only on its own CURRENT first-party page proving an operating public lodging business; a historic OTA page, an old tourism or competitor listing, a cached brand page, a pre-hurricane identity or old policy evidence never publishes one.",
+   "resort_campus": "A resort campus (one operator, many buildings, one booking engine) is never one identity: each row is the exact hotel premises the public operator sells as a hotel, and a pet policy binds only to that premises (CONDO_HOTEL_RULE)."
+  },
+  "condo_hotel_rule": {
+   "public_hotel_operator": "Required and proved on the operator's own page: an establishment sold nightly to the public under one name, with an official property page and an on-site hotel / inn / lodge operation (front desk).",
+   "exact_premises": "Required: the row's own street address (house number + canonical street + ZIP). A unit designator ('Ste', 'Unit', '#', 'Apt', 'PH') in a registry address means the record is a UNIT INSIDE a building or campus, which is never a hotel identity.",
+   "beach_inn_rule": "A beach inn, island cottage court or historic inn is admitted however small when its own site proves a PUBLIC LODGING OPERATION (rooms sold nightly to the public under one establishment name, with its own booking and an on-site operation), an OFFICIAL PROPERTY IDENTITY and an EXACT PREMISES. A condominium complex whose units are rented by a property-management company, a private cottage, a beach house or a vacation-dwelling licence is never an inn. Ambiguous qualification is HELD, never admitted to publication.",
+   "hotel_vs_residence_boundary": "A property that sells both hotel rooms and residences is admitted ONLY as the hotel premises. This market's specific exposures: Fort Myers Beach's and Sanibel's condominium resorts sold by rental programmes (DBPR CNDO), Bonita Beach and Estero Boulevard condo towers, island vacation-rental managers (Royal Shell, Sanibel & Captiva Island Vacation Rentals, VIP, Vacasa, Evolve), Cape Coral's canal-home vacation rentals (~2,600 DWEL licences), serviced-apartment and corporate-housing operators, FGCU student housing and the Airbnb / Vrbo inventory.",
+   "timeshare_rule": "A vacation-ownership club or timeshare resort (Marriott Vacation Club, Hilton Grand Vacations, Club Wyndham, WorldMark, Westgate, Holiday Inn Club Vacations, Bluegreen, Diamond / Hilton Vacation Club, Shell Vacations, Lehigh Resort Club, independent ownership resorts) is TIMESHARE and is never admitted to hotel accounting, even when its brand lists it beside its hotels, even when it sells a nightly rate, and even when a pet-policy page exists.",
+   "shared_campus_relation": "Never merged by display name, brand, owner, phone, shared address, campus, booking engine, shared amenities or shared entrance. A dual-brand building is TWO hotels and is HELD for the split, never published as one. A hotel and its residences on one campus are distinct premises. A resort-wide or management-company policy never binds to a building without exact binding.",
+   "extended_stay": "Extended-stay hotels are hotels and are admitted on their own pages; an 'apartment hotel' or 'aparthotel' is admitted only as a public hotel operation at an exact premises, never as a residential building that rents furnished units.",
+   "patient_and_military_lodging": "Patient-family housing (the Ronald McDonald House, Hope Lodge), charitable family lodging (Fisher House), shelters and on-base military lodging are never public hotels and are never admitted."
+  },
+  "by_place": {
+   "fort_myers_beach": {
+    "postal_codes": [
+     "33931",
+     "33932"
+    ],
+    "admitted_rows": 16,
+    "pet_friendly": 4,
+    "verified_no_pets": 0,
+    "unresolved": 12,
+    "published_municipality": {
+     "Fort Myers Beach": 16
+    },
+    "labelled_fort_myers": 0,
+    "non_admitted_by_class": {
+     "IDENTITY_REVIEW_REQUIRED": 20,
+     "NON_HOTEL": 5,
+     "TIMESHARE": 1,
+     "VACATION_RENTAL": 26
+    }
+   },
+   "sanibel": {
+    "postal_codes": [
+     "33957"
+    ],
+    "admitted_rows": 18,
+    "pet_friendly": 0,
+    "verified_no_pets": 6,
+    "unresolved": 12,
+    "published_municipality": {
+     "Sanibel": 18
+    },
+    "labelled_fort_myers": 0,
+    "non_admitted_by_class": {
+     "IDENTITY_REVIEW_REQUIRED": 4,
+     "NON_HOTEL": 2,
+     "VACATION_RENTAL": 14
+    }
+   },
+   "captiva": {
+    "postal_codes": [
+     "33924"
+    ],
+    "admitted_rows": 4,
+    "pet_friendly": 3,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "published_municipality": {
+     "Captiva": 4
+    },
+    "labelled_fort_myers": 0,
+    "non_admitted_by_class": {
+     "IDENTITY_REVIEW_REQUIRED": 1,
+     "OUTSIDE_MARKET": 1,
+     "VACATION_RENTAL": 4
+    }
+   }
+  },
+  "BEACH_ISLAND_PROFILES_LABELED_FORT_MYERS": 0,
+  "condo_vacation_rental_timeshare_refused_on_the_islands": [
+   "#1 Island Hideaway (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Places to Stay', 'Vacation Rental'] -- a ",
+   "American Realty of Captiva (33924) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('American Realty of Captiva'), no",
+   "Bay To Beach Resort (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Places to Stay', 'Resort', 'Vacation Rent",
+   "Bel Air Beach Club (33931) -- VACATION_RENTAL -- the State of Florida licenses these premises only BY THE UNIT (CNDO 1) and carries no hotel",
+   "Breakaway Vacation Properties (33957) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('Breakaway Vacation Properties'),",
+   "Casa Playa Resort (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Condo', 'Places to Stay'] -- a vacation-r",
+   "Coastal Vacation Properties (33931) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('Coastal Vacation Properties'), n",
+   "Coldwell Banker Residential Real Estate Rental Division (33931) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('Coldwell Banker Residential Real",
+   "Cottages to Castles of Sanibel & Captiva, Inc. (33957) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('Cottages to Castles of Sanibel &",
+   "Distinctive Beach Rentals (33931) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('Distinctive Beach Rentals'), not",
+   "Edgewater Inn (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Condo', 'Places to Stay'] -- a vacation-r",
+   "Encore Gulf Air (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Campgrounds', 'Places to Stay', 'Pull Thr",
+   "Gull Wing (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Condo', 'Meeting Facilities & Services', ",
+   "Harbour House at Inn Condo Assoc Inc (33931) -- VACATION_RENTAL -- the row's own name ('Harbour House at Inn Condo Assoc Inc') is a vacation-home, villa, town",
+   "Island Reef Condos (33931) -- VACATION_RENTAL -- the row's own name ('Island Reef Condos') is a vacation-home, villa, townhome or condo rent",
+   "Island Vacations of Sanibel & Captiva, Inc. (33957) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('Island Vacations of Sanibel & Ca",
+   "Island Winds (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Beaches', 'Canoeing & Kayaking', 'Condo',",
+   "Jensen's On The Gulf (33924) -- VACATION_RENTAL -- the destination bureau files this listing under ['Condo', 'Places to Stay'] -- a vacation-r",
+   "Kingfisher Vacation Rentals, INC (33957) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('Kingfisher Vacation Rentals, INC",
+   "Lovers Key Resort (33931) -- VACATION_RENTAL -- the State of Florida licenses these premises only BY THE UNIT (CNDO 2) and carries no hotel",
+   "Mariner Boathouse Beach Resort (33931) -- VACATION_RENTAL -- the State of Florida licenses these premises only BY THE UNIT (CNDO 1) and carries no hotel",
+   "Ocean's Reach Condominium Resort (33957) -- VACATION_RENTAL -- the row's own name (\"Ocean's Reach Condominium Resort\") is a vacation-home, villa, townhome",
+   "Pelican Watch Rentals (33931) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('Pelican Watch Rentals'), not a p",
+   "Pelicans Roost Condominiums (33957) -- VACATION_RENTAL -- the row's own name ('Pelicans Roost Condominiums') is a vacation-home, villa, townhome or c",
+   "Pointe Estero Beach Resort (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Condo', 'Places to Stay', 'Resort', 'Wedd",
+   "Royal Shell Vacations - Captiva (33957) -- VACATION_RENTAL -- the row's own name ('Royal Shell Vacations - Captiva') is a short-term-rental / serviced-ap",
+   "Sandalfoot Beachfront Condominium (33957) -- VACATION_RENTAL -- the row's own name ('Sandalfoot Beachfront Condominium') is a vacation-home, villa, townhom",
+   "Sanibel Arms West Condo Association (33957) -- VACATION_RENTAL -- the row's own name ('Sanibel Arms West Condo Association') is a vacation-home, villa, townh",
+   "Sanibel Captiva Island Vacations (33957) -- VACATION_RENTAL -- the destination bureau files this listing under ['Condo', 'Cottage', 'Places to Stay', 'Vac",
+   "Sanibel Holiday (33957) -- VACATION_RENTAL -- the destination bureau files this listing under ['Condo', 'Cottage', 'Places to Stay', 'Vac",
+   "Sanibel Moorings Resort (33957) -- VACATION_RENTAL -- the destination bureau files this listing under ['Condo', 'Places to Stay', 'Resort'] -- a ",
+   "Sanibel Siesta on the Beach (33957) -- VACATION_RENTAL -- the State of Florida licenses these premises only BY THE UNIT (CNDO 59) and carries no hote",
+   "Sea Gypsy Vacation Rentals (33931) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('Sea Gypsy Vacation Rentals'), no",
+   "Sea Oats Luxury Estate - Captiva Island (33924) -- VACATION_RENTAL -- the destination bureau files this listing under ['Meeting Facilities', 'Meeting Facilities ",
+   "Seaside All-Suite Resort (33931) -- VACATION_RENTAL -- the State of Florida licenses these premises only BY THE UNIT (CNDO 1) and carries no hotel",
+   "Select Vacation Properties (33957) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('Select Vacation Properties'), no",
+   "Smuggler's Cove Condominium (33931) -- VACATION_RENTAL -- the row's own name (\"Smuggler's Cove Condominium\") is a vacation-home, villa, townhome or c",
+   "Southern Serenity FMB (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Places to Stay', 'Vacation Rental'] -- a ",
+   "Sun Palace Vacations (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Condo', 'Places to Stay', 'Vacation Renta",
+   "The Pina Colada at Anchorage (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Places to Stay', 'Vacation Rental'] -- a ",
+   "The Tequila Sunrise at Lazy Way (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Places to Stay', 'Vacation Rental'] -- a ",
+   "Tortuga Sunset (33924) -- VACATION_RENTAL -- the destination bureau files this listing under ['Beaches', 'Beaches, Parks & Nature', 'Bic",
+   "TriPower Vacation Rentals (33931) -- VACATION_RENTAL -- the licence names a rental / management / realty company ('TriPower Vacation Rentals'), not",
+   "Tropical Sands Resort (33931) -- VACATION_RENTAL -- the destination bureau files this listing under ['Condo', 'Places to Stay', 'Resort', 'Vaca",
+   "Vacation Villas (33931) -- TIMESHARE -- the row's own name ('Vacation Villas') is a vacation-ownership / timeshare club resort; vacation-"
+  ]
+ },
+ "operating_status_accounting": {
+  "rule": {
+   "vocabulary": [
+    "CURRENTLY_OPEN",
+    "REOPENED",
+    "PARTIALLY_OPEN",
+    "SEASONAL",
+    "TEMPORARILY_CLOSED",
+    "CLOSED_FOR_REBUILD",
+    "PERMANENTLY_CLOSED",
+    "DEMOLISHED",
+    "REBRANDED",
+    "PREOPENING",
+    "UNKNOWN"
+   ],
+   "publishes": "Only a row whose own current first-party page proves an operating public lodging business (CURRENTLY_OPEN, REOPENED, PARTIALLY_OPEN for the open premises, SEASONAL in season or out).",
+   "never_publishes": "TEMPORARILY_CLOSED, CLOSED_FOR_REBUILD, PERMANENTLY_CLOSED, DEMOLISHED, PREOPENING and UNKNOWN. A REBRANDED row publishes only under its current operator's name on its current page.",
+   "evidence": "A historic OTA page, an old tourism or competitor listing, a cached brand page, a pre-hurricane identity, a DBPR licence or old policy evidence never proves current operation."
+  },
+  "nonoperating_signals": [
+   {
+    "identity": "(map row) sabal park inn|26.678189|-81.882691",
+    "signals": [
+     "Google Places business_status CLOSED_TEMPORARILY"
+    ],
+    "published": false
+   },
+   {
+    "identity": "(unbound) 8737",
+    "signals": [
+     "ROUTE_RETIRED_REDIRECTS_TO_BRAND_HOME (seq 92): OPERATING STATUS: the brand's own property route for Motel 6 Fort Myers (8737, 3350 Marinatown Ln) redirects to the brand home page -- the brand no longer lists"
+    ],
+    "published": false
+   },
+   {
+    "identity": "(unbound) theinnsofsanibel-song-of-the-sea",
+    "signals": [
+     "own page closure statement: 'Song of the Sea is currently closed and is under review for redevelopment.' (seq 98)"
+    ],
+    "published": false
+   },
+   {
+    "identity": "(unbound) theinnsofsanibel-sunset-beach-inn",
+    "signals": [
+     "ROUTE_RETIRED_REDIRECTS_TO_BRAND_HOME (seq 97): OPERATING STATUS: the operator's own Sunset Beach Inn route (the website Google Places names for 3287 W Gulf Dr) redirects to the operator's home page, which na"
+    ],
+    "published": false
+   },
+   {
+    "identity": "beach shell inn",
+    "signals": [
+     "Google Places business_status CLOSED_PERMANENTLY"
+    ],
+    "published": false
+   },
+   {
+    "identity": "motel 6 fort myers fl",
+    "signals": [
+     "Google Places business_status CLOSED_PERMANENTLY"
+    ],
+    "published": false
+   },
+   {
+    "identity": "sanibel sunset beach resort",
+    "signals": [
+     "Google Places business_status CLOSED_TEMPORARILY"
+    ],
+    "published": false
+   },
+   {
+    "identity": "song of the sea",
+    "signals": [
+     "Google Places business_status CLOSED_TEMPORARILY"
+    ],
+    "published": false
+   },
+   {
+    "identity": "wyndham garden fort myers beach",
+    "signals": [
+     "Google Places business_status CLOSED_PERMANENTLY"
+    ],
+    "published": false
+   }
+  ],
+  "rows_with_a_nonoperating_signal": 9,
+  "NONOPERATING_PUBLISHED": 0,
+  "publication_safety_audit_nonoperating_signal_published": 0,
+  "current_operation_confirmed_on_own_page": [
+   "anchor inn and cottages (seq 87)",
+   "casa ybel resort (seq 71)",
+   "diamondhead beach resort (seq 63)",
+   "lani kai island resort (seq 65)",
+   "latitude 26 waterfront boutique resort (seq 77)",
+   "latitude 26 waterfront resort and marina (seq 78)",
+   "lighthouse resort inn and suites (seq 64)",
+   "manatee bay inn (seq 67)",
+   "palmview and sandpiper inns (seq 70)",
+   "pink shell beach resort and marina (seq 62)",
+   "sanibel inn (seq 61)",
+   "sanibel island beach resort (seq 68)",
+   "sunshine island inn (seq 69)",
+   "the anchor inn (seq 94)"
+  ],
+  "note": "A closure is published nowhere: a row with a closure statement or a retired route is held (ROUTING / EVIDENCE) and never verified-no-pets; a later reopening is revalidated first-party."
+ },
+ "municipality_accounting": {
+  "counties_and_municipalities_never_flattened": {
+   "admitted_rows_by_county": {
+    "Lee": 142
+   },
+   "admitted_rows_by_published_municipality": {
+    "Bonita Springs": 13,
+    "Cape Coral": 9,
+    "Captiva": 4,
+    "Estero": 5,
+    "Fort Myers": 65,
+    "Fort Myers Beach": 16,
+    "Lehigh Acres": 1,
+    "Matlacha": 1,
+    "North Fort Myers": 10,
+    "Sanibel": 18
+   },
+   "FORT_MYERS_WRONG_CITY_IDENTITIES": 0,
+   "FORT_MYERS_LABEL_ON_ANOTHER_MUNICIPALITY": 0,
+   "COLLIER_CHARLOTTE_HENDRY_LICENSED_ADMITTED": 0,
+   "rows_relabelled_to_their_own_municipality": 3,
+   "relabelled_rows": [
+    {
+     "identity_key": "best western fort myers waterfront",
+     "canonical_name": "Best Western Fort Myers Waterfront",
+     "postal_code": "33903",
+     "stated_city": "Fort Myers",
+     "published_city": "North Fort Myers",
+     "county": "Lee",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "econo lodge fort myers cape coral",
+     "canonical_name": "Econo Lodge Fort Myers Cape Coral",
+     "postal_code": "33903",
+     "stated_city": "Fort Myers",
+     "published_city": "North Fort Myers",
+     "county": "Lee",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "ranch house motel",
+     "canonical_name": "Ranch House Motel",
+     "postal_code": "34135",
+     "stated_city": "Bonita Spings",
+     "published_city": "Bonita Springs",
+     "county": "Lee",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    }
+   ],
+   "admitted_rows_not_florida": 0,
+   "rows_held_for_a_municipality_or_state_or_postal_conflict": []
+  },
+  "rsw_airport": {
+   "evaluation": {
+    "airport_terminal": "Southwest Florida International Airport (RSW) is 11000 Terminal Access Road, Fort Myers, FL 33913 -- unincorporated Lee County at Gateway. No hotel stands inside the terminal.",
+    "airport_hotel_rows": "RSW's hotels are the Daniels Parkway / Chamberlin Parkway / Airkraft Court, Interstate Commerce Drive, Gulf Center Drive, Treeline Avenue, Global Parkway and Corporate Commerce Way rows east of I-75 (33913, rsw-airport-gateway) and the Daniels Parkway / Market Place Road rows west of I-75 (33912, daniels-six-mile).",
+    "airport_marketed_elsewhere": "'Fort Myers Airport' or 'RSW' hotels in Estero (33928) or on Colonial Boulevard are placed by their own code and keep their own municipality.",
+    "one_premises_one_row": "A property is one row however many of 'RSW', 'Airport', 'Gateway', 'FGCU', 'Estero' and 'Fort Myers' its marketing carries; identity is its own street address, phone and brand property code."
+   },
+   "admitted_rows_rsw_airport_gateway": 12,
+   "admitted_rows_named_airport_outside_the_airport_corridor": [
+    "Extended Stay America Premier Suites Fort Myers - Airport (33912, daniels-six-mile)",
+    "Hampton Inn Ft. Myers-Airport I-75 (33912, daniels-six-mile)",
+    "SpringHill Suites Fort Myers Airport (33912, daniels-six-mile)",
+    "StudioRes by Marriott Fort Myers Airport (33912, daniels-six-mile)",
+    "Travelodge by Wyndham Fort Myers Airport (33912, daniels-six-mile)"
+   ]
+  },
+  "rule": "Every admitted row publishes the municipality its OWN postal code carries (GEO.POSTAL_PARISH). A stated 'Fort Myers' on a code that does not carry it (Estero, Cape Coral, North Fort Myers, Fort Myers Beach, Bonita Springs...) is kept as stated_city evidence and never published."
+ }
+}

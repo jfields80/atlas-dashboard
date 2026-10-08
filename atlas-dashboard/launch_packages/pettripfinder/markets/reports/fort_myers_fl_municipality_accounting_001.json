@@ -1,0 +1,80 @@
+{
+ "schema": "ptf-municipality-accounting/1.0",
+ "work_order": "PTF-FORT-MYERS-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "fort-myers-fl",
+ "derived_from": "launch_packages/pettripfinder/markets/reports/fort_myers_fl_source_ready_accounting_001.json",
+ "municipality_accounting": {
+  "counties_and_municipalities_never_flattened": {
+   "admitted_rows_by_county": {
+    "Lee": 142
+   },
+   "admitted_rows_by_published_municipality": {
+    "Bonita Springs": 13,
+    "Cape Coral": 9,
+    "Captiva": 4,
+    "Estero": 5,
+    "Fort Myers": 65,
+    "Fort Myers Beach": 16,
+    "Lehigh Acres": 1,
+    "Matlacha": 1,
+    "North Fort Myers": 10,
+    "Sanibel": 18
+   },
+   "FORT_MYERS_WRONG_CITY_IDENTITIES": 0,
+   "FORT_MYERS_LABEL_ON_ANOTHER_MUNICIPALITY": 0,
+   "COLLIER_CHARLOTTE_HENDRY_LICENSED_ADMITTED": 0,
+   "rows_relabelled_to_their_own_municipality": 3,
+   "relabelled_rows": [
+    {
+     "identity_key": "best western fort myers waterfront",
+     "canonical_name": "Best Western Fort Myers Waterfront",
+     "postal_code": "33903",
+     "stated_city": "Fort Myers",
+     "published_city": "North Fort Myers",
+     "county": "Lee",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "econo lodge fort myers cape coral",
+     "canonical_name": "Econo Lodge Fort Myers Cape Coral",
+     "postal_code": "33903",
+     "stated_city": "Fort Myers",
+     "published_city": "North Fort Myers",
+     "county": "Lee",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    },
+    {
+     "identity_key": "ranch house motel",
+     "canonical_name": "Ranch House Motel",
+     "postal_code": "34135",
+     "stated_city": "Bonita Spings",
+     "published_city": "Bonita Springs",
+     "county": "Lee",
+     "multi_municipality_code": false,
+     "settled_by_lane": ""
+    }
+   ],
+   "admitted_rows_not_florida": 0,
+   "rows_held_for_a_municipality_or_state_or_postal_conflict": []
+  },
+  "rsw_airport": {
+   "evaluation": {
+    "airport_terminal": "Southwest Florida International Airport (RSW) is 11000 Terminal Access Road, Fort Myers, FL 33913 -- unincorporated Lee County at Gateway. No hotel stands inside the terminal.",
+    "airport_hotel_rows": "RSW's hotels are the Daniels Parkway / Chamberlin Parkway / Airkraft Court, Interstate Commerce Drive, Gulf Center Drive, Treeline Avenue, Global Parkway and Corporate Commerce Way rows east of I-75 (33913, rsw-airport-gateway) and the Daniels Parkway / Market Place Road rows west of I-75 (33912, daniels-six-mile).",
+    "airport_marketed_elsewhere": "'Fort Myers Airport' or 'RSW' hotels in Estero (33928) or on Colonial Boulevard are placed by their own code and keep their own municipality.",
+    "one_premises_one_row": "A property is one row however many of 'RSW', 'Airport', 'Gateway', 'FGCU', 'Estero' and 'Fort Myers' its marketing carries; identity is its own street address, phone and brand property code."
+   },
+   "admitted_rows_rsw_airport_gateway": 12,
+   "admitted_rows_named_airport_outside_the_airport_corridor": [
+    "Extended Stay America Premier Suites Fort Myers - Airport (33912, daniels-six-mile)",
+    "Hampton Inn Ft. Myers-Airport I-75 (33912, daniels-six-mile)",
+    "SpringHill Suites Fort Myers Airport (33912, daniels-six-mile)",
+    "StudioRes by Marriott Fort Myers Airport (33912, daniels-six-mile)",
+    "Travelodge by Wyndham Fort Myers Airport (33912, daniels-six-mile)"
+   ]
+  },
+  "rule": "Every admitted row publishes the municipality its OWN postal code carries (GEO.POSTAL_PARISH). A stated 'Fort Myers' on a code that does not carry it (Estero, Cape Coral, North Fort Myers, Fort Myers Beach, Bonita Springs...) is kept as stated_city evidence and never published."
+ }
+}

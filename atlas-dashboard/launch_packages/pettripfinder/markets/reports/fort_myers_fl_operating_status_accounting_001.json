@@ -1,0 +1,111 @@
+{
+ "schema": "ptf-operating_status-accounting/1.0",
+ "work_order": "PTF-FORT-MYERS-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "fort-myers-fl",
+ "derived_from": "launch_packages/pettripfinder/markets/reports/fort_myers_fl_source_ready_accounting_001.json",
+ "operating_status_accounting": {
+  "rule": {
+   "vocabulary": [
+    "CURRENTLY_OPEN",
+    "REOPENED",
+    "PARTIALLY_OPEN",
+    "SEASONAL",
+    "TEMPORARILY_CLOSED",
+    "CLOSED_FOR_REBUILD",
+    "PERMANENTLY_CLOSED",
+    "DEMOLISHED",
+    "REBRANDED",
+    "PREOPENING",
+    "UNKNOWN"
+   ],
+   "publishes": "Only a row whose own current first-party page proves an operating public lodging business (CURRENTLY_OPEN, REOPENED, PARTIALLY_OPEN for the open premises, SEASONAL in season or out).",
+   "never_publishes": "TEMPORARILY_CLOSED, CLOSED_FOR_REBUILD, PERMANENTLY_CLOSED, DEMOLISHED, PREOPENING and UNKNOWN. A REBRANDED row publishes only under its current operator's name on its current page.",
+   "evidence": "A historic OTA page, an old tourism or competitor listing, a cached brand page, a pre-hurricane identity, a DBPR licence or old policy evidence never proves current operation."
+  },
+  "nonoperating_signals": [
+   {
+    "identity": "(map row) sabal park inn|26.678189|-81.882691",
+    "signals": [
+     "Google Places business_status CLOSED_TEMPORARILY"
+    ],
+    "published": false
+   },
+   {
+    "identity": "(unbound) 8737",
+    "signals": [
+     "ROUTE_RETIRED_REDIRECTS_TO_BRAND_HOME (seq 92): OPERATING STATUS: the brand's own property route for Motel 6 Fort Myers (8737, 3350 Marinatown Ln) redirects to the brand home page -- the brand no longer lists"
+    ],
+    "published": false
+   },
+   {
+    "identity": "(unbound) theinnsofsanibel-song-of-the-sea",
+    "signals": [
+     "own page closure statement: 'Song of the Sea is currently closed and is under review for redevelopment.' (seq 98)"
+    ],
+    "published": false
+   },
+   {
+    "identity": "(unbound) theinnsofsanibel-sunset-beach-inn",
+    "signals": [
+     "ROUTE_RETIRED_REDIRECTS_TO_BRAND_HOME (seq 97): OPERATING STATUS: the operator's own Sunset Beach Inn route (the website Google Places names for 3287 W Gulf Dr) redirects to the operator's home page, which na"
+    ],
+    "published": false
+   },
+   {
+    "identity": "beach shell inn",
+    "signals": [
+     "Google Places business_status CLOSED_PERMANENTLY"
+    ],
+    "published": false
+   },
+   {
+    "identity": "motel 6 fort myers fl",
+    "signals": [
+     "Google Places business_status CLOSED_PERMANENTLY"
+    ],
+    "published": false
+   },
+   {
+    "identity": "sanibel sunset beach resort",
+    "signals": [
+     "Google Places business_status CLOSED_TEMPORARILY"
+    ],
+    "published": false
+   },
+   {
+    "identity": "song of the sea",
+    "signals": [
+     "Google Places business_status CLOSED_TEMPORARILY"
+    ],
+    "published": false
+   },
+   {
+    "identity": "wyndham garden fort myers beach",
+    "signals": [
+     "Google Places business_status CLOSED_PERMANENTLY"
+    ],
+    "published": false
+   }
+  ],
+  "rows_with_a_nonoperating_signal": 9,
+  "NONOPERATING_PUBLISHED": 0,
+  "publication_safety_audit_nonoperating_signal_published": 0,
+  "current_operation_confirmed_on_own_page": [
+   "anchor inn and cottages (seq 87)",
+   "casa ybel resort (seq 71)",
+   "diamondhead beach resort (seq 63)",
+   "lani kai island resort (seq 65)",
+   "latitude 26 waterfront boutique resort (seq 77)",
+   "latitude 26 waterfront resort and marina (seq 78)",
+   "lighthouse resort inn and suites (seq 64)",
+   "manatee bay inn (seq 67)",
+   "palmview and sandpiper inns (seq 70)",
+   "pink shell beach resort and marina (seq 62)",
+   "sanibel inn (seq 61)",
+   "sanibel island beach resort (seq 68)",
+   "sunshine island inn (seq 69)",
+   "the anchor inn (seq 94)"
+  ],
+  "note": "A closure is published nowhere: a row with a closure statement or a retired route is held (ROUTING / EVIDENCE) and never verified-no-pets; a later reopening is revalidated first-party."
+ }
+}

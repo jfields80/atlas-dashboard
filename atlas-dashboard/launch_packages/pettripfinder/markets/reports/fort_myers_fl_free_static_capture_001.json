@@ -1,0 +1,4235 @@
+{
+ "schema": "ptf-free-static-capture/1.0",
+ "work_order": "PTF-FORT-MYERS-FL-HARDENED-SOURCE-READY-001",
+ "phase": "10 and 13 -- free first-party static capture and classification",
+ "market_id": "fort-myers-fl",
+ "run_id": "fort_myers_fl_free_static_001",
+ "as_of": "2026-10-08",
+ "lane": "direct_http (first-party static; no vendor, no browser, no price)",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests_this_run": 81,
+ "no_inference_from_silence": "A page that states no pet policy is SOURCE_SILENT. It is not a refusal, it is not an acceptance, and it never becomes either here.",
+ "counts": {
+  "targets": 81,
+  "by_cohort": {
+   "IDENTITY_FILL": 27,
+   "ROUTED": 54
+  },
+  "by_outcome": {
+   "ACCESS_DENIED": 21,
+   "BLANK_PAGE": 2,
+   "IDENTITY_MISMATCH": 28,
+   "NAVIGATION_FAILED": 11,
+   "POLICY_NOT_FOUND": 3,
+   "UNEXPECTED_PAGE": 3,
+   "UNHYDRATED": 5,
+   "VALID": 8
+  },
+  "by_classification": {
+   "ACCESS_BLOCKED_PLAIN_CLIENT": 21,
+   "BLOCK_FOUND_BUT_SILENT": 2,
+   "CLEAN_PET_FRIENDLY_CANDIDATE": 6,
+   "IDENTITY_MISMATCH": 8,
+   "IDENTITY_NOT_CONFIRMED_STATIC": 4,
+   "IDENTITY_TEXT_BOUND_POLICY_SILENT": 16,
+   "NEEDS_ATTENDED_RENDER": 7,
+   "NO_PETS_READ_TEXT_BOUND": 1,
+   "PET_FRIENDLY_READ_TEXT_BOUND": 2,
+   "TRANSPORT_FAILED": 11,
+   "UNEXPECTED_PAGE": 3
+  },
+  "by_brand": {
+   "BEST_WESTERN": 3,
+   "CHOICE": 9,
+   "DRURY": 1,
+   "ESA": 1,
+   "HYATT": 3,
+   "IHG": 8,
+   "INDEPENDENT": 49,
+   "MARRIOTT": 1,
+   "SONESTA": 4,
+   "WYNDHAM": 2
+  }
+ },
+ "rows": [
+  {
+   "cohort": "ROUTED",
+   "identity_key": "anglers inn",
+   "canonical_name": "Anglers Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__cape-coral",
+   "requested_url": "https://anglersinnmotel.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://anglersinnmotel.com/",
+   "title": "Anglers Inn Motel",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Anglers Inn Motel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2398982121"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\anglers-inn\\attempt-01",
+   "classification": "PET_FRIENDLY_READ_TEXT_BOUND",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "122ad850a58cde08f15504be23f05dc07aa92a2f0b10b5ae7d5383396df830ec",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 145,
+     "pets_allowed": true,
+     "pets_allowed_quote": "Pet Friendly",
+     "extraction": {
+      "pets_allowed": true
+     },
+     "withheld": {
+      "pet_fee": "SOURCE_SILENT"
+     },
+     "evidence_quotes": [
+      "Pet Friendly"
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "bayview bed and breakfast",
+   "canonical_name": "Bayview Bed & Breakfast",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__cape-coral",
+   "requested_url": "http://www.webbwiz.com/inn",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "http://www.webbwiz.com/inn/",
+   "title": "BED AND BREAKFAST FLORIDA, SANIBEL, NAPLES, FT. MYERS, S.W.FLORIDA",
+   "detail": "the page declares no telephone number of its own; the names agree only on and, bed, breakfast, which this market's hotels share; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "BED AND BREAKFAST FLORIDA, SANIBEL, NAPLES, FT. MYERS, S.W.FLORIDA",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "the names agree only on and, bed, breakfast, which this market's hotels share",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\bayview-bed-and-breakfast\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "da42a6f54a361ecb917c105398f864c4944fd568b596b5e47c2236702c59e106",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "beach shell inn",
+   "canonical_name": "Beach Shell Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "https://beachshellinn.com/",
+   "outcome": "BLANK_PAGE",
+   "final_url": "https://beachshellinn.com/",
+   "title": "",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\beach-shell-inn\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "best western fort myers waterfront",
+   "canonical_name": "Best Western Fort Myers Waterfront",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__north-fort-myers",
+   "requested_url": "http://www.bestwesternwaterfront.com",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.bestwesternwaterfront.com",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\best-western-fort-myers-waterfront\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "best western plus beach resort",
+   "canonical_name": "Best Western Plus Beach Resort",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "https://www.bwbeachresort.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.bwbeachresort.com/",
+   "title": "Welcome to Best Western Plus Beach Resort | Beachfront Hotel in Fort Myers, Florida",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Welcome to Best Western Plus Beach Resort | Beachfront Hotel in Fort Myers, Florida",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8887121439",
+      "2393734160"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\best-western-plus-beach-resort\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "25e3bab2489a73b7767dffdbf6d7eaee057831a85c48591e3ff3493f82656f19",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "best western plus fort myers inn and suites",
+   "canonical_name": "Best Western Plus Fort Myers Inn & Suites",
+   "brand": "BEST_WESTERN",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__colonial-cleveland",
+   "requested_url": "http://www.bwfortmyers.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.bwfortmyers.com",
+   "title": "Best Western Fort Myers Inn, Hotel near Fort Myers Beach FL.",
+   "detail": "page names 'Best Western Fort Myers Inn, Hotel near Fort Myers Beach FL.', which does not agree with 'Best Western Plus Fort Myers Inn & Suites'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Best Western Fort Myers Inn, Hotel near Fort Myers Beach FL.",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.bwfortmyers.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2392783949",
+      "2392783670"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Best Western Fort Myers Inn, Hotel near Fort Myers Beach FL.', which does not agree with 'Best Western Plus Fort Myers Inn & Suites'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\best-western-plus-fort-myers-inn-and-suites\\attempt-01",
+   "classification": "NO_PETS_READ_TEXT_BOUND",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "fdf6b87aedd131823a86307fbe533d87538e160cf420d1bcf50a3d69b469de82",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 27,
+     "pets_allowed": false,
+     "pets_allowed_quote": "No pets allowed",
+     "extraction": {
+      "pets_allowed": false
+     },
+     "withheld": {},
+     "evidence_quotes": [
+      "No pets allowed"
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "bonita bay trianon hotel",
+   "canonical_name": "Bonita Bay Trianon Hotel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "fort-myers-fl__bonita-springs",
+   "requested_url": "https://www.trianon.com",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.trianon.com",
+   "title": "TRIANON.COM\u2122",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\bonita-bay-trianon-hotel\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "candlewood suites fort myers i 75",
+   "canonical_name": "Candlewood Suites Fort Myers I-75",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__rsw-airport-gateway",
+   "requested_url": "https://www.ihg.com/candlewood/hotels/us/en/fort-myers/fmycw/hoteldetail?cm_mmc=GoogleMaps-_-CW-_-US-_-FMYCW",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/candlewood/hotels/us/en/fort-myers/fmycw/hoteldetail?cm_mmc=GoogleMaps-_-CW-_-US-_-FMYCW",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\candlewood-suites-fort-myers-i-75\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "captiva island inn",
+   "canonical_name": "Captiva Island Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__captiva",
+   "requested_url": "https://www.captivaislandinn.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://captivaislandinn.com/",
+   "title": "Captiva Island Inn - Captiva Island Inn",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Captiva Island Inn - Captiva Island Inn",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://captivaislandinn.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2393951142",
+      "2394726200",
+      "2393954000",
+      "2394720248",
+      "2397885579",
+      "2395603734"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\captiva-island-inn\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "643b06af0560f2f8e7549c67a775b7eb5033c1639e94e94043fb2154192867a4",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "casa ybel resort",
+   "canonical_name": "Casa Ybel Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "http://www.casaybelresort.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.casaybelresort.com/",
+   "title": "Home - Casa Ybel Resort | Sanibel Island Resorts | Official Site",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Home - Casa Ybel Resort | Sanibel Island Resorts | Official Site",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.casaybelresort.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8002764753",
+      "2394723145"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\casa-ybel-resort\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "8a84d60cfde64b342eccad5196db128884dea64f9d346f62fb51e7fad74827f0",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "comfort inn and suites airport",
+   "canonical_name": "Comfort Inn & Suites Airport",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__rsw-airport-gateway",
+   "requested_url": "http://www.comfortinn.com/hotel-fort_myers-florida-FL795",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "http://www.comfortinn.com/hotel-fort_myers-florida-FL795",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\comfort-inn-and-suites-airport\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "comfort suites fort myers east i 75",
+   "canonical_name": "Comfort Suites Fort Myers East I-75",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__east-fort-myers-i75",
+   "requested_url": "https://www.choicehotels.com/florida/fort-myers/comfort-suites-hotels/flg72",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/florida/fort-myers/comfort-suites-hotels/flg72",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\comfort-suites-fort-myers-east-i-75\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "courtyard by marriott fort myers cape coral",
+   "canonical_name": "Courtyard by Marriott Fort Myers/Cape Coral",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__colonial-cleveland",
+   "requested_url": "http://www.ftmyerscourtyard.com",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.ftmyerscourtyard.com",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\courtyard-by-marriott-fort-myers-cape-coral\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "crowne plaza ft myers gulf coast",
+   "canonical_name": "Crowne Plaza Ft. Myers Gulf Coast",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "https://www.crowneplaza.com/fortmyersfl",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.crowneplaza.com/fortmyersfl",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\crowne-plaza-ft-myers-gulf-coast\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "days inn by wyndham fort myers",
+   "canonical_name": "Days Inn by Wyndham Fort Myers",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__colonial-cleveland",
+   "requested_url": "http://www.daysinn.com",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.wyndhamhotels.com/days-inn",
+   "title": "Days Inn by Wyndham - Book Hotel Rooms",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\days-inn-by-wyndham-fort-myers\\attempt-01",
+   "classification": "UNEXPECTED_PAGE"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "diamondhead beach resort",
+   "canonical_name": "DiamondHead Beach Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "https://www.DiamondHeadFL.com",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.DiamondHeadFL.com",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\diamondhead-beach-resort\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "dolphin key resort",
+   "canonical_name": "Dolphin Key Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__cape-coral",
+   "requested_url": "http://www.dolphinkeyresort.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://dolphinkeyresort.com/",
+   "title": "Dolphin Key Resort & Tiki Bar & Grill | Cape Coral, FL",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Dolphin Key Resort &amp; Tiki Bar &amp; Grill | Cape Coral, FL",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://dolphinkeyresort.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2399450060"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\dolphin-key-resort\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "f39418e30da467f462cf062f6067950a0d00f6351af67411c9abae5ddbd080f4",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "drury inn and suites fort myers airport fgcu",
+   "canonical_name": "Drury Inn & Suites Fort Myers Airport FGCU",
+   "brand": "DRURY",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "fort-myers-fl__rsw-airport-gateway",
+   "requested_url": "https://www.druryhotels.com/locations/fort-myers-fl/Drury-Inn-and-Suites-Fort-Myers-Airport-FGCU",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.druryhotels.com/locations/fort-myers-fl/drury-inn-and-suites-fort-myers-airport-fgcu",
+   "title": "Drury Hotels - Drury Inn & Suites Fort Myers Airport FGCU",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Drury Hotels - Drury Inn &amp; Suites Fort Myers Airport FGCU",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8003787946",
+      "2392671340",
+      "2398969755",
+      "8004361169",
+      "8004361122",
+      "2392045760"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\drury-inn-and-suites-fort-myers-airport-fgcu\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "8cb653d60f4680ac0b4e941798f67b169c074fb3ebc95ec3e7858850b773e49a",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 206,
+     "pets_allowed": null,
+     "pets_allowed_quote": "",
+     "extraction": {
+      "pet_count_limit": 2,
+      "species_allowed": [
+       "cat",
+       "dog"
+      ],
+      "service_animal_exception": "Service animals are free of charge."
+     },
+     "withheld": {
+      "pets_allowed": "SOURCE_SILENT",
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "evidence_quotes": [
+      "Limit of two pets",
+      "Dogs and cats accepted",
+      "Service animals are free of charge."
+     ],
+     "service_animal_quote": "Service animals are free of charge.",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "edison beach house hotel",
+   "canonical_name": "Edison Beach House Hotel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "http://www.edisonbeachhouse.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://edisonbeachhouse.com/",
+   "title": "Edison Beach House | Fort Myers Beach Hotel - Fort Myers Florida Lodging",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Edison Beach House | Fort Myers Beach Hotel - Fort Myers Florida Lodging",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://edisonbeachhouse.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2393561483"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\edison-beach-house-hotel\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "216a3d1e525adced8c400125129128e498605c2b5c04dc3119cc0d52fc51e383",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "extended stay america premier suites fort myers",
+   "canonical_name": "Extended Stay America Premier Suites Fort Myers",
+   "brand": "ESA",
+   "routing_state": "ROUTED_MAP_WEBSITE",
+   "corridor": "fort-myers-fl__daniels-six-mile",
+   "requested_url": "https://www.extendedstayamerica.com/hotels/fl/port-charlotte/airport",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.extendedstayamerica.com/hotels/fl/port-charlotte/airport",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\extended-stay-america-premier-suites-fort-myers\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "gulf front weddings at beachview villas",
+   "canonical_name": "Gulf-Front Weddings at Beachview Villas",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "https://beachview-villas.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://beachview-villas.com/",
+   "title": "Sanibel Island Villas | Beachview",
+   "detail": "page names 'Sanibel Island Villas | Beachview', which does not agree with 'Gulf-Front Weddings at Beachview Villas'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sanibel Island Villas | Beachview",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://beachview-villas.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2395790387"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Sanibel Island Villas | Beachview', which does not agree with 'Gulf-Front Weddings at Beachview Villas'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\gulf-front-weddings-at-beachview-villas\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "f5cc52002d887abcfe71949cf2b8d62b2f3ddfae4c46bbd6dcf868574b889cdb",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn edison at midtown",
+   "canonical_name": "Holiday Inn Edison at Midtown",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__downtown-fort-myers",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/fort-myers/fmycl/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/fort-myers/fmycl/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\holiday-inn-edison-at-midtown\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites bonita springs",
+   "canonical_name": "Holiday Inn Express & Suites Bonita Springs",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__bonita-springs",
+   "requested_url": "http://www.hiexpress.com/bonitaspgsfl",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.hiexpress.com/bonitaspgsfl",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\holiday-inn-express-and-suites-bonita-springs\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites fort myers airport",
+   "canonical_name": "Holiday Inn Express & Suites Fort Myers Airport",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__rsw-airport-gateway",
+   "requested_url": "https://www.hiexpress.com/ftmyersarptfl",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hiexpress.com/ftmyersarptfl",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\holiday-inn-express-and-suites-fort-myers-airport\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites fort myers beach sanibel gateway",
+   "canonical_name": "Holiday Inn Express & Suites Fort Myers Beach - Sanibel Gateway",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fort-myers/fmypr/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-FMYPR",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fort-myers/fmypr/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-FMYPR",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\holiday-inn-express-and-suites-fort-myers-beach-sanibel-gateway\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites forum",
+   "canonical_name": "Holiday Inn Express & Suites Forum",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__east-fort-myers-i75",
+   "requested_url": "http://www.ihg.com/holidayinnexpress/ftmyersforum",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.ihg.com/holidayinnexpress/ftmyersforum",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\holiday-inn-express-and-suites-forum\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express cape coral fort myers area",
+   "canonical_name": "Holiday Inn Express Cape Coral Fort Myers Area",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__cape-coral",
+   "requested_url": "http://www.hiexpress.com/capecoralfl",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.hiexpress.com/capecoralfl",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\holiday-inn-express-cape-coral-fort-myers-area\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt place fort myers at the forum",
+   "canonical_name": "Hyatt Place Fort Myers at The Forum",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__east-fort-myers-i75",
+   "requested_url": "http://www.hyattplacefortmyers.com",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "http://www.hyattplacefortmyers.com",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\hyatt-place-fort-myers-at-the-forum\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt place fort myers estero",
+   "canonical_name": "Hyatt Place Fort Myers Estero",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__estero",
+   "requested_url": "https://www.hyatt.com/hyatt-place/en-US/napzc-hyatt-place-fort-myers-estero",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hyatt.com/hyatt-place/en-US/napzc-hyatt-place-fort-myers-estero",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\hyatt-place-fort-myers-estero\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hyatt regency coconut point resort and spa",
+   "canonical_name": "Hyatt Regency Coconut Point Resort & Spa",
+   "brand": "HYATT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__bonita-springs",
+   "requested_url": "https://www.hyatt.com/en-US/hotel/florida/hyatt-regency-coconut-point-resort-and-spa/naprn",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hyatt.com/en-US/hotel/florida/hyatt-regency-coconut-point-resort-and-spa/naprn",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\hyatt-regency-coconut-point-resort-and-spa\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "jensen s twin palm resort and marina",
+   "canonical_name": "Jensen's Twin Palm Resort & Marina",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__captiva",
+   "requested_url": "https://jensensmarina.com/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://jensensmarina.com/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\jensen-s-twin-palm-resort-and-marina\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "k hotel fort myers llc",
+   "canonical_name": "K Hotel Fort Myers Llc",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__summerlin-iona",
+   "requested_url": "http://www.ftmyerscandlewood.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.ftmyerscandlewood.com",
+   "title": "Home - Candlewood Suites Fort Myers",
+   "detail": "page names 'Hotel Space Coast', which does not agree with 'K Hotel Fort Myers Llc'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotel Space Coast",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.ftmyerscandlewood.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2392107777"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Hotel Space Coast', which does not agree with 'K Hotel Fort Myers Llc'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\k-hotel-fort-myers-llc\\attempt-01",
+   "classification": "PET_FRIENDLY_READ_TEXT_BOUND",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "72542c5dfd4dfc2a7288158433b09de6cca483c7bf18843fa9f864baae912230",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 29,
+     "pets_allowed": true,
+     "pets_allowed_quote": "Pets Welcome",
+     "extraction": {
+      "pets_allowed": true
+     },
+     "withheld": {
+      "pet_fee": "SOURCE_SILENT"
+     },
+     "evidence_quotes": [
+      "Pets Welcome"
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "la quinta inn and suites bonita springs",
+   "canonical_name": "La Quinta Inn & Suites Bonita Springs",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__bonita-springs",
+   "requested_url": "http://www.laquintabonitaspringsnaples.com/",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "http://www.laquintabonitaspringsnaples.com/",
+   "title": "",
+   "detail": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\la-quinta-inn-and-suites-bonita-springs\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "lani kai island resort",
+   "canonical_name": "Lani Kai Island Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "http://lanikaiislandresort.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://lanikaiislandresort.com/",
+   "title": "Fort Myers Beach Resort | Lani Kai Island Resort | Book Today!",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Fort Myers Beach Resort | Lani Kai Island Resort | Book Today!",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://lanikaiislandresort.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2394633111"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\lani-kai-island-resort\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "f4fbf5e21575107234d1e25b21a0ff049591806f71f38a0d6bedbb2dd081bf86",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "lighthouse island resort inn and suites",
+   "canonical_name": "Lighthouse Island Resort Inn & Suites",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "http://www.lighthouseislandresort.com",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "http://www.lighthouseislandresort.com",
+   "title": "",
+   "detail": "HTTP 526",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\lighthouse-island-resort-inn-and-suites\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "margaritaville beach resort fort myers beach",
+   "canonical_name": "Margaritaville Beach Resort Fort Myers Beach",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "https://www.margaritavilleresorts.com/margaritaville-beach-resort-fort-myers-beach",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://www.margaritavilleresorts.com/margaritaville-beach-resort-fort-myers-beach",
+   "title": "Fort Myers Beach Hotel | Margaritaville Resort Fort Myers Beach",
+   "detail": "no bounded policy block in a page that served; 1 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Margaritaville Beach Resort Fort Myers Beach",
+     "address_on_page": "251 Crescent St",
+     "postal_code": "33931",
+     "phone_on_page": "+1 239-899-4001",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.margaritavilleresorts.com/margaritaville-beach-resort-fort-myers-beach",
+     "pets_allowed_structured": "Yes",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2398994001",
+      "4072032626",
+      "5305445400",
+      "9133401800",
+      "8508808850",
+      "7066866829",
+      "5087713000",
+      "6159869300",
+      "6198199500",
+      "4075366666",
+      "9042220222",
+      "2122213007",
+      "3052929800",
+      "8654304200",
+      "9364484400",
+      "8559959099",
+      "8657742300",
+      "8667762530",
+      "9567616551",
+      "4703233440",
+      "8882256255",
+      "9548744444",
+      "5733483131",
+      "8664031911",
+      "8553462489",
+      "2282716377",
+      "5416469700",
+      "9417419700",
+      "2396593500",
+      "3863568510",
+      "3528784855",
+      "8658689300",
+      "4095151970",
+      "8634557335",
+      "3376677772",
+      "3054478019",
+      "7878886000",
+      "3407758300",
+      "4705792700",
+      "7022381200",
+      "8008147100",
+      "4072242155"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '+1 239-899-4001' is not the census number '239-899-4068'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\margaritaville-beach-resort-fort-myers-beach\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "0b82b2052045a3f342d90c32b05bb97658cda2a0741bf30754c9c0694f6498bb",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "matanzas inn bayside resort",
+   "canonical_name": "Matanzas Inn Bayside Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "https://matanzas.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://matanzas.com/",
+   "title": "Bayside Hotel, Resort & Marina in Fort Myers Beach, Florida",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Bayside Hotel, Resort &amp; Marina in Fort Myers Beach, Florida",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://matanzas.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2394639258",
+      "8004629258"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\matanzas-inn-bayside-resort\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "ea8a4806c059f88f4e5b6d3f239647708820defce73902fa1c911ff686c2903c",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "palmview and sandpiper inns",
+   "canonical_name": "Palmview and Sandpiper Inns",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "https://www.rosenvacations.com/",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.rosenvacations.com/en",
+   "title": "Rosen Vacations | Accommodation",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\palmview-and-sandpiper-inns\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "parrot nest",
+   "canonical_name": "Parrot Nest",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "http://www.parrotnest.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://parrotnest.com/",
+   "title": "The Parrot Nest Cottages - Sanibel Florida, Cottages, Parrot Nest",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Parrot Nest Cottages - Sanibel Florida, Cottages, Parrot Nest",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://parrotnest.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8002470448"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\parrot-nest\\attempt-01",
+   "classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": false,
+    "phone_agrees": false,
+    "text_bound": false,
+    "document_sha256": "c887587d90526aac0335f6d782340362b7393a817e73a1d17f889277ee318490",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "pink shell beach resort and marina",
+   "canonical_name": "Pink Shell Beach Resort & Marina",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__fort-myers-beach",
+   "requested_url": "https://www.pinkshell.com/?NCK=8884118096&utm_source=visitftmyers&utm_medium=listing&utm_campaign=pink+shell+resort+and+marina",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.pinkshell.com/?NCK=8884118096&utm_source=visitftmyers&utm_medium=listing&utm_campaign=pink+shell+resort+and+marina",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\pink-shell-beach-resort-and-marina\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "quality suites fort myers airport i 75",
+   "canonical_name": "Quality Suites Fort Myers Airport I-75",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__daniels-six-mile",
+   "requested_url": "https://www.choicehotels.com/florida/fort-myers/quality-inn-hotels/fl472?source=lb",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/florida/fort-myers/quality-inn-hotels/fl472?source=lb",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\quality-suites-fort-myers-airport-i-75\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "sanibel inn",
+   "canonical_name": "Sanibel Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "https://www.theinnsofsanibel.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.theinnsofsanibel.com/",
+   "title": "Sanibel Island Hotels & Resorts: The Inns of Sanibel",
+   "detail": "page names 'Sanibel Island Hotels &amp; Resorts: The Inns of Sanibel', which does not agree with 'Sanibel Inn'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sanibel Island Hotels &amp; Resorts: The Inns of Sanibel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.theinnsofsanibel.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8667172323",
+      "2394990005"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Sanibel Island Hotels &amp; Resorts: The Inns of Sanibel', which does not agree with 'Sanibel Inn'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\sanibel-inn\\attempt-01",
+   "classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": false,
+    "phone_agrees": false,
+    "text_bound": false,
+    "document_sha256": "2630c3f19acc3198200536e1301f430c4a105401d511ec33acf0da530a43062b",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "sanibel island beach resort",
+   "canonical_name": "Sanibel Island Beach Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "https://www.oceanbreezeinns.com/sanibel-island/?utm_source=VISIT+FT+MYERS&utm_medium=WEBSITE",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.oceanbreezeinns.com/sanibel-island/?utm_source=VISIT+FT+MYERS&utm_medium=WEBSITE",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\sanibel-island-beach-resort\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "seahorse cottages on sanibel",
+   "canonical_name": "Seahorse Cottages on Sanibel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "http://www.seahorsecottages.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://seahorsecottages.com/",
+   "title": "Seahorse Cottage of Sanibel Florida",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Seahorse Cottage of Sanibel Florida",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://seahorsecottages.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2394724262"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\seahorse-cottages-on-sanibel\\attempt-01",
+   "classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": false,
+    "phone_agrees": true,
+    "text_bound": false,
+    "document_sha256": "4d949641c28ecd1b14fa47a673a56a3a868e61b7656ed45f58ce560bbbf763f8",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "shalimar beach resort",
+   "canonical_name": "Shalimar Beach Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "http://www.shalimar.com/",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://www.shalimar.com",
+   "title": "Shalimar Beach Resort | Beachfront Villas and Studios on Sanibel Island | 2823 West Gulf Drive, Sanibel, FL, USA",
+   "detail": "no bounded policy block in a page that served; 0 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Shalimar Beach Resort",
+     "address_on_page": "2823 West Gulf Drive",
+     "postal_code": "33957",
+     "phone_on_page": "+1-239-472-1353",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.shalimar.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2394721353"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\shalimar-beach-resort\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "b6c726108029efd4783cb6b6d371c13f066cb5306fc87e9f1fcc02bdf55263aa",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "shangri la springs",
+   "canonical_name": "Shangri-La Springs",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__bonita-springs",
+   "requested_url": "https://www.shangrilasprings.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.shangrilasprings.com/",
+   "title": "Shangri-La Springs, Vitality through Art and Nature",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Shangri-La Springs, Vitality through Art and Nature",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.shangrilasprings.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2399490749",
+      "9999999999"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\shangri-la-springs\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "f20df4ea6eaf87cff54483ef51551ff4a7f16b7cd149ab2e602b0e7841ff1e01",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 142,
+     "pets_allowed": null,
+     "pets_allowed_quote": "",
+     "extraction": {
+      "service_animal_exception": "Only registered service animals for people with disabilities are permitted on the property."
+     },
+     "withheld": {
+      "pets_allowed": "SOURCE_SILENT"
+     },
+     "evidence_quotes": [
+      "Only registered service animals for people with disabilities are permitted on the property."
+     ],
+     "service_animal_quote": "Only registered service animals for people with disabilities are permitted on the property.",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "south seas island resort",
+   "canonical_name": "South Seas Island Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__captiva",
+   "requested_url": "https://www.southseas.com",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://www.southseas.com/",
+   "title": "Captiva Island Vacation | Island Resort | South Seas",
+   "detail": "no bounded policy block in a page that served; 0 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "South Seas Resort",
+     "address_on_page": "5400 Plantation Road",
+     "postal_code": "33924",
+     "phone_on_page": "(239) 472-5111",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.southseas.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2394725111",
+      "8665655089",
+      "8006690508",
+      "8002823402"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\south-seas-island-resort\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "f4b3897c2c844fbd63c33b32883375349776dea56585906d2ff56f669b289b62",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "suburban studios fort myers cape coral",
+   "canonical_name": "Suburban Studios Fort Myers Cape Coral",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__daniels-six-mile",
+   "requested_url": "https://www.choicehotels.com/florida/fort-myers/suburban-hotels/fl967",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/florida/fort-myers/suburban-hotels/fl967",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\suburban-studios-fort-myers-cape-coral\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "sundial beach resort and spa",
+   "canonical_name": "Sundial Beach Resort & Spa",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "https://sundialresort.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://sundialresort.com/",
+   "title": "Sundial Resort - Sanibel Island Hotel | Florida Beach Resort Vacation : Sundial Beach Resort & Spa \u2013 Sanibel Island, Florida",
+   "detail": "page names 'Home', which does not agree with 'Sundial Beach Resort & Spa'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Home",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://sundialresort.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8665655093",
+      "2394724151"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Home', which does not agree with 'Sundial Beach Resort & Spa'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\sundial-beach-resort-and-spa\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "e0daf9e7bf35dcda0ff315f2dbbcedf0c437cc0f70f4939d5164e1ca5e7d57aa",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "sunshine island inn",
+   "canonical_name": "Sunshine Island Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "http://www.sunshineislandinn.com",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.sunshineislandinn.com",
+   "title": "Home | Sunshine Island Inn",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\sunshine-island-inn\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "tarpon tale inn",
+   "canonical_name": "Tarpon Tale Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__sanibel",
+   "requested_url": "http://www.tarpontale.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://tarpontale.com/",
+   "title": "Tarpon Tale Inn",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Tarpon Tale Inn",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2394720939"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\tarpon-tale-inn\\attempt-01",
+   "classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": false,
+    "phone_agrees": true,
+    "text_bound": false,
+    "document_sha256": "2a12b30af1acbd6726c1a591b1a78bbee71bba5773a3bc727a797d9a03d3571a",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 105,
+     "pets_allowed": false,
+     "pets_allowed_quote": "are NOT a pet friendly",
+     "extraction": {
+      "pets_allowed": false
+     },
+     "withheld": {},
+     "evidence_quotes": [
+      "are NOT a pet friendly"
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "the hibiscus house",
+   "canonical_name": "The Hibiscus House",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__downtown-fort-myers",
+   "requested_url": "https://thehibiscushousebnb.com",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://thehibiscushousebnb.com",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\the-hibiscus-house\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "tween waters inn and marina",
+   "canonical_name": "'Tween Waters Inn & Marina",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "fort-myers-fl__captiva",
+   "requested_url": "https://www.tween-waters.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://tween-waters.com/",
+   "title": "Captiva Island Resort | Stay at Tween Waters",
+   "detail": "page names 'Captiva&#039;s Only Full-Service Resort', which does not agree with \"'Tween Waters Inn & Marina\"; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Captiva&#039;s Only Full-Service Resort",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://tween-waters.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8002235865",
+      "2394725161"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Captiva&#039;s Only Full-Service Resort', which does not agree with \"'Tween Waters Inn & Marina\"",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\tween-waters-inn-and-marina\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "a6f512f2a638f861b413f8af9dfd390da8ad02337e576ded00c16a00831197da",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "woodspring suites fort myers cape coral",
+   "canonical_name": "WoodSpring Suites Fort Myers - Cape Coral",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_INVENTORY",
+   "corridor": "fort-myers-fl__colonial-cleveland",
+   "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/fort-myers/woodspring-suites",
+   "outcome": "VALID",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/fort-myers/woodspring-suites",
+   "title": "Extended Stay Hotel in Fort Myers, FL | WoodSpring Suites Fort Myers - Cape Coral",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "WoodSpring Suites Fort Myers - Cape Coral",
+     "address_on_page": "1915 Colonial Boulevard",
+     "postal_code": "33907",
+     "phone_on_page": "1(239)999-3155",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/fort-myers/woodspring-suites",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2394190166",
+      "8449746835"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares telephone '1(239)999-3155' and also prints this property's '(239) 419-0166' -- one site, several properties",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "f73ff3f5c8c2aab16c994f7af0b1f2f561d75ec339c5104e155b8b60bebcbf98",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\woodspring-suites-fort-myers-cape-coral\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 1000,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "pet_count_limit": 3
+    },
+    "evidence": [
+     {
+      "quote": "Pets Are Allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "10.00 USD Per Night. Per pet",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "10.00 USD Per Night. Per pet",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "10.00 USD Per Night. Per pet",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_scope"
+      ]
+     },
+     {
+      "quote": "Maximum of 3 Pets",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "fee_scope": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites fort myers cape coral::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets Are Allowed",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/fort-myers/woodspring-suites",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f73ff3f5c8c2aab16c994f7af0b1f2f561d75ec339c5104e155b8b60bebcbf98",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites fort myers cape coral::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "10.00 USD Per Night. Per pet",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/fort-myers/woodspring-suites",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f73ff3f5c8c2aab16c994f7af0b1f2f561d75ec339c5104e155b8b60bebcbf98",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites fort myers cape coral::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "10.00 USD Per Night. Per pet",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/fort-myers/woodspring-suites",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f73ff3f5c8c2aab16c994f7af0b1f2f561d75ec339c5104e155b8b60bebcbf98",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites fort myers cape coral::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "10.00 USD Per Night. Per pet",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/fort-myers/woodspring-suites",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f73ff3f5c8c2aab16c994f7af0b1f2f561d75ec339c5104e155b8b60bebcbf98",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites fort myers cape coral::fee_scope::3",
+       "field": "fee_scope",
+       "quote": "10.00 USD Per Night. Per pet",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/fort-myers/woodspring-suites",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f73ff3f5c8c2aab16c994f7af0b1f2f561d75ec339c5104e155b8b60bebcbf98",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites fort myers cape coral::pet_count_limit::4",
+       "field": "pet_count_limit",
+       "quote": "Maximum of 3 Pets",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/fort-myers/woodspring-suites",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f73ff3f5c8c2aab16c994f7af0b1f2f561d75ec339c5104e155b8b60bebcbf98",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "1b09e587cec1c4ef3736aa467eb14041f1dbd3d712da2bff5adad4b69b5922f5",
+     "document_sha256": "f73ff3f5c8c2aab16c994f7af0b1f2f561d75ec339c5104e155b8b60bebcbf98"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "city of fort myers",
+   "canonical_name": "City of Fort Myers",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://fortmyers.gov/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://fortmyers.gov/",
+   "title": "Fort Myers, FL - City Government | Official Website",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Fort Myers, FL - City Government | Official Website",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2393217000",
+      "2393217042"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\city-of-fort-myers\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "cornerstone beach resort",
+   "canonical_name": "Cornerstone Beach Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "http://cornerstonebeachhotel.com/",
+   "outcome": "UNHYDRATED",
+   "final_url": "http://cornerstonebeachhotel.com/",
+   "title": "cornerstonebeachhotel.com",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\cornerstone-beach-resort\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "dolphin inn",
+   "canonical_name": "Dolphin Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.dolphininn.net/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.dolphininn.net/",
+   "title": "MANTRA62 > Prediksi Akurat Pola Menarik Bonus Melimpah Setiap Saat",
+   "detail": "page names 'MANTRA62 > Prediksi Akurat Pola Menarik Bonus Melimpah Setiap Saat', which does not agree with 'Dolphin Inn'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "MANTRA62 > Prediksi Akurat Pola Menarik Bonus Melimpah Setiap Saat",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.dolphininn.net/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'MANTRA62 > Prediksi Akurat Pola Menarik Bonus Melimpah Setiap Saat', which does not agree with 'Dolphin Inn'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\dolphin-inn\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "estero island beach club",
+   "canonical_name": "Estero Island Beach Club",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://ralresorts.com/eibc/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://ralresorts.com/eibc/",
+   "title": "Estero Island Beach Club \u2013 RAL Resort Property Management",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Estero Island Beach Club &#8211; RAL Resort Property Management",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://ralresorts.com/eibc/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2394636116",
+      "2394635492"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\estero-island-beach-club\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "grace river island resort",
+   "canonical_name": "Grace River Island Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.graceriverislandresort.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.graceriverislandresort.com",
+   "title": "Grace River Island Resort | Destination | United States",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Grace River Island Resort | Destination | United States",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.graceriverislandresort.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2393227053",
+      "2395604998",
+      "2398501171"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\grace-river-island-resort\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "gulfview manor",
+   "canonical_name": "Gulfview Manor",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://gulfviewmanor.com/",
+   "outcome": "BLANK_PAGE",
+   "final_url": "https://gulfviewmanor.com/",
+   "title": "",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\gulfview-manor\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "lahaina inn resort",
+   "canonical_name": "Lahaina Inn Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.lahainaresort.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://lahainaresort.com/",
+   "title": "Lahaina Inn Resort - Fort Myers Beach Timeshares and Vacation Rentals",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Lahaina Inn Resort - Fort Myers Beach Timeshares and Vacation Rentals",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://lahainaresort.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2394634414"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\lahaina-inn-resort\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "palms of sanibel",
+   "canonical_name": "Palms of Sanibel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "http://www.palmsofsanibel.com",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "http://www.palmsofsanibel.com",
+   "title": "",
+   "detail": "HTTP 301",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\palms-of-sanibel\\attempt-01",
+   "classification": "TRANSPORT_FAILED",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "sandpiper gulf resort",
+   "canonical_name": "Sandpiper Gulf Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.sandpipergulfresort.com/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.sandpipergulfresort.com/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\sandpiper-gulf-resort\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "shipwreck motel",
+   "canonical_name": "Shipwreck Motel",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.motelfortmyersbeach.com/",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://arkitekta.my/vi-vn/",
+   "title": "AE888 \u2013 LINK TRANG CH\u1ee6 AE888.COM \u0110\u00c1 G\u00c0 TH\u1ec2 THAO CASINO T4/26",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\shipwreck-motel\\attempt-01",
+   "classification": "UNEXPECTED_PAGE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "the neptune resort",
+   "canonical_name": "The Neptune Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.theneptuneresort.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.theneptuneresort.com/",
+   "title": "The Neptune Resort\u2122 Experience Oceanfront Fort Myers Beach Resort",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Neptune Resort\u2122 Experience Oceanfront Fort Myers Beach Resort",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.theneptuneresort.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\the-neptune-resort\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "the outrigger beach resort",
+   "canonical_name": "The Outrigger Beach Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.outriggerfmb.com/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.outriggerfmb.com/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\the-outrigger-beach-resort\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "tropical winds beach units",
+   "canonical_name": "Tropical Winds Beach Units",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://sanibeltropicalwinds.com/beach-efficiencies/",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://sanibeltropicalwinds.com/beach-efficiencies/",
+   "title": "",
+   "detail": "HTTP 404",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\tropical-winds-beach-units\\attempt-01",
+   "classification": "TRANSPORT_FAILED",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "windward passage resort",
+   "canonical_name": "Windward Passage Resort",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.windwardpassage.us/",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.windwardpassage.us/",
+   "title": "",
+   "detail": "URLError: <urlopen error [WinError 10054] An existing connection was forcibly closed by the remote host>",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\windward-passage-resort\\attempt-01",
+   "classification": "TRANSPORT_FAILED",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "woodspring suites naples",
+   "canonical_name": "Woodspring Suites Naples",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/cape-coral-fort-myers-naples/woodspring-suites-naples",
+   "outcome": "VALID",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/cape-coral-fort-myers-naples/woodspring-suites-naples",
+   "title": "Extended Stay Hotel in Naples, FL | WoodSpring Suites Naples East",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "WoodSpring Suites Naples East",
+     "address_on_page": "3786 White Lake Boulevard",
+     "postal_code": "34117",
+     "phone_on_page": "1(239)351-2299",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/cape-coral-fort-myers-naples/woodspring-suites-naples",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2393512299",
+      "8449746835"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "0c125d010208ff043e24e3debd4740100eb6b1cb4cd857b4bc5d86f73943789b",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\woodspring-suites-naples\\attempt-01",
+   "observation": {
+    "extraction": {
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "cats_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "under 75 lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Limit 2 dogs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "No cats",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "cats_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT",
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "cats_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites naples::weight_limit::0",
+       "field": "weight_limit",
+       "quote": "under 75 lbs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/cape-coral-fort-myers-naples/woodspring-suites-naples",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "0c125d010208ff043e24e3debd4740100eb6b1cb4cd857b4bc5d86f73943789b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites naples::pet_count_limit::1",
+       "field": "pet_count_limit",
+       "quote": "Limit 2 dogs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/cape-coral-fort-myers-naples/woodspring-suites-naples",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "0c125d010208ff043e24e3debd4740100eb6b1cb4cd857b4bc5d86f73943789b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites naples::cats_allowed::2",
+       "field": "cats_allowed",
+       "quote": "No cats",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/cape-coral-fort-myers-naples/woodspring-suites-naples",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "0c125d010208ff043e24e3debd4740100eb6b1cb4cd857b4bc5d86f73943789b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "b225335c3aa8068054bcc02210c1fc8c3573116efacc2c2cad520b7aa5f56b21",
+     "document_sha256": "0c125d010208ff043e24e3debd4740100eb6b1cb4cd857b4bc5d86f73943789b"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [
+      "FLAG_MULTI_POLICY_BLOCKS"
+     ],
+     "rule_statement": ""
+    }
+   },
+   "classification": "BLOCK_FOUND_BUT_SILENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "americas best value inn ft myers",
+   "canonical_name": "Americas Best Value Inn Ft Myers",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.sonesta.com/americas-best-value-inn/fl/fort-myers/americas-best-value-inn-ft-myers",
+   "outcome": "VALID",
+   "final_url": "https://www.sonesta.com/americas-best-value-inn/fl/fort-myers/americas-best-value-inn-ft-myers",
+   "title": "Americas Best Value Inn Ft. Myers by Sonesta",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Americas Best Value Inn Ft. Myers",
+     "address_on_page": "11501 South Cleveland Avenue",
+     "postal_code": "33907",
+     "phone_on_page": "239-936-3993",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/americas-best-value-inn/fl/fort-myers/americas-best-value-inn-ft-myers",
+     "pets_allowed_structured": "false",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2399363993"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "2ed306e06f435c2439d19f158328fdecabe7890615318ee657c6ff260c0390ff",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\americas-best-value-inn-ft-myers\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 2000,
+     "fee_currency": "USD",
+     "pet_count_limit": 2
+    },
+    "evidence": [
+     {
+      "quote": "pets are allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "fee of $20",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "two pets are allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::americas best value inn ft myers::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are allowed",
+       "source_url": "https://www.sonesta.com/americas-best-value-inn/fl/fort-myers/americas-best-value-inn-ft-myers",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "2ed306e06f435c2439d19f158328fdecabe7890615318ee657c6ff260c0390ff",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::americas best value inn ft myers::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "fee of $20",
+       "source_url": "https://www.sonesta.com/americas-best-value-inn/fl/fort-myers/americas-best-value-inn-ft-myers",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "2ed306e06f435c2439d19f158328fdecabe7890615318ee657c6ff260c0390ff",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::americas best value inn ft myers::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "fee of $20",
+       "source_url": "https://www.sonesta.com/americas-best-value-inn/fl/fort-myers/americas-best-value-inn-ft-myers",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "2ed306e06f435c2439d19f158328fdecabe7890615318ee657c6ff260c0390ff",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::americas best value inn ft myers::pet_count_limit::2",
+       "field": "pet_count_limit",
+       "quote": "two pets are allowed",
+       "source_url": "https://www.sonesta.com/americas-best-value-inn/fl/fort-myers/americas-best-value-inn-ft-myers",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "2ed306e06f435c2439d19f158328fdecabe7890615318ee657c6ff260c0390ff",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "1f84360a019b9d048fe7b972f0398e64031a30f44971f703c69d6af192087fd3",
+     "document_sha256": "2ed306e06f435c2439d19f158328fdecabe7890615318ee657c6ff260c0390ff"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "regency miami airport sonesta",
+   "canonical_name": "Regency Miami Airport Sonesta",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/regency-miami-airport-sonesta",
+   "outcome": "VALID",
+   "final_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/regency-miami-airport-sonesta",
+   "title": "Regency Miami Airport by Sonesta - Official Website",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Regency Miami Airport by Sonesta",
+     "address_on_page": "1000 NW 42nd Ave.",
+     "postal_code": "33126",
+     "phone_on_page": "(305) 441-1600",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/regency-miami-airport-sonesta",
+     "pets_allowed_structured": "true",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054411600"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "083f6e554708bcd1575cc811b32edd93878de0d3828b6c01e684d11aae1c084d",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\regency-miami-airport-sonesta\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_deposit": 12500,
+     "pet_fee": 7500,
+     "fee_currency": "USD"
+    },
+    "evidence": [
+     {
+      "quote": "Pets Are Welcome",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "$125 refundable deposit",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_deposit"
+      ]
+     },
+     {
+      "quote": "$75 fee",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_deposit": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::regency miami airport sonesta::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets Are Welcome",
+       "source_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/regency-miami-airport-sonesta",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "083f6e554708bcd1575cc811b32edd93878de0d3828b6c01e684d11aae1c084d",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::regency miami airport sonesta::pet_deposit::1",
+       "field": "pet_deposit",
+       "quote": "$125 refundable deposit",
+       "source_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/regency-miami-airport-sonesta",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "083f6e554708bcd1575cc811b32edd93878de0d3828b6c01e684d11aae1c084d",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::regency miami airport sonesta::pet_fee::2",
+       "field": "pet_fee",
+       "quote": "$75 fee",
+       "source_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/regency-miami-airport-sonesta",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "083f6e554708bcd1575cc811b32edd93878de0d3828b6c01e684d11aae1c084d",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::regency miami airport sonesta::fee_currency::2",
+       "field": "fee_currency",
+       "quote": "$75 fee",
+       "source_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/regency-miami-airport-sonesta",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "083f6e554708bcd1575cc811b32edd93878de0d3828b6c01e684d11aae1c084d",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "fefd12ab9f498eb99a2167b2b6a4df098346a84ce00ef19b479aa0d30a1b5aca",
+     "document_sha256": "083f6e554708bcd1575cc811b32edd93878de0d3828b6c01e684d11aae1c084d"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "sonesta miami airport",
+   "canonical_name": "Sonesta Miami Airport",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/sonesta-miami-airport",
+   "outcome": "VALID",
+   "final_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/sonesta-miami-airport",
+   "title": "Sonesta Miami Airport - Book Direct for Best Rates",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sonesta Miami Airport",
+     "address_on_page": "950 NW LeJeune Road",
+     "postal_code": "33126",
+     "phone_on_page": "(305) 446-9000",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/sonesta-miami-airport",
+     "pets_allowed_structured": "true",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3054469000"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "781aad2dca42709ba255f91dd2e1d10fcf8d2368f1ae51d2cb6a1aee672ddcbb",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\sonesta-miami-airport\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 7500,
+     "fee_currency": "USD",
+     "fee_basis": "per_stay",
+     "pet_count_limit": 2
+    },
+    "evidence": [
+     {
+      "quote": "pets are permitted",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "$75 fee per stay",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "$75 fee per stay",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "Up to two pets",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::sonesta miami airport::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are permitted",
+       "source_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/sonesta-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "781aad2dca42709ba255f91dd2e1d10fcf8d2368f1ae51d2cb6a1aee672ddcbb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::sonesta miami airport::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "$75 fee per stay",
+       "source_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/sonesta-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "781aad2dca42709ba255f91dd2e1d10fcf8d2368f1ae51d2cb6a1aee672ddcbb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::sonesta miami airport::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "$75 fee per stay",
+       "source_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/sonesta-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "781aad2dca42709ba255f91dd2e1d10fcf8d2368f1ae51d2cb6a1aee672ddcbb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::sonesta miami airport::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "$75 fee per stay",
+       "source_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/sonesta-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "781aad2dca42709ba255f91dd2e1d10fcf8d2368f1ae51d2cb6a1aee672ddcbb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::sonesta miami airport::pet_count_limit::3",
+       "field": "pet_count_limit",
+       "quote": "Up to two pets",
+       "source_url": "https://www.sonesta.com/sonesta-hotels-resorts/fl/miami/sonesta-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "781aad2dca42709ba255f91dd2e1d10fcf8d2368f1ae51d2cb6a1aee672ddcbb",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "984bdc856f505307ca8c32fee92db8e7de456f6a504dcbdecb386a069b20d652",
+     "document_sha256": "781aad2dca42709ba255f91dd2e1d10fcf8d2368f1ae51d2cb6a1aee672ddcbb"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "sonesta simply suites miami airport doral",
+   "canonical_name": "Sonesta Simply Suites Miami Airport Doral",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.sonesta.com/sonesta-simply-suites/fl/miami/sonesta-simply-suites-miami-airport-doral",
+   "outcome": "VALID",
+   "final_url": "https://www.sonesta.com/sonesta-simply-suites/fl/miami/sonesta-simply-suites-miami-airport-doral",
+   "title": "Sonesta Simply Suites Miami Airport Doral - Official Website",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Sonesta Simply Suites Miami Airport Doral",
+     "address_on_page": "8855 NW 27th St.",
+     "postal_code": "33172",
+     "phone_on_page": "(305) 591-9099",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/sonesta-simply-suites/fl/miami/sonesta-simply-suites-miami-airport-doral",
+     "pets_allowed_structured": "true",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3055919099"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "bfdc4bf9d0041028599a3ec4296f25e6fe4a22c29769895c228cc8fc497b1e94",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\sonesta-simply-suites-miami-airport-doral\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 7500,
+     "fee_currency": "USD",
+     "pet_count_limit": 2
+    },
+    "evidence": [
+     {
+      "quote": "pets are permitted",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "$75 fee",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Up to two pets",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::sonesta simply suites miami airport doral::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are permitted",
+       "source_url": "https://www.sonesta.com/sonesta-simply-suites/fl/miami/sonesta-simply-suites-miami-airport-doral",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "bfdc4bf9d0041028599a3ec4296f25e6fe4a22c29769895c228cc8fc497b1e94",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::sonesta simply suites miami airport doral::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "$75 fee",
+       "source_url": "https://www.sonesta.com/sonesta-simply-suites/fl/miami/sonesta-simply-suites-miami-airport-doral",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "bfdc4bf9d0041028599a3ec4296f25e6fe4a22c29769895c228cc8fc497b1e94",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::sonesta simply suites miami airport doral::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "$75 fee",
+       "source_url": "https://www.sonesta.com/sonesta-simply-suites/fl/miami/sonesta-simply-suites-miami-airport-doral",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "bfdc4bf9d0041028599a3ec4296f25e6fe4a22c29769895c228cc8fc497b1e94",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::sonesta simply suites miami airport doral::pet_count_limit::2",
+       "field": "pet_count_limit",
+       "quote": "Up to two pets",
+       "source_url": "https://www.sonesta.com/sonesta-simply-suites/fl/miami/sonesta-simply-suites-miami-airport-doral",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "bfdc4bf9d0041028599a3ec4296f25e6fe4a22c29769895c228cc8fc497b1e94",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "4fe48c2c299bd532f8fb16c6a6c8cf1af95059c795722f7165cb8fe85daaa9f7",
+     "document_sha256": "bfdc4bf9d0041028599a3ec4296f25e6fe4a22c29769895c228cc8fc497b1e94"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "woodspring suites doral miami airport",
+   "canonical_name": "Woodspring Suites Doral Miami Airport",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/doral/woodspring-suites-doral-miami-airport",
+   "outcome": "VALID",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/doral/woodspring-suites-doral-miami-airport",
+   "title": "Extended Stay Hotel in Miami, FL | WoodSpring Suites Doral Miami Airport",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "WoodSpring Suites Doral Miami Airport",
+     "address_on_page": "7500 NW 41st Street",
+     "postal_code": "33166",
+     "phone_on_page": "1(786)641-5170",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/doral/woodspring-suites-doral-miami-airport",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3053633092",
+      "8449746835"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "d21c36f3d1600ef75c0c654eac34d5ef4a5afbaba55708348e5d63584d1fab96",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\woodspring-suites-doral-miami-airport\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 1000,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     },
+     "cats_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "Pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "10.00 USD per night. ",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "10.00 USD per night. ",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "Max 75 lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "No cats",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "cats_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "cats_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites doral miami airport::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets allowed",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/doral/woodspring-suites-doral-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d21c36f3d1600ef75c0c654eac34d5ef4a5afbaba55708348e5d63584d1fab96",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites doral miami airport::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "10.00 USD per night. ",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/doral/woodspring-suites-doral-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d21c36f3d1600ef75c0c654eac34d5ef4a5afbaba55708348e5d63584d1fab96",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites doral miami airport::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "10.00 USD per night. ",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/doral/woodspring-suites-doral-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d21c36f3d1600ef75c0c654eac34d5ef4a5afbaba55708348e5d63584d1fab96",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites doral miami airport::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "10.00 USD per night. ",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/doral/woodspring-suites-doral-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d21c36f3d1600ef75c0c654eac34d5ef4a5afbaba55708348e5d63584d1fab96",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites doral miami airport::weight_limit::3",
+       "field": "weight_limit",
+       "quote": "Max 75 lbs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/doral/woodspring-suites-doral-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d21c36f3d1600ef75c0c654eac34d5ef4a5afbaba55708348e5d63584d1fab96",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites doral miami airport::cats_allowed::4",
+       "field": "cats_allowed",
+       "quote": "No cats",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/doral/woodspring-suites-doral-miami-airport",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d21c36f3d1600ef75c0c654eac34d5ef4a5afbaba55708348e5d63584d1fab96",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "2c66ce80f272ff6958803d2392b6eb315355c87503bac1aa30b26be11b74ad47",
+     "document_sha256": "d21c36f3d1600ef75c0c654eac34d5ef4a5afbaba55708348e5d63584d1fab96"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "woodspring suites tampa airport north veterans expressway",
+   "canonical_name": "Woodspring Suites Tampa Airport North Veterans Expressway",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/tampa/woodspring-suites-tampa-airport-north-veterans-expressway",
+   "outcome": "VALID",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/tampa/woodspring-suites-tampa-airport-north-veterans-expressway",
+   "title": "Extended Stay Hotel in Tampa, FL | WoodSpring Suites Tampa Airport North Veterans Expressway",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "WoodSpring Suites Tampa Airport North Veterans Expressway",
+     "address_on_page": "9310 Anderson Road",
+     "postal_code": "33634",
+     "phone_on_page": "1(813)418-6782",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/tampa/woodspring-suites-tampa-airport-north-veterans-expressway",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8134186782",
+      "8449746835"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "b1588c3855952fd22cf85ff9e8d2b2bb52d2282899dd9b785fb6f7bb02758ae0",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\woodspring-suites-tampa-airport-north-veterans-expressway\\attempt-01",
+   "observation": {
+    "extraction": {
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "cats_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "under 75lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Limit 2 dogs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "No cats",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "cats_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pets_allowed": "SOURCE_SILENT",
+     "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+     "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "cats_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites tampa airport north veterans expressway::weight_limit::0",
+       "field": "weight_limit",
+       "quote": "under 75lbs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/tampa/woodspring-suites-tampa-airport-north-veterans-expressway",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "b1588c3855952fd22cf85ff9e8d2b2bb52d2282899dd9b785fb6f7bb02758ae0",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites tampa airport north veterans expressway::pet_count_limit::1",
+       "field": "pet_count_limit",
+       "quote": "Limit 2 dogs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/tampa/woodspring-suites-tampa-airport-north-veterans-expressway",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "b1588c3855952fd22cf85ff9e8d2b2bb52d2282899dd9b785fb6f7bb02758ae0",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "fort_myers_fl_free_static_001::woodspring suites tampa airport north veterans expressway::cats_allowed::2",
+       "field": "cats_allowed",
+       "quote": "No cats",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/florida/tampa/woodspring-suites-tampa-airport-north-veterans-expressway",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "b1588c3855952fd22cf85ff9e8d2b2bb52d2282899dd9b785fb6f7bb02758ae0",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-10-08",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "3f5426ebbd5d4b2d754368200e45378c05f78dcf0f7154be2047c47e0e37287a",
+     "document_sha256": "b1588c3855952fd22cf85ff9e8d2b2bb52d2282899dd9b785fb6f7bb02758ae0"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [
+      "FLAG_TIERED_FEE"
+     ],
+     "rule_statement": ""
+    }
+   },
+   "classification": "BLOCK_FOUND_BUT_SILENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "america s best value inn",
+   "canonical_name": "America's Best Value Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "http://www.abvifortmyers.com",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.abvifortmyers.com",
+   "title": "Americas Best Value Inn - Hotel in Fort Myers Florida | Hotel in Fort Myers FL",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Americas Best Value Inn - Hotel in Fort Myers Florida | Hotel in Fort Myers FL",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.abvifortmyers.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2399363993"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\america-s-best-value-inn\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "comfort inn",
+   "canonical_name": "Comfort Inn",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.choicehotels.com/florida/fort-myers/comfort-inn-hotels/fl075",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/florida/fort-myers/comfort-inn-hotels/fl075",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\comfort-inn\\attempt-01",
+   "classification": "TRANSPORT_FAILED",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "econo lodge",
+   "canonical_name": "Econo Lodge",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "http://www.econolodge.com",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "http://www.econolodge.com",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\econo-lodge\\attempt-01",
+   "classification": "TRANSPORT_FAILED",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "flamingo inn",
+   "canonical_name": "Flamingo Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.flamingoinnfortmyersbeach.us/",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.flamingoinnfortmyersbeach.us/",
+   "title": "404 | Link Not Found",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\flamingo-inn\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "intown suites",
+   "canonical_name": "InTown Suites",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.intownsuites.com/extended-stay-locations/florida/fort-myers/ft-myers/?utm_source=google&utm_medium=organic&utm_campaign=GMB",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.intownsuites.com/extended-stay-locations/florida/fort-myers/lakeridge-ct/",
+   "title": "Lakeridge Ct | Extended Stay Fort Myers | InTown Suites",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\intown-suites\\attempt-01",
+   "classification": "UNEXPECTED_PAGE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "island inn",
+   "canonical_name": "Island Inn",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.islandinnsanibel.com/?utm_source=VCB&utm_medium=Profile&utm_campaign=VCB_Partner_Profile",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://islandinnsanibel.com/",
+   "title": "Sanibel Island Hotels & Resort | Voted Best Hotel on Sanibel Island",
+   "detail": "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Island Inn",
+     "address_on_page": "3111 W. Gulf Drive",
+     "postal_code": "33957",
+     "phone_on_page": "+1-239-472-1561",
+     "property_code_on_page": "",
+     "canonical_url": "https://islandinnsanibel.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2394721561",
+      "8008515088"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\fort_myers_fl_free_static_001\\island-inn\\attempt-01",
+   "classification": "IDENTITY_MISMATCH",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  }
+ ]
+}

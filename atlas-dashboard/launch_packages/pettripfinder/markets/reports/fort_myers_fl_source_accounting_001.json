@@ -1,0 +1,100 @@
+{
+ "schema": "ptf-source-accounting/1.0",
+ "work_order": "PTF-FORT-MYERS-FL-HARDENED-SOURCE-READY-001",
+ "market_id": "fort-myers-fl",
+ "derived_from": "launch_packages/pettripfinder/markets/reports/fort_myers_fl_source_ready_accounting_001.json",
+ "headline": {
+  "total_raw_observations": 1236,
+  "raw_observations_by_lane": {
+   "REGISTRY_LICENCE": 304,
+   "OSM_OVERPASS": 309,
+   "BRAND_INVENTORY_OWNED": 17,
+   "BRAND_INVENTORY_CITY_PAGE": 29,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 40,
+   "DESTINATION_ORGANIZATION": 187,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 196,
+   "IDENTITY_VERIFIED_PLACES": 5,
+   "PROPERTY_PAGE": 149
+  },
+  "public_lodging_register_leads": 304,
+  "osm_lodging_elements": 418,
+  "brand_inventory_leads": 122,
+  "destination_roster_listings": 200,
+  "destination_roster_rows_in_admitted_codes": 184,
+  "competitor_leads_normalized": 196,
+  "graph_nodes": 658,
+  "proposed_census": 142,
+  "valid_pet_friendly": 57,
+  "valid_verified_no_pets": 34,
+  "resolved": 91,
+  "unresolved": 51,
+  "resolution_rate": 0.6408
+ },
+ "holds_by_class": {
+  "IDENTITY": 2,
+  "ROUTING": 25,
+  "ACCESS_BLOCKED": 0,
+  "EVIDENCE": 8,
+  "NEGATION": 0,
+  "BROWSER_CAPTURE": 0,
+  "POLICY_NOT_FOUND": 0,
+  "SOURCE_SILENT": 16,
+  "MIXED_RESORT": 0,
+  "CONDO_HOTEL": 0,
+  "PAID": 0,
+  "GEOGRAPHY": 0,
+  "FOUNDER": 0,
+  "OTHER": 0
+ },
+ "holds_exact_sub_causes": {
+  "EVIDENCE_HOLD": {
+   "the shared reader that FAST rule C re-runs at seal time classifies thi": 3,
+   "the property's own site lists its units as individual rental listings ": 2,
+   "the first-party quote states neither an acceptance nor a refusal sente": 2,
+   "EXPLICIT_ACCEPTANCE_WORDING_NOT_FOUND_IN_QUOTE": 1
+  },
+  "IDENTITY_MISMATCH_HOLD": {
+   "the fetched page's own identity did not confirm this census row": 2
+  },
+  "ROUTING_HOLD": {
+   "NO_OFFICIAL_WEB_PRESENCE_FOUND": 15,
+   "OTHER_EXPLICIT_REASON": 4,
+   "NOT_FIRST_PARTY_SITE": 3,
+   "RETIRED_BRAND_ROUTE": 2,
+   "the route the census carries served an error page (expired domain, sit": 1
+  },
+  "SOURCE_SILENT": {
+   "the property's own pages served, bound these exact premises, and state": 12,
+   "the property's own site (found via Places, bound on its own address/ph": 2,
+   "the brand's own page served and bound these premises, and the only pet": 2
+  }
+ },
+ "exclusions": {
+  "vacation_rental": 93,
+  "timeshare": 5,
+  "resort_residence": 0,
+  "non_hotel": 45,
+  "closed": 0,
+  "preopening": 0,
+  "converted_to_non_hotel": 0,
+  "military_restricted": 0,
+  "outside": 196,
+  "duplicate_listing": 0,
+  "name_only_unresolved_graph_residue": 105,
+  "identity_review_required_graph_residue": 69,
+  "same_campus_distinct_entity": 2,
+  "register_short_term_rental_and_other_rows_never_leads": 8825,
+  "closed_note": "A row is CLOSED only on the property's own first-party closure statement, held and never published; lapsed routes (a parked or retired domain, a brand redirect to its own search, a brand directory that no longer lists the building) are ROUTING / ACCESS holds, never a closure claim.",
+  "closed_rows": [],
+  "preopening_rows": []
+ },
+ "remaining_unresolved_root_causes": {
+  "ROUTING_HOLD": "no first-party route: no brand inventory row, bureau link or map website joined the building, Google Places route discovery (run inside the renewed free monthly allowance) found no first-party website for it, or the route the census carried is retired, expired or a third-party page.",
+  "ACCESS_BLOCKED": "every free / authorized lane attempted (static plain client, Firecrawl where the router made the row eligible, the attended browser) was refused or walled.",
+  "SOURCE_SILENT": "the property's own page or site served, bound to the identity, and stated no operative pet policy on its home or policy / FAQ pages.",
+  "EVIDENCE_HOLD": "a conditional, chip-only or fee/weight/count-only statement, or a shared-reader disagreement; held, never published.",
+  "IDENTITY_MISMATCH_HOLD": "dual-brand buildings awaiting a reviewed shared resolution, or a page that never confirmed this census row's premises."
+ }
+}
