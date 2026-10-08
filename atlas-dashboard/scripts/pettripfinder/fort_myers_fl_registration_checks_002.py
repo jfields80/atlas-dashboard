@@ -35,12 +35,12 @@ import re
 import sys
 from collections import Counter, OrderedDict
 from pathlib import Path
+from urllib.parse import urlsplit
 
 _DASH = Path(__file__).resolve().parents[2]
 if str(_DASH) not in sys.path:
     sys.path.insert(0, str(_DASH))
 
-from scripts.pettripfinder import commercial_actions as CA  # noqa: E402
 from scripts.pettripfinder import fast_release_lane as FL  # noqa: E402
 from scripts.pettripfinder import first_party_binding as FPB  # noqa: E402
 from scripts.pettripfinder import fort_myers_fl_census_reconciliation_001 as CR  # noqa: E402
@@ -135,6 +135,14 @@ def _bare_chain(name):
     toks = [t for t in re.sub(r"[^a-z0-9 ]", " ", _norm(name)).split() if t]
     return bool(toks) and any(t in CHAIN_WORDS for t in toks) and all(t in CHAIN_WORDS or t in GENERIC_WORDS
                                                                        for t in toks)
+
+
+def _valid_destination(url):
+    """An outbound destination is an absolute http(s) URL with a real host -- the rule the /go/ interstitials apply
+    to an external destination (FAST rule J re-checks every built /go/ page). Restated here because a market-local
+    module may not import the shared commercial-actions renderer."""
+    parts = urlsplit(str(url or ""))
+    return parts.scheme in ("http", "https") and bool(parts.hostname)
 
 
 def _residue(text, rx):
@@ -517,7 +525,7 @@ def main(argv=None):
         for _path, leaf in CRS._walk(_load(p)):
             if isinstance(leaf, str) and ("://" in leaf or leaf.startswith("www.")):
                 route_urls.append((p.name, _path, leaf))
-    invalid_routes = [(n, f, u) for n, f, u in route_urls if not CA._validate_destination(u)]
+    invalid_routes = [(n, f, u) for n, f, u in route_urls if not _valid_destination(u)]
     route_safety = OrderedDict((("destinations_checked", len(route_urls)),
                                 ("INVALID_ROUTE_SCHEMES", len(invalid_routes)), ("invalid", invalid_routes[:5])))
     if invalid_routes:
