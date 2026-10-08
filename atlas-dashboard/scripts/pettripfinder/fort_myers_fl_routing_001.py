@@ -42,7 +42,7 @@ MARKET_ID = "fort-myers-fl"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "fort-myers-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "fort-myers-fl.json")
 OUT = os.path.join(REPORTS, "fort_myers_fl_routing_001.json")
 
 _NAME_FAMILY = [

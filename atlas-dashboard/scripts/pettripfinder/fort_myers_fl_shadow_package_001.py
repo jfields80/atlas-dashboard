@@ -50,8 +50,8 @@ PKG = _DASH / "launch_packages" / "pettripfinder"
 STAGING = PKG / "markets" / "staging" / MARKET_ID
 LP = STAGING / "launch_package"
 REPORT = PKG / "markets" / "reports" / "fort_myers_fl_shadow_package_001.json"
-PROPOSED_MARKET = PKG / "markets" / "proposed" / ("%s.json" % MARKET_ID)
-PROPOSED_CENSUS = PKG / "identity_census_proposed" / ("%s.json" % MARKET_ID)
+PROPOSED_MARKET = PKG / "markets" / ("%s.json" % MARKET_ID)
+PROPOSED_CENSUS = PKG / "identity_census" / ("%s.json" % MARKET_ID)
 AUTHORITY = STAGING / "fort_myers_fl_proposed_authority_001.json"
 PARTITION_SRC = STAGING / "launch_package" / "fort_myers_fl_final_partition_001.json"
 #: A FIXED seal time (the package digest covers it, so it must never be the wall clock): after this order's last

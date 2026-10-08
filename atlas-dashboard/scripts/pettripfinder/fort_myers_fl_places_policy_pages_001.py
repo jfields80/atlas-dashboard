@@ -23,7 +23,7 @@ from scripts.pettripfinder import fort_myers_fl_policy_pages_lane_001 as PP  # n
 
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 PLACES = os.path.join(PKG, "markets", "reports", "fort_myers_fl_places_route_discovery_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "fort-myers-fl.json")
+CENSUS = os.path.join(PKG, "identity_census", "fort-myers-fl.json")
 OUT = os.path.join(PKG, "markets", "staging", "fort-myers-fl", "raw_captures", "closure_static_rows.json")
 
 

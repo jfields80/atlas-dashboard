@@ -35,7 +35,7 @@ PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 R = os.path.join(PKG, "markets", "reports")
 RAW = os.path.join(PKG, "markets", "staging", "fort-myers-fl", "raw_captures")
 OUT = os.path.join(R, "fort_myers_fl_source_ready_accounting_001.json")
-PARTITION = os.path.join(PKG, "markets", "staging", "fort-myers-fl", "launch_package", "fort_myers_fl_final_partition_001.json")
+PARTITION = os.path.join(PKG, "fort_myers_fl_final_partition_001.json")
 
 #: The order's hold vocabulary, and which clean-authority disposition each maps from.
 HOLD_CLASSES = OrderedDict([
@@ -107,7 +107,7 @@ def _jsonl(path):
 
 
 def main():
-    census = json.load(open(os.path.join(PKG, "identity_census_proposed", "fort-myers-fl.json"), encoding="utf-8"))
+    census = json.load(open(os.path.join(PKG, "identity_census", "fort-myers-fl.json"), encoding="utf-8"))
     part = json.load(open(PARTITION, encoding="utf-8"))
     clean = L("fort_myers_fl_clean_authority_001.json", {}) or {}
     fc = L("fort_myers_fl_firecrawl_pass_001.json", {}) or {}

@@ -43,12 +43,12 @@ OUT = os.path.join(PKG, "markets", "reports", "fort_myers_fl_clone_residue_scan_
 STAGING = os.path.join(PKG, "markets", "staging", MARKET_ID)
 
 DATA_DOCUMENTS = [
-    os.path.join(PKG, "markets", "proposed", MARKET_ID + ".json"),
-    os.path.join(PKG, "identity_census_proposed", MARKET_ID + ".json"),
+    os.path.join(PKG, "markets", MARKET_ID + ".json"),
+    os.path.join(PKG, "identity_census", MARKET_ID + ".json"),
     os.path.join(SCRIPTS, "discovery", "config", "fort_myers_fl.json"),
-    os.path.join(STAGING, "launch_package", "hotel_policy_facts_%s.json" % MARKET_ID),
-    os.path.join(STAGING, "fort_myers_fl_proposed_authority_001.json"),
-    os.path.join(STAGING, "launch_package", "fort_myers_fl_final_partition_001.json"),
+    os.path.join(PKG, "hotel_policy_facts_%s.json" % MARKET_ID),
+    os.path.join(PKG, "fort_myers_fl_proposed_authority_001.json"),
+    os.path.join(PKG, "fort_myers_fl_final_partition_001.json"),
 ]
 #: The market's own Southwest Florida box (the geography module's BOUNDS: 25.80 N to 27.10 N, 82.40 W to 81.35 W).
 #: The variable names are the parent's, kept so every check below reads the same.
@@ -116,7 +116,7 @@ def _walk(obj, path=""):
 
 
 #: Documents whose EVERY string is market-level text (the market's own definition and its discovery config).
-MARKET_LEVEL = {"markets/proposed/%s.json" % MARKET_ID, "discovery/config/fort_myers_fl.json"}
+MARKET_LEVEL = {"markets/%s.json" % MARKET_ID, "discovery/config/fort_myers_fl.json"}
 #: Row collections inside the census and the staged documents, and the row fields that state WHERE a row is and
 #: WHICH market owns it. A row's NAME or STREET may legitimately carry a word another market is named for
 #: (Washington School House in Park City, Washington Boulevard in Ogden, Indiana Avenue in Salt Lake City);
