@@ -1,0 +1,139 @@
+{
+ "schema": "ptf-municipal-boundaries/1.0",
+ "work_order": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+ "market_id": "dallas-fort-worth-tx",
+ "phase": "3 + 4 + 5 + 8 + 9 -- municipality and county decided by the premises' coordinates",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 2,
+ "sources": [
+  {
+   "layer": "Texas places (TIGER/Line 2024)",
+   "url": "https://www2.census.gov/geo/tiger/TIGER2024/PLACE/tl_2024_48_place.zip",
+   "sha256": "0388b08a708a1a3ada0ab594b0a574e9ab65654d00cb0c56369f55661cf8439d",
+   "bytes": 9717329,
+   "places_in_window": 407
+  },
+  {
+   "layer": "U.S. counties (cartographic boundary 1:500k, 2023)",
+   "url": "https://www2.census.gov/geo/tiger/GENZ2023/shp/cb_2023_us_county_500k.zip",
+   "sha256": "99d6597b1fc7767deef62e01d28d8b5dcbd578e151855f7dc0d173cbf5bf0868",
+   "bytes": 11630077,
+   "texas_counties_in_window": 42
+  }
+ ],
+ "rule": "A row with coordinates publishes the incorporated place whose boundary contains its premises and the county whose boundary contains them; a premises in no incorporated place keeps its own mailing municipality. A brand's or a register's stated city is evidence, never the decision.",
+ "probes": [
+  {
+   "probe": "Reunion Tower (Dallas)",
+   "lat": 32.7755,
+   "lng": -96.8089,
+   "place": "Dallas",
+   "class": "C1",
+   "county": "Dallas",
+   "expected_place": "Dallas",
+   "expected_county": "Dallas",
+   "ok": true
+  },
+  {
+   "probe": "Sundance Square (Fort Worth)",
+   "lat": 32.753,
+   "lng": -97.332,
+   "place": "Fort Worth",
+   "class": "C1",
+   "county": "Tarrant",
+   "expected_place": "Fort Worth",
+   "expected_county": "Tarrant",
+   "ok": true
+  },
+  {
+   "probe": "AT&T Stadium (Arlington)",
+   "lat": 32.7473,
+   "lng": -97.0945,
+   "place": "Arlington",
+   "class": "C1",
+   "county": "Tarrant",
+   "expected_place": "Arlington",
+   "expected_county": "Tarrant",
+   "ok": true
+  },
+  {
+   "probe": "Gaylord Texan (Grapevine)",
+   "lat": 32.944,
+   "lng": -97.07,
+   "place": "Grapevine",
+   "class": "C1",
+   "county": "Tarrant",
+   "expected_place": "Grapevine",
+   "expected_county": "Tarrant",
+   "ok": true
+  },
+  {
+   "probe": "Legacy West (Plano)",
+   "lat": 33.078,
+   "lng": -96.827,
+   "place": "Plano",
+   "class": "C1",
+   "county": "Collin",
+   "expected_place": "Plano",
+   "expected_county": "Collin",
+   "ok": true
+  },
+  {
+   "probe": "The Star (Frisco)",
+   "lat": 33.11,
+   "lng": -96.829,
+   "place": "Frisco",
+   "class": "C1",
+   "county": "Collin",
+   "expected_place": "Frisco",
+   "expected_county": "Collin",
+   "ok": true
+  },
+  {
+   "probe": "Las Colinas Urban Center (Irving)",
+   "lat": 32.877,
+   "lng": -96.944,
+   "place": "Irving",
+   "class": "C1",
+   "county": "Dallas",
+   "expected_place": "Irving",
+   "expected_county": "Dallas",
+   "ok": true
+  },
+  {
+   "probe": "Addison Circle (Addison)",
+   "lat": 32.958,
+   "lng": -96.829,
+   "place": "Addison",
+   "class": "C1",
+   "county": "Dallas",
+   "expected_place": "Addison",
+   "expected_county": "Dallas",
+   "ok": true
+  },
+  {
+   "probe": "Fort Worth Stockyards (Fort Worth)",
+   "lat": 32.789,
+   "lng": -97.347,
+   "place": "Fort Worth",
+   "class": "C1",
+   "county": "Tarrant",
+   "expected_place": "Fort Worth",
+   "expected_county": "Tarrant",
+   "ok": true
+  },
+  {
+   "probe": "Dallas Love Field terminal (Dallas)",
+   "lat": 32.846,
+   "lng": -96.851,
+   "place": "Dallas",
+   "class": "C1",
+   "county": "Dallas",
+   "expected_place": "Dallas",
+   "expected_county": "Dallas",
+   "ok": true
+  }
+ ],
+ "probes_passed": 10
+}

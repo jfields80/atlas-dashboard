@@ -1,0 +1,3203 @@
+{
+ "schema": "ptf-browser-route-discovery/1.0",
+ "work_order": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+ "capture_method": "claude-in-chrome navigate + accessibility-tree read of the brand's OWN directory page (hrefs only; no JS exfiltration, no relay, no bypass)",
+ "a_route_is_not_a_policy": "Only property routes are read; the property's own page decides identity.",
+ "surfaces": [
+  {
+   "surface": "https://www.choicehotels.com/texas/dallas/hotels",
+   "family": "CHOICE",
+   "stated_total": 71,
+   "routes_read": 67,
+   "recorded_at": "2026-10-09T15:02:49Z",
+   "note": "Choice city page is a radius search ('71 hotels near Dallas, TX, USA'), 71 cards read from accessibility tree (heading + link href); kept when listed address is in-market. Suburban Studios Irving - Las Colinas card says 'Coming soon / Start booking Nov 21, 2026'. Golden Inn Dallas East (txt72) uses /choice-hotels/ brand slug. The FAQ names a 'Cambria Hotel Downtown Dallas' that is NOT in the 71-card list. Dropped as out-of-market by listed address: Comfort Inn & Suites Red Oak - Dallas Area (404 North I-35 East, Red Oak, TX 75154, US); Comfort Inn & Suites Near Lake Lewisville (8111 S. I-35 East Corinth, Corinth, TX 76210, US); Comfort Inn & Suites Wylie (2011 N. Highway 78, Wylie, TX 75098, US); Comfort Suites Waxahachie - Dallas (131 RVG Plaza, Waxahachie, TX 75165, US)."
+  },
+  {
+   "surface": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "family": "CHOICE",
+   "stated_total": 58,
+   "routes_read": 51,
+   "recorded_at": "2026-10-09T15:03:53Z",
+   "note": "Choice city page is a radius search ('58 hotels near Fort Worth, TX, USA'); 58 cards read from accessibility tree (heading + link href); kept when listed address is in-market. Kept for the property page to decide: Cambria Hotel Northlake Conference Center - Roanoke (listed address Northlake, TX 76262, Denton County). Dropped as out-of-market by listed address: Liberty Hotel, an Ascend Collection Hotel (250 East James Street, Cleburne, TX 76031, US); Econo Lodge Weatherford (2207 Old Dennis Road, Weatherford, TX 76087, US); Comfort Inn & Suites Alvarado (400 Village Park Drive, Alvarado, TX 76009, US); Clarion Inn & Suites Weatherford South (1911 Wall Street, Weatherford, TX 76086, US); Quality Inn & Suites Weatherford (2500 South Main Street, Weatherford, TX 76087, US); Comfort Inn - Weatherford (2524 S. Main Street, Weatherford, TX 76087, US); Quality Suites Burleson - Ft. Worth (321 S. Burleson Blvd, Burleson, TX 76028, US)."
+  },
+  {
+   "surface": "https://www.choicehotels.com/texas/mckinney/hotels",
+   "family": "CHOICE",
+   "stated_total": null,
+   "routes_read": 46,
+   "recorded_at": "2026-10-09T15:04:54Z",
+   "note": "Choice city page is a radius search around McKinney (no total stated on this render; 48 cards read from accessibility tree, heading + link href); kept when listed address is in-market. Dropped as out-of-market by listed address: Comfort Inn & Suites Wylie (2011 N. Highway 78, Wylie, TX 75098, US); Comfort Inn & Suites Near Lake Lewisville (8111 S. I-35 East Corinth, Corinth, TX 76210, US)."
+  },
+  {
+   "surface": "https://www.choicehotels.com/texas/arlington/hotels",
+   "family": "CHOICE",
+   "stated_total": null,
+   "routes_read": 70,
+   "recorded_at": "2026-10-09T15:05:41Z",
+   "note": "Choice city page is a radius search around arlington; cards read from the accessibility tree (heading + link href); kept when the listed address is in-market. No total stated on this render; 75 cards. Dropped as out-of-market by listed address: Comfort Inn & Suites Red Oak - Dallas Area (404 North I-35 East, Red Oak, TX 75154, US); Comfort Inn & Suites Alvarado (400 Village Park Drive, Alvarado, TX 76009, US); Comfort Inn & Suites Near Lake Lewisville (8111 S. I-35 East Corinth, Corinth, TX 76210, US); Comfort Suites Waxahachie - Dallas (131 RVG Plaza, Waxahachie, TX 75165, US); Quality Suites Burleson - Ft. Worth (321 S. Burleson Blvd, Burleson, TX 76028, US)."
+  },
+  {
+   "surface": "https://www.choicehotels.com/texas/frisco/hotels",
+   "family": "CHOICE",
+   "stated_total": null,
+   "routes_read": 54,
+   "recorded_at": "2026-10-09T15:06:27Z",
+   "note": "Choice city page is a radius search around frisco; cards read from the accessibility tree (heading + link href); kept when the listed address is in-market. Dropped as out-of-market by listed address: Comfort Inn & Suites Near Lake Lewisville (8111 S. I-35 East Corinth, Corinth, TX 76210, US); Comfort Inn Near UNT (4050 Mesa Drive, Denton, TX 76207, US); Quality Inn - Denton (4211 N IH 35, Denton, TX 76207-3415, US); Comfort Inn & Suites Wylie (2011 N. Highway 78, Wylie, TX 75098, US)."
+  },
+  {
+   "surface": "https://www.ihg.com/dallas-texas",
+   "family": "IHG",
+   "stated_total": null,
+   "routes_read": 74,
+   "recorded_at": "2026-10-09T15:07:58Z",
+   "note": "IHG destination URL /destinations/us/en/united-states/texas/dallas-hotels redirected to https://www.ihg.com/dallas-texas. 'Featured Hotels in Dallas' list: 77 cards present in the accessibility tree (heading + link href); 'View more hotels' only reveals cards already in the tree. No total stated. Kept when the listed address is in-market. One card is headed just 'Roanoke' (route /spnd/hotels/us/en/roanoke/ftwrn/hoteldetail, 801 W Byron Nelson Blvd Roanoke). Dropped as out-of-market by listed address: Holiday Inn Express & Suites Forney (110 E Highway 80 Forney, Texas 75126, United States); Holiday Inn Express & Suites Wylie West (630 Sanden Blvd Wylie, Texas 75098, United States); Holiday Inn Express & Suites Waxahachie (984 Us Hwy 287 Bypass West Waxahachie, Texas 75165, United States). Four listed names carry U+FFFD replacement characters exactly as the accessibility tree returned them (likely a dash on the page)."
+  },
+  {
+   "surface": "https://www.ihg.com/fort-worth-texas",
+   "family": "IHG",
+   "stated_total": null,
+   "routes_read": 56,
+   "recorded_at": "2026-10-09T15:08:24Z",
+   "note": "IHG destination URL /destinations/us/en/united-states/texas/fort-worth-hotels redirected to https://www.ihg.com/fort-worth-texas; all cards of the 'Featured Hotels' list are present in the accessibility tree (heading + link href; 'View more hotels' only reveals them). No total stated. Kept when the listed address is in-market. 60 cards. Two Northlake, TX 76226/76262 cards kept for the property page to decide (Denton County). Dropped as out-of-market by listed address: Holiday Inn Express & Suites Burleson/Ft. Worth (13250 Jake Court Burleson, Texas 76028, United States); Holiday Inn Express & Suites Alvarado (325 Village Park Drive Alvarado, Texas 76009, United States); Holiday Inn Express & Suites Weatherford (850 Interstate 20 East Weatherford, Texas 76087, United States); Holiday Inn Express & Suites Cleburne (1800 West Henderson Street Cleburne, Texas 76033, United States)."
+  },
+  {
+   "surface": "https://www.ihg.com/arlington-texas",
+   "family": "IHG",
+   "stated_total": null,
+   "routes_read": 74,
+   "recorded_at": "2026-10-09T15:08:49Z",
+   "note": "IHG destination URL /destinations/us/en/united-states/texas/arlington-hotels redirected to https://www.ihg.com/arlington-texas; all cards of the 'Featured Hotels' list are present in the accessibility tree (heading + link href; 'View more hotels' only reveals them). No total stated. Kept when the listed address is in-market. Dropped as out-of-market by listed address: Holiday Inn Express & Suites Burleson/Ft. Worth (13250 Jake Court Burleson, Texas 76028, United States); Holiday Inn Express & Suites Alvarado (325 Village Park Drive Alvarado, Texas 76009, United States); Holiday Inn Express & Suites Waxahachie (984 Us Hwy 287 Bypass West Waxahachie, Texas 75165, United States)."
+  },
+  {
+   "surface": "https://www.ihg.com/mckinney-texas",
+   "family": "IHG",
+   "stated_total": null,
+   "routes_read": 43,
+   "recorded_at": "2026-10-09T15:09:05Z",
+   "note": "IHG destination URL /destinations/us/en/united-states/texas/mckinney-hotels redirected to https://www.ihg.com/mckinney-texas; all cards of the 'Featured Hotels' list are present in the accessibility tree (heading + link href; 'View more hotels' only reveals them). No total stated. Kept when the listed address is in-market. Dropped as out-of-market by listed address: Holiday Inn Express & Suites Prosper South - Frisco (1100 Mahard Parkway Prosper, Texas 75078, United States); Holiday Inn Express & Suites Wylie West (630 Sanden Blvd Wylie, Texas 75098, United States); Holiday Inn Express & Suites Royse City - Rockwall (1001 Pullen Street Royse City, Texas 75189, United States); Holiday Inn Express & Suites Denton South (3180 S Interstate 35 E Denton, Texas 76210, United States); Staybridge Suites Denton (2204 San Jacinto Boulevard Denton, Texas 76205, United States)."
+  },
+  {
+   "surface": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "family": "ESA",
+   "stated_total": null,
+   "routes_read": 14,
+   "recorded_at": "2026-10-09T15:10:14Z",
+   "note": "ESA city page 'Hotels near ...' list; cards read from the accessibility tree (heading + link href). No total stated; no pagination/load-more control present. Every property href on the page carries a booking query string (siteId, checkIn/checkOut dates, rooms...), recorded exactly as on the page. Kept when the listed address is in-market. 14 distinct hotels (each card appears twice in the tree). The list looks capped: ESA has other DFW hotels not shown here."
+  },
+  {
+   "surface": "https://www.extendedstayamerica.com/hotels/tx/fort-worth",
+   "family": "ESA",
+   "stated_total": null,
+   "routes_read": 14,
+   "recorded_at": "2026-10-09T15:10:48Z",
+   "note": "ESA city page 'Hotels near ...' list; cards read from the accessibility tree (heading + link href). No total stated; no pagination/load-more control present. Every property href on the page carries a booking query string (siteId, checkIn/checkOut dates, rooms...), recorded exactly as on the page. Kept when the listed address is in-market. Same 14 hotels as the Dallas page (the Texas state page lists only Dallas and Fort Worth for the Metroplex), so ESA's own DFW inventory appears to be these 14."
+  },
+  {
+   "surface": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "family": "BEST_WESTERN",
+   "stated_total": null,
+   "routes_read": 24,
+   "recorded_at": "2026-10-09T15:13:02Z",
+   "note": "Best Western destination page; cards read from the accessibility tree. Each card's name node is a SHORT name shown beside a brand logo (logo alt codes like BEST/BWP/SSPL/SURE...); the listed name recorded is that short-name node exactly, the full brand name is in the href slug. Route = the card's 'View Hotel Details' link. Kept when the card's own address is in-market. Reached from the BW Texas page's own 'Dallas' link. 33 cards (radius list ~40 mi); no total stated, no pagination. 'Fort Worth Fossil Creek' (44820) card is in the 'Hotels not currently available' section with a 'NOW OPEN' badge. Dropped as out-of-market by listed address: PLUS Rockwall Inn & Suites (996 E I-30, Rockwall, TX 75087 US); SSH Terrell (1705 Highway 34 S, Terrell, TX 75160 US); PLUS Waxahachie Inn & Suites (1701 N Highway 77, Waxahachie, TX 75165 US); PLUS Lake Dallas Inn & Suites (305 Swisher Road, Lake Dallas, TX 75065 US); PLUS Monica Royale Inn & Suites (3001 Mustang Crossing Annex, Greenville, TX 75402 US); PRMR Crown Chase Inn & Suites (2450 Brinker Road, Denton, TX 76208 US); PLUS Burleson Inn & Suites (516 Memorial Plz, Burleson, TX 76028 US); PLUS Christopher Inn & Suites (752 Pinson Road, Forney, TX 75126 US); PLUS Denton Inn & Suites (2910 W University Drive, Denton, TX 76201 US)."
+  },
+  {
+   "surface": "https://www.hyatt.com/explore-hotels",
+   "family": "HYATT",
+   "stated_total": null,
+   "routes_read": 26,
+   "recorded_at": "2026-10-09T15:15:00Z",
+   "note": "Hyatt 'Explore Hotels' page (https://www.hyatt.com/explore-hotels), 'United States & Canada' section expanded by one click on its own accordion; read the 'Texas' heading's list (93 hotels, names + hrefs from link nodes). The list prints no addresses, so DFW membership was selected by Hyatt's own property-code prefix 'dfw' in the href; excluded as a refused city: Hyatt Place Dallas / Rockwall. Mr & Mrs Smith entries under Texas (Hotel 1928, Hotel Herringbone, Hotel Lucine, Onera Wimberley, The Ranch Motel & Leisure Club) carry no market code and were not taken."
+  },
+  {
+   "surface": "https://www.redroof.com/property",
+   "family": "RED_ROOF",
+   "stated_total": null,
+   "routes_read": 20,
+   "recorded_at": "2026-10-09T15:16:29Z",
+   "note": "Red Roof 'Find Hotels' page (https://www.redroof.com/property, reached from the site map); 'Texas' state button clicked once to expand the brand's own list. /hotels/texas returned a 404. Texas section lists 80 hotels (each under a city label); kept the 20 whose city label is a Metroplex city."
+  },
+  {
+   "surface": "https://www.motel6.com/us/texas/dallas/",
+   "family": "MOTEL6",
+   "stated_total": 92,
+   "routes_read": 22,
+   "recorded_at": "2026-10-09T15:17:45Z",
+   "note": "Motel 6 city page; cards read from the accessibility tree (property link + its heading); city label printed on each card used for the in-market test (no street address on the card). Page 1 of 5 ('92 motels in Dallas'; pages 2-5 via the page's own ?page=N links)."
+  },
+  {
+   "surface": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "family": "MOTEL6",
+   "stated_total": 92,
+   "routes_read": 22,
+   "recorded_at": "2026-10-09T15:17:45Z",
+   "note": "Motel 6 city page; cards read from the accessibility tree (property link + its heading); city label printed on each card used for the in-market test (no street address on the card). Page 2 of 5 ('92 motels in Dallas')."
+  },
+  {
+   "surface": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "family": "MOTEL6",
+   "stated_total": 92,
+   "routes_read": 20,
+   "recorded_at": "2026-10-09T15:18:38Z",
+   "note": "Motel 6 city page; cards read from the accessibility tree (property link + its heading); city label printed on each card used for the in-market test (no street address on the card). Page 2 of 5 ('92 motels in Dallas'), reached by clicking the list's own page-2 control (direct ?page=2 navigation rendered page 1)."
+  },
+  {
+   "surface": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "family": "MOTEL6",
+   "stated_total": 92,
+   "routes_read": 16,
+   "recorded_at": "2026-10-09T15:19:02Z",
+   "note": "Motel 6 city page; cards read from the accessibility tree (property link + its heading); city label printed on each card used for the in-market test (no street address on the card). Page 3 of 5 ('92 motels in Dallas'), reached by clicking the list's own page-3 control. Not taken (city label outside the Metroplex list): Motel 6 Waxahachie, TX (WAXAHACHIE); Motel 6 Terrell, TX (Terrell); Motel 6 Ennis, TX (Ennis); Studio 6 Burleson, TX (Burleson)."
+  },
+  {
+   "surface": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "family": "MOTEL6",
+   "stated_total": 92,
+   "routes_read": 13,
+   "recorded_at": "2026-10-09T15:19:25Z",
+   "note": "Motel 6 city page; cards read from the accessibility tree (property link + its heading); city label printed on each card used for the in-market test (no street address on the card). Page 4 of 5 ('92 motels in Dallas'), reached by clicking the list's own page-4 control. Not taken (city label outside the Metroplex list): Studio 6 Denton, TX - UNT (Denton); Motel 6 Alvarado, TX (ALVARADO); Motel 6 Denton, TX - UNT (Denton); Motel 6 Joshua, TX (JOSHUA); Motel 6 Rhome, TX (RHOME); Motel 6 Greenville, TX (Greenville); Motel 6 Cleburne, TX (Cleburne)."
+  },
+  {
+   "surface": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "family": "MOTEL6",
+   "stated_total": 92,
+   "routes_read": 11,
+   "recorded_at": "2026-10-09T15:19:49Z",
+   "note": "Motel 6 city page; cards read from the accessibility tree (property link + its heading); city label printed on each card used for the in-market test (no street address on the card). Page 5 of 5 ('92 motels in Dallas'), reached by clicking the list's own page-5 control. Not taken (city label outside the Metroplex list): Motel 6 Red Oak, TX - Dallas (Red Oak)."
+  }
+ ],
+ "routes": [
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/comfort-suites-hotels/tx627",
+   "listed_name": "Comfort Suites NW Dallas Near Love Field",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/comfort-inn-hotels/tx482",
+   "listed_name": "Comfort Inn & Suites Love Field-Dallas Market Center",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/comfort-inn-hotels/txn06",
+   "listed_name": "Comfort Inn & Suites Dallas Medical-Market Center",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/suburban-hotels/tx757",
+   "listed_name": "Suburban Studios Dallas Northwest Walnut Hill",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/comfort-suites-hotels/txc39",
+   "listed_name": "Comfort Suites West Dallas - Cockrell Hill",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/garland/rodeway-inn-hotels/txt28",
+   "listed_name": "Rodeway Inn Garland Harbor Point",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/sleep-inn-hotels/txh02",
+   "listed_name": "Sleep Inn Dallas Love Field-Medical District",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/mesquite/quality-inn-hotels/tx100",
+   "listed_name": "Quality Inn Mesquite - Dallas East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/comfort-inn-hotels/txi14",
+   "listed_name": "Comfort Inn Dallas North Love Field Airport",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/arlington/rodeway-inn-hotels/txc87",
+   "listed_name": "Rodeway Inn Arlington Entertainment District Area",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/comfort-inn-hotels/txh90",
+   "listed_name": "Comfort Inn Dallas Park Central",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/arlington/sleep-inn-hotels/tx024",
+   "listed_name": "Sleep Inn Arlington Near Six Flags",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/sleep-inn-hotels/txl15",
+   "listed_name": "Sleep Inn Dallas Northwest - Irving",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/quality-inn-hotels/txa01",
+   "listed_name": "Quality Inn & Suites I-35 E/Walnut Hill",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/irving/quality-inn-hotels/tx344",
+   "listed_name": "Quality Inn DFW Airport North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/irving/comfort-suites-hotels/tx010",
+   "listed_name": "Comfort Suites DFW Airport",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/irving/quality-inn-hotels/tx615",
+   "listed_name": "Quality Suites Irving-Las Colinas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/choice-hotels/txt72",
+   "listed_name": "Golden Inn Dallas East near I-30 Jim Miller",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/mesquite/quality-inn-hotels/txm53",
+   "listed_name": "Quality Inn & Suites North Mesquite I-30",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/plano/comfort-suites-hotels/txm47",
+   "listed_name": "Comfort Suites Plano East - Richardson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/irving/country-inn-suites-hotels/txi50",
+   "listed_name": "Country Inn & Suites by Radisson, DFW Airport South, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/lewisville/rodeway-inn-hotels/txa62",
+   "listed_name": "Rodeway Inn & Suites Lewisville I-35",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/grand-prairie/comfort-suites-hotels/txh64",
+   "listed_name": "Comfort Suites Grand Prairie - Arlington North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/lancaster/sleep-inn-hotels/txj03",
+   "listed_name": "Sleep Inn Lancaster Dallas South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/comfort-inn-hotels/txj52",
+   "listed_name": "Comfort Inn & Suites North Dallas-Addison",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/balch-springs/comfort-inn-hotels/txl51",
+   "listed_name": "Comfort Inn & Suites Balch Springs - SE Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/desoto/comfort-suites-hotels/txi02",
+   "listed_name": "Comfort Suites DeSoto Dallas South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/euless/cambria-hotels/txp48",
+   "listed_name": "Cambria Hotel Euless - DFW Airport South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/irving/clarion-hotels/tx095",
+   "listed_name": "Clarion Inn & Suites DFW North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/richardson/cambria-hotels/txi09",
+   "listed_name": "Cambria Hotel Richardson - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/garland/quality-inn-hotels/txh35",
+   "listed_name": "Quality Inn & Suites Garland - East Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/plano/comfort-suites-hotels/txb02",
+   "listed_name": "Comfort Suites Plano - Dallas North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/plano/quality-inn-hotels/txh88",
+   "listed_name": "Quality Inn & Suites Plano East - Richardson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/euless/comfort-inn-hotels/txj74",
+   "listed_name": "Comfort Inn & Suites Euless DFW West",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/plano/cambria-hotels/txf24",
+   "listed_name": "Cambria Hotel Plano Frisco",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/mesquite/econo-lodge-hotels/txn94",
+   "listed_name": "Econo Lodge Inn & Suites Mesquite - Dallas East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/lancaster/mainstay-hotels/txj04",
+   "listed_name": "MainStay Suites Lancaster Dallas South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/cedar-hill/sleep-inn-hotels/txm94",
+   "listed_name": "Sleep Inn",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/carrollton/rodeway-inn-hotels/tx815",
+   "listed_name": "Rodeway Inn Carrollton I-35E",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/grand-prairie/quality-inn-hotels/tx365",
+   "listed_name": "Quality Inn & Suites Grand Prairie South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/grapevine/comfort-suites-hotels/tx480",
+   "listed_name": "Comfort Suites DFW N/Grapevine",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/richardson/quality-inn-hotels/tx332",
+   "listed_name": "Quality Inn & Suites Richardson-Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/clarion-hotels/tx645",
+   "listed_name": "Clarion Pointe Addison - Dallas North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/lewisville/comfort-suites-hotels/tx696",
+   "listed_name": "Comfort Suites Lewisville - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/the-colony/comfort-suites-hotels/tx465",
+   "listed_name": "Comfort Suites The Colony - Plano West",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/arlington/quality-inn-hotels/tx553",
+   "listed_name": "Quality Inn at Arlington Highlands",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/clarion-hotels/txr13",
+   "listed_name": "Clarion Pointe Fort Worth East - Arlington",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/forest-hill/quality-inn-hotels/tx059",
+   "listed_name": "Quality Inn Forest Hill - Fort Worth South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/mansfield/comfort-inn-hotels/tx584",
+   "listed_name": "Comfort Inn & Suites Mansfield",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/arlington/comfort-suites-hotels/txb38",
+   "listed_name": "Comfort Suites Arlington - Entertainment District",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/quality-inn-hotels/txl78",
+   "listed_name": "Quality Inn & Suites Fort Worth North - Haltom City",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/comfort-suites-hotels/tx379",
+   "listed_name": "Comfort Suites Fort Worth North Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/frisco/comfort-inn-hotels/txf42",
+   "listed_name": "Comfort Inn & Suites Frisco - Plano",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/frisco/comfort-suites-hotels/txa76",
+   "listed_name": "Comfort Suites Frisco",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/quality-inn-hotels/tx305",
+   "listed_name": "Quality Inn Fort Worth - Downtown East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/comfort-suites-hotels/tx032",
+   "listed_name": "Comfort Suites North Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/irving/quality-inn-hotels/tx688",
+   "listed_name": "Quality Inn & Suites Irving DFW Airport South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/mainstay-hotels/txl16",
+   "listed_name": "MainStay Suites Dallas Northwest - Irving",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/plano/quality-inn-hotels/tx814",
+   "listed_name": "Quality Inn West Plano - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/addison/mainstay-hotels/txn15",
+   "listed_name": "MainStay Suites Addison-Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/plano/comfort-inn-hotels/txn73",
+   "listed_name": "Comfort Inn Plano-Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/addison/quality-inn-hotels/tx116",
+   "listed_name": "Quality Suites Addison-Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/cedar-hill/comfort-inn-hotels/txi97",
+   "listed_name": "Comfort Inn & Suites Cedar Hill Duncanville",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/irving/suburban-hotels/txs43",
+   "listed_name": "Suburban Studios Irving - Las Colinas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/irving/comfort-inn-hotels/txn74",
+   "listed_name": "Comfort Inn & Suites Irving Las Colinas DFW",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/allen/quality-inn-hotels/txb18",
+   "listed_name": "Quality Inn Allen - Plano East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/dallas/quality-inn-hotels/txn12",
+   "listed_name": "Quality Inn & Suites Dallas-Cityplace",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/dallas/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:02:49Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/comfort-suites-hotels/txb59",
+   "listed_name": "Comfort Suites Lake Worth",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/white-settlement/comfort-inn-hotels/txg82",
+   "listed_name": "Comfort Inn & Suites Fort Worth West I-30 NAS JRB",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/comfort-inn-hotels/txb86",
+   "listed_name": "Comfort Inn & Suites Fort Worth - Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/country-inn-suites-hotels/txg38",
+   "listed_name": "Country Inn & Suites by Radisson, Fort Worth West l-30 NAS JRB",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/radisson-hotels/txq29",
+   "listed_name": "Radisson Hotel Fort Worth North-Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/quality-inn-hotels/tx866",
+   "listed_name": "Quality Inn West Fort Worth",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/quality-inn-hotels/txc17",
+   "listed_name": "Quality Inn & Suites Fort Worth - Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/benbrook/comfort-suites-hotels/txa74",
+   "listed_name": "Comfort Suites Benbrook - Fort Worth Southwest",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/northlake/cambria-hotels/txm33",
+   "listed_name": "Cambria Hotel Northlake Conference Center - Roanoke",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/roanoke/quality-inn-hotels/tx747",
+   "listed_name": "Quality Inn & Suites Roanoke - Fort Worth North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/cambria-hotels/txp80",
+   "listed_name": "Cambria Hotel Fort Worth - Medical Center",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/sleep-inn-hotels/txh74",
+   "listed_name": "Sleep Inn & Suites Fort Worth - Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/fort-worth/country-inn-suites-hotels/txq28",
+   "listed_name": "Country Inn & Suites by Radisson, Fort Worth, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/fort-worth/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:03:53Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/mckinney/comfort-suites-hotels/tx505",
+   "listed_name": "Comfort Suites McKinney-Allen",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/mckinney/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:04:54Z"
+  },
+  {
+   "family": "CHOICE",
+   "route": "https://www.choicehotels.com/texas/mckinney/econo-lodge-hotels/txd48",
+   "listed_name": "Econo Lodge Inn & Suites Mckinney - Plano North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.choicehotels.com/texas/mckinney/hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:04:54Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/crowneplaza/hotels/us/en/dallas/dalem/hoteldetail",
+   "listed_name": "Crowne Plaza Dallas Downtown",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/hotelindigo/hotels/us/en/dallas/dalar/hoteldetail",
+   "listed_name": "Hotel Indigo Dallas Downtown",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dallas/dalsh/hoteldetail",
+   "listed_name": "Holiday Inn Express Dallas Downtown",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/kimptonhotels/hotels/us/en/pittman-hotel-dallas-tx/daltp/hoteldetail",
+   "listed_name": "Kimpton Pittman Hotel",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dallas/dalhh/hoteldetail",
+   "listed_name": "Holiday Inn Express Dallas Medical - Market Ctr",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/crowneplaza/hotels/us/en/dallas/dalmt/hoteldetail",
+   "listed_name": "Crowne Plaza Dallas Market Ctr - Love Field",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/dallas/dalsf/hoteldetail",
+   "listed_name": "Candlewood Suites Dallas Market Cntr-Love Field",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dallas/dfwcr/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas Market Ctr - Love Field",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dallas/daloo/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas W - I-30 Cockrell Hill",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/dallas/dallv/hoteldetail",
+   "listed_name": "Staybridge Suites Dallas Market Ctr Love Field",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/dallas/dalvf/hoteldetail",
+   "listed_name": "Holiday Inn Dallas Market Ctr Love Field",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dallas/dalsa/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas East - Fair Park",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dallas/dfwnh/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas NW HWY - Love Field",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dallas/dales/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas Northeast - Arboretum",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/hotelindigo/hotels/us/en/irving/dfwej/hoteldetail",
+   "listed_name": "Hotel Indigo Irving - Las Colinas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dallas/dalvp/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites DALLAS PARK CENTRAL NORTHEAST",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dallas/dalvv/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites North Dallas at Preston",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/irving/dfwiv/hoteldetail",
+   "listed_name": "Holiday Inn Irving - Las Colinas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/mesquite/dfwmq/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Mesquite",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/irving/dfwjc/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Irving Conv Ctr - Las Colinas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/duncanville/dcvtx/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas - Duncanville",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/farmers-branch/dfwfb/hoteldetail",
+   "listed_name": "Candlewood Suites Dallas NW - Farmers Branch",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/farmers-branch/dfwbf/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas NW - Farmers Branch",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/desoto/dstex/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas South - Desoto",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/addison/dalxs/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas North - Addison",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/addison/dalqr/hoteldetail",
+   "listed_name": "Holiday Inn & Suites Dallas-Addison",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/irving/dallc/hoteldetail",
+   "listed_name": "Staybridge Suites Irving Las Colinas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/addison/dfwad/hoteldetail",
+   "listed_name": "Staybridge Suites Addison - Dallas North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/irving/dfwwf/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas Ft. Worth Airport South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/richardson/dalrs/hoteldetail",
+   "listed_name": "Holiday Inn Dallas-Richardson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/irving/dfwsi/hoteldetail",
+   "listed_name": "Staybridge Suites DFW Airport North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/grand-prairie/dalgp/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas - Grand Prairie I-20",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/cedar-hill/dfwch/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas Southwest-Cedar Hill",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/fort-worth/dfwfw/hoteldetail",
+   "listed_name": "Holiday Inn DFW Airport South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/grand-prairie/dfwgr/hoteldetail",
+   "listed_name": "Staybridge Suites Dallas - Grand Prairie",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/plano/dalpl/hoteldetail",
+   "listed_name": "Staybridge Suites Plano - Richardson Area",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/irving/daljc/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Irving Dfw Airport North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/fort-worth/ftwtb/hoteldetail",
+   "listed_name": "Candlewood Suites DFW South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/arlington/dalng/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Arlington North – Stadium Area",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/garland/dalgl/hoteldetail",
+   "listed_name": "Holiday Inn Dallas - Garland",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/irving/dfwrn/hoteldetail",
+   "listed_name": "Candlewood Suites DFW Airport North – Irving",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/garland/dalhb/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Garland E - Lake Hubbard I30",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/grand-prairie/dfwrp/hoteldetail",
+   "listed_name": "Candlewood Suites Grand Prairie - Arlington",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/euless/dfwhr/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites DFW Airport Southwest - Euless",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plano/dfwrs/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Plano East - Richardson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/plano/daljj/hoteldetail",
+   "listed_name": "Candlewood Suites Dallas Plano East Richardson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/arlington/arlel/hoteldetail",
+   "listed_name": "Holiday Inn Arlington NE-Rangers Ballpark",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/rowlett/dfwrl/hoteldetail",
+   "listed_name": "Candlewood Suites Rowlett - Lake Ray Hubbard",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lewisville/dfwmd/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas Lewisville",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plano/dalpt/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Plano West – Frisco",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plano/dfwan/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas – Plano North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/avidhotels/hotels/us/en/plano/dalvd/hoteldetail",
+   "listed_name": "avid hotels Plano North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/plano/dfwpn/hoteldetail",
+   "listed_name": "Candlewood Suites Plano North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/grapevine/dfwgp/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites DFW Airport - Grapevine",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/bedford/dfwbz/hoteldetail",
+   "listed_name": "Candlewood Suites Bedford - Fort Worth",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/the-colony/dfwcl/hoteldetail",
+   "listed_name": "Staybridge Suites Plano - The Colony",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/the-colony/dfwcy/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Plano - The Colony",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/arlington/dalal/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Arlington (I-20-Parks Mall)",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/plano/dfwpl/hoteldetail",
+   "listed_name": "Staybridge Suites Plano North - Frisco",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/hotelindigo/hotels/us/en/frisco/dfwfr/hoteldetail",
+   "listed_name": "Hotel Indigo Frisco",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/frisco/fsopw/hoteldetail",
+   "listed_name": "Holiday Inn Express Frisco Legacy Park Area",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/hurst/dfwht/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites DFW West - Hurst",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/hurst/dfwhu/hoteldetail",
+   "listed_name": "Candlewood Suites DFW West - Hurst",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/allen/dalat/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas NE - Allen",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/mansfield/mfdtx/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Mansfield",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/mckinney/dfwmc/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites McKinney - Frisco East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/trophy-club/dfwtc/hoteldetail",
+   "listed_name": "Holiday Inn Trophy Club",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/allen/dfwat/hoteldetail",
+   "listed_name": "Staybridge Suites Allen",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/frisco/dfwfn/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Dallas-Frisco NW Toyota Stdm",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/frisco/dfwfc/hoteldetail",
+   "listed_name": "Candlewood Suites Dallas-Frisco NW Toyota Ctr",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/haltom-city/dfwhc/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Ft. Worth - Haltom City",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/mckinney/mcktx/hoteldetail",
+   "listed_name": "Holiday Inn & Suites McKinney - N Allen",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/forest-hill/fhrtx/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Forest Hill - Ft. Worth SE",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/spnd/hotels/us/en/roanoke/ftwrn/hoteldetail",
+   "listed_name": "Roanoke",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/dallas-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:07:58Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fort-worth/ftwla/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Fort Worth Downtown",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/kimptonhotels/hotels/us/en/harper-hotel-fort-worth-tx/ftwms/hoteldetail",
+   "listed_name": "Kimpton Harper Hotel",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/avidhotels/hotels/us/en/fort-worth/ftwsa/hoteldetail",
+   "listed_name": "avid hotels Fort Worth Downtown",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fort-worth/ftwbt/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Fort Worth Southwest (I-20)",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fort-worth/ftwwt/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Fort Worth West",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fort-worth/lwwtx/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Lake Worth NW Loop 820",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/avidhotels/hotels/us/en/fort-worth/ftwav/hoteldetail",
+   "listed_name": "avid hotels Fort Worth – Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fort-worth/ftwwc/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Fort Worth - Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/fort-worth/ftwod/hoteldetail",
+   "listed_name": "Holiday Inn Fort Worth - Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/fort-worth/ftwyz/hoteldetail",
+   "listed_name": "Staybridge Suites Fort Worth - Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/candlewood/hotels/us/en/white-settlement/ftwws/hoteldetail",
+   "listed_name": "Candlewood Suites Fort Worth/West",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/fort-worth/ftwsb/hoteldetail",
+   "listed_name": "Staybridge Suites Fort Worth West",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinn/hotels/us/en/fort-worth/ftwgt/hoteldetail",
+   "listed_name": "Holiday Inn Fort Worth - Alliance",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/atwellsuites/hotels/us/en/fort-worth/ftwwl/hoteldetail",
+   "listed_name": "Atwell Suites Fort Worth - Alliance Area",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/northlake/dfwnl/hoteldetail",
+   "listed_name": "Holiday Inn Express & Suites Fort Worth North - Northlake",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/staybridge/hotels/us/en/northlake/dalnl/hoteldetail",
+   "listed_name": "Staybridge Suites Northlake - Speedway Area",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/fort-worth-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:08:24Z"
+  },
+  {
+   "family": "IHG",
+   "route": "https://www.ihg.com/avidhotels/hotels/us/en/mckinney/dalvi/hoteldetail",
+   "listed_name": "avid hotels Dallas North - McKinney",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.ihg.com/mckinney-texas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:09:05Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/dallas/north-park-central?siteId=9708&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Suites Dallas - Coit Road",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/dallas/greenville-ave?siteId=6016&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Suites Dallas - Greenville Ave.",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/dallas/las-colinas-meadow-creek-dr?siteId=6082&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Select Suites Dallas - Las Colinas - Meadow Creek Dr.",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/dallas/richardson?siteId=9711&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Select Suites Dallas - Richardson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/dallas/arlington?siteId=9704&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Suites Arlington",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/dallas/arlington-six-flags?siteId=46&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Suites Arlington - Six Flags",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/dallas/dallas-plano?siteId=9828&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Suites Dallas - Plano",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/dallas/lewisville?siteId=6073&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Select Suites Dallas - Lewisville",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/fort-worth/fossil-creek?siteId=6071&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Suites Fort Worth - Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/fort-worth/medical-center?siteId=9712&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Suites Fort Worth - Medical Center",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/fort-worth/southwest?siteId=6084&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Suites Fort Worth - Southwest",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/fort-worth/city-view?siteId=6092&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Suites Fort Worth - City View",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/dallas/farmers-branch?siteId=6069&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Select Suites Dallas - Farmers Branch",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "ESA",
+   "route": "https://www.extendedstayamerica.com/hotels/tx/dallas/plano-parkway?siteId=9710&checkIn=2026-10-09&checkOut=2026-10-16&rooms=1&adults=1&children=0&rateType=ESH&code=&rate=Best+Available+Rate&accessible=off",
+   "listed_name": "Extended Stay America Suites Dallas - Plano Parkway",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.extendedstayamerica.com/hotels/tx/dallas",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:10:14Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-benbrook/surestay-plus-by-best-western-benbrook-fort-worth/propertyCode.54153.html",
+   "listed_name": "Benbrook Fort Worth",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-mesquite/surestay-plus-by-best-western-mesquite/propertyCode.54112.html",
+   "listed_name": "Mesquite",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-addison/the-addison-hotel-surestay-collection-by-best-western/propertyCode.44795.html",
+   "listed_name": "The Addison Hotel",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-frisco/best-western-plus-frisco-east-mckinney/propertyCode.44819.html",
+   "listed_name": "Frisco East - McKinney",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-irving/best-western-plus-las-colinas-inn-suites/propertyCode.44814.html",
+   "listed_name": "Las Colinas Inn & Suites",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-fort-worth/best-western-plus-fort-worth-north/propertyCode.44794.html",
+   "listed_name": "Fort Worth North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-irving/best-western-irving-grapevine-dfw-north/propertyCode.44807.html",
+   "listed_name": "Irving Grapevine DFW North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-dallas/best-western-plus-fair-park-east/propertyCode.44810.html",
+   "listed_name": "Fair Park East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-lewisville/surestay-by-best-western-lewisville-dallas/propertyCode.54317.html",
+   "listed_name": "Lewisville Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-grand-prairie/best-western-plus-arlington-north-hotel-suites/propertyCode.44678.html",
+   "listed_name": "Arlington North Hotel & Suites",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-fort-worth/best-western-plus-fort-worth-forest-hill-inn-suites/propertyCode.44695.html",
+   "listed_name": "Fort Worth Forest Hill Inn & Suites",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-euless/best-western-plus-dfw-airport-west-euless/propertyCode.44719.html",
+   "listed_name": "DFW Airport West Euless",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-desoto/gl%C5%8D-best-western-dallas-south-desoto/propertyCode.44750.html",
+   "listed_name": "GLō Best Western Dallas South DeSoto",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-irving/best-western-plus-dfw-airport-suites/propertyCode.44468.html",
+   "listed_name": "DFW Airport Suites",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-mckinney/best-western-plus-mckinney-inn-suites/propertyCode.44507.html",
+   "listed_name": "McKinney Inn & Suites",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-duncanville/best-western-plus-duncanville-dallas/propertyCode.44607.html",
+   "listed_name": "Duncanville Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-mansfield/best-western-plus-mansfield-inn-suites/propertyCode.44610.html",
+   "listed_name": "Mansfield Inn & Suites",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-seagoville/best-western-executive-inn/propertyCode.44478.html",
+   "listed_name": "Executive Inn",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-dallas/best-western-northwest-inn/propertyCode.44494.html",
+   "listed_name": "Northwest Inn",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-lewisville/best-western-plus-lewisville-flower-mound/propertyCode.44464.html",
+   "listed_name": "Lewisville Flower Mound",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-roanoke/best-western-roanoke-inn-suites/propertyCode.44588.html",
+   "listed_name": "Roanoke Inn & Suites",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-lake-worth/best-western-plus-lake-worth-inn-suites/propertyCode.44501.html",
+   "listed_name": "Lake Worth Inn & Suites",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-fort-worth/best-western-fort-worth-inn-suites/propertyCode.44517.html",
+   "listed_name": "Fort Worth Inn & Suites",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "BEST_WESTERN",
+   "route": "https://www.bestwestern.com/en_US/book/hotels-in-fort-worth/best-western-fort-worth-fossil-creek/propertyCode.44820.html",
+   "listed_name": "Fort Worth Fossil Creek",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.bestwestern.com/en_US/hotels/destinations/united-states/gulf-coast/hotels-texas/metroplex/hotels-in-dallas.html",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:13:02Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/grand-hyatt/en-US/dfwgh-grand-hyatt-dfw",
+   "listed_name": "Grand Hyatt DFW",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-house/en-US/dfwxa-hyatt-house-dallas-addison",
+   "listed_name": "Hyatt House Dallas/Addison",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-house/en-US/dfwxf-hyatt-house-dallas-frisco",
+   "listed_name": "Hyatt House Dallas/Frisco",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-house/en-US/dfwxl-hyatt-house-dallas-las-colinas",
+   "listed_name": "Hyatt House Dallas/Las Colinas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-house/en-US/dfwxp-hyatt-house-dallas-lincoln-park",
+   "listed_name": "Hyatt House Dallas/Lincoln Park",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-house/en-US/dfwxu-hyatt-house-dallas-uptown",
+   "listed_name": "Hyatt House Dallas/Uptown",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzw-hyatt-place-dallas-las-colinas",
+   "listed_name": "Hyatt Place Dallas / Las Colinas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzn-hyatt-place-dallas-north-by-the-galleria",
+   "listed_name": "Hyatt Place Dallas-North/by the Galleria",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzo-hyatt-place-dallas-allen",
+   "listed_name": "Hyatt Place Dallas/Allen",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwza-hyatt-place-dallas-arlington",
+   "listed_name": "Hyatt Place Dallas/Arlington",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzb-hyatt-place-dallas-garland-richardson",
+   "listed_name": "Hyatt Place Dallas/Garland/Richardson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzd-hyatt-place-dallas-grapevine",
+   "listed_name": "Hyatt Place Dallas/Grapevine",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzg-hyatt-place-dallas-north-arlington-grand-prairie",
+   "listed_name": "Hyatt Place Dallas/North Arlington/Grand Prairie",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwze-hyatt-place-dallas-park-central",
+   "listed_name": "Hyatt Place Dallas/Park Central",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzp-hyatt-place-dallas-plano",
+   "listed_name": "Hyatt Place Dallas/Plano",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzt-hyatt-place-dallas-the-colony",
+   "listed_name": "Hyatt Place Dallas/The Colony",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzi-hyatt-place-dfw",
+   "listed_name": "Hyatt Place DFW",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzy-hyatt-place-fort-worth-alliance-town-center",
+   "listed_name": "Hyatt Place Fort Worth / Alliance Town Center",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzu-hyatt-place-fort-worth-tcu",
+   "listed_name": "Hyatt Place Fort Worth / TCU",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzf-hyatt-place-fort-worth-historic-stockyards",
+   "listed_name": "Hyatt Place Fort Worth Historic Stockyards",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzc-hyatt-place-fort-worth-cityview",
+   "listed_name": "Hyatt Place Fort Worth/Cityview",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-place/en-US/dfwzh-hyatt-place-fort-worth-hurst",
+   "listed_name": "Hyatt Place Fort Worth/Hurst",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-regency/en-US/dfwrd-hyatt-regency-dallas",
+   "listed_name": "Hyatt Regency Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-regency/en-US/dfwap-hyatt-regency-dfw-international-airport",
+   "listed_name": "Hyatt Regency DFW International Airport",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/hyatt-regency/en-US/dfwro-hyatt-regency-frisco-dallas",
+   "listed_name": "Hyatt Regency Frisco - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "HYATT",
+   "route": "https://www.hyatt.com/thompson-hotels/en-US/dfwth-thompson-dallas",
+   "listed_name": "Thompson Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.hyatt.com/explore-hotels",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:15:00Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/addison/rri378",
+   "listed_name": "Red Roof PLUS+ Dallas - Addison",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/arlington/rri820",
+   "listed_name": "Red Roof Inn Arlington - Entertainment District",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/extendedstay/hometownestudios/property/tx/dallas/hts1057",
+   "listed_name": "HomeTowne Studios Dallas - North Addison/ Tollway",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/dallas/rri673",
+   "listed_name": "Red Roof Inn North Dallas - Park Central",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/euless/rri1111",
+   "listed_name": "Red Roof Inn & Suites Euless - DFW Airport Southwest",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/fort-worth/rri1154",
+   "listed_name": "Red Roof Inn Fort Worth South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/fort-worth/rri1177",
+   "listed_name": "Red Roof Inn Fort Worth - Saginaw",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/fort-worth/rri1323",
+   "listed_name": "Red Roof Inn Fort Worth West",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/fort-worth/rri950",
+   "listed_name": "Red Roof PLUS+ Fort Worth - Burleson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/haltom-city/rri1280",
+   "listed_name": "Red Roof Inn Haltom City",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/hutchins/rri611",
+   "listed_name": "Red Roof Inn Hutchins",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/extendedstay/hometownestudios/property/tx/irving/hts1044",
+   "listed_name": "HomeTowne Studios Dallas - Irving",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/irving/rri129",
+   "listed_name": "Red Roof Inn Dallas - DFW Airport North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/irving/rri1368",
+   "listed_name": "Red Roof Inn & Suites Irving - DFW Airport South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/lancaster/rri1225",
+   "listed_name": "Red Roof Inn Lancaster, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/lewisville/rri1180",
+   "listed_name": "Red Roof Inn Lewisville",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/mckinney/rri1278",
+   "listed_name": "Red Roof Inn & Conference Center McKinney",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/extendedstay/hometownestudios/property/tx/mesquite/hts1042",
+   "listed_name": "HomeTowne Studios Dallas - Mesquite",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/mesquite/rri609",
+   "listed_name": "Red Roof Inn Dallas - Mesquite/ Fair Park NE",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "RED_ROOF",
+   "route": "https://www.redroof.com/property/tx/plano/rri1016",
+   "listed_name": "Red Roof Inn Plano",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.redroof.com/property",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:16:29Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-293268/",
+   "listed_name": "Motel 6 Dallas, TX - Downtown",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-tx-texas-us-293455/",
+   "listed_name": "Motel 6 Fort Worth, TX - Downtown East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-293312/",
+   "listed_name": "Motel 6 Dallas, TX - Market Center",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-293813/",
+   "listed_name": "Motel 6 Dallas, TX - South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-north-richland-hills-texas-us-294421/",
+   "listed_name": "Studio 6 Suites North Richland Hills, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-irving-texas-us-293713/",
+   "listed_name": "Motel 6 Irving, TX - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-293326/",
+   "listed_name": "Motel 6 Dallas, TX - Northwest",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-294145/",
+   "listed_name": "Studio 6 Dallas, TX - Northwest",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-mesquite-texas-us-293287/",
+   "listed_name": "Studio 6 Mesquite, TX – Town East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-353628/",
+   "listed_name": "Studio 6 Suites Dallas, TX – Loop 12 West",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-293289/",
+   "listed_name": "Motel 6 Dallas, TX - Northeast",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-329488/",
+   "listed_name": "Motel 6 Dallas, TX – St. Augustine / HWY 175",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-294186/",
+   "listed_name": "Studio 6 Dallas, TX - North - Richardson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-293593/",
+   "listed_name": "Studio 6 Dallas, TX - Garland - Northeast",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-mesquite-texas-us-293329/",
+   "listed_name": "Motel 6 Mesquite, TX - Rodeo - Convention Ctr",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-garland-texas-us-293344/",
+   "listed_name": "Motel 6 Garland, TX - Northeast Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-mesquite-texas-us-328241/",
+   "listed_name": "Studio 6 Suites Mesquite, TX – Gross Rd.",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-duncanville-texas-us-294459/",
+   "listed_name": "Motel 6 Duncanville, TX - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-293351/",
+   "listed_name": "Motel 6 Dallas, TX - Forest Lane",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-irving-tx-texas-us-293323/",
+   "listed_name": "Motel 6 Irving, TX - Irving DFW Airport South",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-farmers-branch-texas-us-293339/",
+   "listed_name": "Motel 6 Dallas, TX - Farmers Branch",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-balch-springs-texas-us-294576/",
+   "listed_name": "Motel 6 Mesquite, TX - Balch Springs",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:17:45Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-grand-prairie-texas-us-294295/",
+   "listed_name": "Studio 6 Grand Prairie, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-garland-texas-us-293317/",
+   "listed_name": "Motel 6 Garland, TX - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-irving-tx-texas-us-294465/",
+   "listed_name": "Studio 6 Irving, TX - Irving DFW Airport East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-irving-tx-texas-us-294680/",
+   "listed_name": "Motel 6 Irving, TX - Irving DFW Airport East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-grand-prairie-texas-us-294277/",
+   "listed_name": "Motel 6 Grand Prairie, TX - Interstate 30",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-irving-tx-texas-us-294454/",
+   "listed_name": "Studio 6 Irving, TX – DFW North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-grand-prairie-texas-us-293338/",
+   "listed_name": "Motel 6 Grand Prairie, TX - Near Six Flags Drive",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-irving-tx-texas-us-293349/",
+   "listed_name": "Motel 6 Irving, TX - DFW Airport North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-plano-texas-us-294328/",
+   "listed_name": "Studio 6 Plano, TX - Dallas - Plano Medical Center",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-plano-texas-us-293299/",
+   "listed_name": "Motel 6 Plano, TX - West - Frisco",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-euless-texas-us-294361/",
+   "listed_name": "Motel 6 Euless, TX - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-arlington-texas-us-294423/",
+   "listed_name": "Motel 6 Arlington, TX - Entertainment District",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-plano-texas-us-294678/",
+   "listed_name": "Studio 6 Plano, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-euless-texas-us-325929/",
+   "listed_name": "Studio 6 Suites Euless, TX – DFW West",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-euless-texas-us-294171/",
+   "listed_name": "Motel 6 Euless, TX - DFW West",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-plano-texas-us-294383/",
+   "listed_name": "Motel 6 Plano, TX - Plano Northeast",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-arlington-texas-us-294513/",
+   "listed_name": "Motel 6 Arlington, TX - UTA",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-lewisville-texas-us-294676/",
+   "listed_name": "Motel 6 Lewisville, TX - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-arlington-texas-us-293626/",
+   "listed_name": "Motel 6 Arlington, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-arlington-texas-us-294432/",
+   "listed_name": "Studio 6 Arlington, TX - South - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=2",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:18:38Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-lewisville-texas-us-293828/",
+   "listed_name": "Motel 6 Lewisville, TX - Medical City",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-north-richland-hills-texas-us-294270/",
+   "listed_name": "Motel 6 North Richland Hills, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-north-richland-hills-texas-us-294438/",
+   "listed_name": "Studio 6 North Richland Hills, TX - Fort Worth",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-north-richland-hills-texas-us-293342/",
+   "listed_name": "Motel 6 North Richland Hills, TX – Rufe Snow",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-tx-texas-us-293783/",
+   "listed_name": "Studio 6 Fort Worth, TX - Downtown East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-294620/",
+   "listed_name": "Studio 6 Fort Worth, TX - Meacham",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-294542/",
+   "listed_name": "Motel 6 Fort Worth, TX - Seminary",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-mckinney-texas-us-293283/",
+   "listed_name": "Motel 6 McKinney, TX - North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-294397/",
+   "listed_name": "Studio 6 Fort Worth, TX -Stockyards East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-293944/",
+   "listed_name": "Motel 6 Fort Worth, TX – I-35 & I-20",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-293780/",
+   "listed_name": "Motel 6 Fort Worth, TX - North - Saginaw",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-roanoke-texas-us-293543/",
+   "listed_name": "Motel 6 Roanoke, TX - Northlake - Speedway",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-293938/",
+   "listed_name": "Motel 6 Fort Worth, TX - Burleson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-294451/",
+   "listed_name": "Motel 6 Fort Worth, TX - North",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=3",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:02Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-300071/",
+   "listed_name": "Studio 6 Fort Worth, TX - Lake Worth",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-300074/",
+   "listed_name": "Motel 6 Fort Worth, TX - Lake Worth",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-white-settlement-texas-us-294320/",
+   "listed_name": "Studio 6 Fort Worth, TX - West Medical Center",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-293340/",
+   "listed_name": "Motel 6 Fort Worth, TX - White Settlement",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-benbrook-texas-us-293290/",
+   "listed_name": "Motel 6 Benbrook, TX - Fort Worth",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-293933/",
+   "listed_name": "Studio 6 Suites Dallas, TX - Downtown",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-294136/",
+   "listed_name": "Motel 6 Dallas, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-303997/",
+   "listed_name": "Studio 6 Dallas, TX – Fair Park",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-irving-texas-us-293755/",
+   "listed_name": "Motel 6 Irving, TX - Loop 12",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-300748/",
+   "listed_name": "Studio 6 Dallas, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-mesquite-texas-us-293874/",
+   "listed_name": "Motel 6 Mesquite, TX – Town East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-294388/",
+   "listed_name": "Motel 6 Dallas, TX - Methodist Charlton Medical Ctr.",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-hutchins-texas-us-293328/",
+   "listed_name": "Motel 6 Hutchins, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=4",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:25Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-dallas-texas-us-293306/",
+   "listed_name": "Motel 6 Dallas, TX - North - Richardson",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-mesquite-texas-us-294491/",
+   "listed_name": "Studio 6 Mesquite, TX - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-lancaster-texas-us-400256/",
+   "listed_name": "Studio 6 Lancaster, TX – Desoto - Lancaster",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-lancaster-texas-us-293294/",
+   "listed_name": "Motel 6 Lancaster, TX - DeSoto - Lancaster",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-addison-texas-us-294428/",
+   "listed_name": "Motel 6 Addison, TX - Dallas",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-arlington-texas-us-294565/",
+   "listed_name": "Studio 6 Arlington, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-bedford-texas-us-293324/",
+   "listed_name": "Motel 6 Bedford, TX - Fort Worth",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-tx-texas-us-293719/",
+   "listed_name": "Motel 6 Fort Worth, TX - East",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-293313/",
+   "listed_name": "Motel 6 Fort Worth, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-fort-worth-texas-us-294602/",
+   "listed_name": "Motel6 Fort Worth, TX - Stockyards",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  },
+  {
+   "family": "MOTEL6",
+   "route": "https://www.motel6.com/property/motel-azle-texas-us-294314/",
+   "listed_name": "Motel 6 Azle, TX",
+   "lane": "BRAND_SITEMAP",
+   "found_in": "https://www.motel6.com/us/texas/dallas/?page=5",
+   "discovery_lane": "ATTENDED_BROWSER_BRAND_DIRECTORY",
+   "recorded_at": "2026-10-09T15:19:49Z"
+  }
+ ]
+}
