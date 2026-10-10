@@ -5,11 +5,11 @@
  "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
  "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
  "census_total": 965,
- "resolved": 640,
- "unresolved_total": 325,
+ "resolved": 671,
+ "unresolved_total": 294,
  "totals_by_class": {
   "ACTIONABLE_NOW": 0,
-  "AUTHORIZED_ROUTER_EXHAUSTED": 275,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 244,
   "REQUIRES_NEW_PROVIDER": 0,
   "REQUIRES_NEW_SPEND": 25,
   "REQUIRES_FOUNDER": 21,
@@ -17,9 +17,9 @@
  },
  "by_disposition": {
   "ACCESS_BLOCKED": {
-   "total": 39,
+   "total": 15,
    "actionable_now": 0,
-   "authorized_router_exhausted": 39,
+   "authorized_router_exhausted": 15,
    "requires_new_provider": 0,
    "requires_new_spend": 0,
    "requires_founder": 0,
@@ -44,9 +44,9 @@
    "held_until_opening": 0
   },
   "ROUTING_HOLD": {
-   "total": 146,
+   "total": 139,
    "actionable_now": 0,
-   "authorized_router_exhausted": 121,
+   "authorized_router_exhausted": 114,
    "requires_new_provider": 0,
    "requires_new_spend": 25,
    "requires_founder": 0,
@@ -68,10 +68,10 @@
  "preopening_rows_safely_excluded": 4,
  "places_note": "Google Places route discovery ran inside the renewed free monthly allowance (existing capacity, no new spend); a row it queried and could not route is exhausted, a row it never queried is actionable",
  "attended_browser": {
-  "attempts": 802,
-  "reads": 635,
+  "attempts": 833,
+  "reads": 666,
   "challenge_denied": 18,
-  "unbound": 43,
+  "unbound": 44,
   "paid_provider_calls": 0,
   "akamai_bypassed": false,
   "browser_js_exfiltration_used": false,
@@ -217,51 +217,6 @@
    "why": "the brand answered the attended browser with an anti-bot denial across paced windows; never bypassed (attended browser seq 802, https://www.marriott.com/en-us/hotels/dalsh-springhill-suites-dallas-addison-quorum-drive/overview/): Akamai 'Access Denied' page on the 41st paced marriott.com navigation of this batch (~03:20:46 UTC): 'You don't have permission to access ... on this server.' Reference #18.8a89cc17.1791602447.af47e47"
   },
   {
-   "identity_key": "springhill suites dallas central expressway",
-   "canonical_name": "SpringHill Suites Dallas Central Expressway",
-   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "springhill suites dallas dfw airport east las colinas",
-   "canonical_name": "Springhill Suites Dallas DFW Airport East/Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "springhill suites dallas lewisville",
-   "canonical_name": "SpringHill Suites Dallas Lewisville",
-   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "springhill suites dallas mansfield",
-   "canonical_name": "SpringHill Suites Dallas Mansfield",
-   "corridor": "dallas-fort-worth-tx__mansfield",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "springhill suites dallas mckinney allen",
-   "canonical_name": "SpringHill Suites Dallas McKinney/Allen",
-   "corridor": "dallas-fort-worth-tx__allen-mckinney",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
    "identity_key": "stay express inn dallas fair park downtown",
    "canonical_name": "Stay Express Inn Dallas - Fair Park / Downtown",
    "corridor": "dallas-fort-worth-tx__east-dallas",
@@ -269,177 +224,6 @@
    "disposition": "ACCESS_BLOCKED",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "the property's own route answers an error page or a 404 in the attended browser (attended browser seq 521, https://www.stayexpress.com/): https:// shows a Chrome 'Privacy error' (certificate; not bypassed); plain http:// returns a bare '404 page not found'. Dead site."
-  },
-  {
-   "identity_key": "the ricardo marriott dfw westlake",
-   "canonical_name": "The Ricardo Marriott DFW Westlake",
-   "corridor": "dallas-fort-worth-tx__alliance-north-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "the sinclair autograph collection",
-   "canonical_name": "The Sinclair, Autograph Collection",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "the stoneleigh autograph collection",
-   "canonical_name": "The Stoneleigh, Autograph Collection",
-   "corridor": "dallas-fort-worth-tx__downtown-dallas",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "the westin dallas park central",
-   "canonical_name": "The Westin Dallas Park Central",
-   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "the westin dallas southlake",
-   "canonical_name": "The Westin Dallas Southlake",
-   "corridor": "dallas-fort-worth-tx__southlake-flower-mound",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "the westin dallas stonebriar golf resort and spa",
-   "canonical_name": "The Westin Dallas Stonebriar Golf Resort & Spa",
-   "corridor": "dallas-fort-worth-tx__frisco",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "towneplace suites by marriott dallas plano legacy",
-   "canonical_name": "TownePlace Suites by Marriott Dallas Plano/Legacy",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "towneplace suites by marriott dfw airport north irving",
-   "canonical_name": "TownePlace Suites by Marriott DFW Airport North/Irving",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "towneplace suites dallas las colinas",
-   "canonical_name": "TownePlace Suites Dallas - Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "towneplace suites dallas lewisville",
-   "canonical_name": "TownePlace Suites Dallas Lewisville",
-   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "towneplace suites dallas plano richardson",
-   "canonical_name": "TownePlace Suites Dallas Plano/Richardson",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "towneplace suites downtown",
-   "canonical_name": "TownePlace Suites - Downtown",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "towneplace suites fort worth nw lake worth",
-   "canonical_name": "TownePlace Suites Fort Worth NW Lake Worth",
-   "corridor": "dallas-fort-worth-tx__fort-worth-west",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "towneplace suites fort worth university medical center",
-   "canonical_name": "TownePlace Suites - Fort Worth University Medical Center",
-   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "towneplace suites marriott hotel",
-   "canonical_name": "TownePlace Suites Marriott Hotel",
-   "corridor": "dallas-fort-worth-tx__arlington-entertainment",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "towneplace suites southwest",
-   "canonical_name": "TownePlace Suites - Southwest",
-   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "westin dallas fort worth airport",
-   "canonical_name": "Westin Dallas Fort Worth Airport",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "westin irving convention center las colinas",
-   "canonical_name": "Westin Irving Convention Center Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
-  },
-  {
-   "identity_key": "worthington renaissance hotel",
-   "canonical_name": "Worthington Renaissance Hotel",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
   },
   {
    "identity_key": "alla s historical",
@@ -1108,15 +892,6 @@
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
   },
   {
-   "identity_key": "beeman hotel",
-   "canonical_name": "Beeman Hotel",
-   "corridor": "dallas-fort-worth-tx__park-cities-preston-center",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (Places named https://www.marriott.com/en-us/hotels/dalnb-hotel-mockingbird-dallas-a-tribute-portfolio-hotel/overview/)"
-  },
-  {
    "identity_key": "bishop arts oak cliff",
    "canonical_name": "Bishop Arts, Oak Cliff",
    "corridor": "dallas-fort-worth-tx__oak-cliff-south-dallas",
@@ -1241,15 +1016,6 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
-  },
-  {
-   "identity_key": "courtyard by marriott dallas northwest",
-   "canonical_name": "Courtyard by Marriott Dallas Northwest",
-   "corridor": "dallas-fort-worth-tx__carrollton-farmers-branch",
-   "brand_family": "MARRIOTT",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/dalnw)"
   },
   {
    "identity_key": "cowboy inn",
@@ -1414,15 +1180,6 @@
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
   },
   {
-   "identity_key": "four points sheraton plano by marriott",
-   "canonical_name": "Four Points Sheraton Plano by Marriott",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (Places named https://www.marriott.com/en-us/hotels/dalpu-four-points-plano/overview/)"
-  },
-  {
    "identity_key": "garden inn and suites",
    "canonical_name": "Garden Inn & Suites",
    "corridor": "dallas-fort-worth-tx__east-dallas",
@@ -1511,15 +1268,6 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
-  },
-  {
-   "identity_key": "hall park hotel",
-   "canonical_name": "HALL Park Hotel",
-   "corridor": "dallas-fort-worth-tx__frisco",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalok-hall-park-hotel-autograph-collection/overview/)"
   },
   {
    "identity_key": "hawthorn suites by wyndham dallas love field airport",
@@ -1655,24 +1403,6 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://landmark-lodge.poi.place/) is a brand or directory host or never stated this row's own address"
-  },
-  {
-   "identity_key": "le meridien dallas by the galleria",
-   "canonical_name": "Le Meridien Dallas by the Galleria",
-   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalmd-le-meridien-dallas-by-the-galleria/overview/)"
-  },
-  {
-   "identity_key": "le meridien hotel fort worth downtown",
-   "canonical_name": "Le Meridien Hotel Fort Worth Downtown",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalwm-le-meridien-fort-worth-downtown/overview/)"
   },
   {
    "identity_key": "lesters motor inn",
@@ -2078,15 +1808,6 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "Places named http://vickery-motel.poi.place/; the attended browser opened it (seq 585): IDENTITY_NOT_CONFIRMED -- THIRD-PARTY auto-generated listing (poi.place -> edan.io; footer 'create your website!' / 'Manage Listing'), not the motel's own site. It prints 5636 W Vickery Blvd, Fort Worth, TX 76107, (817) 763-84"
-  },
-  {
-   "identity_key": "w dallas victory",
-   "canonical_name": "W Dallas - Victory",
-   "corridor": "dallas-fort-worth-tx__uptown-victory-park",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalwh-w-dallas/overview/)"
   },
   {
    "identity_key": "walnut inn",

@@ -1230,6 +1230,16 @@ DUPLICATE_AT = {
     ("lamirage inn", "9600 palo"): "DUPLICATE_OF_SAME_PREMISES -- the bureau listing 'LaMirage Inn' (9600 Palo Pinto "
                                    "76116) is the permit's La Mirage Inn at 9600 Camp Bowie West Blvd 76116 (pins 1 m "
                                    "apart)",
+    # PTF-DALLAS-FORT-WORTH-TX-MARRIOTT-CLOSURE-WINDOW-002: Marriott's own dalnb page (recorder seq 803) names the
+    # building today -- "Hotel Mockingbird, Dallas, a Tribute Portfolio Hotel", 6070 North Central Expressway 75206
+    # -- and is the surviving identity. The permit row is bound to it by more than the house number: Google Places'
+    # own website for the permit row's premises pin IS that dalnb page, and the dalnb page's own reviews widget files
+    # its reviews under "The Beeman Hotel". No Beeman-era evidence is carried: the policy is the dalnb page's own.
+    ("beeman hotel", "6070 6070"): "DUPLICATE_OF_SAME_PREMISES -- the Comptroller permit 'Beeman Hotel' (6070 N US 75 "
+                                   "Central Expy #1000 75206, responsibility from 2024-10-03) is the premises Marriott "
+                                   "carries today as Hotel Mockingbird, Dallas, a Tribute Portfolio Hotel (dalnb, "
+                                   "6070 North Central Expressway 75206): Places names the dalnb page as the permit "
+                                   "pin's own website, and the dalnb page files its reviews under 'The Beeman Hotel'",
 }
 
 def read_destination_roster():

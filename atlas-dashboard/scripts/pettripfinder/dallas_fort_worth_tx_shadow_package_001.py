@@ -59,7 +59,22 @@ PARTITION_SRC = STAGING / "launch_package" / "dallas_fort_worth_tx_final_partiti
 #: first-party capture (the browser recorder's real-clock stamp of its final read) and not later than the moment it
 #: was set, by the real clock. The Fort Myers clone carried Fort Myers' own seal time; it is never inherited -- this
 #: value is set from THIS order's own browser log immediately before the seal.
-SEALED_AT = "2026-10-10T03:31:52Z"
+SEALED_AT = "2026-10-10T17:55:40Z"
+#: PTF-DALLAS-FORT-WORTH-TX-MARRIOTT-CLOSURE-WINDOW-002 seals a SUCCESSOR: the founder's one new paced Marriott window
+#: read the 31 rows the source-ready order's window left unopened (recorder seq 803-833). The predecessor stays on
+#: disk under its own id with its own receipt; it is superseded, never overwritten.
+SUCCESSOR_WORK_ORDER = "PTF-DALLAS-FORT-WORTH-TX-MARRIOTT-CLOSURE-WINDOW-002"
+SUPERSEDES = OrderedDict([
+    ("package_id", "pkg-dallas-fort-worth-tx-e8a841396faeffec"),
+    ("package_digest", "sha256:e8a841396faeffecd1e4b15d94fdde0949ac75e2729a80f0322be8c1bd768f9d"),
+    ("created_from_source_sha", "df4da832c4899e1659247519ef140b61fb029b25"),
+    ("sealed_at", "2026-10-10T03:31:52Z"),
+    ("receipt_digest", "sha256:821f46f2ca06beeda5edce75348e688f1d514243f4245fbfcc13bf3118d1ad50"),
+    ("changed_market_bundle_sha256", "8dd45272b71ab495d60b39bdb09bae2c377587bf2bca08898a1ec6f5f43c01b8"),
+    ("counts", OrderedDict([("census", 965), ("pet_friendly_records", 440), ("verified_no_pets_records", 200),
+                            ("unresolved_rows", 325)])),
+    ("sealed_by", WORK_ORDER),
+])
 
 
 def _read(path):
@@ -157,8 +172,10 @@ def seal(source_sha, work_dir, write=True):
             ("identity_key", row["identity_key"]), ("canonical_name", row["canonical_name"]),
             ("reason", (row.get("classification_reason") or "")[:300])]))
     out.update(OrderedDict([
-        ("schema", "ptf-shadow-sealed-package-report/1.0"), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
+        ("schema", "ptf-shadow-sealed-package-report/1.0"), ("work_order", SUCCESSOR_WORK_ORDER),
+        ("helper_work_order", WORK_ORDER), ("market_id", MARKET_ID),
         ("as_of", SEALED_AT),
+        ("supersedes", SUPERSEDES),
         ("execution_zone", package["execution_zone"]),
         ("created_from_source_sha", package["created_from_source_sha"]),
         ("sealed_at", package["sealed_at"]),

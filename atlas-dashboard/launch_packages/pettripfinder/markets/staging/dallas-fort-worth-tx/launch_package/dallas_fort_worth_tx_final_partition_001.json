@@ -6,24 +6,24 @@
  "what_this_is": "Every admitted Dallas-Fort Worth Metroplex census identity in exactly one disposition state, with the order's Phase 20 disposition and, for every unresolved row, its router record.",
  "count": 965,
  "counts_by_state": {
-  "ACCESS_BLOCKED": 39,
-  "AWAITING_OFFICIAL_URL": 146,
+  "ACCESS_BLOCKED": 15,
+  "AWAITING_OFFICIAL_URL": 139,
   "AWAITING_POLICY_OBSERVATION": 99,
   "AWAITING_ROUTING_REPLACEMENT": 41,
-  "PUBLISHED_PET_FRIENDLY": 440,
-  "VERIFIED_NO_PETS": 200
+  "PUBLISHED_PET_FRIENDLY": 461,
+  "VERIFIED_NO_PETS": 210
  },
  "counts_by_disposition": {
-  "ACCESS_BLOCKED": 39,
-  "CLEAN_PET_FRIENDLY": 440,
-  "CLEAN_VERIFIED_NO_PETS": 200,
+  "ACCESS_BLOCKED": 15,
+  "CLEAN_PET_FRIENDLY": 461,
+  "CLEAN_VERIFIED_NO_PETS": 210,
   "EVIDENCE_HOLD": 50,
   "IDENTITY_MISMATCH_HOLD": 41,
-  "ROUTING_HOLD": 146,
+  "ROUTING_HOLD": 139,
   "SOURCE_SILENT": 49
  },
- "resolved": 640,
- "unresolved": 325,
+ "resolved": 671,
+ "unresolved": 294,
  "items": [
   {
    "identity_key": "183 motel",
@@ -1083,24 +1083,6 @@
     "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
     "document_sha256": "72a93ee0f7fbf2ee41dcb27b04e65262b42fefd1f21ce22b3d0963406f4a9bbb",
     "captured_via": "the brand's own property-service API (same JSON the overview page renders)"
-   }
-  },
-  {
-   "identity_key": "beeman hotel",
-   "canonical_name": "Beeman Hotel",
-   "corridor": "dallas-fort-worth-tx__park-cities-preston-center",
-   "brand": "",
-   "final_state": "AWAITING_OFFICIAL_URL",
-   "disposition": "ROUTING_HOLD",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "OTHER_EXPLICIT_REASON -- the website Places names is a brand / OTA / social host that the independents' lane does not read (https://www.marriott.com/en-us/hotels/dalnb-hotel-mockingbird-dallas-a-tribute-portfolio-hotel/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "ROUTING_HOLD",
-    "hold_reason": "OTHER_EXPLICIT_REASON -- the website Places names is a brand / OTA / social host that the independents' lane does not read (https://www.marriott.com/en-us/hotels/dalnb-hotel-mockingbird-dallas-a-tribute-portfolio-hotel/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0)"
    }
   },
   {
@@ -3491,18 +3473,18 @@
    "identity_key": "courtyard by marriott dallas northwest",
    "canonical_name": "Courtyard by Marriott Dallas Northwest",
    "corridor": "dallas-fort-worth-tx__carrollton-farmers-branch",
-   "brand": "",
-   "final_state": "AWAITING_OFFICIAL_URL",
-   "disposition": "ROUTING_HOLD",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "the route the census carries served an error page (expired domain, site error or browser error page) and no other first-party route was proved for these premises (https://forsale.godaddy.com/forsale/courtyarddallas.com) -- Vanity domain no longer reaches marriott.com: it redirects to a GoDaddy parked 'courtyarddallas.com is for sale' page (final URL carried utm parking query parameters, stripped here). No hotel page, no property code. Read with get_page_text.",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "http://courtyarddallas.com/",
-    "disposition_basis": "ROUTING_HOLD",
-    "hold_reason": "the route the census carries served an error page (expired domain, site error or browser error page) and no other first-party route was proved for these premises (https://forsale.godaddy.com/forsale/courtyarddallas.com) -- Vanity domain no longer reaches marriott.com: it redirects to a GoDaddy parked 'courtyarddallas.com is for sale' page (final URL carried utm parking query parameters, stripped here). No hotel page, no property code. Read with get_page_text."
+   "brand": "MARRIOTT",
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalnw-courtyard-dallas-northwest/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy | Pets Not Allowed",
+    "document_sha256": "15adc92a9757789b9957f712f48588b38ce32141f56e2074d80450ce431709ad",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalnw on the brand's own page"
    }
   },
   {
@@ -6118,21 +6100,21 @@
    }
   },
   {
-   "identity_key": "four points sheraton plano by marriott",
-   "canonical_name": "Four Points Sheraton Plano by Marriott",
+   "identity_key": "four points by sheraton plano",
+   "canonical_name": "Four Points by Sheraton Plano",
    "corridor": "dallas-fort-worth-tx__plano",
-   "brand": "",
-   "final_state": "AWAITING_OFFICIAL_URL",
-   "disposition": "ROUTING_HOLD",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "OTHER_EXPLICIT_REASON -- the website Places names is a brand / OTA / social host that the independents' lane does not read (https://www.marriott.com/en-us/hotels/dalpu-four-points-plano/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "ROUTING_HOLD",
-    "hold_reason": "OTHER_EXPLICIT_REASON -- the website Places names is a brand / OTA / social host that the independents' lane does not read (https://www.marriott.com/en-us/hotels/dalpu-four-points-plano/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0)"
+   "brand": "MARRIOTT",
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalpu-four-points-plano/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy | Pets Not Allowed",
+    "document_sha256": "a1a3827382368e547a779eb4fb578f334977d4ceb5218790d6cf585f8dec39bf",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalpu on the brand's own page"
    }
   },
   {
@@ -6510,21 +6492,28 @@
    }
   },
   {
-   "identity_key": "hall park hotel",
-   "canonical_name": "HALL Park Hotel",
+   "identity_key": "hall park hotel autograph collection",
+   "canonical_name": "HALL Park Hotel, Autograph Collection",
    "corridor": "dallas-fort-worth-tx__frisco",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_OFFICIAL_URL",
-   "disposition": "ROUTING_HOLD",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "routed but no acquisition lane in this order attempted the page yet",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://hallpark.com/hall-park-hotel/",
-    "disposition_basis": "ROUTING_HOLD",
-    "hold_reason": "routed but no acquisition lane in this order attempted the page yet"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 60.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalok-hall-park-hotel-autograph-collection/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | 1 pet 60lbs max per pet per room with 150USD nonrefundable fee per room per stay | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 1",
+    "document_sha256": "f79c05c938bb6219799a3b231432f64afea590375f8d552f0795155dd56b95f4",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalok on the brand's own page"
    }
   },
   {
@@ -10999,6 +10988,31 @@
    }
   },
   {
+   "identity_key": "hotel mockingbird dallas a tribute portfolio hotel",
+   "canonical_name": "Hotel Mockingbird, Dallas, a Tribute Portfolio Hotel",
+   "corridor": "dallas-fort-worth-tx__park-cities-preston-center",
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": null,
+    "fee_currency": null,
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalnb-hotel-mockingbird-dallas-a-tribute-portfolio-hotel/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | 2 pet max per room with 100 USD non-refundable fee per room per stay | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "82b3de60b2008b84306182373d806c4c52759d5db2986737ed518c4a35c7bafd",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalnb on the brand's own page"
+   }
+  },
+  {
    "identity_key": "hotel otto",
    "canonical_name": "Hotel Otto",
    "corridor": "dallas-fort-worth-tx__fort-worth-west",
@@ -13029,35 +13043,42 @@
    "canonical_name": "Le Meridien Dallas by the Galleria",
    "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_OFFICIAL_URL",
-   "disposition": "ROUTING_HOLD",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "routed but no acquisition lane in this order attempted the page yet",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalmd-le-meridien-dallas-by-the-galleria/overview/",
-    "disposition_basis": "ROUTING_HOLD",
-    "hold_reason": "routed but no acquisition lane in this order attempted the page yet"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalmd-le-meridien-dallas-by-the-galleria/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | Pets under 50 pounds permitted. Non refundable cleaning fee of $75 per room. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1",
+    "document_sha256": "3d981bb531b7f566707bd50bf28dd7ee88e20dea4f9ea4005488b1419ba83232",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalmd on the brand's own page"
    }
   },
   {
-   "identity_key": "le meridien hotel fort worth downtown",
-   "canonical_name": "Le Meridien Hotel Fort Worth Downtown",
+   "identity_key": "le meridien fort worth downtown",
+   "canonical_name": "Le Meridien Fort Worth Downtown",
    "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_OFFICIAL_URL",
-   "disposition": "ROUTING_HOLD",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "routed but no acquisition lane in this order attempted the page yet",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalwm-le-meridien-fort-worth-downtown/overview/",
-    "disposition_basis": "ROUTING_HOLD",
-    "hold_reason": "routed but no acquisition lane in this order attempted the page yet"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalwm-le-meridien-fort-worth-downtown/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy | Pets Not Allowed",
+    "document_sha256": "0550dae35d256e67d34f69cf3e518e2cb1fd3436e5b0cd0d2540c13600115b05",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalwm on the brand's own page"
    }
   },
   {
@@ -17179,6 +17200,42 @@
    }
   },
   {
+   "identity_key": "springhill suites by marriott dallas central expressway",
+   "canonical_name": "SpringHill Suites by Marriott Dallas Central Expressway",
+   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
+   "brand": "MARRIOTT",
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalsx-springhill-suites-dallas-central-expressway/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy | Pets Not Allowed",
+    "document_sha256": "4f9d5b724fc734886c6ea7a498d4a6c6d02f3a5b07f649c741523fe7eae55480",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalsx on the brand's own page"
+   }
+  },
+  {
+   "identity_key": "springhill suites by marriott dallas dfw airport east las colinas irving",
+   "canonical_name": "SpringHill Suites by Marriott Dallas DFW Airport East/Las Colinas Irving",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand": "MARRIOTT",
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalir-springhill-suites-dallas-dfw-airport-east-las-colinas-irving/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy | Pets Not Allowed",
+    "document_sha256": "75ea692f72047e0941079538b1bdc0933975ca8f30e1e274544f95a42efe9696",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalir on the brand's own page"
+   }
+  },
+  {
    "identity_key": "springhill suites by marriott dallas dfw airport north grapevine",
    "canonical_name": "SpringHill Suites by Marriott Dallas DFW Airport North/Grapevine",
    "corridor": "dallas-fort-worth-tx__grapevine-coppell",
@@ -17230,6 +17287,60 @@
     "document_sha256": "7840146d392d943f28d5886c0a1db1a06fb33e6f43a9534db05afa7d283c4c8f",
     "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
     "binding": "BRAND_PROPERTY_CODE dalwe on the brand's own page"
+   }
+  },
+  {
+   "identity_key": "springhill suites by marriott dallas lewisville",
+   "canonical_name": "SpringHill Suites by Marriott Dallas Lewisville",
+   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
+   "brand": "MARRIOTT",
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalvl-springhill-suites-dallas-lewisville/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy | Pets Not Allowed",
+    "document_sha256": "94847e705744bf97931fd5ad62d2e50aa100a8cd11c108d126031850ec6f13f9",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalvl on the brand's own page"
+   }
+  },
+  {
+   "identity_key": "springhill suites by marriott dallas mansfield",
+   "canonical_name": "SpringHill Suites by Marriott Dallas Mansfield",
+   "corridor": "dallas-fort-worth-tx__mansfield",
+   "brand": "MARRIOTT",
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalsf-springhill-suites-dallas-mansfield/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy | Pets Not Allowed",
+    "document_sha256": "3823c48787a836a90fccb3d7f4cca9fc2e651b6d640d1b6bb6f4dfde901eddd1",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalsf on the brand's own page"
+   }
+  },
+  {
+   "identity_key": "springhill suites by marriott dallas mckinney allen",
+   "canonical_name": "SpringHill Suites by Marriott Dallas McKinney/Allen",
+   "corridor": "dallas-fort-worth-tx__allen-mckinney",
+   "brand": "MARRIOTT",
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalsk-springhill-suites-dallas-mckinney-allen/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy | Pets Not Allowed | Pets not allowed-Service animals only",
+    "document_sha256": "43f765198f8e7ea9a7b594fc89718b89a9b928e17f2c60e48099e3ee63bbbd9b",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalsk on the brand's own page"
    }
   },
   {
@@ -17327,96 +17438,6 @@
     "route": "https://www.marriott.com/en-us/hotels/dalsh-springhill-suites-dallas-addison-quorum-drive/overview/",
     "disposition_basis": "ACCESS_BLOCKED",
     "hold_reason": "the brand answered the authorized attended browser with an Akamai Access Denied page across paced windows; the challenge was never bypassed (https://www.marriott.com/en-us/hotels/dalsh-springhill-suites-dallas-addison-quorum-drive/overview/) -- Akamai 'Access Denied' page on the 41st paced marriott.com navigation of this batch (~03:20:46 UTC): 'You don't have permission to access ... on this server.' Reference #18.8a89cc17.1791602447.af47e47 (https://errors.edgesuite.net/18.8a89cc17.1791602447.af47e47). Waited ~20 s and re-checked the same tab once (~03:21:30 UTC): still Access Denied, same reference. Batch stopped here per the Marriott rule; no bypass attempted."
-   }
-  },
-  {
-   "identity_key": "springhill suites dallas central expressway",
-   "canonical_name": "SpringHill Suites Dallas Central Expressway",
-   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
-   "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsx-springhill-suites-dallas-central-expressway/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "http://www.marriott.com/DALSX",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsx-springhill-suites-dallas-central-expressway/overview/)"
-   }
-  },
-  {
-   "identity_key": "springhill suites dallas dfw airport east las colinas",
-   "canonical_name": "Springhill Suites Dallas DFW Airport East/Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand": "",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalir-springhill-suites-dallas-dfw-airport-east-las-colinas-irving/overview/)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "http://www.marriott.com/hotels/travel/dalir-springhill-suites-dallas-dfw-airport-east-las-colinas-irving/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalir-springhill-suites-dallas-dfw-airport-east-las-colinas-irving/overview/)"
-   }
-  },
-  {
-   "identity_key": "springhill suites dallas lewisville",
-   "canonical_name": "SpringHill Suites Dallas Lewisville",
-   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
-   "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalvl-springhill-suites-dallas-lewisville/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalvl-springhill-suites-dallas-lewisville/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalvl-springhill-suites-dallas-lewisville/overview/)"
-   }
-  },
-  {
-   "identity_key": "springhill suites dallas mansfield",
-   "canonical_name": "SpringHill Suites Dallas Mansfield",
-   "corridor": "dallas-fort-worth-tx__mansfield",
-   "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsf-springhill-suites-dallas-mansfield/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalsf-springhill-suites-dallas-mansfield/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsf-springhill-suites-dallas-mansfield/overview/)"
-   }
-  },
-  {
-   "identity_key": "springhill suites dallas mckinney allen",
-   "canonical_name": "SpringHill Suites Dallas McKinney/Allen",
-   "corridor": "dallas-fort-worth-tx__allen-mckinney",
-   "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsk-springhill-suites-dallas-mckinney-allen/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalsk-springhill-suites-dallas-mckinney-allen/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsk-springhill-suites-dallas-mckinney-allen/overview/)"
    }
   },
   {
@@ -18880,17 +18901,24 @@
    "canonical_name": "The Ricardo Marriott DFW Westlake",
    "corridor": "dallas-fort-worth-tx__alliance-north-fort-worth",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalwl-the-ricardo-marriott-dfw-westlake/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalwl-the-ricardo-marriott-dfw-westlake/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalwl-the-ricardo-marriott-dfw-westlake/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 70.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalwl-the-ricardo-marriott-dfw-westlake/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome. | Up to 70 lbs, 2 pets max, non-refundable deposit of 150 USD. | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 70.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "4bd8dd5e302e534a9144de99808c3139f7d1949e9e7d05da1adc109745751792",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalwl on the brand's own page"
    }
   },
   {
@@ -18940,17 +18968,17 @@
    "canonical_name": "The Sinclair, Autograph Collection",
    "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsn-the-sinclair-autograph-collection/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/hotels/travel/dalsn-the-sinclair-autograph-collection/?scid=bb1a189a-fec3-4d19-a255-54ba596febe2",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsn-the-sinclair-autograph-collection/overview/)"
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalsn-the-sinclair-autograph-collection/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy | Pets Not Allowed",
+    "document_sha256": "5881e1001593776e59d79208f06fc0e40608b7e05943bf1c33c587c2ecad657f",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalsn on the brand's own page"
    }
   },
   {
@@ -18983,17 +19011,24 @@
    "canonical_name": "The Stoneleigh, Autograph Collection",
    "corridor": "dallas-fort-worth-tx__downtown-dallas",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalkl-the-stoneleigh-autograph-collection/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalkl-the-stoneleigh-autograph-collection/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalkl-the-stoneleigh-autograph-collection/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 80.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalkl-the-stoneleigh-autograph-collection/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome. | 2 pets per room | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 80.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "12377931cb7319bddfd4e4f798435b80e4d731d1de78b66a938a0cc9212703d4",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalkl on the brand's own page"
    }
   },
   {
@@ -19022,21 +19057,53 @@
    }
   },
   {
+   "identity_key": "the westin dallas fort worth airport",
+   "canonical_name": "The Westin Dallas Fort Worth Airport",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dfwwa-the-westin-dallas-fort-worth-airport/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | Pets accepted up to 50 pounds and $50 Non-Refundable Pet fee per night | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "6e5c37433f108235c2929a7f7fdd6c461bc02118c8a1d2c7c08bf3d43b910827",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dfwwa on the brand's own page"
+   }
+  },
+  {
    "identity_key": "the westin dallas park central",
    "canonical_name": "The Westin Dallas Park Central",
    "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalwi-the-westin-dallas-park-central/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalwi-the-westin-dallas-park-central/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalwi-the-westin-dallas-park-central/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalwi-the-westin-dallas-park-central/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | Per room/2 dogs 40 pounds max with USD 50 per night fee and signed waiver | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "37871abf002cb2936f82b937ef44f32a5316c88b60b94ca806b96151f64a0efb",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalwi on the brand's own page"
    }
   },
   {
@@ -19044,17 +19111,24 @@
    "canonical_name": "The Westin Dallas Southlake",
    "corridor": "dallas-fort-worth-tx__southlake-flower-mound",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalws-the-westin-dallas-southlake/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalws-the-westin-dallas-southlake/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalws-the-westin-dallas-southlake/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 25.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalws-the-westin-dallas-southlake/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | $25 per day | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Pet Weight: 25.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "47a0062b8b5e29b8f424ae9a165cbf0488dd5b3a54707acc54a699683e6fee54",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalws on the brand's own page"
    }
   },
   {
@@ -19062,17 +19136,67 @@
    "canonical_name": "The Westin Dallas Stonebriar Golf Resort & Spa",
    "corridor": "dallas-fort-worth-tx__frisco",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsb-the-westin-dallas-stonebriar-golf-resort-and-spa/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalsb-the-westin-dallas-stonebriar-golf-resort-and-spa/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsb-the-westin-dallas-stonebriar-golf-resort-and-spa/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalsb-the-westin-dallas-stonebriar-golf-resort-and-spa/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome. | Guests are required to sign a pet policy waiver at check-in | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 1",
+    "document_sha256": "17ee73eeebd3ba88709ccd5cd28cfaced6f0f443667f50c87fc99b876807776c",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalsb on the brand's own page"
+   }
+  },
+  {
+   "identity_key": "the westin irving convention center at las colinas",
+   "canonical_name": "The Westin Irving Convention Center at Las Colinas",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/daliw-the-westin-irving-convention-center-at-las-colinas/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | 2 dogs at 50 pounds max per room. $50 fee per day up to $150 | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "3c06c21ae97b8e6afb11cb0b78dbb0884d8a1ebd03af6a720f380c4fa296b99e",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE daliw on the brand's own page"
+   }
+  },
+  {
+   "identity_key": "the worthington renaissance fort worth hotel",
+   "canonical_name": "The Worthington Renaissance Fort Worth Hotel",
+   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
+   "brand": "MARRIOTT",
+   "final_state": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "resolved": true,
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dfwdt-the-worthington-renaissance-fort-worth-hotel/overview/",
+    "pets_allowed_claim": false,
+    "quote": "Pet Policy | Pets Not Allowed",
+    "document_sha256": "d87c6f0e8fa24b6d97108cfc6ef11a00e6eadf2e815e18b3da14518b8805b03a",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dfwdt on the brand's own page"
    }
   },
   {
@@ -19155,6 +19279,31 @@
    }
   },
   {
+   "identity_key": "towneplace suites by marriott dallas arlington north",
+   "canonical_name": "TownePlace Suites by Marriott Dallas Arlington North",
+   "corridor": "dallas-fort-worth-tx__arlington-entertainment",
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dfwta-towneplace-suites-dallas-arlington-north/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | Pets 30 pounds or less allowed with USD 50 non-refundable fee per stay | Non-Refundable Pet Fee Per Stay: $50.00 | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "ddfef05a56472dbe651bc4436e0bab78aa45f9e6de0502cf3074bd194a0e9948",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dfwta on the brand's own page"
+   }
+  },
+  {
    "identity_key": "towneplace suites by marriott dallas desoto",
    "canonical_name": "TownePlace Suites by Marriott Dallas DeSoto",
    "corridor": "dallas-fort-worth-tx__south-dallas-county",
@@ -19177,6 +19326,81 @@
     "document_sha256": "16d17bd25dcfd00eb316dfb5e30d34b83379da0e95864562996bf302c3380add",
     "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
     "binding": "BRAND_PROPERTY_CODE dalds on the brand's own page"
+   }
+  },
+  {
+   "identity_key": "towneplace suites by marriott dallas dfw airport north irving",
+   "canonical_name": "TownePlace Suites by Marriott Dallas DFW Airport North/Irving",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 30.0,
+    "max_pet_count": 2
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dfwti-towneplace-suites-dallas-dfw-airport-north-irving/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | USD $100 per stay. Maximum 2 pets per room. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 30.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "78a8d8f5626185417b15cacf549664e65c4f202b83ada49e9178d45251b3ea92",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dfwti on the brand's own page"
+   }
+  },
+  {
+   "identity_key": "towneplace suites by marriott dallas las colinas",
+   "canonical_name": "TownePlace Suites by Marriott Dallas Las Colinas",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 100.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalts-towneplace-suites-dallas-las-colinas/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | $100 non refundable pet cleaning fee | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "9dd30824e50ab0db8b6571f8a3322ad90981371f8499d6465db0f883f69ce365",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalts on the brand's own page"
+   }
+  },
+  {
+   "identity_key": "towneplace suites by marriott dallas lewisville",
+   "canonical_name": "TownePlace Suites by Marriott Dallas Lewisville",
+   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 40.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/daltl-towneplace-suites-dallas-lewisville/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | $100 Pet Fee required (non-refunable) | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "172b20e7a11534af04e3c4d4a8ca785b61873bbe81174d896ad13170547d9a10",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE daltl on the brand's own page"
    }
   },
   {
@@ -19233,180 +19457,150 @@
    "identity_key": "towneplace suites by marriott dallas plano legacy",
    "canonical_name": "TownePlace Suites by Marriott Dallas Plano/Legacy",
    "corridor": "dallas-fort-worth-tx__plano",
-   "brand": "",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/daltp-towneplace-suites-by-marriott-dallas-plano-legacy/overview/)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/daltp-towneplace-suites-by-marriott-dallas-plano-legacy/overview/)"
-   }
-  },
-  {
-   "identity_key": "towneplace suites by marriott dfw airport north irving",
-   "canonical_name": "TownePlace Suites by Marriott DFW Airport North/Irving",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwti-towneplace-suites-dallas-dfw-airport-north-irving/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dfwti-towneplace-suites-dallas-dfw-airport-north-irving/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwti-towneplace-suites-dallas-dfw-airport-north-irving/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 150.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/daltp-towneplace-suites-dallas-plano-legacy/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | 2 pets 150 pounds max per room with USD 150 non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 150.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "fd502e3be2b4cde458b6e6565e00c4e56f47c0295baefad542e04ab0e5e4fb71",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE daltp on the brand's own page"
    }
   },
   {
-   "identity_key": "towneplace suites dallas las colinas",
-   "canonical_name": "TownePlace Suites Dallas - Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalts-towneplace-suites-dallas-las-colinas/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "http://www.marriott.com/DALTS",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalts-towneplace-suites-dallas-las-colinas/overview/)"
-   }
-  },
-  {
-   "identity_key": "towneplace suites dallas lewisville",
-   "canonical_name": "TownePlace Suites Dallas Lewisville",
-   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
-   "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/daltl-towneplace-suites-dallas-lewisville/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/daltl-towneplace-suites-dallas-lewisville/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/daltl-towneplace-suites-dallas-lewisville/overview/)"
-   }
-  },
-  {
-   "identity_key": "towneplace suites dallas plano richardson",
-   "canonical_name": "TownePlace Suites Dallas Plano/Richardson",
+   "identity_key": "towneplace suites by marriott dallas plano richardson",
+   "canonical_name": "TownePlace Suites by Marriott Dallas Plano/Richardson",
    "corridor": "dallas-fort-worth-tx__plano",
    "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsp-towneplace-suites-dallas-plano-richardson/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalsp-towneplace-suites-dallas-plano-richardson/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalsp-towneplace-suites-dallas-plano-richardson/overview/)"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalsp-towneplace-suites-dallas-plano-richardson/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | 2 small pets per room allowed with nonrefundable fee of USD 100.00 per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "09e469d90b9d1febd181a4b1bdda6d2990fb3b52f3cf620c0dcc2c76f6ad49e1",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalsp on the brand's own page"
    }
   },
   {
-   "identity_key": "towneplace suites downtown",
-   "canonical_name": "TownePlace Suites - Downtown",
+   "identity_key": "towneplace suites by marriott fort worth downtown",
+   "canonical_name": "TownePlace Suites by Marriott Fort Worth Downtown",
    "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand": "",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwtd-towneplace-suites-fort-worth-downtown/overview/)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "http://www.marriott.com/hotels/fact-sheet/travel/dfwtd-towneplace-suites-fort-worth-downtown/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwtd-towneplace-suites-fort-worth-downtown/overview/)"
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 80.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dfwtd-towneplace-suites-fort-worth-downtown/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | We are pleased to welcome guests traveling with their pets. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 80.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "54e4f5e4d7a40b63ae9aa7aa57578e34f1ca04c29fff5e2343aa05d0164a619f",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dfwtd on the brand's own page"
    }
   },
   {
-   "identity_key": "towneplace suites fort worth nw lake worth",
-   "canonical_name": "TownePlace Suites Fort Worth NW Lake Worth",
+   "identity_key": "towneplace suites by marriott fort worth northwest lake worth",
+   "canonical_name": "TownePlace Suites by Marriott Fort Worth Northwest/Lake Worth",
    "corridor": "dallas-fort-worth-tx__fort-worth-west",
-   "brand": "",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwtw-towneplace-suites-fort-worth-northwest-lake-worth/overview/)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "https://www.marriott.com/hotels/travel/dfwtw-towneplace-suites-fort-worth-northwest-lake-worth/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwtw-towneplace-suites-fort-worth-northwest-lake-worth/overview/)"
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 50.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dfwtw-towneplace-suites-fort-worth-northwest-lake-worth/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | 1 pet 50 pounds max per room with 75USD non-refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "a637affd7ccf7b8c164afb7957bab18283edf2d707adad985e18c458a21193fb",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dfwtw on the brand's own page"
    }
   },
   {
-   "identity_key": "towneplace suites fort worth university medical center",
-   "canonical_name": "TownePlace Suites - Fort Worth University Medical Center",
+   "identity_key": "towneplace suites by marriott fort worth southwest tcu area",
+   "canonical_name": "TownePlace Suites by Marriott Fort Worth Southwest/TCU Area",
    "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand": "",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwtu-towneplace-suites-fort-worth-university-medical-center/overview/)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "http://www.marriott.com/dfwtu",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwtu-towneplace-suites-fort-worth-university-medical-center/overview/)"
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 35.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dfwts-towneplace-suites-fort-worth-southwest-tcu-area/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | USD $100 non-refundable fee per stay | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 35.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "af7ddb253454d0a1ad9672eb6ac38b883569c9eef127bf08ea0c59df1c9cf431",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dfwts on the brand's own page"
    }
   },
   {
-   "identity_key": "towneplace suites marriott hotel",
-   "canonical_name": "TownePlace Suites Marriott Hotel",
-   "corridor": "dallas-fort-worth-tx__arlington-entertainment",
-   "brand": "",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwta-towneplace-suites-marriott-hotel/overview/)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "http://www.marriott.com/dfwta",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwta-towneplace-suites-marriott-hotel/overview/)"
-   }
-  },
-  {
-   "identity_key": "towneplace suites southwest",
-   "canonical_name": "TownePlace Suites - Southwest",
+   "identity_key": "towneplace suites by marriott fort worth university area medical center",
+   "canonical_name": "TownePlace Suites by Marriott Fort Worth University Area/Medical Center",
    "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand": "",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwts-towneplace-suites-fort-worth-southwest/overview/)",
-   "router_record": {
-    "brand_family": "INDEPENDENT",
-    "route": "http://www.marriott.com/hotels/fact-sheet/travel/dfwts-towneplace-suites-fort-worth-southwest/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwts-towneplace-suites-fort-worth-southwest/overview/)"
+   "brand": "MARRIOTT",
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": null,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dfwtu-towneplace-suites-fort-worth-university-area-medical-center/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome | $100.00 fee per stay. Property charges a $5 daily cleaning fee. | Non-Refundable Pet Fee Per Stay: $100.00 | Non-Refundable Pet Fee Per Night: $5.00 | Maximum Number of Pets in Room: 2",
+    "document_sha256": "7ac4dac3ecf06ee5febc94b09eda77480eeb5567fed9ad1fe24b4af7a75c9235",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dfwtu on the brand's own page"
    }
   },
   {
@@ -19952,21 +20146,28 @@
    }
   },
   {
-   "identity_key": "w dallas victory",
-   "canonical_name": "W Dallas - Victory",
+   "identity_key": "w dallas",
+   "canonical_name": "W Dallas",
    "corridor": "dallas-fort-worth-tx__uptown-victory-park",
    "brand": "MARRIOTT",
-   "final_state": "AWAITING_OFFICIAL_URL",
-   "disposition": "ROUTING_HOLD",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "routed but no acquisition lane in this order attempted the page yet",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dalwh-w-dallas/overview/",
-    "disposition_basis": "ROUTING_HOLD",
-    "hold_reason": "routed but no acquisition lane in this order attempted the page yet"
+   "final_state": "PUBLISHED_PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "resolved": true,
+   "policy_facts": {
+    "pet_fee_cents": 17500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "max_pet_weight_lbs": 75.0,
+    "max_pet_count": null
+   },
+   "evidence": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "source_url": "https://www.marriott.com/en-us/hotels/dalwh-w-dallas/overview/",
+    "pets_allowed_claim": true,
+    "quote": "Pet Policy | Pets Welcome. | Guests must sign an authorization form and pay a nonrefundable fee at check-in. | Non-Refundable Pet Fee Per Stay: $175.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+    "document_sha256": "99176bc9ae64316abe1888a193c5dbb9427e0240fa9bb5d181fe20dc354c8106",
+    "captured_via": "supported attended browser (claude-in-chrome), accessibility tree (navigate + find only), PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
+    "binding": "BRAND_PROPERTY_CODE dalwh on the brand's own page"
    }
   },
   {
@@ -20064,42 +20265,6 @@
     "route": "",
     "disposition_basis": "ROUTING_HOLD",
     "hold_reason": "routing state INDEPENDENT_REVIEW: no first-party source in this order stated a usable route: no brand inventory row joined the building, and neither the bureau nor the map source links the property's own page"
-   }
-  },
-  {
-   "identity_key": "westin dallas fort worth airport",
-   "canonical_name": "Westin Dallas Fort Worth Airport",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwwa-the-westin-dallas-fort-worth-airport/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/dfwwa-the-westin-dallas-fort-worth-airport/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwwa-the-westin-dallas-fort-worth-airport/overview/)"
-   }
-  },
-  {
-   "identity_key": "westin irving convention center las colinas",
-   "canonical_name": "Westin Irving Convention Center Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/daliw-the-westin-irving-convention-center-at-las-colinas/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "https://www.marriott.com/en-us/hotels/daliw-the-westin-irving-convention-center-at-las-colinas/overview/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/daliw-the-westin-irving-convention-center-at-las-colinas/overview/)"
    }
   },
   {
@@ -20321,24 +20486,6 @@
     "route": "https://www.woodspring.com/extended-stay-hotels/locations/texas/dallas/woodspring-suites-dallas-north",
     "disposition_basis": "EVIDENCE_HOLD",
     "hold_reason": "the first-party quote states neither an acceptance nor a refusal sentence -- a fee, a weight or a count alone is never read as acceptance (Phase 16) -- so it is held, not published"
-   }
-  },
-  {
-   "identity_key": "worthington renaissance hotel",
-   "canonical_name": "Worthington Renaissance Hotel",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand": "MARRIOTT",
-   "final_state": "ACCESS_BLOCKED",
-   "disposition": "ACCESS_BLOCKED",
-   "resolved": false,
-   "next_action_source": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 acquisition router record",
-   "determined_by": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
-   "next_action": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwdt-the-worthington-renaissance-fort-worth-hotel/overview/)",
-   "router_record": {
-    "brand_family": "MARRIOTT",
-    "route": "http://www.marriott.com/hotels/travel/dfwdt-the-worthington-a-renaissance-hotel/",
-    "disposition_basis": "ACCESS_BLOCKED",
-    "hold_reason": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dfwdt-the-worthington-renaissance-fort-worth-hotel/overview/)"
    }
   },
   {

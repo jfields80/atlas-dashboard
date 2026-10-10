@@ -3,14 +3,14 @@
  "work_order": "PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001",
  "market_id": "dallas-fort-worth-tx",
  "rule": "a fee publishes only as one amount whose basis (per night / per stay) the quote itself states, with no stay-length condition, no range, no second basis and no second amount; otherwise the fee is withheld and the acceptance, weight, count and species still publish",
- "fees_published": 63,
- "tiered_fees_withheld": 150,
- "unsafe_single_fees_withheld": 47,
+ "fees_published": 78,
+ "tiered_fees_withheld": 153,
+ "unsafe_single_fees_withheld": 48,
  "unsafe_by_reason": {
   "AMOUNT_RANGE": 1,
   "BASIS_NOT_STATED": 34,
   "FEE_SENTENCE_CUT": 3,
-  "STAY_LENGTH_CONDITION": 9
+  "STAY_LENGTH_CONDITION": 10
  },
  "misleading_single_fees_published": 0,
  "tiered": [
@@ -1021,6 +1021,15 @@
   {
    "stated_amounts_usd": [
     50.0,
+    75.0
+   ],
+   "fee_the_reader_computed_cents": 7500,
+   "quote": "Pet Policy | Pets Welcome | Pets under 50 pounds permitted. Non refundable cleaning fee of $75 per room. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 1",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
     200.0
    ],
    "fee_the_reader_computed_cents": 5000,
@@ -1232,6 +1241,24 @@
    ],
    "fee_the_reader_computed_cents": 7500,
    "quote": "Pets | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 25 lbs | Max size: Small | Pet policy: 1-4 night stay: $75 5+ nights: $125 max 2 pets: cats/dogs only",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    50.0,
+    150.0
+   ],
+   "fee_the_reader_computed_cents": 5000,
+   "quote": "Pet Policy | Pets Welcome | 2 dogs at 50 pounds max per room. $50 fee per day up to $150 | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+   "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
+  },
+  {
+   "stated_amounts_usd": [
+    5.0,
+    100.0
+   ],
+   "fee_the_reader_computed_cents": 10000,
+   "quote": "Pet Policy | Pets Welcome | $100.00 fee per stay. Property charges a $5 daily cleaning fee. | Non-Refundable Pet Fee Per Stay: $100.00 | Non-Refundable Pet Fee Per Night: $5.00 | Maximum Number of Pets in Room: 2",
    "why": "the page states a different fee for a different stay length; one number would assert a price the page does not state, so the fee is omitted and the row publishes without one"
   },
   {
@@ -1605,6 +1632,11 @@
    "fee_the_reader_computed_cents": 7500,
    "why": "BASIS_NOT_STATED -- the page states an amount but not whether it is charged per night or per stay",
    "quote": "PETS | Pets allowed: Yes | Non-refundable fee: $75.00 | Max weight: 100 lbs | Max size: Large"
+  },
+  {
+   "fee_the_reader_computed_cents": 5000,
+   "why": "STAY_LENGTH_CONDITION -- the fee depends on how long the guest stays",
+   "quote": "Pet Policy | Pets Welcome | Pets 30 pounds or less allowed with USD 50 non-refundable fee per stay | Non-Refundable Pet Fee Per Stay: $50.00 | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 2"
   }
  ]
 }
