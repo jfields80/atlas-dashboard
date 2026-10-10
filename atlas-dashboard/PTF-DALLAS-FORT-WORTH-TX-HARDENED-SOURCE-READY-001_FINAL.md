@@ -1,5 +1,7 @@
 # PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001 — FINAL (with CONTINUE)
 
+> **SUPERSEDED (2026-10-10) by PTF-DALLAS-FORT-WORTH-TX-MARRIOTT-CLOSURE-WINDOW-002** -- see PTF-DALLAS-FORT-WORTH-TX-MARRIOTT-CLOSURE-WINDOW-002_FINAL.md. The founder's new Marriott window read the 31 held rows (21 PF / 10 NP, no denial); successor package pkg-dallas-fort-worth-tx-b6dc951150886520 (FAST 15/15, reproduced) supersedes pkg-dallas-fort-worth-tx-e8a841396faeffec; census 965, 461 PF / 210 NP, 294 unresolved; COVERAGE READY still FOUNDER DECISION (25 paid-Places-only + 4 founder rulings). The figures below are this order's own, as of its package.
+
 Market `dallas-fort-worth-tx`, branch `worker/ptf-dallas-fort-worth-tx-market-001`, worktree
 `C:\Atlas-Dallas-Fort-Worth-TX-Hardened-V1`.
 
