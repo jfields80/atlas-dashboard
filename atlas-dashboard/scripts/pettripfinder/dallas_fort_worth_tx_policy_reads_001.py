@@ -244,6 +244,18 @@ def _row(lane, brand, requested, final, name, street, locality, region, postal, 
     ])
 
 
+#: DALLAS-FORT WORTH: a ZIP-less first-party read whose postal code would otherwise come ONLY from the census row the
+#: browser lane bound it to -- a loop: bound, the read joins its building and the census holds that building as a
+#: rebrand (so nothing is admitted to bind to); unbound on the next pass, the read joins nothing and the map row is
+#: admitted again. Measured: the census alternated 966 / 965 on successive passes. The page's own street and
+#: municipality name exactly one ZIP, stated by the state licence and OSM rows at that house number and street.
+ZIPLESS_READ_POSTAL = {
+    "https://www.motel6.com/property/motel-mesquite-texas-us-293287/": (
+        "75150", "the page prints '3601 U.S. 80, Mesquite' with no ZIP (titled 'Studio 6 Mesquite, TX - Town East'); "
+                 "the Texas licence and OSM rows at 3601 US 80 E, Mesquite both state 75150"),
+}
+
+
 def build():
     rows, refused = [], Counter()
 
@@ -265,6 +277,8 @@ def build():
         # row's postal code -- never a guessed one; an unbound page stays without a ZIP and joins nothing.
         if not postal and r.get("identity_key") and r.get("census_postal"):
             postal = r.get("census_postal")
+        if not postal:
+            postal = ZIPLESS_READ_POSTAL.get((r.get("requested_url") or "").strip(), ("",))[0]
         # SEATTLE (kept): a policy SUBPAGE's title names the section first ("OUR POLICIES | Beston Inn"); the property's own
         # name is the part after the bar, never the section label.
         _name = _title_name(r.get("page_title") or "")

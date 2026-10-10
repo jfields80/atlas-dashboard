@@ -163,6 +163,22 @@ def _attempted_route(row, route):
     return ""
 
 
+#: Brand hosts whose own property pages the attended browser reads (the routing table's url or alternate routes).
+_BRAND_HOST = re.compile(r"^(?:marriott|hilton|ihg|hyatt|choicehotels|wyndhamhotels|bestwestern|motel6|redroof|sonesta|"
+                         r"extendedstayamerica|druryhotels|omnihotels|loewshotels|radissonhotels|woodspring)\.com/")
+
+
+def _untried_brand_route(route):
+    """DALLAS-FORT WORTH: a brand's own property route (the routing url or an alternate route, e.g. the Marriott
+    inventory's marriott.com/<code>) the attended browser has never opened. Such a row is ACTIONABLE -- never
+    'new spend' because a Places lookup is spent while an authorized route sits untried."""
+    for u in [(route or {}).get("url")] + list((route or {}).get("alternate_routes") or []):
+        n = _norm_url(u)
+        if n and _BRAND_HOST.match(n) and n not in ATTEMPTED:
+            return u
+    return ""
+
+
 def classify(row, route):
     """(class, why) for one unresolved clean-authority row."""
     disp = row["disposition"]
@@ -176,7 +192,15 @@ def classify(row, route):
             tried = _attempted_route(row, route)
             if tried:
                 return EXHAUSTED, tried
+            if _norm_url((route or {}).get("url")).startswith("marriott.com/") and MARRIOTT_WINDOW_CLOSED:
+                return EXHAUSTED, MARRIOTT_WINDOW_CLOSED + " (" + route["url"].split("?")[0][:160] + ")"
             return ACTIONABLE_NOW, "routed, and no lane has attempted the route yet"
+        untried = _untried_brand_route(route)
+        if untried and _norm_url(untried).startswith("marriott.com/") and MARRIOTT_WINDOW_CLOSED:
+            return EXHAUSTED, MARRIOTT_WINDOW_CLOSED + " (" + untried.split("?")[0][:160] + ")"
+        if untried:
+            return ACTIONABLE_NOW, ("the brand's own property route has not been opened by the attended browser: "
+                                    + untried.split("?")[0][:160])
         place = PLACES_BY_KEY.get(row["identity_key"])
         if place is None and PLACES_ALLOWANCE_SPENT:
             # the free Enterprise allowance this order may use is spent (the places module's own cap: 990 of the
@@ -217,6 +241,8 @@ def classify(row, route):
             if re.search(r"(facebook|instagram|oyorooms|booking|expedia|tripadvisor|airbnb|vrbo)\.com", url, re.I):
                 return EXHAUSTED, ("Places named only a social or third-party booking page (%s), never a first-party "
                                    "policy source; no other authorized lane routes this row" % url.split("?")[0])
+            if _norm_url(url).startswith("marriott.com/") and MARRIOTT_WINDOW_CLOSED:
+                return EXHAUSTED, MARRIOTT_WINDOW_CLOSED + " (Places named " + url.split("?")[0][:160] + ")"
             return ACTIONABLE_NOW, "Places named a brand page the attended browser has not opened: " + url[:160]
         return ACTIONABLE_NOW, "unrecognised routing reason (never silently exhausted): " + why[:160]
     if disp in ("ACCESS_BLOCKED", "IDENTITY_MISMATCH_HOLD", "SOURCE_SILENT") and BOUND_READS.get(row["identity_key"]):
@@ -244,6 +270,9 @@ def classify(row, route):
         tried = _attempted_route(row, route)
         if tried:
             return EXHAUSTED, tried
+        if "MARRIOTT_AUTHORIZED_WINDOW_CLOSED" in why:
+            # the clean authority's own measured blocker: the order's one authorized Marriott window is spent.
+            return EXHAUSTED, why[:400]
         return ACTIONABLE_NOW, ("the static lane was refused and the attended browser (authorized) has not opened this "
                                 "row's own page: " + why[:200])
     if disp == "SOURCE_SILENT":
@@ -291,6 +320,8 @@ UNBOUND_READS_BY_ROW = {
 }
 #: normalised URL -> the attended-browser record that opened it (filled by ``build``).
 ATTEMPTED = {}
+#: The clean authority's measured Marriott blocker (its ``marriott_window_closed``), "" while the lane is open.
+MARRIOTT_WINDOW_CLOSED = ""
 READS = os.path.join(STAGING, "browser_reads_001.jsonl")
 
 
@@ -310,7 +341,9 @@ def build():
                 if line.strip():
                     rec = json.loads(line)
                     ATTEMPTED[_norm_url(rec.get("requested_url"))] = rec
-    global PLACES_ALLOWANCE_SPENT
+    global PLACES_ALLOWANCE_SPENT, MARRIOTT_WINDOW_CLOSED
+    from scripts.pettripfinder.dallas_fort_worth_tx_clean_authority_001 import marriott_window_closed
+    MARRIOTT_WINDOW_CLOSED = marriott_window_closed()
     PLACES_DOC.clear()
     PLACES_DOC.update(_load(PLACES_REPORT, {}) or {})
     PLACES_ALLOWANCE_SPENT = (int(PLACES_DOC.get("enterprise_requests_made") or 0)

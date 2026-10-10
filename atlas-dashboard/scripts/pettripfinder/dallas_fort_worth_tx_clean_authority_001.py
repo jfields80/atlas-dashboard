@@ -888,6 +888,35 @@ def restate_browser_measurements():
     return BROWSER_REACHED
 
 
+def marriott_window_closed():
+    """DALLAS-FORT WORTH (CONTINUE order, Phase 3): the attended browser's Marriott lane is CLOSED for this order when
+    its own log's LAST Marriott record is an anti-bot denial -- the order's one authorized paced window ended on a
+    denial that persisted through one ordinary recheck, and the order forbids another immediate cooldown / retry loop
+    without a genuinely new authorized window. Returns the blocker sentence (measured from the log, never typed), or
+    "" while the lane is open."""
+    if "v" not in _MARRIOTT_WINDOW:
+        _MARRIOTT_WINDOW["v"] = _marriott_window_from_log()
+    return _MARRIOTT_WINDOW["v"]
+
+
+_MARRIOTT_WINDOW = {}
+
+
+def _marriott_window_from_log():
+    last = None
+    for r in _jsonl(os.path.join(STAGING, "browser_reads_001.jsonl")):
+        if (r.get("family") or "").upper() == "MARRIOTT":
+            last = r
+    if not last or "DENIED" not in str(last.get("read_outcome") or ""):
+        return ""
+    ref = re.search(r"#?(18\.[0-9a-f]+\.\d+\.[0-9a-f]+)", last.get("note") or "")
+    return ("MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on %s at "
+            "recorder seq %s (%s, Akamai reference %s) after one ordinary recheck; no bypass, relay or JS exfiltration "
+            "was used, and no further Marriott request is authorized in this order, so this row's own Marriott page "
+            "was never opened" % (last.get("read_outcome"), last.get("seq"), last.get("captured_at"),
+                                  ref.group(1) if ref else "not printed"))
+
+
 #: FAMILY WALLS THIS ORDER MAY NOT CROSS, measured this run. Empty until a wall is MEASURED here: nothing is
 #: inherited from Miami's or Denver's family walls.
 FAMILY_TERMINAL_WALLS = {
@@ -972,6 +1001,8 @@ def router_hold_reason(identity_key, routing_by_key, static_by_key, fc_by_key, c
                               "its own city search: the brand no longer publishes a property page for these "
                               "premises (%s)" % r["url"])
     if s is None and fc is None:
+        if (r.get("brand_family") or "") == "MARRIOTT" and marriott_window_closed():
+            return ACCESS_BLOCKED, marriott_window_closed() + " (%s)" % r["url"]
         if (r.get("brand_family") or "") in BROWSER_BLOCKERS:
             return BROWSER_CAPTURE_NEEDED, ("routed to a %s page (%s) that no static, Firecrawl or browser pass in "
                                            "this order reached yet" % (r.get("brand_family"), r["url"]))
@@ -983,6 +1014,8 @@ def router_hold_reason(identity_key, routing_by_key, static_by_key, fc_by_key, c
     if cls == "IDENTITY_MISMATCH" or cls == "IDENTITY_NOT_CONFIRMED_STATIC":
         return IDENTITY_MISMATCH_HOLD, "the fetched page's own identity did not confirm this census row"
     fam = r.get("brand_family") or ""
+    if outcome == "ACCESS_DENIED" and fam == "MARRIOTT" and marriott_window_closed():
+        return ACCESS_BLOCKED, "static fetch was ACCESS_DENIED; " + marriott_window_closed()
     if outcome == "ACCESS_DENIED" and fam in BROWSER_BLOCKERS and (fc is None or fam == "MARRIOTT"):
         return BROWSER_CAPTURE_NEEDED, ("static fetch was ACCESS_DENIED; %s" % BROWSER_BLOCKERS[fam])
     if outcome == "ACCESS_DENIED" and fam in ("IHG", "CHOICE") and fc is None:

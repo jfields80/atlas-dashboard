@@ -1192,8 +1192,44 @@ DUPLICATE_OF = {
 #: because both rows carry the same name and only one of them is the building's address. Each is read off this
 #: order's own evidence: the bureau / page row is the surviving identity. Empty at authoring time.
 DUPLICATE_AT = {
-    # EMPTY AT AUTHORING TIME. A row is added ONLY after THIS market's own evidence proves the duplicate. Portland's
-    # Super 8 Vancouver East entry names a Washington building and is not carried here.
+    # A row is added ONLY after THIS market's own evidence proves the duplicate. Portland's Super 8 Vancouver East
+    # entry names a Washington building and is not carried here.
+    # DALLAS-FORT WORTH (PTF-DALLAS-FORT-WORTH-TX-HARDENED-SOURCE-READY-001, same-premises audit): each pair below
+    # shares the house number and ZIP, its pins sit 0-41 m apart (Addison Inn and the Americas Best Value Inn bind
+    # the SAME Google place), and the duplicate is a licence / Places / bureau NAME for the building a first-party
+    # row already carries -- the street spellings differ only (Plz / Plaza, Frwy / Freeway, Belt Line / Beltline,
+    # Citylake / City Lake, I-35 West / North Freeway), which the street identity does not fold. ONE PREMISES = ONE
+    # HOTEL IDENTITY: the surviving row keeps the brand / bureau evidence; the licence row is a listing of it.
+    ("dph dallas richardson", "165 w"): "DUPLICATE_OF_SAME_PREMISES -- the Comptroller permit 'Dph Dallas Richardson' "
+                                        "(165 W Cityline Dr 75082) is Drury Plaza Hotel Dallas Richardson's own premises "
+                                        "(Drury's page: 165 West CityLine Drive; pins 19 m apart)",
+    ("rhodeway inn", "1832 n"): "DUPLICATE_OF_SAME_PREMISES -- the permit 'Rhodeway Inn' (1832 N Interstate 35E 75006) is "
+                                "Rodeway Inn Carrollton I-35E (Choice tx815, 1832 North I-35 E; pins 8 m apart)",
+    ("select inn", "200 n"): "DUPLICATE_OF_SAME_PREMISES -- the permit 'Select Inn' (200 N Stemmons Fwy 75067) names the "
+                             "building OSM tags 'Motel 6' and Motel 6's own page carries: Motel 6 Lewisville, TX - "
+                             "Medical City (293828, 200 N Stemmons Frwy)",
+    ("way side inn by hotel o dallas near fair park downtown", "2600"):
+        "DUPLICATE_OF_SAME_PREMISES -- the OYO listing 'Way Side Inn by Hotel O' (2600, 75215, no street) is the "
+        "Wayside Inn Motel at 2600 S Cesar Chavez Blvd 75215 (the permit's own premises)",
+    ("motel 6 north 153", "3271 i"): "DUPLICATE_OF_SAME_PREMISES -- the bureau listing 'Motel 6 - North #153' (3271 I-35 "
+                                     "West 76106) is Motel 6 Fort Worth, TX - North (Motel 6's page: 3271 North Freeway; "
+                                     "pins 9 m apart)",
+    ("motel 6 dallas addison", "4325 belt"): "DUPLICATE_OF_SAME_PREMISES -- the permit / OSM row 'Motel 6 Dallas - "
+                                             "Addison' (4325 Belt Line Rd 75001) is Motel 6 Addison, TX - Dallas (Motel "
+                                             "6's page 294428: 4325 Beltline RD)",
+    ("addison inn", "4005 belt"): "DUPLICATE_OF_SAME_PREMISES -- the permit 'Addison Inn' (4005 Belt Line Rd 75001) binds "
+                                  "the SAME Google place as Americas Best Value Inn Addison Dallas (Sonesta's own page: "
+                                  "4005 Beltline Road), which the brand's own page carries today",
+    ("tps fort worth", "4200 international"): "DUPLICATE_OF_SAME_PREMISES -- the permit 'Tps Fort Worth' (4200 "
+                                              "International Plz 76109) is TownePlace Suites Fort Worth Southwest/TCU "
+                                              "Area (Marriott dfwts, 4200 International Plaza; pins 41 m apart)",
+    ("6084 sw ft worth tx hotel llc", "4701 citylake"): "DUPLICATE_OF_SAME_PREMISES -- the permit holder '6084 Sw Ft "
+                                                        "Worth Tx Hotel, Llc' (4701 Citylake Blvd W 76132) is Extended "
+                                                        "Stay Deluxe - Southwest (4701 City Lake Boulevard W.; pins 29 m "
+                                                        "apart)",
+    ("lamirage inn", "9600 palo"): "DUPLICATE_OF_SAME_PREMISES -- the bureau listing 'LaMirage Inn' (9600 Palo Pinto "
+                                   "76116) is the permit's La Mirage Inn at 9600 Camp Bowie West Blvd 76116 (pins 1 m "
+                                   "apart)",
 }
 
 def read_destination_roster():
@@ -1888,6 +1924,45 @@ def name_bare_chain_flags(nodes):
                     "exclusion registry"),
         ]))
         n.name = picked
+    return rulings
+
+
+#: DALLAS-FORT WORTH: a brand whose own property page prints ONLY the location in its heading. redroof.com's h1 is
+#: "Fort Worth South" / "Hutchins" / "Lancaster, TX", and the page title became the census name, so the package
+#: refused the seal: "Fort Worth South" claims the corridor route /fort-worth-south/ (INVALID_ROUTE) -- and a bare
+#: place is no hotel's name anywhere. The brand label is taken from the brand's OWN route family (redroof.com
+#: /extendedstay/hometownestudios/ is HomeTowne Studios; every other redroof.com /property/ route is the Red Roof
+#: brand, whose sub-flag -- Inn, PLUS+, Inn & Suites -- the location-only heading does not state, so none is
+#: invented), and is prefixed only when the chosen name does not already carry it.
+_LOCATION_ONLY_TITLE_BRANDS = (
+    (re.compile(r"redroof\.com/extendedstay/hometownestudios/", re.I), "HomeTowne Studios by Red Roof",
+     re.compile(r"\bhometowne\b", re.I)),
+    (re.compile(r"redroof\.com/property/", re.I), "Red Roof", re.compile(r"\bred\s*roof\b", re.I)),
+)
+
+
+def prefix_location_only_brand_titles(nodes):
+    rulings = []
+    for n in nodes:
+        chosen = " ".join((n.name or "").split())
+        route = n.route or ""
+        for host, label, carried in _LOCATION_ONLY_TITLE_BRANDS:
+            if not chosen or not host.search(route):
+                continue
+            if carried.search(chosen):
+                break
+            # "& Conference Center McKinney": the heading lost its flag mid-name; only "Red Roof Inn" takes
+            # "& Conference Center", so that row's own words state the sub-flag.
+            lab = "Red Roof Inn" if (label == "Red Roof" and chosen.startswith("&")) else label
+            picked = "%s %s" % (lab, chosen)
+            if len(_listing_slug(picked)) > 80:
+                break
+            rulings.append(OrderedDict([
+                ("was", chosen), ("now", picked), ("lanes", ["BRAND_ROUTE_FAMILY"]), ("sources", [route]),
+                ("why", "the brand's own page heading states only the location; the brand label comes from the "
+                        "brand's own route family, never an invented sub-flag")]))
+            n.name = picked
+            break
     return rulings
 
 
@@ -3328,7 +3403,8 @@ def build():
                 if fits:
                     n.name = fits[0]
                     break
-    bare_flag_renamed = name_bare_chain_flags(nodes)
+    brand_label_prefixed = prefix_location_only_brand_titles(nodes)
+    bare_flag_renamed = name_bare_chain_flags(nodes) + brand_label_prefixed
 
     code_detached = []
     for n in nodes:

@@ -59,7 +59,7 @@ PARTITION_SRC = STAGING / "launch_package" / "dallas_fort_worth_tx_final_partiti
 #: first-party capture (the browser recorder's real-clock stamp of its final read) and not later than the moment it
 #: was set, by the real clock. The Fort Myers clone carried Fort Myers' own seal time; it is never inherited -- this
 #: value is set from THIS order's own browser log immediately before the seal.
-SEALED_AT = "UNSET-BEFORE-SEAL"
+SEALED_AT = "2026-10-10T03:31:52Z"
 
 
 def _read(path):

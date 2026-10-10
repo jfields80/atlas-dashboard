@@ -4,31 +4,22 @@
  "market_id": "dallas-fort-worth-tx",
  "phase": "21 + 26 -- actionability of every unresolved ROW, and the coverage decision",
  "unresolved_is_not_actionable": "A large, bounded, fully-explained unresolved cohort is allowed. What is not allowed is a row an authorized lane could still reach. ACTIONABLE UNRESOLVED must be 0 before COVERAGE READY = YES.",
- "census_total": 976,
- "resolved": 564,
- "unresolved_total": 412,
+ "census_total": 965,
+ "resolved": 640,
+ "unresolved_total": 325,
  "totals_by_class": {
-  "ACTIONABLE_NOW": 111,
-  "AUTHORIZED_ROUTER_EXHAUSTED": 252,
+  "ACTIONABLE_NOW": 0,
+  "AUTHORIZED_ROUTER_EXHAUSTED": 275,
   "REQUIRES_NEW_PROVIDER": 0,
-  "REQUIRES_NEW_SPEND": 28,
-  "REQUIRES_FOUNDER": 17,
+  "REQUIRES_NEW_SPEND": 25,
+  "REQUIRES_FOUNDER": 21,
   "HELD_UNTIL_OPENING": 4
  },
  "by_disposition": {
   "ACCESS_BLOCKED": {
-   "total": 16,
-   "actionable_now": 1,
-   "authorized_router_exhausted": 15,
-   "requires_new_provider": 0,
-   "requires_new_spend": 0,
-   "requires_founder": 0,
-   "held_until_opening": 0
-  },
-  "BROWSER_CAPTURE_NEEDED": {
-   "total": 103,
-   "actionable_now": 103,
-   "authorized_router_exhausted": 0,
+   "total": 39,
+   "actionable_now": 0,
+   "authorized_router_exhausted": 39,
    "requires_new_provider": 0,
    "requires_new_spend": 0,
    "requires_founder": 0,
@@ -44,1060 +35,61 @@
    "held_until_opening": 4
   },
   "IDENTITY_MISMATCH_HOLD": {
-   "total": 37,
+   "total": 41,
    "actionable_now": 0,
    "authorized_router_exhausted": 25,
    "requires_new_provider": 0,
    "requires_new_spend": 0,
-   "requires_founder": 12,
+   "requires_founder": 16,
    "held_until_opening": 0
   },
   "ROUTING_HOLD": {
-   "total": 156,
-   "actionable_now": 7,
+   "total": 146,
+   "actionable_now": 0,
    "authorized_router_exhausted": 121,
    "requires_new_provider": 0,
-   "requires_new_spend": 28,
+   "requires_new_spend": 25,
    "requires_founder": 0,
    "held_until_opening": 0
   },
   "SOURCE_SILENT": {
-   "total": 50,
+   "total": 49,
    "actionable_now": 0,
-   "authorized_router_exhausted": 50,
+   "authorized_router_exhausted": 49,
    "requires_new_provider": 0,
    "requires_new_spend": 0,
    "requires_founder": 0,
    "held_until_opening": 0
   }
  },
- "actionable_unresolved_remaining": 111,
- "rows_gated_on_new_spend_provider_or_founder": 30,
- "founder_rows_safely_held": 15,
+ "actionable_unresolved_remaining": 0,
+ "rows_gated_on_new_spend_provider_or_founder": 29,
+ "founder_rows_safely_held": 17,
  "preopening_rows_safely_excluded": 4,
  "places_note": "Google Places route discovery ran inside the renewed free monthly allowance (existing capacity, no new spend); a row it queried and could not route is exhausted, a row it never queried is actionable",
  "attended_browser": {
-  "attempts": 718,
-  "reads": 555,
-  "challenge_denied": 16,
-  "unbound": 41,
+  "attempts": 802,
+  "reads": 635,
+  "challenge_denied": 18,
+  "unbound": 43,
   "paid_provider_calls": 0,
   "akamai_bypassed": false,
   "browser_js_exfiltration_used": false,
   "local_relay_used": false
  },
  "coverage_conditions": {
-  "actionable_unresolved_is_zero": false,
+  "actionable_unresolved_is_zero": true,
   "no_material_identity_gap": true,
   "no_material_unexplained_policy_gap": true,
-  "authorized_acquisition_lanes_exhausted": false,
-  "marriott_queue_terminally_resolved_or_exhausted": false,
-  "browser_required_brands_processed_or_bounded": false,
+  "authorized_acquisition_lanes_exhausted": true,
+  "marriott_queue_terminally_resolved_or_exhausted": true,
+  "browser_required_brands_processed_or_bounded": true,
   "publication_set_safe": true,
   "package_deterministic_and_fast_clean": false
  },
- "COVERAGE_READY": "NO",
+ "COVERAGE_READY": "FOUNDER DECISION",
  "TECHNICAL_SOURCE_READY": "NO",
  "rows": [
-  {
-   "identity_key": "courtyard by marriott dallas northwest",
-   "canonical_name": "Courtyard by Marriott Dallas Northwest",
-   "corridor": "dallas-fort-worth-tx__carrollton-farmers-branch",
-   "brand_family": "MARRIOTT",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "the static lane was refused and the attended browser (authorized) has not opened this row's own page: router exhausted on every free/authorized lane attempted this order (static BLANK_PAGE)"
-  },
-  {
-   "identity_key": "ac hotel by marriott mckinney",
-   "canonical_name": "AC Hotel by Marriott Mckinney",
-   "corridor": "dallas-fort-worth-tx__allen-mckinney",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "ac hotel dallas downtown",
-   "canonical_name": "AC Hotel Dallas Downtown",
-   "corridor": "dallas-fort-worth-tx__downtown-dallas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "ac hotel fort worth downtown",
-   "canonical_name": "AC Hotel Fort Worth - Downtown",
-   "corridor": "dallas-fort-worth-tx__fort-worth-east",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "aloft arlington south",
-   "canonical_name": "Aloft Arlington South",
-   "corridor": "dallas-fort-worth-tx__arlington",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "aloft dfw airport north",
-   "canonical_name": "aLoft -DFW Airport North",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "aloft fort worth downtown",
-   "canonical_name": "Aloft - Fort Worth Downtown",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "aloft frisco",
-   "canonical_name": "Aloft Frisco",
-   "corridor": "dallas-fort-worth-tx__frisco",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "aloft las colinas",
-   "canonical_name": "aLoft Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "aloft plano",
-   "canonical_name": "Aloft Plano",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "aloft richardson",
-   "canonical_name": "Aloft Richardson",
-   "corridor": "dallas-fort-worth-tx__richardson",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "aloft trophy club westlake",
-   "canonical_name": "Aloft Trophy Club Westlake",
-   "corridor": "dallas-fort-worth-tx__alliance-north-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard by marriott blackstone",
-   "canonical_name": "Courtyard by Marriott - Blackstone",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard by marriott dallas plano in legacy park",
-   "canonical_name": "Courtyard by Marriott Dallas-Plano in Legacy Park",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard by marriott dallas plano parkway at preston road",
-   "canonical_name": "Courtyard by Marriott Dallas Plano Parkway at Preston Road",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard by marriott dallas plano richardson",
-   "canonical_name": "Courtyard by Marriott Dallas Plano/Richardson",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard by marriott fort worth at alliance town center",
-   "canonical_name": "Courtyard by Marriott Fort Worth at Alliance Town Center",
-   "corridor": "dallas-fort-worth-tx__alliance-north-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard by marriott fort worth i 30 west near nas jrb",
-   "canonical_name": "Courtyard by Marriott - Fort Worth I-30 West Near NAS JRB",
-   "corridor": "dallas-fort-worth-tx__fort-worth-west",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard by marriott stockyards",
-   "canonical_name": "Courtyard by Marriott - Stockyards",
-   "corridor": "dallas-fort-worth-tx__stockyards-north-side",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard by marriott university drive",
-   "canonical_name": "Courtyard by Marriott - University Drive",
-   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard by marriott west at cityview",
-   "canonical_name": "Courtyard by Marriott - West at Cityview",
-   "corridor": "dallas-fort-worth-tx__fort-worth-south",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard dallas addison quorum drive",
-   "canonical_name": "Courtyard Dallas Addison/Quorum Drive",
-   "corridor": "dallas-fort-worth-tx__addison",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard dallas dfw airport north irving",
-   "canonical_name": "Courtyard Dallas - DFW Airport North/Irving",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard dallas dfw airport south irving",
-   "canonical_name": "Courtyard Dallas - DFW Airport South/Irving",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard dallas downtown reunion district",
-   "canonical_name": "Courtyard Dallas Downtown/Reunion District",
-   "corridor": "dallas-fort-worth-tx__downtown-dallas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "courtyard dallas las colinas",
-   "canonical_name": "Courtyard Dallas - Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "dallas addison marriott quorum by the galleria",
-   "canonical_name": "Dallas/Addison Marriott Quorum by the Galleria",
-   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "dallas marriott suites medical market center",
-   "canonical_name": "Dallas Marriott Suites Medical/Market Center",
-   "corridor": "dallas-fort-worth-tx__love-field-medical-market-center",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "dallas plano marriott at legacy town center",
-   "canonical_name": "Dallas/Plano Marriott at Legacy Town Center",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "delta by marriott southlake",
-   "canonical_name": "Delta by Marriott Southlake",
-   "corridor": "dallas-fort-worth-tx__southlake-flower-mound",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "dfw airport marriott",
-   "canonical_name": "DFW Airport Marriott",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "dfw marriott hotel and golf club at champions circle",
-   "canonical_name": "DFW Marriott Hotel and Golf Club at Champions Circle",
-   "corridor": "dallas-fort-worth-tx__alliance-north-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "element dfw airport north",
-   "canonical_name": "Element DFW Airport North",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites by marriott arlington near six flags",
-   "canonical_name": "Fairfield Inn & Suites by Marriott Arlington near Six Flags",
-   "corridor": "dallas-fort-worth-tx__arlington-entertainment",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites by marriott dallas plano frisco",
-   "canonical_name": "Fairfield Inn & Suites by Marriott Dallas/Plano/Frisco",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites by marriott fort worth south burleson",
-   "canonical_name": "Fairfield Inn and Suites by Marriott Fort Worth South/Burleson",
-   "corridor": "dallas-fort-worth-tx__fort-worth-south",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites by marriott university",
-   "canonical_name": "Fairfield Inn & Suites By Marriott-University",
-   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites dallas dfw airport south irving",
-   "canonical_name": "Fairfield Inn & Suites Dallas - DFW Airport South/Irving",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites dallas downtown",
-   "canonical_name": "Fairfield Inn & Suites Dallas Downtown",
-   "corridor": "dallas-fort-worth-tx__downtown-dallas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites dallas medical market center",
-   "canonical_name": "Fairfield Inn & Suites Dallas Medical Market Center",
-   "corridor": "dallas-fort-worth-tx__love-field-medical-market-center",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites dallas west i 30",
-   "canonical_name": "Fairfield Inn & Suites Dallas West/I-30",
-   "corridor": "dallas-fort-worth-tx__love-field-medical-market-center",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites dfw airport north",
-   "canonical_name": "Fairfield Inn & Suites DFW Airport North",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites fort worth downtown",
-   "canonical_name": "Fairfield Inn and Suites - Fort Worth Downtown",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites fort worth i 30 west near nas jrb",
-   "canonical_name": "Fairfield Inn and Suites Fort Worth I-30 West near NAS JRB",
-   "corridor": "dallas-fort-worth-tx__fort-worth-west",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "fairfield inn and suites fort worth southwest at cityview",
-   "canonical_name": "Fairfield Inn and Suites-Fort Worth Southwest at Cityview",
-   "corridor": "dallas-fort-worth-tx__fort-worth-south",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "four points by sheraton",
-   "canonical_name": "Four Points By Sheraton",
-   "corridor": "dallas-fort-worth-tx__arlington-entertainment",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "four points by sheraton north fort worth",
-   "canonical_name": "Four Points by Sheraton North Fort Worth",
-   "corridor": "dallas-fort-worth-tx__alliance-north-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "hotel drover autograph collection",
-   "canonical_name": "Hotel Drover, Autograph Collection",
-   "corridor": "dallas-fort-worth-tx__stockyards-north-side",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "jw marriott dallas arts district hotel",
-   "canonical_name": "JW Marriott Dallas Arts District Hotel",
-   "corridor": "dallas-fort-worth-tx__downtown-dallas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "marriott dallas uptown",
-   "canonical_name": "Marriott Dallas Uptown",
-   "corridor": "dallas-fort-worth-tx__downtown-dallas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "marriott dfw airport south",
-   "canonical_name": "Marriott DFW Airport South",
-   "corridor": "dallas-fort-worth-tx__dfw-airport",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "renaissance dallas addison hotel",
-   "canonical_name": "Renaissance-Dallas/addison Hotel",
-   "corridor": "dallas-fort-worth-tx__addison",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "renaissance dallas north hotel",
-   "canonical_name": "Renaissance Dallas North Hotel",
-   "corridor": "dallas-fort-worth-tx__carrollton-farmers-branch",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "renaissance dallas richardson hotel",
-   "canonical_name": "Renaissance Dallas-Richardson Hotel",
-   "corridor": "dallas-fort-worth-tx__richardson",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn alliance airport",
-   "canonical_name": "Residence Inn - Alliance Airport",
-   "corridor": "dallas-fort-worth-tx__alliance-north-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn by marriott at the canyon",
-   "canonical_name": "Residence Inn by Marriott at the Canyon",
-   "corridor": "dallas-fort-worth-tx__oak-cliff-south-dallas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn by marriott dallas park central",
-   "canonical_name": "Residence Inn by Marriott Dallas Park Central",
-   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn by marriott dallas plano legacy",
-   "canonical_name": "Residence Inn by Marriott Dallas Plano/Legacy",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn by marriott dallas plano richardson",
-   "canonical_name": "Residence Inn by Marriott Dallas Plano/Richardson",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn by marriott dallas plano richardson at coit rd",
-   "canonical_name": "Residence Inn by Marriott Dallas Plano/Richardson at Coit Rd.",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn dallas dfw airport north irving",
-   "canonical_name": "Residence Inn Dallas - DFW Airport North/Irving",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn dallas dfw airport south irving",
-   "canonical_name": "Residence Inn Dallas - DFW Airport South/Irving",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn dallas dfw airport west bedford",
-   "canonical_name": "Residence Inn Dallas DFW Airport West/Bedford",
-   "corridor": "dallas-fort-worth-tx__mid-cities",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn dallas las colinas",
-   "canonical_name": "Residence Inn Dallas - Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn fort worth cultural district",
-   "canonical_name": "Residence Inn Fort Worth Cultural District",
-   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "residence inn fort worth southwest waterside",
-   "canonical_name": "Residence Inn Fort Worth-Southwest/Waterside",
-   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "sheraton dallas hotel by the galleria",
-   "canonical_name": "Sheraton Dallas Hotel by the Galleria",
-   "corridor": "dallas-fort-worth-tx__carrollton-farmers-branch",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "sheraton dfw airport hotel",
-   "canonical_name": "Sheraton DFW Airport Hotel",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "sheraton fort worth downtown hotel",
-   "canonical_name": "Sheraton Fort Worth Downtown Hotel",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "sheraton mckinney hotel",
-   "canonical_name": "Sheraton Mckinney Hotel",
-   "corridor": "dallas-fort-worth-tx__allen-mckinney",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "sheraton stonebriar hotel",
-   "canonical_name": "Sheraton Stonebriar Hotel",
-   "corridor": "dallas-fort-worth-tx__frisco",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "sheraton suites market center dallas",
-   "canonical_name": "Sheraton Suites Market Center Dallas",
-   "corridor": "dallas-fort-worth-tx__love-field-medical-market-center",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites by marriott",
-   "canonical_name": "SpringHill Suites by Marriott",
-   "corridor": "dallas-fort-worth-tx__arlington-entertainment",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites by marriott dallas downtown west end",
-   "canonical_name": "Springhill Suites by Marriott Dallas Downtown/West End",
-   "corridor": "dallas-fort-worth-tx__downtown-dallas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites by marriott dallas plano frisco",
-   "canonical_name": "SpringHill Suites by Marriott Dallas Plano/Frisco",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites by marriott dfw airport south centreport",
-   "canonical_name": "SpringHill Suites by Marriott-DFW Airport South/CentrePort",
-   "corridor": "dallas-fort-worth-tx__dfw-airport",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites by marriott fort worth fossil creek",
-   "canonical_name": "SpringHill Suites by Marriott - Fort Worth Fossil Creek",
-   "corridor": "dallas-fort-worth-tx__alliance-north-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites by marriott stockyards",
-   "canonical_name": "SpringHill Suites by Marriott - Stockyards",
-   "corridor": "dallas-fort-worth-tx__stockyards-north-side",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites by marriott university",
-   "canonical_name": "SpringHill Suites by Marriott - University",
-   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites dallas addison quorum",
-   "canonical_name": "Springhill Suites Dallas Addison Quorum",
-   "corridor": "dallas-fort-worth-tx__addison",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites dallas central expressway",
-   "canonical_name": "SpringHill Suites Dallas Central Expressway",
-   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites dallas dfw airport east las colinas",
-   "canonical_name": "Springhill Suites Dallas DFW Airport East/Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites dallas lewisville",
-   "canonical_name": "SpringHill Suites Dallas Lewisville",
-   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites dallas mansfield",
-   "canonical_name": "SpringHill Suites Dallas Mansfield",
-   "corridor": "dallas-fort-worth-tx__mansfield",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "springhill suites dallas mckinney allen",
-   "canonical_name": "SpringHill Suites Dallas McKinney/Allen",
-   "corridor": "dallas-fort-worth-tx__allen-mckinney",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "the ricardo marriott dfw westlake",
-   "canonical_name": "The Ricardo Marriott DFW Westlake",
-   "corridor": "dallas-fort-worth-tx__alliance-north-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "the sinclair autograph collection",
-   "canonical_name": "The Sinclair, Autograph Collection",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "the stoneleigh autograph collection",
-   "canonical_name": "The Stoneleigh, Autograph Collection",
-   "corridor": "dallas-fort-worth-tx__downtown-dallas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "the westin dallas park central",
-   "canonical_name": "The Westin Dallas Park Central",
-   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "the westin dallas southlake",
-   "canonical_name": "The Westin Dallas Southlake",
-   "corridor": "dallas-fort-worth-tx__southlake-flower-mound",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "the westin dallas stonebriar golf resort and spa",
-   "canonical_name": "The Westin Dallas Stonebriar Golf Resort & Spa",
-   "corridor": "dallas-fort-worth-tx__frisco",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "towneplace suites by marriott dallas plano legacy",
-   "canonical_name": "TownePlace Suites by Marriott Dallas Plano/Legacy",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "towneplace suites by marriott dfw airport north irving",
-   "canonical_name": "TownePlace Suites by Marriott DFW Airport North/Irving",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "towneplace suites dallas las colinas",
-   "canonical_name": "TownePlace Suites Dallas - Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "towneplace suites dallas lewisville",
-   "canonical_name": "TownePlace Suites Dallas Lewisville",
-   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "towneplace suites dallas plano richardson",
-   "canonical_name": "TownePlace Suites Dallas Plano/Richardson",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "towneplace suites downtown",
-   "canonical_name": "TownePlace Suites - Downtown",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "towneplace suites fort worth nw lake worth",
-   "canonical_name": "TownePlace Suites Fort Worth NW Lake Worth",
-   "corridor": "dallas-fort-worth-tx__fort-worth-west",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "towneplace suites fort worth university medical center",
-   "canonical_name": "TownePlace Suites - Fort Worth University Medical Center",
-   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "towneplace suites marriott hotel",
-   "canonical_name": "TownePlace Suites Marriott Hotel",
-   "corridor": "dallas-fort-worth-tx__arlington-entertainment",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "towneplace suites southwest",
-   "canonical_name": "TownePlace Suites - Southwest",
-   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "westin dallas fort worth airport",
-   "canonical_name": "Westin Dallas Fort Worth Airport",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "westin irving convention center las colinas",
-   "canonical_name": "Westin Irving Convention Center Las Colinas",
-   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "worthington renaissance hotel",
-   "canonical_name": "Worthington Renaissance Hotel",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "MARRIOTT",
-   "disposition": "BROWSER_CAPTURE_NEEDED",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "a brand page the attended browser has not yet read"
-  },
-  {
-   "identity_key": "beeman hotel",
-   "canonical_name": "Beeman Hotel",
-   "corridor": "dallas-fort-worth-tx__park-cities-preston-center",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "Places named a brand page the attended browser has not opened: https://www.marriott.com/en-us/hotels/dalnb-hotel-mockingbird-dallas-a-tribute-portfolio-hotel/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0"
-  },
-  {
-   "identity_key": "four points sheraton plano by marriott",
-   "canonical_name": "Four Points Sheraton Plano by Marriott",
-   "corridor": "dallas-fort-worth-tx__plano",
-   "brand_family": "MARRIOTT",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "Places named a brand page the attended browser has not opened: https://www.marriott.com/en-us/hotels/dalpu-four-points-plano/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0"
-  },
-  {
-   "identity_key": "hall park hotel",
-   "canonical_name": "HALL Park Hotel",
-   "corridor": "dallas-fort-worth-tx__frisco",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "routed, and no lane has attempted the route yet"
-  },
-  {
-   "identity_key": "le meridien dallas by the galleria",
-   "canonical_name": "Le Meridien Dallas by the Galleria",
-   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "routed, and no lane has attempted the route yet"
-  },
-  {
-   "identity_key": "le meridien hotel fort worth downtown",
-   "canonical_name": "Le Meridien Hotel Fort Worth Downtown",
-   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "routed, and no lane has attempted the route yet"
-  },
-  {
-   "identity_key": "tps fort worth",
-   "canonical_name": "Tps Fort Worth",
-   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "Places named a brand page the attended browser has not opened: https://www.marriott.com/en-us/hotels/dfwts-towneplace-suites-fort-worth-southwest-tcu-area/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0"
-  },
-  {
-   "identity_key": "w dallas victory",
-   "canonical_name": "W Dallas - Victory",
-   "corridor": "dallas-fort-worth-tx__uptown-victory-park",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "ACTIONABLE_NOW",
-   "why": "routed, and no lane has attempted the route yet"
-  },
   {
    "identity_key": "ace motel",
    "canonical_name": "Ace Motel",
@@ -1207,15 +199,6 @@
    "why": "the only website any authorized lane names for this row is not the property's own (a third-party booking template, a lapsed domain now serving another business, or a font/CDN host); it never states this property's policy (attended browser seq 503, https://use.typekit.net): Census website is a font CDN (use.typekit.net) that redirects to Adobe Fonts home -- unrelated business, not a hotel page. Re-navigated for this row. No identity or pet statement."
   },
   {
-   "identity_key": "motel 6 north 153",
-   "canonical_name": "Motel 6 - North #153",
-   "corridor": "dallas-fort-worth-tx__stockyards-north-side",
-   "brand_family": "MOTEL6",
-   "disposition": "ACCESS_BLOCKED",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "the property's own page carries only an amenity label ('Pet friendly'), which states no policy and is never acceptance (attended browser seq 415, https://www.motel6.com/en/motels.tx.ft-worth.8617.html): Legacy route redirected to new property page (id 294451). Only pet wording is the amenity chip 'Pets Allowed' (plus site-wide footer link 'Pets Stay Free Details'). Page prints '3271 North Freeway' (c"
-  },
-  {
    "identity_key": "relax inn fort worth",
    "canonical_name": "Relax Inn Fort Worth",
    "corridor": "dallas-fort-worth-tx__fort-worth-west",
@@ -1225,6 +208,60 @@
    "why": "the property's own route answers an error page or a 404 in the attended browser (attended browser seq 520, http://www.magnusonhotels.com/Relax-Inn-Fort-Worth/): Magnuson Hotels route renders 'Page not found - Magnuson Hotels'; property no longer listed by Magnuson."
   },
   {
+   "identity_key": "springhill suites dallas addison quorum",
+   "canonical_name": "Springhill Suites Dallas Addison Quorum",
+   "corridor": "dallas-fort-worth-tx__addison",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "the brand answered the attended browser with an anti-bot denial across paced windows; never bypassed (attended browser seq 802, https://www.marriott.com/en-us/hotels/dalsh-springhill-suites-dallas-addison-quorum-drive/overview/): Akamai 'Access Denied' page on the 41st paced marriott.com navigation of this batch (~03:20:46 UTC): 'You don't have permission to access ... on this server.' Reference #18.8a89cc17.1791602447.af47e47"
+  },
+  {
+   "identity_key": "springhill suites dallas central expressway",
+   "canonical_name": "SpringHill Suites Dallas Central Expressway",
+   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "springhill suites dallas dfw airport east las colinas",
+   "canonical_name": "Springhill Suites Dallas DFW Airport East/Las Colinas",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "springhill suites dallas lewisville",
+   "canonical_name": "SpringHill Suites Dallas Lewisville",
+   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "springhill suites dallas mansfield",
+   "canonical_name": "SpringHill Suites Dallas Mansfield",
+   "corridor": "dallas-fort-worth-tx__mansfield",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "springhill suites dallas mckinney allen",
+   "canonical_name": "SpringHill Suites Dallas McKinney/Allen",
+   "corridor": "dallas-fort-worth-tx__allen-mckinney",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
    "identity_key": "stay express inn dallas fair park downtown",
    "canonical_name": "Stay Express Inn Dallas - Fair Park / Downtown",
    "corridor": "dallas-fort-worth-tx__east-dallas",
@@ -1232,6 +269,177 @@
    "disposition": "ACCESS_BLOCKED",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "the property's own route answers an error page or a 404 in the attended browser (attended browser seq 521, https://www.stayexpress.com/): https:// shows a Chrome 'Privacy error' (certificate; not bypassed); plain http:// returns a bare '404 page not found'. Dead site."
+  },
+  {
+   "identity_key": "the ricardo marriott dfw westlake",
+   "canonical_name": "The Ricardo Marriott DFW Westlake",
+   "corridor": "dallas-fort-worth-tx__alliance-north-fort-worth",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "the sinclair autograph collection",
+   "canonical_name": "The Sinclair, Autograph Collection",
+   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "the stoneleigh autograph collection",
+   "canonical_name": "The Stoneleigh, Autograph Collection",
+   "corridor": "dallas-fort-worth-tx__downtown-dallas",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "the westin dallas park central",
+   "canonical_name": "The Westin Dallas Park Central",
+   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "the westin dallas southlake",
+   "canonical_name": "The Westin Dallas Southlake",
+   "corridor": "dallas-fort-worth-tx__southlake-flower-mound",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "the westin dallas stonebriar golf resort and spa",
+   "canonical_name": "The Westin Dallas Stonebriar Golf Resort & Spa",
+   "corridor": "dallas-fort-worth-tx__frisco",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "towneplace suites by marriott dallas plano legacy",
+   "canonical_name": "TownePlace Suites by Marriott Dallas Plano/Legacy",
+   "corridor": "dallas-fort-worth-tx__plano",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "towneplace suites by marriott dfw airport north irving",
+   "canonical_name": "TownePlace Suites by Marriott DFW Airport North/Irving",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "towneplace suites dallas las colinas",
+   "canonical_name": "TownePlace Suites Dallas - Las Colinas",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "towneplace suites dallas lewisville",
+   "canonical_name": "TownePlace Suites Dallas Lewisville",
+   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "towneplace suites dallas plano richardson",
+   "canonical_name": "TownePlace Suites Dallas Plano/Richardson",
+   "corridor": "dallas-fort-worth-tx__plano",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "towneplace suites downtown",
+   "canonical_name": "TownePlace Suites - Downtown",
+   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "towneplace suites fort worth nw lake worth",
+   "canonical_name": "TownePlace Suites Fort Worth NW Lake Worth",
+   "corridor": "dallas-fort-worth-tx__fort-worth-west",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "towneplace suites fort worth university medical center",
+   "canonical_name": "TownePlace Suites - Fort Worth University Medical Center",
+   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "towneplace suites marriott hotel",
+   "canonical_name": "TownePlace Suites Marriott Hotel",
+   "corridor": "dallas-fort-worth-tx__arlington-entertainment",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "towneplace suites southwest",
+   "canonical_name": "TownePlace Suites - Southwest",
+   "corridor": "dallas-fort-worth-tx__cultural-district-tcu",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "westin dallas fort worth airport",
+   "canonical_name": "Westin Dallas Fort Worth Airport",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "westin irving convention center las colinas",
+   "canonical_name": "Westin Irving Convention Center Las Colinas",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
+  },
+  {
+   "identity_key": "worthington renaissance hotel",
+   "canonical_name": "Worthington Renaissance Hotel",
+   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
+   "brand_family": "MARRIOTT",
+   "disposition": "ACCESS_BLOCKED",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was neve"
   },
   {
    "identity_key": "alla s historical",
@@ -1828,15 +1036,6 @@
    "why": "the fetched page's own identity did not confirm this census row"
   },
   {
-   "identity_key": "6084 sw ft worth tx hotel llc",
-   "canonical_name": "6084 Sw Ft Worth Tx Hotel, Llc",
-   "corridor": "dallas-fort-worth-tx__fort-worth-south",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "Places named https://www.extendedstayamerica.com/hotels/tx/fort-worth/southwest; the attended browser opened it (seq 516): CHALLENGE_DENIED_DATADOME_CAPTCHA -- DataDome 'Verification Required' slider CAPTCHA after ~20 s wait. Not bypassed. Third consecutive ESA denial (streak)."
-  },
-  {
    "identity_key": "abrams inn",
    "canonical_name": "Abrams Inn",
    "corridor": "dallas-fort-worth-tx__arlington",
@@ -1844,15 +1043,6 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
-  },
-  {
-   "identity_key": "addison inn",
-   "canonical_name": "Addison Inn",
-   "corridor": "dallas-fort-worth-tx__addison",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "Places named https://www.sonesta.com/americas-best-value-inn/tx/addison/americas-best-value-inn-addison-dallas; the attended browser opened it (seq 444): READ -- Hotel Details > Features & Amenities tabpanel: 'Hotel Policies:' heading + text, node texts by ref (amenity list also shows 'Pets Welcome'). Fee is nightly, per pet."
   },
   {
    "identity_key": "all seasons inn and suites",
@@ -1916,6 +1106,15 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "beeman hotel",
+   "canonical_name": "Beeman Hotel",
+   "corridor": "dallas-fort-worth-tx__park-cities-preston-center",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (Places named https://www.marriott.com/en-us/hotels/dalnb-hotel-mockingbird-dallas-a-tribute-portfolio-hotel/overview/)"
   },
   {
    "identity_key": "bishop arts oak cliff",
@@ -2044,6 +1243,15 @@
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
   },
   {
+   "identity_key": "courtyard by marriott dallas northwest",
+   "canonical_name": "Courtyard by Marriott Dallas Northwest",
+   "corridor": "dallas-fort-worth-tx__carrollton-farmers-branch",
+   "brand_family": "MARRIOTT",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/dalnw)"
+  },
+  {
    "identity_key": "cowboy inn",
    "canonical_name": "Cowboy Inn",
    "corridor": "dallas-fort-worth-tx__stockyards-north-side",
@@ -2143,15 +1351,6 @@
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
   },
   {
-   "identity_key": "dph dallas richardson",
-   "canonical_name": "Dph Dallas Richardson",
-   "corridor": "dallas-fort-worth-tx__richardson",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "Places named https://www.druryhotels.com/locations/dallas-tx/drury-plaza-hotel-dallas-richardson; the attended browser opened it (seq 291): READ -- 'SHOW MORE HOTEL INFO' dialog (one click) > Pet Policy; text node cut at ~100 chars, full sentence transcribed from a zoomed screenshot. Fee is DAILY, per room; weight is COMBINED. Census name 'Dph Da"
-  },
-  {
    "identity_key": "dreamland motel",
    "canonical_name": "Dreamland Motel",
    "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
@@ -2213,6 +1412,15 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "four points sheraton plano by marriott",
+   "canonical_name": "Four Points Sheraton Plano by Marriott",
+   "corridor": "dallas-fort-worth-tx__plano",
+   "brand_family": "MARRIOTT",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (Places named https://www.marriott.com/en-us/hotels/dalpu-four-points-plano/overview/)"
   },
   {
    "identity_key": "garden inn and suites",
@@ -2303,6 +1511,15 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
+  },
+  {
+   "identity_key": "hall park hotel",
+   "canonical_name": "HALL Park Hotel",
+   "corridor": "dallas-fort-worth-tx__frisco",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalok-hall-park-hotel-autograph-collection/overview/)"
   },
   {
    "identity_key": "hawthorn suites by wyndham dallas love field airport",
@@ -2431,15 +1648,6 @@
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
   },
   {
-   "identity_key": "lamirage inn",
-   "canonical_name": "LaMirage Inn",
-   "corridor": "dallas-fort-worth-tx__fort-worth-west",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://la-mirage-inn.poi.place/) is a brand or directory host or never stated this row's own address"
-  },
-  {
    "identity_key": "landmark lodge",
    "canonical_name": "Landmark Lodge",
    "corridor": "dallas-fort-worth-tx__fort-worth-west",
@@ -2447,6 +1655,24 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (http://landmark-lodge.poi.place/) is a brand or directory host or never stated this row's own address"
+  },
+  {
+   "identity_key": "le meridien dallas by the galleria",
+   "canonical_name": "Le Meridien Dallas by the Galleria",
+   "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalmd-le-meridien-dallas-by-the-galleria/overview/)"
+  },
+  {
+   "identity_key": "le meridien hotel fort worth downtown",
+   "canonical_name": "Le Meridien Hotel Fort Worth Downtown",
+   "corridor": "dallas-fort-worth-tx__downtown-fort-worth",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalwm-le-meridien-fort-worth-downtown/overview/)"
   },
   {
    "identity_key": "lesters motor inn",
@@ -2519,15 +1745,6 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
-  },
-  {
-   "identity_key": "motel 6 dallas addison",
-   "canonical_name": "Motel 6 Dallas - Addison",
-   "corridor": "dallas-fort-worth-tx__addison",
-   "brand_family": "MOTEL6",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "Places named https://www.motel6.com/property/motel-addison-texas-us-294428; the attended browser opened it (seq 607): AMENITY_CHIP_ONLY_NOT_OPERATIVE -- Only pet wording is the Amenities chip 'Pets Allowed' (plus site-wide footer link). Full page text after lazy load: 'Additional policies' housekeeping only - no pet item. Rooms sold out for default da"
   },
   {
    "identity_key": "motel oasis",
@@ -2710,15 +1927,6 @@
    "why": "NOT_FIRST_PARTY_SITE; no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place whose website (https://www.seagovilleinn.top/) is a brand or directory host or never stated this row's own address"
   },
   {
-   "identity_key": "select inn",
-   "canonical_name": "Select Inn",
-   "corridor": "dallas-fort-worth-tx__lewisville-the-colony",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "Places named https://www.motel6.com/en/home/motels.tx.lewisville.8990.html; the attended browser opened it (seq 568): AMENITY_CHIP_ONLY_NOT_OPERATIVE -- RENAME: census name 'Select Inn' but its website is Motel 6 route 8990 -> property 293828 'Motel 6 Lewisville, TX - Medical City' (200 N Stemmons Frwy). Page names a different hotel than the census ro"
-  },
-  {
    "identity_key": "shady oaks motel",
    "canonical_name": "Shady Oaks Motel",
    "corridor": "dallas-fort-worth-tx__oak-cliff-south-dallas",
@@ -2872,6 +2080,15 @@
    "why": "Places named http://vickery-motel.poi.place/; the attended browser opened it (seq 585): IDENTITY_NOT_CONFIRMED -- THIRD-PARTY auto-generated listing (poi.place -> edan.io; footer 'create your website!' / 'Manage Listing'), not the motel's own site. It prints 5636 W Vickery Blvd, Fort Worth, TX 76107, (817) 763-84"
   },
   {
+   "identity_key": "w dallas victory",
+   "canonical_name": "W Dallas - Victory",
+   "corridor": "dallas-fort-worth-tx__uptown-victory-park",
+   "brand_family": "",
+   "disposition": "ROUTING_HOLD",
+   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
+   "why": "MARRIOTT_AUTHORIZED_WINDOW_CLOSED -- the attended browser's paced marriott.com window ended on CHALLENGE_DENIED_AKAMAI_ACCESS_DENIED at recorder seq 802 (2026-10-10T03:21:46Z, Akamai reference 18.8a89cc17.1791602447.af47e47) after one ordinary recheck; no bypass, relay or JS exfiltration was used, and no further Marriott request is authorized in this order, so this row's own Marriott page was never opened (https://www.marriott.com/en-us/hotels/dalwh-w-dallas/overview/)"
+  },
+  {
    "identity_key": "walnut inn",
    "canonical_name": "Walnut Inn",
    "corridor": "dallas-fort-worth-tx__love-field-medical-market-center",
@@ -2879,15 +2096,6 @@
    "disposition": "ROUTING_HOLD",
    "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
    "why": "no first-party route exists in any authorized lane: the brand inventories, the Metroplex bureaus' lodging rosters, the Texas hotel-tax permit register (which names a taxpayer and premises, never a website), the map, the brands' own city directories read in the attended browser, and Google Places route discovery (existing free allowance), which queried this identity and bound a place at this row's own address that lists no website"
-  },
-  {
-   "identity_key": "way side inn by hotel o dallas near fair park downtown",
-   "canonical_name": "Way Side Inn by Hotel O Dallas near Fair Park Downtown",
-   "corridor": "dallas-fort-worth-tx__downtown-dallas",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "Places named https://www.oyorooms.com/us/324407/; the attended browser opened it (seq 589): READ -- OYO brand's own property page (OYO 324407, 'Way Side Inn by Hotel O'). 'Hotel policies' section line read by ref (ref_127 heading, ref_135 text); amenity list also shows 'Pets Allowed & Truck Parking'"
   },
   {
    "identity_key": "wingate by wyndham las colinas",
@@ -3196,15 +2404,6 @@
    "why": "the property's own page carries only an amenity label ('Pet friendly'), which states no policy and is never acceptance (attended browser seq 572, https://www.motel6.com/property/motel-mckinney-texas-us-293283/): Only pet wording is the Amenities chip 'Pets Allowed' (plus site-wide footer link; browser <title> says 'Low Price & Pet-Friendly'). Full page text after lazy load: 'Additional policies' housekeeping "
   },
   {
-   "identity_key": "motel 6 mesquite",
-   "canonical_name": "Motel 6 Mesquite",
-   "corridor": "dallas-fort-worth-tx__garland-mesquite-rowlett",
-   "brand_family": "MOTEL6",
-   "disposition": "SOURCE_SILENT",
-   "actionability": "AUTHORIZED_ROUTER_EXHAUSTED",
-   "why": "the property's own page carries only an amenity label ('Pet friendly'), which states no policy and is never acceptance (attended browser seq 600, https://www.motel6.com/property/motel-mesquite-texas-us-293874/): Only pet wording is the Amenities chip 'Pets Allowed' (plus site-wide footer link). Full page text after lazy load: 'Additional policies' housekeeping + an ID-at-check-in paragraph - no pet item. SAME"
-  },
-  {
    "identity_key": "motel 6 mesquite tx rodeo convention ctr",
    "canonical_name": "Motel 6 Mesquite, TX - Rodeo - Convention Ctr",
    "corridor": "dallas-fort-worth-tx__garland-mesquite-rowlett",
@@ -3448,6 +2647,15 @@
    "why": "two first-party routes for one premises; which one the package cites is a routing ruling -- ROUTE_DOMAIN_CONFLICT -- this order read the property's own page at 'bestwestern.com' while the census binds the identity to 'sonesta.com'; the package contract requires the cited page and the bound r"
   },
   {
+   "identity_key": "ac hotel dallas downtown",
+   "canonical_name": "AC Hotel Dallas Downtown",
+   "corridor": "dallas-fort-worth-tx__downtown-dallas",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
    "identity_key": "alexis hotel and banquets dallas park central galleria",
    "canonical_name": "Alexis Hotel & Banquets Dallas Park Central Galleria",
    "corridor": "dallas-fort-worth-tx__north-dallas-galleria",
@@ -3484,6 +2692,24 @@
    "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
   },
   {
+   "identity_key": "fairfield by marriott inn and suites dallas dfw airport north coppell grapevine",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Dallas DFW Airport North/Coppell Grapevine",
+   "corridor": "dallas-fort-worth-tx__grapevine-coppell",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "two first-party names share the site's 60-character title; which display name each carries is a founder naming decision -- SITE TITLE COLLISION: Fairfield by Marriott Inn & Suites Dallas DFW Airport North/ Irving / Fairfield by Marriott Inn & Suites Dallas DFW Airport North/Coppell Grapevine share their first 60 character"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites dallas dfw airport north irving",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Dallas DFW Airport North/ Irving",
+   "corridor": "dallas-fort-worth-tx__irving-las-colinas",
+   "brand_family": "MARRIOTT",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "two first-party names share the site's 60-character title; which display name each carries is a founder naming decision -- SITE TITLE COLLISION: Fairfield by Marriott Inn & Suites Dallas DFW Airport North/ Irving / Fairfield by Marriott Inn & Suites Dallas DFW Airport North/Coppell Grapevine share their first 60 character"
+  },
+  {
    "identity_key": "home2 suites by hilton euless dfw west",
    "canonical_name": "Home2 Suites by Hilton Euless DFW West",
    "corridor": "dallas-fort-worth-tx__mid-cities",
@@ -3506,6 +2732,15 @@
    "canonical_name": "Ramada by Wyndham DFW Airport",
    "corridor": "dallas-fort-worth-tx__irving-las-colinas",
    "brand_family": "WYNDHAM",
+   "disposition": "IDENTITY_MISMATCH_HOLD",
+   "actionability": "REQUIRES_FOUNDER",
+   "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
+  },
+  {
+   "identity_key": "residence inn by marriott dallas downtown",
+   "canonical_name": "Residence Inn by Marriott Dallas Downtown",
+   "corridor": "dallas-fort-worth-tx__downtown-dallas",
+   "brand_family": "MARRIOTT",
    "disposition": "IDENTITY_MISMATCH_HOLD",
    "actionability": "REQUIRES_FOUNDER",
    "why": "a dual-brand building is TWO hotels, each proved by its own brand code and page; publishing them needs a same_campus_distinct_entity row in the SHARED identity_resolutions.json, which this order may not write"
@@ -3664,15 +2899,6 @@
    "why": "no authorized free lane routes this row, and Places route discovery's free monthly Enterprise allowance is spent (215 of the 215 requests this order may make, with the earlier orders' 775 this month); a website lookup for it is new paid spend"
   },
   {
-   "identity_key": "laquinta inn and suites by wyndham burleson",
-   "canonical_name": "LaQuinta Inn and Suites by Wyndham - Burleson",
-   "corridor": "dallas-fort-worth-tx__fort-worth-south",
-   "brand_family": "WYNDHAM",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "REQUIRES_NEW_SPEND",
-   "why": "no authorized free lane routes this row, and Places route discovery's free monthly Enterprise allowance is spent (215 of the 215 requests this order may make, with the earlier orders' 775 this month); a website lookup for it is new paid spend"
-  },
-  {
    "identity_key": "linfield inn",
    "canonical_name": "Linfield Inn",
    "corridor": "dallas-fort-worth-tx__oak-cliff-south-dallas",
@@ -3712,15 +2938,6 @@
    "identity_key": "plaza motel",
    "canonical_name": "Plaza Motel",
    "corridor": "dallas-fort-worth-tx__fort-worth-south",
-   "brand_family": "",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "REQUIRES_NEW_SPEND",
-   "why": "no authorized free lane routes this row, and Places route discovery's free monthly Enterprise allowance is spent (215 of the 215 requests this order may make, with the earlier orders' 775 this month); a website lookup for it is new paid spend"
-  },
-  {
-   "identity_key": "rhodeway inn",
-   "canonical_name": "Rhodeway Inn",
-   "corridor": "dallas-fort-worth-tx__carrollton-farmers-branch",
    "brand_family": "",
    "disposition": "ROUTING_HOLD",
    "actionability": "REQUIRES_NEW_SPEND",
@@ -3776,15 +2993,6 @@
    "canonical_name": "Studio 6 Burleson",
    "corridor": "dallas-fort-worth-tx__fort-worth-south",
    "brand_family": "MOTEL6",
-   "disposition": "ROUTING_HOLD",
-   "actionability": "REQUIRES_NEW_SPEND",
-   "why": "no authorized free lane routes this row, and Places route discovery's free monthly Enterprise allowance is spent (215 of the 215 requests this order may make, with the earlier orders' 775 this month); a website lookup for it is new paid spend"
-  },
-  {
-   "identity_key": "super 8 fort worth south burleson",
-   "canonical_name": "Super 8 - Fort Worth South/Burleson",
-   "corridor": "dallas-fort-worth-tx__fort-worth-south",
-   "brand_family": "WYNDHAM",
    "disposition": "ROUTING_HOLD",
    "actionability": "REQUIRES_NEW_SPEND",
    "why": "no authorized free lane routes this row, and Places route discovery's free monthly Enterprise allowance is spent (215 of the 215 requests this order may make, with the earlier orders' 775 this month); a website lookup for it is new paid spend"

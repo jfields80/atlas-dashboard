@@ -240,6 +240,35 @@ def main():
                                                                      h["canonical_name"], re.I))
     written.append(_write("brand", brand))
 
+    # ---------------------------------------------------------------- Marriott (the order's own report fields)
+    m_rows = [h for h in hotels if (h.get("brand") or "").upper() == "MARRIOTT"
+              or (actx.get(h["identity_key"]) or {}).get("brand_family") == "MARRIOTT"]
+    m_reads = [r for r in reads if (r.get("family") or "").upper() == "MARRIOTT"]
+    m_open = [h for h in m_rows if (actx.get(h["identity_key"]) or {}).get("actionability") == "ACTIONABLE_NOW"]
+    m_unres = [h for h in m_rows if state(h) not in (PF, NP)]
+    marriott = _head("marriott")
+    marriott["rule"] = ("every Marriott row ends RESOLVED (pet-friendly / verified no-pets from its own page) or TERMINALLY "
+                        "HELD with its exact reason; MARRIOTT ACTIONABLE REMAINING must be 0 before coverage readiness. "
+                        "The attended browser is paced; an Akamai denial is never bypassed, relayed or scripted around")
+    marriott["MARRIOTT_CENSUS"] = len(m_rows)
+    marriott["BROWSER_ATTEMPTED"] = len(m_reads)
+    marriott["BROWSER_ATTEMPTED_DISTINCT_ROUTES"] = len({(r.get("property_code") or r.get("requested_url"))
+                                                        for r in m_reads})
+    marriott["READ_SUCCESS"] = sum(1 for r in m_reads if "DENIED" not in (r.get("read_outcome") or ""))
+    marriott["CHALLENGE_DENIED"] = sum(1 for r in m_reads if "DENIED" in (r.get("read_outcome") or ""))
+    marriott["outcomes"] = OrderedDict(sorted(Counter(r.get("read_outcome") for r in m_reads).items()))
+    marriott["RESOLVED"] = len(m_rows) - len(m_unres)
+    marriott["resolved_pet_friendly"] = sum(1 for h in m_rows if state(h) == PF)
+    marriott["resolved_verified_no_pets"] = sum(1 for h in m_rows if state(h) == NP)
+    marriott["TERMINAL_HOLDS"] = len(m_unres) - len(m_open)
+    marriott["terminal_holds_by_class"] = OrderedDict(sorted(Counter(
+        (actx.get(h["identity_key"]) or {}).get("actionability", "UNCLASSIFIED")
+        for h in m_unres if h not in m_open).items()))
+    marriott["ACTIONABLE_REMAINING"] = len(m_open)
+    marriott["first_capture"] = min((r.get("captured_at") or "" for r in m_reads), default="")
+    marriott["last_capture"] = max((r.get("captured_at") or "" for r in m_reads), default="")
+    written.append(_write("marriott", marriott))
+
     # ---------------------------------------------------------------- boundary
     reg = _load(os.path.join(R, "dallas_fort_worth_tx_registry_lane_001.json"), {}) or {}
     osm = _load(os.path.join(R, "dallas_fort_worth_tx_osm_lane_001.json"), {}) or {}
@@ -301,6 +330,7 @@ def main():
         ("holds_by_class", OrderedDict(sorted((k, v) for k, v in counts.items() if k not in (PF, NP)))),
         ("exclusions_by_class", census.get("classification_counts")),
         ("actionable_unresolved", act.get("actionable_unresolved_remaining")),
+        ("marriott_actionable_remaining", marriott["ACTIONABLE_REMAINING"]),
         ("coverage_ready", act.get("COVERAGE_READY")),
         ("accountings_written", written),
     ]))
